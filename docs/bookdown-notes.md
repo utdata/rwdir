@@ -1,2 +1,0 @@
-# Bookdown notes
-
