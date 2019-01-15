@@ -1,4 +1,4 @@
-# Install Party
+# Install Party {#install}
 
 Let's get this party started.
 
