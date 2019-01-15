@@ -277,7 +277,7 @@ When you launch RStudio, you'll get a screen that looks like this:
 
 \begin{figure}
 \centering
-\includegraphics[width=6.25000in]{_images/rstudio-start.png}
+\includegraphics[width=6.25000in]{_images/02-rstudio-start.png}
 \caption{Rstudio launch screen}
 \end{figure}
 
@@ -300,8 +300,14 @@ is a sort of home base for the project.
 \item
   Next, for the \textbf{Directory name}, choose a new name for your
   project folder. For this project, use ``firstname-first-project'' but
-  use YOUR firstname. I want you to be anal about naming your folders.
-  It's a good programming habit.
+  use YOUR firstname.
+\end{itemize}
+
+I want you to be anal about naming your folders. It's a good programming
+habit.
+
+\begin{itemize}
+\tightlist
 \item
   Use lowercase characters.
 \item
@@ -312,7 +318,7 @@ is a sort of home base for the project.
 
 \begin{figure}
 \centering
-\includegraphics[width=4.16667in]{_images/rstudio-newproject.png}
+\includegraphics[width=4.16667in]{_images/02-rstudio-newproject.png}
 \caption{Rstudio project name, directory}
 \end{figure}
 
@@ -323,8 +329,8 @@ When you do this, your RStudio window will refresh and you'll see the
 
 For this class, we will almost always use
 \href{https://rmarkdown.rstudio.com/lesson-10.html}{R Notebooks}. This
-format allows us to write text in between our blocks of code. The text
-is written in a language called
+format allows us to write text inbetween our blocks of code. The text is
+written in a language called
 \href{https://rmarkdown.rstudio.com/lesson-1.html}{R Markdown}. It
 allows us to write text that gets turned into pretty HTML for our
 reports. The R Markdown syntax is not hard. It is based on vanilla
@@ -361,7 +367,7 @@ This will open a new file with some boilerplate R Markdown code.
 
 \begin{figure}
 \centering
-\includegraphics[width=6.25000in]{_images/rstudio-rcodechunk.png}
+\includegraphics[width=6.25000in]{_images/02-rstudio-rcodechunk.png}
 \caption{R code chunk}
 \end{figure}
 
@@ -370,22 +376,218 @@ Let's take a closer look at this:
 \begin{itemize}
 \tightlist
 \item
-  The three backticks (top left on your keyboard) followed by the
-  \texttt{\{r\}} indicate that this is a chunk of R code. The last three
-  backticks say the code chunk is over.
+  The three backticks characters ( found at the top left on your
+  keyboard) followed by the \texttt{\{r\}} indicate that this is a chunk
+  of R code. The last three backticks say the code chunk is over.
 \item
   The \texttt{\{r\}} bit can have some parameters added to it. We'll get
   into that later.
 \item
-  The line \texttt{plot(cars)} is R programming code. We'll see that in
-  a bit.
+  The line \texttt{plot(cars)} is R programming code. We'll see what
+  those commands do in a bit.
 \item
   The green right-arrow to the far right is a play button to run the
-  code,.
+  code that is inside the chunk.
 \item
   The green down-arrow and bar to the left of that runs all the code in
   the Notebook up to that point.
 \end{itemize}
+
+\subsection{Save the .Rmd file}\label{save-the-.rmd-file}
+
+\begin{itemize}
+\tightlist
+\item
+  Do command-s or hit the floppy disk icon to save the file.
+\item
+  It will ask you what you want to name this file. Call it
+  \texttt{01-first-file.Rmd}.
+\end{itemize}
+
+When you do this, you may see another new file created in your Files
+directory. It's the pretty version of the notebook which we'll see in a
+minute.
+
+In the metadata portion of the file, give your notebook a better title.
+
+\begin{itemize}
+\tightlist
+\item
+  Replace ``R Notebook'' in the \texttt{title:\ "R\ Notebook"} code to
+  be ``Christian's first notebook'', but use your name.
+\end{itemize}
+
+\subsection{Run the notebook}\label{run-the-notebook}
+
+There is only one chunk to run in this notebook, so:
+
+\begin{itemize}
+\tightlist
+\item
+  Click on the green right-arrow to run the code.
+\end{itemize}
+
+You should get something like this:
+
+\begin{figure}
+\centering
+\includegraphics[width=6.25000in]{_images/02-rstudio-defaultplot.png}
+\caption{Cars plot}
+\end{figure}
+
+What you've done here is create a plot chart of a piece of sample data
+that is already inside R. (FWIW, It is the speed of cars and the
+distances taken to stop. Note that the data were recorded in the 1920s.)
+
+But that wasn't a whole lot of code to see there is a relationship with
+speed vs stopping distince, eh?
+
+\subsection{Adding new code chunks}\label{adding-new-code-chunks}
+
+The text after the chart describes how you an insert a new code chunk.
+After that text, I'd like you to do that.
+
+\begin{itemize}
+\tightlist
+\item
+  After the text that describes how to add code, but before the next bit
+  of text, add a new code junk with \emph{Cmd+Option+I}.
+\item
+  Your cursor will be inserted into the middle of the chunk. Type in
+  this code:
+\end{itemize}
+
+\begin{verbatim}
+# min age to date
+age = 52
+(age / 2) + 7
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Change for ``52'' to your real age.
+\item
+  With your cursor somewhere in the code block, use the key command
+  \emph{Cmd+Shift+Return}, which is the key command two run an ENTIRE
+  chunk.
+\item
+  NOTE: To run an individual line, use \emph{Cmd+Return} while on that
+  line.
+\end{itemize}
+
+Congratualtions! The answer given at the bottom of that code chunk is
+the
+\href{https://www.psychologytoday.com/us/blog/meet-catch-and-keep/201405/who-is-too-young-or-too-old-you-date}{socially-acceptable
+minimum age of anyone you should date}.
+
+Throwing aside whether the formula is sound, let's break down the code.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\#\ min\ age\ to\ date} is a comment. It's a way to explain
+  what is happening in the code without being considered part of the
+  code.
+\item
+  \texttt{age\ =\ 51} is assigning a number (\texttt{52}) to a variable
+  name (\texttt{age}).
+\item
+  \texttt{(age\ /\ 2)\ +\ 7} takes the value of \texttt{age} and divides
+  that by \texttt{2}, then adds \texttt{7}.
+\end{itemize}
+
+Now you can play with the age variable assignment to test out different
+ages.
+
+\subsection{Practice adding code
+chunks}\label{practice-adding-code-chunks}
+
+Now, on your own, add a similar code chunck that calculates the maximum
+age of someone you should date, but using the formula
+\texttt{(age\ -\ 7)\ *\ 2}.
+
+\subsection{Preview the report}\label{preview-the-report}
+
+The rest of the boilerplate text here describes how you can \emph{Knit}
+or \emph{Preview} a notebook. Let's do that now.
+
+\begin{itemize}
+\tightlist
+\item
+  Press \emph{Cmd+Shift+K} to open a Preview.
+\end{itemize}
+
+This will open a new window and how you the ``pretty'' notebook that we
+are building. It's really an HTML file that was create by RStudio. (You
+can also open this in a web browser).
+
+Preview is a little different than \emph{Knit}, which runs all the code,
+then creates the new knitted document.
+
+\subsection{The toolbar}\label{the-toolbar}
+
+Last thing to describe before we turn this in is the toolbar that runs
+across the top of the R Notebook file window.
+
+\begin{figure}
+\centering
+\includegraphics[width=6.25000in]{_images/02-rstudio-toolbar.png}
+\caption{R Notebook toolbar}
+\end{figure}
+
+\subsection{Knit the final workbook}\label{knit-the-final-workbook}
+
+\begin{itemize}
+\tightlist
+\item
+  Save your File with \emph{Cmd+S}.
+\item
+  Use the \textbf{Knit} button to choose \textbf{Knit to HTML}.
+\end{itemize}
+
+\section{Turning in our projects}\label{turning-in-our-projects}
+
+So now if you look in your Files pane, you'll see you have four files in
+our project.
+
+\begin{figure}
+\centering
+\includegraphics[width=5.20833in]{_images/02-rstudio-files.png}
+\caption{Files list}
+\end{figure}
+
+Now we have to zip these all up into a single file that you can turn
+into Canvas. (Note the only one you actually edit is the \texttt{.Rmd}
+file.)
+
+\begin{itemize}
+\tightlist
+\item
+  In your computer's finder, open the \texttt{Documents/rwd} folder.
+\item
+  Follow the directions for your operating system linked below to create
+  a compressed version of your \texttt{yourname-final-project} folder.
+\item
+  \href{http://www.macinstruct.com/node/159}{Compress files on a Mac}.
+\item
+  \href{https://www.laptopmag.com/articles/how-to-zip-files-windows-10}{Compress
+  flies on Windows}.
+\item
+  Upload the resulting \texttt{.zip} file to the assignment for this
+  week in Canvas.
+\end{itemize}
+
+Here is what the compression steps looks like on a Mac:
+
+\begin{figure}
+\centering
+\includegraphics[width=4.16667in]{_images/02-rstudio-compress.gif}
+\caption{Compress file: Mac}
+\end{figure}
+
+If you find you make changes to your R files after you've zipped your
+folder, you'll need to delete the \texttt{zip} file and do it again.
 
 \chapter{Importing data}\label{import}
 

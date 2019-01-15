@@ -10,7 +10,7 @@ plot(pressure, type = 'b', pch = 19)
 ```
 
 <div class="figure" style="text-align: center">
-<img src="99-references_files/figure-epub3/nice-fig-1.png" alt="Here is a nice figure!" width="80%" />
+<img src="99-references_files/figure-html/nice-fig-1.png" alt="Here is a nice figure!" width="80%" />
 <p class="caption">(\#fig:nice-fig)Here is a nice figure!</p>
 </div>
 
@@ -52,3 +52,13 @@ Table: (\#tab:nice-tab)Here is a nice table!
           5.1           3.8            1.5           0.3  setosa  
 
 You can write citations, too. For example, we are using the **bookdown** package [@R-bookdown] in this sample book, which was built on top of R Markdown and **knitr** [@xie2015].
+
+```yaml
+bookdown::pdf_book:
+  includes:
+    in_header: preamble.tex
+  latex_engine: xelatex
+  citation_package: natbib
+  keep_tex: yes
+bookdown::epub_book: default
+```

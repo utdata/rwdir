@@ -9,7 +9,7 @@ Try executing this chunk by clicking the *Run* button within the chunk or by pla
 plot(cars)
 ```
 
-![](08-graphics_files/figure-epub3/unnamed-chunk-1-1.png)<!-- -->
+<img src="08-graphics_files/figure-html/unnamed-chunk-1-1.png" width="672" />
 
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
 

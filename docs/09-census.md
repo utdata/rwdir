@@ -9,5 +9,6 @@ A mini project using census data.
 - [acs package](https://cran.r-project.org/web/packages/acs/README.html)
 - @hrecht if News Nerdery is author of the [censusapi package]
 - [Baltimore Sun example](https://github.com/baltimore-sun-data/census-data-analysis-2018). "sometimes i prefer the output of one over the other `censusapi` vs `tidycensus`, which is why i alternate. i also for some reason didn’t realize i could have used the R packages to download the SAIPE (poverty stats) data; in the repo I just downloaded the file from the site".
+- [API key signup](http://api.census.gov/data/key_signup.html)
 
 
