@@ -1,41 +1,5 @@
 # Introduction to R {#intro}
 
-Let's get this party started.
-
-> NOTE: R and RStudio are already install on lab computers.
-
-## Installing R
-
-Our first task is to install the [R programming language](https://www.r-project.org/) onto your computer. There are a number of "mirrors" which have the software.
-
-- Go to the [download site](https://cran.r-project.org/mirrors.html).
-- Go down to USA and choose one of the links there. They should all work the same.
-- Click on the link for your operating system.
-- The following steps will differ slightly based on your operating system.
-  - For Macs, you want the "latest package"
-  - For Windows, you want the "base" package. You’ll need to decide whether you want the 32- or 64-bit version. (Unless you’ve got a pretty old system, chances are you’ll want 64-bit.)
-
-Here's hoping it will be self explanatory after that.
-
-## Installing RStudio
-
-[RStudio](https://www.rstudio.com/) is an "integrated development environment" -- or IDE -- for programming in R. Basically, it's the program you will use when doing work for this class.
-
-- Go to <https://www.rstudio.com> and find the "Download RStudio" button.
-- Find the "Free" versions and find the installer for your operating system and download it.
-- Install it. Should be like installing any other program.
-
-## Getting started with RStudio
-
-### Class project folder
-
-To keep things consistent and help with troubleshooting, I'd like you to save your work in the same location all the time.
-
-- On both Mac and Windows, every user has a "Documents" folder. Open that folder. (If you don't know where it is, ask me to help you find it.)
-- Create a new folder called "rwd". Use all lowercase letters.
-
-When we create new "Projects", I want you to always save them in the `Documents/rwd` folder.
-
 ## RStudio tour
 
 When you launch RStudio, you'll get a screen that looks like this:
@@ -113,34 +77,42 @@ But that wasn't a whole lot of code to see there is a relationship with speed vs
 
 ### Adding new code chunks
 
-The text after the chart describes how you an insert a new code chunk. After that text, I'd like you to do that.
+The text after the chart describes how to insert a new code chunk. Let's do that.
 
-- After the text that describes how to add code, but before the next bit of text, add a new code junk with *Cmd+Option+I*.
-- Your cursor will be inserted into the middle of the chunk. Type in this code:
+- Add a return after the paragraph of text about code chunks, but before the next bit about previews.
+- Use the keys *Cmd+Option+I* to add the chunk.
+- Your cursor will be inserted into the middle of the chunk. Type in this code in the space provided:
 
 ```pre
-# min age to date
+
+```r
+# update 52 to your age
 age = 52
-(age / 2) + 7
+(age - 7) * 2
+```
+
+```
+## [1] 90
+```
 ```
 
 - Change for "52" to your real age.
-- With your cursor somewhere in the code block, use the key command *Cmd+Shift+Return*, which is the key command two run an ENTIRE chunk.
+- With your cursor somewhere in the code block, use the key command *Cmd+Shift+Return*, which is the key command to RUN ALL LINES of code chunk.
 - NOTE: To run an individual line, use *Cmd+Return* while on that line.
 
-Congratualtions! The answer given at the bottom of that code chunk is the [socially-acceptable minimum age of anyone you should date](https://www.psychologytoday.com/us/blog/meet-catch-and-keep/201405/who-is-too-young-or-too-old-you-date).
+Congratualtions! The answer given at the bottom of that code chunk is the [socially-acceptable maximum age of anyone you should date](https://www.psychologytoday.com/us/blog/meet-catch-and-keep/201405/who-is-too-young-or-too-old-you-date).
 
 Throwing aside whether the formula is sound, let's break down the code.
 
-- `# min age to date` is a comment. It's a way to explain what is happening in the code without being considered part of the code.
+- `# update 52 to your age` is a comment. It's a way to explain what is happening in the code without being considered part of the code.
 - `age = 51` is assigning a number (`52`) to a variable name (`age`).
-- `(age / 2) + 7` takes the value of `age` and divides that by `2`, then adds `7`.
+- `(age - 7) * 2` takes the value of `age` and subtracts `7`, then multiplies by `2`.
 
 Now you can play with the age variable assignment to test out different ages.
 
 ### Practice adding code chunks
 
-Now, on your own, add a similar code chunck that calculates the maximum age of someone you should date, but using the formula `(age - 7) * 2`.
+Now, on your own, add a similar code chunck that calculates the minimum age of someone you should date, but using the formula `(age / 2) + 7`. Add a comment in the code that explains what it is for.
 
 ### Preview the report
 
@@ -150,11 +122,11 @@ The rest of the boilerplate text here describes how you can *Knit* or *Preview* 
 
 This will open a new window and how you the "pretty" notebook that we are building. It's really an HTML file that was create by RStudio. (You can also open this in a web browser).
 
-Preview is a little different than *Knit*, which runs all the code, then creates the new knitted document.
+Preview is a little different than *Knit*, which runs all the code, then creates the new knitted document. It's **Knit to HMTL** that you'll want to do before turning in your assignments.
 
 ### The toolbar
 
-Last thing to describe before we turn this in is the toolbar that runs across the top of the R Notebook file window.
+One last thing to point out before we turn this: The toolbar that runs across the top of the R Notebook file window. The image below explains some of them. You _REALLY_ should use keyboard commands when they are available.
 
 ![R Notebook toolbar](images/intro-toolbar.png){width=600px}
 
@@ -165,13 +137,13 @@ Last thing to describe before we turn this in is the toolbar that runs across th
 
 ## Turning in our projects
 
-So now if you look in your Files pane, you'll see you have four files in our project.
+If you now look in your Files pane, you'll see you have four files in our project.  (Note the only one you actually edited was the `.Rmd` file.)
 
 ![Files list](images/intro-files.png){width=500px}
 
-Now we have to zip these all up into a single file that you can turn into Canvas. (Note the only one you actually edit is the `.Rmd` file.)
+The best way to turn in all of those files into Canvas is to compress them into a single `.zip` file that you can upload to the assignment.
 
-- In your computer's finder, open the `Documents/rwd` folder.
+- In your computer's Finder, open the `Documents/rwd` folder.
 - Follow the directions for your operating system linked below to create a compressed version of your `yourname-final-project` folder.
 - [Compress files on a Mac](http://www.macinstruct.com/node/159).
 - [Compress flies on Windows](https://www.laptopmag.com/articles/how-to-zip-files-windows-10).
