@@ -25,6 +25,12 @@ Here's hoping it will be self explanatory after that.
 - Find the "Free" versions and find the installer for your operating system and download it.
 - Install it. Should be like installing any other program.
 
+## Install Visual Studio Code
+
+Some csv files are really big, and RStudio has a problem viewing them. A good code editor is able to look at this files and allow you to edit them. It's a good tool to have in your arsenal.
+
+- Go to the [Visual Studio Code](https://code.visualstudio.com/) website and download the version for your operating system.
+
 ## Class project folder
 
 To keep things consistent and help with troubleshooting, I'd like you to save your work in the same location all the time.
