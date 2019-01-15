@@ -38,6 +38,12 @@ When we create new "Projects", I want you to always save them in the `Documents/
 
 ## RStudio tour
 
+This is a knitr test for images:
+
+<img src="_images/02-rstudio-start.png" width="400px" />
+```
+
+
 When you launch RStudio, you'll get a screen that looks like this:
 
 ![Rstudio launch screen](_images/02-rstudio-start.png){width=600px}
