@@ -40,7 +40,7 @@ When we create new "Projects", I want you to always save them in the `Documents/
 
 This is a knitr test for images:
 
-<img src="_images/02-rstudio-start.png" width="400px" />
+<img src="_images/02-rstudio-start.png" width="50%" />
 ```
 
 
@@ -185,6 +185,9 @@ Now we have to zip these all up into a single file that you can turn into Canvas
 
 Here is what the compression steps looks like on a Mac:
 
-![Compress file: Mac](_images/02-rstudio-compress.gif){width=400px}
+
+```r
+# ![Compress file: Mac](_images/02-rstudio-compress.gif){width=400px}
+```
 
 If you find you make changes to your R files after you've zipped your folder, you'll need to delete the `zip` file and do it again.
