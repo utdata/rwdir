@@ -6,6 +6,15 @@ When you launch RStudio, you'll get a screen that looks like this:
 
 ![Rstudio launch screen](images/intro-start.png){width=100%}
 
+## Updating preferences
+
+There is a preference in RStudio that I would like you to change. By default, the program wants to save a the state of your work (all the variables and such) when you close a project, but that is not good practice. We'll change that.
+
+- Go to the **RStudio** menu and choose **Preferences**
+- Under the **General** tab, uncheck the first four boxes
+- On the option "Save Wordspace to .Rdata on exit", change that to **Never**.
+- Click *OK* to close the box.
+
 ## Starting a new Project
 
 When we work in RStudio, we will create "Projects" to hold all the files related to one another. This sets the "working directory", which is a sort of home base for the project.
