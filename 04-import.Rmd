@@ -134,7 +134,7 @@ You can close this file now.
 - Now we need to start adding some text to indicate what we are doing, which right now we are importing the file. So, write some text in Markdown that describes where the data came from and what it is.
     + Write where the data came from. Include the link to the web page.
     + Include which counties were included, and which 
-- After your descriptoins, add a new code chunk (*Cmd+option+i*).
+- After your descriptions, add a new code chunk (*Cmd+option+i*).
 - Inside the chuck, add the following and hit return, then I'll explain:
 
 ```pre
@@ -145,7 +145,7 @@ wells_raw
 - `wells_raw` is the data frame we are creating. It is the object that holds our data. We can call the variable whatever we want, but you should always use words that make sense. They can't have spaces, which is why we are using the underscore `_` character between words.
 - `<-` is the operator that says we are putting the stuff on the right (our data) into the variable. It's like we are pointing the stuff from the right into the left.
 - `read_csv` is the function we are using the load the data. This version from the **readr** package in the tidyverse is different from `read.csv` that comes with R. It is mo betta.
-- Inside the partenthesis is the path to our data, inside quotes. If you start typing in that path and hit tab, it will complete the path. (Easier to show than explain).
+- Inside the parenthesis is the path to our data, inside quotes. If you start typing in that path and hit tab, it will complete the path. (Easier to show than explain).
 - The last line is printing out the data frame, which is a bit of a trash fire at the moment.
 
 What went wrong? Remember that our data doesn't really start until line five. We need to modify our import to skip the first for lines. But how does we find out how to do that? Help is on the way!!
@@ -159,7 +159,7 @@ Another tab over by your **Files** pane is the **Help** pane.
 
 What you get in return is information about that function. Any function loaded into RStudio also comes with these help files. The documentation style might look foreign at first, but you'll get used to reading them.
 
-If we look throug this one, we can see there is a `skip = x` option we can add to our import to skip lines.
+If we look through this one, we can see there is a `skip = x` option we can add to our import to skip lines.
 
 - Modify the import line to this and then rerun the entire chunk with *Cmd+shift+Return*:
 
@@ -173,7 +173,7 @@ Because there are two types of output in this code chunk, the notebook returns t
 
 - The first result shows what columns were imported and the data types. It's important to review these to make sure things happened the way that you want. Some things to watch for:
     + Are numbers actually numbers or characters?
-    + Have integers been imported as double numbers or vice versa?
+    + Have integers been imported as double numbers or vice verse?
     + Are there numbers that should be strings, like ZIP codes?
     + Are dates imported properly?
 - The second result prints out the data like a table. The data object is called a [Tibble](https://tibble.tidyverse.org/), which is a fancy version of a data frame that is part of the tidyverse. I will often call a tibble a "data frame", which is the generic R from of this data structure. Think of data frames and tibbles like a well-structured table in a spreadsheet. They are organized rows of data with columns where every item in the column is of the same data type.
@@ -186,7 +186,7 @@ We'll fix them in the next lesson, as well as start looking more closely at the 
 
 ## Turn in your project
 
-Congratultions! You have created a new project in R and imported data. That is a feat in itself, so we will turn in this in.
+Congratulations! You have created a new project in R and imported data. That is a feat in itself, so we will turn in this in.
 
 - Save your `.Rmd` file.
 - Use the **Preview/Knit** button to Knit your report to HTML. Look your report over and make sure you like it.

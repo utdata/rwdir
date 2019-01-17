@@ -13,7 +13,7 @@ Our first task is to install the [R programming language](https://www.r-project.
 - Click on the link for your operating system.
 - The following steps will differ slightly based on your operating system.
     + For Macs, you want the "latest package"
-    + For Windows, you want the "base" package. You’ll need to decide whether you want the 32- or 64-bit version. (Unless you’ve got a pretty old system, chances are you’ll want 64-bit.)
+    + For Windows, you want the "base" package. You'll need to decide whether you want the 32- or 64-bit version. (Unless you've got a pretty old system, chances are you'll want 64-bit.)
 
 Here's hoping it will be self explanatory after that.
 

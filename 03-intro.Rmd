@@ -12,7 +12,7 @@ There is a preference in RStudio that I would like you to change. By default, th
 
 - Go to the **RStudio** menu and choose **Preferences**
 - Under the **General** tab, uncheck the first four boxes
-- On the option "Save Wordspace to .Rdata on exit", change that to **Never**.
+- On the option "Save Workspace to .Rdata on exit", change that to **Never**.
 - Click *OK* to close the box.
 
 ## Starting a new Project
@@ -36,7 +36,7 @@ When you hit **Create Project**, your RStudio window will refresh and you'll see
 
 ## Using R Notebooks
 
-For this class, we will almost always use [R Notebooks](https://rmarkdown.rstudio.com/lesson-10.html). This format allows us to write text inbetween our blocks of code. The text is written in a language called [R Markdown](https://rmarkdown.rstudio.com/lesson-1.html), a juiced-up verson of the common documentation syntax used by programmers, Markdown. It's not hard to learn. Here's a [Markdown guide](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf).
+For this class, we will almost always use [R Notebooks](https://rmarkdown.rstudio.com/lesson-10.html). This format allows us to write text in between our blocks of code. The text is written in a language called [R Markdown](https://rmarkdown.rstudio.com/lesson-1.html), a juiced-up version of the common documentation syntax used by programmers, Markdown. It's not hard to learn. Here's a [Markdown guide](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf).
 
 ### Create your first notebook
 
@@ -46,14 +46,14 @@ For this class, we will almost always use [R Notebooks](https://rmarkdown.rstudi
 This will open a new file with some boilerplate R Markdown code.
 
 - At the top between the `---` marks, is the **metadata**. This is written using YAML, and what is inside are commands for the R Notebook. Don't sweat the YAML syntax too much right now, as we won't be editing it often.
-- Next, you'll see a couple of paragraphs of text that describes how to use an R Notebooks. It is written in R Markdown, and has some inline links and bolding commands, which you will learn,
+- Next, you'll see a couple of paragraphs of text that describes how to use an R Notebooks. It is written in R Markdown, and has some inline links and bold commands, which you will learn,
 - Then you will see an R code chunk that looks like the figure below.
 
 ![R code chunk](images/intro-rcodechunk.png){width=600px}
 
 Let's take a closer look at this:
 
-- The three backticks characters ( found at the top left on your keyboard) followed by the `{r}` indicate that this is a chunk of R code. The last three backticks say the code chunk is over.
+- The three back tick characters ( found at the top left on your keyboard) followed by the `{r}` indicate that this is a chunk of R code. The last three back ticks say the code chunk is over.
 - The `{r}` bit can have some parameters added to it. We'll get into that later.
 - The line `plot(cars)` is R programming code. We'll see what those commands do in a bit.
 - The green right-arrow to the far right is a play button to run the code that is inside the chunk.
@@ -82,7 +82,7 @@ You should get something like this:
 
 What you've done here is create a plot chart of a piece of sample data that is already inside R. (FWIW, It is the speed of cars and the distances taken to stop. Note that the data were recorded in the 1920s.)
 
-But that wasn't a whole lot of code to see there is a relationship with speed vs stopping distince, eh?
+But that wasn't a whole lot of code to see there is a relationship with speed vs stopping distance, eh?
 
 ### Adding new code chunks
 
@@ -102,7 +102,7 @@ age = 52
 - With your cursor somewhere in the code block, use the key command *Cmd+Shift+Return*, which is the key command to RUN ALL LINES of code chunk.
 - NOTE: To run an individual line, use *Cmd+Return* while on that line.
 
-Congratualtions! The answer given at the bottom of that code chunk is the [socially-acceptable maximum age of anyone you should date](https://www.psychologytoday.com/us/blog/meet-catch-and-keep/201405/who-is-too-young-or-too-old-you-date).
+Congratulations! The answer given at the bottom of that code chunk is the [socially-acceptable maximum age of anyone you should date](https://www.psychologytoday.com/us/blog/meet-catch-and-keep/201405/who-is-too-young-or-too-old-you-date).
 
 Throwing aside whether the formula is sound, let's break down the code.
 
@@ -115,7 +115,7 @@ Now you can play with the age variable assignment to test out different ages.
 
 ### Practice adding code chunks
 
-Now, on your own, add a similar code chunck that calculates the minimum age of someone you should date, but using the formula `(age / 2) + 7`. Add a comment in the code that explains what it is for.
+Now, on your own, add a similar code chunk that calculates the minimum age of someone you should date, but using the formula `(age / 2) + 7`. Add a comment in the code that explains what it is for.
 
 ### Preview the report
 
