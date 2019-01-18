@@ -1,4 +1,4 @@
-# Data manipulation {#manipulation}
+# Columns {#columns}
 
 ## Goals of this lesson
 
@@ -6,8 +6,6 @@
 - Mass rename columns with a pattern match
 - Rename individual columns
 - Fix data columns and other data types
-- Learn filter, arrange and mutate
-- Do some pivots to explore the data
 
 ## Relaunch the Wells project
 
@@ -36,7 +34,7 @@ clean_names(wells_raw)
 ```
 And you'll get a result like this:
 
-![Columns cleaned with janitor](images/manip-janitor.png){width=600px}
+![Columns cleaned with janitor](images/columns-janitor.png){width=600px}
 
 Now, we haven't _actually_ changed the names yet, we just printed it to the screen with new names. We have to assign those changes to the same data frame, or a new one, to make them stay. Let's assign them to a NEW data frame called `wells`, so we can keep the raw version around to compare.
 
@@ -139,6 +137,28 @@ wells <- wells %>%
          plug_number = plugging_report_tracking_number)
 wells
 ```
+
+### Fix dates, lubridate and mutate
+
+Fixing dates in generic R can be a semi-complicated process. Luckily, there is a library within the tidyverse called [lubridate](https://lubridate.tidyverse.org/) that makes date conversions simple. The package was included when we installed the tidyverse package, but we need to add the library.
+
+- Go back to the top of your R Notebook where the libraries are loaded, and add this line and run it: `library(lubridate)`.
+- Return back to the bottom of the Notebook and add text in Markdown describing that you will use lubridate to convert the date fields.
+- Insert a new code chunk and add and run this, then I'll explain it:
+
+```pre
+wells %>%
+  mutate(drilling_start_date = mdy(drilling_start_date))
+wells
+```
+
+- The first `wells` means we are starting with that data frame.
+- `mutate()` is a conversion tool, and not just for dates. We will use this command to change and create all kinds of changes.
+- The first argument of `mutate` is the name of the new column. In this case, we are changing the _existing_ column, so we are using `drilling_start_date`.
+- `=` is the assignment operators. What is on the right will be put into the left.
+- `mdy(drilling_start_date)` is the lubridate function. We are telling lubridate that the _existing_ format of the field that we want to be a date is in Month/Day/Year format. Lubridate is smart enough to realize the `/` separates the dates, and it would also understand if the separators were `-` or `.`.
+
+
 
 
 
