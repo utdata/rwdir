@@ -3,6 +3,8 @@
 ## Goals of this lesson
 
 - Use the janitor plugin to clean columns names
+- Mass rename columns with a pattern match
+- Rename individual columns
 - Fix data columns and other data types
 - Learn filter, arrange and mutate
 - Do some pivots to explore the data
@@ -14,23 +16,133 @@
     + If you've had the project open before, you can use the drop down in the top-right of RStudio to see a list of recent projects, and choose it from there.
     + Or, under the **File** menu to **Recent projects** and choose it.
     + Or, under **File** you can use **Open Project...** and go to that folder and choose it.
-- Use the **Run** button in the R Notebook toolbar to **Run All** of the chunks, which will load all your data and load the tibble from our last assignment.
+- Use the **Run** button in the R Notebook toolbar to **Run All** of the chunks, which will load all your data and load the data frame from our last assignment.
 
 ## Clean up column names
 
-I'm a bit anal about cleaning up column names in my data frames, because it makes them easier to work with. Well use a function called `clean_names` from the "janitor" package to fix them.
+I'm a bit anal about cleaning up column names in my data frames, because it makes them easier to work with. We'll use a function called `clean_names` from the "janitor" package to fix them.
 
 - After your list of things to fix, write a Markdown headline `## Clean column names`. Using the `##` makes this a smaller headline than the title. The more `###` the smaller the headline. The idea is to use these to organize your code and thoughts.
 - Explain in text that we'll use janitor to clean the column names.
 - Insert a new code chunk (*Cmd+shift+i* should be second nature by now.)
-- Insert the name of your `wells_raw` tibble and run it to inspect the column names again.
+- Insert the name of your `wells_raw` data frame and run it to inspect the column names again.
 
-These are _too_ bad, but they are a mix of upper and lowercase names, and some of them are rather long. We'll try the janitor `clean_names` function first.
+These are not _too_ bad, but they are a mix of upper and lowercase names, and some of them are rather long. We'll try the janitor `clean_names` function first.
 
-- Wrap the tibble name in the clean_names function like this, then rerun it:
+- Wrap the data frame name in the clean_names function like this, then rerun it:
 
 ```pre
 clean_names(wells_raw)
 ```
+And you'll get a result like this:
 
-> add screenshot
+![Columns cleaned with janitor](images/manip-janitor.png){width=600px}
+
+Now, we haven't _actually_ changed the names yet, we just printed it to the screen with new names. We have to assign those changes to the same data frame, or a new one, to make them stay. Let's assign them to a NEW data frame called `wells`, so we can keep the raw version around to compare.
+
+- Update that same chunk of code to assign the clean names to a new data frame called wells.
+- Then print `wells` to the screen so you can see the changes.
+
+Like this:
+
+```pre
+wells <- clean_names(wells_raw)
+wells
+```
+
+It looks the same, but now it is saved as `wells`.
+
+This is a start. We still have some problems:
+
+- Some long names, like "well_report_tracking_number2".
+- We have an annoying trailing "2" at the end of all the column names.
+
+Let's remove the trailing "2" first.
+
+### Mass renaming of columns
+
+We can access all the colun names of a data frame with a generic R function called [names](https://www.rdocumentation.org/packages/base/versions/3.5.2/topics/names), and we can use a pattern matching replacement called `sub()` to change them. I admit, I had no idea how to do this, so I Googled "tidyverse remove a character from a column name" and found [this link](http://r.789695.n4.nabble.com/Remove-part-of-string-in-colname-and-calculate-mean-for-columns-groups-td1014652.html). It was NOT the first result ... I had to look through several answers AND THAT IS PART OF LEARNING. Googling is probably the most important skill for a programmer.
+
+ - Write in text that we are going to change the names of all the columns to remove the "2".
+ - Create a new code block and insert this:
+
+```pre
+names(wells)
+```
+
+What we get in return is a list of all the names of our data frames. Cool, that means we can reassign them with new values.
+
+- Update that code chunk to this:
+ 
+```pre
+names(wells) <- sub("*2", "", names(wells)) 
+wells
+```
+
+Run it, see the magic and then I'll explain:
+
+- The first `names(wells)` refers to the column "names" of wells, and the `<-` indicates are will assign new names.
+- The `sub()` function has three parts:
+    + The first set of quotes is what we are searching for: `"*2"`. The `*` is a wildcard meaning any number of any characters until we find a "2". This is a pattern matching technique called Regular Expressions that we will learn more about later.
+    + The next set of quotes is what we are replacing our match with. Since we don't want to keep the "2", we replace it with an empty string.
+    + The last bit is what we are searching through. We are searching through the column names of wells, hence `names(wells)`.
+
+So in short, we are substituting the "names" in `wells` with the existing names in `wells`, but replacing the "2" with nothing.
+
+Perhaps this is complicated for so early in this course, but it is a powerful intro into Regular Expressions that we'll cover in more detail later.
+
+### Renaming individual columns
+
+Renaming individual columns is a lot less complicated, and it allows us to introduce the concept of "piping" the results of one command into another, a core component of the tidyverse.
+
+- Add text that we are going to rename two columns: well_report_tracking_number and plugging_report_tracking_number.
+- Add a new code chunk and print the `wells` data frame.
+- Go back into that code chunk and add the following:
+
+```
+wells %>% 
+  rename(well_number = well_report_tracking_number)
+```
+
+We will use the `%>%` pipe command _a lot_, so it is worth knowing that the keyboard command *Cmd+shift+m* will give you that string. Now, I didn't invent this keyboard command, but you might remember that Professor **M**cDonald taught it to you. It will serve you well.
+
+Think of the ` %>% ` command as "Then". We have `wells`, THEN we are renaming the column.
+
+Do *Cmd+Return* to run that line, and you'll see the changed column name. Note that is ONE line of code, even though it is written in multiple lines.
+
+You'll find that we will be piping multiple commands together like this as we learn more about the tidyverse.
+
+Have you figured out how the the `rename` function works?
+
+`rename(new_column_name = old_column_name)`
+
+It seems backward to me, but it works. Assignments in R seem to work from-right-to-left, sort of like `<-`.
+
+Now, let's edit this to change the other column as well. `plugging_report_tracking_number` is the last column of the data and super long, so let's change that, too. We can do it in the same command.
+
+- In the same code chunk, add a comma and a return before the ending `)`.
+- add the new column mapping, like this:
+
+```pre
+wells %>% 
+  rename(well_number = well_report_tracking_number,
+         plug_number = plugging_report_tracking_number)
+```
+
+Note the indents there. RStudio probably indented it properly for you, but it's done that way so you can visually see that these are related.
+
+One last thing here: Like the `clean_names` function (and unlike `names`), we haven't actually saved these changes, we've only printed them to the screen. To save the change, we need to assign it back to `wells`, then we can print the saved data frame out again:
+
+```pre
+wells <- wells %>% 
+  rename(well_number = well_report_tracking_number,
+         plug_number = plugging_report_tracking_number)
+wells
+```
+
+
+
+
+
+
+
