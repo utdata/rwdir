@@ -12,7 +12,7 @@ github-repo: utdata/rwd-class
 description: "Reporting with Data in R is a series of lessons for a course in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald."
 ---
 
-# About this class
+# About this class {-}
 
 This collection of lessons is intended to support the class Reporting With Data, taught by me, Christian McDonald, at the School of Journalism, Moody College of Communication, University of Texas at Austin.
 

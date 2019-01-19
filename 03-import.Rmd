@@ -47,6 +47,7 @@ We did this in our first lesson, but here are the basic steps:
 - Use the `+` button to use **R Notebook** to start a new notebook.
 - Change the title to "Wells drilled in Austin MSA".
 - Delete the other boilerplate text.
+- Save the file as `01-wells.Rmd`.
 
 ### The R Package environment
 
@@ -76,7 +77,7 @@ You'll a bunch of commands work through your Console. Remember that you only hav
 
 We'll need another package, so also do:
 
-```pre
+```r
 install.packages("janitor")
 ```
 
@@ -137,7 +138,7 @@ You can close this file now.
 - After your descriptions, add a new code chunk (*Cmd+option+i*).
 - Inside the chuck, add the following and hit return, then I'll explain:
 
-```pre
+```r
 wells_raw <- read_csv("data-raw/WellRpts_County_Use.csv")
 wells_raw
 ```
@@ -163,7 +164,7 @@ If we look through this one, we can see there is a `skip = x` option we can add 
 
 - Modify the import line to this and then rerun the entire chunk with *Cmd+shift+Return*:
 
-```pre
+```r
 wells_raw <- read_csv("data-raw/WellRpts_County_Use.csv", skip = 3)
 ```
 

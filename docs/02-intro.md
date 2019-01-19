@@ -92,7 +92,7 @@ The text after the chart describes how to insert a new code chunk. Let's do that
 - Use the keys *Cmd+Option+I* to add the chunk.
 - Your cursor will be inserted into the middle of the chunk. Type in this code in the space provided:
 
-```pre
+```r
 # update 52 to your age
 age = 52
 (age - 7) * 2

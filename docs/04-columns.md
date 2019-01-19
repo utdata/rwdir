@@ -29,7 +29,7 @@ These are not _too_ bad, but they are a mix of upper and lowercase names, and so
 
 - Wrap the data frame name in the clean_names function like this, then rerun it:
 
-```pre
+```r
 clean_names(wells_raw)
 ```
 And you'll get a result like this:
@@ -43,7 +43,7 @@ Now, we haven't _actually_ changed the names yet, we just printed it to the scre
 
 Like this:
 
-```pre
+```r
 wells <- clean_names(wells_raw)
 wells
 ```
@@ -64,7 +64,7 @@ We can access all the colun names of a data frame with a generic R function call
  - Write in text that we are going to change the names of all the columns to remove the "2".
  - Create a new code block and insert this:
 
-```pre
+```r
 names(wells)
 ```
 
@@ -72,7 +72,7 @@ What we get in return is a list of all the names of our data frames. Cool, that 
 
 - Update that code chunk to this:
  
-```pre
+```r
 names(wells) <- sub("*2", "", names(wells)) 
 wells
 ```
@@ -97,7 +97,7 @@ Renaming individual columns is a lot less complicated, and it allows us to intro
 - Add a new code chunk and print the `wells` data frame.
 - Go back into that code chunk and add the following:
 
-```
+```r
 wells %>% 
   rename(well_number = well_report_tracking_number)
 ```
@@ -112,7 +112,9 @@ You'll find that we will be piping multiple commands together like this as we le
 
 Have you figured out how the the `rename` function works?
 
-`rename(new_column_name = old_column_name)`
+```r
+rename(new_column_name = old_column_name)`
+```
 
 It seems backward to me, but it works. Assignments in R seem to work from-right-to-left, sort of like `<-`.
 
@@ -121,7 +123,7 @@ Now, let's edit this to change the other column as well. `plugging_report_tracki
 - In the same code chunk, add a comma and a return before the ending `)`.
 - add the new column mapping, like this:
 
-```pre
+```r
 wells %>% 
   rename(well_number = well_report_tracking_number,
          plug_number = plugging_report_tracking_number)
@@ -131,7 +133,7 @@ Note the indents there. RStudio probably indented it properly for you, but it's 
 
 One last thing here: Like the `clean_names` function (and unlike `names`), we haven't actually saved these changes, we've only printed them to the screen. To save the change, we need to assign it back to `wells`, then we can print the saved data frame out again:
 
-```pre
+```r
 wells <- wells %>% 
   rename(well_number = well_report_tracking_number,
          plug_number = plugging_report_tracking_number)
@@ -146,7 +148,7 @@ Fixing dates in generic R can be a semi-complicated process. Luckily, there is a
 - Return back to the bottom of the Notebook and add text in Markdown describing that you will use lubridate to convert the date fields.
 - Insert a new code chunk and add and run this, then I'll explain it:
 
-```pre
+```r
 wells %>%
   mutate(drilling_start_date = mdy(drilling_start_date))
 wells
@@ -158,9 +160,32 @@ wells
 - `=` is the assignment operators. What is on the right will be put into the left.
 - `mdy(drilling_start_date)` is the lubridate function. We are telling lubridate that the _existing_ format of the field that we want to be a date is in Month/Day/Year format. Lubridate is smart enough to realize the `/` separates the dates, and it would also understand if the separators were `-` or `.`.
 
+## Your turn
 
+It's time for you to use some of the skills you've learned already to accomplish a couple of easy tasks:
 
+- Update the `mutate()` function above to also update `drilling_end_date` field to a date. Hint: `mutate` is a tidyverse function just like `rename`, so it works similarly.
+- Assign the changes you've made back to the  `wells` dataframe and then reprint it to make sure it's all good.
 
+## Export the data
+
+It's not a bad idea to organize a project into multiple R Notebooks. I'll often create my first notebook to complete the tasks of downloading and cleaning up data, and then create a new one to handle analysis, etc. (This is why I had you name the files **01-**wells.Rmd.) It's possible to output the data frame you have created with all the changes and datatypes into a special `.rds` format that will reimport into R in exactly the same form. We'll do that now.
+
+- Use the **Files** pane to create a **New Folder** called `data-out`.
+- Create a new text header and text description to explain that you are exporting the data.
+- Create a new code chunk and add the following and run it:
+
+```r
+saveRDS(wells, "data-out/wells.rds")
+```
+
+- `saveRDS()` is the function.
+- The first argument is the data frame you are exporting.
+- The second argument is the path.
+
+Use your **Files** pane to make sure it worked.
+
+Congratulations! You finished this chapter, having renamed columns and changed data types. Depending on where we are in the week, you _may_ be asked to turn this in at this stage. In any event, you should save and Knit your files.
 
 
 
