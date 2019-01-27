@@ -160,19 +160,38 @@ wells
 - `=` is the assignment operators. What is on the right will be put into the left.
 - `mdy(drilling_start_date)` is the lubridate function. We are telling lubridate that the _existing_ format of the field that we want to be a date is in Month/Day/Year format. Lubridate is smart enough to realize the `/` separates the dates, and it would also understand if the separators were `-` or `.`.
 
-## Your turn
+#### Your turn
 
 It's time for you to use some of the skills you've learned already to accomplish a couple of easy tasks:
 
 - Update the `mutate()` function above to also update `drilling_end_date` field to a date. Hint: `mutate` is a tidyverse function just like `rename`, so it works similarly.
 - Assign the changes you've made back to the  `wells` dataframe and then reprint it to make sure it's all good.
 
+### Fix the bore hole depth
+
+If you look at the CSV data, the `borehole_depth` is and integer (a number without a decimal point), but it was imported as a `<dbl>` number with decimals. This _could_ cause us problems later if we wanted to math on these, so we'll convert this to an integer using `mutate()`.
+
+- Add a Markdown headline and description to describe our actions.
+- Add a code chunk and add the following and run it:
+
+```r
+wells %>% 
+  mutate(borehole_depth = as.integer(borehole_depth))
+wells
+```
+
+This will reassign that column as an integer. How did I know to use `as.integer`? I Googled "r convert float to integer" and found [this tutorial](http://www.r-tutor.com/r-introduction/basic-data-types/integer) and this [Stack Overflow article](https://stackoverflow.com/questions/11638303/how-to-convert-num-to-int-in-r).
+
+> A side note about this: I didn't realize this might be a problem until a later lesson. If I found a problem like this in Excel, I would have to redo all my steps, but since I'm using a script, I was able to make this change and then rerun the notebook.
+
+As a last step, we have to **reassign our mutated data frame back to wells**, so change the first line to `wells <- wells %>% `.
+
 ## Export the data
 
 It's not a bad idea to organize a project into multiple R Notebooks. I'll often create my first notebook to complete the tasks of downloading and cleaning up data, and then create a new one to handle analysis, etc. (This is why I had you name the files **01-**wells.Rmd.) It's possible to output the data frame you have created with all the changes and datatypes into a special `.rds` format that will reimport into R in exactly the same form. We'll do that now.
 
 - Use the **Files** pane to create a **New Folder** called `data-out`.
-- Create a new text header and text description to explain that you are exporting the data.
+- Create a new text header and text description to explain that you are exporting the data. (If the folder doesn't exist already, you'll get an error trying save the file.)
 - Create a new code chunk and add the following and run it:
 
 ```r
