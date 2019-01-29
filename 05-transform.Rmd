@@ -282,3 +282,7 @@ It creates a column named "n" with the count. You could _then_ use `rename(new =
 This has been a lot to learn, but it is the basics of just about any data analysis ... to **filter**, **select**, **arrange**, **group** and **summarise** values. And to create new variables with with **mutate**.
 
 Next, we'll start plotting some of this data so we can _see_ it.
+
+## Turn in your project
+
+At this point, you'll want so **save**, **knit to HTML** and then close your project. Zip up the folder and turn it into the assignment in Canvas.
