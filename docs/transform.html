@@ -25,7 +25,7 @@
 <meta name="author" content="Christian McDonald">
 
 
-<meta name="date" content="2019-01-27">
+<meta name="date" content="2019-01-28">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -183,7 +183,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="5.10.1" data-path="transform.html"><a href="transform.html#ignoring-na"><i class="fa fa-check"></i><b>5.10.1</b> ignoring na</a></li>
 <li class="chapter" data-level="5.10.2" data-path="transform.html"><a href="transform.html#your-turn-with-summarise"><i class="fa fa-check"></i><b>5.10.2</b> Your turn with summarise</a></li>
 </ul></li>
-<li class="chapter" data-level="5.11" data-path="transform.html"><a href="transform.html#group_by"><i class="fa fa-check"></i><b>5.11</b> Group_by()</a></li>
+<li class="chapter" data-level="5.11" data-path="transform.html"><a href="transform.html#group_by"><i class="fa fa-check"></i><b>5.11</b> Group_by()</a><ul>
+<li class="chapter" data-level="5.11.1" data-path="transform.html"><a href="transform.html#group-and-count"><i class="fa fa-check"></i><b>5.11.1</b> Group and count</a></li>
+<li class="chapter" data-level="5.11.2" data-path="transform.html"><a href="transform.html#your-turn-to-group"><i class="fa fa-check"></i><b>5.11.2</b> Your turn to group</a></li>
+<li class="chapter" data-level="5.11.3" data-path="transform.html"><a href="transform.html#counting-only"><i class="fa fa-check"></i><b>5.11.3</b> Counting only</a></li>
+</ul></li>
+<li class="chapter" data-level="5.12" data-path="transform.html"><a href="transform.html#transform-review"><i class="fa fa-check"></i><b>5.12</b> Transform review</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="graphics.html"><a href="graphics.html"><i class="fa fa-check"></i><b>6</b> Graphics</a></li>
 <li class="chapter" data-level="7" data-path="tidy.html"><a href="tidy.html"><i class="fa fa-check"></i><b>7</b> Tidy data</a></li>
@@ -446,9 +451,55 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="group_by" class="section level2">
 <h2><span class="header-section-number">5.11</span> Group_by()</h2>
-<blockquote>
-<p>Add something here.</p>
-</blockquote>
+<p>The <code>summarise()</code> function is an especially useful in combination with another function called <code>group_by()</code>, which allows us to pivot tables to count and measure data by its values.</p>
+<div class="figure">
+<img src="images/transform-groupby.png" alt="Group by" width="600" />
+<p class="caption">Group by</p>
+</div>
+<p>This is easier to understand when you can see an example, so let’s do it.</p>
+<div id="group-and-count" class="section level3">
+<h3><span class="header-section-number">5.11.1</span> Group and count</h3>
+<p>So, we have more than 18,000 wells, but we don’t know how many of each kind. We could filter them one-by-one, but there is an easier way.</p>
+<div class="figure">
+<img src="images/transform-wells-groupbyn.png" alt="Group and count" />
+<p class="caption">Group and count</p>
+</div>
+<p>Let’s break this down:</p>
+<ul>
+<li>We start with the <strong>wells</strong> data frame.</li>
+<li>We then <strong>group_by</strong> the data by the <code>proposed_use</code>. If we print the data frame at this point, we won’t really see a difference. The <code>group_by()</code> function always needs another function.</li>
+<li>We then <strong>summarise</strong> the grouped data. In this case, we are creating a column called <code>count</code>, and we are assigning to is a special function <code>n()</code> which counts the number of records within each group.
+<ul>
+<li>The result is for each unique value in the <strong>prospose_use</strong> column, we get the number of records that have that have that value.</li>
+</ul></li>
+<li>We then <strong>arrange</strong> the resulting table in descending order by our new column, <code>count</code>, so we can see which value has the most records.</li>
+</ul>
+<p>We can see that “Domestic” wells are more prevalant by a wide margin. If page through the list, you’ll see that to get an accurate count of each type of well, we’ll need to do some data cleaning. We’ll do that at another time.</p>
+<p>Let’s walk through another example:</p>
+<div class="figure">
+<img src="images/transform-group-summarise.png" alt="Group and summarise" width="600" />
+<p class="caption">Group and summarise</p>
+</div>
+</div>
+<div id="your-turn-to-group" class="section level3">
+<h3><span class="header-section-number">5.11.2</span> Your turn to group</h3>
+<ul>
+<li>How many wells were drilled in each county? Use the same <code>group_by</code> and <code>summarise</code> method to make a table that counts wells drilled in each county.</li>
+<li>Since you can <code>summarise</code> by more than one thing, try to find the count and average (mean) borehole_depth of wells by proposed use. You can copy the first summary we did and work from that, editing the <code>summarise</code> statement.</li>
+</ul>
+</div>
+<div id="counting-only" class="section level3">
+<h3><span class="header-section-number">5.11.3</span> Counting only</h3>
+<p>We’ll use summarize to do more than count, but if counting is all you want to know, there is an easier way. (I’ll try not to show you too many alternate methods … there are many ways to do everything, but this is worth knowing.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">well <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">count</span>(proposed_use)</code></pre></div>
+<p>It creates a column named “n” with the count. You could <em>then</em> use <code>rename(new = old)</code> to call it something else, like “wells_drilled”.</p>
+</div>
+</div>
+<div id="transform-review" class="section level2">
+<h2><span class="header-section-number">5.12</span> Transform review</h2>
+<p>This has been a lot to learn, but it is the basics of just about any data analysis … to <strong>filter</strong>, <strong>select</strong>, <strong>arrange</strong>, <strong>group</strong> and <strong>summarise</strong> values. And to create new variables with with <strong>mutate</strong>.</p>
+<p>Next, we’ll start plotting some of this data so we can <em>see</em> it.</p>
 
 </div>
 </div>

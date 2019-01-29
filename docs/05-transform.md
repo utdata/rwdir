@@ -235,4 +235,50 @@ Like filter and mutate, you can do more than one calculation within a summarize 
 
 ## Group_by()
 
-> Add something here.
+The `summarise()` function is an especially useful in combination with another function called `group_by()`, which allows us to pivot tables to count and measure data by its values.
+
+![Group by](images/transform-groupby.png){width=600px}
+
+This is easier to understand when you can see an example, so let's do it.
+
+### Group and count
+
+So, we have more than 18,000 wells, but we don't know how many of each kind. We could filter them one-by-one, but there is an easier way.
+
+![Group and count](images/transform-wells-groupbyn.png)
+
+Let's break this down:
+
+- We start with the **wells** data frame.
+- We then **group_by** the data by the `proposed_use`. If we print the data frame at this point, we won't really see a difference. The `group_by()` function always needs another function.
+- We then **summarise** the grouped data. In this case, we are creating a column called `count`, and we are assigning to is a special function `n()` which counts the number of records within each group.
+    + The result is for each unique value in the **prospose_use** column, we get the number of records that have that have that value.
+- We then **arrange** the resulting table in descending order by our new column, `count`, so we can see which value has the most records.
+
+We can see that "Domestic" wells are more prevalant by a wide margin. If page through the list, you'll see that to get an accurate count of each type of well, we'll need to do some data cleaning. We'll do that at another time.
+
+Let's walk through another example:
+
+![Group and summarise](images/transform-group-summarise.png){width=600px}
+
+### Your turn to group
+
+- How many wells were drilled in each county? Use the same `group_by` and `summarise` method to make a table that counts wells drilled in each county.
+- Since you can `summarise` by more than one thing, try to find the count and average (mean) borehole_depth of wells by proposed use. You can copy the first summary we did and work from that, editing the `summarise` statement.
+
+### Counting only
+
+We'll use summarize to do more than count, but if counting  is all you want to know, there is an easier way. (I'll try not to show you too many alternate methods ... there are many ways to do everything, but this is worth knowing.)
+
+```r
+well %>% 
+  count(proposed_use)
+```
+
+It creates a column named "n" with the count. You could _then_ use `rename(new = old)` to call it something else, like "wells_drilled".
+
+## Transform review
+
+This has been a lot to learn, but it is the basics of just about any data analysis ... to **filter**, **select**, **arrange**, **group** and **summarise** values. And to create new variables with with **mutate**.
+
+Next, we'll start plotting some of this data so we can _see_ it.

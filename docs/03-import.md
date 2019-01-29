@@ -111,6 +111,8 @@ Because I want you to teach you good data project skills, I want you first to ma
 
 That file should end up in your Downloads folder. Use your finder to move this into your project folder in the `data-raw` folder you created.
 
+[This document](http://www.twdb.texas.gov/groundwater/data/doc/TWRSRS_UserManual.pdf?d=43539.49999999895) has some descriptions of fields we may need later.
+
 ### Inspect the data
 
 We want to look at the data so we understand it.
