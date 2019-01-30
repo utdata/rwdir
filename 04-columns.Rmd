@@ -59,7 +59,7 @@ Let's remove the trailing "2" first.
 
 ### Mass renaming of columns
 
-We can access all the colun names of a data frame with a generic R function called [names](https://www.rdocumentation.org/packages/base/versions/3.5.2/topics/names), and we can use a pattern matching replacement called `sub()` to change them. I admit, I had no idea how to do this, so I Googled "tidyverse remove a character from a column name" and found [this link](http://r.789695.n4.nabble.com/Remove-part-of-string-in-colname-and-calculate-mean-for-columns-groups-td1014652.html). It was NOT the first result ... I had to look through several answers AND THAT IS PART OF LEARNING. Googling is probably the most important skill for a programmer.
+We can access all the column names of a data frame with a generic R function called [names](https://www.rdocumentation.org/packages/base/versions/3.5.2/topics/names), and we can use a pattern matching replacement called `sub()` to change them. I admit, I had no idea how to do this, so I Googled "tidyverse remove a character from a column name" and found [this link](http://r.789695.n4.nabble.com/Remove-part-of-string-in-colname-and-calculate-mean-for-columns-groups-td1014652.html). It was NOT the first result ... I had to look through several answers AND THAT IS PART OF LEARNING. Googling is probably the most important skill for a programmer.
 
  - Write in text that we are going to change the names of all the columns to remove the "2".
  - Create a new code block and insert this:

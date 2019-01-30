@@ -11,7 +11,7 @@ When you launch RStudio, you'll get a screen that looks like this:
 There is a preference in RStudio that I would like you to change. By default, the program wants to save a the state of your work (all the variables and such) when you close a project, but that is not good practice. We'll change that.
 
 - Go to the **RStudio** menu and choose **Preferences**
-- Under the **General** tab, uncheck the first four boxes
+- Under the **General** tab, uncheck the first four boxes.
 - On the option "Save Workspace to .Rdata on exit", change that to **Never**.
 - Click *OK* to close the box.
 
