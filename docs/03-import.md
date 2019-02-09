@@ -47,7 +47,7 @@ We did this in our first lesson, but here are the basic steps:
 - Use the `+` button to use **R Notebook** to start a new notebook.
 - Change the title to "Wells drilled in Austin MSA".
 - Delete the other boilerplate text.
-- Save the file as `01-wells.Rmd`.
+- Save the file as `01-wells-import.Rmd`.
 
 ### The R Package environment
 

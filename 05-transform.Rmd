@@ -13,11 +13,13 @@ As I explained at the end of our last lesson, it's a good practice to separate y
 - Launch RStudio and open your wells project.
 - Create a new R Notebook and set a new title of "Wells exploration and analysis".
 - Remove the boilerplate language and add a description of our goals: To explore an analyze our wells project. Mention that you have to run the other notebook first in case your someone else (or your future self) comes here first.
-- Save your file as `02-wells-analysis.Rmd`.
+- Save your file as `02-wells-explore.Rmd`.
 - Insert a new chunk, load the tidyverse library and run it. Make one change to this, in that we want to start naming all our chunks.
 
 ```pre
 {r setup}
+library(tidyverse)
+wells <- readRDS("data-out/wells_02.rds")
 ```
 
 By adding the word `setup` after our the `{r}` at the beginning, then we can find that chunk in our navigation drop down at the bottom of the R Notebook window.

@@ -5,21 +5,21 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>References | Reporting with Data in R</title>
-  <meta name="description" content="References | Reporting with Data in R is a series of lessons for a course in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald.">
+  <title>Chapter 6 Cleaning | Reporting with Data in R</title>
+  <meta name="description" content="Chapter 6 Cleaning | Reporting with Data in R is a series of lessons for a course in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="References | Reporting with Data in R" />
+  <meta property="og:title" content="Chapter 6 Cleaning | Reporting with Data in R" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="References | Reporting with Data in R is a series of lessons for a course in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald." />
+  <meta property="og:description" content="Chapter 6 Cleaning | Reporting with Data in R is a series of lessons for a course in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald." />
   <meta name="github-repo" content="utdata/rwd-class" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="References | Reporting with Data in R" />
+  <meta name="twitter:title" content="Chapter 6 Cleaning | Reporting with Data in R" />
   
-  <meta name="twitter:description" content="References | Reporting with Data in R is a series of lessons for a course in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald." />
+  <meta name="twitter:description" content="Chapter 6 Cleaning | Reporting with Data in R is a series of lessons for a course in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald." />
   
 
 <meta name="author" content="Christian McDonald">
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="maps.html">
-
+<link rel="prev" href="transform.html">
+<link rel="next" href="graphics.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -235,202 +235,437 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
-<p>Figures and tables with captions will be placed in <code>figure</code> and <code>table</code> environments, respectively.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, .<span class="dv">1</span>, .<span class="dv">1</span>))
-<span class="kw">plot</span>(pressure, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>, <span class="dt">pch =</span> <span class="dv">19</span>)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:nice-fig"></span>
-<img src="99-references_files/figure-html/nice-fig-1.png" alt="Here is a nice figure!" width="80%" />
-<p class="caption">
-Figure 13.1: Here is a nice figure!
-</p>
+<div id="cleaning" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> Cleaning</h1>
+<p>As we were looking at the <code>proposed_use</code> field in the wells data, we found that the values there were pretty dirty, with misspellings and unofficial designations. If we look at the official designations for Proposed Use on <a href="http://www.twdb.texas.gov/groundwater/data/doc/TWRSRS_UserManual.pdf?d=43539.49999999895">page 10 of the data user manual</a>, we see there are 14 official designations, none with any of various spellings of <a href="https://en.wikipedia.org/wiki/Piezometer">Piezo</a>, which looks to be monitor wells.</p>
+<p>We need to create a clean version of the <code>proposed_use</code> column to use with our analysis and visualizations. Typically when I discover a situation like this, I go back to my first “import and cleaning” notebook and make changes there so the work can carry through to all subsequent notebooks, but in this case we’ll just make our changes in a new notebook and then document and export the changes for future work.</p>
+<div id="goals-1" class="section level2">
+<h2><span class="header-section-number">6.1</span> Goals</h2>
+<ul>
+<li>Create a new notebook for cleaning data</li>
+<li>Throughout the notebook, we want to explain our thoughts and goals in Markdown. Each code block should have a human readable explanation of the goal or task.</li>
+<li>Import most recent data</li>
+<li>Create cleaned proposed_use column</li>
+<li>Export data for next notebook</li>
+</ul>
 </div>
-<p>Reference a figure by its code chunk label with the <code>fig:</code> prefix, e.g., see Figure <a href="references.html#fig:nice-fig">13.1</a>. Similarly, you can reference tables generated from <code>knitr::kable()</code>, e.g., see Table <a href="references.html#tab:nice-tab">13.1</a>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">kable</span>(
-  <span class="kw">head</span>(iris, <span class="dv">20</span>), <span class="dt">caption =</span> <span class="st">&#39;Here is a nice table!&#39;</span>,
-  <span class="dt">booktabs =</span> <span class="ot">TRUE</span>
-)</code></pre></div>
+<div id="resources-1" class="section level2">
+<h2><span class="header-section-number">6.2</span> Resources</h2>
+<ul>
+<li><a href="https://r4ds.had.co.nz/strings.html">Strings</a> chapter from Hadley Wickham’s book, specifically about <a href="https://r4ds.had.co.nz/strings.html#replacing-matches"><code>str_replace()</code></a>.</li>
+<li><a href="https://www.rdocumentation.org/packages/stringr/versions/1.3.1/topics/str_replace">RDocumentation</a> on <code>str_replace()</code>.</li>
+</ul>
+</div>
+<div id="setup-and-import" class="section level2">
+<h2><span class="header-section-number">6.3</span> Setup and import</h2>
+<ul>
+<li>Create a new R Notebook with a title “Wells cleaning” and a filename of <code>03-wells-cleaning.Rmd</code>.</li>
+<li>In Markdown, write down our purpose and goals in your own words.</li>
+<li>Set up the tidyverse library and import the <code>data/wells_02.rds</code> file that we exported at the end of our last notebook. (If you don’t recall how to do this, look at your last notebook, but update the code to reflect the new filename.) For this block and all others, make sure you have a Markdown desription of the goal or task.</li>
+</ul>
+</div>
+<div id="clean-the-proposed_use-column" class="section level2">
+<h2><span class="header-section-number">6.4</span> Clean the proposed_use column</h2>
+<div id="count-values-in-a-column" class="section level3">
+<h3><span class="header-section-number">6.4.1</span> Count values in a column</h3>
+<p>Let’s look again at the the values in the <code>proposed_use</code> column of the wells data. One way to see all the unique values and also find out how many there are is to use the <code>count()</code> function, which is a simple pivot table.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">count</span>(proposed_use)</code></pre></div>
+<p>Which gives us a list that looks something like this:</p>
 <table>
-<caption><span id="tab:nice-tab">Table 13.1: </span>Here is a nice table!</caption>
 <thead>
 <tr class="header">
-<th align="right">Sepal.Length</th>
-<th align="right">Sepal.Width</th>
-<th align="right">Petal.Length</th>
-<th align="right">Petal.Width</th>
-<th align="left">Species</th>
+<th align="left">proposed_use</th>
+<th align="right">n</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">5.1</td>
-<td align="right">3.5</td>
-<td align="right">1.4</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
+<td align="left">AG WELL</td>
+<td align="right">3</td>
 </tr>
 <tr class="even">
-<td align="right">4.9</td>
-<td align="right">3.0</td>
-<td align="right">1.4</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
+<td align="left">Closed-Loop Geothermal</td>
+<td align="right">246</td>
 </tr>
 <tr class="odd">
-<td align="right">4.7</td>
-<td align="right">3.2</td>
-<td align="right">1.3</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
+<td align="left">Commercial</td>
+<td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="right">4.6</td>
-<td align="right">3.1</td>
-<td align="right">1.5</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
+<td align="left">De-watering</td>
+<td align="right">33</td>
 </tr>
 <tr class="odd">
-<td align="right">5.0</td>
-<td align="right">3.6</td>
-<td align="right">1.4</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
+<td align="left">Domestic</td>
+<td align="right">8408</td>
 </tr>
 <tr class="even">
-<td align="right">5.4</td>
-<td align="right">3.9</td>
-<td align="right">1.7</td>
-<td align="right">0.4</td>
-<td align="left">setosa</td>
+<td align="left">Environmental Soil Boring</td>
+<td align="right">3719</td>
 </tr>
 <tr class="odd">
-<td align="right">4.6</td>
-<td align="right">3.4</td>
-<td align="right">1.4</td>
-<td align="right">0.3</td>
-<td align="left">setosa</td>
+<td align="left">Ground Well for Electric Substation</td>
+<td align="right">2</td>
 </tr>
 <tr class="even">
-<td align="right">5.0</td>
-<td align="right">3.4</td>
-<td align="right">1.5</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
+<td align="left">Industrial</td>
+<td align="right">102</td>
 </tr>
 <tr class="odd">
-<td align="right">4.4</td>
-<td align="right">2.9</td>
-<td align="right">1.4</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
+<td align="left">Injection</td>
+<td align="right">61</td>
 </tr>
 <tr class="even">
-<td align="right">4.9</td>
-<td align="right">3.1</td>
-<td align="right">1.5</td>
-<td align="right">0.1</td>
-<td align="left">setosa</td>
+<td align="left">Irrigation</td>
+<td align="right">1493</td>
 </tr>
 <tr class="odd">
-<td align="right">5.4</td>
-<td align="right">3.7</td>
-<td align="right">1.5</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
+<td align="left">IRRIGATION/TESTWELL</td>
+<td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="right">4.8</td>
-<td align="right">3.4</td>
-<td align="right">1.6</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
+<td align="left">Monitor</td>
+<td align="right">3354</td>
 </tr>
 <tr class="odd">
-<td align="right">4.8</td>
-<td align="right">3.0</td>
-<td align="right">1.4</td>
-<td align="right">0.1</td>
-<td align="left">setosa</td>
+<td align="left">Monitor-VMP</td>
+<td align="right">2</td>
 </tr>
 <tr class="even">
-<td align="right">4.3</td>
-<td align="right">3.0</td>
-<td align="right">1.1</td>
-<td align="right">0.1</td>
-<td align="left">setosa</td>
+<td align="left">peizometer</td>
+<td align="right">1</td>
 </tr>
 <tr class="odd">
-<td align="right">5.8</td>
-<td align="right">4.0</td>
-<td align="right">1.2</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
+<td align="left">Peizometer</td>
+<td align="right">8</td>
 </tr>
 <tr class="even">
-<td align="right">5.7</td>
-<td align="right">4.4</td>
-<td align="right">1.5</td>
-<td align="right">0.4</td>
-<td align="left">setosa</td>
+<td align="left">piezo</td>
+<td align="right">1</td>
 </tr>
 <tr class="odd">
-<td align="right">5.4</td>
-<td align="right">3.9</td>
-<td align="right">1.3</td>
-<td align="right">0.4</td>
-<td align="left">setosa</td>
+<td align="left">Piezo</td>
+<td align="right">12</td>
 </tr>
 <tr class="even">
-<td align="right">5.1</td>
-<td align="right">3.5</td>
-<td align="right">1.4</td>
-<td align="right">0.3</td>
-<td align="left">setosa</td>
+<td align="left">piezometer</td>
+<td align="right">43</td>
 </tr>
 <tr class="odd">
-<td align="right">5.7</td>
-<td align="right">3.8</td>
-<td align="right">1.7</td>
-<td align="right">0.3</td>
-<td align="left">setosa</td>
+<td align="left">Piezometer</td>
+<td align="right">25</td>
 </tr>
 <tr class="even">
-<td align="right">5.1</td>
-<td align="right">3.8</td>
-<td align="right">1.5</td>
-<td align="right">0.3</td>
-<td align="left">setosa</td>
+<td align="left">Piezometer Installation</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">PLUGGING</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Public Supply</td>
+<td align="right">174</td>
+</tr>
+<tr class="odd">
+<td align="left">Rig Supply</td>
+<td align="right">14</td>
+</tr>
+<tr class="even">
+<td align="left">Soil Vapor Monitor</td>
+<td align="right">10</td>
+</tr>
+<tr class="odd">
+<td align="left">Stock</td>
+<td align="right">259</td>
+</tr>
+<tr class="even">
+<td align="left">Surface Slab Repair</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">Test Well</td>
+<td align="right">266</td>
+</tr>
+<tr class="even">
+<td align="left">Unknown</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="left">Vapor Monitoring Point</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">VAPOR POINT</td>
+<td align="right">1</td>
 </tr>
 </tbody>
 </table>
-<p>You can write citations, too. For example, we are using the <strong>bookdown</strong> package <span class="citation">(Xie <a href="#ref-R-bookdown">2018</a>)</span> in this sample book, which was built on top of R Markdown and <strong>knitr</strong> <span class="citation">(Xie <a href="#ref-xie2015">2015</a>)</span>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#     download: [&quot;pdf&quot;, &quot;epub&quot;]</span>
-<span class="co"># bookdown::pdf_book:</span>
-<span class="co">#   includes:</span>
-<span class="co">#     in_header: preamble.tex</span>
-<span class="co">#   latex_engine: xelatex</span>
-<span class="co">#   citation_package: natbib</span>
-<span class="co">#   keep_tex: yes</span>
-<span class="co"># bookdown::epub_book: default</span></code></pre></div>
+<p>We have 30 different values here that we need to combine into at most 14 categories, which are the official ones listed on <a href="http://www.twdb.texas.gov/groundwater/data/doc/TWRSRS_UserManual.pdf?d=43539.49999999895">page 10 of the data user manual</a>. After looking through it and doing some Googling, I came to a couple of conclusions:</p>
+<ul>
+<li>Anything named “piezo” or a variant should be a Monitor well.</li>
+<li>Anything named “vapor” should be a Monitor well.</li>
+<li>Anything that isn’t on the official list should be Other.</li>
+</ul>
+<p>TBH, if I was writing stories about this data, I would call the TWDB and make my sure that my educated assumptions are correct. But they seem reasonable given the documentation.</p>
+</div>
+<div id="change-values-in-a-column" class="section level3">
+<h3><span class="header-section-number">6.4.2</span> Change values in a column</h3>
+<p>So, our goal here is to create a new column that starts with the value of <code>proposed_use</code>, but then we search through the values for things like “piezo” and set them to something more useful.</p>
+<p>We’ll utilize a stringr function called <code>str_replace()</code> using <a href="https://drive.google.com/open?id=1DvAM4lnGJLefo9skD8GgM-_9S1BEhpjJfV86yhJavI0">regular expressions</a> to do this, within a <code>mutate()</code> function, which we know we can use to create or make changes in a column data. And, of course, we need to figure out how to do it before we save it, so let’s work through it.</p>
+<p>Start by calling the <code>wells</code> data frame, then using mutate to create a new column from <code>proposed_use</code>, and then count the rows from the new column. For now, it will be the same as it was for <code>proposed use</code> but we’ll fix that.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">use_clean =</span> proposed_use
+  ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">count</span>(use_clean)</code></pre></div>
+<div id="convert-to-lowercase" class="section level4">
+<h4><span class="header-section-number">6.4.2.1</span> Convert to lowercase</h4>
+<p>It will be much easier for us to deal with different spellings of words if everything was lower case. “Piezo” is different than “piezo”, so let’s convert everything to lower case.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">use_clean =</span> <span class="kw">tolower</span>(proposed_use)
+  ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">count</span>(use_clean)</code></pre></div>
+<p>Now our results are all lowercase. It looks something like this:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">use_clean</th>
+<th align="right">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">ag well</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">closed-loop geothermal</td>
+<td align="right">246</td>
+</tr>
+<tr class="odd">
+<td align="left">commercial</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">de-watering</td>
+<td align="right">33</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="clean-up-the-piezo-ish-values" class="section level4">
+<h4><span class="header-section-number">6.4.2.2</span> Clean up the piezo-ish values</h4>
+<p>We still have four different versions of “piezo” and the like, which need to be labeled as “monitor”. You might check make a mental note of how many values you have for “monitor” now so we can be know that value is growing as we fix our piezos. (I have 3354 in our example, but the number will be different when the data is pulled at a later date). We can continue to stack changes inside our <code>mutate()</code> function to deal with this using <code>str_replace()</code>.</p>
+<p>There are three arguments to the <a href="https://www.rdocumentation.org/packages/stringr/versions/1.3.1/topics/str_replace"><code>str_replace()</code> function</a>:</p>
+<ul>
+<li>what column are we working on.</li>
+<li>what pattern are we looking for, as a regular expression.</li>
+<li>what value do we want it to be.</li>
+</ul>
+<p>We have created a new column <code>use_clean</code> that we want to continue to modify, so it is both our target and our source of the mutate.</p>
+<p>The pattern we want is anything that starts with the word “piezo” and “peizo” with anything that follows. The regex expression for “anything” is <code>.*</code>, so <code>piezo.*</code> with catch “piezo”, “piezometer” and “piezo installation”. We want to set any value with those terms to “monitor”, so we set up our string replace function: <code>str_replace(use_clean, &quot;piezo.*&quot;, &quot;monitor&quot;)</code> and add it to our list of mutates:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">use_clean =</span> <span class="kw">tolower</span>(proposed_use),
+    <span class="dt">use_clean =</span> <span class="kw">str_replace</span>(use_clean, <span class="st">&quot;piezo.*&quot;</span>, <span class="st">&quot;monitor&quot;</span>)
+  ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">count</span>(use_clean)</code></pre></div>
+<p>If we look at the results of that change, we see we are left with the one misspelled “peizometer”. We can fix that by adding an “or” section to our search pattern, using the regular expression key <code>|</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">use_clean =</span> <span class="kw">tolower</span>(proposed_use),
+    <span class="dt">use_clean =</span> <span class="kw">str_replace</span>(use_clean, <span class="st">&quot;piezo.*|peizo.*&quot;</span>, <span class="st">&quot;monitor&quot;</span>)
+  ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">count</span>(use_clean)</code></pre></div>
+<p>Check your results and make sure that there are no longer any versions of “piezo” in use_clean.</p>
+<p>You can keep stacking these <code>str_replace()</code> mutates to clean further values.</p>
+</div>
+<div id="your-turn-str_replace-functions" class="section level4">
+<h4><span class="header-section-number">6.4.2.3</span> Your turn: str_replace functions</h4>
+<p>Now it’s up to you to add more mutate strings to clean the rest of the column to get the 14 official “Proposed Use” designations listed below. It would make sense to organize your new mutate lines in logical ways, like perhaps to capture all the terms that would go into “other” together using the <code>|</code> in your search pattern, like we did with piezo and peizo example above. Here’s the official list:</p>
+<ul>
+<li>closed-loop geothermal</li>
+<li>de-watering</li>
+<li>domestic</li>
+<li>environmental soil boring</li>
+<li>industrial</li>
+<li>injection</li>
+<li>irrigation</li>
+<li>monitor</li>
+<li>other</li>
+<li>public supply</li>
+<li>rig supply</li>
+<li>stock</li>
+<li>test</li>
+<li>unknown</li>
+</ul>
+</div>
+<div id="double-check-our-results" class="section level4">
+<h4><span class="header-section-number">6.4.2.4</span> Double-check our results</h4>
+<p>It might make sense to do one last check of our conversions before reassigning all of changes back to the wells data frame. Change the last <code>count()</code> function to the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">count</span>(use_clean) <span class="co">#change this line</span>
+  <span class="kw">distinct</span>(proposed_use, use_clean) <span class="co"># to this line</span></code></pre></div>
+<p>The result looks something similar to this:</p>
+<table>
+<thead>
+<tr class="header">
+<th>proposed_use</th>
+<th>use_clean</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Irrigation</td>
+<td>irrigation</td>
+</tr>
+<tr class="even">
+<td>Domestic</td>
+<td>domestic</td>
+</tr>
+<tr class="odd">
+<td>Monitor</td>
+<td>monitor</td>
+</tr>
+<tr class="even">
+<td>Public Supply</td>
+<td>public supply</td>
+</tr>
+<tr class="odd">
+<td>Environmental Soil Boring</td>
+<td>environmental soil boring</td>
+</tr>
+<tr class="even">
+<td>Closed-Loop Geothermal</td>
+<td>closed-loop geothermal</td>
+</tr>
+<tr class="odd">
+<td>Industrial</td>
+<td>industrial</td>
+</tr>
+<tr class="even">
+<td>Piezo</td>
+<td>monitor</td>
+</tr>
+<tr class="odd">
+<td>Stock</td>
+<td>stock</td>
+</tr>
+<tr class="even">
+<td>Piezometer</td>
+<td>monitor</td>
+</tr>
+<tr class="odd">
+<td>Test Well</td>
+<td>test</td>
+</tr>
+<tr class="even">
+<td>Unknown</td>
+<td>unknown</td>
+</tr>
+<tr class="odd">
+<td>piezometer</td>
+<td>monitor</td>
+</tr>
+<tr class="even">
+<td>De-watering</td>
+<td>de-watering</td>
+</tr>
+<tr class="odd">
+<td>Ground Well for Electric Substation</td>
+<td>other</td>
+</tr>
+<tr class="even">
+<td>VAPOR POINT</td>
+<td>monitor</td>
+</tr>
+<tr class="odd">
+<td>Piezometer Installation</td>
+<td>monitor</td>
+</tr>
+<tr class="even">
+<td>Surface Slab Repair</td>
+<td>other</td>
+</tr>
+<tr class="odd">
+<td>Monitor-VMP</td>
+<td>monitor</td>
+</tr>
+<tr class="even">
+<td>peizometer</td>
+<td>monitor</td>
+</tr>
+<tr class="odd">
+<td>piezo</td>
+<td>monitor</td>
+</tr>
+<tr class="even">
+<td>Vapor Monitoring Point</td>
+<td>monitor</td>
+</tr>
+<tr class="odd">
+<td>Injection</td>
+<td>injection</td>
+</tr>
+<tr class="even">
+<td>Peizometer</td>
+<td>monitor</td>
+</tr>
+<tr class="odd">
+<td>Commercial</td>
+<td>other</td>
+</tr>
+<tr class="even">
+<td>IRRIGATION/TESTWELL</td>
+<td>test</td>
+</tr>
+<tr class="odd">
+<td>Soil Vapor Monitor</td>
+<td>monitor</td>
+</tr>
+<tr class="even">
+<td>PLUGGING</td>
+<td>other</td>
+</tr>
+<tr class="odd">
+<td>AG WELL</td>
+<td>other</td>
+</tr>
+<tr class="even">
+<td>Rig Supply</td>
+<td>rig supply</td>
+</tr>
+</tbody>
+</table>
+<p>This will allow you to doublecheck that all your conversions happened properly.</p>
+</div>
+</div>
+<div id="reassign-your-changes-back-to-the-data-frame" class="section level3">
+<h3><span class="header-section-number">6.4.3</span> Reassign your changes back to the data frame</h3>
+<p>Once you have all your column changes worked out, you need to fix it up to reassign the values to the data frame, and then <strong>add Markdown commentary above it to explain the purpose of the code chunk</strong>.</p>
+<ul>
+<li>Edit your code chunk to remove the <code>distinct()</code> or <code>count()</code> functions at the end.</li>
+<li>Edit the code chunk to reassign the values back to <code>wells</code>.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells &lt;-<span class="st"> </span>wells <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">use_clean =</span> <span class="kw">tolower</span>(proposed_use),
+    <span class="dt">use_clean =</span> <span class="kw">str_replace</span>(use_clean, <span class="st">&quot;piezo.*|peizo.*&quot;</span>, <span class="st">&quot;monitor&quot;</span>),
+    <span class="co"># your other str_replace items ...</span>
+  )</code></pre></div>
+</div>
+</div>
+<div id="export-your-updated-data-frame" class="section level2">
+<h2><span class="header-section-number">6.5</span> Export your updated data frame</h2>
+<p>Let’s again export our data so we can use it in a new notebook. Since we are in our third notebook of this project, let’s name the file <code>wells_03.rds</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">saveRDS</span>(wells, <span class="st">&quot;data-out/wells_03.rds&quot;</span>)</code></pre></div>
+</div>
+<div id="future-addition" class="section level2">
+<h2><span class="header-section-number">6.6</span> Future addition</h2>
+<p>While this data doesn’t support it, it would be good to have here an example of how you might take a column made up of codes, like school accountability ratings being “M”, “I”, “A”, etc. and convert them to their readable values like like “Met standard”, “Needs Improvement” and “Alternative standard”.</p>
 
-<div id="refs" class="references">
-<div>
-<p>Xie, Yihui. 2015. <em>Dynamic Documents with R and Knitr</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="http://yihui.name/knitr/" class="uri">http://yihui.name/knitr/</a>.</p>
-</div>
-<div>
-<p>———. 2018. <em>Bookdown: Authoring Books and Technical Documents with R Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown" class="uri">https://CRAN.R-project.org/package=bookdown</a>.</p>
-</div>
-</div>
-</div>
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-R-bookdown">
-<p>Xie, Yihui. 2018. <em>Bookdown: Authoring Books and Technical Documents with R Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown" class="uri">https://CRAN.R-project.org/package=bookdown</a>.</p>
-</div>
-<div id="ref-xie2015">
-<p>Xie, Yihui. 2015. <em>Dynamic Documents with R and Knitr</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="http://yihui.name/knitr/" class="uri">http://yihui.name/knitr/</a>.</p>
 </div>
 </div>
             </section>
@@ -438,8 +673,8 @@ Figure 13.1: Here is a nice figure!
           </div>
         </div>
       </div>
-<a href="maps.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="transform.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="graphics.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -469,7 +704,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/99-references.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/06-cleaning.Rmd",
 "text": "Edit"
 },
 "history": {
