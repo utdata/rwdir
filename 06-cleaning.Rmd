@@ -21,7 +21,7 @@ We need to create a clean version of the `proposed_use` column to use with our a
 
 - Create a new R Notebook with a title "Wells cleaning" and a filename of `03-wells-cleaning.Rmd`.
 - In Markdown, write down our purpose and goals in your own words.
-- Set up the tidyverse library and import the `data/wells_02.rds` file that we exported at the end of our last notebook. (If you don't recall how to do this, look at your last notebook, but update the code to reflect the new filename.) For this block and all others, make sure you have a Markdown desription of the goal or task.
+- Set up the tidyverse library and import the `data/wells_02.rds` file that we exported at the end of our last notebook. (If you don't recall how to do this, look at your last notebook, but update the code to reflect the new filename.) For this block and all others, make sure you have a Markdown description of the goal or task.
 
 ## Clean the proposed_use column
 
@@ -215,7 +215,7 @@ The result looks something similar to this:
 | AG WELL                             | other                     |
 | Rig Supply                          | rig supply                |
 
-This will allow you to doublecheck that all your conversions happened properly.
+This will allow you to double check that all your conversions happened properly.
 
 ### Reassign your changes back to the data frame
 

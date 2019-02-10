@@ -8,7 +8,7 @@
 - **layers**: which means how we might lay multiple geometries over top of each other to reveal new information.
 - **facets**: which means how we might graph many elements of the same dataset in the same space
 
-The challenge to understand here is for every graphi, we start with the data, and then describe how to layer plots or pieces on top of that data.
+The challenge to understand here is for every graphic, we start with the data, and then describe how to layer plots or pieces on top of that data.
 
 ## Set up our Notebook
 
@@ -54,7 +54,7 @@ ggplot(data = <DATA>) +
 ```
 
 - **ggplot()** is our function. We feed into it the data we wish to plot.
-- The **+** is the equivalent of `%>%` in our tidyverse data. It means we are adding a layer, and it should always be at the end of the line, not at the begginning of the next.
+- The **+** is the equivalent of `%>%` in our tidyverse data. It means we are adding a layer, and it should always be at the end of the line, not at the beginning of the next.
 - **<GEOM_FUNCTION>** is the type of chart or addition we are adding. They all start with the term **geom_** like **geom_bar**, which is what we will build.
 - The geometric function requires "aesthetics" to describe what it should look like, the main one being the **mapping** of the x and y axis.
 
@@ -105,7 +105,7 @@ ggplot(data = wells_by_county, aes(x = county, y = wells_count)) +
 
 In this case, we are just adding another layer, the `geom_text()`. It requires some additional aesthetics, like what label we want to use. The `vjust=` moves the numbers up a little. Change the number and see what happens.
 
-The last layer we want to add here is a Title layer. The function for labels is calle `labs()` and it takes an argument of `title = ""` You can also change your `x` and `y` axis names, etc.
+The last layer we want to add here is a Title layer. The function for labels is called `labs()` and it takes an argument of `title = ""` You can also change your `x` and `y` axis names, etc.
 
 ```r
   ... +

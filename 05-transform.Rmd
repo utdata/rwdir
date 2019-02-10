@@ -33,7 +33,7 @@ By adding the word `setup` after our the `{r}` at the beginning, then we can fin
 
 ![Wells data imported](images/transform-wells-import.png){width=600px}
 
-Now we are back to where we eneded with the first notebook.
+Now we are back to where we ended with the first notebook.
 
 ## Goals
 
@@ -95,7 +95,7 @@ Your quest is to filter to wells in Travis or Williamson counties that have a st
 
 ![Common mistakes combining](images/transform-mistakes-two.png){width=600px}
 
-Note if you want to combine a series of strings in your filter, you have to put them inside a "concatenate" function, which is shoretened to `c()`, as in the example above.
+Note if you want to combine a series of strings in your filter, you have to put them inside a "concatenate" function, which is shortened to `c()`, as in the example above.
 
 ## Arrange()
 
@@ -109,7 +109,7 @@ Let's sort our data by their depth:
 arrange(wells, borehole_depth)
 ```
 
-You'll have to scroll the colums over to see it, and the depths start at zero, which is not very sexy. As journalists, we usually want to see the largest (or deepest) thing, so we can arrange the column in descending order with this:
+You'll have to scroll the columns over to see it, and the depths start at zero, which is not very sexy. As journalists, we usually want to see the largest (or deepest) thing, so we can arrange the column in descending order with this:
 
 ![Deepest wells](images/transform-wells-deep.png)
 
@@ -136,7 +136,7 @@ wells %>%
   arrange(desc(borehole_depth))
 ```
 
-All the tidyverse functions understand the pipe, and we'll be using it alot. It makes it easier to write and understand the code.
+All the tidyverse functions understand the pipe, and we'll be using it a lot. It makes it easier to write and understand the code.
 
 Another advantage you'll see is you can use tab completion in more places when you use pipes. RStudio better understands the fields you are working with when you declare the data frame first.
 
@@ -233,7 +233,7 @@ A mean (or average in common terms) is a way to use one number to represent a gr
 Like filter and mutate, you can do more than one calculation within a summarize function. Edit the code chunk above in two ways:
 
 - Make sure to name the code chunk, something like `depth_summaries`.
-- Modify the summarise function to also create a `median_depth` summary. Look at your dplyr cheat sheet or google to find out how.
+- Modify the summarize function to also create a `median_depth` summary. Look at your dplyr cheat sheet or google to find out how.
 
 ## Group_by()
 
@@ -257,7 +257,7 @@ Let's break this down:
     + The result is for each unique value in the **prospose_use** column, we get the number of records that have that have that value.
 - We then **arrange** the resulting table in descending order by our new column, `count`, so we can see which value has the most records.
 
-We can see that "Domestic" wells are more prevalant by a wide margin. If page through the list, you'll see that to get an accurate count of each type of well, we'll need to do some data cleaning. We'll do that at another time.
+We can see that "Domestic" wells are more prevalent by a wide margin. If page through the list, you'll see that to get an accurate count of each type of well, we'll need to do some data cleaning. We'll do that at another time.
 
 Let's walk through another example:
 
