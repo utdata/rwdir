@@ -56,9 +56,22 @@ ggplot(data = <DATA>) +
 - **ggplot()** is our function. We feed into it the data we wish to plot.
 - The **+** is the equivalent of `%>%` in our tidyverse data. It means we are adding a layer, and it should always be at the end of the line, not at the begginning of the next.
 - **<GEOM_FUNCTION>** is the type of chart or addition we are adding. They all start with the term **geom_** like **geom_bar**, which is what we will build.
-- The geometric function needs "aesthetics" to describe what it should look like, the main one being the **mappings** of the x and y axis.
+- The geometric function requires "aesthetics" to describe what it should look like, the main one being the **mapping** of the x and y axis.
+
+There are two ways to simplify this:
+
+- It is implied that the first thing fed to `ggplot` is the data, so you don't have to write out `data =` unless there is ambiguity.
+- The `aes()` values are also implied as mappings, so you don't have to write out `mapping =` unless there is ambiguity.
+- And lastly, if the mappings are the same for all the geoms, you can put them in the ggplot line.
+
+```r
+ggplot(<DATA>, aes(<MAPPINGS>)) +
+  <GEOM>(<ADDITONAL_MAPPINGS>)
+```
 
 ### Plot our wells by county
+
+Here is the verbose plot for our counties.
 
 ```r
 ggplot(data = wells_by_county) +
@@ -67,15 +80,15 @@ ggplot(data = wells_by_county) +
 
 - On the first line we tell `ggplot()` that we are using the we `wells_by_county` data.
 - On the next, we apply the `geom_bar()` function to make a bar chart. It needs two things:
-    + The mapping, which are the aesthetics. We well it to plot **county** on the x (horizontal) axis, and **wells_count** on the y (vertical) axis. Because **county** is not a number, we have to use the `stat = "identity"` value to describe that we are using values within county.
+    + The mapping, which are the aesthetics. We well it to plot **county** on the x (horizontal) axis, and **wells_count** on the y (vertical) axis. Because **county** is not a number, we have to use the `stat = "identity"` value to describe that we are using values within county. This is a special thing for bar charts.
 
 ![Basic county plot](images/visualize-county-plot.png){width=500px}
 
-We can be a little little less verbose about this because `ggplot()` will understand we are feeding it data and mappings.
+Our less verbose way to do this looks like this:
 
 ```r
-ggplot(wells_by_county) +
-  geom_bar(aes(x=county, y=wells_count), stat = "identity")
+ggplot(wells_by_county, aes(x=county, y=wells_count)) +
+  geom_bar(stat = "identity")
 ```
 
 ### Add a layer of text labels
@@ -90,21 +103,105 @@ ggplot(data = wells_by_county, aes(x = county, y = wells_count)) +
 
 ![Basic county plot](images/visualize-county-plot-labels.png){width=500px}
 
+In this case, we are just adding another layer, the `geom_text()`. It requires some additional aesthetics, like what label we want to use. The `vjust=` moves the numbers up a little. Change the number and see what happens.
 
+The last layer we want to add here is a Title layer. The function for labels is calle `labs()` and it takes an argument of `title = ""` You can also change your `x` and `y` axis names, etc.
 
-## Resources
+```r
+  ... +
+  labs(title = "Number of wells drilled by county")
+```
+
+Congratulations! You made your first `ggplot()` chart. Not particularly revealing, but it does show that Travis County has WAY more wells than the other counties.
+
+Let's see how those trends play out over time.
+
+## Wells per county over time
+
+Our next chart will be a line chart to show how the number of wells drilled has changed over time within each county.
+
+Again, it will help us to think about what we are after and then build our data frame to match. In this case, we want to plot the "number of wells" for each county, by year. That means we need columns for county, year and number of wells. To get that, we have to use group and summarize.
+
+Sometimes it helps to write out the steps of everything before you to do it.
+
+- Start with the `wells` data frame.
+- Filter to 2003 or later, because that's when the [system came online](http://www.twdb.texas.gov/groundwater/data/drillersdb.asp).
+- Group by the `county` and `year_drilled` fields.
+- Summarize to create a count the number of `wells_drilled`.
+- Set all of the above to a new data frame, `wells_county_year`.
+- Start a plot with the new data.
+- Set x (horizontal) to be year_drilled and y (vertical) to be wells_drilled, and color to be the county.
+
+### Work up the data frame
+
+```r
+wells %>% 
+  filter(year_drilled >= 2003) %>% 
+  group_by(county, year_drilled) %>% 
+  summarise(
+    wells_drilled = n()
+  )
+```
+
+This gives you a table similar to this:
+
+| county   | year_drilled | wells_drilled |
+|:---------|:-------------|--------------:|
+| Bastrop  | 2003         |           110 |
+| Bastrop  | 2004         |            99 |
+| Bastrop  | 2005         |            97 |
+| ...      | ...          |           ... |
+| Caldwell | 2003         |            40 |
+| Caldwell | 2004         |            32 |
+| Caldwell | 2005         |            40 |
+
+We call this _long_ data, because each row contains a single observation, instead of _wide_ data, which would have a column for each observation.
+
+Once you are have the data formatted, set it to fill a new data frame called `wells_county_year`.
+
+### Draw the plot
+
+Remember the formula for a basic plot:
+
+```r
+ggplot(<DATA>) +
+  <GEOM_FUNCTION>(aes(<MAPPINGS>))
+```
+
+and if all our mappings are the same, they can go into the ggplot function.
+
+```r
+ggplot(wells_county_year, aes(x = year_drilled, y = wells_drilled, color = county)) +
+  geom_line()
+```
+
+![Wells drilled by county by year](images/visualize-county-year-line.png){width=500px}
+
+How easy would it be to add points for every year to make each data point stand out?
+
+### Your turn: Add layers
+
+- Add a new layer `geom_point()` and see what happens
+- Add a labels layer to add a title, like we did in the bar chart above.
+
+### Dates as numbers and the problems they cause
+
+There was one point during my work on this graphic when my x axis did not fall evenly on years, and I figured it was because the `year_drilled` field was a number and not a date. It's possible to fix that by including the `library(lubridate)` and then mutating the year_drilled column like this:
+
+```r
+  mutate(
+    year_drilled = ymd(year_drilled, truncated=2L)
+  ) %>%
+```
+
+## Review of ggplot
+
+Exploring with graphics are one of the more powerful features of working with R. It takes a bit to get used to the Grammar of Graphics and ggplot2 and it will be frustrating at first. But be assured it can do about anything once you learn how, and being able to fold in these charts with your thoughts and analysis in a repeatable way will make you a better data journalist.
+
+## Resources and further reading
 
 - [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/)
 - [The ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html)
 - [ggplot2 cheatsheets](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf)
-
-
-
-
-
-
-
-## Further reading
-
-Note [This article about BBC using R, ggplot](https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535). BBC created [bblot](https://github.com/bbc/bbplot) package to set BBC default styles, and [BBC R cookook](https://bbc.github.io/rcookbook/) as collection of tips and tricks to build their styled graphics.
+- Note [This article about BBC using R, ggplot](https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535). BBC created the [bblot](https://github.com/bbc/bbplot) package to set BBC default styles, and [BBC R cookook](https://bbc.github.io/rcookbook/) as a collection of tips and tricks to build their styled graphics.
 

@@ -25,7 +25,7 @@
 <meta name="author" content="Christian McDonald">
 
 
-<meta name="date" content="2019-02-09">
+<meta name="date" content="2019-02-10">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -106,6 +106,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About this class</a><ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-author"><i class="fa fa-check"></i>About the author</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-resources"><i class="fa fa-check"></i>Other resources</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="install.html"><a href="install.html"><i class="fa fa-check"></i><b>1</b> Install Party</a><ul>
 <li class="chapter" data-level="1.1" data-path="install.html"><a href="install.html#installing-r"><i class="fa fa-check"></i><b>1.1</b> Installing R</a></li>
@@ -211,13 +212,19 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="7.2.3" data-path="graphics.html"><a href="graphics.html#plot-our-wells-by-county"><i class="fa fa-check"></i><b>7.2.3</b> Plot our wells by county</a></li>
 <li class="chapter" data-level="7.2.4" data-path="graphics.html"><a href="graphics.html#add-a-layer-of-text-labels"><i class="fa fa-check"></i><b>7.2.4</b> Add a layer of text labels</a></li>
 </ul></li>
-<li class="chapter" data-level="7.3" data-path="graphics.html"><a href="graphics.html#resources-2"><i class="fa fa-check"></i><b>7.3</b> Resources</a></li>
-<li class="chapter" data-level="7.4" data-path="graphics.html"><a href="graphics.html#further-reading"><i class="fa fa-check"></i><b>7.4</b> Further reading</a></li>
+<li class="chapter" data-level="7.3" data-path="graphics.html"><a href="graphics.html#wells-per-county-over-time"><i class="fa fa-check"></i><b>7.3</b> Wells per county over time</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="graphics.html"><a href="graphics.html#work-up-the-data-frame"><i class="fa fa-check"></i><b>7.3.1</b> Work up the data frame</a></li>
+<li class="chapter" data-level="7.3.2" data-path="graphics.html"><a href="graphics.html#draw-the-plot"><i class="fa fa-check"></i><b>7.3.2</b> Draw the plot</a></li>
+<li class="chapter" data-level="7.3.3" data-path="graphics.html"><a href="graphics.html#your-turn-add-layers"><i class="fa fa-check"></i><b>7.3.3</b> Your turn: Add layers</a></li>
+<li class="chapter" data-level="7.3.4" data-path="graphics.html"><a href="graphics.html#dates-as-numbers-and-the-problems-they-cause"><i class="fa fa-check"></i><b>7.3.4</b> Dates as numbers and the problems they cause</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="graphics.html"><a href="graphics.html#review-of-ggplot"><i class="fa fa-check"></i><b>7.4</b> Review of ggplot</a></li>
+<li class="chapter" data-level="7.5" data-path="graphics.html"><a href="graphics.html#resources-and-further-reading"><i class="fa fa-check"></i><b>7.5</b> Resources and further reading</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="tidy.html"><a href="tidy.html"><i class="fa fa-check"></i><b>8</b> Tidy data</a></li>
 <li class="chapter" data-level="9" data-path="graphics2.html"><a href="graphics2.html"><i class="fa fa-check"></i><b>9</b> Graphics II</a></li>
 <li class="chapter" data-level="10" data-path="census.html"><a href="census.html"><i class="fa fa-check"></i><b>10</b> Census</a><ul>
-<li class="chapter" data-level="10.1" data-path="census.html"><a href="census.html#resources-3"><i class="fa fa-check"></i><b>10.1</b> Resources</a></li>
+<li class="chapter" data-level="10.1" data-path="census.html"><a href="census.html#resources-2"><i class="fa fa-check"></i><b>10.1</b> Resources</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="joins.html"><a href="joins.html"><i class="fa fa-check"></i><b>11</b> Joins and merges</a></li>
 <li class="chapter" data-level="12" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>12</b> Data packages</a></li>
@@ -292,27 +299,36 @@ wells_by_county</code></pre></div>
 <li><strong>ggplot()</strong> is our function. We feed into it the data we wish to plot.</li>
 <li>The <strong>+</strong> is the equivalent of <code>%&gt;%</code> in our tidyverse data. It means we are adding a layer, and it should always be at the end of the line, not at the begginning of the next.</li>
 <li><strong><GEOM_FUNCTION></strong> is the type of chart or addition we are adding. They all start with the term <strong>geom_</strong> like <strong>geom_bar</strong>, which is what we will build.</li>
-<li>The geometric function needs “aesthetics” to describe what it should look like, the main one being the <strong>mappings</strong> of the x and y axis.</li>
+<li>The geometric function requires “aesthetics” to describe what it should look like, the main one being the <strong>mapping</strong> of the x and y axis.</li>
 </ul>
+<p>There are two ways to simplify this:</p>
+<ul>
+<li>It is implied that the first thing fed to <code>ggplot</code> is the data, so you don’t have to write out <code>data =</code> unless there is ambiguity.</li>
+<li>The <code>aes()</code> values are also implied as mappings, so you don’t have to write out <code>mapping =</code> unless there is ambiguity.</li>
+<li>And lastly, if the mappings are the same for all the geoms, you can put them in the ggplot line.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="op">&lt;</span>DATA<span class="op">&gt;</span>, <span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="er">&lt;</span>GEOM<span class="op">&gt;</span>(<span class="op">&lt;</span>ADDITONAL_MAPPINGS<span class="op">&gt;</span>)</code></pre></div>
 </div>
 <div id="plot-our-wells-by-county" class="section level3">
 <h3><span class="header-section-number">7.2.3</span> Plot our wells by county</h3>
+<p>Here is the verbose plot for our counties.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> wells_by_county) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> county, <span class="dt">y =</span> wells_count), <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>)</code></pre></div>
 <ul>
 <li>On the first line we tell <code>ggplot()</code> that we are using the we <code>wells_by_county</code> data.</li>
 <li>On the next, we apply the <code>geom_bar()</code> function to make a bar chart. It needs two things:
 <ul>
-<li>The mapping, which are the aesthetics. We well it to plot <strong>county</strong> on the x (horizontal) axis, and <strong>wells_count</strong> on the y (vertical) axis. Because <strong>county</strong> is not a number, we have to use the <code>stat = &quot;identity&quot;</code> value to describe that we are using values within county.</li>
+<li>The mapping, which are the aesthetics. We well it to plot <strong>county</strong> on the x (horizontal) axis, and <strong>wells_count</strong> on the y (vertical) axis. Because <strong>county</strong> is not a number, we have to use the <code>stat = &quot;identity&quot;</code> value to describe that we are using values within county. This is a special thing for bar charts.</li>
 </ul></li>
 </ul>
 <div class="figure">
 <img src="images/visualize-county-plot.png" alt="Basic county plot" width="500" />
 <p class="caption">Basic county plot</p>
 </div>
-<p>We can be a little little less verbose about this because <code>ggplot()</code> will understand we are feeding it data and mappings.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(wells_by_county) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x=</span>county, <span class="dt">y=</span>wells_count), <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>)</code></pre></div>
+<p>Our less verbose way to do this looks like this:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(wells_by_county, <span class="kw">aes</span>(<span class="dt">x=</span>county, <span class="dt">y=</span>wells_count)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>)</code></pre></div>
 </div>
 <div id="add-a-layer-of-text-labels" class="section level3">
 <h3><span class="header-section-number">7.2.4</span> Add a layer of text labels</h3>
@@ -324,19 +340,127 @@ wells_by_county</code></pre></div>
 <img src="images/visualize-county-plot-labels.png" alt="Basic county plot" width="500" />
 <p class="caption">Basic county plot</p>
 </div>
+<p>In this case, we are just adding another layer, the <code>geom_text()</code>. It requires some additional aesthetics, like what label we want to use. The <code>vjust=</code> moves the numbers up a little. Change the number and see what happens.</p>
+<p>The last layer we want to add here is a Title layer. The function for labels is calle <code>labs()</code> and it takes an argument of <code>title = &quot;&quot;</code> You can also change your <code>x</code> and <code>y</code> axis names, etc.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  ... <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Number of wells drilled by county&quot;</span>)</code></pre></div>
+<p>Congratulations! You made your first <code>ggplot()</code> chart. Not particularly revealing, but it does show that Travis County has WAY more wells than the other counties.</p>
+<p>Let’s see how those trends play out over time.</p>
 </div>
 </div>
-<div id="resources-2" class="section level2">
-<h2><span class="header-section-number">7.3</span> Resources</h2>
+<div id="wells-per-county-over-time" class="section level2">
+<h2><span class="header-section-number">7.3</span> Wells per county over time</h2>
+<p>Our next chart will be a line chart to show how the number of wells drilled has changed over time within each county.</p>
+<p>Again, it will help us to think about what we are after and then build our data frame to match. In this case, we want to plot the “number of wells” for each county, by year. That means we need columns for county, year and number of wells. To get that, we have to use group and summarize.</p>
+<p>Sometimes it helps to write out the steps of everything before you to do it.</p>
+<ul>
+<li>Start with the <code>wells</code> data frame.</li>
+<li>Filter to 2003 or later, because that’s when the <a href="http://www.twdb.texas.gov/groundwater/data/drillersdb.asp">system came online</a>.</li>
+<li>Group by the <code>county</code> and <code>year_drilled</code> fields.</li>
+<li>Summarize to create a count the number of <code>wells_drilled</code>.</li>
+<li>Set all of the above to a new data frame, <code>wells_county_year</code>.</li>
+<li>Start a plot with the new data.</li>
+<li>Set x (horizontal) to be year_drilled and y (vertical) to be wells_drilled, and color to be the county.</li>
+</ul>
+<div id="work-up-the-data-frame" class="section level3">
+<h3><span class="header-section-number">7.3.1</span> Work up the data frame</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(year_drilled <span class="op">&gt;=</span><span class="st"> </span><span class="dv">2003</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(county, year_drilled) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(
+    <span class="dt">wells_drilled =</span> <span class="kw">n</span>()
+  )</code></pre></div>
+<p>This gives you a table similar to this:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">county</th>
+<th align="left">year_drilled</th>
+<th align="right">wells_drilled</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Bastrop</td>
+<td align="left">2003</td>
+<td align="right">110</td>
+</tr>
+<tr class="even">
+<td align="left">Bastrop</td>
+<td align="left">2004</td>
+<td align="right">99</td>
+</tr>
+<tr class="odd">
+<td align="left">Bastrop</td>
+<td align="left">2005</td>
+<td align="right">97</td>
+</tr>
+<tr class="even">
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="right">…</td>
+</tr>
+<tr class="odd">
+<td align="left">Caldwell</td>
+<td align="left">2003</td>
+<td align="right">40</td>
+</tr>
+<tr class="even">
+<td align="left">Caldwell</td>
+<td align="left">2004</td>
+<td align="right">32</td>
+</tr>
+<tr class="odd">
+<td align="left">Caldwell</td>
+<td align="left">2005</td>
+<td align="right">40</td>
+</tr>
+</tbody>
+</table>
+<p>We call this <em>long</em> data, because each row contains a single observation, instead of <em>wide</em> data, which would have a column for each observation.</p>
+<p>Once you are have the data formatted, set it to fill a new data frame called <code>wells_county_year</code>.</p>
+</div>
+<div id="draw-the-plot" class="section level3">
+<h3><span class="header-section-number">7.3.2</span> Draw the plot</h3>
+<p>Remember the formula for a basic plot:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="op">&lt;</span>DATA<span class="op">&gt;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="er">&lt;</span>GEOM_FUNCTION<span class="op">&gt;</span>(<span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>))</code></pre></div>
+<p>and if all our mappings are the same, they can go into the ggplot function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(wells_county_year, <span class="kw">aes</span>(<span class="dt">x =</span> year_drilled, <span class="dt">y =</span> wells_drilled, <span class="dt">color =</span> county)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>()</code></pre></div>
+<div class="figure">
+<img src="images/visualize-county-year-line.png" alt="Wells drilled by county by year" width="500" />
+<p class="caption">Wells drilled by county by year</p>
+</div>
+<p>How easy would it be to add points for every year to make each data point stand out?</p>
+</div>
+<div id="your-turn-add-layers" class="section level3">
+<h3><span class="header-section-number">7.3.3</span> Your turn: Add layers</h3>
+<ul>
+<li>Add a new layer <code>geom_point()</code> and see what happens</li>
+<li>Add a labels layer to add a title, like we did in the bar chart above.</li>
+</ul>
+</div>
+<div id="dates-as-numbers-and-the-problems-they-cause" class="section level3">
+<h3><span class="header-section-number">7.3.4</span> Dates as numbers and the problems they cause</h3>
+<p>There was one point during my work on this graphic when my x axis did not fall evenly on years, and I figured it was because the <code>year_drilled</code> field was a number and not a date. It’s possible to fix that by including the <code>library(lubridate)</code> and then mutating the year_drilled column like this:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">mutate</span>(
+    <span class="dt">year_drilled =</span> <span class="kw">ymd</span>(year_drilled, <span class="dt">truncated=</span>2L)
+  ) <span class="op">%&gt;%</span></code></pre></div>
+</div>
+</div>
+<div id="review-of-ggplot" class="section level2">
+<h2><span class="header-section-number">7.4</span> Review of ggplot</h2>
+<p>Exploring with graphics are one of the more powerful features of working with R. It takes a bit to get used to the Grammar of Graphics and ggplot2 and it will be frustrating at first. But be assured it can do about anything once you learn how, and being able to fold in these charts with your thoughts and analysis in a repeatable way will make you a better data journalist.</p>
+</div>
+<div id="resources-and-further-reading" class="section level2">
+<h2><span class="header-section-number">7.5</span> Resources and further reading</h2>
 <ul>
 <li><a href="http://www.cookbook-r.com/Graphs/">R Graphics Cookbook</a></li>
 <li><a href="http://ggplot2.tidyverse.org/reference/index.html">The ggplot2 documentation</a></li>
 <li><a href="https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf">ggplot2 cheatsheets</a></li>
+<li>Note <a href="https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535">This article about BBC using R, ggplot</a>. BBC created the <a href="https://github.com/bbc/bbplot">bblot</a> package to set BBC default styles, and <a href="https://bbc.github.io/rcookbook/">BBC R cookook</a> as a collection of tips and tricks to build their styled graphics.</li>
 </ul>
-</div>
-<div id="further-reading" class="section level2">
-<h2><span class="header-section-number">7.4</span> Further reading</h2>
-<p>Note <a href="https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535">This article about BBC using R, ggplot</a>. BBC created <a href="https://github.com/bbc/bbplot">bblot</a> package to set BBC default styles, and <a href="https://bbc.github.io/rcookbook/">BBC R cookook</a> as collection of tips and tricks to build their styled graphics.</p>
 
 </div>
 </div>
