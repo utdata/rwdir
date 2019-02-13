@@ -1,6 +1,6 @@
 # Columns {#columns}
 
-## Goals of this lesson
+## Goals for this section
 
 - Use the janitor plugin to clean columns names
 - Mass rename columns with a pattern match

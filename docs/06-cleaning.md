@@ -1,10 +1,6 @@
 # Cleaning {#cleaning}
 
-As we were looking at the `proposed_use` field in the wells data, we found that the values there were pretty dirty, with misspellings and unofficial designations. If we look at the official designations for Proposed Use on [page 10 of the data user manual ](http://www.twdb.texas.gov/groundwater/data/doc/TWRSRS_UserManual.pdf?d=43539.49999999895), we see there are 14 official designations, none with any of various spellings of [Piezo](https://en.wikipedia.org/wiki/Piezometer), which looks to be monitor wells.
-
-We need to create a clean version of the `proposed_use` column to use with our analysis and visualizations. Typically when I discover a situation like this, I go back to my first "import and cleaning" notebook and make changes there so the work can carry through to all subsequent notebooks, but in this case we'll just make our changes in a new notebook and then document and export the changes for future work.
-
-## Goals
+## Goals for this section
 
 - Create a new notebook for cleaning data
 - Throughout the notebook, we want to explain our thoughts and goals in Markdown. Each code block should have a human readable explanation of the goal or task.
@@ -12,10 +8,20 @@ We need to create a clean version of the `proposed_use` column to use with our a
 - Create cleaned proposed_use column
 - Export data for next notebook
 
-## Resources
+### Resources
 
 - [Strings](https://r4ds.had.co.nz/strings.html) chapter from Hadley Wickham's book, specifically about [`str_replace()`](https://r4ds.had.co.nz/strings.html#replacing-matches).
 - [RDocumentation](https://www.rdocumentation.org/packages/stringr/versions/1.3.1/topics/str_replace) on `str_replace()`.
+- [stringr cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/strings.pdf).
+
+## Taking stock of the data
+
+As we were looking at the `proposed_use` field in the wells data, we found that the values there were pretty dirty, with misspellings and unofficial designations. If we look at the official designations for Proposed Use on [page 10 of the data user manual ](http://www.twdb.texas.gov/groundwater/data/doc/TWRSRS_UserManual.pdf?d=43539.49999999895), we see there are 14 official designations, none with any of various spellings of [Piezo](https://en.wikipedia.org/wiki/Piezometer), which looks to be monitor wells.
+
+We need to create a clean version of the `proposed_use` column to use with our analysis and visualizations. Typically when I discover a situation like this, I go back to my first "import and cleaning" notebook and make changes there so the work can carry through to all subsequent notebooks, but in this case we'll just make our changes in a new notebook and then document and export the changes for future work.
+
+
+
 
 ## Setup and import
 

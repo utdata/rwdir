@@ -1,5 +1,19 @@
 # Graphics {#graphics}
 
+## Goals for this section
+
+- An introduction to the Grammer of Graphics
+- We'll make charts!
+
+### Resources and further reading
+
+- [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/)
+- [The ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html)
+- [ggplot2 cheatsheets](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf)
+- Note [This article about BBC using R, ggplot](https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535). BBC created the [bblot](https://github.com/bbc/bbplot) package to set BBC default styles, and [BBC R cookook](https://bbc.github.io/rcookbook/) as a collection of tips and tricks to build their styled graphics.
+
+## Introduction ggplot
+
 [ggplot2](https://ggplot2.tidyverse.org/) is the data visualization library within Hadley Wickham's [tidyverse.](https://www.tidyverse.org/). It uses a concept called the Grammar of graphics, the idea that you can build every graph from the same components: a data set, a coordinate system, and geoms -- the visual marks that represent data points. With a hat tip to [Matt Waite](http://www.mattwaite.com/), the main concepts are: 
 
 - **aesthetics**: which in this case means the data which we are going to plot
@@ -194,14 +208,23 @@ There was one point during my work on this graphic when my x axis did not fall e
   ) %>%
 ```
 
+## Your turn: Build a line chart
+
+Now, I'd like you to build a line chart that shows how the different kinds of wells drilled has changed over time. Here's a major hint: It's very much like the line chart you just built, but with different columns. You'll need so start at creating a data frame with the correct data.
+
 ## Review of ggplot
 
 Exploring with graphics are one of the more powerful features of working with R. It takes a bit to get used to the Grammar of Graphics and ggplot2 and it will be frustrating at first. But be assured it can do about anything once you learn how, and being able to fold in these charts with your thoughts and analysis in a repeatable way will make you a better data journalist.
 
-## Resources and further reading
+By design, every chart in ggplot starts with the same three things: data, a geometric coordinate system, and a mapping of the aesthetics, including the x and y values.
 
-- [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/)
-- [The ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html)
-- [ggplot2 cheatsheets](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf)
-- Note [This article about BBC using R, ggplot](https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535). BBC created the [bblot](https://github.com/bbc/bbplot) package to set BBC default styles, and [BBC R cookook](https://bbc.github.io/rcookbook/) as a collection of tips and tricks to build their styled graphics.
+```r
+ggplot(data = <DATA>) +
+  <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
+```
+
+If your graphic is simple, there may be less verbose ways to write it as ggplot will assume your are passing it data first, and that `aes()` functions are for mapping.
+
+
+
 

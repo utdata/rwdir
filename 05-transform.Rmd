@@ -1,5 +1,12 @@
 # Transform {#transform}
 
+## Goals for the section
+
+- Start using Markdown to record our goals, actions and explain our code.
+- Use the [dplyr]() tools to filter, sort and create new columns of data.
+
+## Introducing dplyr
+
 One of the packages within the tidyverse is [dplyr](https://dplyr.tidyverse.org/) ( [cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) ) which allows us to transform our data frames in ways that let us explore the data and prepare it for visualizing. It's the R equivalent of common Excel functions like sort, filter and pivoting.
 
 ![dplyr functions](images/transform-dplyractions.png){width=600px}
@@ -22,6 +29,17 @@ library(tidyverse)
 wells <- readRDS("data-out/wells_02.rds")
 ```
 
+## Record our goals
+
+What do we want to learn about these wells? Look over the columns and some of the values in them and come up with a list of at least five things you might want to learn from the data.
+
+- Add a Markdown headline `## Goals`.
+- Create a bullet list of things you might want to find. Use a `*` or `-` to start each new line.
+
+We'll review some of your ideas in class.
+
+## Set up our notebook
+
 By adding the word `setup` after our the `{r}` at the beginning, then we can find that chunk in our navigation drop down at the bottom of the R Notebook window.
 
 ![R Notebook navigation](images/transform-navigate.png){width=500px}
@@ -34,15 +52,6 @@ By adding the word `setup` after our the `{r}` at the beginning, then we can fin
 ![Wells data imported](images/transform-wells-import.png){width=600px}
 
 Now we are back to where we ended with the first notebook.
-
-## Goals
-
-What do we want to learn about these wells? Look over the columns and some of the values in them and come up with a list of at least five things to look at.
-
-- Add a Markdown headline `## Goals`.
-- Create a bullet list of things you might want to find. Use a `*` or `-` to start each new line.
-
-We'll review some of your ideas in class.
 
 ## Filter()
 
