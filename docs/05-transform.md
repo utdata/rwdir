@@ -21,11 +21,17 @@ As I explained at the end of our last lesson, it's a good practice to separate y
 - Create a new R Notebook and set a new title of "Wells exploration and analysis".
 - Remove the boilerplate language and add a description of our goals: To explore an analyze our wells project. Mention that you have to run the other notebook first in case your someone else (or your future self) comes here first.
 - Save your file as `02-wells-explore.Rmd`.
-- Insert a new chunk, load the tidyverse library and run it. Make one change to this, in that we want to start naming all our chunks.
+- Insert a new chunk to load the tidyverse library but after the `{r}` add the word "setup", like this: `{r setup}`. We'll start naming all our chunks this way.
 
 ```pre
 {r setup}
 library(tidyverse)
+```
+
+Same for the import.
+
+```pre
+{r import}
 wells <- readRDS("data-out/wells_02.rds")
 ```
 
