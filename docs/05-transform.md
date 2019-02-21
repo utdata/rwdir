@@ -2,7 +2,7 @@
 
 ## Goals for the section
 
-- Start using Markdown to record our goals, actions and explain our code.
+- Pay more attention to the Markdown to record our goals, actions and explain our code. We'll name our code chunks, too.
 - Use the [dplyr]() tools to filter, sort and create new columns of data.
 
 ## Introducing dplyr
@@ -21,19 +21,6 @@ As I explained at the end of our last lesson, it's a good practice to separate y
 - Create a new R Notebook and set a new title of "Wells exploration and analysis".
 - Remove the boilerplate language and add a description of our goals: To explore an analyze our wells project. Mention that you have to run the other notebook first in case your someone else (or your future self) comes here first.
 - Save your file as `02-wells-explore.Rmd`.
-- Insert a new chunk to load the tidyverse library but after the `{r}` add the word "setup", like this: `{r setup}`. We'll start naming all our chunks this way.
-
-```pre
-{r setup}
-library(tidyverse)
-```
-
-Same for the import.
-
-```pre
-{r import}
-wells <- readRDS("data-out/wells_02.rds")
-```
 
 ## Record our goals
 
@@ -44,11 +31,11 @@ What do we want to learn about these wells? Look over the columns and some of th
 
 We'll review some of your ideas in class.
 
-## Set up our notebook
+## Name your code chunks
 
 By adding the word `setup` after our the `{r}` at the beginning, then we can find that chunk in our navigation drop down at the bottom of the R Notebook window.
 
-![R Notebook navigation](images/transform-navigate.png){width=500px}
+![R Notebook navigation](images/transform-navigate.png){width=600px}
 
 ## Import our data
 
@@ -61,11 +48,11 @@ Now we are back to where we ended with the first notebook.
 
 ## Filter()
 
-Let's filter all the wells to the those just in Travis County. We'll use dplyr's `filter()` function to this this. It works like this:
+We can use dplyr's `filter()` function to capture a subset of the data, like all the wells in Travis County. It works like this:
 
 ![dplyr filter function](images/transform-filter.png){width=600px}
 
-Let's filter our wells data to just those in Travis County:
+Let's filter our wells data to just those in Travis County. We are going to use the ` %>% ` pipe function to do this to the `wells` data frame.
 
 ![Travis wells](images/transform-wells-travis.png)
 
@@ -80,7 +67,7 @@ There are a number of these logical test operations:
 
 ### Filter your turn
 
-Create new code blocks and filter for the following:
+Create new code blocks and filter for each of the following:
 
 - Wells with a proposed use of Irrigation.
 - Wells at least 1000 feet deep.
@@ -88,14 +75,48 @@ Create new code blocks and filter for the following:
 
 ### Common mistakes with filter
 
-![Common filtering mistakes](images/transform-common-mistakes.png){width=600[x]}
+Some common mistakes that happen when using filter.
+
+#### Use two == signs for "true"
+
+DON'T DO THIS:
+
+```r
+wells %>% 
+  filter(county = "Travis")
+```
+
+DO THIS:
+
+```r
+wells %>% 
+  filter(county == "Travis")
+```
+
+#### Forgetting quotes
+
+DON'T DO THIS:
+
+```r
+wells %>% 
+  filter(county == Bastrop)
+```
+
+DO THIS:
+
+```r
+wells %>% 
+  filter(county == "Bastrop")
+```
+
 
 ## Combining filters
 
 You can filter for more than one thing at a time by separating more than one test with a comma.
 
 ```r
-filter(wells, county == "Travis", proposed_use == "Irrigation")
+wells %>% 
+  filter(county == "Travis", proposed_use == "Irrigation")
 ```
 
 If you use a comma to separate tests, then both tests have to be true. If you want OR, then you use a pipe `|` (the shift-key above the backslash.)
@@ -104,44 +125,71 @@ If you use a comma to separate tests, then both tests have to be true. If you wa
 
 ### Your turn combining filters
 
-Your quest is to filter to wells in Travis or Williamson counties that have a start date in 2018. **BIG HINT**: If you include `library(lubridate)` in your notebook then you can access the year of a field with `year(name_of_date_field)`.
+Your quest is to filter to wells in Travis or Williamson counties that have a start date in 2018.
+
+**BIG HINT**: If you include `library(lubridate)` in your notebook then you can access the year of a field with `year(name_of_date_field)`.
 
 ### Common mistakes with combining filters
 
-![Common mistakes combining](images/transform-mistakes-two.png){width=600px}
+Some things to watch when trying to combine filters.
 
-Note if you want to combine a series of strings in your filter, you have to put them inside a "concatenate" function, which is shortened to `c()`, as in the example above.
+#### Collapsing multiple tests into one
+
+DON'T DO THIS:
+
+```r
+wells %>% 
+  filter(county == "Travis" | "Williamson")
+```
+
+DO THIS:
+
+```r
+well %>% 
+  filter(county == "Travis" | county == "Williamson")
+```
+
+BUT EVEN BETTER:
+
+```r
+wells %>% 
+  filter(county %in% c("Travis", "Williamson"))
+```
+
+If you want to combine a series of strings in your filter, you have to put them inside a "concatenate" function, which is shortened to `c()`, as in the example above.
 
 ## Arrange()
 
 The `arrange()` function sorts data.
 
-![Sort with arrange()](images/transform-arrange.png){width=600px}
+```r
+dataframe %>% 
+  arrange(column)
+```
 
-Let's sort our data by their depth:
+Or, to arrange in descending order (biggest on top):
 
 ```r
-arrange(wells, borehole_depth)
+dataframe %>% 
+  arrange(desc(column))
+```
+
+So, let's sort our data by the borehole depth:
+
+```r
+wells %>% 
+  arrange(borehole_depth)
 ```
 
 You'll have to scroll the columns over to see it, and the depths start at zero, which is not very sexy. As journalists, we usually want to see the largest (or deepest) thing, so we can arrange the column in descending order with this:
 
-![Deepest wells](images/transform-wells-deep.png)
+![Deepest wells](images/transform-wells-deep.png){width=600px}
 
 Now we see some deep wells ... 3300 feet when I pulled my test data.
 
 ## Multi-step operations
 
-But what if you want to both filter and arrange? It is possible to nest such operations, but there is a better way: the pipe.
-
-![Piping functions](images/transform-pipe.png){width=600px}
-
-Two things to think of with the pipe `%>%`.
-
-- Think of it as "and then to this".
-- The keyboard command *Cmd+Shift+m* (Mac) or *Ctrl+Shift+m* (Windows) will give you the pipe.
-
-Need to remember that key command? While I didn't invent the pipe, you might remember that Professor **M**cDonald taught it to you.
+But what if you want to both filter and arrange? It is possible to chain piped opperations together.
 
 Let's find the deepest well in Travis County:
 
@@ -151,10 +199,6 @@ wells %>%
   arrange(desc(borehole_depth))
 ```
 
-All the tidyverse functions understand the pipe, and we'll be using it a lot. It makes it easier to write and understand the code.
-
-Another advantage you'll see is you can use tab completion in more places when you use pipes. RStudio better understands the fields you are working with when you declare the data frame first.
-
 ### Your turn to combine and pipe
 
 Find a list of the deepest irrigation wells in Travis County in 2017. Use the pipe to string together your functions.
@@ -163,21 +207,22 @@ Find a list of the deepest irrigation wells in Travis County in 2017. Use the pi
 
 As we've worked with `borehole_depth` it's been kind of a pain to tab through all the fields to see the result we want. The `select()` function allows you to choose which fields to display from a data frame. If we are only interested in the `owner` and `borehole_depth` from our previous query of deepest wells in Travis, then we we can pipe the results to a select function. It works by listing the column names inside the function. You can use `-` before a column name to remove it.
 
-Add this to the end of your previous code chunk:
+- One the end of your previous code chunk, add a pipe, then `select(owner_name, borehole_depth)`:
 
 ```r
-<code chunk> %>%
+wells %>% 
+  filter(county == "Travis") %>%
+  arrange(desc(borehole_depth)) %>% 
   select(owner_name, borehole_depth)
 ```
 
-The order of all these operations matter. If you use select to remove a column, you cannot filter using that column later.
+The order of all these operations matter. If you use `select()` that removes a column, you cannot later use filter on that removed column.
 
 ## Mutate()
 
-The mutate function allows us to change data based on a formula. We can assign the change back to an existing column or create a new one.
+We used the `mutate()` function with our data cleaning, but let's dive more into it. `mutate()` allows us to change data based on a formula. We can assign the change back to an existing column or create a new one.
 
 ![Create columns with mutate()](images/transform-mutate.png){width=600px}
-
 
 In the example above:
 
@@ -235,9 +280,9 @@ In short, you can't divide by zero or a NULL or NA value. I'll show you how to i
 
 Take a look at this and guess what is happening. Clearly `is.na` is a thing. How is it being used?
 
-There are 22 records returned out of 18k+. Can we safely exclude them? I think so.
+There are 22 records returned out of 18k+. Can we safely exclude them without affecting the results? I think so.
 
-We can apply a similar function `na.rm` function inside our `summarise()` filter to remove the missing values before the calculation, like this:
+We can apply a similar function `na.rm` function inside our `summarise()` function to remove the missing values before the calculation, like this:
 
 ![NAs removed from summarize](images/transform-wells-narm.png)
 

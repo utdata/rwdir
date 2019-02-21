@@ -1,12 +1,6 @@
 # Columns {#columns}
 
-> Notes to self
-
-- Always call it wells
-- Always use pipes unless you can't
-- Explain that we are using three different methods to rename columns
-- Explain the pipe
-- Explain rename() and mutate()
+I'm a bit anal about cleaning up column names in my data frames, because it makes them easier to work with later. As such, I'm going to show you three different ways to clean or edit column names.
 
 ## Goals for this section
 
@@ -29,13 +23,11 @@ However you do it, make real sure you are in your wells project and that you are
 
 ## Clean up column names
 
-I'm a bit anal about cleaning up column names in my data frames, because it makes them easier to work with later. As such, I'm going to show you three different ways to clean or edit column names.
-
 At the end of our last lesson, we printed the `wells` data frame to the screen and clicked through the columns to look at the data. I like my column names to be standardized:
 
 - Spaces in names make them harder to work with. Use and `_` or `.` between words.
 - Short names are better than long ones.
-- lower_case is nice ;-).
+- lower_case is nice.
 
 ### Clean names with janitor
 
