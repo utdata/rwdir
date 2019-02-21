@@ -345,6 +345,22 @@ This has been a lot to learn, but it is the basics of just about any data analys
 
 Next, we'll start plotting some of this data so we can _see_ it.
 
-## Turn in your project
+## Turn in your in-class project
 
 At this point, you'll want so **save**, **knit to HTML** and then close your project. Zip up the folder and turn it into the assignment in Canvas.
+
+## Practice assignment: Transforms on census
+
+For this practice assignment, you'll continue with your "census-practice" project.
+
+The goal here is: For each race in the data, find the county with the highest percentage for that race. You'll use the dplyr commands from this lesson to do it.
+
+- Use `mutate()` to create a new column for each race that calculates the percentage for that race. You might create columns names like "hispanic_prc" with the formula "(hispanic / total_populaton) * 100". Assign those values back to the "census" data frame.
+- Create a series of code chunks, one for each race that does this: Arranges the data so the county with the highest percentage of that race is on top, then use `select()` to show these columns: The total_population, the race total, and the percentage of that race.
+- Make sure that each each action is clearly described in Markdown headlines and text, and that each code chunk is named. 
+
+If you feel like you are repeating yourself a lot on this assignment and feel like there should be a better way, I assure you there is. We will get to that.
+
+Save, Knit, Zip and upload your project to the "Practice: Transform with dplyr" assignment.
+
+

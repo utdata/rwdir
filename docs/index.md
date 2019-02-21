@@ -35,10 +35,14 @@ I'm a career journalist who most recently served as Data and Projects Editor at 
 
 This text stands upon the shoulders of giants and by design does not cover all aspects of using R. Here are some other useful books, tutorials and sites dedicated to R.
 
+- [R Journalism Examples](https://utdata.github.io/r-journalism-examples/), a companion piece of sorts to this book with example code to accomplish specific tasks. It is a work-in-progress, and quite nascent at that.
 - [R for Data Science](https://r4ds.had.co.nz/index.html) by Hadley Wickham and Garrett Grolemund.
 - The [Tidyverse](https://www.tidyverse.org/) site, which has tons of documentation and help.
 - The [RStudio Cheatsheets](https://www.rstudio.com/resources/cheatsheets/).
 - [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/)
 - [R for Journalists](http://learn.r-journalism.com/en/) site by Andrew Tran, a reporter at the Washington Post. A series of videos and tutorials on using R in a journalism setting.
 - [Practical R for Journalism](https://www.crcpress.com/Practical-R-for-Mass-Communication-and-Journalism/Machlis/p/book/9781138726918) by Sharon Machlis, an editor with PC World and related publications, she is a longtime proponent of using R in journalism.
+## Resources
+- This [DataCamp tutorial on imports](https://www.datacamp.com/community/tutorials/r-data-import-tutorial) covers a ton of different data types and connections.
+
 

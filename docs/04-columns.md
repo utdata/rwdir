@@ -239,7 +239,7 @@ As a last step, we have to **reassign our mutated data frame back to wells**, so
 
 It's not a bad idea to organize a project into multiple R Notebooks. I'll often create my first notebook to complete the tasks of downloading and cleaning up data, and then create a new one to handle analysis, etc. (This is why I had you name the files **01-**wells.Rmd.) It's possible to output the data frame you have created with all the changes and datatypes into a special `.rds` format that will re-import into R in exactly the same form. We'll do that now.
 
-- Create a new text header and text description to explain that you are exporting the data.
+- Create a new Markdown header and text description to explain that you are exporting the data.
 - Use the **Files** pane to create a **New Folder** called `data-out`.  (If the folder doesn't exist already, you'll get an error trying save the file.)
 - Create a new code chunk and add the following and run it:
 
@@ -258,9 +258,23 @@ To break that down:
 
 **DO** use your **Files** pane to make sure it worked and you actually saved out the file.
 
+
+## Turn in wells
+
 Congratulations! You finished this chapter, having renamed columns and changed data types. Depending on where we are in the week, you _may_ be asked to turn this in at this stage. In any event, you should save and Knit your files.
 
+## Practice assignment: Clean census names
 
+You will start with the "census-practice"" project that you started in the previous chapter, so the first step is to open that project in RStudio.
+
+The goal here is to **rename the columns** in the data to shorter, more-friendly names, such as "black" instead of "Not Hispanic - Black alone", or "american_indian" instead of "Not Hispanic - American Indian alone".
+
+- Use `clean_names()` to standardize them.
+- Use either `rename()` or `str_replace()` on `names()` to rename the columns. It doesn't matter to me how what method you use to change them, as long as it gets done.
+- Make sure each step is documented in Markdown with good headlines and descriptions.
+
+
+Save, Knit, Zip and submit your project folder to the "Practice: Columns" assignment.
 
 
 

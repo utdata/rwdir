@@ -8,7 +8,7 @@
 - Learn how to import CSV files.
 - Introduce the Data Frame/Tibble.
 
-We are going to do this through working with well drilling reports from the Texas Water Development board. We'll pull reports from counties in the Austin MSA and be able to see the kinds of wells dug, where they are and the pace of drilling.
+We will do this through working with well drilling reports from the Texas Water Development board. We'll pull reports from counties in the Austin MSA and be able to see the kinds of wells dug, where they are and the pace of drilling.
 
 ## Data types
 
@@ -235,6 +235,16 @@ Congratulations! You have created a new project in R and imported data. That is 
 - Create a `.zip` file of the folder.
 - Upload it to the proper assignment in Canvas.
 
-## Resources
+## Practice assignment: Import census
 
-- This [DataCamp tutorial on imports](https://www.datacamp.com/community/tutorials/r-data-import-tutorial) covers a ton of different data types and connections.
+To practice these skills on your own, you'll create a new project and use new data. You'll work on it through multiple lessons, applying what you've learned along the way.
+
+- Create a new Project called "firstname-census-practice". You'll want to save that inside your "rwd" folder so you can use it later. We'll keep building on it.
+- Create a new folder in your project called "data-raw".
+- Download this CSV file and put it into your data-raw folder: [DEC_10_SF1_TX_County_population.csv](https://drive.google.com/file/d/1L51qQbdW3dHXTdlvlHx3z5p8Py5Cgv2a/view). The data is 2010 Census populations by county and race for Texas.
+- Start a new R Notebook with a good title and filename.
+- Write text to describe the data set.
+- Import the data using `read_csv()` and print the data to the screen.
+- Compare the imported data to the original csv file and note any problems you might see with the column names or data types that you might want to fix.
+- Save, Knit, and Zip the project folder and upload to the "Practice: Import" assignment.
+
