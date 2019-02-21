@@ -1,5 +1,13 @@
 # Columns {#columns}
 
+> Notes to self
+
+- Always call it wells
+- Always use pipes unless you can't
+- Explain that we are using three different methods to rename columns
+- Explain the pipe
+- Explain rename() and mutate()
+
 ## Goals for this section
 
 - Use the janitor plugin to clean columns names
@@ -9,118 +17,100 @@
 
 ## Relaunch the Wells project
 
-- Launch RStudio. It _might_ open to your last project, but I tried to turn that off in preferences our first day. Hollar if that happens.
+- Launch RStudio. It will probably open to the last project you worked on.
 - Open your Wells project. There are several ways you can accomplish this:
     + If you've had the project open before, you can use the drop down in the top-right of RStudio to see a list of recent projects, and choose it from there.
     + Or, under the **File** menu to **Recent projects** and choose it.
     + Or, under **File** you can use **Open Project...** and go to that folder and choose it.
+- Look in the Files pane to the right and fine your `01-wells-import.Rmd` file and open it.
 - Use the **Run** button in the R Notebook toolbar to **Run All** of the chunks, which will load all your data and load the data frame from our last assignment.
+
+However you do it, make real sure you are in your wells project and that you are in your `01-wells-import.Rmd` file.
 
 ## Clean up column names
 
-I'm a bit anal about cleaning up column names in my data frames, because it makes them easier to work with. We'll use a function called `clean_names` from the "janitor" package to fix them.
+I'm a bit anal about cleaning up column names in my data frames, because it makes them easier to work with later. As such, I'm going to show you three different ways to clean or edit column names.
 
-- After your list of things to fix, write a Markdown headline `## Clean column names`. Using the `##` makes this a smaller headline than the title. The more `###` the smaller the headline. The idea is to use these to organize your code and thoughts.
+At the end of our last lesson, we printed the `wells` data frame to the screen and clicked through the columns to look at the data. I like my column names to be standardized:
+
+- Spaces in names make them harder to work with. Use and `_` or `.` between words.
+- Short names are better than long ones.
+- lower_case is nice ;-).
+
+### Clean names with janitor
+
+I use function from the "janitor" package called `clean_names` that will standardize column names. Often, this is all I need to do.
+
+- After your list of things to fix, write a Markdown headline `## Clean column names`. Using the `##` makes this a smaller headline than the title. (The more `#`'s the smaller the headline.) The idea is to use these to organize your code and thoughts.
 - Explain in text that we'll use janitor to clean the column names.
 - Insert a new code chunk (*Cmd+shift+i* should be second nature by now.)
-- Insert the name of your `wells_raw` data frame and run it to inspect the column names again.
+- Insert the name of your `wells` data frame and run it to inspect the column names again.
 
 These are not _too_ bad, but they are a mix of upper and lowercase names, and some of them are rather long. We'll try the janitor `clean_names` function first.
 
-- Wrap the data frame name in the clean_names function like this, then rerun it:
+- In a new code chunk, start with the `wells` data frame.
 
 ```r
-clean_names(wells_raw)
+wells %>% 
+  clean_names()
 ```
+
 And you'll get a result like this:
 
 ![Columns cleaned with janitor](images/columns-janitor.png){width=600px}
 
-Now, we haven't _actually_ changed the names yet, we just printed it to the screen with new names. We have to assign those changes to the same data frame, or a new one, to make them stay. Let's assign them to a NEW data frame called `wells`, so we can keep the raw version around to compare.
+#### About the pipe
 
-- Update that same chunk of code to assign the clean names to a new data frame called wells.
-- Then print `wells` to the screen so you can see the changes.
+Let's take take a moment to talk about this `%>%` text you see there. (It's called a **pipe** for dumb reasons I don't want to get into). Think of it as the "And THEN do THIS" key. It takes the result of what is on the left, and allows you to then THEN do the thing on the right.
+
+We will use the `%>%` pipe command _a lot_, so it is worth knowing that the keyboard command *Cmd+shift+m* will give you that string of characters. I did NOT invent this keyboard command, but you might remember that Professor **M**cDonald taught it to you. It will serve you well.
+
+Remember: Think of the ` %>% ` command as "Then". So, we first have the `wells` data frame, THEN we are cleaning the names.
+
+#### Assign clean names back to wells
+
+Now, we haven't _actually_ changed the names _for realz_, we just printed the data frame to our screen with those new names. We have to **assign** those changes somewhere to keep them. We could create a new data frame, but in this case, we'll just replace our current `wells` with our new `wells`, similar to how we filled wells the first time with our raw data.
 
 Like this:
 
 ```r
-wells <- clean_names(wells_raw)
-wells
+wells <- wells %>% 
+  clean_names()
 ```
 
-It looks the same, but now it is saved as `wells`.
+The result no longer prints to our screen, but we can look at our **Environment** tab and check on our results, if we want.
 
-This is a start. We still have some problems:
+This is a start, but we still have some problems:
 
-- Some long names, like "well_report_tracking_number2".
+- We have some long names, like "well_report_tracking_number2".
 - We have an annoying trailing "2" at the end of all the column names.
 
-Let's remove the trailing "2" first.
+### Simple renaming of individual columns
 
-### Mass renaming of columns
-
-We can access all the column names of a data frame with a generic R function called [names](https://www.rdocumentation.org/packages/base/versions/3.5.2/topics/names), and we can use a pattern matching replacement called `sub()` to change them. I admit, I had no idea how to do this, so I Googled "tidyverse remove a character from a column name" and found [this link](http://r.789695.n4.nabble.com/Remove-part-of-string-in-colname-and-calculate-mean-for-columns-groups-td1014652.html). It was NOT the first result ... I had to look through several answers AND THAT IS PART OF LEARNING. Googling is probably the most important skill for a programmer.
-
- - Write in text that we are going to change the names of all the columns to remove the "2".
- - Create a new code block and insert this:
-
-```r
-names(wells)
-```
-
-What we get in return is a list of all the names of our data frames. Cool, that means we can reassign them with new values.
-
-- Update that code chunk to this:
- 
-```r
-names(wells) <- sub("*2", "", names(wells)) 
-wells
-```
-
-Run it, see the magic and then I'll explain:
-
-- The first `names(wells)` refers to the column "names" of wells, and the `<-` indicates are will assign new names.
-- The `sub()` function has three parts:
-    + The first set of quotes is what we are searching for: `"*2"`. The `*` is a wildcard meaning any number of any characters until we find a "2". This is a pattern matching technique called Regular Expressions that we will learn more about later.
-    + The next set of quotes is what we are replacing our match with. Since we don't want to keep the "2", we replace it with an empty string.
-    + The last bit is what we are searching through. We are searching through the column names of wells, hence `names(wells)`.
-
-So in short, we are substituting the "names" in `wells` with the existing names in `wells`, but replacing the "2" with nothing.
-
-Perhaps this is complicated for so early in this course, but it is a powerful intro into Regular Expressions that we'll cover in more detail later.
-
-### Renaming individual columns
-
-Renaming individual columns is a lot less complicated, and it allows us to introduce the concept of "piping" the results of one command into another, a core component of the tidyverse.
-
-- Add text that we are going to rename two columns: well_report_tracking_number and plugging_report_tracking_number.
-- Add a new code chunk and print the `wells` data frame.
-- Go back into that code chunk and add the following:
-
-```r
-wells %>% 
-  rename(well_number = well_report_tracking_number)
-```
-
-We will use the `%>%` pipe command _a lot_, so it is worth knowing that the keyboard command *Cmd+shift+m* will give you that string. Now, I didn't invent this keyboard command, but you might remember that Professor **M**cDonald taught it to you. It will serve you well.
-
-Think of the ` %>% ` command as "Then". We have `wells`, THEN we are renaming the column.
-
-Do *Cmd+Return* to run that line, and you'll see the changed column name. Note that is ONE line of code, even though it is written in multiple lines.
-
-You'll find that we will be piping multiple commands together like this as we learn more about the tidyverse.
-
-Have you figured out how the the `rename` function works?
+Renaming individual columns is pretty simple, and is another example of the "piping" concept of `data %>% do_something()`. In this case, we'll be useing the `rename()` function, which works like this:
 
 ```r
 rename(new_column_name = old_column_name)`
 ```
 
-It seems backward to me, but it works. Assignments in R seem to work from-right-to-left, sort of like `<-`.
+The `=` assignment works from-right-to-left, just of like `<-` does when we put data into a data frame.
 
-Now, let's edit this to change the other column as well. `plugging_report_tracking_number` is the last column of the data and super long, so let's change that, too. We can do it in the same command.
+So, let's apply this to our wells data frame:
 
-- In the same code chunk, add a comma and a return before the ending `)`.
+- Add Markdown text that says we are going to rename two columns: well_report_tracking_number2 and plugging_report_tracking_number2.
+- Add a new code chunk and print the `wells` data frame.
+- Now go back and add a ` %>% `pipe and the rename function, like the following:
+
+```r
+wells %>% 
+  rename(well_number = well_report_tracking_number2)
+```
+
+Do *Cmd+Return* to run that line, and you'll see the first column name has changed. Note that is still ONE line of code, even though it is written in multiple lines.
+
+We can rename more than one column at at time if we separate the assignments with commas. Now, let's edit this to also change the `plugging_report_tracking_number2` column, which is the last column of the data.
+
+- In the same code chunk, add a comma and a return _before_ the ending `)`.
 - add the new column mapping, like this:
 
 ```r
@@ -129,36 +119,103 @@ wells %>%
          plug_number = plugging_report_tracking_number)
 ```
 
-Note the indents there. RStudio probably indented it properly for you, but it's done that way so you can visually see that these are related.
+Note the indents in the code there. RStudio probably indented it properly for you, but it's done that way so you can visually see that these two lines are are related.
 
-One last thing here: Like the `clean_names` function (and unlike `names`), we haven't actually saved these changes, we've only printed them to the screen. To save the change, we need to assign it back to `wells`, then we can print the saved data frame out again:
+We could do all the column names that way to remove the "2", but I want to show you a different way below to change them all at once.
+
+#### Assign renamed columns back to wells
+
+Now, again, we have printed these column name chages to our screen, but we have not yet saved them back to the wells data frame. We need to assign it back to `wells`.
+
+- Add `wells <- ` to the beginning of the code chunk so what had printed to the screen is now instead being pushed into the wells data frame.
 
 ```r
 wells <- wells %>% 
-  rename(well_number = well_report_tracking_number,
-         plug_number = plugging_report_tracking_number)
-wells
+  rename(well_number = well_report_tracking_number2,
+         plug_number = plugging_report_tracking_number2)
 ```
 
-### Fix dates, lubridate and mutate
+> NOTE: An important concept: Now that you have permanently changed the `wells` data frame, you can't run that same code chunk again or it will give you an error. Why? because "well_report_tracking_number2" doesn't exist anymore, so R can't find it to change it! If you need to re-run that chunk, you need to first re-run all the code above it, either by using the down-arrow play button on the chunk or going up to the Run menu and chosing "Run All Chunks Above".
 
-Fixing dates in generic R can be a semi-complicated process. Luckily, there is a library within the tidyverse called [lubridate](https://lubridate.tidyverse.org/) that makes date conversions simple. The package was included when we installed the tidyverse package, but we need to add the library.
+### Mass renaming of columns
 
-- Go back to the top of your R Notebook where the libraries are loaded, and add this line and run it: `library(lubridate)`.
-- Return back to the bottom of the Notebook and add text in Markdown describing that you will use lubridate to convert the date fields.
+While we could individually rename all the columns to remove the trailing "2" on all the names, there is a way to do it all at once. It's the last way we'll discuss how to change column names, as I've already broken my rule of showing you only one way to do something. This is worth it because it saves time and introduces a couple of useful concepts.
+
+We can access all the column names of a data frame with a generic R function called [names()](https://www.rdocumentation.org/packages/base/versions/3.5.2/topics/names), and we can use a pattern matching replacement called `str_replace()` to change them.
+
+ - Write in text that we are going to change the names of all the columns to remove the "2".
+ - Create a new code block and insert this:
+
+```r
+names(wells)
+```
+
+Run that, and you get a return like this, which is a list of all the column names of your data frame.
+
+```text
+ [1] "well_number"          "type_of_work2"        "proposed_use2"        "owner_name2"         
+ [5] "county2"              "well_address2"        "coord_dd_lat2"        "coord_dd_long2"      
+ [9] "grid_number2"         "drilling_start_date2" "drilling_end_date2"   "borehole_depth2"     
+[13] "driller_signed2"      "driller_company"      "license_number2"      "plug_number"   
+```
+
+Cool, we can now use the ` %>% ` pipe to "THEN" perform actions on those names, just like we did on the data frame above. The next function we'll use to do that is `str_replace()` which allows us to search and replace strings. It works like this:
+
+```r
+`str_replace(data, "search_pattern", "replacement_text")`
+```
+
+In our case, the "data" will be passed into it with the pipe. We want to replace "2" with nothing, so we'll do this:
+
+```r
+names(wells) %>%
+  str_replace("2", "")
+```
+
+Let's break that down again:
+
+- We start with `names(wells)` which gives us a list of our column "names".
+- We use the ` %>% ` to THEN apply a new function called `str_replace()`, which allows use to replace strings of text.
+- Our data has been passed in by the pipe, so our our next argument is to search for the character `"2"` in all the names.
+- And we replace those 2s with and empty string `""`, which essentially deletes them.
+
+#### Assign the replaced column names back into names(wells)
+
+Like our other examples, we have to now save our changes, but this one is a little different. Since we are only working with the names of the data with `names(wells)`, we need to assign the back the same way, into `names(wells)`.
+
+- Add `names(wells) <- ` to the first line of the code chunk so we assign the names back.
+
+```r
+names(wells) <- names(wells) %>% 
+  str_replace("2","")
+```
+
+## Clean data within columns
+
+Now that we've cleaned up our column names, our next task is to clean up some of the data itself.
+
+### Using lubridate to clean dates
+
+Fixing dates in generic R can be a semi-complicated process. Luckily, the tidyverse package  [lubridate](https://lubridate.tidyverse.org/) makes date conversions simple. The package was included when we installed the tidyverse package, but we need to add the library.
+
+- Go back to the top of your R Notebook where the libraries are loaded, and add this line **and run it**: `library(lubridate)`.
+- Return back to the bottom of the Notebook and add in Markdown a headline and text describing that you will use lubridate to convert the date fields.
 - Insert a new code chunk and add and run this, then I'll explain it:
 
 ```r
 wells %>%
   mutate(drilling_start_date = mdy(drilling_start_date))
-wells
 ```
 
-- The first `wells` means we are starting with that data frame.
-- `mutate()` is a conversion tool, and not just for dates. We will use this command to change and create all kinds of changes.
+Go head and click over to the `drilling_start_date` column so you can see the converted date.
+
+- We started with the `wells`.
+- We then piped the results into `mutate()`, which "mutates" data within columns. Mutate is not just for dates and we will use it to change and create all kinds of changes in the future.
 - The first argument of `mutate` is the name of the new column. In this case, we are changing the _existing_ column, so we are using `drilling_start_date`.
 - `=` is the assignment operators. What is on the right will be put into the left.
-- `mdy(drilling_start_date)` is the lubridate function. We are telling lubridate that the _existing_ format of the field that we want to be a date is in Month/Day/Year format. Lubridate is smart enough to realize the `/` separates the dates, and it would also understand if the separators were `-` or `.`.
+- `mdy(drilling_start_date)` is the lubridate function. We are telling lubridate that the format of the _existing_ text field is in Month/Day/Year format. Lubridate is smart enough to realize the `/` separates the dates, and it would also understand if the separators were `-` or `.`.
+
+That's kind of weird. We are telling lubridate that we are starting with `mdy` so it will convert and show it back to us in `yyyy-mm-dd`, which is standard database data format.
 
 #### Your turn
 
@@ -190,19 +247,24 @@ As a last step, we have to **reassign our mutated data frame back to wells**, so
 
 It's not a bad idea to organize a project into multiple R Notebooks. I'll often create my first notebook to complete the tasks of downloading and cleaning up data, and then create a new one to handle analysis, etc. (This is why I had you name the files **01-**wells.Rmd.) It's possible to output the data frame you have created with all the changes and datatypes into a special `.rds` format that will re-import into R in exactly the same form. We'll do that now.
 
-- Use the **Files** pane to create a **New Folder** called `data-out`.
-- Create a new text header and text description to explain that you are exporting the data. (If the folder doesn't exist already, you'll get an error trying save the file.)
+- Create a new text header and text description to explain that you are exporting the data.
+- Use the **Files** pane to create a **New Folder** called `data-out`.  (If the folder doesn't exist already, you'll get an error trying save the file.)
 - Create a new code chunk and add the following and run it:
 
 ```r
-saveRDS(wells, "data-out/wells_01.rds")
+wells %>% 
+  saveRDS("data-out/wells_01.rds")
 ```
 
-- `saveRDS()` is the function.
-- The first argument is the data frame you are exporting.
-- The second argument is the path.
+To break that down:
 
-Use your **Files** pane to make sure it worked.
+- We are staring with `wells`
+- We are piping that into the `saveRDS()` function.
+- We are giving `saveRDS()` the path to save the file.
+
+**DO NOT** update this to assign back into the `wells` data frame. We don't have to do that here since our output is an external file.
+
+**DO** use your **Files** pane to make sure it worked and you actually saved out the file.
 
 Congratulations! You finished this chapter, having renamed columns and changed data types. Depending on where we are in the week, you _may_ be asked to turn this in at this stage. In any event, you should save and Knit your files.
 

@@ -135,7 +135,7 @@ Note that the real header for this file starts as line `5`, which means when we 
 
 You can close this file now.
 
-## Import csv
+## Import csv as data
 
 - Now we need to start adding some text to indicate what we are doing, which right now we are importing the file. So, write some text in Markdown that describes where the data came from and what it is.
     + Write where the data came from. Include the link to the web page.
@@ -144,15 +144,23 @@ You can close this file now.
 - Inside the chunk, add the following and hit return, then I'll explain:
 
 ```r
-wells_raw <- read_csv("data-raw/WellRpts_County_Use.csv")
-wells_raw
+read_csv("data-raw/WellRpts_County_Use.csv")
 ```
 
-- `wells_raw` is the data frame we are creating. It is the object that holds our data. We can call the variable whatever we want, but you should always use words that make sense. They can't have spaces, which is why we are using the underscore `_` character between words.
-- `<-` is the operator that says we are putting the stuff on the right (our data) into the variable. It's like we are pointing the stuff from the right into the left.
-- `read_csv` is the function we are using the load the data. This version from the **readr** package in the tidyverse is different from `read.csv` that comes with R. It is mo betta.
+- `read_csv()` is the function we are using the load the data. This version from the **readr** package in the tidyverse is different from `read.csv` that comes with R. It is mo betta.
 - Inside the parenthesis is the path to our data, inside quotes. If you start typing in that path and hit tab, it will complete the path. (Easier to show than explain).
-- The last line is printing out the data frame, which is a bit of a trash fire at the moment.
+
+This prints two things to our notebook, which are shown as tabs.
+
+The first resultc called "R Console" shows what columns were imported and the data types. It's important to review these to make sure things happened the way that you want. When I look at this, I'm struck that the column names all start with "Textbox", which wasn't what I expected when I was looking at the data on the website. (FWIW, the fact the text is in **red** is NOT an indication of a problem.)
+
+![Show cols](images/import-show-cols.png)
+
+The second result prints out the data like a table. The data object is called a [Tibble](https://tibble.tidyverse.org/), which is a fancy version of a data frame that is part of the tidyverse.
+
+> I will often call a tibble a "data frame", which is the generic R from of this data structure. Think of data frames and tibbles like a well-structured table in a spreadsheet. They are organized rows of data with columns where every item in the column is of the same data type.
+
+![Show imported data](images/import-show-data.png)
 
 What went wrong? Remember that our data doesn't really start until line five. We need to modify our import to skip the first for lines. But how does we find out how to do that? Help is on the way!!
 
@@ -170,29 +178,54 @@ If we look through this one, we can see there is a `skip = x` option we can add 
 - Modify the import line to this and then rerun the entire chunk with *Cmd+shift+Return*:
 
 ```r
-wells_raw <- read_csv("data-raw/WellRpts_County_Use.csv", skip = 3)
+read_csv("data-raw/WellRpts_County_Use.csv", skip = 3)
 ```
 
-I first tried `skip = 4`, but then it didn't properly use the header row, perhaps because the readr package skips empty rows by default.
+I first tried `skip = 4`, but then it didn't properly use the header row, I _think_ because the readr package skips empty rows by default.
 
-Because there are two types of output in this code chunk, the notebook returns two square icons to choose between them.
+## Assign our data to a data frame
 
-- The first result shows what columns were imported and the data types. It's important to review these to make sure things happened the way that you want. Some things to watch for:
-    + Are numbers actually numbers or characters?
-    + Have integers been imported as double numbers or vice verse?
-    + Are there numbers that should be strings, like ZIP codes?
-    + Are dates imported properly?
-- The second result prints out the data like a table. The data object is called a [Tibble](https://tibble.tidyverse.org/), which is a fancy version of a data frame that is part of the tidyverse. I will often call a tibble a "data frame", which is the generic R from of this data structure. Think of data frames and tibbles like a well-structured table in a spreadsheet. They are organized rows of data with columns where every item in the column is of the same data type.
+As of right now, we've only printed the data to our screen. We haven't "saved" it at all. What we need to do next is "assign" it to a data frame.
 
-In short, it is our data. Take a look at the columns and inspect them. Note the column type is listed there. Are they all correct?
+It's kind of weird, but the convention in R is to work from right to left. We _name_ things before we fill them with stuff. So, to create a data frame, the structure is this:
 
-In text below the table, write out a list of all the things you might have to fix in this data frame.
+```r
+new_data_frame <- stuff_going_into_new_data_frame
+```
+
+We have our stuff as the output of our `read_csv()` function ... now we need to assign it to a data frame we will call `wells`.
+
+- Edit your existing code chunk to look like this:
+
+```r
+wells <- read_csv("data-raw/WellRpts_County_Use.csv", skip = 3)
+```
+
+Run that chunk and two things happen:
+
+- We no longer see the result printed to the screen. That's because we created a data frame instead.
+- In the **Environment** tab at the top-right of RStudio, you'll see `wells` listed.
+    + Click on the blue play button next to wells and it will expand to show you a summary of the columns.
+    + Click on the name and it will open a "View" of the data in another window, so you can look at it, sort of like a spreadsheet.
+
+## Inspect the data
+
+Now that you are looking at the data, take a look at both the data types in the Environment tab, along with the View of the data. Take special care to look at the data types and examples to see if they make sense to you. Some things to consider:
+
+- Are numbers actually numbers or characters?
+- Are there numbers that should be strings, like ZIP codes?
+- Have integers been imported as double numbers or vice versa?
+- Are dates imported properly?
+
+### Write notes about things to change
+
+- In text below the table output, I want you to write out a list of all the things you might have to fix in this data frame.
 
 We'll fix them in the next lesson, as well as start looking more closely at the data.
 
 ## Turn in your project
 
-Congratulations! You have created a new project in R and imported data. That is a feat of skill worth celbrating, so we will turn in this in as an assignment.
+Congratulations! You have created a new project in R and imported data. That is a feat of skill worth celebrating, so we will turn in this in as an assignment.
 
 - Save your `.Rmd` file.
 - Use the **Preview/Knit** button to Knit your report to HTML. Look your report over and make sure you like it.
