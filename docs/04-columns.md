@@ -272,9 +272,8 @@ The goal here is to **rename the columns** in the data to shorter, more-friendly
 - Use `clean_names()` to standardize them.
 - Use either `rename()` or `str_replace()` on `names()` to rename the columns. It doesn't matter to me how what method you use to change them, as long as it gets done.
 - Make sure each step is documented in Markdown with good headlines and descriptions.
-
+- Save the resulting data out as an ".rds" file into a `data-out` folder.
 
 Save, Knit, Zip and submit your project folder to the "Practice: Columns" assignment.
-
 
 
