@@ -25,7 +25,7 @@
 <meta name="author" content="Christian McDonald">
 
 
-<meta name="date" content="2019-02-25">
+<meta name="date" content="2019-02-26">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -476,13 +476,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li>Before the code chunk, write out what we are doing. Add a Markdown headline and description of our task: to add a “year” column.</li>
 <li>Name the chunk by adding <code>add_year</code> inside the <code>{r}</code> part of the chunk.</li>
-<li>Remove the pipe and the <code>select()</code> statement, as we don’t want to lose those columns for realz.</li>
+<li><strong>Remove the pipe and the <code>select()</code> statement</strong>, as we don’t want to lose those columns for realz.</li>
 <li>Edit the first line <code>wells %&gt;%</code> to <code>wells &lt;- wells %&gt;%</code> to assign the mutate result back to our wells data frame.</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells &lt;-<span class="st"> </span>wells <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year_drilled =</span> <span class="kw">year</span>(drilling_start_date))</code></pre></div>
-<p>When you do this, it won’t print the table to the screen anymore because you’ve instead reassigned it. Inspect the <code>wells</code> data frame within the Environment tab and to make sure it was created properly.</p>
-<p>Like with <code>filter()</code>, we can create more than one column within the same <code>mutate()</code> function by separating them with commas.</p>
+<p>As we know, when we do this the data frame will no longer print to the screen anymore because you’ve instead reassigned it. That’s OK. Inspect the <code>wells</code> data frame within the Environment tab and to make sure it was created properly. (If you really want to check the data on your screen, you could use <code>head(wells)</code> to see just the several lines.)</p>
+<p>As you may recall from our lesson on column renaming, we can create more than one column within the same <code>mutate()</code> function by separating them with commas.</p>
 <div id="your-turn-to-mutate" class="section level3">
 <h3><span class="header-section-number">5.12.1</span> Your turn to mutate</h3>
 <ul>
@@ -547,7 +547,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Let’s break this down:</p>
 <ul>
 <li>We start with the <strong>wells</strong> data frame.</li>
-<li>We then <strong>group_by</strong> the data by the <code>proposed_use</code>. If we print the data frame at this point, we won’t really see a difference. The <code>group_by()</code> function always needs another function.</li>
+<li>We then <strong>group_by</strong> the data by the <code>proposed_use</code>. If we print the data frame at this point, we won’t really see a difference. The <code>group_by()</code> function always needs another function to see a result.</li>
 <li>We then <strong>summarise</strong> the grouped data. In this case, we are creating a column called <code>count</code>, and we are assigning to is a special function <code>n()</code> which counts the number of records within each group.
 <ul>
 <li>The result is for each unique value in the <strong>prospose_use</strong> column, we get the number of records that have that have that value.</li>

@@ -242,7 +242,7 @@ You'll end up with two columns. We added the `select()` function so we didn't ha
 
 - Before the code chunk, write out what we are doing. Add a Markdown headline and description of our task: to add a "year" column.
 - Name the chunk by adding `add_year` inside the `{r}` part of the chunk.
-- Remove the pipe and the `select()` statement, as we don't want to lose those columns for realz.
+- **Remove the pipe and the `select()` statement**, as we don't want to lose those columns for realz.
 - Edit the first line `wells %>% ` to `wells <- wells %>% ` to assign the mutate result back to our wells data frame.
 
 ```r
@@ -250,9 +250,9 @@ wells <- wells %>%
   mutate(year_drilled = year(drilling_start_date))
 ```
 
-When you do this, it won't print the table to the screen anymore because you've instead reassigned it. Inspect the `wells` data frame within the Environment tab and to make sure it was created properly.
+As we know, when we do this the data frame will no longer print to the screen anymore because you've instead reassigned it. That's OK. Inspect the `wells` data frame within the Environment tab and to make sure it was created properly. (If you really want to check the data on your screen, you could use `head(wells)` to see just the several lines.)
 
-Like with `filter()`, we can create more than one column within the same `mutate()` function by separating them with commas.
+As you may recall from our lesson on column renaming, we can create more than one column within the same `mutate()` function by separating them with commas.
 
 ### Your turn to mutate
 
@@ -312,7 +312,7 @@ So, we have more than 18,000 wells, but we don't know how many of each kind. We 
 Let's break this down:
 
 - We start with the **wells** data frame.
-- We then **group_by** the data by the `proposed_use`. If we print the data frame at this point, we won't really see a difference. The `group_by()` function always needs another function.
+- We then **group_by** the data by the `proposed_use`. If we print the data frame at this point, we won't really see a difference. The `group_by()` function always needs another function to see a result.
 - We then **summarise** the grouped data. In this case, we are creating a column called `count`, and we are assigning to is a special function `n()` which counts the number of records within each group.
     + The result is for each unique value in the **prospose_use** column, we get the number of records that have that have that value.
 - We then **arrange** the resulting table in descending order by our new column, `count`, so we can see which value has the most records.
