@@ -25,7 +25,7 @@
 <meta name="author" content="Christian McDonald">
 
 
-<meta name="date" content="2019-02-26">
+<meta name="date" content="2019-02-28">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -191,6 +191,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="5.11" data-path="transform.html"><a href="transform.html#select"><i class="fa fa-check"></i><b>5.11</b> Select()</a></li>
 <li class="chapter" data-level="5.12" data-path="transform.html"><a href="transform.html#mutate"><i class="fa fa-check"></i><b>5.12</b> Mutate()</a><ul>
 <li class="chapter" data-level="5.12.1" data-path="transform.html"><a href="transform.html#your-turn-to-mutate"><i class="fa fa-check"></i><b>5.12.1</b> Your turn to mutate</a></li>
+<li class="chapter" data-level="5.12.2" data-path="transform.html"><a href="transform.html#document-and-save-new-columns"><i class="fa fa-check"></i><b>5.12.2</b> Document and save new columns</a></li>
 </ul></li>
 <li class="chapter" data-level="5.13" data-path="transform.html"><a href="transform.html#summarize"><i class="fa fa-check"></i><b>5.13</b> Summarize()</a><ul>
 <li class="chapter" data-level="5.13.1" data-path="transform.html"><a href="transform.html#ignoring-na"><i class="fa fa-check"></i><b>5.13.1</b> ignoring na</a></li>
@@ -466,28 +467,33 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><code>= gdpPercap * pop</code> is the function. It is multiplying the the two columns that are in the <code>gapminder</code> data frame.</li>
 </ul>
 <p>The applied function doesn’t have to be math. It could be pulling part of a string or any number of things.</p>
-<p>We’ll use this to create a new “year” column that has just the year that well was started. It will help us plot data later.</p>
+<p>We’ll use this to create a new “year_drilled” column that has just the year that well was started. It will help us plot data later.</p>
 <p>We’re going to do this is two steps. We’ll first write the function to make sure it working like we want, then we’ll assign the result back to the <code>wells</code> data frame.</p>
 <div class="figure">
-<img src="images/transform-wells-mutate-select.png" alt="Mutate and select" />
+<img src="images/transform-wells-mutate.png" alt="Mutate and select" />
 <p class="caption">Mutate and select</p>
 </div>
-<p>You’ll end up with two columns. We added the <code>select()</code> function so we didn’t have to dig through the data frame to see if it worked. Now we can modify the code chunk to save our changes:</p>
-<ul>
-<li>Before the code chunk, write out what we are doing. Add a Markdown headline and description of our task: to add a “year” column.</li>
-<li>Name the chunk by adding <code>add_year</code> inside the <code>{r}</code> part of the chunk.</li>
-<li><strong>Remove the pipe and the <code>select()</code> statement</strong>, as we don’t want to lose those columns for realz.</li>
-<li>Edit the first line <code>wells %&gt;%</code> to <code>wells &lt;- wells %&gt;%</code> to assign the mutate result back to our wells data frame.</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells &lt;-<span class="st"> </span>wells <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year_drilled =</span> <span class="kw">year</span>(drilling_start_date))</code></pre></div>
-<p>As we know, when we do this the data frame will no longer print to the screen anymore because you’ve instead reassigned it. That’s OK. Inspect the <code>wells</code> data frame within the Environment tab and to make sure it was created properly. (If you really want to check the data on your screen, you could use <code>head(wells)</code> to see just the several lines.)</p>
-<p>As you may recall from our lesson on column renaming, we can create more than one column within the same <code>mutate()</code> function by separating them with commas.</p>
+<p>This added our new column to the end of the data frame.</p>
 <div id="your-turn-to-mutate" class="section level3">
 <h3><span class="header-section-number">5.12.1</span> Your turn to mutate</h3>
 <ul>
 <li>Modify the above mutate function to also add a <code>month_drilled</code> column.</li>
 </ul>
+</div>
+<div id="document-and-save-new-columns" class="section level3">
+<h3><span class="header-section-number">5.12.2</span> Document and save new columns</h3>
+<ul>
+<li>Before the code chunk, write out what we are doing. Add a Markdown headline and description of our task, which was to add a “year_drilled” and “month_drilled” column.</li>
+<li>Name the chunk by adding <code>add_year_month</code> inside the <code>{r}</code> part of the chunk.</li>
+<li>Edit the first line <code>wells %&gt;%</code> to <code>wells &lt;- wells %&gt;%</code> to assign the mutate result back to our wells data frame.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells &lt;-<span class="st"> </span>wells <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">year_drilled =</span> <span class="kw">year</span>(drilling_start_date),
+    <span class="dt">month_drilled =</span> <span class="kw">month</span>(drilling_start_date)
+  )</code></pre></div>
+<p>As we’ve seen before, when we assign the result back to <code>wells</code>, the data frame will no longer print to the screen anymore. That’s OK. Inspect the <code>wells</code> data frame within the Environment tab and to make sure it was created properly. (If you really want to check the data on your screen, you could use <code>head(wells)</code> to see just the several lines.)</p>
+<p>As you may recall from our lesson on column renaming, we can create more than one column within the same <code>mutate()</code> function by separating them with commas.</p>
 </div>
 </div>
 <div id="summarize" class="section level2">

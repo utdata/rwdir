@@ -232,31 +232,36 @@ In the example above:
 
 The applied function doesn't have to be math. It could be pulling part of a string or any number of things.
 
-We'll use this to create a new "year" column that has just the year that well was started. It will help us plot data later.
+We'll use this to create a new "year_drilled" column that has just the year that well was started. It will help us plot data later.
 
 We're going to do this is two steps. We'll first write the function to make sure it working like we want, then we'll assign the result back to the `wells` data frame.
 
-![Mutate and select](images/transform-wells-mutate-select.png)
+![Mutate and select](images/transform-wells-mutate.png)
 
-You'll end up with two columns. We added the `select()` function so we didn't have to dig through the data frame to see if it worked. Now we can modify the code chunk to save our changes:
-
-- Before the code chunk, write out what we are doing. Add a Markdown headline and description of our task: to add a "year" column.
-- Name the chunk by adding `add_year` inside the `{r}` part of the chunk.
-- **Remove the pipe and the `select()` statement**, as we don't want to lose those columns for realz.
-- Edit the first line `wells %>% ` to `wells <- wells %>% ` to assign the mutate result back to our wells data frame.
-
-```r
-wells <- wells %>% 
-  mutate(year_drilled = year(drilling_start_date))
-```
-
-As we know, when we do this the data frame will no longer print to the screen anymore because you've instead reassigned it. That's OK. Inspect the `wells` data frame within the Environment tab and to make sure it was created properly. (If you really want to check the data on your screen, you could use `head(wells)` to see just the several lines.)
-
-As you may recall from our lesson on column renaming, we can create more than one column within the same `mutate()` function by separating them with commas.
+This added our new column to the end of the data frame.
 
 ### Your turn to mutate
 
 - Modify the above mutate function to also add a `month_drilled` column.
+
+### Document and save new columns
+
+- Before the code chunk, write out what we are doing. Add a Markdown headline and description of our task, which was to add a "year_drilled" and "month_drilled" column.
+- Name the chunk by adding `add_year_month` inside the `{r}` part of the chunk.
+- Edit the first line `wells %>% ` to `wells <- wells %>% ` to assign the mutate result back to our wells data frame.
+
+```r
+wells <- wells %>% 
+  mutate(
+    year_drilled = year(drilling_start_date),
+    month_drilled = month(drilling_start_date)
+  )
+```
+
+As we've seen before, when we assign the result back to `wells`, the data frame will no longer print to the screen anymore. That's OK. Inspect the `wells` data frame within the Environment tab and to make sure it was created properly. (If you really want to check the data on your screen, you could use `head(wells)` to see just the several lines.)
+
+As you may recall from our lesson on column renaming, we can create more than one column within the same `mutate()` function by separating them with commas.
+
 
 ## Summarize()
 
