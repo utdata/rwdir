@@ -226,7 +226,6 @@ If you look at the CSV data, the `borehole_depth` is and integer (a number witho
 ```r
 wells %>% 
   mutate(borehole_depth = as.integer(borehole_depth))
-wells
 ```
 
 This will reassign that column as an integer. How did I know to use `as.integer`? I Googled "r convert float to integer" and found [this tutorial](http://www.r-tutor.com/r-introduction/basic-data-types/integer) and this [Stack Overflow article](https://stackoverflow.com/questions/11638303/how-to-convert-num-to-int-in-r).
