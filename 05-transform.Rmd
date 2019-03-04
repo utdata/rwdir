@@ -70,7 +70,7 @@ There are a number of these logical test operations:
 Create new code blocks and filter for each of the following:
 
 - Wells with a proposed use of Irrigation.
-- Wells at least 1000 feet deep.
+- Wells at least 1000 feet deep. (HINT: If you are filtering on a number, don't put it in quotes, or it will become text instead.)
 - One more that might help you answer one of your goals you listed above.
 
 ### Common mistakes with filter
@@ -262,6 +262,13 @@ As we've seen before, when we assign the result back to `wells`, the data frame 
 
 As you may recall from our lesson on column renaming, we can create more than one column within the same `mutate()` function by separating them with commas.
 
+### Export the mutated data
+
+We actually want to keep these new columns to use later, so let's do a quick export to save them for later.
+
+```r
+wells %>% saveRDS("data-out/wells_02.rds")
+```
 
 ## Summarize()
 
