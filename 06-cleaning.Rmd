@@ -20,9 +20,6 @@ As we were looking at the `proposed_use` field in the wells data, we found that 
 
 We need to create a clean version of the `proposed_use` column to use with our analysis and visualizations. Typically when I discover a situation like this, I go back to my first "import and cleaning" notebook and make changes there so the work can carry through to all subsequent notebooks, but in this case we'll just make our changes in a new notebook and then document and export the changes for future work.
 
-
-
-
 ## Setup and import
 
 - Create a new R Notebook with a title "Wells cleaning" and a filename of `03-wells-cleaning.Rmd`.
@@ -89,7 +86,7 @@ So, our goal here is to create a new column that starts with the value of `propo
 
 We'll utilize a stringr function called `str_replace()` using [regular expressions](https://drive.google.com/open?id=1DvAM4lnGJLefo9skD8GgM-_9S1BEhpjJfV86yhJavI0) to do this, within a `mutate()` function, which we know we can use to create or make changes in a column data. And, of course, we need to figure out how to do it before we save it, so let's work through it.
 
-Start by calling the `wells` data frame, then using mutate to create a new column from `proposed_use`, and then count the rows from the new column. For now, it will be the same as it was for `proposed use` but we'll fix that.
+Start by calling the `wells` data frame, then using mutate to create a new column from `proposed_use`, and then count the rows from the new column. For now, it will be the same as it was for `proposed use` but we'll fix that. Note that we will work through several steps in this mutate function _before_ we save it back into wells.
 
 ```r
 wells %>% 
@@ -122,7 +119,7 @@ Now our results are all lowercase. It looks something like this:
 
 #### Clean up the piezo-ish values
 
-We still have four different versions of "piezo" and the like, which need to be labeled as "monitor". You might check make a mental note of how many values you have for "monitor" now so we can be know that value is growing as we fix our piezos. (I have 3354 in our example, but the number will be different when the data is pulled at a later date). We can continue to stack changes inside our `mutate()` function to deal with this using `str_replace()`.
+We still have four different versions of "piezo" and the like, which need to be labeled as "monitor". You might  make a mental note of how many values you currently have for "monitor" now so we can notice how that value grows as we fix our piezos. (I have 3354 in our example, but the number will be different depending on when the data was pulled from TWDB.) We can continue to stack changes inside our `mutate()` function to deal with this using `str_replace()`.
 
 There are three arguments to the [`str_replace()` function](https://www.rdocumentation.org/packages/stringr/versions/1.3.1/topics/str_replace):
 
@@ -130,9 +127,9 @@ There are three arguments to the [`str_replace()` function](https://www.rdocumen
 - what pattern are we looking for, as a regular expression.
 - what value do we want it to be.
 
-We have created a new column `use_clean` that we want to continue to modify, so it is both our target and our source of the mutate.
+We have created a new column `use_clean` that we want to continue to modify, so it is both our target and our source of our subsequent mutates.
 
-The pattern we want is anything that starts with the word "piezo" and "peizo" with anything that follows. The regex expression for "anything" is `.*`, so `piezo.*` with catch "piezo", "piezometer" and "piezo installation". We want to set any value with those terms to "monitor", so we set up our string replace function: `str_replace(use_clean, "piezo.*", "monitor")` and add it to our list of mutates:
+The pattern we want is anything that starts with the word "piezo" and "peizo" with anything that follows. The regex expression for "anything" is `.*`, so `piezo.*` with catch "piezo", "piezometer" and "piezo installation". We also want to set any value with those terms to "monitor", so we set up our string replace function: `str_replace(use_clean, "piezo.*", "monitor")` and add it to our list of mutates:
 
 ```r
 wells %>% 
@@ -241,7 +238,7 @@ wells <- wells %>%
 
 ## Export your updated data frame
 
-Let's again export our data so we can use it in a new notebook. Since we are in our third notebook of this project, let's name the file `wells_03.rds`.
+Let's again export our data so we can use it in a new notebook. Since we are in our third notebook of this project, let's name the file `wells_03.rds` since this is coming out of our third notebook.
 
 ```r
 saveRDS(wells, "data-out/wells_03.rds")

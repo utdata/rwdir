@@ -25,7 +25,7 @@
 <meta name="author" content="Christian McDonald">
 
 
-<meta name="date" content="2019-03-04">
+<meta name="date" content="2019-03-11">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -291,12 +291,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="introduction-ggplot" class="section level2">
 <h2><span class="header-section-number">7.2</span> Introduction ggplot</h2>
-<p><a href="https://ggplot2.tidyverse.org/">ggplot2</a> is the data visualization library within Hadley Wickham’s <a href="https://www.tidyverse.org/">tidyverse.</a>. It uses a concept called the Grammar of graphics, the idea that you can build every graph from the same components: a data set, a coordinate system, and geoms – the visual marks that represent data points. With a hat tip to <a href="http://www.mattwaite.com/">Matt Waite</a>, the main concepts are:</p>
+<p><a href="https://ggplot2.tidyverse.org/">ggplot2</a> is the data visualization library within Hadley Wickham’s <a href="https://www.tidyverse.org/">tidyverse</a>. It uses a concept called the “<a href="https://byrneslab.net/classes/biol607/readings/wickham_layered-grammar.pdf">Grammar of Graphics</a>”, the idea that you can build every graph from the same components: a data set, a coordinate system, and geoms – the visual marks that represent data points. With a hat tip to <a href="http://www.mattwaite.com/">Matt Waite</a>, the main concepts are:</p>
 <ul>
-<li><strong>aesthetics</strong>: which in this case means the data which we are going to plot</li>
-<li><strong>geometries</strong>: which means the shape the data is going to take</li>
-<li><strong>scales</strong>: which means any transformations we might make on the data</li>
-<li><strong>layers</strong>: which means how we might lay multiple geometries over top of each other to reveal new information.</li>
+<li><strong>data</strong>: which dataframe you are pulling from</li>
+<li><strong>aesthetics</strong>: the specific data from the dataframe which we are going to plot</li>
+<li><strong>geometries</strong>: the shape the data is going to take</li>
+<li><strong>scales</strong>: any transformations we might make on the data</li>
+<li><strong>layers</strong>: how we might lay multiple geometries over top of each other to reveal new information.</li>
 <li><strong>facets</strong>: which means how we might graph many elements of the same dataset in the same space</li>
 </ul>
 <p>The challenge to understand here is for every graphic, we start with the data, and then describe how to layer plots or pieces on top of that data.</p>
@@ -332,23 +333,29 @@ wells_by_county</code></pre></div>
 </div>
 <div id="the-basic-ggplot-template" class="section level3">
 <h3><span class="header-section-number">7.4.2</span> The basic ggplot template</h3>
-<p>The template for a basic plot is this. (The <code>&lt;&gt;</code> signify we are inserting values there.)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="op">&lt;</span>DATA<span class="op">&gt;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="er">&lt;</span>GEOM_FUNCTION<span class="op">&gt;</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>))</code></pre></div>
+<p>The template for a basic plot is this. (The <code>&lt;&gt;</code> denote that we are inserting values there.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="op">&lt;</span>DATA<span class="op">&gt;</span>, <span class="kw">aes</span>(<span class="dt">mapping =</span> <span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="er">&lt;</span>GEOM<span class="op">&gt;</span>(<span class="op">&lt;</span>ADDITONAL_MAPPINGS<span class="op">&gt;</span>)</code></pre></div>
 <ul>
 <li><strong>ggplot()</strong> is our function. We feed into it the data we wish to plot.</li>
+<li><strong>aes()</strong> stands for “aesthetics”, and it describes the column of data we want to plot, and how, like which column is on the x axis and which is on the y axis. These are called <strong>mappings</strong>, because we are mapping where on the plot we want each type of data.</li>
 <li>The <strong>+</strong> is the equivalent of <code>%&gt;%</code> in our tidyverse data. It means we are adding a layer, and it should always be at the end of the line, not at the beginning of the next.</li>
-<li><strong><GEOM_FUNCTION></strong> is the type of chart or addition we are adding. They all start with the term <strong>geom_</strong> like <strong>geom_bar</strong>, which is what we will build.</li>
-<li>The geometric function requires “aesthetics” to describe what it should look like, the main one being the <strong>mapping</strong> of the x and y axis.</li>
+<li><strong><code>&lt;GEOM_FUNCTION&gt;</code></strong> is the type of chart or addition we are adding. They all start with the term <strong>geom_</strong> like <strong>geom_bar</strong>, which is what we will build with this example. It will take the mappings we supplied and plot them on the type of <strong>geom_</strong> we choose.</li>
+<li><strong><code>&lt;ADDITIONAL MAPPINGS&gt;</code></strong> if a geom_ requires it, we can specify additional columns/axis mapping combinations to that <strong>geom_</strong>. We don’t always have or need them.</li>
 </ul>
-<p>There are two ways to simplify this:</p>
+<p>There are some ways to simplify this, and some ways to complicate it. Let’s simplify first:</p>
 <ul>
 <li>It is implied that the first thing fed to <code>ggplot</code> is the data, so you don’t have to write out <code>data =</code> unless there is ambiguity.</li>
 <li>The <code>aes()</code> values are also implied as mappings, so you don’t have to write out <code>mapping =</code> unless there is ambiguity.</li>
-<li>And lastly, if the mappings are the same for all the geoms, you can put them in the ggplot line.</li>
 </ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="op">&lt;</span>DATA<span class="op">&gt;</span>, <span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="er">&lt;</span>GEOM<span class="op">&gt;</span>
+)</code></pre></div>
+<p>One of the ways we make things complicated, is we layer different geometries. We might start with a scatterplot, and then add a reference line on top of it, which is a new geometry. Each <strong>goem_</strong> can specify their own mappings.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="op">&lt;</span>DATA<span class="op">&gt;</span>, <span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="er">&lt;</span>GEOM<span class="op">&gt;</span>(<span class="op">&lt;</span>ADDITONAL_MAPPINGS<span class="op">&gt;</span>)</code></pre></div>
+<span class="st">  </span><span class="er">&lt;</span>GEOM_FUNCTION<span class="op">&gt;</span>(<span class="kw">aes</span>(<span class="op">&lt;</span>SPECIFIC_MAPPINGS<span class="op">&gt;</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="er">&lt;</span>GEOM_FUNCTION<span class="op">&gt;</span>(<span class="kw">aes</span>(<span class="op">&lt;</span>SPECIFIC_MAPPINGS<span class="op">&gt;</span>))</code></pre></div>
+<p>Let’s not get too complicated too fast. Let’s just make a damn plot!</p>
 </div>
 <div id="plot-our-wells-by-county" class="section level3">
 <h3><span class="header-section-number">7.4.3</span> Plot our wells by county</h3>
@@ -359,7 +366,8 @@ wells_by_county</code></pre></div>
 <li>On the first line we tell <code>ggplot()</code> that we are using the we <code>wells_by_county</code> data.</li>
 <li>On the next, we apply the <code>geom_bar()</code> function to make a bar chart. It needs two things:
 <ul>
-<li>The mapping, which are the aesthetics. We well it to plot <strong>county</strong> on the x (horizontal) axis, and <strong>wells_count</strong> on the y (vertical) axis. Because <strong>county</strong> is not a number, we have to use the <code>stat = &quot;identity&quot;</code> value to describe that we are using values within county. This is a special thing for bar charts.</li>
+<li>The mapping, which are the aesthetics. We well it to plot <strong>county</strong> on the x (horizontal) axis, and <strong>wells_count</strong> on the y (vertical) axis.</li>
+<li>Because <strong>county</strong> is a category instead of a number, we have to use the <code>stat = &quot;identity&quot;</code> value to describe that we are using values within county to separate the bars. This is a special thing for bar charts. One of those things that drive you nuts.</li>
 </ul></li>
 </ul>
 <div class="figure">
@@ -380,7 +388,7 @@ wells_by_county</code></pre></div>
 <img src="images/visualize-county-plot-labels.png" alt="Basic county plot" width="500" />
 <p class="caption">Basic county plot</p>
 </div>
-<p>In this case, we are just adding another layer, the <code>geom_text()</code>. It requires some additional aesthetics, like what label we want to use. The <code>vjust=</code> moves the numbers up a little. Change the number and see what happens.</p>
+<p>In this case, we are just adding another layer, the <code>geom_text()</code>. It requires some additional aesthetics, like what <code>label=</code> we want to use. The <code>vjust=</code> moves the numbers up a little. Change the number and see what happens.</p>
 <p>The last layer we want to add here is a Title layer. The function for labels is called <code>labs()</code> and it takes an argument of <code>title = &quot;&quot;</code> You can also change your <code>x</code> and <code>y</code> axis names, etc.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  ... <span class="op">+</span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Number of wells drilled by county&quot;</span>)</code></pre></div>
@@ -391,13 +399,13 @@ wells_by_county</code></pre></div>
 <div id="wells-per-county-over-time" class="section level2">
 <h2><span class="header-section-number">7.5</span> Wells per county over time</h2>
 <p>Our next chart will be a line chart to show how the number of wells drilled has changed over time within each county.</p>
-<p>Again, it will help us to think about what we are after and then build our data frame to match. In this case, we want to plot the “number of wells” for each county, by year. That means we need columns for county, year and number of wells. To get that, we have to use group and summarize.</p>
+<p>Again, it will help us to think about what we are after and then build our data frame to match. In this case, we want to plot the “number of wells” for each county, by year. That means we need a dataframe that has columns for county, year and the number of wells. To get that, we have to use group and summarize.</p>
 <p>Sometimes it helps to write out the steps of everything before you to do it.</p>
 <ul>
 <li>Start with the <code>wells</code> data frame.</li>
 <li>Filter to 2003 or later, because that’s when the <a href="http://www.twdb.texas.gov/groundwater/data/drillersdb.asp">system came online</a>.</li>
 <li>Group by the <code>county</code> and <code>year_drilled</code> fields.</li>
-<li>Summarize to create a count the number of <code>wells_drilled</code>.</li>
+<li>Summarize to create a count of the number of <code>wells_drilled</code>.</li>
 <li>Set all of the above to a new data frame, <code>wells_county_year</code>.</li>
 <li>Start a plot with the new data.</li>
 <li>Set x (horizontal) to be year_drilled and y (vertical) to be wells_drilled, and color to be the county.</li>
@@ -463,8 +471,8 @@ wells_by_county</code></pre></div>
 <div id="draw-the-plot" class="section level3">
 <h3><span class="header-section-number">7.5.2</span> Draw the plot</h3>
 <p>Remember the formula for a basic plot:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="op">&lt;</span>DATA<span class="op">&gt;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="er">&lt;</span>GEOM_FUNCTION<span class="op">&gt;</span>(<span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="op">&lt;</span>DATA<span class="op">&gt;</span>, <span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="er">&lt;</span>GEOM_FUNCTION<span class="op">&gt;</span></code></pre></div>
 <p>and if all our mappings are the same, they can go into the ggplot function.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(wells_county_year, <span class="kw">aes</span>(<span class="dt">x =</span> year_drilled, <span class="dt">y =</span> wells_drilled, <span class="dt">color =</span> county)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>()</code></pre></div>
@@ -497,8 +505,8 @@ wells_by_county</code></pre></div>
 <h2><span class="header-section-number">7.7</span> Review of ggplot</h2>
 <p>Exploring with graphics are one of the more powerful features of working with R. It takes a bit to get used to the Grammar of Graphics and ggplot2 and it will be frustrating at first. But be assured it can do about anything once you learn how, and being able to fold in these charts with your thoughts and analysis in a repeatable way will make you a better data journalist.</p>
 <p>By design, every chart in ggplot starts with the same three things: data, a geometric coordinate system, and a mapping of the aesthetics, including the x and y values.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="op">&lt;</span>DATA<span class="op">&gt;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="er">&lt;</span>GEOM_FUNCTION<span class="op">&gt;</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="op">&lt;</span>DATA<span class="op">&gt;</span>, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="er">&lt;</span>GEOM_FUNCTION<span class="op">&gt;</span></code></pre></div>
 <p>If your graphic is simple, there may be less verbose ways to write it as ggplot will assume your are passing it data first, and that <code>aes()</code> functions are for mapping.</p>
 
 </div>

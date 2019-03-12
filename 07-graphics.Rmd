@@ -14,12 +14,13 @@
 
 ## Introduction ggplot
 
-[ggplot2](https://ggplot2.tidyverse.org/) is the data visualization library within Hadley Wickham's [tidyverse.](https://www.tidyverse.org/). It uses a concept called the Grammar of graphics, the idea that you can build every graph from the same components: a data set, a coordinate system, and geoms -- the visual marks that represent data points. With a hat tip to [Matt Waite](http://www.mattwaite.com/), the main concepts are: 
+[ggplot2](https://ggplot2.tidyverse.org/) is the data visualization library within Hadley Wickham's [tidyverse](https://www.tidyverse.org/). It uses a concept called the "[Grammar of Graphics](https://byrneslab.net/classes/biol607/readings/wickham_layered-grammar.pdf)", the idea that you can build every graph from the same components: a data set, a coordinate system, and geoms -- the visual marks that represent data points. With a hat tip to [Matt Waite](http://www.mattwaite.com/), the main concepts are: 
 
-- **aesthetics**: which in this case means the data which we are going to plot
-- **geometries**: which means the shape the data is going to take
-- **scales**: which means any transformations we might make on the data
-- **layers**: which means how we might lay multiple geometries over top of each other to reveal new information.
+- **data**: which dataframe you are pulling from
+- **aesthetics**: the specific data from the dataframe which we are going to plot
+- **geometries**: the shape the data is going to take
+- **scales**: any transformations we might make on the data
+- **layers**: how we might lay multiple geometries over top of each other to reveal new information.
 - **facets**: which means how we might graph many elements of the same dataset in the same space
 
 The challenge to understand here is for every graphic, we start with the data, and then describe how to layer plots or pieces on top of that data.
@@ -60,28 +61,40 @@ Let's break this down:
 
 ### The basic ggplot template
 
-The template for a basic plot is this. (The `<>` signify we are inserting values there.)
+The template for a basic plot is this. (The `<>` denote that we are inserting values there.)
+
 
 ```r
-ggplot(data = <DATA>) +
-  <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
+ggplot(data = <DATA>, aes(mapping = <MAPPINGS>)) +
+  <GEOM>(<ADDITONAL_MAPPINGS>)
 ```
 
 - **ggplot()** is our function. We feed into it the data we wish to plot.
+- **aes()** stands for "aesthetics", and it describes the column of data we want to plot, and how, like which column is on the x axis and which is on the y axis. These are called **mappings**, because we are mapping where on the plot we want each type of data.
 - The **+** is the equivalent of `%>%` in our tidyverse data. It means we are adding a layer, and it should always be at the end of the line, not at the beginning of the next.
-- **<GEOM_FUNCTION>** is the type of chart or addition we are adding. They all start with the term **geom_** like **geom_bar**, which is what we will build.
-- The geometric function requires "aesthetics" to describe what it should look like, the main one being the **mapping** of the x and y axis.
+- **`<GEOM_FUNCTION>`** is the type of chart or addition we are adding. They all start with the term **geom_** like **geom_bar**, which is what we will build with this example. It will take the mappings we supplied and plot them on the type of **geom_** we choose.
+- **`<ADDITIONAL MAPPINGS>`** if a geom_ requires it, we can specify additional columns/axis mapping combinations to that **geom_**. We don't always have or need them. 
 
-There are two ways to simplify this:
+There are some ways to simplify this, and some ways to complicate it. Let's simplify first:
 
 - It is implied that the first thing fed to `ggplot` is the data, so you don't have to write out `data =` unless there is ambiguity.
 - The `aes()` values are also implied as mappings, so you don't have to write out `mapping =` unless there is ambiguity.
-- And lastly, if the mappings are the same for all the geoms, you can put them in the ggplot line.
+
+```r
+ggplot(<DATA>, aes(<MAPPINGS>) +
+  <GEOM>
+)
+```
+
+One of the ways we make things complicated, is we layer different geometries. We might start with a scatterplot, and then add a reference line on top of it, which is a new geometry. Each **goem_** can specify their own mappings.
 
 ```r
 ggplot(<DATA>, aes(<MAPPINGS>)) +
-  <GEOM>(<ADDITONAL_MAPPINGS>)
+  <GEOM_FUNCTION>(aes(<SPECIFIC_MAPPINGS>)) +
+  <GEOM_FUNCTION>(aes(<SPECIFIC_MAPPINGS>))
 ```
+
+Let's not get too complicated too fast. Let's just make a damn plot!
 
 ### Plot our wells by county
 
@@ -94,7 +107,8 @@ ggplot(data = wells_by_county) +
 
 - On the first line we tell `ggplot()` that we are using the we `wells_by_county` data.
 - On the next, we apply the `geom_bar()` function to make a bar chart. It needs two things:
-    + The mapping, which are the aesthetics. We well it to plot **county** on the x (horizontal) axis, and **wells_count** on the y (vertical) axis. Because **county** is not a number, we have to use the `stat = "identity"` value to describe that we are using values within county. This is a special thing for bar charts.
+    - The mapping, which are the aesthetics. We well it to plot **county** on the x (horizontal) axis, and **wells_count** on the y (vertical) axis.
+    - Because **county** is a category instead of a number, we have to use the `stat = "identity"` value to describe that we are using values within county to separate the bars. This is a special thing for bar charts. One of those things that drive you nuts.
 
 ![Basic county plot](images/visualize-county-plot.png){width=500px}
 
@@ -117,7 +131,7 @@ ggplot(data = wells_by_county, aes(x = county, y = wells_count)) +
 
 ![Basic county plot](images/visualize-county-plot-labels.png){width=500px}
 
-In this case, we are just adding another layer, the `geom_text()`. It requires some additional aesthetics, like what label we want to use. The `vjust=` moves the numbers up a little. Change the number and see what happens.
+In this case, we are just adding another layer, the `geom_text()`. It requires some additional aesthetics, like what `label=` we want to use. The `vjust=` moves the numbers up a little. Change the number and see what happens.
 
 The last layer we want to add here is a Title layer. The function for labels is called `labs()` and it takes an argument of `title = ""` You can also change your `x` and `y` axis names, etc.
 
@@ -134,14 +148,14 @@ Let's see how those trends play out over time.
 
 Our next chart will be a line chart to show how the number of wells drilled has changed over time within each county.
 
-Again, it will help us to think about what we are after and then build our data frame to match. In this case, we want to plot the "number of wells" for each county, by year. That means we need columns for county, year and number of wells. To get that, we have to use group and summarize.
+Again, it will help us to think about what we are after and then build our data frame to match. In this case, we want to plot the "number of wells" for each county, by year. That means we need a dataframe that has columns for county, year and the number of wells. To get that, we have to use group and summarize.
 
 Sometimes it helps to write out the steps of everything before you to do it.
 
 - Start with the `wells` data frame.
 - Filter to 2003 or later, because that's when the [system came online](http://www.twdb.texas.gov/groundwater/data/drillersdb.asp).
 - Group by the `county` and `year_drilled` fields.
-- Summarize to create a count the number of `wells_drilled`.
+- Summarize to create a count of the number of `wells_drilled`.
 - Set all of the above to a new data frame, `wells_county_year`.
 - Start a plot with the new data.
 - Set x (horizontal) to be year_drilled and y (vertical) to be wells_drilled, and color to be the county.
@@ -178,8 +192,8 @@ Once you are have the data formatted, set it to fill a new data frame called `we
 Remember the formula for a basic plot:
 
 ```r
-ggplot(<DATA>) +
-  <GEOM_FUNCTION>(aes(<MAPPINGS>))
+ggplot(<DATA>, aes(<MAPPINGS>)) +
+  <GEOM_FUNCTION>
 ```
 
 and if all our mappings are the same, they can go into the ggplot function.
@@ -219,8 +233,8 @@ Exploring with graphics are one of the more powerful features of working with R.
 By design, every chart in ggplot starts with the same three things: data, a geometric coordinate system, and a mapping of the aesthetics, including the x and y values.
 
 ```r
-ggplot(data = <DATA>) +
-  <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
+ggplot(data = <DATA>, mapping = aes(<MAPPINGS>)) +
+  <GEOM_FUNCTION>
 ```
 
 If your graphic is simple, there may be less verbose ways to write it as ggplot will assume your are passing it data first, and that `aes()` functions are for mapping.
