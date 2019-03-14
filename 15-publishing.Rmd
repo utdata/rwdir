@@ -1,0 +1,59 @@
+# Publishing your findings
+
+> A work in progress
+
+Exploring a data set in R is different than publishing your findings. When you are exploring, you will ask a lot of questions and create a lot of plots that will lead to nothing. That is OK. Keep them, and write notes to your future self why you think each plot is NOT interesting, so when you return to it later you'll see you already studied that path. This is a document for your current and future self.
+
+But once you've done all your exploring and FOUND things -- things that have lead to findings or sentences in your story -- you may want to (you _should_) create a new notebook that focuses on these findings and how they relate to the story. You can use this more formal R notebook as a way to explain to readers and others the specific ways you came to your conclusions. This is a document for the public, and should written as such. Get editing help to make sure you are clear and concise in your writing.
+
+Some things to consider:
+
+- Include links to the original data. Explain what it is and how it applies to your story. Include a link to the published story.
+- Include data dictionaries or similar as files or links so others can see and use the same materials you used to understand the data. If that understanding came through interviews, explain that and include the sources when possible.
+- If you are pulling from a dataset that will change over time, include the dates you pulled the data. Save a copy of the raw data you used in your final version of the story, if possible, and explain that the data may change as records are added to the original.
+- If you cleaned or modified to the data, include those steps so they can be repeated. It is sometimes useful to split those steps into a separate notebook and export/import (as an .rds file) into subsequent notebooks.
+- For each finding, use a headline and text to explain what the code block that follows does. After the code block, write out your finding.
+- Unless there is a good reason not to, stick with the findings you actually used in your story. Don't waste readers' time going down paths that were not reported.
+
+## Examples
+
+> They don't all have to be R examples, but they are preferred.
+
+- Buzzfeed [lists all their data analysis](https://github.com/BuzzFeedNews/everything) in a special Github repo. Their computational journalists use both R and Python, depending on the author or project.
+  - R examples TK
+  - Python examples TK
+- The L.A. Times also publishes [a list of their data analysis projects](https://github.com/datadesk/notebooks) in their Github account. Most of their analysis is done in Python (usually in files that end with `.ipynb`) and the depth of the annotations vary. Some particularly good ones:
+  - List them TK
+- The Washington Post Investigative team has begun hosting [analysis from their stories](https://github.com/wpinvestigative) in their their Github repo.
+- Statesman
+  - [A Question of Restraint](https://github.com/statesman/question-of-restraint-analysis)
+- [Baltimore Sun Data Desk](https://github.com/baltimore-sun-data)
+- [Trend CT](https://github.com/trendct-data)
+- [SRF Data](http://srfdata.github.io/), the data investigative unit of a Swiss TV/Radio network, has robust documentation of their R analysis for stories.
+
+## How to publish your projects
+
+> Needs expounding: what is the HTML file
+
+- Explain about the HTML file and how it differs from the .Rmd file.
+- Explain Advantages to separate Github repos
+- Use chunk options to hide output or code that is not relevant to the reader.
+
+### Using Github Pages
+
+> Needs research and expounding
+
+- Using Github pages. (Can you mix knits to the main directory and docs directories? If so, then explain that the original can be private while the published versions can be public in `/docs/`. Will need to be tested, especially if there are images)
+  - Include the code for saving to `/docs/`:
+  
+```r
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "docs") })
+---
+```
+
+
