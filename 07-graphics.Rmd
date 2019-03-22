@@ -7,7 +7,9 @@
 
 ### Resources and further reading
 
+- [R for Data Science, Chap 3.](https://r4ds.had.co.nz/data-visualisation.html). Hadley Wickam dives right into plots when he writes about R.
 - [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/)
+- [R Graphic Gallery](https://www.r-graph-gallery.com/portfolio/ggplot2-package/)
 - [The ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html)
 - [ggplot2 cheatsheets](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf)
 - Note [This article about BBC using R, ggplot](https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535). BBC created the [bblot](https://github.com/bbc/bbplot) package to set BBC default styles, and [BBC R cookook](https://bbc.github.io/rcookbook/) as a collection of tips and tricks to build their styled graphics.
