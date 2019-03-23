@@ -1,3 +1,0 @@
-# Graphics II {#graphics2}
-
-More on the ggplot now that we can tidy.

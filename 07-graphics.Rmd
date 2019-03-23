@@ -7,12 +7,22 @@
 
 ### Resources and further reading
 
-- [R for Data Science, Chap 3.](https://r4ds.had.co.nz/data-visualisation.html). Hadley Wickam dives right into plots when he writes about R.
-- [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/)
-- [R Graphic Gallery](https://www.r-graph-gallery.com/portfolio/ggplot2-package/)
-- [The ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html)
-- [ggplot2 cheatsheets](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf)
-- Note [This article about BBC using R, ggplot](https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535). BBC created the [bblot](https://github.com/bbc/bbplot) package to set BBC default styles, and [BBC R cookook](https://bbc.github.io/rcookbook/) as a collection of tips and tricks to build their styled graphics.
+- [The ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html) and [ggplot2 cheatsheets](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf).
+- [R for Data Science, Chap 3.](https://r4ds.had.co.nz/data-visualisation.html) Hadley Wickam dives right into plots in his book.
+- [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/) has lots of example plots. Good to harvest code and see how to do things.
+- [R Graphic Gallery](https://www.r-graph-gallery.com/portfolio/ggplot2-package/) another place to see examples.
+- Note [this article about BBC using R, ggplot](https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535). BBC created the [bblot](https://github.com/bbc/bbplot) package to set BBC default styles, and [BBC R cookook](https://bbc.github.io/rcookbook/) as a collection of tips and tricks to build their styled graphics. It's just an example of you can customize R graphics.
+
+### Set up our Notebook
+
+- Create a new RNotebook. Title it "Wells visualizations" and name the file `04-charts.Rmd`.
+- Load the following libraries: tidyverse, lubridate.
+
+```r
+library(tidyverse)
+library(lubridate)
+```
+
 
 ## Introduction ggplot
 
@@ -27,54 +37,20 @@
 
 The challenge to understand here is for every graphic, we start with the data, and then describe how to layer plots or pieces on top of that data.
 
-## Set up our Notebook
 
-- Create a new RNotebook. Title it "Wells visualizations" and name the file `04-charts.Rmd`.
-- Load the following libraries: tidyverse, lubridate.
-- Import our `wells_03.rds` data,
-
-```r
-library(tidyverse)
-library(lubridate)
-wells <- readRDS("data-out/wells_03.rds")
-```
-
-## Wells per county
-
-For our first graphic, we will plot how many wells were drilled in each county.
-
-### Shape our data
-
-If we are plotting wells per county, we need to first build a data frame that counts the number of wells for each county. We can use the same `count()` function that we used when we cleaned our data.
-
-```r
-wells_by_county <- wells %>% 
-  count(county) %>% 
-  rename(wells_count = n)
-wells_by_county
-```
-
-Let's break this down:
-
-- The first line creates the new data frame `wells_by_county`, starting with our `wells` data frame.
-- We apply the `count()` function on the "county" column. This makes our basic pivot table.
-- On the third line, we rename the "n" column that was created by `count()`, so it is more descriptive, calling it `wells_count`.
-- So now we have a data frame with two columns: **county** and **wells_count**. We print it on the fourth line so we can inspect it.
-
-### The basic ggplot template
+## The basic ggplot template
 
 The template for a basic plot is this. (The `<>` denote that we are inserting values there.)
-
 
 ```r
 ggplot(data = <DATA>, aes(mapping = <MAPPINGS>)) +
   <GEOM>(<ADDITONAL_MAPPINGS>)
 ```
 
-- **ggplot()** is our function. We feed into it the data we wish to plot.
-- **aes()** stands for "aesthetics", and it describes the column of data we want to plot, and how, like which column is on the x axis and which is on the y axis. These are called **mappings**, because we are mapping where on the plot we want each type of data.
-- The **+** is the equivalent of `%>%` in our tidyverse data. It means we are adding a layer, and it should always be at the end of the line, not at the beginning of the next.
-- **`<GEOM_FUNCTION>`** is the type of chart or addition we are adding. They all start with the term **geom_** like **geom_bar**, which is what we will build with this example. It will take the mappings we supplied and plot them on the type of **geom_** we choose.
+- **`ggplot()`** is our function. We feed into it the data we wish to plot.
+- **`aes()`** stands for "aesthetics", and it describes the column of data we want to plot, and how, like which column is on the **x axis** and which is on the **y axis**. These are called **mappings**, which we show in our template with **`<MAPPINGS>`**. They typically look like this: `aes(x = col_name_x, y = col_name_y)`. Now matter what type of chart we are building (bar chart, scatterplot, etc) we have to tell it which columns to show on the chart.
+- The **`+`** is the equivalent of `%>%` in our tidyverse data. It means we are adding a layer, and it should always be at the end of the line, not at the beginning of the next.
+- **`<GEOM_FUNCTION>`** is the type of chart or addition we are adding. They all start with the term **geom_** like **`geom_bar`**, which is what we will build with this example. It will take the mappings we supplied and plot them on the type of **geom_** we choose.
 - **`<ADDITIONAL MAPPINGS>`** if a geom_ requires it, we can specify additional columns/axis mapping combinations to that **geom_**. We don't always have or need them. 
 
 There are some ways to simplify this, and some ways to complicate it. Let's simplify first:
@@ -96,9 +72,107 @@ ggplot(<DATA>, aes(<MAPPINGS>)) +
   <GEOM_FUNCTION>(aes(<SPECIFIC_MAPPINGS>))
 ```
 
-Let's not get too complicated too fast. Let's just make a damn plot!
+### Scatterplot
 
-### Plot our wells by county
+One of the better ways to see this in action for the first time is build a scatterplot showing the relationship between two numbers. Unfortunately, our wells data does not have two such values, so we'll explore this using a data set that is already built into ggplot2, **mpg**.
+
+Take a look at the **mpg** by calling it like a data frame.
+
+```r
+mpg
+```
+
+It looks something like this, which shows the first and last couple of rows:
+
+| manufacturer | model  | displ | year | cyl | trans      | drv | cty | hwy | fl | class   |
+|--------------|--------|-------|------|-----|------------|-----|-----|-----|----|---------|
+| audi         | a4     | 1.8   | 1999 | 4   | auto(l5)   | f   | 18  | 29  | p  | compact |
+| audi         | a4     | 1.8   | 1999 | 4   | manual(m5) | f   | 21  | 29  | p  | compact |
+| audi         | a4     | 2     | 2008 | 4   | manual(m6) | f   | 20  | 31  | p  | compact |
+| audi         | a4     | 2     | 2008 | 4   | auto(av)   | f   | 21  | 30  | p  | compact |
+| ...          | ...    | ...   | ...  | .   | ...        | .   | ..  | ..  | .  | ...     |
+| volkswagen   | passat | 2     | 2008 | 4   | manual(m6) | f   | 21  | 29  | p  | midsize |
+| volkswagen   | passat | 2.8   | 1999 | 6   | auto(l5)   | f   | 16  | 26  | p  | midsize |
+| volkswagen   | passat | 2.8   | 1999 | 6   | manual(m5) | f   | 18  | 26  | p  | midsize |
+| volkswagen   | passat | 3.6   | 2008 | 6   | auto(s6)   | f   | 17  | 26  | p  | midsize |
+
+The data is a subst of fuel econmy data from 1999 and 2008 for 38 popular cars. Don't get too hung up on the data, it is just for examples.
+
+The size of an engine is shows in the column `displ`. The Audi A4 has a 1.8 liter engine. The column `hwy` is the fuel rating for highways. Well also us the `class` column, which categorizes the type of vehicle.
+
+What kind of relationship might you expect between the size of the engine and highway milage?
+
+Let's use our plot to show this. If our basic template is like this:
+
+```r
+ggplot(<DATA>, aes(<MAPPINGS>) +
+  <GEOM>
+```
+
+Now, let's put our data in here. Our goal here is to show how the **hwy** number (y axis) changes as the **displ** number gets bigger (x axis.)
+
+```r
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point()
+```
+
+Which gets us a our first chart:
+
+![MPG: hwy vs displ](images/visualize-mpg-01.png)
+
+We can see there is a relationships of sort here, but ggplot has some additional geometries to help us see this, including [`geom_smooth()`](https://ggplot2.tidyverse.org/reference/geom_smooth.html). Since we have already the mappings in the main `ggplot()` call, all we have to do is add the new geom.
+
+```r
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point() +
+  geom_smooth() # new plot. don't forget the + on previous line
+```
+
+![MPG: displ vs hwy with smooth line](images/visualize-mpg-02.png)
+
+Let's add one more visual cue (or aesthetic) to this graphic by coloring the dots based on the `class` of the vehicle. Since we want this aesthetic to apply only to the `geom_point()`, we have to add the `aes()` value there.
+
+```r
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point(aes(color = class)) + # added color aesthetic
+  geom_smooth()
+```
+
+![MPG: disply vs mpg with class](images/visualize-mpg-03.png)
+
+Looking at that graphic, what values might you want to learn more about?
+
+
+## Plotting our wells data
+
+For bar charts and line charts, we can return to our wells data, so let's import what we had from our last notebook.
+
+```r
+wells <- readRDS("data-out/wells_03.rds")
+```
+
+### Total wells per county
+
+#### Shape our data
+
+If we are plotting wells per county, we need to first build a data frame that counts the number of wells for each county. We can use the same `count()` function that we used when we cleaned our data.
+
+```r
+wells_by_county <- wells %>% 
+  count(county) %>% 
+  rename(wells_count = n)
+wells_by_county
+```
+
+Let's break this down:
+
+- The first line creates the new data frame `wells_by_county`, starting with our `wells` data frame.
+- We apply the `count()` function on the "county" column. This makes our basic pivot table.
+- On the third line, we rename the "n" column that was created by `count()`, so it is more descriptive, calling it `wells_count`.
+- So now we have a data frame with two columns: **county** and **wells_count**. We print it on the fourth line so we can inspect it.
+
+
+#### Plot our wells by county
 
 Here is the verbose plot for our counties.
 

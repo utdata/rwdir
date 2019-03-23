@@ -5,6 +5,15 @@
 - Draw ideas from [this tutorial](https://workshop.mhermans.net/thematic-maps-r/) and Machlis.
 - Andrew Tran's [mapping session from NICAR](https://github.com/andrewbtran/NICAR/tree/master/2019/mapping)
 
+## Joins {-}
+
+Add this as a short lesson on joining and merging files.
+
+## Data packages {-}
+
+Add a chapter that lists various data packages and such.
+
+
 ## Matt Waite's class for ggplot ideas {-}
 
 ### 06 has these {-}
