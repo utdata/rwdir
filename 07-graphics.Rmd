@@ -11,7 +11,6 @@
 - [R for Data Science, Chap 3.](https://r4ds.had.co.nz/data-visualisation.html) Hadley Wickam dives right into plots in his book.
 - [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/) has lots of example plots. Good to harvest code and see how to do things.
 - [R Graphic Gallery](https://www.r-graph-gallery.com/portfolio/ggplot2-package/) another place to see examples.
-- Note [this article about BBC using R, ggplot](https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535). BBC created the [bblot](https://github.com/bbc/bbplot) package to set BBC default styles, and [BBC R cookook](https://bbc.github.io/rcookbook/) as a collection of tips and tricks to build their styled graphics. It's just an example of you can customize R graphics.
 
 ### Set up our Notebook
 
@@ -315,6 +314,43 @@ ggplot(data = <DATA>, mapping = aes(<MAPPINGS>)) +
 
 If your graphic is simple, there may be less verbose ways to write it as ggplot will assume your are passing it data first, and that `aes()` functions are for mapping.
 
+## Plotly for more interactive graphics
+
+At the risk of adding yet a little more complexity I want to introduce you to [Plotly](https://plot.ly/r/). I see two ways you might find Plotly interesting:
+
+### ggplotly
+
+[ggplotly](https://plot.ly/ggplot2/) allows you to port your ggplot graphic into plotly so they have interactive tooltips. The tutorial examples are also not bad for a general ggpolot reference.
+
+After installing and loading the plotly library, giving your chart hover tips is as easy as assigning your plot to an object (`p` in the example below), and then calling that with the `ggplotly()` function:
 
 
+```r
+p <- ggplot(mpg, aes(x=displ, y=hwy)) +
+  geom_point() +
+  geom_smooth()
+ggplotly(p)
+```
 
+![ggplotly example](images/visualize-ggplotly-example.png)
+
+The black label above appears when you hover on the graphic.
+
+### More with `plot_ly()` function
+
+You can gain a little more control over your plotly graphic if you build them using the `plot_ly()` function instead of `ggplot()`, but you have to learn a new syntax. It's still based on the Grammer of Graphics, so it's not hard ... just different.
+
+For example, for our "Wells by County and Year" graphic we did earlier looks like this:
+
+```r
+wells_county_year %>% plot_ly(x = ~year_drilled, y = ~wells_drilled, name = ~county,
+        type = "scatter", mode = "lines+markers")
+```
+
+And it ends up looking like this:
+
+![Plotly example](images/visualize-plotly-example.png)
+
+### Plotly's freemium model
+
+It appears that you can use these open source libraries without charge from Plotly. They do also have a hosting service to allow you to embed charts in other websites, which can get into a pay tier of their service.

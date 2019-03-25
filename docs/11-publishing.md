@@ -56,4 +56,11 @@ knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = e
 ---
 ```
 
+## Making branded graphics
 
+We haven't explored many ways to change the theme or looks of our ggplot graphics, but here are some notes worth exploring.
+
+- ggplot [themes](https://ggplot2.tidyverse.org/reference/ggtheme.html) can be added with one line.
+- [Branding ggplot graphs](https://michaeltoth.me/you-need-to-start-branding-your-graphs-heres-how-with-ggplot.html)
+- Note [this article about BBC using R, ggplot](https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535). BBC created the [bblot](https://github.com/bbc/bbplot) package to set BBC default styles, and [BBC R cookook](https://bbc.github.io/rcookbook/) as a collection of tips and tricks to build their styled graphics. It's just an example of you can customize R graphics.
+- 

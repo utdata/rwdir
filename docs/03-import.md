@@ -108,7 +108,7 @@ Because I want you to teach you good data project skills, I want you first to ma
 - In the **Files** pane, use the **New Folder** button to create a folder called `data-raw`. (I typically make a `data-out` or similar folder for any files that I create.)
 - In a web browser, go to the [Texas Water Development Board Driller Reports](http://www.twdb.texas.gov/groundwater/data/drillersdb.asp) page and then click on the **Well Reports Search by County and Use** link.
 - In the **County** drop down, choose: Bastrop, Caldwell, Hays, Travis and Williamson counties.
-- In the **Proposed Use** column, choose **Select All*.
+- In the **Proposed Use** column, choose **Select All**.
 - Click **View Reports**. You'll get 400+ returns.
 - Look for the floppy disk/arrow icon that is the download button. Choose **CSV (comma delimited)**.
 

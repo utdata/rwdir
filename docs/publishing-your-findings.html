@@ -25,7 +25,7 @@
 <meta name="author" content="Christian McDonald">
 
 
-<meta name="date" content="2019-03-23">
+<meta name="date" content="2019-03-25">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -242,6 +242,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="7.6" data-path="graphics.html"><a href="graphics.html#your-turn-build-a-line-chart"><i class="fa fa-check"></i><b>7.6</b> Your turn: Build a line chart</a></li>
 <li class="chapter" data-level="7.7" data-path="graphics.html"><a href="graphics.html#review-of-ggplot"><i class="fa fa-check"></i><b>7.7</b> Review of ggplot</a></li>
+<li class="chapter" data-level="7.8" data-path="graphics.html"><a href="graphics.html#plotly-for-more-interactive-graphics"><i class="fa fa-check"></i><b>7.8</b> Plotly for more interactive graphics</a><ul>
+<li class="chapter" data-level="7.8.1" data-path="graphics.html"><a href="graphics.html#ggplotly"><i class="fa fa-check"></i><b>7.8.1</b> ggplotly</a></li>
+<li class="chapter" data-level="7.8.2" data-path="graphics.html"><a href="graphics.html#more-with-plot_ly-function"><i class="fa fa-check"></i><b>7.8.2</b> More with <code>plot_ly()</code> function</a></li>
+<li class="chapter" data-level="7.8.3" data-path="graphics.html"><a href="graphics.html#plotlys-freemium-model"><i class="fa fa-check"></i><b>7.8.3</b> Plotly’s freemium model</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="tidy.html"><a href="tidy.html"><i class="fa fa-check"></i><b>8</b> Tidy data</a><ul>
 <li class="chapter" data-level="8.1" data-path="tidy.html"><a href="tidy.html#goals-for-this-session"><i class="fa fa-check"></i><b>8.1</b> Goals for this session</a></li>
@@ -288,11 +293,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="11.2" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#how-to-publish-your-projects"><i class="fa fa-check"></i><b>11.2</b> How to publish your projects</a><ul>
 <li class="chapter" data-level="11.2.1" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#using-github-pages"><i class="fa fa-check"></i><b>11.2.1</b> Using Github Pages</a></li>
 </ul></li>
+<li class="chapter" data-level="11.3" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#making-branded-graphics"><i class="fa fa-check"></i><b>11.3</b> Making branded graphics</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html"><i class="fa fa-check"></i>Notes about future sessions</a><ul>
 <li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#maps"><i class="fa fa-check"></i>Maps</a></li>
 <li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#joins"><i class="fa fa-check"></i>Joins</a></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#data-packages"><i class="fa fa-check"></i>Data packages</a></li>
+<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#data-packages"><i class="fa fa-check"></i>Data packages</a><ul>
+<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#twitter"><i class="fa fa-check"></i>Twitter</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#tools-for-pdfs"><i class="fa fa-check"></i>Tools for PDFs</a></li>
+<li class="chapter" data-level="11.4" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#more-graphics-ideas"><i class="fa fa-check"></i><b>11.4</b> More graphics ideas</a></li>
 <li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#matt-waites-class-for-ggplot-ideas"><i class="fa fa-check"></i>Matt Waite’s class for ggplot ideas</a><ul>
 <li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#has-these"><i class="fa fa-check"></i>06 has these</a></li>
 <li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#has"><i class="fa fa-check"></i>07 has</a></li>
@@ -393,8 +403,18 @@ output<span class="op">:</span>
 <span class="st">    </span>df_print<span class="op">:</span><span class="st"> </span>paged
 knit<span class="op">:</span><span class="st"> </span>(<span class="cf">function</span>(inputFile, encoding) { rmarkdown<span class="op">::</span><span class="kw">render</span>(inputFile, <span class="dt">encoding =</span> encoding, <span class="dt">output_dir =</span> <span class="st">&quot;docs&quot;</span>) })
 <span class="op">---</span></code></pre></div>
-
 </div>
+</div>
+<div id="making-branded-graphics" class="section level2">
+<h2><span class="header-section-number">11.3</span> Making branded graphics</h2>
+<p>We haven’t explored many ways to change the theme or looks of our ggplot graphics, but here are some notes worth exploring.</p>
+<ul>
+<li>ggplot <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">themes</a> can be added with one line.</li>
+<li><a href="https://michaeltoth.me/you-need-to-start-branding-your-graphs-heres-how-with-ggplot.html">Branding ggplot graphs</a></li>
+<li>Note <a href="https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535">this article about BBC using R, ggplot</a>. BBC created the <a href="https://github.com/bbc/bbplot">bblot</a> package to set BBC default styles, and <a href="https://bbc.github.io/rcookbook/">BBC R cookook</a> as a collection of tips and tricks to build their styled graphics. It’s just an example of you can customize R graphics.</li>
+<li></li>
+</ul>
+
 </div>
 </div>
             </section>
