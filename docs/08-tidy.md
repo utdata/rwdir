@@ -8,9 +8,9 @@ Data "shape" can be important when you are trying to work with and visualize dat
 
 - Explore what it means to have "tidy" data.
 - Learn `gather()`, `spread()` and other [tidyr](https://tidyr.tidyverse.org/) verbs.
-- Use Mixed Beverage Receipts to explore shaping data.
+- Use Mixed Beverage Gross Receipts to explore shaping data.
     + We'll introduce the RSocrata package to get the data.
-- For our practice assignment, we'll revisit our Census project and refactor our code using these new skills to find our "Counties with highest percentage of race" more efficiently.
+- Explore and chart the alcohol data to practice our skills.
 
 ## What is tidy data
 
@@ -67,11 +67,11 @@ There are a couple of things we need to do before you run this notebook:
 - Use the Files pane to create a new folder called `data-raw` so we have a place to save our data.
 - Now use **Cmd-option-R** (or go to Run > Run All) to run the notebook.
 
-Running that notebook will download three years of data from Travis County and save it to your project. We'll spend some time in class explaining what is happening in that notebook, but it is all documented there.
+Running that notebook will download three years of data from Travis County establishments and save it into your `data-raw` folder in your project. How that is done is all documented in that notebook, but we may spend some time in class explaining going over it.
 
 ## Create an explore notebook
 
-Now that we have data we don't have to download it again. Let's create a new notebook to import and explore it (and learn Tidyr while we are at it).
+Now that we have data we don't have to download it again. Let's create a new RNotebook to import and explore it (and learn Tidyr while we are at it).
 
 - Create a new RNotebook. Save the file as `02-mixbev-explore.Rmd`.
 - Update the title in the metadata.
@@ -96,8 +96,9 @@ In the environment window, click on the **receipts** data frame so it opens and 
 - The monetary amounts for **`_receipts`** are total sales numbers for that establishment in that month.
 - The **`obligation_end_date`** is the last day of the month for those sales.
 - The liquor type sales like beer and wine _should_ all add up to the **total_receipts**, but sometimes type sales are blank. I don't trust **cover_charge_receipts** at all.
+- There are several other columns we won't deal with in this lesson.
 
-So these are NOT the number of drinks sold. It's the amount of money brought in for the total sale of each type of liquor. The **total_receipts** is used to calculate tax paid to the state on those sales based on a formula. See the record layout in the data for more information.
+So these are NOT the number of drinks sold. It's the amount of money brought in for the total sale of each type of liquor within that month. The **total_receipts** is used to calculate tax paid to the state on those sales based on a formula. See the record layout on [Socrata](https://data.texas.gov/Government-and-Taxes/Mixed-Beverage-Gross-Receipts/naix-2893) for more information.
 
 ## What might we learn about this dataset
 
@@ -190,7 +191,7 @@ student_bars <- receipts %>%
 student_bars %>% count(location_name, location_address)
 ```
 
-
+Note the `filter()` function above. In order to feed in a list of location names into the filter, I used the `%in%` operator (instead of `==`) and I put list of locations into a `c()` function. The C stands for concatenate, FWIW.
 
 After creating the `student_bars` data frame above, I used `count()` to  make sure we caught all the bars and made sure each had the same number of reports. Which looks like this:
 
@@ -210,7 +211,7 @@ Note I didn't save the `count()` function back to the data frame. I just viewed 
 
 Now, if we are interested in charting it helps to think about what we need and how to shape our data to get it.
 
-Let's start with charting **how sales at each bar have changed over the past three years**. Since we are looking at at value over time for multiple things, a line chart will probably work best.
+Let's start with charting **how sales at each bar have changed over the past three years**. Since we are looking at value over time for multiple things, a line chart will probably work best.
 
 If our basic line chart works like this:
 
@@ -301,11 +302,11 @@ And the next value we give it is name of the **value** column.
 
 Then we have to give it the **range of columns** that we want to gather. You can define those in different ways.
 
-The first method is a number range of the columns, starting in order of the columns in the data frame. So, for our example above, the range is `2:4`.
+The first method is a number range of the columns, starting in order of the columns in the data frame. So, for our example above, we want the second, third and fourth column, so we use the range `2:4`.
 
 ![Name the range](images/tidy-name-range.png)
 
-Or, we could supply those column names in several other ways, like by their column names:
+Or, we could supply those columns in other ways, like by their column names:
 
 ![Range as column names](images/tidy-name-namerange.png)
 
@@ -341,9 +342,9 @@ We get a result like this:
 | CAIN & ABEL'S           | 2016       | 34239 | 456  | 42543  |
 
 
-Now, if we can "gather" the beer, wine and liquor columns into two new ones -- alcohol type and sales amount -- then we could group and sum by the year and type.
+Now, if we can "gather" the beer, wine and liquor columns into two new columns -- alcohol type and sales amount -- then we could group and sum by the year and type.
 
-The code below builds the new data frame we'll use for our chart (`student_sales_grouped`) but you should walk through it line by line to see how it gets built, starting with the `student_sales` data frame.
+The code below builds the new data frame we'll use for our chart (`student_sales_grouped`) but you skip the beginning data frame assignment and walk through it line by line to see how it gets built, starting with the `student_sales` data frame. Once you have it, then assign it back to `student_sales_group`.
 
 ```r
 student_sales_grouped <- student_sales %>% 
@@ -374,12 +375,16 @@ ggplot(cain, aes(x=sales_year, y=sales_sum_year, group=alcohol_type, color=alcoh
   geom_line()
 ```
 
+We get our chart like this:
+
+![Cain & Abel's alcohol sales](images/tidy-cain-chart.png)
+
+
 ### Plot sales by type for multiple campus-area bars
 
+For this chart, we are going to duplicate what we did for the graphic above, and then instead of applying to the `cain` data frame, we'll substitute in our our `student_sales_grouped` data frame so have all the West Campus bars.
 
-For this chart, we are going back to our `student_sales_grouped` data frame so have all the bars.
-
-And now we can introduce the `facet_wrap()`, which allows you to duplicate a graphic based on one of the categories in the data. Inside the facet_wrap we give it the category with the ~ as `facet_wrap(~location_name)`.
+And now we can introduce the `facet_wrap()`, which allows you to duplicate a graphic based on one of the categories in the data. We feed the `facet_wrap()` function with the variable (the column name) we want to duplicate. Weirdly, it has to start with a tilde, like this: `facet_wrap(~location_name)`.
 
 ```r
 ggplot(student_sales_grouped, aes(x=sales_year, y=sales_sum_year, group=alcohol_type, color=alcohol_type)) +
@@ -410,21 +415,21 @@ This assignment looks a little further into some specific establishments from th
 - Create a new notebook called "03-practice.Rmd". Use the same libraries and data as the in-class assignment.
 - Find the establishment with highest total receipts in last three years. See the first Bonus section below for the the code.
 - For the top establishment found, **create a bar chart with sales by year**. Here are some hints:
-    - Start with `receipts`, then filter by the `location_name` and the `location_address`. Assign that to a data frame that you can use going forward.
-    - Group by `sales_year`, then summarize to get the `sum(total_receipts)`. Review [Summarize](https://utdata.github.io/rwd-class/transform.html#summarize) if needed. Save the result into a new data frame./
+    - Start with `receipts`, then filter by the `location_name` and the `location_address`. (You have to include `location_address` because there is more than one location in Ausitn for this chain.) Assign that to a data frame that you can use going forward.
+    - Group by `sales_year`, then summarize to get the `sum(total_receipts)`. Review [Summarize](https://utdata.github.io/rwd-class/transform.html#summarize) if needed. Save the result into a new data frame.
     - Use `ggplot()` with `geom_bar(stat="identity")`. Review the less verbose [wells by county](https://utdata.github.io/rwd-class/graphics.html#plot-our-wells-by-county) for an example of how to write the plot.
 - For that top establishment, **create a bar chart with total_receipts each month**. Some hints:
     - Don't over think this. You already have a filtered data set, and you can plot the x axis on the `obligation_end_date_yyyymmdd`.
-- Because the chart shows trends but it's hard to see the top months, **create a table showing the top monthly total sales by month**. Some hints:
+- Because the chart shows trends but it's hard to see the values for the top months, **create a table showing the top monthly total sales by month**. Some hints:
     - Select the `oblibgation_end_date_yyyymmdd` and arrange the `total_receipts` in descending order. Show just the top by piping into `head()`
-- For that establishment, **create a line chart with sales by alcohol type by year**. This one _is_ challenging, but you have everything you need in the chapter when we did this for Cain & Abel's. Here are some hints:
+- For that establishment, **create a line chart with sales by alcohol type by year**. This one is more challenging, but you have everything you need in the chapter when we did this for Cain & Abel's. Here are some hints:
     - You can start from the the filtered data that you did with the previous chart.
     - Create a new data frame with just the columns you need: select name, sales_year, beer, wine, liquor
     - Use `gather()` to collect the beer, wine, liquor columns as `alcohol_type` and `sales_by_type`. This is the same as we did in class.
     - Group by `sales_year`, `alcohol_type`.
     - Summarize to get the `sales_sum_year`.
     - Plot as a geom_line chart with x=sales_year, y=sales_sum_year, group and color as alcohol_type.
-- Lastly, to show that once you have code you can repurpose it, **create a line chart of sales by alcohol type by year for the Circuit of the Americas**. Your hint:
+- Lastly, to show that once you have code you can re-purpose it, **create a line chart of sales by alcohol type by year for the Circuit of the Americas**. Your hint:
     - Create a new data frame with just the Circuit of the Americas data.
     - Copy the steps from the last chart, and change out the data frame name.
 

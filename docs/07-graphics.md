@@ -2,7 +2,7 @@
 
 ## Goals for this section
 
-- An introduction to the Grammer of Graphics
+- An introduction to the Grammar of Graphics
 - We'll make charts!
 
 ### Resources and further reading
@@ -12,30 +12,18 @@
 - [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/) has lots of example plots. Good to harvest code and see how to do things.
 - [R Graphic Gallery](https://www.r-graph-gallery.com/portfolio/ggplot2-package/) another place to see examples.
 
-### Set up our Notebook
-
-- Create a new RNotebook. Title it "Wells visualizations" and name the file `04-charts.Rmd`.
-- Load the following libraries: tidyverse, lubridate.
-
-```r
-library(tidyverse)
-library(lubridate)
-```
-
-
 ## Introduction ggplot
 
 [ggplot2](https://ggplot2.tidyverse.org/) is the data visualization library within Hadley Wickham's [tidyverse](https://www.tidyverse.org/). It uses a concept called the "[Grammar of Graphics](https://byrneslab.net/classes/biol607/readings/wickham_layered-grammar.pdf)", the idea that you can build every graph from the same components: a data set, a coordinate system, and geoms -- the visual marks that represent data points. With a hat tip to [Matt Waite](http://www.mattwaite.com/), the main concepts are: 
 
-- **data**: which dataframe you are pulling from
-- **aesthetics**: the specific data from the dataframe which we are going to plot
+- **data**: which data frame you are pulling from
+- **aesthetics**: the specific data from the data frame which we are going to plot
 - **geometries**: the shape the data is going to take
 - **scales**: any transformations we might make on the data
 - **layers**: how we might lay multiple geometries over top of each other to reveal new information.
-- **facets**: which means how we might graph many elements of the same dataset in the same space
+- **facets**: which means how we might graph many elements of the same data set in the same space
 
 The challenge to understand here is for every graphic, we start with the data, and then describe how to layer plots or pieces on top of that data.
-
 
 ## The basic ggplot template
 
@@ -71,6 +59,18 @@ ggplot(<DATA>, aes(<MAPPINGS>)) +
   <GEOM_FUNCTION>(aes(<SPECIFIC_MAPPINGS>))
 ```
 
+## Let's plot!
+
+### Set up our Notebook
+
+- Create a new RNotebook. Title it "Wells visualizations" and name the file `04-charts.Rmd`.
+- Load the following libraries: tidyverse, lubridate.
+
+```r
+library(tidyverse)
+library(lubridate)
+```
+
 ### Scatterplot
 
 One of the better ways to see this in action for the first time is build a scatterplot showing the relationship between two numbers. Unfortunately, our wells data does not have two such values, so we'll explore this using a data set that is already built into ggplot2, **mpg**.
@@ -95,11 +95,11 @@ It looks something like this, which shows the first and last couple of rows:
 | volkswagen   | passat | 2.8   | 1999 | 6   | manual(m5) | f   | 18  | 26  | p  | midsize |
 | volkswagen   | passat | 3.6   | 2008 | 6   | auto(s6)   | f   | 17  | 26  | p  | midsize |
 
-The data is a subst of fuel econmy data from 1999 and 2008 for 38 popular cars. Don't get too hung up on the data, it is just for examples.
+The data is a subset of fuel economy data from 1999 and 2008 for 38 popular cars. Don't get too hung up on the data, it is just for examples.
 
 The size of an engine is shows in the column `displ`. The Audi A4 has a 1.8 liter engine. The column `hwy` is the fuel rating for highways. Well also us the `class` column, which categorizes the type of vehicle.
 
-What kind of relationship might you expect between the size of the engine and highway milage?
+What kind of relationship might you expect between the size of the engine and highway mileage?
 
 Let's use our plot to show this. If our basic template is like this:
 
@@ -223,7 +223,7 @@ Let's see how those trends play out over time.
 
 Our next chart will be a line chart to show how the number of wells drilled has changed over time within each county.
 
-Again, it will help us to think about what we are after and then build our data frame to match. In this case, we want to plot the "number of wells" for each county, by year. That means we need a dataframe that has columns for county, year and the number of wells. To get that, we have to use group and summarize.
+Again, it will help us to think about what we are after and then build our data frame to match. In this case, we want to plot the "number of wells" for each county, by year. That means we need a data frame that has columns for county, year and the number of wells. To get that, we have to use group and summarize.
 
 Sometimes it helps to write out the steps of everything before you to do it.
 
@@ -320,9 +320,9 @@ At the risk of adding yet a little more complexity I want to introduce you to [P
 
 ### ggplotly
 
-[ggplotly](https://plot.ly/ggplot2/) allows you to port your ggplot graphic into plotly so they have interactive tooltips. The tutorial examples are also not bad for a general ggpolot reference.
+[ggplotly](https://plot.ly/ggplot2/) allows you to port your ggplot graphic into Plotly so they have interactive tooltips. The tutorial examples are also not bad for a general ggplot reference.
 
-After installing and loading the plotly library, giving your chart hover tips is as easy as assigning your plot to an object (`p` in the example below), and then calling that with the `ggplotly()` function:
+After installing and loading the Plotly library, giving your chart hover tips is as easy as assigning your plot to an object (`p` in the example below), and then calling that with the `ggplotly()` function:
 
 
 ```r
@@ -338,7 +338,7 @@ The black label above appears when you hover on the graphic.
 
 ### More with `plot_ly()` function
 
-You can gain a little more control over your plotly graphic if you build them using the `plot_ly()` function instead of `ggplot()`, but you have to learn a new syntax. It's still based on the Grammer of Graphics, so it's not hard ... just different.
+You can gain a little more control over your Plotly graphic if you build them using the `plot_ly()` function instead of `ggplot()`, but you have to learn a new syntax. It's still based on the Grammar of Graphics, so it's not hard ... just different.
 
 For example, for our "Wells by County and Year" graphic we did earlier looks like this:
 

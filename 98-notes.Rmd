@@ -32,6 +32,7 @@ Add a chapter that lists various data packages and such.
 ## More graphics ideas
 - RStudio add in [esquisse](https://github.com/dreamRs/esquisse) with UI for easy ggplot graphics.
 - [Plotly](https://plot.ly/r/) for interactive charts with hovers. There is also a [ggplot port](https://plot.ly/ggplot2/) that makes ggplot graphics interactive. It appears use of the open source library is free. When you get into publishing embeddable graphics, there is cost. 
+- [ggirafe](https://davidgohel.github.io/ggiraph/articles/offcran/using_ggiraph.html) is yet another port to make **ggplot** interactive.
 
 ## Matt Waite's class for ggplot ideas {-}
 
