@@ -315,7 +315,19 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="12.3" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#making-branded-graphics"><i class="fa fa-check"></i><b>12.3</b> Making branded graphics</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="chart-examples.html"><a href="chart-examples.html"><i class="fa fa-check"></i><b>13</b> Chart examples</a></li>
+<li class="chapter" data-level="13" data-path="chart-examples.html"><a href="chart-examples.html"><i class="fa fa-check"></i><b>13</b> Chart examples</a><ul>
+<li class="chapter" data-level="13.1" data-path="chart-examples.html"><a href="chart-examples.html#bar-charts"><i class="fa fa-check"></i><b>13.1</b> Bar charts</a><ul>
+<li class="chapter" data-level="13.1.1" data-path="chart-examples.html"><a href="chart-examples.html#explanaton"><i class="fa fa-check"></i><b>13.1.1</b> Explanaton</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="chart-examples.html"><a href="chart-examples.html#column-chart"><i class="fa fa-check"></i><b>13.2</b> Column chart</a></li>
+<li class="chapter" data-level="13.3" data-path="chart-examples.html"><a href="chart-examples.html#a-line-chart"><i class="fa fa-check"></i><b>13.3</b> A line chart</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="chart-examples.html"><a href="chart-examples.html#explanation"><i class="fa fa-check"></i><b>13.3.1</b> Explanation</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="chart-examples.html"><a href="chart-examples.html#scatterplot-1"><i class="fa fa-check"></i><b>13.4</b> Scatterplot</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="chart-examples.html"><a href="chart-examples.html#explanation-1"><i class="fa fa-check"></i><b>13.4.1</b> Explanation</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="chart-examples.html"><a href="chart-examples.html#creating-interactivity-with-plotly"><i class="fa fa-check"></i><b>13.5</b> Creating interactivity with plotly</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html"><i class="fa fa-check"></i>Notes about future sessions</a><ul>
 <li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#maps"><i class="fa fa-check"></i>Maps</a></li>
 <li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#joins"><i class="fa fa-check"></i>Joins</a></li>
@@ -323,7 +335,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#twitter"><i class="fa fa-check"></i>Twitter</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#tools-for-pdfs"><i class="fa fa-check"></i>Tools for PDFs</a></li>
-<li class="chapter" data-level="13.1" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#more-graphics-ideas"><i class="fa fa-check"></i><b>13.1</b> More graphics ideas</a></li>
+<li class="chapter" data-level="13.6" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#more-graphics-ideas"><i class="fa fa-check"></i><b>13.6</b> More graphics ideas</a></li>
 <li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#matt-waites-class-for-ggplot-ideas"><i class="fa fa-check"></i>Matt Waite’s class for ggplot ideas</a><ul>
 <li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#has-these"><i class="fa fa-check"></i>06 has these</a></li>
 <li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#has"><i class="fa fa-check"></i>07 has</a></li>
@@ -368,8 +380,93 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <blockquote>
 <p>Under construction</p>
 </blockquote>
-<p>This will be a annotated list of chart code and examples from this book.</p>
+<p>This will be a annotated list of chart code and examples from this book. It does not include the construction of the data frame used in the plot. (I’ll try to go back and add links.)</p>
+<div id="bar-charts" class="section level2">
+<h2><span class="header-section-number">13.1</span> Bar charts</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(wells_by_county, <span class="kw">aes</span>(<span class="dt">x =</span> county, <span class="dt">y =</span> wells_count)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label=</span>wells_count), <span class="dt">vjust=</span><span class="op">-</span><span class="fl">0.45</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Wells by county&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Number of wells drilled&quot;</span>)</code></pre></div>
+<div class="figure">
+<img src="images/visualize-county-by-year-done.png" alt="Wells by county with title" />
+<p class="caption">Wells by county with title</p>
+</div>
+<div id="explanaton" class="section level3">
+<h3><span class="header-section-number">13.1.1</span> Explanaton</h3>
+<ul>
+<li>This is a <code>geom_bar()</code> using <code>stat=&quot;identity&quot;</code>. See below for a similar one using <code>geom_col()</code> which assumes the identity of the category.</li>
+<li>The <code>geom_text()</code> line adds the numbers to the top of the bars. <code>vjust</code> moves those number up vertically.</li>
+<li>The <code>labs()</code> add the title and modifies the <code>x</code> and <code>y</code> labels. The <code>x</code> value is set to blank because the county labels on the bar is enough.</li>
+</ul>
+</div>
+</div>
+<div id="column-chart" class="section level2">
+<h2><span class="header-section-number">13.2</span> Column chart</h2>
+<p>This is the same as above, but using <code>geom_col</code> which inheriently understands the <code>stat=&quot;identity&quot;</code> problem.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(wells_by_county, <span class="kw">aes</span>(<span class="dt">x =</span> county, <span class="dt">y =</span> wells_count)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_col</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label=</span>wells_count), <span class="dt">vjust=</span><span class="op">-</span><span class="fl">0.45</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Wells by county&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Number of wells drilled&quot;</span>)</code></pre></div>
+<p>It looks the same as above, and is probably the better choice.</p>
+</div>
+<div id="a-line-chart" class="section level2">
+<h2><span class="header-section-number">13.3</span> A line chart</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(wells_county_year, <span class="kw">aes</span>(<span class="dt">x=</span>year_drilled, <span class="dt">y=</span>wells_drilled)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">color=</span>county)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Wells by county and year&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Number of wells&quot;</span>)</code></pre></div>
+<div class="figure">
+<img src="images/visualize-county-year-line.png" alt="Wells drilled by county by year" width="500" />
+<p class="caption">Wells drilled by county by year</p>
+</div>
+<div id="explanation" class="section level3">
+<h3><span class="header-section-number">13.3.1</span> Explanation</h3>
+<ul>
+<li>A <code>geom_line()</code> needs either a <code>group=</code> or a <code>color=</code> to “split” the lines on a category across the graphic. This example does this by setting a specific <code>aes()</code> color value in the <code>geom_line()</code> call.</li>
+<li>In this example, the title and pretty x and y labels are added with <code>labs()</code></li>
+</ul>
+</div>
+</div>
+<div id="scatterplot-1" class="section level2">
+<h2><span class="header-section-number">13.4</span> Scatterplot</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> class)) <span class="op">+</span><span class="st"> </span><span class="co"># added color aesthetic</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>()</code></pre></div>
+<div class="figure">
+<img src="images/visualize-mpg-03.png" alt="MPG: disply vs mpg with class" />
+<p class="caption">MPG: disply vs mpg with class</p>
+</div>
+<div id="explanation-1" class="section level3">
+<h3><span class="header-section-number">13.4.1</span> Explanation</h3>
+<ul>
+<li>This plot uses the <code>mpg</code> data ggplot. It is comparing <code>displ</code> (the size of an engine) to <code>mpg</code>, the miles per gallon of the car.</li>
+<li>The <code>goem_point()</code> adds a new aesthetic to color the dots based on another value in the data, the <code>class</code>.</li>
+<li>The <code>geom_smooth()</code> plot adds a line showing the average of the points at each position. This helps you determine if there is a relationshiop between the two variables.</li>
+</ul>
+</div>
+</div>
+<div id="creating-interactivity-with-plotly" class="section level2">
+<h2><span class="header-section-number">13.5</span> Creating interactivity with plotly</h2>
+<p>This requires a library in addition to the tidyverse called <code>library(plotly)</code>. The idea is that you:</p>
+<ul>
+<li>create a ggplot graphic.</li>
+<li>save that entire graphic to a new R variable.</li>
+<li>Call the <code>ggplotly()</code> function with that new variable.</li>
+</ul>
+<pre><code>saved_plot &lt;- wells_county_year %&gt;%
+  ggplot(aes(x = year_drilled, y = wells_drilled, color = county)) + 
+  geom_line() +
+  geom_point() +
+  labs(title = &quot;Wells drilled per county&quot; )
 
+# shove into ggploty
+ggplotly(saved_plot)</code></pre>
+<p>This screen shot is not interactive, but you can see the hover tool tip displayed.</p>
+<div class="figure">
+<img src="images/graphics-wells-county-plotly.png" alt="Wells by county with ggplotly" />
+<p class="caption">Wells by county with ggplotly</p>
+</div>
+
+</div>
 </div>
             </section>
 

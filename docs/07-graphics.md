@@ -201,7 +201,7 @@ For each new thing that we add to our graphic, we add it with `+`. In this case,
 ```r
 ggplot(data = wells_by_county, aes(x = county, y = wells_count)) +
   geom_bar(stat = "identity") +
-  geom_text(aes(label=wells_count), vjust=-0.25)
+  geom_text(aes(label=wells_count), vjust=-0.25) # adds the numbers on bars
 ```
 
 ![Basic county plot](images/visualize-county-plot-labels.png){width=500px}
@@ -211,9 +211,13 @@ In this case, we are just adding another layer, the `geom_text()`. It requires s
 The last layer we want to add here is a Title layer. The function for labels is called `labs()` and it takes an argument of `title = ""` You can also change your `x` and `y` axis names, etc.
 
 ```r
-  ... +
-  labs(title = "Number of wells drilled by county")
+ggplot(data = wells_by_county, aes(x = county, y = wells_count)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label=wells_count), vjust=-0.25)
+  labs(title = "Number of wells drilled by county") # adds the title
 ```
+
+![Wells by county with title](images/visualize-county-by-year-done.png)
 
 Congratulations! You made your first `ggplot()` chart. Not particularly revealing, but it does show that Travis County has WAY more wells than the other counties.
 
@@ -274,8 +278,9 @@ ggplot(<DATA>, aes(<MAPPINGS>)) +
 and if all our mappings are the same, they can go into the ggplot function.
 
 ```r
-ggplot(wells_county_year, aes(x = year_drilled, y = wells_drilled, color = county)) +
-  geom_line()
+ggplot(wells_county_year, aes(x=year_drilled, y=wells_drilled)) +
+  geom_line(aes(color=county)) +
+  labs(title = "Wells by county and year", x = "Year", y = "Number of wells")
 ```
 
 ![Wells drilled by county by year](images/visualize-county-year-line.png){width=500px}
