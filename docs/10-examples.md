@@ -4,6 +4,15 @@
 
 This will be a annotated list of chart code and examples from this book. It does not include the construction of the data frame used in the plot. (I'll try to go back and add links.)
 
+## Other resources
+
+In addition to the examples below, you might also look at these resources:
+
+- [The R Graph Gallery](https://www.r-graph-gallery.com/)
+- [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/)
+- [Plotly R](https://plot.ly/r/), especially the [Plotly ggplot2 Library](https://plot.ly/ggplot2/)
+- [ggplot themes]()https://ggplot2.tidyverse.org/reference/ggtheme.html and [R Graph theme list](https://www.r-graph-gallery.com/192-ggplot-themes/)
+
 ## Bar charts
 
 ```r
@@ -66,7 +75,13 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
 - The `goem_point()` adds a new aesthetic to color the dots based on another value in the data, the `class`.
 - The `geom_smooth()` plot adds a line showing the average of the points at each position. This helps you determine if there is a relationshiop between the two variables.
 
-## Creating interactivity with plotly
+## Histogram
+
+> To come
+
+
+
+## Interactivity with plotly
 
 This requires a library in addition to the tidyverse called `library(plotly)`. The idea is that you:
 

@@ -43,9 +43,10 @@ Some things to consider:
 
 > Needs research and expounding
 
-- Using Github pages. (Can you mix knits to the main directory and docs directories? If so, then explain that the original can be private while the published versions can be public in `/docs/`. Will need to be tested, especially if there are images)
-  - Include the code for saving to `/docs/`:
-  
+- You can set your RMarkdown documents to knit the HTML versions of your documents into a `/docs/` folder. As such, you can use Github Pages to [publish your docs](https://help.github.com/en/articles/configuring-a-publishing-source-for-github-pages#publishing-your-github-pages-site-from-a-docs-folder-on-your-master-branch) folder.
+
+In the metadata for your RMarkdown document, include the **output** lines outlined below.
+
 ```r
 ---
 title: "R Notebook"
