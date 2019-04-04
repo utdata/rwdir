@@ -10,16 +10,10 @@ We are going to handle this through a new project using our Survey data from cla
 - Create a chart that uses categorical data.
 - Reorder the values in the chart using `fct_reorder()`.
 
-This is the charts we want to build:
+This is the chart we want to build:
 
 ![Popular princesses](images/factors-graphic-example.png)
 
-## Resources
-
-These resources can help you understand the concepts. Factors can be a complicated, but we are just dealing with one thing, so we'll try to keep it as simple as possible.
-
-- This post on [Reordering a variable in ggplot](https://www.r-graph-gallery.com/267-reorder-a-variable-in-ggplot2/) helped me understand how to reorder factors for graphics.
-- Hadley Wickam's R for Data Science has a [Chapter on factors](https://r4ds.had.co.nz/factors.html). For those who _really_ want to learn more about them later.
 
 ## Create our survey project
 
@@ -62,9 +56,21 @@ Peeking at the data, we see it is something like this:
 | Junior            | No         | Mint chocolate chip | Jasmine (Aladdin)      | Windows   |
 | Senior            | No         | Mint chocolate chip | Rapunzel (Tangled)     | Macintosh |
 
+## Figuring out our data shape
+
+As we've talked about before, it is helpful to think of what we want the graphic to be, even to draw it out, so we can figure out what columns we need for the X and Y axis.
+
+The example I showed above is a little weird in that we are really building a bar/column chart, but we've turned sideways so we can read the labels. To build the chart, we are really looking at this:
+
+![Princess before flip](images/factors-before-flip.png)
+
+
+- What do we need for the x value? Well, we need the **total votes** for each princess.
+- What do we need for the y value? We need to list each **princess** that got votes.
+
 ## Charting the popularity of princess
 
-Now, we want to build a column chart based on the princess data. To do this, we need to build a data frame that counts the number of rows for each princess value. These easiest way to do this is a simple `count()` summary. Build the count _before_ you assign it back to `princess_count` so you see what is happening, but this is similar to what we've done in the past.
+So, we need a `princess` column and a `votes` column. These easiest way to do this is a simple `count()` summary. Build the count _before_ you assign it back to `princess_count` so you see what is happening, but this is similar to what we've done in the past.
 
 ```r
 princess_count <- survey %>%
@@ -82,6 +88,20 @@ In order, we are:
 - Count the rows of each princess.
 - Rename the `n` column to `votes`.
 - Arrange so the most votes are on top.
+
+We get this:
+
+| princess                      | votes |
+|-------------------------------|------:|
+| Mulan                         |    14 |
+| Rapunzel (Tangled)            |     7 |
+| Jasmine (Aladdin)             |     6 |
+| Ariel (Little Mermaid)        |     5 |
+| Tiana (Princess and the Frog) |     2 |
+| Aurora (Sleeping Beauty)      |     1 |
+| Belle (Beauty and the Beast)  |     1 |
+| Merida (Brave)                |     1 |
+| Snow White                    |     1 |
 
 ## Create our princess plot
 
@@ -152,7 +172,12 @@ Make the same chart as above, but using the `ice_cream` counts. Order the column
 
 - Save, knit and zip the project and turn it into the Canvas assignment for "Factors".
 
+## Resources
 
+These resources can help you understand the concepts. Factors can be a complicated, but we are just dealing with one thing, so we'll try to keep it as simple as possible.
+
+- This post on [Reordering a variable in ggplot](https://www.r-graph-gallery.com/267-reorder-a-variable-in-ggplot2/) helped me understand how to reorder factors for graphics.
+- Hadley Wickam's R for Data Science has a [Chapter on factors](https://r4ds.had.co.nz/factors.html). For those who _really_ want to learn more about them later.
 
 
 
