@@ -137,7 +137,11 @@ Factors allow you to apply an order (called "levels") to values beyond being alp
 
 But is is kind of frustrating here.
 
-We can improve it by reordering the levels of `princess` using `fct_reorder()`, which takes two main arguments: a) the factor (or column) whose levels you want to modify, and b) a numeric vector (or column of values) that you want to use to reorder the levels.
+We can improve it by reordering the levels of `princess` using [`fct_reorder()`](https://forcats.tidyverse.org/reference/fct_reorder.html), which takes two main arguments: a) the factor (or column) whose levels you want to modify, and b) a numeric vector (or column of values) that you want to use to reorder the levels.
+
+```r
+fct_reorder(what_you_are_reordering, the_col_to_base_it_on)
+```
 
 ## Reorder princess
 
@@ -149,9 +153,6 @@ princess_count <- survey %>%
   rename(votes = n) %>%
   arrange(desc(votes)) %>% 
   mutate(princess = fct_reorder(princess, votes)) # reorder factors added
-
-# peak
-princess %>% head
 ```
 
 The data frame won't look any different but if you re-run the ggplot code chunk, you graphic will be reordered.

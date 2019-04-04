@@ -586,7 +586,8 @@ princess <span class="op">%&gt;%</span><span class="st"> </span>head</code></pre
 <h2><span class="header-section-number">9.6</span> Factors</h2>
 <p>Factors allow you to apply an order (called “levels”) to values beyond being alphabetical. It is super useful when you are dealing with things like the names of months which have a certain order (“Jan”, “Feb”, “March”) which would not be ordered correctly alphabetically.</p>
 <p>But is is kind of frustrating here.</p>
-<p>We can improve it by reordering the levels of <code>princess</code> using <code>fct_reorder()</code>, which takes two main arguments: a) the factor (or column) whose levels you want to modify, and b) a numeric vector (or column of values) that you want to use to reorder the levels.</p>
+<p>We can improve it by reordering the levels of <code>princess</code> using <a href="https://forcats.tidyverse.org/reference/fct_reorder.html"><code>fct_reorder()</code></a>, which takes two main arguments: a) the factor (or column) whose levels you want to modify, and b) a numeric vector (or column of values) that you want to use to reorder the levels.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fct_reorder</span>(what_you_are_reordering, the_col_to_base_it_on)</code></pre></div>
 </div>
 <div id="reorder-princess" class="section level2">
 <h2><span class="header-section-number">9.7</span> Reorder princess</h2>
@@ -595,10 +596,7 @@ princess <span class="op">%&gt;%</span><span class="st"> </span>head</code></pre
 <span class="st">  </span><span class="kw">count</span>(princess) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">rename</span>(<span class="dt">votes =</span> n) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(votes)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">princess =</span> <span class="kw">fct_reorder</span>(princess, votes)) <span class="co"># reorder factors added</span>
-
-<span class="co"># peak</span>
-princess <span class="op">%&gt;%</span><span class="st"> </span>head</code></pre></div>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">princess =</span> <span class="kw">fct_reorder</span>(princess, votes)) <span class="co"># reorder factors added</span></code></pre></div>
 <p>The data frame won’t look any different but if you re-run the ggplot code chunk, you graphic will be reordered.</p>
 <div class="figure">
 <img src="images/factors-graphic-example.png" alt="Popular princess" />
