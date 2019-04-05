@@ -4,7 +4,7 @@
 
 This will be a annotated list of chart code and examples from this book. It does not include the construction of the data frame used in the plot. (I'll try to go back and add links.)
 
-## Other resources
+## Resources
 
 In addition to the examples below, you might also look at these resources:
 
@@ -73,20 +73,46 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
 
 - This plot uses the `mpg` data ggplot. It is comparing `displ` (the size of an engine) to `mpg`, the miles per gallon of the car.
 - The `goem_point()` adds a new aesthetic to color the dots based on another value in the data, the `class`.
-- The `geom_smooth()` plot adds a line showing the average of the points at each position. This helps you determine if there is a relationshiop between the two variables.
+- The [`geom_smooth()`](https://ggplot2.tidyverse.org/reference/geom_smooth.html) plot adds a line showing the average of the points at each position. This helps you determine if there is a relationshiop between the two variables.
 
 ## Histogram
 
 > To come
 
+## Titles, labels and other cleanup
 
+Titles and labels are added as new layers on a graphic. These examples just show the line that adds the new layer.
+
+### Title and axis labels
+
+```r
+yourchartsofar +
+  labs(title = "Wells by county and year", x = "Year", y = "Number of wells")
+```
+
+### Flip the graphic
+
+Sometime you want to turn a graphic 90 degrees to you can read long values, or make a bar chart horizontal instead of vertical.
+
+```r
+yourchartsofar +
+  coord_flip()
+```
+### Fix exponential numbers on an axis
+
+```r
+yourchartsofar +
+  scale_y_continuous(labels=comma)
+```
+
+You can do the same for `scale_x_continuous()` if needed.
 
 ## Interactivity with plotly
 
 This requires a library in addition to the tidyverse called `library(plotly)`. The idea is that you:
 
 - create a ggplot graphic.
-- save that entire graphic to a new R variable.
+- save that entire graphic to a new R object.
 - Call the `ggplotly()` function with that new variable.
 
 ```
@@ -100,6 +126,6 @@ saved_plot <- wells_county_year %>%
 ggplotly(saved_plot)
 ```
 
-This screen shot is not interactive, but you can see the hover tool tip displayed.
+This screen shot below is not interactive, but you can see the hover tool tip displayed.
 
 ![Wells by county with ggplotly](images/graphics-wells-county-plotly.png)

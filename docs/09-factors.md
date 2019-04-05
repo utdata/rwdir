@@ -137,7 +137,14 @@ Factors allow you to apply an order (called "levels") to values beyond being alp
 
 But is is kind of frustrating here.
 
-We can improve it by reordering the levels of `princess` using [`fct_reorder()`](https://forcats.tidyverse.org/reference/fct_reorder.html), which takes two main arguments: a) the factor (or column) whose levels you want to modify, and b) a numeric vector (or column of values) that you want to use to reorder the levels.
+We can improve it by reordering the levels of `princess` using a function from the [forcats](https://forcats.tidyverse.org/) package. (forcats is an anagram for "factors"). There are four functions you can use reorder a factor:
+
+- `fct_reorder()`: Reordering a factor by another variable.
+- `fct_infreq()`: Reordering a factor by the frequency of values.
+- `fct_relevel()`: Changing the order of a factor by hand.
+- `fct_lump()`: Collapsing the least/most frequent values of a factor into “other”.
+
+We will use [`fct_reorder()`](https://forcats.tidyverse.org/reference/fct_reorder.html) to reorder the **princess** values based on the **votes** values. `fct_reorder()` takes two main arguments: a) the factor (or column) whose levels you want to modify, and b) a numeric vector (or column of values) that you want to use to reorder the levels.
 
 ```r
 fct_reorder(what_you_are_reordering, the_col_to_base_it_on)
@@ -145,14 +152,14 @@ fct_reorder(what_you_are_reordering, the_col_to_base_it_on)
 
 ## Reorder princess
 
-While we could do this in the ggplot code, it's easiest to do this when we make the data frame. So, go back up to where we made the `princes_count` data frame and add a new pipe like this:
+While we could do this in the ggplot code, I find it's easiest to do in the data frame as we shape our data. So, go back up to where we made the `princes_count` data frame and add a new pipe like this:
 
 ```r
 princess_count <- survey %>%
   count(princess) %>%
   rename(votes = n) %>%
   arrange(desc(votes)) %>% 
-  mutate(princess = fct_reorder(princess, votes)) # reorder factors added
+  mutate(princess = fct_reorder(princess, votes)) # this line reorders the factors
 ```
 
 The data frame won't look any different but if you re-run the ggplot code chunk, you graphic will be reordered.
@@ -161,9 +168,9 @@ The data frame won't look any different but if you re-run the ggplot code chunk,
 
 ## Factors recap
 
-Factors in R allow us to apply "levels" to sort categorical data in a data frame.
+Factors in R allow us to apply "levels" to sort categorical data into a logical order beyond alphabetical.
 
-If you are building a graphic that uses a categorical column as one of your aesthetics, then you might need to reorder the factor levels using `fct_reorder()` It's easiest to do that using dplyr's `mutate()` function on your data frame before you plot.
+If you are building a graphic that uses a categorical column as one of your aesthetics, then you might need to reorder the factor  using `fct_reorder()` or one of the other functions. It's easiest to do that using dplyr's `mutate()` function on your data frame before you plot.
 
 ## Practice: Make an ice cream chart
 
@@ -175,7 +182,7 @@ Make the same chart as above, but using the `ice_cream` counts. Order the column
 
 ## Resources
 
-These resources can help you understand the concepts. Factors can be a complicated, but we are just dealing with one thing, so we'll try to keep it as simple as possible.
+These resources can help you understand the concepts.
 
 - This post on [Reordering a variable in ggplot](https://www.r-graph-gallery.com/267-reorder-a-variable-in-ggplot2/) helped me understand how to reorder factors for graphics.
 - Hadley Wickam's R for Data Science has a [Chapter on factors](https://r4ds.had.co.nz/factors.html). For those who _really_ want to learn more about them later.
