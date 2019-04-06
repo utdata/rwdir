@@ -49,7 +49,7 @@ If you google around, you might see other ways to create a histogram, including 
 
 ## Counting and aggregation
 
-A large part of data analyis is counting and sorting, or filtering and then counting and sorting.
+A large part of data analysis is counting and sorting, or filtering and then counting and sorting.
 
 ### Counting rows based on a column
 
@@ -77,7 +77,7 @@ survey %>%
 
 ### Sum, mean and other aggregations
 
-If you want to aggregate values in a column, like adding together values, or to find a mean or median, then you will want to use `group_by` on your columns of interest, then use `summarize()` to aggregate the data in the manner you choose, like `sum()`, `mean()` or the number of rows `n()`.
+If you want to aggregate values in a column, like adding together values, or to find a mean or median, then you will want to use `group_by()` on your columns of interest, then use `summarize()` to aggregate the data in the manner you choose, like `sum()`, `mean()` or the number of rows `n()`.
 
 Here is an example where we use `group_by` and `summarize()` to add together values in our mixed beverage data. In this case, we had multiple rows for each establishment, but we wanted to add together `total_receipts()` for each name/address group.
 
@@ -97,6 +97,8 @@ receipts %>%
 | W HOTEL AUSTIN       | 200 LAVACA ST                     |    15435458 |
 | ROSE ROOM/ 77 DEGREE | 11500 ROCK ROSE AVE               |    14726420 |
 | THE DOGWOOD DOMAIN   | 11420 ROCK ROSE AVE STE 700       |    14231072 |
+
+The result will have all the columns you included in the group, plus the columns you create in your summarize statement. You can summarize more than one thing at a time, like the number of rows `numb_rows = n()` and average of the values `average = mean(column_name)`.
 
 ## Cleaning up categorical data
 
