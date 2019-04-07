@@ -25,7 +25,7 @@
 <meta name="author" content="Christian McDonald">
 
 
-<meta name="date" content="2019-04-06">
+<meta name="date" content="2019-04-07">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -315,10 +315,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="10.6.1" data-path="joins.html"><a href="joins.html#add-a-fit-line"><i class="fa fa-check"></i><b>10.6.1</b> Add a fit line</a></li>
 <li class="chapter" data-level="10.6.2" data-path="joins.html"><a href="joins.html#run-a-correlation-test"><i class="fa fa-check"></i><b>10.6.2</b> Run a correlation test</a></li>
 </ul></li>
-<li class="chapter" data-level="10.7" data-path="joins.html"><a href="joins.html#how-does-texas-compare-to-the-field"><i class="fa fa-check"></i><b>10.7</b> How does Texas compare to the field?</a></li>
+<li class="chapter" data-level="10.7" data-path="joins.html"><a href="joins.html#how-does-texas-compare"><i class="fa fa-check"></i><b>10.7</b> How does Texas compare?</a></li>
 <li class="chapter" data-level="10.8" data-path="joins.html"><a href="joins.html#correlaton-test-for-texas"><i class="fa fa-check"></i><b>10.8</b> Correlaton test for Texas</a></li>
 <li class="chapter" data-level="10.9" data-path="joins.html"><a href="joins.html#practice-1-track-for-penn-state"><i class="fa fa-check"></i><b>10.9</b> Practice 1: Track for Penn State</a></li>
 <li class="chapter" data-level="10.10" data-path="joins.html"><a href="joins.html#practice-2-penalties-vs-scoring"><i class="fa fa-check"></i><b>10.10</b> Practice 2: Penalties vs scoring</a></li>
+<li class="chapter" data-level="10.11" data-path="joins.html"><a href="joins.html#using-bind_rows-to-merge-data-sets"><i class="fa fa-check"></i><b>10.11</b> Using bind_rows() to merge data sets</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="census.html"><a href="census.html"><i class="fa fa-check"></i><b>11</b> Census</a><ul>
 <li class="chapter" data-level="11.1" data-path="census.html"><a href="census.html#resources-2"><i class="fa fa-check"></i><b>11.1</b> Resources</a></li>
@@ -438,14 +439,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">download.file</span>(<span class="st">&quot;https://github.com/utdata/rwd-r-assignments/blob/master/football-compare/third_down_conversion.csv?raw=true&quot;</span>, <span class="st">&quot;data-raw/third_down_conversion.csv&quot;</span>)</code></pre></div>
 <p>Import the three files:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># import the files</span>
-penalties &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data-raw/penalties.csv&quot;</span>)
 scoring &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data-raw/scoring_offense.csv&quot;</span>)
 thirddown &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data-raw/third_down_conversion.csv&quot;</span>)</code></pre></div>
 </div>
 </div>
 <div id="the-story" class="section level2">
 <h2><span class="header-section-number">10.3</span> The story</h2>
-<p>The data we are using comes from <a href="http://www.cfbstats.com/">cfbstats</a>, a website for college football statistics. We will be comparing how <a href="http://www.cfbstats.com/2018/leader/national/team/offense/split01/category25/sort01.html">third-down conversions</a> might correlate to a football team’s <a href="http://www.cfbstats.com/2018/leader/national/team/offense/split01/category09/sort01.html">Scoring offence</a>.</p>
+<p>The data we are using comes from <a href="http://www.cfbstats.com/">cfbstats</a>, a website for college football statistics. We will be comparing how <a href="http://www.cfbstats.com/2018/leader/national/team/offense/split01/category25/sort01.html">third-down conversions</a> might correlate to a football team’s <a href="http://www.cfbstats.com/2018/leader/national/team/offense/split01/category09/sort01.html">scoring offense</a>.</p>
 </div>
 <div id="explore-the-data" class="section level2">
 <h2><span class="header-section-number">10.4</span> Explore the data</h2>
@@ -453,8 +453,8 @@ thirddown &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 <div id="third-down-conversions" class="section level3">
 <h3><span class="header-section-number">10.4.1</span> Third-down conversions</h3>
 <ul>
-<li><strong>year</strong>: Year</li>
-<li><strong>name</strong>: Team name</li>
+<li><strong>year</strong>: Year. Goes from 2009-2018</li>
+<li><strong>name</strong>: Team name. There are 131 different teams.</li>
 <li><strong>g</strong>: Number of games played</li>
 <li><strong>attempts</strong>: Third-down attempts</li>
 <li><strong>conversions</strong>: Third-down attempts that were successful</li>
@@ -481,20 +481,29 @@ thirddown &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 <div id="about-joins" class="section level2">
 <h2><span class="header-section-number">10.5</span> About joins</h2>
 <p>To make our plot, we need to join the two data sets on common fields. We want to start with the <code>scoring</code> data frame, and then add all the columns from the <code>thirddown</code> data frame. We want to do this based on the same year and team.</p>
-<p>There are several types of <a href="https://dplyr.tidyverse.org/reference/join.html">joins</a>. We describe these based on which table we reference first. In the figure below, we can see which matching records are retained based on the type of join we use.</p>
+<p>There are several types of <a href="https://dplyr.tidyverse.org/reference/join.html">joins</a>. We describe these as left vs right based on which table we reference first (which is the left one). In the figure below, we can see which matching records are retained based on the type of join we use.</p>
 <div class="figure">
 <img src="images/joins-description.png" alt="Types of joins" />
 <p class="caption">Types of joins</p>
 </div>
 <p>In our case we only want records that match on both <code>year</code> and <code>name</code>, so we’ll use an <code>inner_join()</code>.</p>
 <p>The syntax works like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new_dataframe &lt;-<span class="st"> </span><span class="er">&lt;</span>type<span class="op">&gt;</span><span class="kw">_join</span>(first_df, second_df, <span class="dt">by =</span> field_name_to_join_on)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new_dataframe &lt;-<span class="st"> </span><span class="er">*</span><span class="kw">_join</span>(first_df, second_df, <span class="dt">by =</span> field_name_to_join_on)</code></pre></div>
 <p>If you want to use more than one field in the <em>by</em> part like we do, then you define them in a concatenated list: <code>by = &quot;field1&quot;, &quot;field2&quot;)</code>.</p>
-<p>For our project we want to use an inner join, and we will formulate it like this. Add this to your notebook along with notes describing that you are joining the two data sets:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">offense &lt;-<span class="st"> </span><span class="kw">left_join</span>(scoring, thirddown, <span class="dt">by=</span><span class="kw">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;name&quot;</span>))
+<p>If the fields you are joining on are not named the same, then you can define the relationships: <code>by = c(&quot;a&quot; = &quot;b&quot;)</code>.</p>
+<p>For our project we want to use an <code>inner_join()</code>. Add the code below to your notebook along with notes describing that you are joining the two data sets:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">offense &lt;-<span class="st"> </span><span class="kw">inner_join</span>(scoring, thirddown, <span class="dt">by=</span><span class="kw">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;name&quot;</span>))
 
 <span class="co"># peak at the new data frame</span>
 offense <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>()</code></pre></div>
+<p>So, to break this down:</p>
+<ul>
+<li>Our new combined dataframe will be called <code>offense</code>.</li>
+<li>We’ll be doing an <code>inner_join()</code>, which is just keep matching records. (They all match, FWIW.)</li>
+<li>Our “left” table is <code>scoring</code> and our “right” table is <code>thirddown</code>.</li>
+<li>We are joining on both the <code>year</code> and <code>name</code> columns.</li>
+</ul>
+<p>Anytime you do a join (or a bind as described below), check the resulting number of rows and columns to make sure they pass the logic test.</p>
 </div>
 <div id="build-our-scatterplot" class="section level2">
 <h2><span class="header-section-number">10.6</span> Build our scatterplot</h2>
@@ -509,7 +518,7 @@ offense <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">
 <div id="add-a-fit-line" class="section level3">
 <h3><span class="header-section-number">10.6.1</span> Add a fit line</h3>
 <p>We can see by the shape of the dots that indeed, as conversion percentage goes up, points go up.</p>
-<p>In statistics, there is something called a fit line – the line that predicts shows what happens given the data. There’s lot of fit lines we can use but the easiest to understand is a straight line. It’s like linear algebra – for each increase or decrease in x, we get an increase or descrease in x. To get the fit line, we add <a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html"><code>geom_smooth()</code></a> with a method.</p>
+<p>In statistics, there is something called a fit line – the line that predicts what happens given the data. There’s lot of fit lines we can use but the easiest to understand is a straight line. It’s like linear algebra – for each increase or decrease in x, we get an increase or decrease in x. To get the fit line, we add <a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html"><code>geom_smooth()</code></a> with a method.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">offense <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
@@ -518,24 +527,35 @@ offense <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">
 <img src="images/join-scatter-fitline.png" alt="First scatterplot" />
 <p class="caption">First scatterplot</p>
 </div>
+<p>The <code>lm</code> means linear method. The <code>se=FALSE</code> removes the confidence interval (based on the standard error) of the prediction. See the <a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html"><code>geom_smooth()</code></a> for more information.</p>
 </div>
 <div id="run-a-correlation-test" class="section level3">
 <h3><span class="header-section-number">10.6.2</span> Run a correlation test</h3>
 <p>So we can see how important third down conversions are to scoring. But still, how important? For this, we’re going to dip our toes into statistics. We want to find out the correlation coefficient (specifically the <a href="https://statistics.laerd.com/statistical-guides/pearson-correlation-coefficient-statistical-guide.php">Pearson Correlation Coefficient</a>. That will tell us how related our two numbers are. We do that using <code>cor.test()</code>, which is part of R core.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor.test</span>(offense<span class="op">$</span>conversion_percent, offense<span class="op">$</span>points_g)</code></pre></div>
+<p>The result is:</p>
+<pre><code>    Pearson&#39;s product-moment correlation
+
+data:  offense$conversion_percent and offense$points_g
+t = 30.82, df = 1251, p-value &lt; 2.2e-16
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.6242939 0.6873331
+sample estimates:
+      cor 
+0.6569602 </code></pre>
 <p>That bottom number is the key. If we square it, we then know exactly how much of scoring can be predicted by third down conversions.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="fl">0.6569602</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.6569602</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></code></pre></div>
 <p>Which gets us 43.15967.</p>
 <p>So what that says is that 43 percent of a team’s score is predicted by their third down percentage. That’s nearly half. In social science, anything above 10 percent is shockingly predictive. So this is huge if this were human behavior research. In football, it’s not that surprising, but we now know how much is predicted.</p>
 </div>
 </div>
-<div id="how-does-texas-compare-to-the-field" class="section level2">
-<h2><span class="header-section-number">10.7</span> How does Texas compare to the field?</h2>
-<p>Let’s create a data frame of the Texas data.</p>
+<div id="how-does-texas-compare" class="section level2">
+<h2><span class="header-section-number">10.7</span> How does Texas compare?</h2>
+<p>Let’s compare how Texas does vs the field by plotting their results on top of the national stats. Create a data frame of the Texas data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tx &lt;-<span class="st"> </span>offense <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">filter</span>(name <span class="op">==</span><span class="st"> &quot;Texas&quot;</span>)</code></pre></div>
-<p>With this, we can plot the Texas stats on top of the national stats and see how they compare.</p>
-<p>We’ve also added a light grey color to the original <code>geom_point()</code> and <code>geom_smooth()</code> layers so that the Texas plots stand out more.</p>
+<p>And now we’ll add some layers to our ggplot graphic. We’re also editing our original <code>geom_point()</code> and <code>geom_smooth()</code> layers to make them light grey so that the Texas plots stand out more.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">offense <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="st">&quot;light grey&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="co"># adds light grey color</span>
@@ -546,11 +566,11 @@ offense <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">
 <img src="images/join-scatter-tx.png" alt="Adding Texas to plot" />
 <p class="caption">Adding Texas to plot</p>
 </div>
-<p>This is good, but the labels for the year are sitting on top of the values. There is an R package called ggrepel that will move those labels off the numbers. You might have to run <code>install.packages('ggrepel')</code> to make this work.</p>
+<p>This is good, but the labels for the year are sitting on top of the values. There is an R package called <a href="https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html">ggrepel</a> that will move those labels off the numbers, which we’ll use with our next set of changes. You might have to run <code>install.packages('ggrepel')</code> to make this work.</p>
 <p>For this update update, we are doing a number of things, adding or modifying layers along the way:</p>
 <ul>
-<li>Add a <code>goem_smooth()</code> fit line specific to Texas, in burnt orange. We’ll put it before the text so it is underneath it.</li>
-<li>Modify the <code>geom_text</code> to <code>geom_text_repel</code> to move the labels.</li>
+<li>Add a <code>goem_smooth()</code> fit line specific to Texas, in burnt orange. We’ll put it before the text so it shows underneath the labels.</li>
+<li>Modify the <code>geom_text</code> to <code>geom_text_repel</code> to move the labels off the points.</li>
 <li>Add <code>labs()</code> for a title and such to finish out our graphic.</li>
 <li>Add <code>theme_minimal()</code> just to improve the looks.</li>
 </ul>
@@ -586,8 +606,20 @@ offense <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">
 </div>
 <div id="practice-2-penalties-vs-scoring" class="section level2">
 <h2><span class="header-section-number">10.10</span> Practice 2: Penalties vs scoring</h2>
-<p>How predictive are penalty yards on points per game? Do more disiplined teams score more points than undisciplined ones? How does Texas compare to the rest of the league?</p>
-<p>You’re going to have to join <a href="http://www.cfbstats.com/2018/leader/national/team/offense/split01/category09/sort01.html">penalty data</a> (you’ve already downloaded the file <code>data-raw/penalties.csv</code> file) to your <a href="http://www.cfbstats.com/2018/leader/national/team/offense/split01/category09/sort01.html">offensive statistics</a>. Then you’ll make your own scatterplot, add a fit line and run a correlation test for both the national average and for Texas. What does it say? Write a sentence that explains this to a reader.</p>
+<p>How predictive are penalty yards on points per game? Do more disciplined teams score more points than undisciplined ones? How does Texas compare to the rest of the league?</p>
+<p>Create a <strong>new RNotebook</strong> to answer these questions.</p>
+<ul>
+<li>You will need to join <a href="http://www.cfbstats.com/2018/leader/national/team/offense/split01/category09/sort01.html">penalty data</a> (you’ve already downloaded the file <code>data-raw/penalties.csv</code> file) to your <a href="http://www.cfbstats.com/2018/leader/national/team/offense/split01/category09/sort01.html">offensive statistics</a>.</li>
+<li>Make your own scatterplot with a fit line to show the relationships.</li>
+<li>Run a correlation test for both the national average and for Texas.</li>
+<li>What does it say? Write a sentence that explains this to a reader.</li>
+</ul>
+</div>
+<div id="using-bind_rows-to-merge-data-sets" class="section level2">
+<h2><span class="header-section-number">10.11</span> Using bind_rows() to merge data sets</h2>
+<p>We aren’t going to go through an example or do practice sessions, but you should be aware that you can also merge data sets on top of each other.</p>
+<p>Let’s say you have a group of data sets where each year is broken into a different file or data frame. You can “stack” data frames on top of each other with a tidyverse function called <a href="https://dplyr.tidyverse.org/reference/bind.html"><code>bind_rows()</code></a>. When row-binding, columns are matched by name, and any missing columns will be filled with NA.</p>
+<p>There is also <a href="https://www.rdocumentation.org/packages/base/versions/3.5.3/topics/cbind"><code>rbind()</code></a> which is a base R way of handling similar challenges.</p>
 
 </div>
 </div>

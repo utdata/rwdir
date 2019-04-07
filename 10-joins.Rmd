@@ -30,14 +30,13 @@ Import the three files:
 
 ```r
 # import the files
-penalties <- read_csv("data-raw/penalties.csv")
 scoring <- read_csv("data-raw/scoring_offense.csv")
 thirddown <- read_csv("data-raw/third_down_conversion.csv")
 ```
 
 ## The story
 
-The data we are using comes from [cfbstats](http://www.cfbstats.com/), a website for college football statistics. We will be comparing how [third-down conversions](http://www.cfbstats.com/2018/leader/national/team/offense/split01/category25/sort01.html) might correlate to a football team's [Scoring offence](http://www.cfbstats.com/2018/leader/national/team/offense/split01/category09/sort01.html).
+The data we are using comes from [cfbstats](http://www.cfbstats.com/), a website for college football statistics. We will be comparing how [third-down conversions](http://www.cfbstats.com/2018/leader/national/team/offense/split01/category25/sort01.html) might correlate to a football team's [scoring offense](http://www.cfbstats.com/2018/leader/national/team/offense/split01/category09/sort01.html).
 
 ## Explore the data
 
@@ -45,8 +44,8 @@ We have two data sets here.
 
 ### Third-down conversions
 
-- **year**: Year
-- **name**: Team name
+- **year**: Year. Goes from 2009-2018
+- **name**: Team name. There are 131 different teams.
 - **g**: Number of games played
 - **attempts**: Third-down attempts
 - **conversions**: Third-down attempts that were successful
@@ -71,7 +70,7 @@ Now our goal here is to compare how the `converstion_percent` might relate to `p
 
 To make our plot, we need to join the two data sets on common fields. We want to start with the `scoring` data frame, and then add all the columns from the `thirddown` data frame. We want to do this based on the same year and team.
 
-There are several types of [joins](https://dplyr.tidyverse.org/reference/join.html). We describe these based on which table we reference first. In the figure below, we can see which matching records are retained based on the type of join we use.
+There are several types of [joins](https://dplyr.tidyverse.org/reference/join.html). We describe these as left vs right based on which table we reference first (which is the left one). In the figure below, we can see which matching records are retained based on the type of join we use.
 
 ![Types of joins](images/joins-description.png)
 
@@ -83,19 +82,30 @@ In our case we only want records that match on both `year` and `name`, so we'll 
 The syntax works like this:
 
 ```r
-new_dataframe <- <type>_join(first_df, second_df, by = field_name_to_join_on)
+new_dataframe <- *_join(first_df, second_df, by = field_name_to_join_on)
 ```
 
 If you want to use more than one field in the *by* part like we do, then you define them in a concatenated list: `by = "field1", "field2")`.
 
-For our project we want to use an inner join, and we will formulate it like this. Add this to your notebook along with notes describing that you are joining the two data sets:
+If the fields you are joining on are not named the same, then you can define the relationships: `by = c("a" = "b")`.
+
+For our project we want to use an `inner_join()`. Add the code below to your notebook along with notes describing that you are joining the two data sets:
 
 ```r
-offense <- left_join(scoring, thirddown, by=c("year", "name"))
+offense <- inner_join(scoring, thirddown, by=c("year", "name"))
 
 # peak at the new data frame
 offense %>% head()
 ```
+
+So, to break this down:
+
+- Our new combined dataframe will be called `offense`.
+- We'll be doing an `inner_join()`, which is just keep matching records. (They all match, FWIW.)
+- Our "left" table is `scoring` and our "right" table is `thirddown`.
+- We are joining on both the `year` and `name` columns.
+
+Anytime you do a join (or a bind as described below), check the resulting number of rows and columns to make sure they pass the logic test.
 
 ## Build our scatterplot
 
@@ -113,7 +123,7 @@ offense %>%
 
 We can see by the shape of the dots that indeed, as conversion percentage goes up, points go up. 
 
-In statistics, there is something called a fit line -- the line that predicts shows what happens given the data. There's lot of fit lines we can use but the easiest to understand is a straight line. It's like linear algebra -- for each increase or decrease in x, we get an increase or descrease in x. To get the fit line, we add [`geom_smooth()`](https://ggplot2.tidyverse.org/reference/geom_smooth.html) with a method.
+In statistics, there is something called a fit line -- the line that predicts what happens given the data. There's lot of fit lines we can use but the easiest to understand is a straight line. It's like linear algebra -- for each increase or decrease in x, we get an increase or decrease in x. To get the fit line, we add [`geom_smooth()`](https://ggplot2.tidyverse.org/reference/geom_smooth.html) with a method.
 
 ```r
 offense %>% 
@@ -124,6 +134,8 @@ offense %>%
 
 ![First scatterplot](images/join-scatter-fitline.png)
 
+The `lm` means linear method. The `se=FALSE` removes the confidence interval (based on the standard error) of the prediction. See the [`geom_smooth()`](https://ggplot2.tidyverse.org/reference/geom_smooth.html) for more information.
+
 ### Run a correlation test
 
 So we can see how important third down conversions are to scoring. But still, how important? For this, we're going to dip our toes into statistics. We want to find out the correlation coefficient (specifically the [Pearson Correlation Coefficient](https://statistics.laerd.com/statistical-guides/pearson-correlation-coefficient-statistical-guide.php). That will tell us how related our two numbers are. We do that using `cor.test()`, which is part of R core.
@@ -131,6 +143,22 @@ So we can see how important third down conversions are to scoring. But still, ho
 ```r
 cor.test(offense$conversion_percent, offense$points_g)
 ```
+
+The result is:
+
+```
+	Pearson's product-moment correlation
+
+data:  offense$conversion_percent and offense$points_g
+t = 30.82, df = 1251, p-value < 2.2e-16
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.6242939 0.6873331
+sample estimates:
+      cor 
+0.6569602 
+```
+
 
 That bottom number is the key. If we square it, we then know exactly how much of scoring can be predicted by third down conversions.
 
@@ -142,19 +170,16 @@ Which gets us 43.15967.
 
 So what that says is that 43 percent of a team's score is predicted by their third down percentage. That's nearly half. In social science, anything above 10 percent is shockingly predictive. So this is huge if this were human behavior research. In football, it's not that surprising, but we now know how much is predicted.
 
-## How does Texas compare to the field?
+## How does Texas compare?
 
-Let's create a data frame of the Texas data.
+Let's compare how Texas does vs the field by plotting their results on top of the national stats. Create a data frame of the Texas data.
 
 ```r
 tx <- offense %>%
   filter(name == "Texas")
 ```
 
-With this, we can plot the Texas stats on top of the national stats and see how they compare.
-
-We've also added a light grey color to the original `geom_point()` and `geom_smooth()` layers so that the Texas plots stand out more.
-
+And now we'll add some layers to our ggplot graphic. We're also editing our original `geom_point()` and `geom_smooth()` layers to make them light grey so that the Texas plots stand out more.
 
 ```r
 offense %>% 
@@ -167,12 +192,12 @@ offense %>%
 
 ![Adding Texas to plot](images/join-scatter-tx.png)
 
-This is good, but the labels for the year are sitting on top of the values. There is an R package called ggrepel that will move those labels off the numbers. You might have to run `install.packages('ggrepel')` to make this work.
+This is good, but the labels for the year are sitting on top of the values. There is an R package called [ggrepel](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html) that will move those labels off the numbers, which we'll use with our next set of changes. You might have to run `install.packages('ggrepel')` to make this work.
 
 For this update update, we are doing a number of things, adding or modifying layers along the way:
 
-- Add a `goem_smooth()` fit line specific to Texas, in burnt orange. We'll put it before the text so it is underneath it.
-- Modify the `geom_text` to `geom_text_repel` to move the labels.
+- Add a `goem_smooth()` fit line specific to Texas, in burnt orange. We'll put it before the text so it shows underneath the labels.
+- Modify the `geom_text` to `geom_text_repel` to move the labels off the points.
 - Add `labs()` for a title and such to finish out our graphic.
 - Add `theme_minimal()` just to improve the looks.
 
@@ -217,7 +242,19 @@ Not every team tracks the national average like Texas. Tell me (and show me) how
 
 ## Practice 2: Penalties vs scoring
 
-How predictive are penalty yards on points per game? Do more disiplined teams score more points than undisciplined ones? How does Texas compare to the rest of the league?
+How predictive are penalty yards on points per game? Do more disciplined teams score more points than undisciplined ones? How does Texas compare to the rest of the league?
 
-You're going to have to join [penalty data](http://www.cfbstats.com/2018/leader/national/team/offense/split01/category09/sort01.html) (you've already downloaded the file `data-raw/penalties.csv` file) to your [offensive statistics](http://www.cfbstats.com/2018/leader/national/team/offense/split01/category09/sort01.html). Then you'll make your own scatterplot, add a fit line and run a correlation test for both the national average and for Texas. What does it say? Write a sentence that explains this to a reader.
+Create a **new RNotebook** to answer these questions.
 
+- You will need to join [penalty data](http://www.cfbstats.com/2018/leader/national/team/offense/split01/category09/sort01.html) (you've already downloaded the file `data-raw/penalties.csv` file) to your [offensive statistics](http://www.cfbstats.com/2018/leader/national/team/offense/split01/category09/sort01.html).
+- Make your own scatterplot with a fit line to show the relationships.
+- Run a correlation test for both the national average and for Texas.
+- What does it say? Write a sentence that explains this to a reader.
+
+## Using bind_rows() to merge data sets
+
+We aren't going to go through an example or do practice sessions, but you should be aware that you can also merge data sets on top of each other.
+
+Let's say you have a group of data sets where each year is broken into a different file or data frame. You can "stack" data frames on top of each other with a tidyverse function called  [`bind_rows()`](https://dplyr.tidyverse.org/reference/bind.html). When row-binding, columns are matched by name, and any missing columns will be filled with NA.
+
+There is also [`rbind()`](https://www.rdocumentation.org/packages/base/versions/3.5.3/topics/cbind) which is a base R way of handling similar challenges.
