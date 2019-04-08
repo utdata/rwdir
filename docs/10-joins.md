@@ -64,7 +64,7 @@ We have two data sets here.
 - **points**: Total points scored
 - **points_g**: Points per game
 
-Now our goal here is to compare how the `converstion_percent` might relate to `points_g` for all teams, and how specific teams might buck the national trend.
+Now our goal here is to compare how the `conversion_percent` might relate to `points_g` for all teams, and how specific teams might buck the national trend.
 
 ## About joins
 
@@ -194,7 +194,7 @@ offense %>%
 
 This is good, but the labels for the year are sitting on top of the values. There is an R package called [ggrepel](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html) that will move those labels off the numbers, which we'll use with our next set of changes. You might have to run `install.packages('ggrepel')` to make this work.
 
-For this update update, we are doing a number of things, adding or modifying layers along the way:
+For this update, we are doing a number of things, adding or modifying layers along the way:
 
 - Add a `goem_smooth()` fit line specific to Texas, in burnt orange. We'll put it before the text so it shows underneath the labels.
 - Modify the `geom_text` to `geom_text_repel` to move the labels off the points.
@@ -236,25 +236,25 @@ Which yields a correlation of 0.685967. Let's see how much third-down conversion
 
 Which gets us 47.1%, not too far from the national average of 43.2%.
 
-## Practice 1: Track for Penn State
+## Practice 1: Compare Penn State
 
-Not every team tracks the national average like Texas. Tell me (and show me) how Penn State performs in this same third-down vs scoring metric by creating a similar graphic and correlation test from the Penn State data.
+Not every team tracks the national average like Texas. Tell me (and show me) how Penn State performs in this same third down conversion vs scoring metric by creating a similar graphic and correlation test from the Penn State data.
 
 ## Practice 2: Penalties vs scoring
 
-How predictive are penalty yards on points per game? Do more disciplined teams score more points than undisciplined ones? How does Texas compare to the rest of the league?
+How predictive are penalty yards per game on points per game? Do more disciplined teams score more points than undisciplined ones? How does Texas compare to the rest of the league?
 
 Create a **new RNotebook** to answer these questions.
 
-- You will need to join [penalty data](http://www.cfbstats.com/2018/leader/national/team/offense/split01/category09/sort01.html) (you've already downloaded the file `data-raw/penalties.csv` file) to your [offensive statistics](http://www.cfbstats.com/2018/leader/national/team/offense/split01/category09/sort01.html).
-- Make your own scatterplot with a fit line to show the relationships.
+- You will need to join [penalty data](http://www.cfbstats.com/2018/leader/national/team/offense/split01/category14/sort01.html) (you've already downloaded the file `data-raw/penalties.csv` file) to the same points-per-games statistics from [scoring offense](http://www.cfbstats.com/2018/leader/national/team/offense/split01/category09/sort01.html).
+- Make your own scatterplot with a fit line to show the relationships between penalty yards per game vs points per game.
 - Run a correlation test for both the national average and for Texas.
 - What does it say? Write a sentence that explains this to a reader.
 
 ## Using bind_rows() to merge data sets
 
-We aren't going to go through an example or do practice sessions, but you should be aware that you can also merge data sets on top of each other.
+We won't go through an example or do practice sessions, but you should be aware that you can also merge data sets on top of each other when your columns are the same.
 
-Let's say you have a group of data sets where each year is broken into a different file or data frame. You can "stack" data frames on top of each other with a tidyverse function called  [`bind_rows()`](https://dplyr.tidyverse.org/reference/bind.html). When row-binding, columns are matched by name, and any missing columns will be filled with NA.
+Let's say you have a multiple data sets where each year is broken into a different file or data frame. You can "stack" data frames on top of each other with a tidyverse function called  [`bind_rows()`](https://dplyr.tidyverse.org/reference/bind.html). When row-binding, columns are matched by name, and any missing columns will be filled with NA.
 
-There is also [`rbind()`](https://www.rdocumentation.org/packages/base/versions/3.5.3/topics/cbind) which is a base R way of handling similar challenges.
+There is also the base R function [`rbind()`](https://www.rdocumentation.org/packages/base/versions/3.5.3/topics/cbind) which handles similar challenges.

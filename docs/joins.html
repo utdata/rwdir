@@ -317,7 +317,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="10.7" data-path="joins.html"><a href="joins.html#how-does-texas-compare"><i class="fa fa-check"></i><b>10.7</b> How does Texas compare?</a></li>
 <li class="chapter" data-level="10.8" data-path="joins.html"><a href="joins.html#correlaton-test-for-texas"><i class="fa fa-check"></i><b>10.8</b> Correlaton test for Texas</a></li>
-<li class="chapter" data-level="10.9" data-path="joins.html"><a href="joins.html#practice-1-track-for-penn-state"><i class="fa fa-check"></i><b>10.9</b> Practice 1: Track for Penn State</a></li>
+<li class="chapter" data-level="10.9" data-path="joins.html"><a href="joins.html#practice-1-compare-penn-state"><i class="fa fa-check"></i><b>10.9</b> Practice 1: Compare Penn State</a></li>
 <li class="chapter" data-level="10.10" data-path="joins.html"><a href="joins.html#practice-2-penalties-vs-scoring"><i class="fa fa-check"></i><b>10.10</b> Practice 2: Penalties vs scoring</a></li>
 <li class="chapter" data-level="10.11" data-path="joins.html"><a href="joins.html#using-bind_rows-to-merge-data-sets"><i class="fa fa-check"></i><b>10.11</b> Using bind_rows() to merge data sets</a></li>
 </ul></li>
@@ -475,7 +475,7 @@ thirddown &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 <li><strong>points</strong>: Total points scored</li>
 <li><strong>points_g</strong>: Points per game</li>
 </ul>
-<p>Now our goal here is to compare how the <code>converstion_percent</code> might relate to <code>points_g</code> for all teams, and how specific teams might buck the national trend.</p>
+<p>Now our goal here is to compare how the <code>conversion_percent</code> might relate to <code>points_g</code> for all teams, and how specific teams might buck the national trend.</p>
 </div>
 </div>
 <div id="about-joins" class="section level2">
@@ -567,7 +567,7 @@ sample estimates:
 <p class="caption">Adding Texas to plot</p>
 </div>
 <p>This is good, but the labels for the year are sitting on top of the values. There is an R package called <a href="https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html">ggrepel</a> that will move those labels off the numbers, which we’ll use with our next set of changes. You might have to run <code>install.packages('ggrepel')</code> to make this work.</p>
-<p>For this update update, we are doing a number of things, adding or modifying layers along the way:</p>
+<p>For this update, we are doing a number of things, adding or modifying layers along the way:</p>
 <ul>
 <li>Add a <code>goem_smooth()</code> fit line specific to Texas, in burnt orange. We’ll put it before the text so it shows underneath the labels.</li>
 <li>Modify the <code>geom_text</code> to <code>geom_text_repel</code> to move the labels off the points.</li>
@@ -600,26 +600,26 @@ sample estimates:
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="fl">0.685967</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.685967</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></code></pre></div>
 <p>Which gets us 47.1%, not too far from the national average of 43.2%.</p>
 </div>
-<div id="practice-1-track-for-penn-state" class="section level2">
-<h2><span class="header-section-number">10.9</span> Practice 1: Track for Penn State</h2>
-<p>Not every team tracks the national average like Texas. Tell me (and show me) how Penn State performs in this same third-down vs scoring metric by creating a similar graphic and correlation test from the Penn State data.</p>
+<div id="practice-1-compare-penn-state" class="section level2">
+<h2><span class="header-section-number">10.9</span> Practice 1: Compare Penn State</h2>
+<p>Not every team tracks the national average like Texas. Tell me (and show me) how Penn State performs in this same third down conversion vs scoring metric by creating a similar graphic and correlation test from the Penn State data.</p>
 </div>
 <div id="practice-2-penalties-vs-scoring" class="section level2">
 <h2><span class="header-section-number">10.10</span> Practice 2: Penalties vs scoring</h2>
-<p>How predictive are penalty yards on points per game? Do more disciplined teams score more points than undisciplined ones? How does Texas compare to the rest of the league?</p>
+<p>How predictive are penalty yards per game on points per game? Do more disciplined teams score more points than undisciplined ones? How does Texas compare to the rest of the league?</p>
 <p>Create a <strong>new RNotebook</strong> to answer these questions.</p>
 <ul>
-<li>You will need to join <a href="http://www.cfbstats.com/2018/leader/national/team/offense/split01/category09/sort01.html">penalty data</a> (you’ve already downloaded the file <code>data-raw/penalties.csv</code> file) to your <a href="http://www.cfbstats.com/2018/leader/national/team/offense/split01/category09/sort01.html">offensive statistics</a>.</li>
-<li>Make your own scatterplot with a fit line to show the relationships.</li>
+<li>You will need to join <a href="http://www.cfbstats.com/2018/leader/national/team/offense/split01/category14/sort01.html">penalty data</a> (you’ve already downloaded the file <code>data-raw/penalties.csv</code> file) to the same points-per-games statistics from <a href="http://www.cfbstats.com/2018/leader/national/team/offense/split01/category09/sort01.html">scoring offense</a>.</li>
+<li>Make your own scatterplot with a fit line to show the relationships between penalty yards per game vs points per game.</li>
 <li>Run a correlation test for both the national average and for Texas.</li>
 <li>What does it say? Write a sentence that explains this to a reader.</li>
 </ul>
 </div>
 <div id="using-bind_rows-to-merge-data-sets" class="section level2">
 <h2><span class="header-section-number">10.11</span> Using bind_rows() to merge data sets</h2>
-<p>We aren’t going to go through an example or do practice sessions, but you should be aware that you can also merge data sets on top of each other.</p>
-<p>Let’s say you have a group of data sets where each year is broken into a different file or data frame. You can “stack” data frames on top of each other with a tidyverse function called <a href="https://dplyr.tidyverse.org/reference/bind.html"><code>bind_rows()</code></a>. When row-binding, columns are matched by name, and any missing columns will be filled with NA.</p>
-<p>There is also <a href="https://www.rdocumentation.org/packages/base/versions/3.5.3/topics/cbind"><code>rbind()</code></a> which is a base R way of handling similar challenges.</p>
+<p>We won’t go through an example or do practice sessions, but you should be aware that you can also merge data sets on top of each other when your columns are the same.</p>
+<p>Let’s say you have a multiple data sets where each year is broken into a different file or data frame. You can “stack” data frames on top of each other with a tidyverse function called <a href="https://dplyr.tidyverse.org/reference/bind.html"><code>bind_rows()</code></a>. When row-binding, columns are matched by name, and any missing columns will be filled with NA.</p>
+<p>There is also the base R function <a href="https://www.rdocumentation.org/packages/base/versions/3.5.3/topics/cbind"><code>rbind()</code></a> which handles similar challenges.</p>
 
 </div>
 </div>
