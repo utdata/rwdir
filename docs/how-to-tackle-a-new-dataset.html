@@ -25,7 +25,7 @@
 <meta name="author" content="Christian McDonald">
 
 
-<meta name="date" content="2019-04-07">
+<meta name="date" content="2019-04-09">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -333,6 +333,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="12.3" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#counting-and-aggregation"><i class="fa fa-check"></i><b>12.3</b> Counting and aggregation</a><ul>
 <li class="chapter" data-level="12.3.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#counting-rows-based-on-a-column"><i class="fa fa-check"></i><b>12.3.1</b> Counting rows based on a column</a></li>
 <li class="chapter" data-level="12.3.2" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#sum-mean-and-other-aggregations"><i class="fa fa-check"></i><b>12.3.2</b> Sum, mean and other aggregations</a></li>
+<li class="chapter" data-level="12.3.3" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#creating-columns-to-show-difference"><i class="fa fa-check"></i><b>12.3.3</b> Creating columns to show difference</a></li>
 </ul></li>
 <li class="chapter" data-level="12.4" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#cleaning-up-categorical-data"><i class="fa fa-check"></i><b>12.4</b> Cleaning up categorical data</a></li>
 <li class="chapter" data-level="12.5" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#time-as-a-variable"><i class="fa fa-check"></i><b>12.5</b> Time as a variable</a></li>
@@ -413,9 +414,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="how-to-tackle-a-new-dataset" class="section level1">
 <h1><span class="header-section-number">Chapter 12</span> How to tackle a new dataset</h1>
-<blockquote>
-<p>A work in progress. Just a start, really.</p>
-</blockquote>
 <p>For those unfamiliar with exploring data, starting the process can be paralyzing.</p>
 <p>How do I explore when I don’t know what I’m looking for? Where do I start?</p>
 <p>Every situation is different, but there are some common techniques and some common sense that you can bring to every project.</p>
@@ -457,7 +455,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="counting-and-aggregation" class="section level2">
 <h2><span class="header-section-number">12.3</span> Counting and aggregation</h2>
-<p>A large part of data analysis is counting and sorting, or filtering and then counting and sorting.</p>
+<p>A large part of data analysis is counting and sorting, or filtering and then counting and sorting. It’s possible you may need to reshape your data using <code>gather()</code> or <code>spread()</code> before you can do the mutating or grouping and summarizing you need. Review the [Tidy] chapter for more on that.</p>
 <div id="counting-rows-based-on-a-column" class="section level3">
 <h3><span class="header-section-number">12.3.1</span> Counting rows based on a column</h3>
 <p>If you are just counting the number of rows based on the values within a column (or columns), then <code>count()</code> is the key. When you use <code>count()</code> like this, a new column called <code>n</code> is created to hold the count of the rows. You can then use <code>arrange()</code> to sort the <code>n</code> column. (I’ll often rename <code>n</code> to something more useful.)</p>
@@ -560,6 +558,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </table>
 <p>The result will have all the columns you included in the group, plus the columns you create in your summarize statement. You can summarize more than one thing at a time, like the number of rows <code>numb_rows = n()</code> and average of the values <code>average = mean(column_name)</code>.</p>
 </div>
+<div id="creating-columns-to-show-difference" class="section level3">
+<h3><span class="header-section-number">12.3.3</span> Creating columns to show difference</h3>
+<p>Sometimes you need to perform math on two columns to show the difference between them. Use <code>mutate()</code> to do the math and create the column showing the change. Here’s a pseudo-code example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new_or_reassigned_df &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">new_col_name =</span> (part_col <span class="op">/</span><span class="st"> </span>total_col) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
+  )</code></pre></div>
+</div>
 </div>
 <div id="cleaning-up-categorical-data" class="section level2">
 <h2><span class="header-section-number">12.4</span> Cleaning up categorical data</h2>
@@ -577,8 +583,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>If you have dates in your data, then you almost always want to see change over time for different variables.</p>
 <ul>
 <li>Summarize records by year or month as appropriate and plot Bar/Column charts to show how the number of records have changed.</li>
+<li>Do you need to see how different categories of data have changed over time? Consider a line chart that shows those categories in different colors.</li>
+<li>If you have the same value for different time periods, do you want to see the change or percent change in those values? If those time periods are values in different columns, you can create a new column using <code>mutate()</code> to do the math and show the difference.</li>
+<li>Do you need the mean (average), median or sum of a column, or certain values within columns? The the <code>group_by()</code> and <code>summarize()</code> functions are likely your tool to discover those values.</li>
 </ul>
-<p>Is there any significant change in any of the categorical data over time?</p>
 
 </div>
 </div>

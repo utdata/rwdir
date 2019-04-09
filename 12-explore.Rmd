@@ -1,7 +1,5 @@
 # How to tackle a new dataset
 
-> A work in progress. Just a start, really.
-
 For those unfamiliar with exploring data, starting the process can be paralyzing.
 
 How do I explore when I don't know what I'm looking for? Where do I start?
@@ -49,7 +47,7 @@ If you google around, you might see other ways to create a histogram, including 
 
 ## Counting and aggregation
 
-A large part of data analysis is counting and sorting, or filtering and then counting and sorting.
+A large part of data analysis is counting and sorting, or filtering and then counting and sorting. It's possible you may need to reshape your data using `gather()` or `spread()` before you can do the mutating or grouping and summarizing you need. Review the [Tidy] chapter for more on that.
 
 ### Counting rows based on a column
 
@@ -100,6 +98,17 @@ receipts %>%
 
 The result will have all the columns you included in the group, plus the columns you create in your summarize statement. You can summarize more than one thing at a time, like the number of rows `numb_rows = n()` and average of the values `average = mean(column_name)`.
 
+### Creating columns to show difference
+
+Sometimes you need to perform math on two columns to show the difference between them. Use `mutate()` to do the math and create the column showing the change. Here's a pseudo-code example:
+
+```r
+new_or_reassigned_df <- df %>% 
+  mutate(
+    new_col_name = (part_col / total_col) * 100
+  )
+```
+
 ## Cleaning up categorical data
 
 Another reason you might explore categorical data is to make sure that the values in that column are clean and free of typos and values that might be better combined.
@@ -118,5 +127,7 @@ If you find you have hundreds of values to clean, then come see me. There are so
 If you have dates in your data, then you almost always want to see change over time for different variables.
 
 - Summarize records by year or month as appropriate and plot Bar/Column charts to show how the number of records have changed.
+- Do you need to see how different categories of data have changed over time? Consider a line chart that shows those categories in different colors.
+- If you have the same value for different time periods, do you want to see the change or percent change in those values? If those time periods are values in different columns, you can create a new column using `mutate()` to do the math and show the difference.
+- Do you need the mean (average), median or sum of a column, or certain values within columns? The the `group_by()` and `summarize()` functions are likely your tool to discover those values. 
 
-Is there any significant change in any of the categorical data over time?
