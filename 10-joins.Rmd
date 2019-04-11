@@ -1,6 +1,13 @@
+---
+output:
+  bookdown::gitbook:
+    includes:
+      in_header: style.css
+---
+
 # Joins
 
-## Goals
+## Goals and thoughts
 
 - Learn how to join two files based on a common column
 - Explore correlations between two numerical values
@@ -238,7 +245,7 @@ Which gets us 47.1%, not too far from the national average of 43.2%.
 
 ## Practice 1: Compare Penn State
 
-Not every team tracks the national average like Texas. Tell me (and show me) how Penn State performs in this same third down conversion vs scoring metric by creating a similar graphic and correlation test from the Penn State data.
+Not every team tracks the national average like Texas. Tell me (and show me) how Penn State performs in this same third down conversion vs scoring metric by creating a similar graphic and correlation test from the Penn State data on top of the national data.
 
 ## Practice 2: Penalties vs scoring
 
@@ -257,4 +264,4 @@ We won't go through an example or do practice sessions, but you should be aware 
 
 Let's say you have a multiple data sets where each year is broken into a different file or data frame. You can "stack" data frames on top of each other with a tidyverse function called  [`bind_rows()`](https://dplyr.tidyverse.org/reference/bind.html). When row-binding, columns are matched by name, and any missing columns will be filled with NA.
 
-There is also the base R function [`rbind()`](https://www.rdocumentation.org/packages/base/versions/3.5.3/topics/cbind) which handles similar challenges.
+There is also the base R functions [`cbind()` and `rbind()`](https://www.rdocumentation.org/packages/base/versions/3.5.3/topics/cbind) which handles similar challenges.
