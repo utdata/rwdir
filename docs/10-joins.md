@@ -37,8 +37,8 @@ Import the three files:
 
 ```r
 # import the files
-scoring <- read_csv("data-raw/scoring_offense.csv")
-thirddown <- read_csv("data-raw/third_down_conversion.csv")
+scoring <- read_csv("data-raw/scoring_offense.csv") %>% clean_names()
+thirddown <- read_csv("data-raw/third_down_conversion.csv") %>% clean_names()
 ```
 
 ## The story
