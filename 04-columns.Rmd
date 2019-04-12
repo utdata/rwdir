@@ -49,7 +49,7 @@ wells %>%
 
 And you'll get a result like this:
 
-![Columns cleaned with janitor](images/columns-janitor.png){width=600px}
+![Columns cleaned with janitor](images/columns-janitor.png)
 
 #### About the pipe
 

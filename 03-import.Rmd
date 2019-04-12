@@ -123,11 +123,11 @@ We want to look at the data so we understand it.
 - In the **Files** pane, click on the `data-raw` folder to open in.
 - Click on the `WellsRpts_County_Use.csv` file until you get the drop down that says View Files.
 
-![View file](images/import-inspectdata.png){width=400px}
+![View file](images/import-inspectdata.png)
 
 - When you choose that, you'll get a warning that it is a big file. It _should_ open it just fine, into a new window. It will look like this:
 
-![Wells file](images/import-wellsfile.png){width=600px}
+![Wells file](images/import-wellsfile.png)
 
 The numbers on the left are row numbers in the file. Because lines will wrap in your window, those numbers let you know where each line starts.
 

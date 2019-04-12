@@ -311,7 +311,7 @@ Like filter and mutate, you can do more than one calculation within a summarize 
 
 The `summarise()` function is an especially useful in combination with another function called `group_by()`, which allows us to pivot tables to count and measure data by its values.
 
-![Group by](images/transform-groupby.png){width=600px}
+![Group by](images/transform-groupby.png)
 
 This is easier to understand when you can see an example, so let's do it.
 
@@ -333,7 +333,7 @@ We can see that "Domestic" wells are more prevalent by a wide margin. If page th
 
 Let's walk through another example:
 
-![Group and summarise](images/transform-group-summarise.png){width=600px}
+![Group and summarise](images/transform-group-summarise.png)
 
 ### Your turn to group
 

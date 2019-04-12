@@ -4,7 +4,7 @@
 
 When you launch RStudio, you'll get a screen that looks like this:
 
-![Rstudio launch screen](images/intro-start.png){width=100%}
+![Rstudio launch screen](images/intro-start.png)
 
 ## Updating preferences
 
@@ -30,7 +30,7 @@ I want you to be anal about naming your folders. It's a good programming habit.
 - Don't use spaces. Use dashes.
 - For this class, start with your first name.
 
-![Rstudio project name, directory](images/intro-newproject.png){width=400px}
+![Rstudio project name, directory](images/intro-newproject.png)
 
 When you hit **Create Project**, your RStudio window will refresh and you'll see the `yourfirstname-first-project.Rproj` file in your Files list.
 
@@ -49,7 +49,7 @@ This will open a new file with some boilerplate R Markdown code.
 - Next, you'll see a couple of paragraphs of text that describes how to use an R Notebooks. It is written in R Markdown, and has some inline links and bold commands, which you will learn,
 - Then you will see an R code chunk that looks like the figure below.
 
-![R code chunk](images/intro-rcodechunk.png){width=600px}
+![R code chunk](images/intro-rcodechunk.png)
 
 Let's take a closer look at this:
 
@@ -78,7 +78,7 @@ There is only one chunk to run in this notebook, so:
 
 You should get something like this:
 
-![Cars plot](images/intro-defaultplot.png){width=600px}
+![Cars plot](images/intro-defaultplot.png)
 
 What you've done here is create a plot chart of a piece of sample data that is already inside R. (FWIW, It is the speed of cars and the distances taken to stop. Note that the data were recorded in the 1920s.)
 
@@ -131,7 +131,7 @@ Preview is a little different than *Knit*, which runs all the code, then creates
 
 One last thing to point out before we turn this in: The toolbar that runs across the top of the R Notebook file window. The image below explains some of the more useful tools, but you _REALLY_ should learn and use keyboard commands when they are available.
 
-![R Notebook toolbar](images/intro-toolbar.png){width=600px}
+![R Notebook toolbar](images/intro-toolbar.png)
 
 ### Knit the final workbook
 
@@ -142,7 +142,7 @@ One last thing to point out before we turn this in: The toolbar that runs across
 
 If you now look in your Files pane, you'll see you have four files in our project.  (Note the only one you actually edited was the `.Rmd` file.)
 
-![Files list](images/intro-files.png){width=500px}
+![Files list](images/intro-files.png)
 
 The best way to turn in all of those files into Canvas is to compress them into a single `.zip` file that you can upload to the assignment.
 
@@ -154,7 +154,7 @@ The best way to turn in all of those files into Canvas is to compress them into 
 
 Here is what the compression steps looks like on a Mac:
 
-![Compress file: Mac](images/intro-compress.gif){width=400px}
+![Compress file: Mac](images/intro-compress.gif)
 
 If you find you make changes to your R files after you've zipped your folder, you'll need to delete the `zip` file and do it again.
 

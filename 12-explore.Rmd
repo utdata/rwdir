@@ -20,38 +20,13 @@ To get a quick summary of all the values, you can use a function called `summary
 
 A `summary()` will show you the data type for each column, and then for number values it will show you the min, max, median, mean and other stats.
 
-### Explore the distributions in your data
-
-In many cases the summary data may be enough, but sometimes you might want see the "distributon" of values, i.e. how the values vary within the column. Are many of the values similar? A histogram can show this.
-
-Here is an example of a histogram from our wells data exploring the borehole_depth. Each bar represents the number of wells broken down in 100ft depth increments (set with `binwidth=100`). So the first bar shows that most of the wells (more than 7000) are less than 100 feet deep.
-
-```r
-wells %>% 
-  ggplot(aes(x = borehole_depth)) +
-  geom_histogram(binwidth = 100)
-```
-
-![Borehole depth histogram](images/explore-histogram.png)
-
-While there are wells deeper than 1000 feet, they are so few they don't even show on the graphic.
-
-You'll rarely use a histogram as a graphic with a story because they are more difficult to explain to readers. But they do help you to understand how much values differ within a column.
-
-#### More on histograms
-
-If you google around, you might see other ways to create a histogram, including `hist()` and `qplot()`. You might stick with the ggplot's `geom_histogram()` since you already are familiar with the syntax.
-
-- [Tutorial on histograms](https://www.datacamp.com/community/tutorials/make-histogram-ggplot2) using ggplot from DataCamp.
-- [R Cookbook](http://www.cookbook-r.com/Graphs/Plotting_distributions_(ggplot2)/) on histograms.
-
 ## Counting and aggregation
 
-A large part of data analysis is counting and sorting, or filtering and then counting and sorting. It's possible you may need to reshape your data using `gather()` or `spread()` before you can do the mutating or grouping and summarizing you need. Review the [Tidy] chapter for more on that.
+A large part of data analysis is counting and sorting, or filtering and then counting and sorting. It's possible you may need to reshape your data using `gather()` or `spread()` before you can do the mutating or grouping and summarizing you need. Review the [Tidy data] chapter for more on that.
 
 ### Counting rows based on a column
 
-If you are just counting the number of rows based on the values within a column (or columns), then `count()` is the key. When you use `count()` like this, a new column called `n` is created to hold the count of the rows. You can then use `arrange()` to sort the `n` column. (I'll often rename `n` to something more useful.)
+If you are just counting the number of rows based on the values within a column (or columns), then `count()` is the key. When you use `count()` like this, a new column called `n` is created to hold the count of the rows. You can then use `arrange()` to sort the `n` column. (I'll often rename `n` to something more useful. If you do, make sure you `arrange()` by the new name.)
 
 In this example, we are counting the number of rows for each princess in our survey data, the arranging it in decending order based on the column it created, called `n`.
 
@@ -77,7 +52,7 @@ survey %>%
 
 If you want to aggregate values in a column, like adding together values, or to find a mean or median, then you will want to use `group_by()` on your columns of interest, then use `summarize()` to aggregate the data in the manner you choose, like `sum()`, `mean()` or the number of rows `n()`.
 
-Here is an example where we use `group_by` and `summarize()` to add together values in our mixed beverage data. In this case, we had multiple rows for each establishment, but we wanted to add together `total_receipts()` for each name/address group.
+Here is an example where we use `group_by` and `summarize()` to add together values in our mixed beverage data. In this case, we had multiple rows for each name/address group, but we wanted to add together `total_receipts()` for each group.
 
 ```r
 receipts %>% 
@@ -126,8 +101,33 @@ If you find you have hundreds of values to clean, then come see me. There are so
 
 If you have dates in your data, then you almost always want to see change over time for different variables.
 
-- Summarize records by year or month as appropriate and plot Bar/Column charts to show how the number of records have changed.
+- Summarize records by year or month as appropriate and create a Bar or Column chart to show how the number of records for each time period.
 - Do you need to see how different categories of data have changed over time? Consider a line chart that shows those categories in different colors.
 - If you have the same value for different time periods, do you want to see the change or percent change in those values? If those time periods are values in different columns, you can create a new column using `mutate()` to do the math and show the difference.
 - Do you need the mean (average), median or sum of a column, or certain values within columns? The the `group_by()` and `summarize()` functions are likely your tool to discover those values. 
+
+## Explore the distributions in your data
+
+In many cases the summary data may be enough, but sometimes you might want see the "distributon" of values, i.e. how the values vary within the column. Are many of the values similar? A histogram can show this.
+
+Here is an example of a histogram from our wells data exploring the borehole_depth. Each bar represents the number of wells broken down in 100ft depth increments (set with `binwidth=100`). So the first bar shows that most of the wells (more than 7000) are less than 100 feet deep.
+
+```r
+wells %>% 
+  ggplot(aes(x = borehole_depth)) +
+  geom_histogram(binwidth = 100)
+```
+
+![Borehole depth histogram](images/explore-histogram.png)
+
+While there are wells deeper than 1000 feet, they are so few they don't even show on the graphic.
+
+You'll rarely use a histogram as a graphic with a story because they are more difficult to explain to readers. But they do help you to understand how much values differ within a column.
+
+### More on histograms
+
+If you google around, you might see other ways to create a histogram, including `hist()` and `qplot()`. You might stick with the ggplot's `geom_histogram()` since you already are familiar with the syntax.
+
+- [Tutorial on histograms](https://www.datacamp.com/community/tutorials/make-histogram-ggplot2) using ggplot from DataCamp.
+- [R Cookbook](http://www.cookbook-r.com/Graphs/Plotting_distributions_(ggplot2)/) on histograms.
 

@@ -5,16 +5,9 @@
 - An introduction to the Grammar of Graphics
 - We'll make charts!
 
-### Resources and further reading
-
-- [The ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html) and [ggplot2 cheatsheets](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf).
-- [R for Data Science, Chap 3.](https://r4ds.had.co.nz/data-visualisation.html) Hadley Wickam dives right into plots in his book.
-- [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/) has lots of example plots. Good to harvest code and see how to do things.
-- [The R Graph Gallery](https://www.r-graph-gallery.com/) another place to see examples.
-
 ## Introduction ggplot
 
-[ggplot2](https://ggplot2.tidyverse.org/) is the data visualization library within Hadley Wickham's [tidyverse](https://www.tidyverse.org/). It uses a concept called the "[Grammar of Graphics](https://byrneslab.net/classes/biol607/readings/wickham_layered-grammar.pdf)", the idea that you can build every graph from the same components: a data set, a coordinate system, and geoms -- the visual marks that represent data points. With a hat tip to [Matt Waite](http://www.mattwaite.com/), the main concepts are: 
+[ggplot2](https://ggplot2.tidyverse.org/) is the data visualization library within Hadley Wickham's [tidyverse](https://www.tidyverse.org/). It uses a concept called the [Grammar of Graphics](https://byrneslab.net/classes/biol607/readings/wickham_layered-grammar.pdf), the idea that you can build every graph from the same components: a data set, a coordinate system, and geoms -- the visual marks that represent data points. With a hat tip to [Matt Waite](http://www.mattwaite.com/), the main concepts are: 
 
 - **data**: which data frame you are pulling from
 - **aesthetics**: the specific data from the data frame which we are going to plot
@@ -185,7 +178,7 @@ ggplot(data = wells_by_county) +
     - The mapping, which are the aesthetics. We well it to plot **county** on the x (horizontal) axis, and **wells_count** on the y (vertical) axis.
     - Because **county** is a category instead of a number, we have to use the `stat = "identity"` value to describe that we are using values within county to separate the bars. This is a special thing for bar charts. One of those things that drive you nuts.
 
-![Basic county plot](images/visualize-county-plot.png){width=500px}
+![Basic county plot](images/visualize-county-plot.png)
 
 Our less verbose way to do this looks like this:
 
@@ -204,7 +197,7 @@ ggplot(data = wells_by_county, aes(x = county, y = wells_count)) +
   geom_text(aes(label=wells_count), vjust=-0.25) # adds the numbers on bars
 ```
 
-![Basic county plot](images/visualize-county-plot-labels.png){width=500px}
+![Basic county plot](images/visualize-county-plot-labels.png)
 
 In this case, we are just adding another layer, the `geom_text()`. It requires some additional aesthetics, like what `label=` we want to use. The `vjust=` moves the numbers up a little. Change the number and see what happens.
 
@@ -283,7 +276,7 @@ ggplot(wells_county_year, aes(x=year_drilled, y=wells_drilled)) +
   labs(title = "Wells by county and year", x = "Year", y = "Number of wells")
 ```
 
-![Wells drilled by county by year](images/visualize-county-year-line.png){width=500px}
+![Wells drilled by county by year](images/visualize-county-year-line.png)
 
 How easy would it be to add points for every year to make each data point stand out?
 
@@ -359,3 +352,10 @@ And it ends up looking like this:
 ### Plotly's freemium model
 
 It appears that you can use these open source libraries without charge from Plotly. They do also have a hosting service to allow you to embed charts in other websites, which can get into a pay tier of their service.
+
+## Resources and further reading
+
+- [The ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html) and [ggplot2 cheatsheets](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf).
+- [R for Data Science, Chap 3.](https://r4ds.had.co.nz/data-visualisation.html) Hadley Wickam dives right into plots in his book.
+- [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/) has lots of example plots. Good to harvest code and see how to do things.
+- [The R Graph Gallery](https://www.r-graph-gallery.com/) another place to see examples.

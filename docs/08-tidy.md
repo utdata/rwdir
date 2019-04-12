@@ -4,7 +4,7 @@ Data "shape" can be important when you are trying to work with and visualize dat
 
 > Slides by Hadley Wickham are used with permission from the author.
 
-## Goals for this session
+## Goals for this section
 
 - Explore what it means to have "tidy" data.
 - Learn `gather()`, `spread()` and other [tidyr](https://tidyr.tidyverse.org/) verbs.

@@ -4,7 +4,7 @@ There is a complexity within R data frames that we need to cover becomes it come
 
 We are going to handle this through a new project using our Survey data from class.
 
-## Goals for this session
+## Goals for this section
 
 - Create a new project with our class survey data.
 - Create a chart that uses categorical data.

@@ -1,13 +1,6 @@
----
-output:
-  bookdown::gitbook:
-    includes:
-      in_header: style.css
----
-
 # Joins
 
-## Goals and thoughts
+## Goals for this section
 
 - Learn how to join two files based on a common column
 - Explore correlations between two numerical values
