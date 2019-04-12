@@ -48,6 +48,15 @@
 
 
 
+<style type="text/css">
+  p.caption {
+    color: #777;
+    margin-top: 10px;
+  }
+  p code, pre, pre code, li code {
+    background-color: #DCDCDC !important;
+  }
+</style>
 
 
 <style type="text/css">
@@ -88,7 +97,6 @@ code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* Com
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
-<link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
 <body>
@@ -101,7 +109,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Reporting with Data</a></li>
+<li><a href="./">Reporting with Data in R</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About this class</a><ul>
@@ -620,7 +628,24 @@ sample estimates:
 <h2><span class="header-section-number">10.11</span> Using bind_rows() to merge data sets</h2>
 <p>We won’t go through an example or do practice sessions, but you should be aware that you can also merge data sets on top of each other when your columns are the same.</p>
 <p>Let’s say you have a multiple data sets where each year is broken into a different file or data frame. You can “stack” data frames on top of each other with a tidyverse function called <a href="https://dplyr.tidyverse.org/reference/bind.html"><code>bind_rows()</code></a>. When row-binding, columns are matched by name, and any missing columns will be filled with NA.</p>
-<p>There is also the base R functions <a href="https://www.rdocumentation.org/packages/base/versions/3.5.3/topics/cbind"><code>cbind()</code> and <code>rbind()</code></a> which handles similar challenges.</p>
+<p>An example might look like this …</p>
+<ul>
+<li>Let’s say you have three years of data in three different data frames: fy2016, fy2017, fy2018.</li>
+<li>And all three data frames have the same column names: donor_type, date, amount.</li>
+<li>And each data frame has 1000 rows of data.</li>
+</ul>
+<p>If you want then all in the same file you would do this:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">combined &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(fy2016, fy2017, fy2018)</code></pre></div>
+<p>The new data frame <code>combined</code> would have all the same columns, but would have 3000 rows of data.</p>
+<p>If you needed to know which data frame each row came from, you can name a “group” for each data frame, and then merge them. We will name our groups for each year they come from.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">combined &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(
+  <span class="st">&quot;2016&quot;</span> =<span class="st"> </span>fy2016,
+  <span class="st">&quot;2017&quot;</span> =<span class="st"> </span>fy2017,
+  <span class="st">&quot;2018&quot;</span> =<span class="st"> </span>fy2018,
+  <span class="dt">.id =</span> <span class="st">&quot;year&quot;</span>
+)</code></pre></div>
+<p>You would end up with a new data frame called <code>combined</code>, but it would have four columns: year, donor_type, date, amount. It would have all 3000 rows. All the rows that were pulled from <code>fy2016</code> would have a <code>year</code> of “2016”, and so on.</p>
+<p>It is admittedly weird that you name the groups before you specify the data frame the come from, but specify <code>.id</code> before the name of your new column. <code>¯\_(ツ)_/¯</code></p>
 
 </div>
 </div>

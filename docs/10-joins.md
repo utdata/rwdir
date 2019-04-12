@@ -264,4 +264,31 @@ We won't go through an example or do practice sessions, but you should be aware 
 
 Let's say you have a multiple data sets where each year is broken into a different file or data frame. You can "stack" data frames on top of each other with a tidyverse function called  [`bind_rows()`](https://dplyr.tidyverse.org/reference/bind.html). When row-binding, columns are matched by name, and any missing columns will be filled with NA.
 
-There is also the base R functions [`cbind()` and `rbind()`](https://www.rdocumentation.org/packages/base/versions/3.5.3/topics/cbind) which handles similar challenges.
+An example might look like this ... 
+
+- Let's say you have three years of data in three different data frames: fy2016, fy2017, fy2018.
+- And all three data frames have the same column names: donor_type, date, amount. 
+- And each data frame has 1000 rows of data.
+
+If you want then all in the same file you would do this:
+
+```r
+combined <- bind_rows(fy2016, fy2017, fy2018)
+```
+
+The new data frame `combined` would have all the same columns, but would have 3000 rows of data.
+
+If you needed to know which data frame each row came from, you can name a "group" for each data frame, and then merge them. We will name our groups for each year they come from.
+
+```r
+combined <- bind_rows(
+  "2016" = fy2016,
+  "2017" = fy2017,
+  "2018" = fy2018,
+  .id = "year"
+)
+```
+
+You would end up with a new data frame called `combined`, but it would have four columns: year, donor_type, date, amount. It would have all 3000 rows. All the rows that were pulled from `fy2016` would have a `year` of "2016", and so on.
+
+It is admittedly weird that you name the groups before you specify the data frame the come from, but specify `.id` before the name of your new column. `¯\_(ツ)_/¯`

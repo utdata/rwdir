@@ -22,7 +22,7 @@ Add a chapter that lists various data packages and such.
 
 ## Tools for PDFs {-}
 
-@abtran says: In R, there are a handful of packages I cycle through depending on the quality of the PDFs:
+`@abtran` says: In R, there are a handful of packages I cycle through depending on the quality of the PDFs:
 
 - [tabulizer](https://cran.r-project.org/web/packages/tabulizer/vignettes/tabulizer.html) will detect tables, will let you set parameters for where to find the tables, or lets you interactively set the parameters. [Another example](https://rpubs.com/gd6/291026).
 - sometimes the PDFs need to be OCR'd first, then I use [Tesseract's R bindings](https://cran.r-project.org/web/packages/tesseract/vignettes/intro.html).
