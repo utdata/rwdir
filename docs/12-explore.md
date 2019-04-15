@@ -28,12 +28,12 @@ A large part of data analysis is counting and sorting, or filtering and then cou
 
 If you are just counting the number of rows based on the values within a column (or columns), then `count()` is the key. When you use `count()` like this, a new column called `n` is created to hold the count of the rows. You can then use `arrange()` to sort the `n` column. (I'll often rename `n` to something more useful. If you do, make sure you `arrange()` by the new name.)
 
-In this example, we are counting the number of rows for each princess in our survey data, the arranging it in decending order based on the column it created, called `n`.
+In this example, we are counting the number of rows for each princess in our survey data, the arranging by `'n` then in decending order.
 
 ```r
 survey %>% 
-  count(princess)
-  arrange(desc(n))
+  count(princess) %>% 
+  arrange(n %>% desc())
 ```
 
 | princess                      |     n |
@@ -57,7 +57,7 @@ Here is an example where we use `group_by` and `summarize()` to add together val
 ```r
 receipts %>% 
   group_by(location_name, location_address) %>% 
-  summarise(
+  summarize(
     total_sales = sum(total_receipts)
   ) %>% 
   arrange(desc(total_sales))
@@ -75,7 +75,7 @@ The result will have all the columns you included in the group, plus the columns
 
 ### Creating columns to show difference
 
-Sometimes you need to perform math on two columns to show the difference between them. Use `mutate()` to do the math and create the column showing the change. Here's a pseudo-code example:
+Sometimes you need to perform math on two columns to show the difference between them. Use `mutate()` to create the column and do the math. Here's a pseudo-code example:
 
 ```r
 new_or_reassigned_df <- df %>% 
@@ -86,7 +86,7 @@ new_or_reassigned_df <- df %>%
 
 ## Cleaning up categorical data
 
-Another reason you might explore categorical data is to make sure that the values in that column are clean and free of typos and values that might be better combined.
+If you are going to count our summarize rows based on categorical data, you might want to make sure the values in that column are clean and free of typos and values that might be better combined.
 
 In class we did this with the `proposed_use` column in our wells data in the [Cleaning] chapter. Review that chapter for examples.
 
@@ -103,12 +103,12 @@ If you have dates in your data, then you almost always want to see change over t
 
 - Summarize records by year or month as appropriate and create a Bar or Column chart to show how the number of records for each time period.
 - Do you need to see how different categories of data have changed over time? Consider a line chart that shows those categories in different colors.
-- If you have the same value for different time periods, do you want to see the change or percent change in those values? If those time periods are values in different columns, you can create a new column using `mutate()` to do the math and show the difference.
+- If you have the same value for different time periods, do might want to see the change or percent change in those values. You can create a new column using `mutate()` to do the math and show the difference.
 - Do you need the mean (average), median or sum of a column, or certain values within columns? The the `group_by()` and `summarize()` functions are likely your tool to discover those values. 
 
 ## Explore the distributions in your data
 
-In many cases the summary data may be enough, but sometimes you might want see the "distributon" of values, i.e. how the values vary within the column. Are many of the values similar? A histogram can show this.
+We didn't talk about histograms in class, but sometimes you might want see the "distributon" of values in your data, i.e. how the values vary within the column. Are many of the values similar? A histogram can show this.
 
 Here is an example of a histogram from our wells data exploring the borehole_depth. Each bar represents the number of wells broken down in 100ft depth increments (set with `binwidth=100`). So the first bar shows that most of the wells (more than 7000) are less than 100 feet deep.
 

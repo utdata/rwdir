@@ -25,7 +25,7 @@
 <meta name="author" content="Christian McDonald">
 
 
-<meta name="date" content="2019-04-11">
+<meta name="date" content="2019-04-14">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -444,10 +444,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="counting-rows-based-on-a-column" class="section level3">
 <h3><span class="header-section-number">12.3.1</span> Counting rows based on a column</h3>
 <p>If you are just counting the number of rows based on the values within a column (or columns), then <code>count()</code> is the key. When you use <code>count()</code> like this, a new column called <code>n</code> is created to hold the count of the rows. You can then use <code>arrange()</code> to sort the <code>n</code> column. (I’ll often rename <code>n</code> to something more useful. If you do, make sure you <code>arrange()</code> by the new name.)</p>
-<p>In this example, we are counting the number of rows for each princess in our survey data, the arranging it in decending order based on the column it created, called <code>n</code>.</p>
+<p>In this example, we are counting the number of rows for each princess in our survey data, the arranging by <code>'n</code> then in decending order.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">survey <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">count</span>(princess)
-  <span class="kw">arrange</span>(<span class="kw">desc</span>(n))</code></pre></div>
+<span class="st">  </span><span class="kw">count</span>(princess) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">arrange</span>(n <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">desc</span>())</code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -501,7 +501,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Here is an example where we use <code>group_by</code> and <code>summarize()</code> to add together values in our mixed beverage data. In this case, we had multiple rows for each name/address group, but we wanted to add together <code>total_receipts()</code> for each group.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">receipts <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">group_by</span>(location_name, location_address) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">summarise</span>(
+<span class="st">  </span><span class="kw">summarize</span>(
     <span class="dt">total_sales =</span> <span class="kw">sum</span>(total_receipts)
   ) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(total_sales))</code></pre></div>
@@ -545,7 +545,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="creating-columns-to-show-difference" class="section level3">
 <h3><span class="header-section-number">12.3.3</span> Creating columns to show difference</h3>
-<p>Sometimes you need to perform math on two columns to show the difference between them. Use <code>mutate()</code> to do the math and create the column showing the change. Here’s a pseudo-code example:</p>
+<p>Sometimes you need to perform math on two columns to show the difference between them. Use <code>mutate()</code> to create the column and do the math. Here’s a pseudo-code example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new_or_reassigned_df &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">mutate</span>(
     <span class="dt">new_col_name =</span> (part_col <span class="op">/</span><span class="st"> </span>total_col) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
@@ -554,7 +554,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="cleaning-up-categorical-data" class="section level2">
 <h2><span class="header-section-number">12.4</span> Cleaning up categorical data</h2>
-<p>Another reason you might explore categorical data is to make sure that the values in that column are clean and free of typos and values that might be better combined.</p>
+<p>If you are going to count our summarize rows based on categorical data, you might want to make sure the values in that column are clean and free of typos and values that might be better combined.</p>
 <p>In class we did this with the <code>proposed_use</code> column in our wells data in the <a href="cleaning.html#cleaning">Cleaning</a> chapter. Review that chapter for examples.</p>
 <p>Some strategies you might use:</p>
 <ul>
@@ -569,13 +569,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li>Summarize records by year or month as appropriate and create a Bar or Column chart to show how the number of records for each time period.</li>
 <li>Do you need to see how different categories of data have changed over time? Consider a line chart that shows those categories in different colors.</li>
-<li>If you have the same value for different time periods, do you want to see the change or percent change in those values? If those time periods are values in different columns, you can create a new column using <code>mutate()</code> to do the math and show the difference.</li>
+<li>If you have the same value for different time periods, do might want to see the change or percent change in those values. You can create a new column using <code>mutate()</code> to do the math and show the difference.</li>
 <li>Do you need the mean (average), median or sum of a column, or certain values within columns? The the <code>group_by()</code> and <code>summarize()</code> functions are likely your tool to discover those values.</li>
 </ul>
 </div>
 <div id="explore-the-distributions-in-your-data" class="section level2">
 <h2><span class="header-section-number">12.6</span> Explore the distributions in your data</h2>
-<p>In many cases the summary data may be enough, but sometimes you might want see the “distributon” of values, i.e. how the values vary within the column. Are many of the values similar? A histogram can show this.</p>
+<p>We didn’t talk about histograms in class, but sometimes you might want see the “distributon” of values in your data, i.e. how the values vary within the column. Are many of the values similar? A histogram can show this.</p>
 <p>Here is an example of a histogram from our wells data exploring the borehole_depth. Each bar represents the number of wells broken down in 100ft depth increments (set with <code>binwidth=100</code>). So the first bar shows that most of the wells (more than 7000) are less than 100 feet deep.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> borehole_depth)) <span class="op">+</span>
