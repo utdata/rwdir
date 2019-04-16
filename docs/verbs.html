@@ -5,21 +5,21 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Chapter 7 Graphics | Reporting with Data in R</title>
-  <meta name="description" content="Chapter 7 Graphics | Reporting with Data in R is a series of lessons for a course in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald.">
+  <title>Chapter 15 Verbs | Reporting with Data in R</title>
+  <meta name="description" content="Chapter 15 Verbs | Reporting with Data in R is a series of lessons for a course in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Chapter 7 Graphics | Reporting with Data in R" />
+  <meta property="og:title" content="Chapter 15 Verbs | Reporting with Data in R" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="Chapter 7 Graphics | Reporting with Data in R is a series of lessons for a course in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald." />
+  <meta property="og:description" content="Chapter 15 Verbs | Reporting with Data in R is a series of lessons for a course in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald." />
   <meta name="github-repo" content="utdata/rwd-class" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 7 Graphics | Reporting with Data in R" />
+  <meta name="twitter:title" content="Chapter 15 Verbs | Reporting with Data in R" />
   
-  <meta name="twitter:description" content="Chapter 7 Graphics | Reporting with Data in R is a series of lessons for a course in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald." />
+  <meta name="twitter:description" content="Chapter 15 Verbs | Reporting with Data in R is a series of lessons for a course in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald." />
   
 
 <meta name="author" content="Christian McDonald">
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="cleaning.html">
-<link rel="next" href="tidy.html">
+<link rel="prev" href="chart-examples.html">
+<link rel="next" href="notes-about-future-sessions.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -425,461 +425,51 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="graphics" class="section level1">
-<h1><span class="header-section-number">Chapter 7</span> Graphics</h1>
-<div id="goals-for-this-section-3" class="section level2">
-<h2><span class="header-section-number">7.1</span> Goals for this section</h2>
+<div id="verbs" class="section level1">
+<h1><span class="header-section-number">Chapter 15</span> Verbs</h1>
+<p>An opinionated list of the most common <a href="https://www.tidyverse.org/">Tidyverse</a> and other R verbs used with data storytelling.</p>
+<div id="importexport" class="section level2">
+<h2><span class="header-section-number">15.1</span> Import/Export</h2>
 <ul>
-<li>An introduction to the Grammar of Graphics</li>
-<li>We’ll make charts!</li>
+<li><a href="https://readr.tidyverse.org/reference/read_delim.html"><code>read_csv()</code></a> imports data from a CSV file. (It handles data types better than the base R <code>read.csv()</code>). Also <code>write_csv()</code> when you need export as CSV. <strong>Example:</strong> <code>read_csv(&quot;path/to/file.csv&quot;)</code>.</li>
+<li><a href="https://readr.tidyverse.org/reference/read_rds.html"><code>write_rds</code></a> to save a data frame as an <code>.rds</code> R data data file. This preserves all the data types. <a href="https://readr.tidyverse.org/reference/read_rds.html"><code>read_rds()</code></a> to import R data. <strong>Example:</strong> <code>read_rds(&quot;path/to/file.rds&quot;)</code>.</li>
+<li><a href="https://readxl.tidyverse.org/"><code>readxl</code></a> is a package we didn’t talk about, but it has <a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel()</a> that allows you to import from an Excel file, including specified sheets.</li>
+<li><a href="">clean_names()</a> from the <code>library(janitor)</code> package standardizes column names.</li>
 </ul>
 </div>
-<div id="introduction-ggplot" class="section level2">
-<h2><span class="header-section-number">7.2</span> Introduction ggplot</h2>
-<p><a href="https://ggplot2.tidyverse.org/">ggplot2</a> is the data visualization library within Hadley Wickham’s <a href="https://www.tidyverse.org/">tidyverse</a>. It uses a concept called the <a href="https://byrneslab.net/classes/biol607/readings/wickham_layered-grammar.pdf">Grammar of Graphics</a>, the idea that you can build every graph from the same components: a data set, a coordinate system, and geoms – the visual marks that represent data points. With a hat tip to <a href="http://www.mattwaite.com/">Matt Waite</a>, the main concepts are:</p>
+<div id="data-manipulation" class="section level2">
+<h2><span class="header-section-number">15.2</span> Data manipulation</h2>
 <ul>
-<li><strong>data</strong>: which data frame you are pulling from</li>
-<li><strong>aesthetics</strong>: the specific data from the data frame which we are going to plot</li>
-<li><strong>geometries</strong>: the shape the data is going to take</li>
-<li><strong>scales</strong>: any transformations we might make on the data</li>
-<li><strong>layers</strong>: how we might lay multiple geometries over top of each other to reveal new information.</li>
-<li><strong>facets</strong>: which means how we might graph many elements of the same data set in the same space</li>
-</ul>
-<p>The challenge to understand here is for every graphic, we start with the data, and then describe how to layer plots or pieces on top of that data.</p>
-</div>
-<div id="the-basic-ggplot-template" class="section level2">
-<h2><span class="header-section-number">7.3</span> The basic ggplot template</h2>
-<p>The template for a basic plot is this. (The <code>&lt;&gt;</code> denote that we are inserting values there.)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="op">&lt;</span>DATA<span class="op">&gt;</span>, <span class="kw">aes</span>(<span class="dt">mapping =</span> <span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="er">&lt;</span>GEOM<span class="op">&gt;</span>(<span class="op">&lt;</span>ADDITONAL_MAPPINGS<span class="op">&gt;</span>)</code></pre></div>
-<ul>
-<li><strong><code>ggplot()</code></strong> is our function. We feed into it the data we wish to plot.</li>
-<li><strong><code>aes()</code></strong> stands for “aesthetics”, and it describes the column of data we want to plot, and how, like which column is on the <strong>x axis</strong> and which is on the <strong>y axis</strong>. These are called <strong>mappings</strong>, which we show in our template with <strong><code>&lt;MAPPINGS&gt;</code></strong>. They typically look like this: <code>aes(x = col_name_x, y = col_name_y)</code>. Now matter what type of chart we are building (bar chart, scatterplot, etc) we have to tell it which columns to show on the chart.</li>
-<li>The <strong><code>+</code></strong> is the equivalent of <code>%&gt;%</code> in our tidyverse data. It means we are adding a layer, and it should always be at the end of the line, not at the beginning of the next.</li>
-<li><strong><code>&lt;GEOM_FUNCTION&gt;</code></strong> is the type of chart or addition we are adding. They all start with the term <strong>geom_</strong> like <strong><code>geom_bar</code></strong>, which is what we will build with this example. It will take the mappings we supplied and plot them on the type of <strong>geom_</strong> we choose.</li>
-<li><strong><code>&lt;ADDITIONAL MAPPINGS&gt;</code></strong> if a geom_ requires it, we can specify additional columns/axis mapping combinations to that <strong>geom_</strong>. We don’t always have or need them.</li>
-</ul>
-<p>There are some ways to simplify this, and some ways to complicate it. Let’s simplify first:</p>
-<ul>
-<li>It is implied that the first thing fed to <code>ggplot</code> is the data, so you don’t have to write out <code>data =</code> unless there is ambiguity.</li>
-<li>The <code>aes()</code> values are also implied as mappings, so you don’t have to write out <code>mapping =</code> unless there is ambiguity.</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="op">&lt;</span>DATA<span class="op">&gt;</span>, <span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="er">&lt;</span>GEOM<span class="op">&gt;</span>
-)</code></pre></div>
-<p>One of the ways we make things complicated, is we layer different geometries. We might start with a scatterplot, and then add a reference line on top of it, which is a new geometry. Each <strong>goem_</strong> can specify their own mappings.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="op">&lt;</span>DATA<span class="op">&gt;</span>, <span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="er">&lt;</span>GEOM_FUNCTION<span class="op">&gt;</span>(<span class="kw">aes</span>(<span class="op">&lt;</span>SPECIFIC_MAPPINGS<span class="op">&gt;</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="er">&lt;</span>GEOM_FUNCTION<span class="op">&gt;</span>(<span class="kw">aes</span>(<span class="op">&lt;</span>SPECIFIC_MAPPINGS<span class="op">&gt;</span>))</code></pre></div>
-</div>
-<div id="lets-plot" class="section level2">
-<h2><span class="header-section-number">7.4</span> Let’s plot!</h2>
-<div id="set-up-our-notebook" class="section level3">
-<h3><span class="header-section-number">7.4.1</span> Set up our Notebook</h3>
-<ul>
-<li>Create a new RNotebook. Title it “Wells visualizations” and name the file <code>04-charts.Rmd</code>.</li>
-<li>Load the following libraries: tidyverse, lubridate.</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
-<span class="kw">library</span>(lubridate)</code></pre></div>
-</div>
-<div id="scatterplot" class="section level3">
-<h3><span class="header-section-number">7.4.2</span> Scatterplot</h3>
-<p>One of the better ways to see this in action for the first time is build a scatterplot showing the relationship between two numbers. Unfortunately, our wells data does not have two such values, so we’ll explore this using a data set that is already built into ggplot2, <strong>mpg</strong>.</p>
-<p>Take a look at the <strong>mpg</strong> by calling it like a data frame.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mpg</code></pre></div>
-<p>It looks something like this, which shows the first and last couple of rows:</p>
-<table>
-<thead>
-<tr class="header">
-<th>manufacturer</th>
-<th>model</th>
-<th>displ</th>
-<th>year</th>
-<th>cyl</th>
-<th>trans</th>
-<th>drv</th>
-<th>cty</th>
-<th>hwy</th>
-<th>fl</th>
-<th>class</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>audi</td>
-<td>a4</td>
-<td>1.8</td>
-<td>1999</td>
-<td>4</td>
-<td>auto(l5)</td>
-<td>f</td>
-<td>18</td>
-<td>29</td>
-<td>p</td>
-<td>compact</td>
-</tr>
-<tr class="even">
-<td>audi</td>
-<td>a4</td>
-<td>1.8</td>
-<td>1999</td>
-<td>4</td>
-<td>manual(m5)</td>
-<td>f</td>
-<td>21</td>
-<td>29</td>
-<td>p</td>
-<td>compact</td>
-</tr>
-<tr class="odd">
-<td>audi</td>
-<td>a4</td>
-<td>2</td>
-<td>2008</td>
-<td>4</td>
-<td>manual(m6)</td>
-<td>f</td>
-<td>20</td>
-<td>31</td>
-<td>p</td>
-<td>compact</td>
-</tr>
-<tr class="even">
-<td>audi</td>
-<td>a4</td>
-<td>2</td>
-<td>2008</td>
-<td>4</td>
-<td>auto(av)</td>
-<td>f</td>
-<td>21</td>
-<td>30</td>
-<td>p</td>
-<td>compact</td>
-</tr>
-<tr class="odd">
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>.</td>
-<td>…</td>
-<td>.</td>
-<td>..</td>
-<td>..</td>
-<td>.</td>
-<td>…</td>
-</tr>
-<tr class="even">
-<td>volkswagen</td>
-<td>passat</td>
-<td>2</td>
-<td>2008</td>
-<td>4</td>
-<td>manual(m6)</td>
-<td>f</td>
-<td>21</td>
-<td>29</td>
-<td>p</td>
-<td>midsize</td>
-</tr>
-<tr class="odd">
-<td>volkswagen</td>
-<td>passat</td>
-<td>2.8</td>
-<td>1999</td>
-<td>6</td>
-<td>auto(l5)</td>
-<td>f</td>
-<td>16</td>
-<td>26</td>
-<td>p</td>
-<td>midsize</td>
-</tr>
-<tr class="even">
-<td>volkswagen</td>
-<td>passat</td>
-<td>2.8</td>
-<td>1999</td>
-<td>6</td>
-<td>manual(m5)</td>
-<td>f</td>
-<td>18</td>
-<td>26</td>
-<td>p</td>
-<td>midsize</td>
-</tr>
-<tr class="odd">
-<td>volkswagen</td>
-<td>passat</td>
-<td>3.6</td>
-<td>2008</td>
-<td>6</td>
-<td>auto(s6)</td>
-<td>f</td>
-<td>17</td>
-<td>26</td>
-<td>p</td>
-<td>midsize</td>
-</tr>
-</tbody>
-</table>
-<p>The data is a subset of fuel economy data from 1999 and 2008 for 38 popular cars. Don’t get too hung up on the data, it is just for examples.</p>
-<p>The size of an engine is shows in the column <code>displ</code>. The Audi A4 has a 1.8 liter engine. The column <code>hwy</code> is the fuel rating for highways. Well also us the <code>class</code> column, which categorizes the type of vehicle.</p>
-<p>What kind of relationship might you expect between the size of the engine and highway mileage?</p>
-<p>Let’s use our plot to show this. If our basic template is like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="op">&lt;</span>DATA<span class="op">&gt;</span>, <span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="er">&lt;</span>GEOM<span class="op">&gt;</span></code></pre></div>
-<p>Now, let’s put our data in here. Our goal here is to show how the <strong>hwy</strong> number (y axis) changes as the <strong>displ</strong> number gets bigger (x axis.)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
-<p>Which gets us a our first chart:</p>
-<div class="figure">
-<img src="images/visualize-mpg-01.png" alt="MPG: hwy vs displ" />
-<p class="caption">MPG: hwy vs displ</p>
-</div>
-<p>We can see there is a relationships of sort here, but ggplot has some additional geometries to help us see this, including <a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html"><code>geom_smooth()</code></a>. Since we have already the mappings in the main <code>ggplot()</code> call, all we have to do is add the new geom.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_smooth</span>() <span class="co"># new plot. don&#39;t forget the + on previous line</span></code></pre></div>
-<div class="figure">
-<img src="images/visualize-mpg-02.png" alt="MPG: displ vs hwy with smooth line" />
-<p class="caption">MPG: displ vs hwy with smooth line</p>
-</div>
-<p>Let’s add one more visual cue (or aesthetic) to this graphic by coloring the dots based on the <code>class</code> of the vehicle. Since we want this aesthetic to apply only to the <code>geom_point()</code>, we have to add the <code>aes()</code> value there.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> class)) <span class="op">+</span><span class="st"> </span><span class="co"># added color aesthetic</span>
-<span class="st">  </span><span class="kw">geom_smooth</span>()</code></pre></div>
-<div class="figure">
-<img src="images/visualize-mpg-03.png" alt="MPG: disply vs mpg with class" />
-<p class="caption">MPG: disply vs mpg with class</p>
-</div>
-<p>Looking at that graphic, what values might you want to learn more about?</p>
-</div>
-</div>
-<div id="plotting-our-wells-data" class="section level2">
-<h2><span class="header-section-number">7.5</span> Plotting our wells data</h2>
-<p>For bar charts and line charts, we can return to our wells data, so let’s import what we had from our last notebook.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;data-out/wells_03.rds&quot;</span>)</code></pre></div>
-<div id="total-wells-per-county" class="section level3">
-<h3><span class="header-section-number">7.5.1</span> Total wells per county</h3>
-<div id="shape-our-data" class="section level4">
-<h4><span class="header-section-number">7.5.1.1</span> Shape our data</h4>
-<p>If we are plotting wells per county, we need to first build a data frame that counts the number of wells for each county. We can use the same <code>count()</code> function that we used when we cleaned our data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells_by_county &lt;-<span class="st"> </span>wells <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">count</span>(county) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">rename</span>(<span class="dt">wells_count =</span> n)
-wells_by_county</code></pre></div>
-<p>Let’s break this down:</p>
-<ul>
-<li>The first line creates the new data frame <code>wells_by_county</code>, starting with our <code>wells</code> data frame.</li>
-<li>We apply the <code>count()</code> function on the “county” column. This makes our basic pivot table.</li>
-<li>On the third line, we rename the “n” column that was created by <code>count()</code>, so it is more descriptive, calling it <code>wells_count</code>.</li>
-<li>So now we have a data frame with two columns: <strong>county</strong> and <strong>wells_count</strong>. We print it on the fourth line so we can inspect it.</li>
+<li><a href="https://dplyr.tidyverse.org/reference/select.html"><code>select()</code></a> to select columns. <strong>Example:</strong> <code>select(col01, col02)</code> or <code>select(-excluded_col)</code>.</li>
+<li><a href="https://dplyr.tidyverse.org/reference/select.html"><code>rename()</code></a> to rename a column. <strong>Example:</strong> <code>rename(new_name = old_name)</code>.</li>
+<li><a href="https://dplyr.tidyverse.org/reference/filter.html"><code>filter()</code></a> to filter rows of data. <strong>Example:</strong> <code>filter(column_name == &quot;value&quot;)</code>.</li>
+<li>See <a href="https://www.rdocumentation.org/packages/base/versions/3.5.3/topics/Logic">Relational Operators</a> like <code>==</code>, <code>&gt;</code>, <code>&gt;=</code> etc.</li>
+<li>See <a href="https://www.rdocumentation.org/packages/base/versions/3.5.3/topics/Logic">Logical operators</a> like <code>&amp;</code>, <code>|</code> etc.</li>
+<li>See <a href="https://www.rdocumentation.org/packages/base/versions/3.5.3/topics/NA">is.na</a> tests if a value is missing.</li>
+<li><a href="https://dplyr.tidyverse.org/reference/distinct.html"><code>distinct()</code></a> will filter rows down to the unique values of the columns given.</li>
+<li><a href="https://dplyr.tidyverse.org/reference/arrange.html"><code>arrange()</code></a> sorts data based on values in a column. Use <code>desc()</code> to reverse the order. <strong>Example:</strong> <code>arrange(col_name %&gt;% desc())</code></li>
+<li><a href="https://dplyr.tidyverse.org/reference/mutate.html"><code>mutate()</code></a> changes and existing column or creates a new one. <strong>Example:</strong> <code>mutate(new_col = (col01 / col02))</code>.</li>
+<li><a href="https://tidyr.tidyverse.org/reference/gather.html"><code>gather()</code></a> collapses columns into two, one a key and the other a value. Turns wide data into long. <strong>Example:</strong> <code>gather(key = &quot;new_key_col_name&quot;, value = &quot;new_val_col_name&quot;, 3:5)</code> will gather columns 3 through 5. Can also name columns to gather.</li>
+<li><a href="https://tidyr.tidyverse.org/reference/spread.html"><code>spread()</code></a> turns long data into wide by spreading into multiple columns based on as key.</li>
 </ul>
 </div>
-<div id="plot-our-wells-by-county" class="section level4">
-<h4><span class="header-section-number">7.5.1.2</span> Plot our wells by county</h4>
-<p>Here is the verbose plot for our counties.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> wells_by_county) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> county, <span class="dt">y =</span> wells_count), <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>)</code></pre></div>
+<div id="aggregation" class="section level2">
+<h2><span class="header-section-number">15.3</span> Aggregation</h2>
 <ul>
-<li>On the first line we tell <code>ggplot()</code> that we are using the we <code>wells_by_county</code> data.</li>
-<li>On the next, we apply the <code>geom_bar()</code> function to make a bar chart. It needs two things:
-<ul>
-<li>The mapping, which are the aesthetics. We well it to plot <strong>county</strong> on the x (horizontal) axis, and <strong>wells_count</strong> on the y (vertical) axis.</li>
-<li>Because <strong>county</strong> is a category instead of a number, we have to use the <code>stat = &quot;identity&quot;</code> value to describe that we are using values within county to separate the bars. This is a special thing for bar charts. One of those things that drive you nuts.</li>
-</ul></li>
-</ul>
-<div class="figure">
-<img src="images/visualize-county-plot.png" alt="Basic county plot" />
-<p class="caption">Basic county plot</p>
-</div>
-<p>Our less verbose way to do this looks like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(wells_by_county, <span class="kw">aes</span>(<span class="dt">x=</span>county, <span class="dt">y=</span>wells_count)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>)</code></pre></div>
-</div>
-</div>
-<div id="add-a-layer-of-text-labels" class="section level3">
-<h3><span class="header-section-number">7.5.2</span> Add a layer of text labels</h3>
-<p>For each new thing that we add to our graphic, we add it with <code>+</code>. In this case, we want to add number labels to show the wells_count for that county.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> wells_by_county, <span class="kw">aes</span>(<span class="dt">x =</span> county, <span class="dt">y =</span> wells_count)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label=</span>wells_count), <span class="dt">vjust=</span><span class="op">-</span><span class="fl">0.25</span>) <span class="co"># adds the numbers on bars</span></code></pre></div>
-<div class="figure">
-<img src="images/visualize-county-plot-labels.png" alt="Basic county plot" />
-<p class="caption">Basic county plot</p>
-</div>
-<p>In this case, we are just adding another layer, the <code>geom_text()</code>. It requires some additional aesthetics, like what <code>label=</code> we want to use. The <code>vjust=</code> moves the numbers up a little. Change the number and see what happens.</p>
-<p>The last layer we want to add here is a Title layer. The function for labels is called <code>labs()</code> and it takes an argument of <code>title = &quot;&quot;</code> You can also change your <code>x</code> and <code>y</code> axis names, etc.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> wells_by_county, <span class="kw">aes</span>(<span class="dt">x =</span> county, <span class="dt">y =</span> wells_count)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label=</span>wells_count), <span class="dt">vjust=</span><span class="op">-</span><span class="fl">0.25</span>)
-  <span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Number of wells drilled by county&quot;</span>) <span class="co"># adds the title</span></code></pre></div>
-<div class="figure">
-<img src="images/visualize-county-by-year-done.png" alt="Wells by county with title" />
-<p class="caption">Wells by county with title</p>
-</div>
-<p>Congratulations! You made your first <code>ggplot()</code> chart. Not particularly revealing, but it does show that Travis County has WAY more wells than the other counties.</p>
-<p>Let’s see how those trends play out over time.</p>
-</div>
-</div>
-<div id="wells-per-county-over-time" class="section level2">
-<h2><span class="header-section-number">7.6</span> Wells per county over time</h2>
-<p>Our next chart will be a line chart to show how the number of wells drilled has changed over time within each county.</p>
-<p>Again, it will help us to think about what we are after and then build our data frame to match. In this case, we want to plot the “number of wells” for each county, by year. That means we need a data frame that has columns for county, year and the number of wells. To get that, we have to use group and summarize.</p>
-<p>Sometimes it helps to write out the steps of everything before you to do it.</p>
-<ul>
-<li>Start with the <code>wells</code> data frame.</li>
-<li>Filter to 2003 or later, because that’s when the <a href="http://www.twdb.texas.gov/groundwater/data/drillersdb.asp">system came online</a>.</li>
-<li>Group by the <code>county</code> and <code>year_drilled</code> fields.</li>
-<li>Summarize to create a count of the number of <code>wells_drilled</code>.</li>
-<li>Set all of the above to a new data frame, <code>wells_county_year</code>.</li>
-<li>Start a plot with the new data.</li>
-<li>Set x (horizontal) to be year_drilled and y (vertical) to be wells_drilled, and color to be the county.</li>
-</ul>
-<div id="work-up-the-data-frame" class="section level3">
-<h3><span class="header-section-number">7.6.1</span> Work up the data frame</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(year_drilled <span class="op">&gt;=</span><span class="st"> </span><span class="dv">2003</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">group_by</span>(county, year_drilled) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">summarise</span>(
-    <span class="dt">wells_drilled =</span> <span class="kw">n</span>()
-  )</code></pre></div>
-<p>This gives you a table similar to this:</p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">county</th>
-<th align="left">year_drilled</th>
-<th align="right">wells_drilled</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Bastrop</td>
-<td align="left">2003</td>
-<td align="right">110</td>
-</tr>
-<tr class="even">
-<td align="left">Bastrop</td>
-<td align="left">2004</td>
-<td align="right">99</td>
-</tr>
-<tr class="odd">
-<td align="left">Bastrop</td>
-<td align="left">2005</td>
-<td align="right">97</td>
-</tr>
-<tr class="even">
-<td align="left">…</td>
-<td align="left">…</td>
-<td align="right">…</td>
-</tr>
-<tr class="odd">
-<td align="left">Caldwell</td>
-<td align="left">2003</td>
-<td align="right">40</td>
-</tr>
-<tr class="even">
-<td align="left">Caldwell</td>
-<td align="left">2004</td>
-<td align="right">32</td>
-</tr>
-<tr class="odd">
-<td align="left">Caldwell</td>
-<td align="left">2005</td>
-<td align="right">40</td>
-</tr>
-</tbody>
-</table>
-<p>We call this <em>long</em> data, because each row contains a single observation, instead of <em>wide</em> data, which would have a column for each observation.</p>
-<p>Once you are have the data formatted, set it to fill a new data frame called <code>wells_county_year</code>.</p>
-</div>
-<div id="draw-the-plot" class="section level3">
-<h3><span class="header-section-number">7.6.2</span> Draw the plot</h3>
-<p>Remember the formula for a basic plot:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="op">&lt;</span>DATA<span class="op">&gt;</span>, <span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="er">&lt;</span>GEOM_FUNCTION<span class="op">&gt;</span></code></pre></div>
-<p>and if all our mappings are the same, they can go into the ggplot function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(wells_county_year, <span class="kw">aes</span>(<span class="dt">x=</span>year_drilled, <span class="dt">y=</span>wells_drilled)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">color=</span>county)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Wells by county and year&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Number of wells&quot;</span>)</code></pre></div>
-<div class="figure">
-<img src="images/visualize-county-year-line.png" alt="Wells drilled by county by year" />
-<p class="caption">Wells drilled by county by year</p>
-</div>
-<p>How easy would it be to add points for every year to make each data point stand out?</p>
-</div>
-<div id="your-turn-add-layers" class="section level3">
-<h3><span class="header-section-number">7.6.3</span> Your turn: Add layers</h3>
-<ul>
-<li>Add a new layer <code>geom_point()</code> and see what happens</li>
-<li>Add a labels layer to add a title, like we did in the bar chart above.</li>
+<li><a href="https://dplyr.tidyverse.org/reference/tally.html"><code>count()</code></a> will count the number rows based on columns you feed it.</li>
+<li><a href="https://dplyr.tidyverse.org/reference/group_by.html"><code>group_by()</code></a> and <a href="https://dplyr.tidyverse.org/reference/summarise.html"><code>summarize()</code></a> often come together. When you use <code>group_by()</code>, every function after it is broken down by that grouping. <strong>Example:</strong> <code>group_by(song, artist) %&gt;% summarize(weeks = n(), top_chart_position = min(peak_position))</code></li>
 </ul>
 </div>
-<div id="dates-as-numbers-and-the-problems-they-cause" class="section level3">
-<h3><span class="header-section-number">7.6.4</span> Dates as numbers and the problems they cause</h3>
-<p>There was one point during my work on this graphic when my x axis did not fall evenly on years, and I figured it was because the <code>year_drilled</code> field was a number and not a date. It’s possible to fix that by including the <code>library(lubridate)</code> and then mutating the year_drilled column like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">mutate</span>(
-    <span class="dt">year_drilled =</span> <span class="kw">ymd</span>(year_drilled, <span class="dt">truncated=</span>2L)
-  ) <span class="op">%&gt;%</span></code></pre></div>
-</div>
-</div>
-<div id="your-turn-build-a-line-chart" class="section level2">
-<h2><span class="header-section-number">7.7</span> Your turn: Build a line chart</h2>
-<p>Now, I’d like you to build a line chart that shows how the different kinds of wells drilled has changed over time. Here’s a major hint: It’s very much like the line chart you just built, but with different columns. You’ll need so start at creating a data frame with the correct data.</p>
-</div>
-<div id="review-of-ggplot" class="section level2">
-<h2><span class="header-section-number">7.8</span> Review of ggplot</h2>
-<p>Exploring with graphics are one of the more powerful features of working with R. It takes a bit to get used to the Grammar of Graphics and ggplot2 and it will be frustrating at first. But be assured it can do about anything once you learn how, and being able to fold in these charts with your thoughts and analysis in a repeatable way will make you a better data journalist.</p>
-<p>By design, every chart in ggplot starts with the same three things: data, a geometric coordinate system, and a mapping of the aesthetics, including the x and y values.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="op">&lt;</span>DATA<span class="op">&gt;</span>, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="er">&lt;</span>GEOM_FUNCTION<span class="op">&gt;</span></code></pre></div>
-<p>If your graphic is simple, there may be less verbose ways to write it as ggplot will assume your are passing it data first, and that <code>aes()</code> functions are for mapping.</p>
-</div>
-<div id="plotly-for-more-interactive-graphics" class="section level2">
-<h2><span class="header-section-number">7.9</span> Plotly for more interactive graphics</h2>
-<p>At the risk of adding yet a little more complexity I want to introduce you to <a href="https://plot.ly/r/">Plotly</a>. I see two ways you might find Plotly interesting:</p>
-<div id="ggplotly" class="section level3">
-<h3><span class="header-section-number">7.9.1</span> ggplotly</h3>
-<p><a href="https://plot.ly/ggplot2/">ggplotly</a> allows you to port your ggplot graphic into Plotly so they have interactive tooltips. The tutorial examples are also not bad for a general ggplot reference.</p>
-<p>After installing and loading the Plotly library, giving your chart hover tips is as easy as assigning your plot to an object (<code>p</code> in the example below), and then calling that with the <code>ggplotly()</code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_smooth</span>()
-<span class="kw">ggplotly</span>(p)</code></pre></div>
-<div class="figure">
-<img src="images/visualize-ggplotly-example.png" alt="ggplotly example" />
-<p class="caption">ggplotly example</p>
-</div>
-<p>The black label above appears when you hover on the graphic.</p>
-</div>
-<div id="more-with-plot_ly-function" class="section level3">
-<h3><span class="header-section-number">7.9.2</span> More with <code>plot_ly()</code> function</h3>
-<p>You can gain a little more control over your Plotly graphic if you build them using the <code>plot_ly()</code> function instead of <code>ggplot()</code>, but you have to learn a new syntax. It’s still based on the Grammar of Graphics, so it’s not hard … just different.</p>
-<p>For example, for our “Wells by County and Year” graphic we did earlier looks like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells_county_year <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot_ly</span>(<span class="dt">x =</span> <span class="op">~</span>year_drilled, <span class="dt">y =</span> <span class="op">~</span>wells_drilled, <span class="dt">name =</span> <span class="op">~</span>county,
-        <span class="dt">type =</span> <span class="st">&quot;scatter&quot;</span>, <span class="dt">mode =</span> <span class="st">&quot;lines+markers&quot;</span>)</code></pre></div>
-<p>And it ends up looking like this:</p>
-<div class="figure">
-<img src="images/visualize-plotly-example.png" alt="Plotly example" />
-<p class="caption">Plotly example</p>
-</div>
-</div>
-<div id="plotlys-freemium-model" class="section level3">
-<h3><span class="header-section-number">7.9.3</span> Plotly’s freemium model</h3>
-<p>It appears that you can use these open source libraries without charge from Plotly. They do also have a hosting service to allow you to embed charts in other websites, which can get into a pay tier of their service.</p>
-</div>
-</div>
-<div id="resources-and-further-reading" class="section level2">
-<h2><span class="header-section-number">7.10</span> Resources and further reading</h2>
+<div id="math" class="section level2">
+<h2><span class="header-section-number">15.4</span> Math</h2>
+<p>These are the function often used within <code>summarize()</code>:</p>
 <ul>
-<li><a href="http://ggplot2.tidyverse.org/reference/index.html">The ggplot2 documentation</a> and <a href="https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf">ggplot2 cheatsheets</a>.</li>
-<li><a href="https://r4ds.had.co.nz/data-visualisation.html">R for Data Science, Chap 3.</a> Hadley Wickam dives right into plots in his book.</li>
-<li><a href="http://www.cookbook-r.com/Graphs/">R Graphics Cookbook</a> has lots of example plots. Good to harvest code and see how to do things.</li>
-<li><a href="https://www.r-graph-gallery.com/">The R Graph Gallery</a> another place to see examples.</li>
+<li><a href="https://dplyr.tidyverse.org/reference/n.html"><code>n()</code></a> to count the number of rows. <a href="https://dplyr.tidyverse.org/reference/n_distinct.html"><code>n_distinct()</code></a> counts the unique values.</li>
+<li><code>sum()</code> to add things together.</li>
+<li><code>mean()</code> to get an average.</li>
+<li><code>median()</code> to get the median.</li>
+<li><code>min()</code> to get the smallest value. <code>max()</code> for the largest.</li>
+<li><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> are math operators similar to a calculator.</li>
 </ul>
 
 </div>
@@ -889,8 +479,8 @@ wells_by_county</code></pre></div>
           </div>
         </div>
       </div>
-<a href="cleaning.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="tidy.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="chart-examples.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="notes-about-future-sessions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -920,7 +510,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/07-graphics.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/15-verbs.Rmd",
 "text": "Edit"
 },
 "history": {
