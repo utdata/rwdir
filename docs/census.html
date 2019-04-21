@@ -25,7 +25,7 @@
 <meta name="author" content="Christian McDonald">
 
 
-<meta name="date" content="2019-04-16">
+<meta name="date" content="2019-04-21">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -328,8 +328,26 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="10.11" data-path="joins.html"><a href="joins.html#using-bind_rows-to-merge-data-sets"><i class="fa fa-check"></i><b>10.11</b> Using bind_rows() to merge data sets</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="census.html"><a href="census.html"><i class="fa fa-check"></i><b>11</b> Census</a><ul>
-<li class="chapter" data-level="11.1" data-path="census.html"><a href="census.html#resources-2"><i class="fa fa-check"></i><b>11.1</b> Resources</a></li>
-<li class="chapter" data-level="11.2" data-path="census.html"><a href="census.html#thoughts"><i class="fa fa-check"></i><b>11.2</b> Thoughts</a></li>
+<li class="chapter" data-level="11.1" data-path="census.html"><a href="census.html#goals-of-this-section"><i class="fa fa-check"></i><b>11.1</b> Goals of this section</a></li>
+<li class="chapter" data-level="11.2" data-path="census.html"><a href="census.html#census-bureau-programs"><i class="fa fa-check"></i><b>11.2</b> Census Bureau programs</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="census.html"><a href="census.html#decennial-census"><i class="fa fa-check"></i><b>11.2.1</b> Decennial Census</a></li>
+<li class="chapter" data-level="11.2.2" data-path="census.html"><a href="census.html#american-community-survey"><i class="fa fa-check"></i><b>11.2.2</b> American Community Survey</a></li>
+<li class="chapter" data-level="11.2.3" data-path="census.html"><a href="census.html#populaton-estimates-program"><i class="fa fa-check"></i><b>11.2.3</b> Populaton Estimates Program</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="census.html"><a href="census.html#using-the-new-data-portal"><i class="fa fa-check"></i><b>11.3</b> Using the new data portal</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="census.html"><a href="census.html#tips-about-using-downloaded-portal-data-in-r"><i class="fa fa-check"></i><b>11.3.1</b> Tips about using downloaded portal data in R</a></li>
+<li class="chapter" data-level="11.3.2" data-path="census.html"><a href="census.html#importing-downloaded-data"><i class="fa fa-check"></i><b>11.3.2</b> Importing downloaded data</a></li>
+<li class="chapter" data-level="11.3.3" data-path="census.html"><a href="census.html#joining-census-data-and-making-maps"><i class="fa fa-check"></i><b>11.3.3</b> Joining Census data and making maps</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="census.html"><a href="census.html#using-the-census-api-in-r"><i class="fa fa-check"></i><b>11.4</b> Using the Census API in R</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="census.html"><a href="census.html#setting-up-an-api-key"><i class="fa fa-check"></i><b>11.4.1</b> Setting up an API key</a></li>
+<li class="chapter" data-level="11.4.2" data-path="census.html"><a href="census.html#the-censusapi-package"><i class="fa fa-check"></i><b>11.4.2</b> The censusapi package</a></li>
+<li class="chapter" data-level="11.4.3" data-path="census.html"><a href="census.html#the-tidycensus-package"><i class="fa fa-check"></i><b>11.4.3</b> The tidycensus package</a></li>
+<li class="chapter" data-level="11.4.4" data-path="census.html"><a href="census.html#adding-geometry-to-tidycensus"><i class="fa fa-check"></i><b>11.4.4</b> Adding geometry to tidycensus</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="census.html"><a href="census.html#downloading-geometry-using-tigris"><i class="fa fa-check"></i><b>11.5</b> Downloading geometry using tigris</a></li>
+<li class="chapter" data-level="11.6" data-path="census.html"><a href="census.html#interactive-maps-with-leaflet"><i class="fa fa-check"></i><b>11.6</b> Interactive maps with leaflet</a></li>
+<li class="chapter" data-level="11.7" data-path="census.html"><a href="census.html#resources-2"><i class="fa fa-check"></i><b>11.7</b> Resources</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html"><i class="fa fa-check"></i><b>12</b> How to tackle a new dataset</a><ul>
 <li class="chapter" data-level="12.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#start-by-listing-questions"><i class="fa fa-check"></i><b>12.1</b> Start by listing questions</a></li>
@@ -430,24 +448,194 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <blockquote>
 <p>Under construction</p>
 </blockquote>
-<p>A mini project using census data.</p>
+<p>The U.S. <a href="https://census.gov/">Census Bureau</a> has a wealth of data that can help journalists tell stories. This chapter is <em>not</em> a comprehensive guide on how to use it, but instead an introduction on some says you can.</p>
+<p>But we can’t talk about specifics of <em>how</em> do to anything before learning <em>about</em> the different Census programs, but this is a mini overview.</p>
+<div id="goals-of-this-section" class="section level2">
+<h2><span class="header-section-number">11.1</span> Goals of this section</h2>
+<ul>
+<li>Introduce three of the more popular Census data sets and how they differ:
+<ul>
+<li><a href="https://www.census.gov/programs-surveys/decennial-census/decade.2010.html">Decennial Census</a></li>
+<li><a href="https://www.census.gov/programs-surveys/acs">American Community Survey</a></li>
+<li><a href="https://www.census.gov/programs-surveys/popest.html">Population Estimates Program</a></li>
+</ul></li>
+<li>Discuss differences between <a href="https://factfinder.census.gov/faces/nav/jsf/pages/index.xhtml">American FactFinder</a> and <a href="https://data.census.gov/cedsci/">data.census.gov</a>.</li>
+<li>Introduce and demonstrate packages that use the Census Bureau’s API to pull data into R.</li>
+<li>Introduce packages that allow static and interactive mapping within R, which often comes into play when using Census data.</li>
+</ul>
+<p>None of these topics are comprehensive. I have <a href="https://drive.google.com/open?id=1vfPIhXcodmqVHvZCauEc9QZgyev-Lm4ZWxn2nlhhzRI">lectured on the census</a> in the past and have <a href="https://drive.google.com/open?id=1z6XnsPg2fhdwZeko7MG5IYq4CJfqDqxQx5-RLFUUiIM">multiple</a> <a href="https://drive.google.com/open?id=18hZ7DvQkGoSnJNKGvqjR3rvErglNZGAmTO-PysarsSQ">lessons</a> using different software if you want more general instruction, or you could just dive in and gain your own experience.</p>
+</div>
+<div id="census-bureau-programs" class="section level2">
+<h2><span class="header-section-number">11.2</span> Census Bureau programs</h2>
+<p>The Census Bureau has a series of different data “programs” and data sets, many with their own distribution platforms. They are currently in a development effort to combine distribution of all of them into a new, combined platform: <a href="https://data.census.gov/cedsci/">data.census.gov</a>. <em>It is a work in progress.</em> That said, the plan is to stop publishing new data to the much-bemoaned <a href="https://factfinder.census.gov/faces/nav/jsf/pages/index.xhtml">American FactFinder</a>, their “old” site, this summer of 2019. As such, I’ll concentrate on that.</p>
+<p>That’s to say that while I’m outlining three different programs here, the data is found in the same, well, places. Your default should be to use <a href="https://data.census.gov/cedsci/">data.census.gov</a> first, then go to <a href="https://factfinder.census.gov/faces/nav/jsf/pages/index.xhtml">American FactFinder</a> if you can’t find something. We’ll also discuss some R packages that use the Census API, the same system that powers data.census.gov.</p>
+<div id="decennial-census" class="section level3">
+<h3><span class="header-section-number">11.2.1</span> Decennial Census</h3>
+<p>Every <a href="https://www.census.gov/programs-surveys/decennial-census/decade.2010.html">ten years</a>, the government tries to count everyone in every household in America. The results are used to redraw Congressional Districts, allocate tax dollars and a million other reasons. The number of questions asked each decade has been condensed to center around how many people live in a household, their age, race and ethnicity, their relationship to each other, and if they own or rent the home.</p>
+<blockquote>
+<p>The decennial census data is the most accurate snapshot you can get for a single point in time. It’s just limited in the scope of data.</p>
+</blockquote>
+<p>Most decennial data has been migrated to the data.census.gov data portal.</p>
+<p>April 1, 2020 is <a href="https://2020census.gov/en">Census Day</a> for the <a href="https://www.census.gov/programs-surveys/decennial-census/2020-census.html">next count</a>.</p>
+</div>
+<div id="american-community-survey" class="section level3">
+<h3><span class="header-section-number">11.2.2</span> American Community Survey</h3>
+<p>The <a href="https://www.census.gov/programs-surveys/acs">American Community Survey</a>, or ACS, is the method the government uses to collect more detailed data than who lives where. It is quite extensive, with information relevant to almost any beat in Journalism.</p>
+<p>While the decennial count comes once every ten years, the ACS has been continuous since 2005. During the year a sample of about 1.7% of Americans answer the surveys, and those results are distributed at regular intervals each year.</p>
+<p>This is fine for large geographic areas with 65,000 people or more. But, when you want results for smaller geographic areas, the bureau combines five years of survey results together, known as a 5-year set. It’s a trade off: New data each year for large areas, but fuzzy 5-year windows for small areas.</p>
+<p>Each estimate also comes with a “margin of error”, which represents the upper and lower bounds of the estimate with 90% confidence rate. Read more about this in the <a href="https://www.census.gov/library/publications/2008/acs/media.html">ACS media guide</a>, but here is a brief example:</p>
+<p>If an estimate is 2,000 with an MOE of +/- 100, that means that you could take 10 new random samples, and the average of those samples would be between 1,900 and 2,100 for nine out of the 10 samples. As journalists, we don’t typically report the margin of error each time we use an estimate, but we do make sure the MOE is not more than 10% of our estimate if we are basing our story on that number.</p>
+<blockquote>
+<p>The ACS allows us to get the most detailed characteristics about our population, like how we travel to work or how much of our income we spend on rent. However, it comes with a degree of uncertainty, especially for smaller geographic areas. It is still very valuable.</p>
+</blockquote>
+<p>Most of these tables are available on data.census.gov, with the rest scheduled to be ported this year (2019). New releases will only be published to the data portal.</p>
+</div>
+<div id="populaton-estimates-program" class="section level3">
+<h3><span class="header-section-number">11.2.3</span> Populaton Estimates Program</h3>
+<p>PEP uses current data on births, deaths, and migration to calculate population change since the most recent decennial census. Each year they publish table with estimates of population, demographics, and housing units for cities, counties and metro areas.</p>
+<blockquote>
+<p>Populations estimates are a great way to see population and demographic changes for large areas. It does not have a margin of error like the ACS because it is based on actual data and not random surveys of a part of the population.</p>
+</blockquote>
+<p>These tables are currently only available in FactFinder, but should be ported to the new data.census.gov data portal this year (2019).</p>
+</div>
+</div>
+<div id="using-the-new-data-portal" class="section level2">
+<h2><span class="header-section-number">11.3</span> Using the new data portal</h2>
+<p>Again, the <a href="https://data.census.gov/cedsci/">data.census.gov</a> data portal is under development and has some known challenges, but it’s the one you should learn first since FactFinder will be retired this year. It is slow, cumbersome and error prone but getting better with each new release.</p>
+<p>Instead of me writing out directions, I recommend you watch <a href="https://www.census.gov/data/academy/webinars/2019/transition-data-census.html">this webinar</a> that demonstrates how to use the portal, outlines the current challenges and development plans for the future.</p>
+<p>I will provide brief demos of both the data portal (and FactFinder) in class, just so you can see them.</p>
+<div id="tips-about-using-downloaded-portal-data-in-r" class="section level3">
+<h3><span class="header-section-number">11.3.1</span> Tips about using downloaded portal data in R</h3>
+<p>When you download a table from the portal, you get a stuffed archive with three files. Here is an example from a 5-year ACS data set for table B19013, which includes median income data:</p>
+<ul>
+<li><code>ACSDT5Y2017.B19013_data_with_overlays_2019-04-20T000019.csv</code> is the data. It contains two header rows (arg!) with the first row being coded values for each column. The second row has long descriptions of what is in each column.</li>
+<li><code>ACSDT5Y2017.B19013_metadata_2019-04-20T000019.csv</code> is a reference file that gives the code and description for each header in the data.</li>
+<li><code>ACSDT5Y2017.B19013_table_title_2019-04-20T000019.txt</code> is a reference file with information about the table. If data is masked or missing, this file will explain the symbols used in the data to describe how and why.</li>
+</ul>
+<p>The first part of the file names include the program, year and table the data comes from. At the end of the filename is the date and time the data was downloaded from the portal.</p>
+</div>
+<div id="importing-downloaded-data" class="section level3">
+<h3><span class="header-section-number">11.3.2</span> Importing downloaded data</h3>
+<p>When I import this data into R, I typically use the <code>read_csv()</code> function and skip the first, less-descriptive row. The second row becomes the headers, which are really long but explain the columns. I then rename them to something shorter. If you are only using selected columns, then you might use <code>select()</code> to get only those you need.</p>
+<p>Here is an example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tx_mi &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data-raw/ACSDT5Y2017.B19013_2019-04-20T000022/ACSDT5Y2017.B19013_data_with_overlays_2019-04-20T000019.csv&quot;</span>, <span class="dt">skip =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">rename</span>(
+    <span class="dt">median_income =</span> <span class="st">`</span><span class="dt">Estimate!!Median household income in the past 12 months (in 2017 inflation-adjusted dollars)</span><span class="st">`</span>,
+    <span class="dt">median_income_moe =</span> <span class="st">`</span><span class="dt">Margin of Error!!Median household income in the past 12 months (in 2017 inflation-adjusted dollars)</span><span class="st">`</span>
+  )</code></pre></div>
+<p>Which now yields this:</p>
+<table>
+<thead>
+<tr class="header">
+<th>id</th>
+<th>Geographic Area Name</th>
+<th align="right">median_income</th>
+<th align="right">median_income_moe</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0500000US48199</td>
+<td>Hardin County, Texas</td>
+<td align="right">56131</td>
+<td align="right">3351</td>
+</tr>
+<tr class="even">
+<td>0500000US48207</td>
+<td>Haskell County, Texas</td>
+<td align="right">43529</td>
+<td align="right">6157</td>
+</tr>
+<tr class="odd">
+<td>0500000US48227</td>
+<td>Howard County, Texas</td>
+<td align="right">50855</td>
+<td align="right">2162</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="joining-census-data-and-making-maps" class="section level3">
+<h3><span class="header-section-number">11.3.3</span> Joining Census data and making maps</h3>
+<p>While this is not a great example above, pay attention to fields named <code>id</code> or <code>geoid</code>, as these are often fields meant to be joined to other tables. They use a FIPS code that define specific geographic areas, and allow you to match similar fields in multiple data sets.</p>
+<p>This is especially important when it comes to mapping data, as these FIPS codes are how you join data to “shape files”, which are a data representation of geographic shapes for mapping. Again, we aren’t going to go into a lot of detail about maps in this lesson, but I’ll show some examples in class.</p>
+<p>You might also find you want to join data based on geography names, in which case you might need to use <a href="https://dplyr.tidyverse.org/">dplyr</a> tools to split and normalize those terms so they match your other data set, like changing “Travis County, Texas” to just “Travis”.</p>
+</div>
+</div>
+<div id="using-the-census-api-in-r" class="section level2">
+<h2><span class="header-section-number">11.4</span> Using the Census API in R</h2>
+<p>You can also import data into R directly from the Census Bureau using their API. There are a number of packages that do this, and they all work a little differently to solve different challenges. Again, I won’t go into great detail about how to use these, but I’ll show examples and provide links to further self-study.</p>
+<blockquote>
+<p>Manually downloading census data is usually a multiple-step and multiple-decision process. An advantage to using the API is you can script that decision-making process for consistency. Different packages also provide the data in different formats, which might be beneficial to your goal.</p>
+</blockquote>
+<div id="setting-up-an-api-key" class="section level3">
+<h3><span class="header-section-number">11.4.1</span> Setting up an API key</h3>
+<p>The Census requires a free API key to use their service. It’s like your personal license, and should not be shared with others. You can sign up for an <a href="http://api.census.gov/data/key_signup.html">API key here</a> and then <a href="https://rdrr.io/cran/tidycensus/man/census_api_key.html">store it on your machine in an .Rnviron</a> file so you don’t have to display it in your code.</p>
+<blockquote>
+<p>You only have to set up your API key once on each machine. Once installed, it gets automatically loaded when you restart R.</p>
+</blockquote>
+</div>
+<div id="the-censusapi-package" class="section level3">
+<h3><span class="header-section-number">11.4.2</span> The censusapi package</h3>
+<p><a href="https://twitter.com/hannah_recht?lang=en">Hannah Recht</a> of Bloomberg News developed the <a href="https://hrecht.github.io/censusapi/">censusapi</a> to pull data directly from the Census Bureau into R. See the site for examples and documentation on use.</p>
+<p>This is an example pulling the same data set we downloaded from the portal, and the result.</p>
+<blockquote>
+<p>INSERT THIS CODE CHUNK</p>
+</blockquote>
+<blockquote>
+<p>INSERT EXAMPLE RESULTING DATA FRAME</p>
+</blockquote>
+</div>
+<div id="the-tidycensus-package" class="section level3">
+<h3><span class="header-section-number">11.4.3</span> The tidycensus package</h3>
+<p><a href="http://personal.tcu.edu/kylewalker/">Kyle Walker</a> is a professor at TCU who developed the <a href="https://walkerke.github.io/tidycensus/index.html">tidycensus</a> package to return census data in tidyverse-ready data frames. He also includes an option to pull the geometry, which I’ll show later.</p>
+<p>Here is an example of the call for the same median income data we used in the other two examples. Note how the resulting data is different.</p>
+<blockquote>
+<p>INSERT THIS CODE CHUNK</p>
+</blockquote>
+<blockquote>
+<p>INSERT EXAMPLE RESULTING DATA FRAME</p>
+</blockquote>
+</div>
+<div id="adding-geometry-to-tidycensus" class="section level3">
+<h3><span class="header-section-number">11.4.4</span> Adding geometry to tidycensus</h3>
+<p>The tidycensus package also allows you to download the geometry or shapes of your data at the same time by adding <code>geometry = TRUE</code> to your tidycensus call. This allows you to quickly make static maps of your data.</p>
+<blockquote>
+<p>INSERT CODE CHUNK WITH NOTE OF NEW LINE</p>
+</blockquote>
+<blockquote>
+<p>SHOW CHUNK TO THAT MAKES MAP, WITH EXAMPLE MAP</p>
+</blockquote>
+<blockquote>
+<p>LINK TO EXAMPLE NOTEBOOK WITH COMPLETE STEPS</p>
+</blockquote>
+</div>
+</div>
+<div id="downloading-geometry-using-tigris" class="section level2">
+<h2><span class="header-section-number">11.5</span> Downloading geometry using tigris</h2>
+<p>If you already have data or it is not from the Census but want to map it, you can download geometry from the <a href="https://www.census.gov/programs-surveys/geography/geographies/mapping-files.html">Census Bureau</a>, or you can use another Kyle Walker package <a href="https://github.com/walkerke/tigris">tigris</a> to download directly in R.</p>
+<blockquote>
+<p>LINK TO EXAMPLE IF I MAKE ONE</p>
+</blockquote>
+</div>
+<div id="interactive-maps-with-leaflet" class="section level2">
+<h2><span class="header-section-number">11.6</span> Interactive maps with leaflet</h2>
+<p><a href="https://rpubs.com/rosenblum_jeff/censustutorial1">Here is a tutorial</a> that walks through creating an interactive map of median income by census tract using the <a href="https://rstudio.github.io/leaflet/">leaflet</a>, <a href="https://r-spatial.github.io/mapview/index.html">mapview</a>, <a href="https://github.com/walkerke/tigris">tigris</a> and <a href="https://www.rdocumentation.org/packages/acs/versions/2.1.4">acs</a> packages. It’s a pretty basic map best used for exploration, but it’s pretty neat and not too hard to make.</p>
+</div>
 <div id="resources-2" class="section level2">
-<h2><span class="header-section-number">11.1</span> Resources</h2>
+<h2><span class="header-section-number">11.7</span> Resources</h2>
 <ul>
 <li><a href="https://rconsortium.github.io/censusguide/">Census guide</a></li>
 <li><a href="https://www.computerworld.com/article/3120415/data-analytics/how-to-download-new-census-data-with-r.html">Sharon Machlis guide</a></li>
-<li><a href="https://cran.r-project.org/web/packages/acs/README.html">acs package</a></li>
-<li><code>@hrecht</code> if News Nerdery is author of the [censusapi package]</li>
-<li><code>@abtran</code> has <a href="https://github.com/andrewbtran/NICAR/tree/master/2019/mapping">NICAR lesson using censes data</a>.</li>
-<li><a href="https://github.com/baltimore-sun-data/census-data-analysis-2018">Baltimore Sun example</a>. “sometimes i prefer the output of one over the other <code>censusapi</code> vs <code>tidycensus</code>, which is why i alternate. i also for some reason didn’t realize i could have used the R packages to download the SAIPE (poverty stats) data; in the repo I just downloaded the file from the site”.</li>
 <li><a href="http://api.census.gov/data/key_signup.html">API key signup</a> AND to <a href="https://rdrr.io/cran/tidycensus/man/census_api_key.html">set key in .Rnviron</a>.</li>
+<li><a href="https://hrecht.github.io/censusapi/">censusapi</a> package for data. <code>@hrecht</code> of News Nerdery Slack team is an author.</li>
+<li>[tigris] pacakge for shapefiles.</li>
+<li>[tidycensus] package for both data and shapes.</li>
+<li><a href="https://cran.r-project.org/web/packages/acs/README.html">acs package</a></li>
+<li>of the [censusapi package]</li>
+<li><code>@abtran</code> of WaPo has <a href="https://github.com/andrewbtran/NICAR/tree/master/2019/mapping">NICAR lesson using censes data</a>.</li>
+<li><a href="https://github.com/baltimore-sun-data/census-data-analysis-2018">Baltimore Sun example</a>. “sometimes i prefer the output of one over the other <code>censusapi</code> vs <code>tidycensus</code>, which is why i alternate. i also for some reason didn’t realize i could have used the R packages to download the SAIPE (poverty stats) data; in the repo I just downloaded the file from the site”.</li>
 <li><a href="https://www.rspatial.org/">Spatial Data Science with R</a> Tutorial.</li>
-</ul>
-</div>
-<div id="thoughts" class="section level2">
-<h2><span class="header-section-number">11.2</span> Thoughts</h2>
-<ul>
-<li>Start with Andrew Tran’s tidycensus?</li>
 </ul>
 
 </div>
