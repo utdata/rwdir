@@ -4,7 +4,7 @@
 
 - Draw ideas from [this tutorial](https://workshop.mhermans.net/thematic-maps-r/) and Machlis.
 - Andrew Tran's [mapping session from NICAR](https://github.com/andrewbtran/NICAR/tree/master/2019/mapping)
-- [Leaflet & datatable](https://privefl.github.io/mySO/link-map-DT.html) integration example.
+
 
 ## Joins {-}
 

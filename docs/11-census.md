@@ -1,6 +1,8 @@
 # Census {#census}
 
-> Under construction
+> THIS IS V0.1 AND NEEDS A GOOD EDIT
+
+> NEED TO PUBLISH AND LINK TO FULL EXAMPLES
 
 The U.S. [Census Bureau](https://census.gov/) has a wealth of data that can help journalists tell stories. This chapter is _not_ a comprehensive guide on how to use it, but instead an introduction on some says you can.
 
@@ -83,14 +85,14 @@ When I import this data into R, I typically use the `read_csv()` function and sk
 Here is an example:
 
 ```r
-tx_mi <- read_csv("data-raw/ACSDT5Y2017.B19013_2019-04-20T000022/ACSDT5Y2017.B19013_data_with_overlays_2019-04-20T000019.csv", skip = 1) %>% 
+tx_income <- read_csv("data-raw/ACSDT5Y2017.B19013_2019-04-20T000022/ACSDT5Y2017.B19013_data_with_overlays_2019-04-20T000019.csv", skip = 1) %>% 
   rename(
     median_income = `Estimate!!Median household income in the past 12 months (in 2017 inflation-adjusted dollars)`,
     median_income_moe = `Margin of Error!!Median household income in the past 12 months (in 2017 inflation-adjusted dollars)`
   )
 ```
 
-Which now yields this:
+Which yields this:
 
 | id             | Geographic Area Name  | median_income | median_income_moe |
 |----------------|-----------------------|--------------:|------------------:|
@@ -98,11 +100,11 @@ Which now yields this:
 | 0500000US48207 | Haskell County, Texas |         43529 |              6157 |
 | 0500000US48227 | Howard County, Texas  |         50855 |              2162 |
 
-### Joining Census data and making maps
+### Fields made to join with other data
 
-While this is not a great example above, pay attention to fields named `id` or `geoid`, as these are often fields meant to be joined to other tables. They use a FIPS code that define specific geographic areas, and allow you to match similar fields in multiple data sets.
+Pay attention to fields named `id` or `geoid` or similar nanmes as these are often fields meant to be joined to other tables. They use a FIPS code that define specific geographic areas, and allow you to match similar fields in multiple data sets.
 
-This is especially important when it comes to mapping data, as these FIPS codes are how you join data to "shape files", which are a data representation of geographic shapes for mapping. Again, we aren't going to go into a lot of detail about maps in this lesson, but I'll show some examples in class.
+This is especially important when it comes to mapping data, as these codes are how you join data to "shape files", which are a data representation of geographic shapes for mapping. Again, we aren't going to go into a lot of detail about maps in this lesson, but I'll show some examples in class.
 
 You might also find you want to join data based on geography names, in which case you might need to use [dplyr](https://dplyr.tidyverse.org/) tools to split and normalize those terms so they match your other data set, like changing "Travis County, Texas" to just "Travis".
 
@@ -122,37 +124,80 @@ The Census requires a free API key to use their service. It's like your personal
 
 [Hannah Recht](https://twitter.com/hannah_recht?lang=en) of Bloomberg News developed the [censusapi](https://hrecht.github.io/censusapi/) to pull data directly from the Census Bureau into R. See the site for examples and documentation on use.
 
-This is an example pulling the same data set we downloaded from the portal, and the result.
+This example pulls the same data set we manually downloaded from the portal. We are asking for the median income estimate (`B19013_001E`) and margin of error (`B19013_001M`), but we are also getting the total population for the county with `B01003_001E`, which was not in the "B19013" table. This is another advantage to the API, as we are pulling from multiple tables as once. To do this manually, we would have to pull two separate data sets and merge them.
 
-> INSERT THIS CODE CHUNK
+```r
+tx_income <- getCensus(name = "acs/acs5", vintage = 2017, 
+    vars = c("NAME","B01003_001E", "B19013_001E", "B19013_001M"), 
+    region = "county:*", regionin = "state:48")
+```
 
-> INSERT EXAMPLE RESULTING DATA FRAME
+Which ends up looking like this:
+
+| state | county | NAME                  | B01003_001E | B19013_001E | B19013_001M |
+|-------|--------|-----------------------|------------:|------------:|------------:|
+| 48    | 199    | Hardin County, Texas  |       55993 |       56131 |        3351 |
+| 48    | 207    | Haskell County, Texas |        5806 |       43529 |        6157 |
+| 48    | 227    | Howard County, Texas  |       36491 |       50855 |        2162 |
+
+See how this is similar to the data we imported from file we downloaded from the data portal? In this case we have a `state` and `county` field instead of the `id`, but the shape of the data is the same. Both are useable. The API takes some effort to learn, but the exact "steps" to get the data are recorded in your code.
 
 ### The tidycensus package
 
 [Kyle Walker](http://personal.tcu.edu/kylewalker/) is a professor at TCU who developed the [tidycensus](https://walkerke.github.io/tidycensus/index.html) package to return census data in tidyverse-ready data frames. He also includes an option to pull the geometry, which I'll show later.
 
-Here is an example of the call for the same median income data we used in the other two examples. Note how the resulting data is different.
+With tidycensus we don't have to specify to get the MOE with his `get_acs()` function, it just comes. We only supply the two fields we want, the population and the median income.
 
-> INSERT THIS CODE CHUNK
+```r
+tx_income <- get_acs(
+  geography = "county",
+  variables = c("B01003_001","B19013_001"),
+  state = "TX"
+  )
+```
 
-> INSERT EXAMPLE RESULTING DATA FRAME
+| GEOID | NAME                   | variable   | estimate |  moe |
+|-------|------------------------|------------|---------:|-----:|
+| 48001 | Anderson County, Texas | B01003_001 |    57747 |   NA |
+| 48001 | Anderson County, Texas | B19013_001 |    42313 | 2337 |
+| 48003 | Andrews County, Texas  | B01003_001 |    17577 |   NA |
+| 48003 | Andrews County, Texas  | B19013_001 |    70753 | 6115 |
+| 48005 | Angelina County, Texas | B01003_001 |    87700 |   NA |
+| 48005 | Angelina County, Texas | B19013_001 |    46472 | 1452 |
+
+Note how the resulting data is different shape here. Instead of the table getting wider for each variable added, it gets longer. This is a more "tidy" shape that can potentially be easier to plot or map.
 
 ### Adding geometry to tidycensus
 
 The tidycensus package also allows you to download the geometry or shapes of your data at the same time by adding `geometry = TRUE` to your tidycensus call. This allows you to quickly make static maps of your data.
 
-> INSERT CODE CHUNK WITH NOTE OF NEW LINE
+I'm removing the populaton variable because we don't need it for the map.
 
-> SHOW CHUNK TO THAT MAKES MAP, WITH EXAMPLE MAP
+```r
+tx_income_map <- get_acs(
+  geography = "county",
+  variables = c("B19013_001"),
+  state = "TX",
+  geometry = TRUE # gets shapes
+  )
+```
 
-> LINK TO EXAMPLE NOTEBOOK WITH COMPLETE STEPS
+Now we can use `geom_sf()` to plot the `estimate` value to each county in shapefile in ggplot.
 
-## Downloading geometry using tigris
+```r
+ggplot(tx_income_map) + 
+  geom_sf(aes(fill=estimate), color="white") +
+  theme_void() +
+  theme(panel.grid.major = element_line(colour = 'transparent')) +
+  scale_fill_distiller(palette="Oranges", direction=1, name="Median income") +
+  labs(title="2017 median income in Texas counties", caption="Source: Census Bureau/ACS5 2017")
+```
 
-If you already have data or it is not from the Census but want to map it, you can download geometry from the [Census Bureau](https://www.census.gov/programs-surveys/geography/geographies/mapping-files.html), or you can use another Kyle Walker package [tigris](https://github.com/walkerke/tigris) to download directly in R.
+Which yields this:
 
-> LINK TO EXAMPLE IF I MAKE ONE
+![Map from tidy census](images/census-tx-tidycensus.png)
+
+If you already have the Census data, or perhaps data that is not from the census but has a county name or one of the other geographic code values, then you can use Walker's [tigris](https://github.com/walkerke/tigris) package to get just the shapefiles.
 
 ## Interactive maps with leaflet
 
@@ -160,14 +205,10 @@ If you already have data or it is not from the Census but want to map it, you ca
 
 ## Resources
 
-- [Census guide](https://rconsortium.github.io/censusguide/)
+Some othere resources not already mentioned:
+
+- [R Census guide](https://rconsortium.github.io/censusguide/)
 - [Sharon Machlis guide](https://www.computerworld.com/article/3120415/data-analytics/how-to-download-new-census-data-with-r.html)
-- [API key signup](http://api.census.gov/data/key_signup.html) AND to [set key in .Rnviron](https://rdrr.io/cran/tidycensus/man/census_api_key.html).
-- [censusapi](https://hrecht.github.io/censusapi/) package for data. `@hrecht` of News Nerdery Slack team is an author.
-- [tigris] pacakge for shapefiles.
-- [tidycensus] package for both data and shapes.
-- [acs package](https://cran.r-project.org/web/packages/acs/README.html)
--  of the [censusapi package]
-- `@abtran` of WaPo has [NICAR lesson using censes data](https://github.com/andrewbtran/NICAR/tree/master/2019/mapping). 
-- [Baltimore Sun example](https://github.com/baltimore-sun-data/census-data-analysis-2018). "sometimes i prefer the output of one over the other `censusapi` vs `tidycensus`, which is why i alternate. i also for some reason didn’t realize i could have used the R packages to download the SAIPE (poverty stats) data; in the repo I just downloaded the file from the site".
+- [Thematic maps](https://workshop.mhermans.net/thematic-maps-r/) tutorial.
+- [Baltimore Sun example story](https://www.baltimoresun.com/news/maryland/bs-md-acs-census-release-20181206-story.html) and [code](https://github.com/baltimore-sun-data/census-data-analysis-2018). [Christine Zhang](https://twitter.com/christinezhang) says "Sometimes I prefer the output of one over the other ( `censusapi` vs `tidycensus`) which is why I alternate.
 - [Spatial Data Science with R](https://www.rspatial.org/) Tutorial.
