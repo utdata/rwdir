@@ -212,3 +212,4 @@ Some othere resources not already mentioned:
 - [Thematic maps](https://workshop.mhermans.net/thematic-maps-r/) tutorial.
 - [Baltimore Sun example story](https://www.baltimoresun.com/news/maryland/bs-md-acs-census-release-20181206-story.html) and [code](https://github.com/baltimore-sun-data/census-data-analysis-2018). [Christine Zhang](https://twitter.com/christinezhang) says "Sometimes I prefer the output of one over the other ( `censusapi` vs `tidycensus`) which is why I alternate.
 - [Spatial Data Science with R](https://www.rspatial.org/) Tutorial.
+- Not a tutorial but but this [post by Timo Grossenbacher](https://timogrossenbacher.ch/2019/04/bivariate-maps-with-ggplot2-and-sf/) is an explanation and inspiration on how far you can take R in mapping.
