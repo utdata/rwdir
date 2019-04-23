@@ -1,7 +1,7 @@
 --- 
 title: "Reporting with Data in R"
 author: "Christian McDonald"
-date: "2019-04-22"
+date: "2019-04-23"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
@@ -39,7 +39,7 @@ This text stands upon the shoulders of giants and by design does not cover all a
 - [R for Data Science](https://r4ds.had.co.nz/index.html) by Hadley Wickham and Garrett Grolemund.
 - The [Tidyverse](https://www.tidyverse.org/) site, which has tons of documentation and help.
 - The [RStudio Cheatsheets](https://www.rstudio.com/resources/cheatsheets/).
-- [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/)
+- [R Graphics Cookbook](https://r-graphics.org/index.html)
 - [The R Graph Gallery](https://www.r-graph-gallery.com/) another place to see examples.
 - [R for Journalists](http://learn.r-journalism.com/en/) site by Andrew Tran, a reporter at the Washington Post. A series of videos and tutorials on using R in a journalism setting.
 - [Practical R for Journalism](https://www.crcpress.com/Practical-R-for-Mass-Communication-and-Journalism/Machlis/p/book/9781138726918) by Sharon Machlis, an editor with PC World and related publications, she is a longtime proponent of using R in journalism.

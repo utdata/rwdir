@@ -357,5 +357,5 @@ It appears that you can use these open source libraries without charge from Plot
 
 - [The ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html) and [ggplot2 cheatsheets](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf).
 - [R for Data Science, Chap 3.](https://r4ds.had.co.nz/data-visualisation.html) Hadley Wickam dives right into plots in his book.
-- [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/) has lots of example plots. Good to harvest code and see how to do things.
+- [R Graphics Cookbook](https://r-graphics.org/index.html) has lots of example plots. Good to harvest code and see how to do things.
 - [The R Graph Gallery](https://www.r-graph-gallery.com/) another place to see examples.
