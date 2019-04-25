@@ -1,12 +1,12 @@
 # Census {#census}
 
-The U.S. [Census Bureau](https://census.gov/) has a wealth of data that can help journalists tell stories. This chapter is _not_ a comprehensive guide on how to use it, but instead an introduction on some says you can.
+The U.S. [Census Bureau](https://census.gov/) has a wealth of data that can help journalists tell stories. This chapter is _not_ a comprehensive guide on how to use it, but instead an introduction on some ways you can.
 
 But we can't talk about specifics of _how_ do to anything before learning _about_ the different Census programs, so here is a mini overview of some of the more popular programs.
 
 ## Goals of this section
 
-- Introduce three of the more popular Census data sets and how they differ:
+- Introduce three of the more popular Census data sets and discuss how they differ:
     - [Decennial Census](https://www.census.gov/programs-surveys/decennial-census/decade.2010.html)
     - [American Community Survey](https://www.census.gov/programs-surveys/acs)
     - [Population Estimates Program](https://www.census.gov/programs-surveys/popest.html)
