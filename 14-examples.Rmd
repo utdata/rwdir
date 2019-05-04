@@ -77,7 +77,35 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
 
 ## Histogram
 
-> To come
+A histogram is a distribution of a number in your data. It's super useful in helping understand your data, but difficult to explain to readers.
+
+We'll use the well's data column `borehole_depth` to explore this. The question is this: Are most wells shallow or deep? We can explore this with the histogram.
+
+```r
+wells %>% 
+  ggplot(aes(x = borehole_depth)) +
+  geom_histogram(binwidth = 100) +
+  labs(title = "Depth of wells", subtitle = "More than 7,500 of the 18,000 wells drilled since 2005 are less than 100-feet deep.", y = "Wells drilled", x = "Depth in 100ft increments")
+```
+
+The histogram chart defaults to splitting into 30 even groups, but you can change that in a couple of ways.
+
+- Using `bin = 40` will set a different number of bins.
+- Using `binwidth = 100` will create bins based on your x value.
+
+That yields this chart:
+
+![Histogram example](images/examples-histogram01.png)
+
+You can add labels to note the number of records in each bin with the `stat_bin()` function, which is a bit different than other ggplot functions. Here's an example in the last line of this plot:
+
+```r
+wells %>% 
+  ggplot(aes(x = borehole_depth)) +
+  geom_histogram(binwidth = 100) +
+  labs(title = "Depth of wells", subtitle = "More than 7,500 of the 18,000 wells drilled since 2005 are less than 100-feet deep.", y = "Wells drilled", x = "Depth in 100ft increments") +
+  stat_bin(binwidth = 100, geom="text", aes(label = ..count..), vjust=-.5)
+```
 
 ## Titles, labels and other cleanup
 

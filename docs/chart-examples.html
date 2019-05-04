@@ -25,7 +25,7 @@
 <meta name="author" content="Christian McDonald">
 
 
-<meta name="date" content="2019-04-25">
+<meta name="date" content="2019-05-04">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -508,9 +508,28 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="histogram" class="section level2">
 <h2><span class="header-section-number">14.6</span> Histogram</h2>
-<blockquote>
-<p>To come</p>
-</blockquote>
+<p>A histogram is a distribution of a number in your data. It’s super useful in helping understand your data, but difficult to explain to readers.</p>
+<p>We’ll use the well’s data column <code>borehole_depth</code> to explore this. The question is this: Are most wells shallow or deep? We can explore this with the histogram.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> borehole_depth)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">100</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Depth of wells&quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;More than 7,500 of the 18,000 wells drilled since 2005 are less than 100-feet deep.&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Wells drilled&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;Depth in 100ft increments&quot;</span>)</code></pre></div>
+<p>The histogram chart defaults to splitting into 30 even groups, but you can change that in a couple of ways.</p>
+<ul>
+<li>Using <code>bin = 40</code> will set a different number of bins.</li>
+<li>Using <code>binwidth = 100</code> will create bins based on your x value.</li>
+</ul>
+<p>That yields this chart:</p>
+<div class="figure">
+<img src="images/examples-histogram01.png" alt="Histogram example" />
+<p class="caption">Histogram example</p>
+</div>
+<p>You can add labels to note the number of records in each bin with the <code>stat_bin()</code> function, which is a bit different than other ggplot functions. Here’s an example in the last line of this plot:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> borehole_depth)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">100</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Depth of wells&quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;More than 7,500 of the 18,000 wells drilled since 2005 are less than 100-feet deep.&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Wells drilled&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;Depth in 100ft increments&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">stat_bin</span>(<span class="dt">binwidth =</span> <span class="dv">100</span>, <span class="dt">geom=</span><span class="st">&quot;text&quot;</span>, <span class="kw">aes</span>(<span class="dt">label =</span> ..count..), <span class="dt">vjust=</span><span class="op">-</span>.<span class="dv">5</span>)</code></pre></div>
 </div>
 <div id="titles-labels-and-other-cleanup" class="section level2">
 <h2><span class="header-section-number">14.7</span> Titles, labels and other cleanup</h2>
