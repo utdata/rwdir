@@ -25,7 +25,7 @@
 <meta name="author" content="Christian McDonald">
 
 
-<meta name="date" content="2019-05-04">
+<meta name="date" content="2019-05-09">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -325,7 +325,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="10.8" data-path="joins.html"><a href="joins.html#correlaton-test-for-texas"><i class="fa fa-check"></i><b>10.8</b> Correlaton test for Texas</a></li>
 <li class="chapter" data-level="10.9" data-path="joins.html"><a href="joins.html#practice-1-compare-penn-state"><i class="fa fa-check"></i><b>10.9</b> Practice 1: Compare Penn State</a></li>
 <li class="chapter" data-level="10.10" data-path="joins.html"><a href="joins.html#practice-2-penalties-vs-scoring"><i class="fa fa-check"></i><b>10.10</b> Practice 2: Penalties vs scoring</a></li>
-<li class="chapter" data-level="10.11" data-path="joins.html"><a href="joins.html#using-bind_rows-to-merge-data-sets"><i class="fa fa-check"></i><b>10.11</b> Using bind_rows() to merge data sets</a></li>
+<li class="chapter" data-level="10.11" data-path="joins.html"><a href="joins.html#using-bind_rows-to-merge-data-sets"><i class="fa fa-check"></i><b>10.11</b> Using bind_rows() to merge data sets</a><ul>
+<li class="chapter" data-level="10.11.1" data-path="joins.html"><a href="joins.html#combine-data-with-a-group"><i class="fa fa-check"></i><b>10.11.1</b> Combine data with a group</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="census.html"><a href="census.html"><i class="fa fa-check"></i><b>11</b> Census</a><ul>
 <li class="chapter" data-level="11.1" data-path="census.html"><a href="census.html#goals-of-this-section"><i class="fa fa-check"></i><b>11.1</b> Goals of this section</a></li>
@@ -644,6 +646,8 @@ sample estimates:
 <p>If you want then all in the same file you would do this:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">combined &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(fy2016, fy2017, fy2018)</code></pre></div>
 <p>The new data frame <code>combined</code> would have all the same columns, but would have 3000 rows of data.</p>
+<div id="combine-data-with-a-group" class="section level3">
+<h3><span class="header-section-number">10.11.1</span> Combine data with a group</h3>
 <p>If you needed to know which data frame each row came from, you can name a “group” for each data frame, and then merge them. We will name our groups for each year they come from.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">combined &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(
   <span class="st">&quot;2016&quot;</span> =<span class="st"> </span>fy2016,
@@ -651,9 +655,11 @@ sample estimates:
   <span class="st">&quot;2018&quot;</span> =<span class="st"> </span>fy2018,
   <span class="dt">.id =</span> <span class="st">&quot;year&quot;</span>
 )</code></pre></div>
-<p>You would end up with a new data frame called <code>combined</code>, but it would have four columns: year, donor_type, date, amount. It would have all 3000 rows. All the rows that were pulled from <code>fy2016</code> would have a <code>year</code> of “2016”, and so on.</p>
+<p>With this you would end up with a new data frame called <code>combined</code>, but it would have four columns: year, donor_type, date, amount. It would have all 3000 rows. All the rows that were pulled from <code>fy2016</code> would have a <code>year</code> of “2016”, and so on.</p>
+<p>It’s a good way to note which file the data came from, and especially helpful if they are from different years, like the example.</p>
 <p>It is admittedly weird that you name the groups before you specify the data frame the come from, but specify <code>.id</code> before the name of your new column. <code>¯\_(ツ)_/¯</code></p>
 
+</div>
 </div>
 </div>
             </section>

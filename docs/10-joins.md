@@ -271,6 +271,8 @@ combined <- bind_rows(fy2016, fy2017, fy2018)
 
 The new data frame `combined` would have all the same columns, but would have 3000 rows of data.
 
+### Combine data with a group
+
 If you needed to know which data frame each row came from, you can name a "group" for each data frame, and then merge them. We will name our groups for each year they come from.
 
 ```r
@@ -282,6 +284,8 @@ combined <- bind_rows(
 )
 ```
 
-You would end up with a new data frame called `combined`, but it would have four columns: year, donor_type, date, amount. It would have all 3000 rows. All the rows that were pulled from `fy2016` would have a `year` of "2016", and so on.
+With this you would end up with a new data frame called `combined`, but it would have four columns: year, donor_type, date, amount. It would have all 3000 rows. All the rows that were pulled from `fy2016` would have a `year` of "2016", and so on.
+
+It's a good way to note which file the data came from, and especially helpful if they are from different years, like the example.
 
 It is admittedly weird that you name the groups before you specify the data frame the come from, but specify `.id` before the name of your new column. `¯\_(ツ)_/¯`
