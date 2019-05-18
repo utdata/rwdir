@@ -1,14 +1,14 @@
 --- 
 title: "Reporting with Data in R"
 author: "Christian McDonald"
-date: "2019-05-09"
+date: "2019-05-18"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
-github-repo: utdata/rwd-class
+github-repo: utdata/rwd-r-reporting-with-data
 description: "Reporting with Data in R is a series of lessons for a course in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald."
 ---
 

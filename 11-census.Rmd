@@ -220,6 +220,8 @@ Some other resources not already mentioned:
 
 - [R Census guide](https://rconsortium.github.io/censusguide/)
 - [Sharon Machlis guide](https://www.computerworld.com/article/3120415/data-analytics/how-to-download-new-census-data-with-r.html)
+- [Mapping Census Bureau Data in R with Choroplethr by package creator Ari Lamstein](https://www.census.gov/data/academy/courses/choroplethr.html)
+- [Using the R Package RankingProject to Make Simple Visualizations for Comparing Populations by former Census Bureau statistician Jerzy Wieczorek](https://www.census.gov/data/academy/courses/ranking-project.html)
 - [Thematic maps](https://workshop.mhermans.net/thematic-maps-r/) tutorial.
 - [Baltimore Sun example story](https://www.baltimoresun.com/news/maryland/bs-md-acs-census-release-20181206-story.html) and [code](https://github.com/baltimore-sun-data/census-data-analysis-2018). [Christine Zhang](https://twitter.com/christinezhang) says "Sometimes I prefer the output of one over the other (censusapi vs tidycensus) which is why I alternate.
 - [Spatial Data Science with R](https://www.rspatial.org/) Tutorial.
