@@ -248,3 +248,6 @@ To practice these skills on your own, you'll create a new project and use new da
 - Compare the imported data to the original csv file and note any problems you might see with the column names or data types that you might want to fix.
 - Save, Knit, and Zip the project folder and upload to the "Practice: Import" assignment.
 
+## Resources
+
+- This [DataCamp tutorial on imports](https://www.datacamp.com/community/tutorials/r-data-import-tutorial) covers a ton of different data types and connections.

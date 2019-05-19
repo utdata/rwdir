@@ -4,15 +4,6 @@
 
 This will be a annotated list of chart code and examples from this book. It does not include the construction of the data frame used in the plot. (I'll try to go back and add links.)
 
-## Resources
-
-In addition to the examples below, you might also look at these resources:
-
-- [The R Graph Gallery](https://www.r-graph-gallery.com/)
-- [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/)
-- [Plotly R](https://plot.ly/r/), especially the [Plotly ggplot2 Library](https://plot.ly/ggplot2/)
-- [ggplot themes]()https://ggplot2.tidyverse.org/reference/ggtheme.html and [R Graph theme list](https://www.r-graph-gallery.com/192-ggplot-themes/)
-
 ## Bar charts
 
 ```r
@@ -157,3 +148,13 @@ ggplotly(saved_plot)
 This screen shot below is not interactive, but you can see the hover tool tip displayed.
 
 ![Wells by county with ggplotly](images/graphics-wells-county-plotly.png)
+
+## Resources
+
+In addition to the examples below, you might also look at these resources:
+
+- [The R Graph Gallery](https://www.r-graph-gallery.com/)
+- [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/)
+- [Plotly R](https://plot.ly/r/), especially the [Plotly ggplot2 Library](https://plot.ly/ggplot2/)
+- [ggplot themes]()https://ggplot2.tidyverse.org/reference/ggtheme.html and [R Graph theme list](https://www.r-graph-gallery.com/192-ggplot-themes/)
+

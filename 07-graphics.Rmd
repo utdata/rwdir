@@ -353,7 +353,7 @@ And it ends up looking like this:
 
 It appears that you can use these open source libraries without charge from Plotly. They do also have a hosting service to allow you to embed charts in other websites, which can get into a pay tier of their service.
 
-## Resources and further reading
+## Resources
 
 - [The ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html) and [ggplot2 cheatsheets](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf).
 - [R for Data Science, Chap 3.](https://r4ds.had.co.nz/data-visualisation.html) Hadley Wickam dives right into plots in his book.
