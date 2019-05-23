@@ -22,7 +22,7 @@ This is the chart we want to build:
 - In RStudio, choose File > New Project
 - Walk through the steps to create a New Project in a New Directory called `yourname-survey`.
 - In your project, create a new directory called `data-raw`.
-- Go to [this link](https://raw.githubusercontent.com/utdata/rwd-r-assignments/master/survey-results/survey-results.csv) in a browser. Do **File > Save page as** and save the file inside your `data-out` folder as `survey-results.csv`.
+- Go to [this link](https://github.com/utdata/rwd-mastery-assignments/blob/master/survey-results/survey-results-2019-01-sp.csv?raw=true) in a browser. Do **File > Save page as** and save the file inside your `data-out` folder as `survey-results.csv`.
 - Create a new RNotebook. Save the file and name it `01-survey.Rmd`. For this simple example, we'll only be using one notebook.
 
 ### Libraries

@@ -1,7 +1,7 @@
 --- 
 title: "Reporting with Data in R"
 author: "Christian McDonald"
-date: "2019-05-19"
+date: "2019-05-23"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
@@ -24,18 +24,18 @@ R is a super powerful, open-source programming language for data that is deep wi
 
 ## About this book {-}
 
-There is always more than one way to do things in R. This book is an opinionated collection of lessons intended to teach students new to progamming and R for the expressed act of committing journalism. As a beginner course, I strive to make it as simple as possible, which means I may not go into detail about alternative (and possibly better) ways to accomplish tasks.
+There is always more than one way to do things in R. This book is an opinionated collection of lessons intended to teach students new to progamming and R for the expressed act of committing journalism. As a beginner course, I strive to make it as simple as possible, which means I may not go into detail about alternative (and possibly better) ways to accomplish tasks in favor of staying in the Tidyverse and reducing options to simplify understanding.
 
 This book was written for a specific semester of a class that changes every semester. It was my first time to introduce R to beginning students. While the experience went well, there were pros and cons to using R in a beginning data class and I continue to experiment with material. There are learnings from this first attempt that need to be incorporated into this book that have not been, and I'm not sure when I'll get back to it.
 
-My next running of the course (Summer 2019) will not use R and will instead focus on a series of other tools, including [Workbench](http://workbenchdata.com/), which allows for a similar scripted workflow but without code.
+My next running of the course (Summer 2019) will not use R and will instead focus on a series of other tools, including [Workbench](http://workbenchdata.com/), which allows for a similar scripted workflow but without the same level of coding.
 
 ## About the author {-}
 
 I'm a career journalist who most recently served as Data and Projects Editor at the Austin American-Statesman before joining the University of Texas at Austin faculty full-time in Fall 2018. I've taught data-related course at UT since 2013.
 
-- UT Github: [utdata](https://github.com/utdata)
-- Github: [critmcdonald](https://github.com/critmcdonald?tab=repositories)
+- My UT Github: [utdata](https://github.com/utdata)
+- My Personal Github: [critmcdonald](https://github.com/critmcdonald?tab=repositories)
 - Twitter: [crit](https://twitter.com/crit)
 - Email: <christian.mcdonald@utexas.edu>
 

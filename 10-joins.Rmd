@@ -21,9 +21,9 @@ You can download the files we are using based on their URLs in a Github reposito
 
 ```r
 # Downloads the files. Convert to comments once you've done this:
-download.file("https://github.com/utdata/rwd-r-assignments/blob/master/football-compare/penalties.csv?raw=true", "data-raw/penalties.csv")
-download.file("https://github.com/utdata/rwd-r-assignments/blob/master/football-compare/scoring_offense.csv?raw=true", "data-raw/scoring_offense.csv")
-download.file("https://github.com/utdata/rwd-r-assignments/blob/master/football-compare/third_down_conversion.csv?raw=true", "data-raw/third_down_conversion.csv")
+download.file("https://github.com/utdata/rwd-mastery-assignments/blob/master/football-compare/penalties.csv?raw=true", "data-raw/penalties.csv")
+download.file("https://github.com/utdata/rwd-mastery-assignments/blob/master/football-compare/scoring_offense.csv?raw=true", "data-raw/scoring_offense.csv")
+download.file("https://github.com/utdata/rwd-mastery-assignments/blob/master/football-compare/third_down_conversion.csv?raw=true", "data-raw/third_down_conversion.csv")
 ```
 
 Import the three files:
