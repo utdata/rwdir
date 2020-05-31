@@ -12,7 +12,7 @@ Our first task is to install the [R programming language](https://www.r-project.
 - Go down to USA and choose one of the links there. They should all work the same.
 - Click on the link for your operating system.
 - The following steps will differ slightly based on your operating system.
-    + For Macs, you want the "latest package"
+    + For Macs, you want the "latest release"
     + For Windows, you want the "base" package. You'll need to decide whether you want the 32- or 64-bit version. (Unless you've got a pretty old system, chances are you'll want 64-bit.)
 
 Here's hoping it will be self explanatory after that.
@@ -21,7 +21,7 @@ Here's hoping it will be self explanatory after that.
 
 [RStudio](https://www.rstudio.com/) is an "integrated development environment" -- or IDE -- for programming in R. Basically, it's the program you will use when doing work for this class.
 
-- Go to <https://www.rstudio.com> and find the "Download RStudio" button.
+- Go to <https://www.rstudio.com> and find the "Download" button.
 - Find the "Free" versions and find the installer for your operating system and download it.
 - Install it. Should be like installing any other program.
 
