@@ -1,39 +1,38 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Transform | Reporting with Data in R</title>
-  <meta name="description" content="Chapter 5 Transform | Reporting with Data in R is a series of lessons and instructions used in the Spring 2019 course J327D REPORTING WITH DATA in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald.">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta name="description" content="Chapter 5 Transform | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald." />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Transform | Reporting with Data in R" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="Chapter 5 Transform | Reporting with Data in R is a series of lessons and instructions used in the Spring 2019 course J327D REPORTING WITH DATA in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald." />
+  <meta property="og:description" content="Chapter 5 Transform | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald." />
   <meta name="github-repo" content="utdata/rwd-r-reporting-with-data" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 5 Transform | Reporting with Data in R" />
   
-  <meta name="twitter:description" content="Chapter 5 Transform | Reporting with Data in R is a series of lessons and instructions used in the Spring 2019 course J327D REPORTING WITH DATA in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald." />
+  <meta name="twitter:description" content="Chapter 5 Transform | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald." />
   
 
-<meta name="author" content="Christian McDonald">
+<meta name="author" content="Christian McDonald" />
 
 
-<meta name="date" content="2019-05-23">
+<meta name="date" content="2021-01-21" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="columns.html">
-<link rel="next" href="cleaning.html">
+<link rel="prev" href="columns.html"/>
+<link rel="next" href="cleaning.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -41,6 +40,7 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 
 
@@ -48,6 +48,11 @@
 
 
 
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
   p.caption {
     color: #777;
@@ -60,41 +65,68 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 </head>
@@ -118,9 +150,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-resources"><i class="fa fa-check"></i>Other resources</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="install.html"><a href="install.html"><i class="fa fa-check"></i><b>1</b> Install Party</a><ul>
-<li class="chapter" data-level="1.1" data-path="install.html"><a href="install.html#installing-r"><i class="fa fa-check"></i><b>1.1</b> Installing R</a></li>
-<li class="chapter" data-level="1.2" data-path="install.html"><a href="install.html#installing-rstudio"><i class="fa fa-check"></i><b>1.2</b> Installing RStudio</a></li>
-<li class="chapter" data-level="1.3" data-path="install.html"><a href="install.html#class-project-folder"><i class="fa fa-check"></i><b>1.3</b> Class project folder</a></li>
+<li class="chapter" data-level="1.1" data-path="install.html"><a href="install.html#mac-vs-pc"><i class="fa fa-check"></i><b>1.1</b> Mac vs PC</a></li>
+<li class="chapter" data-level="1.2" data-path="install.html"><a href="install.html#installing-r"><i class="fa fa-check"></i><b>1.2</b> Installing R</a></li>
+<li class="chapter" data-level="1.3" data-path="install.html"><a href="install.html#installing-rstudio"><i class="fa fa-check"></i><b>1.3</b> Installing RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="install.html"><a href="install.html#class-project-folder"><i class="fa fa-check"></i><b>1.4</b> Class project folder</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a><ul>
 <li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#rstudio-tour"><i class="fa fa-check"></i><b>2.1</b> RStudio tour</a></li>
@@ -147,14 +180,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="3.3.1" data-path="import.html"><a href="import.html#the-r-package-environment"><i class="fa fa-check"></i><b>3.3.1</b> The R Package environment</a></li>
 <li class="chapter" data-level="3.3.2" data-path="import.html"><a href="import.html#installing-and-using-packages"><i class="fa fa-check"></i><b>3.3.2</b> Installing and using packages</a></li>
 <li class="chapter" data-level="3.3.3" data-path="import.html"><a href="import.html#load-the-libraries"><i class="fa fa-check"></i><b>3.3.3</b> Load the libraries</a></li>
+<li class="chapter" data-level="3.3.4" data-path="import.html"><a href="import.html#create-a-folder-for-your-data"><i class="fa fa-check"></i><b>3.3.4</b> Create a folder for your data</a></li>
 </ul></li>
 <li class="chapter" data-level="3.4" data-path="import.html"><a href="import.html#lets-get-some-data"><i class="fa fa-check"></i><b>3.4</b> Let’s get some data</a><ul>
 <li class="chapter" data-level="3.4.1" data-path="import.html"><a href="import.html#inspect-the-data"><i class="fa fa-check"></i><b>3.4.1</b> Inspect the data</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="import.html"><a href="import.html#import-csv-as-data"><i class="fa fa-check"></i><b>3.5</b> Import csv as data</a><ul>
-<li class="chapter" data-level="3.5.1" data-path="import.html"><a href="import.html#help-files"><i class="fa fa-check"></i><b>3.5.1</b> Help files</a></li>
-</ul></li>
-<li class="chapter" data-level="3.6" data-path="import.html"><a href="import.html#assign-our-data-to-a-data-frame"><i class="fa fa-check"></i><b>3.6</b> Assign our data to a data frame</a></li>
+<li class="chapter" data-level="3.5" data-path="import.html"><a href="import.html#import-csv-as-data"><i class="fa fa-check"></i><b>3.5</b> Import csv as data</a></li>
+<li class="chapter" data-level="3.6" data-path="import.html"><a href="import.html#assign-our-data-to-a-tibble"><i class="fa fa-check"></i><b>3.6</b> Assign our data to a tibble</a></li>
 <li class="chapter" data-level="3.7" data-path="import.html"><a href="import.html#inspect-the-data-1"><i class="fa fa-check"></i><b>3.7</b> Inspect the data</a><ul>
 <li class="chapter" data-level="3.7.1" data-path="import.html"><a href="import.html#write-notes-about-things-to-change"><i class="fa fa-check"></i><b>3.7.1</b> Write notes about things to change</a></li>
 </ul></li>
@@ -400,16 +432,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="15.3" data-path="verbs.html"><a href="verbs.html#aggregation"><i class="fa fa-check"></i><b>15.3</b> Aggregation</a></li>
 <li class="chapter" data-level="15.4" data-path="verbs.html"><a href="verbs.html#math"><i class="fa fa-check"></i><b>15.4</b> Math</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html"><i class="fa fa-check"></i>Notes about future sessions</a><ul>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#maps"><i class="fa fa-check"></i>Maps</a></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#joins-1"><i class="fa fa-check"></i>Joins</a></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#data-packages"><i class="fa fa-check"></i>Data packages</a><ul>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#twitter"><i class="fa fa-check"></i>Twitter</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#tools-for-pdfs"><i class="fa fa-check"></i>Tools for PDFs</a></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#more-graphics-ideas"><i class="fa fa-check"></i>More graphics ideas</a></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#matt-waite-ideas-yet-to-incorporate"><i class="fa fa-check"></i>Matt Waite ideas yet to incorporate</a></li>
-</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -444,7 +466,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2><span class="header-section-number">5.2</span> Introducing dplyr</h2>
 <p>One of the packages within the tidyverse is <a href="https://dplyr.tidyverse.org/">dplyr</a> ( <a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">cheatsheet</a> ) which allows us to transform our data frames in ways that let us explore the data and prepare it for visualizing. It’s the R equivalent of common Excel functions like sort, filter and pivoting.</p>
 <div class="figure">
-<img src="images/transform-dplyractions.png" alt="dplyr functions" width="600" />
+<img src="images/transform-dplyractions.png" width="600" alt="" />
 <p class="caption">dplyr functions</p>
 </div>
 <p>(Some slides included here are used with permission from Hadley and Charlotte Wickham.)</p>
@@ -472,7 +494,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2><span class="header-section-number">5.5</span> Name your code chunks</h2>
 <p>By adding the word <code>setup</code> after our the <code>{r}</code> at the beginning, then we can find that chunk in our navigation drop down at the bottom of the R Notebook window.</p>
 <div class="figure">
-<img src="images/transform-navigate.png" alt="R Notebook navigation" width="600" />
+<img src="images/transform-navigate.png" width="600" alt="" />
 <p class="caption">R Notebook navigation</p>
 </div>
 </div>
@@ -483,7 +505,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Add a code chunk named <code>import</code> with the following:</li>
 </ul>
 <div class="figure">
-<img src="images/transform-wells-import.png" alt="Wells data imported" width="600" />
+<img src="images/transform-wells-import.png" width="600" alt="" />
 <p class="caption">Wells data imported</p>
 </div>
 <p>Now we are back to where we ended with the first notebook.</p>
@@ -492,19 +514,19 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2><span class="header-section-number">5.7</span> Filter()</h2>
 <p>We can use dplyr’s <code>filter()</code> function to capture a subset of the data, like all the wells in Travis County. It works like this:</p>
 <div class="figure">
-<img src="images/transform-filter.png" alt="dplyr filter function" width="600" />
+<img src="images/transform-filter.png" width="600" alt="" />
 <p class="caption">dplyr filter function</p>
 </div>
 <p>Let’s filter our wells data to just those in Travis County. We are going to use the <code>%&gt;%</code> pipe function to do this to the <code>wells</code> data frame.</p>
 <div class="figure">
-<img src="images/transform-wells-travis.png" alt="Travis wells" />
+<img src="images/transform-wells-travis.png" alt="" />
 <p class="caption">Travis wells</p>
 </div>
 <p>When you run this, you’ll see that you the about 9000 rows instead of the 18,000+ of the full data set.</p>
 <p>Note the two equals signs there <code>==</code>. It’s important two use two of them, as a single <code>=</code> will not work, as that means something else.</p>
 <p>There are a number of these logical test operations:</p>
 <div class="figure">
-<img src="images/transform-logical-test.png" alt="dplyr logical tests" width="600" />
+<img src="images/transform-logical-test.png" width="600" alt="" />
 <p class="caption">dplyr logical tests</p>
 </div>
 <div id="filter-your-turn" class="section level3">
@@ -522,31 +544,31 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="use-two-signs-for-true" class="section level4">
 <h4><span class="header-section-number">5.7.2.1</span> Use two == signs for “true”</h4>
 <p>DON’T DO THIS:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(<span class="dt">county =</span> <span class="st">&quot;Travis&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="transform.html#cb21-1"></a>wells <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb21-2"><a href="transform.html#cb21-2"></a><span class="st">  </span><span class="kw">filter</span>(<span class="dt">county =</span> <span class="st">&quot;Travis&quot;</span>)</span></code></pre></div>
 <p>DO THIS:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(county <span class="op">==</span><span class="st"> &quot;Travis&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="transform.html#cb22-1"></a>wells <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb22-2"><a href="transform.html#cb22-2"></a><span class="st">  </span><span class="kw">filter</span>(county <span class="op">==</span><span class="st"> &quot;Travis&quot;</span>)</span></code></pre></div>
 </div>
 <div id="forgetting-quotes" class="section level4">
 <h4><span class="header-section-number">5.7.2.2</span> Forgetting quotes</h4>
 <p>DON’T DO THIS:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(county <span class="op">==</span><span class="st"> </span>Bastrop)</code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="transform.html#cb23-1"></a>wells <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb23-2"><a href="transform.html#cb23-2"></a><span class="st">  </span><span class="kw">filter</span>(county <span class="op">==</span><span class="st"> </span>Bastrop)</span></code></pre></div>
 <p>DO THIS:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(county <span class="op">==</span><span class="st"> &quot;Bastrop&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="transform.html#cb24-1"></a>wells <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb24-2"><a href="transform.html#cb24-2"></a><span class="st">  </span><span class="kw">filter</span>(county <span class="op">==</span><span class="st"> &quot;Bastrop&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 </div>
 <div id="combining-filters" class="section level2">
 <h2><span class="header-section-number">5.8</span> Combining filters</h2>
 <p>You can filter for more than one thing at a time by separating more than one test with a comma.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(county <span class="op">==</span><span class="st"> &quot;Travis&quot;</span>, proposed_use <span class="op">==</span><span class="st"> &quot;Irrigation&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="transform.html#cb25-1"></a>wells <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb25-2"><a href="transform.html#cb25-2"></a><span class="st">  </span><span class="kw">filter</span>(county <span class="op">==</span><span class="st"> &quot;Travis&quot;</span>, proposed_use <span class="op">==</span><span class="st"> &quot;Irrigation&quot;</span>)</span></code></pre></div>
 <p>If you use a comma to separate tests, then both tests have to be true. If you want OR, then you use a pipe <code>|</code> (the shift-key above the backslash.)</p>
 <div class="figure">
-<img src="images/transform-boolean.png" alt="Boolean operators" width="600" />
+<img src="images/transform-boolean.png" width="600" alt="" />
 <p class="caption">Boolean operators</p>
 </div>
 <div id="your-turn-combining-filters" class="section level3">
@@ -560,14 +582,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="collapsing-multiple-tests-into-one" class="section level4">
 <h4><span class="header-section-number">5.8.2.1</span> Collapsing multiple tests into one</h4>
 <p>DON’T DO THIS:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(county <span class="op">==</span><span class="st"> &quot;Travis&quot;</span> <span class="op">|</span><span class="st"> &quot;Williamson&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="transform.html#cb26-1"></a>wells <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb26-2"><a href="transform.html#cb26-2"></a><span class="st">  </span><span class="kw">filter</span>(county <span class="op">==</span><span class="st"> &quot;Travis&quot;</span> <span class="op">|</span><span class="st"> &quot;Williamson&quot;</span>)</span></code></pre></div>
 <p>DO THIS:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">well <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(county <span class="op">==</span><span class="st"> &quot;Travis&quot;</span> <span class="op">|</span><span class="st"> </span>county <span class="op">==</span><span class="st"> &quot;Williamson&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="transform.html#cb27-1"></a>well <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb27-2"><a href="transform.html#cb27-2"></a><span class="st">  </span><span class="kw">filter</span>(county <span class="op">==</span><span class="st"> &quot;Travis&quot;</span> <span class="op">|</span><span class="st"> </span>county <span class="op">==</span><span class="st"> &quot;Williamson&quot;</span>)</span></code></pre></div>
 <p>BUT EVEN BETTER:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(county <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Travis&quot;</span>, <span class="st">&quot;Williamson&quot;</span>))</code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="transform.html#cb28-1"></a>wells <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb28-2"><a href="transform.html#cb28-2"></a><span class="st">  </span><span class="kw">filter</span>(county <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Travis&quot;</span>, <span class="st">&quot;Williamson&quot;</span>))</span></code></pre></div>
 <p>If you want to combine a series of strings in your filter, you have to put them inside a “concatenate” function, which is shortened to <code>c()</code>, as in the example above.</p>
 </div>
 </div>
@@ -575,17 +597,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="arrange" class="section level2">
 <h2><span class="header-section-number">5.9</span> Arrange()</h2>
 <p>The <code>arrange()</code> function sorts data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dataframe <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">arrange</span>(column)</code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="transform.html#cb29-1"></a>dataframe <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb29-2"><a href="transform.html#cb29-2"></a><span class="st">  </span><span class="kw">arrange</span>(column)</span></code></pre></div>
 <p>Or, to arrange in descending order (biggest on top):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dataframe <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(column))</code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="transform.html#cb30-1"></a>dataframe <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb30-2"><a href="transform.html#cb30-2"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(column))</span></code></pre></div>
 <p>So, let’s sort our data by the borehole depth:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">arrange</span>(borehole_depth)</code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="transform.html#cb31-1"></a>wells <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb31-2"><a href="transform.html#cb31-2"></a><span class="st">  </span><span class="kw">arrange</span>(borehole_depth)</span></code></pre></div>
 <p>You’ll have to scroll the columns over to see it, and the depths start at zero, which is not very sexy. As journalists, we usually want to see the largest (or deepest) thing, so we can arrange the column in descending order with this:</p>
 <div class="figure">
-<img src="images/transform-wells-deep.png" alt="Deepest wells" width="600" />
+<img src="images/transform-wells-deep.png" width="600" alt="" />
 <p class="caption">Deepest wells</p>
 </div>
 <p>Now we see some deep wells … 3300 feet when I pulled my test data.</p>
@@ -594,9 +616,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2><span class="header-section-number">5.10</span> Multi-step operations</h2>
 <p>But what if you want to both filter and arrange? It is possible to chain piped opperations together.</p>
 <p>Let’s find the deepest well in Travis County:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(county <span class="op">==</span><span class="st"> &quot;Travis&quot;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(borehole_depth))</code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="transform.html#cb32-1"></a>wells <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb32-2"><a href="transform.html#cb32-2"></a><span class="st">  </span><span class="kw">filter</span>(county <span class="op">==</span><span class="st"> &quot;Travis&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb32-3"><a href="transform.html#cb32-3"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(borehole_depth))</span></code></pre></div>
 <div id="your-turn-to-combine-and-pipe" class="section level3">
 <h3><span class="header-section-number">5.10.1</span> Your turn to combine and pipe</h3>
 <p>Find a list of the deepest irrigation wells in Travis County in 2017. Use the pipe to string together your functions.</p>
@@ -608,17 +630,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li>One the end of your previous code chunk, add a pipe, then <code>select(owner_name, borehole_depth)</code>:</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(county <span class="op">==</span><span class="st"> &quot;Travis&quot;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(borehole_depth)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">select</span>(owner_name, borehole_depth)</code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="transform.html#cb33-1"></a>wells <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb33-2"><a href="transform.html#cb33-2"></a><span class="st">  </span><span class="kw">filter</span>(county <span class="op">==</span><span class="st"> &quot;Travis&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb33-3"><a href="transform.html#cb33-3"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(borehole_depth)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb33-4"><a href="transform.html#cb33-4"></a><span class="st">  </span><span class="kw">select</span>(owner_name, borehole_depth)</span></code></pre></div>
 <p>The order of all these operations matter. If you use <code>select()</code> that removes a column, you cannot later use filter on that removed column.</p>
 </div>
 <div id="mutate" class="section level2">
 <h2><span class="header-section-number">5.12</span> Mutate()</h2>
 <p>We used the <code>mutate()</code> function with our data cleaning, but let’s dive more into it. <code>mutate()</code> allows us to change data based on a formula. We can assign the change back to an existing column or create a new one.</p>
 <div class="figure">
-<img src="images/transform-mutate.png" alt="Create columns with mutate()" width="600" />
+<img src="images/transform-mutate.png" width="600" alt="" />
 <p class="caption">Create columns with mutate()</p>
 </div>
 <p>In the example above:</p>
@@ -631,7 +653,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>We’ll use this to create a new “year_drilled” column that has just the year that well was started. It will help us plot data later.</p>
 <p>We’re going to do this is two steps. We’ll first write the function to make sure it working like we want, then we’ll assign the result back to the <code>wells</code> data frame.</p>
 <div class="figure">
-<img src="images/transform-wells-mutate.png" alt="Mutate and select" />
+<img src="images/transform-wells-mutate.png" alt="" />
 <p class="caption">Mutate and select</p>
 </div>
 <p>This added our new column to the end of the data frame.</p>
@@ -648,31 +670,31 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Name the chunk by adding <code>add_year_month</code> inside the <code>{r}</code> part of the chunk.</li>
 <li>Edit the first line <code>wells %&gt;%</code> to <code>wells &lt;- wells %&gt;%</code> to assign the mutate result back to our wells data frame.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells &lt;-<span class="st"> </span>wells <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(
-    <span class="dt">year_drilled =</span> <span class="kw">year</span>(drilling_start_date),
-    <span class="dt">month_drilled =</span> <span class="kw">month</span>(drilling_start_date)
-  )</code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="transform.html#cb34-1"></a>wells &lt;-<span class="st"> </span>wells <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb34-2"><a href="transform.html#cb34-2"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
+<span id="cb34-3"><a href="transform.html#cb34-3"></a>    <span class="dt">year_drilled =</span> <span class="kw">year</span>(drilling_start_date),</span>
+<span id="cb34-4"><a href="transform.html#cb34-4"></a>    <span class="dt">month_drilled =</span> <span class="kw">month</span>(drilling_start_date)</span>
+<span id="cb34-5"><a href="transform.html#cb34-5"></a>  )</span></code></pre></div>
 <p>As we’ve seen before, when we assign the result back to <code>wells</code>, the data frame will no longer print to the screen anymore. That’s OK. Inspect the <code>wells</code> data frame within the Environment tab and to make sure it was created properly. (If you really want to check the data on your screen, you could use <code>head(wells)</code> to see just the several lines.)</p>
 <p>As you may recall from our lesson on column renaming, we can create more than one column within the same <code>mutate()</code> function by separating them with commas.</p>
 </div>
 <div id="export-the-mutated-data" class="section level3">
 <h3><span class="header-section-number">5.12.3</span> Export the mutated data</h3>
 <p>We actually want to keep these new columns to use later, so let’s do a quick export to save them for later.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">saveRDS</span>(<span class="st">&quot;data-out/wells_02.rds&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="transform.html#cb35-1"></a>wells <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">saveRDS</span>(<span class="st">&quot;data-out/wells_02.rds&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="summarize" class="section level2">
 <h2><span class="header-section-number">5.13</span> Summarize()</h2>
 <p>The <code>summarize()</code> and <code>summarise()</code> functions compute tables <em>about</em> your data. They are the same function, as R supports both the American and European spelling of summarize. I don’t care which you use.</p>
 <div class="figure">
-<img src="images/transform-summarise.png" alt="Learn about your data with Summarize()" width="600" />
+<img src="images/transform-summarise.png" width="600" alt="" />
 <p class="caption">Learn about your data with Summarize()</p>
 </div>
 <p>Much like the <code>mutate()</code> function, we list the name of the new column first, then assign to it the function we want to accomplish using <code>=</code>.</p>
 <p>Let’s find the average <code>borehole_depth</code> of all the wells.</p>
 <div class="figure">
-<img src="images/transform-wells-nanowork.png" alt="Attempt to find the mean" />
+<img src="images/transform-wells-nanowork.png" alt="" />
 <p class="caption">Attempt to find the mean</p>
 </div>
 <p>But, our return isn’t good? What’s up with that?</p>
@@ -680,14 +702,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h3><span class="header-section-number">5.13.1</span> ignoring na</h3>
 <p>In short, you can’t divide by zero or a NULL or NA value. I’ll show you how to ignore them, but first we should find out how many there are:</p>
 <div class="figure">
-<img src="images/transform-wells-findna.png" alt="Find NA values" />
+<img src="images/transform-wells-findna.png" alt="" />
 <p class="caption">Find NA values</p>
 </div>
 <p>Take a look at this and guess what is happening. Clearly <code>is.na</code> is a thing. How is it being used?</p>
 <p>There are 22 records returned out of 18k+. Can we safely exclude them without affecting the results? I think so.</p>
 <p>We can apply a similar function <code>na.rm</code> function inside our <code>summarise()</code> function to remove the missing values before the calculation, like this:</p>
 <div class="figure">
-<img src="images/transform-wells-narm.png" alt="NAs removed from summarize" />
+<img src="images/transform-wells-narm.png" alt="" />
 <p class="caption">NAs removed from summarize</p>
 </div>
 <p>A mean (or average in common terms) is a way to use one number to represent a group of numbers. It works well when the variance in the numbers is not great. Median is another way, and sometimes better when there are high or low numbers that would unduly influence a mean.</p>
@@ -705,7 +727,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2><span class="header-section-number">5.14</span> Group_by()</h2>
 <p>The <code>summarise()</code> function is an especially useful in combination with another function called <code>group_by()</code>, which allows us to pivot tables to count and measure data by its values.</p>
 <div class="figure">
-<img src="images/transform-groupby.png" alt="Group by" />
+<img src="images/transform-groupby.png" alt="" />
 <p class="caption">Group by</p>
 </div>
 <p>This is easier to understand when you can see an example, so let’s do it.</p>
@@ -713,7 +735,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h3><span class="header-section-number">5.14.1</span> Group and count</h3>
 <p>So, we have more than 18,000 wells, but we don’t know how many of each kind. We could filter them one-by-one, but there is an easier way.</p>
 <div class="figure">
-<img src="images/transform-wells-groupbyn.png" alt="Group and count" />
+<img src="images/transform-wells-groupbyn.png" alt="" />
 <p class="caption">Group and count</p>
 </div>
 <p>Let’s break this down:</p>
@@ -729,7 +751,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>We can see that “Domestic” wells are more prevalent by a wide margin. If page through the list, you’ll see that to get an accurate count of each type of well, we’ll need to do some data cleaning. We’ll do that at another time.</p>
 <p>Let’s walk through another example:</p>
 <div class="figure">
-<img src="images/transform-group-summarise.png" alt="Group and summarise" />
+<img src="images/transform-group-summarise.png" alt="" />
 <p class="caption">Group and summarise</p>
 </div>
 </div>
@@ -743,8 +765,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="counting-only" class="section level3">
 <h3><span class="header-section-number">5.14.3</span> Counting only</h3>
 <p>We’ll use summarize to do more than count, but if counting is all you want to know, there is an easier way. (I’ll try not to show you too many alternate methods … there are many ways to do everything, but this is worth knowing.)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">well <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">count</span>(proposed_use)</code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="transform.html#cb36-1"></a>well <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb36-2"><a href="transform.html#cb36-2"></a><span class="st">  </span><span class="kw">count</span>(proposed_use)</span></code></pre></div>
 <p>It creates a column named “n” with the count. You could <em>then</em> use <code>rename(new = old)</code> to call it something else, like “wells_drilled”.</p>
 </div>
 </div>
@@ -783,11 +805,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -795,12 +819,11 @@ gitbook.start({
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -812,6 +835,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

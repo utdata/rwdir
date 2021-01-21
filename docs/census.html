@@ -1,39 +1,38 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 11 Census | Reporting with Data in R</title>
-  <meta name="description" content="Chapter 11 Census | Reporting with Data in R is a series of lessons and instructions used in the Spring 2019 course J327D REPORTING WITH DATA in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald.">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta name="description" content="Chapter 11 Census | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald." />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 11 Census | Reporting with Data in R" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="Chapter 11 Census | Reporting with Data in R is a series of lessons and instructions used in the Spring 2019 course J327D REPORTING WITH DATA in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald." />
+  <meta property="og:description" content="Chapter 11 Census | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald." />
   <meta name="github-repo" content="utdata/rwd-r-reporting-with-data" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 11 Census | Reporting with Data in R" />
   
-  <meta name="twitter:description" content="Chapter 11 Census | Reporting with Data in R is a series of lessons and instructions used in the Spring 2019 course J327D REPORTING WITH DATA in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald." />
+  <meta name="twitter:description" content="Chapter 11 Census | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald." />
   
 
-<meta name="author" content="Christian McDonald">
+<meta name="author" content="Christian McDonald" />
 
 
-<meta name="date" content="2019-05-23">
+<meta name="date" content="2021-01-21" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="joins.html">
-<link rel="next" href="how-to-tackle-a-new-dataset.html">
+<link rel="prev" href="joins.html"/>
+<link rel="next" href="how-to-tackle-a-new-dataset.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -41,6 +40,7 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 
 
@@ -48,6 +48,11 @@
 
 
 
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
   p.caption {
     color: #777;
@@ -60,41 +65,68 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 </head>
@@ -118,9 +150,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-resources"><i class="fa fa-check"></i>Other resources</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="install.html"><a href="install.html"><i class="fa fa-check"></i><b>1</b> Install Party</a><ul>
-<li class="chapter" data-level="1.1" data-path="install.html"><a href="install.html#installing-r"><i class="fa fa-check"></i><b>1.1</b> Installing R</a></li>
-<li class="chapter" data-level="1.2" data-path="install.html"><a href="install.html#installing-rstudio"><i class="fa fa-check"></i><b>1.2</b> Installing RStudio</a></li>
-<li class="chapter" data-level="1.3" data-path="install.html"><a href="install.html#class-project-folder"><i class="fa fa-check"></i><b>1.3</b> Class project folder</a></li>
+<li class="chapter" data-level="1.1" data-path="install.html"><a href="install.html#mac-vs-pc"><i class="fa fa-check"></i><b>1.1</b> Mac vs PC</a></li>
+<li class="chapter" data-level="1.2" data-path="install.html"><a href="install.html#installing-r"><i class="fa fa-check"></i><b>1.2</b> Installing R</a></li>
+<li class="chapter" data-level="1.3" data-path="install.html"><a href="install.html#installing-rstudio"><i class="fa fa-check"></i><b>1.3</b> Installing RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="install.html"><a href="install.html#class-project-folder"><i class="fa fa-check"></i><b>1.4</b> Class project folder</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a><ul>
 <li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#rstudio-tour"><i class="fa fa-check"></i><b>2.1</b> RStudio tour</a></li>
@@ -147,14 +180,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="3.3.1" data-path="import.html"><a href="import.html#the-r-package-environment"><i class="fa fa-check"></i><b>3.3.1</b> The R Package environment</a></li>
 <li class="chapter" data-level="3.3.2" data-path="import.html"><a href="import.html#installing-and-using-packages"><i class="fa fa-check"></i><b>3.3.2</b> Installing and using packages</a></li>
 <li class="chapter" data-level="3.3.3" data-path="import.html"><a href="import.html#load-the-libraries"><i class="fa fa-check"></i><b>3.3.3</b> Load the libraries</a></li>
+<li class="chapter" data-level="3.3.4" data-path="import.html"><a href="import.html#create-a-folder-for-your-data"><i class="fa fa-check"></i><b>3.3.4</b> Create a folder for your data</a></li>
 </ul></li>
 <li class="chapter" data-level="3.4" data-path="import.html"><a href="import.html#lets-get-some-data"><i class="fa fa-check"></i><b>3.4</b> Let’s get some data</a><ul>
 <li class="chapter" data-level="3.4.1" data-path="import.html"><a href="import.html#inspect-the-data"><i class="fa fa-check"></i><b>3.4.1</b> Inspect the data</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="import.html"><a href="import.html#import-csv-as-data"><i class="fa fa-check"></i><b>3.5</b> Import csv as data</a><ul>
-<li class="chapter" data-level="3.5.1" data-path="import.html"><a href="import.html#help-files"><i class="fa fa-check"></i><b>3.5.1</b> Help files</a></li>
-</ul></li>
-<li class="chapter" data-level="3.6" data-path="import.html"><a href="import.html#assign-our-data-to-a-data-frame"><i class="fa fa-check"></i><b>3.6</b> Assign our data to a data frame</a></li>
+<li class="chapter" data-level="3.5" data-path="import.html"><a href="import.html#import-csv-as-data"><i class="fa fa-check"></i><b>3.5</b> Import csv as data</a></li>
+<li class="chapter" data-level="3.6" data-path="import.html"><a href="import.html#assign-our-data-to-a-tibble"><i class="fa fa-check"></i><b>3.6</b> Assign our data to a tibble</a></li>
 <li class="chapter" data-level="3.7" data-path="import.html"><a href="import.html#inspect-the-data-1"><i class="fa fa-check"></i><b>3.7</b> Inspect the data</a><ul>
 <li class="chapter" data-level="3.7.1" data-path="import.html"><a href="import.html#write-notes-about-things-to-change"><i class="fa fa-check"></i><b>3.7.1</b> Write notes about things to change</a></li>
 </ul></li>
@@ -400,16 +432,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="15.3" data-path="verbs.html"><a href="verbs.html#aggregation"><i class="fa fa-check"></i><b>15.3</b> Aggregation</a></li>
 <li class="chapter" data-level="15.4" data-path="verbs.html"><a href="verbs.html#math"><i class="fa fa-check"></i><b>15.4</b> Math</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html"><i class="fa fa-check"></i>Notes about future sessions</a><ul>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#maps"><i class="fa fa-check"></i>Maps</a></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#joins-1"><i class="fa fa-check"></i>Joins</a></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#data-packages"><i class="fa fa-check"></i>Data packages</a><ul>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#twitter"><i class="fa fa-check"></i>Twitter</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#tools-for-pdfs"><i class="fa fa-check"></i>Tools for PDFs</a></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#more-graphics-ideas"><i class="fa fa-check"></i>More graphics ideas</a></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#matt-waite-ideas-yet-to-incorporate"><i class="fa fa-check"></i>Matt Waite ideas yet to incorporate</a></li>
-</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -504,11 +526,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h3><span class="header-section-number">11.3.2</span> Importing downloaded data</h3>
 <p>When I import this data into R, I typically use the <code>read_csv()</code> function and skip the first, less-descriptive row. The second row becomes the headers, which are really long but explain the columns. I then rename them to something shorter. If you are only using selected columns, then you might use <code>select()</code> to get only those you need.</p>
 <p>Here is an example:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tx_income &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data-raw/ACSDT5Y2017.B19013_2019-04-20T000022/ACSDT5Y2017.B19013_data_with_overlays_2019-04-20T000019.csv&quot;</span>, <span class="dt">skip =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">rename</span>(
-    <span class="dt">median_income =</span> <span class="st">`</span><span class="dt">Estimate!!Median household income in the past 12 months (in 2017 inflation-adjusted dollars)</span><span class="st">`</span>,
-    <span class="dt">median_income_moe =</span> <span class="st">`</span><span class="dt">Margin of Error!!Median household income in the past 12 months (in 2017 inflation-adjusted dollars)</span><span class="st">`</span>
-  ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">clean_names</span>()</code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="census.html#cb104-1"></a>tx_income &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data-raw/ACSDT5Y2017.B19013_2019-04-20T000022/ACSDT5Y2017.B19013_data_with_overlays_2019-04-20T000019.csv&quot;</span>, <span class="dt">skip =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb104-2"><a href="census.html#cb104-2"></a><span class="st">  </span><span class="kw">rename</span>(</span>
+<span id="cb104-3"><a href="census.html#cb104-3"></a>    <span class="dt">median_income =</span> <span class="st">`</span><span class="dt">Estimate!!Median household income in the past 12 months (in 2017 inflation-adjusted dollars)</span><span class="st">`</span>,</span>
+<span id="cb104-4"><a href="census.html#cb104-4"></a>    <span class="dt">median_income_moe =</span> <span class="st">`</span><span class="dt">Margin of Error!!Median household income in the past 12 months (in 2017 inflation-adjusted dollars)</span><span class="st">`</span></span>
+<span id="cb104-5"><a href="census.html#cb104-5"></a>  ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">clean_names</span>()</span></code></pre></div>
 <p>Which yields this:</p>
 <table>
 <thead>
@@ -566,9 +588,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p><a href="https://twitter.com/hannah_recht?lang=en">Hannah Recht</a> of Bloomberg News developed the <a href="https://hrecht.github.io/censusapi/">censusapi</a> to pull data directly from the Census Bureau into R. See that site for more examples and documentation on use.</p>
 <p>You can view the <a href="https://utdata.github.io/rwd-r-census-examples/01-censusapi.html">full notebook of the examples below here</a>.</p>
 <p>This example code chunk pulls the same data set we manually downloaded from the portal. We are asking for the median income estimate (<code>B19013_001E</code>) and margin of error (<code>B19013_001M</code>), but I’m also including the total population for the county with <code>B01003_001E</code>, which was not in the “B19013” table. This is another advantage to using the API, as we are pulling from multiple tables at once. To do this manually, we would have to search for and download two separate data sets and merge them.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tx_income &lt;-<span class="st"> </span><span class="kw">getCensus</span>(<span class="dt">name =</span> <span class="st">&quot;acs/acs5&quot;</span>, <span class="dt">vintage =</span> <span class="dv">2017</span>, 
-    <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;NAME&quot;</span>,<span class="st">&quot;B01003_001E&quot;</span>, <span class="st">&quot;B19013_001E&quot;</span>, <span class="st">&quot;B19013_001M&quot;</span>), 
-    <span class="dt">region =</span> <span class="st">&quot;county:*&quot;</span>, <span class="dt">regionin =</span> <span class="st">&quot;state:48&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="census.html#cb105-1"></a>tx_income &lt;-<span class="st"> </span><span class="kw">getCensus</span>(<span class="dt">name =</span> <span class="st">&quot;acs/acs5&quot;</span>, <span class="dt">vintage =</span> <span class="dv">2017</span>, </span>
+<span id="cb105-2"><a href="census.html#cb105-2"></a>    <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;NAME&quot;</span>,<span class="st">&quot;B01003_001E&quot;</span>, <span class="st">&quot;B19013_001E&quot;</span>, <span class="st">&quot;B19013_001M&quot;</span>), </span>
+<span id="cb105-3"><a href="census.html#cb105-3"></a>    <span class="dt">region =</span> <span class="st">&quot;county:*&quot;</span>, <span class="dt">regionin =</span> <span class="st">&quot;state:48&quot;</span>)</span></code></pre></div>
 <p>Which ends up looking like this:</p>
 <table>
 <thead>
@@ -616,11 +638,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p><a href="http://personal.tcu.edu/kylewalker/">Kyle Walker</a> is a professor at TCU who developed the <a href="https://walkerke.github.io/tidycensus/index.html">tidycensus</a> package to return census data in tidyverse-ready data frames. He also includes an option to pull the spatial geometry to make maps.</p>
 <p>You can <a href="https://utdata.github.io/rwd-r-census-examples/01-tidycensus.html">view this example in full</a>, with the map.</p>
 <p>With tidycensus we don’t have to specify to get the MOE with his <code>get_acs()</code> function, it just comes. We only supply the two variables we want, those for population and the median income.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tx_income &lt;-<span class="st"> </span><span class="kw">get_acs</span>(
-  <span class="dt">geography =</span> <span class="st">&quot;county&quot;</span>,
-  <span class="dt">variables =</span> <span class="kw">c</span>(<span class="st">&quot;B01003_001&quot;</span>,<span class="st">&quot;B19013_001&quot;</span>),
-  <span class="dt">state =</span> <span class="st">&quot;TX&quot;</span>
-  )</code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="census.html#cb106-1"></a>tx_income &lt;-<span class="st"> </span><span class="kw">get_acs</span>(</span>
+<span id="cb106-2"><a href="census.html#cb106-2"></a>  <span class="dt">geography =</span> <span class="st">&quot;county&quot;</span>,</span>
+<span id="cb106-3"><a href="census.html#cb106-3"></a>  <span class="dt">variables =</span> <span class="kw">c</span>(<span class="st">&quot;B01003_001&quot;</span>,<span class="st">&quot;B19013_001&quot;</span>),</span>
+<span id="cb106-4"><a href="census.html#cb106-4"></a>  <span class="dt">state =</span> <span class="st">&quot;TX&quot;</span></span>
+<span id="cb106-5"><a href="census.html#cb106-5"></a>  )</span></code></pre></div>
 <p>And the result is this:</p>
 <table>
 <thead>
@@ -683,22 +705,22 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h3><span class="header-section-number">11.4.4</span> Adding geometry to tidycensus</h3>
 <p>The tidycensus package also allows you to download the geometry or shapes of your data at the same time by adding <code>geometry = TRUE</code> to your tidycensus call. This allows you to quickly make static maps of your data.</p>
 <p>I’m removing the population variable because we don’t need it for the map.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tx_income_map &lt;-<span class="st"> </span><span class="kw">get_acs</span>(
-  <span class="dt">geography =</span> <span class="st">&quot;county&quot;</span>,
-  <span class="dt">variables =</span> <span class="kw">c</span>(<span class="st">&quot;B19013_001&quot;</span>),
-  <span class="dt">state =</span> <span class="st">&quot;TX&quot;</span>,
-  <span class="dt">geometry =</span> <span class="ot">TRUE</span> <span class="co"># gets shapes</span>
-  )</code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="census.html#cb107-1"></a>tx_income_map &lt;-<span class="st"> </span><span class="kw">get_acs</span>(</span>
+<span id="cb107-2"><a href="census.html#cb107-2"></a>  <span class="dt">geography =</span> <span class="st">&quot;county&quot;</span>,</span>
+<span id="cb107-3"><a href="census.html#cb107-3"></a>  <span class="dt">variables =</span> <span class="kw">c</span>(<span class="st">&quot;B19013_001&quot;</span>),</span>
+<span id="cb107-4"><a href="census.html#cb107-4"></a>  <span class="dt">state =</span> <span class="st">&quot;TX&quot;</span>,</span>
+<span id="cb107-5"><a href="census.html#cb107-5"></a>  <span class="dt">geometry =</span> <span class="ot">TRUE</span> <span class="co"># gets shapes</span></span>
+<span id="cb107-6"><a href="census.html#cb107-6"></a>  )</span></code></pre></div>
 <p>Now we can use <code>geom_sf()</code> to plot the <code>estimate</code> value to each county in shapefile in ggplot.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(tx_income_map) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>estimate), <span class="dt">color=</span><span class="st">&quot;white&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme_void</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid.major =</span> <span class="kw">element_line</span>(<span class="dt">colour =</span> <span class="st">&#39;transparent&#39;</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_fill_distiller</span>(<span class="dt">palette=</span><span class="st">&quot;Oranges&quot;</span>, <span class="dt">direction=</span><span class="dv">1</span>, <span class="dt">name=</span><span class="st">&quot;Median income&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;2017 median income in Texas counties&quot;</span>, <span class="dt">caption=</span><span class="st">&quot;Source: Census Bureau/ACS5 2017&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="census.html#cb108-1"></a><span class="kw">ggplot</span>(tx_income_map) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb108-2"><a href="census.html#cb108-2"></a><span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>estimate), <span class="dt">color=</span><span class="st">&quot;white&quot;</span>) <span class="op">+</span></span>
+<span id="cb108-3"><a href="census.html#cb108-3"></a><span class="st">  </span><span class="kw">theme_void</span>() <span class="op">+</span></span>
+<span id="cb108-4"><a href="census.html#cb108-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid.major =</span> <span class="kw">element_line</span>(<span class="dt">colour =</span> <span class="st">&#39;transparent&#39;</span>)) <span class="op">+</span></span>
+<span id="cb108-5"><a href="census.html#cb108-5"></a><span class="st">  </span><span class="kw">scale_fill_distiller</span>(<span class="dt">palette=</span><span class="st">&quot;Oranges&quot;</span>, <span class="dt">direction=</span><span class="dv">1</span>, <span class="dt">name=</span><span class="st">&quot;Median income&quot;</span>) <span class="op">+</span></span>
+<span id="cb108-6"><a href="census.html#cb108-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;2017 median income in Texas counties&quot;</span>, <span class="dt">caption=</span><span class="st">&quot;Source: Census Bureau/ACS5 2017&quot;</span>)</span></code></pre></div>
 <p>Which yields this:</p>
 <div class="figure">
-<img src="images/census-tx-tidycensus.png" alt="Map from tidy census" />
+<img src="images/census-tx-tidycensus.png" alt="" />
 <p class="caption">Map from tidy census</p>
 </div>
 <p>That’s basically two lines of code to pull data and build a map.</p>
@@ -721,7 +743,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="https://www.census.gov/data/academy/courses/choroplethr.html">Mapping Census Bureau Data in R with Choroplethr by package creator Ari Lamstein</a></li>
 <li><a href="https://www.census.gov/data/academy/courses/ranking-project.html">Using the R Package RankingProject to Make Simple Visualizations for Comparing Populations by former Census Bureau statistician Jerzy Wieczorek</a></li>
 <li><a href="https://workshop.mhermans.net/thematic-maps-r/">Thematic maps</a> tutorial.</li>
-<li><a href="https://www.baltimoresun.com/news/maryland/bs-md-acs-census-release-20181206-story.html">Baltimore Sun example story</a> and <a href="https://github.com/baltimore-sun-data/census-data-analysis-2018">code</a>. <a href="https://twitter.com/christinezhang">Christine Zhang</a> says “Sometimes I prefer the output of one over the other (censusapi vs tidycensus) which is why I alternate.</li>
+<li><a href="https://www.baltimoresun.com/news/maryland/bs-md-acs-census-release-20181206-story.html">Baltimore Sun example story</a> and <a href="https://github.com/baltimore-sun-data/census-data-analysis-2018">code</a>. <a href="https://twitter.com/christinezhang">Christine Zhang</a> says "Sometimes I prefer the output of one over the other (censusapi vs tidycensus) which is why I alternate.</li>
 <li><a href="https://www.rspatial.org/">Spatial Data Science with R</a> Tutorial.</li>
 <li>Not a tutorial but but this <a href="https://timogrossenbacher.ch/2019/04/bivariate-maps-with-ggplot2-and-sf/">post by Timo Grossenbacher</a> is an explanation and inspiration on how far you can take R in mapping. <a href="https://gist.github.com/chris-prener/cd6b0aa0b2096daf13e545f4264ea6bb">Here is a version</a> that uses U.S. Census Bureau data.</li>
 </ul>
@@ -739,11 +761,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -751,12 +775,11 @@ gitbook.start({
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -768,6 +791,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

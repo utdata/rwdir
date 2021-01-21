@@ -75,7 +75,6 @@ We're going to install several packages we will use in the ratings project. To d
   + As you type, you will see the Console will give you hints on what you need. You can use the arrow keys to select one and hit Tab to complete that command.
 - If it asks you to install "from source", type `Yes` and hit return.
 
-
 You'll see a bunch of commands work through your Console. Remember that you only have to install a package to your computer once.
 
 We'll need another package, so also do:
@@ -106,14 +105,9 @@ It will look like this:
 
 ![Libraries imported](images/import-libraries.png){width=600px}
 
-
-## Let's get some data
-
-The process to download this data is explained in the [School Ratings](https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-school-ratings/README.md) assignment in the RWD Mastery Assignments Github repository. Since we did that in an earlier assignment I won't make you do that again here, but I will give you an opportunity to learn something else new: the Terminal.
-
 ### Create a folder for your data
 
-I want you to create a folder called `data-raw` in your project folder. I'm going to explain two ways, but you only need to do one of them.
+I want you to create a folder called `data-raw` in your project folder. I'm going to explain three ways, but you only need to do one of them.
 
 #### Using Terminal
 
@@ -128,51 +122,43 @@ Once you hit return, the prompt will return with no errors (hopefully). But if y
 
 That was pretty easy even if a bit technical. Welcome to the power of **Terminal**. It's quicker than the alternate method.
 
+#### Make a directory using the Files menu
+
+In the **Files** pane at the bottom-right of RStudio, there is a row of commands at the top, including **New Folder**.
+
+- Click on **New Folder**
+- Enter the name of the folder you want to create. `data-raw` in our case.
+
 #### Make a directory using the file explorer
 
-The other way to do this is to use your computer's regular file explorer to find your project file and make a new folder. Folders and directories are the same thing. If you had trouble with the above command, you can do it the old fashion way now. Hopefully you know how.
+The other way to do this is to use your computer's regular file explorer to find your project file and make a new folder. Folders and directories are the same thing. If you had trouble with the above commands, you can do it the old fashion way now. Hopefully you know how.
 
-### Download the data
+## Let's get some data
 
 Now that we have a folder for our data, we can download our data into it. I have a copy of the data in the School Ratings Github assignment.
 
+The process to download this data is explained in the [School Ratings](https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-school-ratings/README.md) assignment in the RWD Mastery Assignments Github repository. Since we did that in an earlier assignment I won't make you do that again here, but I will give you an opportunity to learn something else new: the Terminal.
+
 - Right-click on this link: [CAMPRATE_2019.csv](https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-school-ratings/data/CAMPRATE_2019.csv?raw=true) and use "Save as" and use the prompt to save this file in the `data-raw` folder in your project.
-
-
-
-I could've supplied you with the raw data, but it is not hard to find and grab yourself, so let's do that.
-
-Because I want you to teach you good data project skills, I want you first to make a folder to store your raw data. It's good practice to separate your raw data from any other output or data. It will make it easy for others to find, and can help you avoid overwriting that raw data, which should remain a pristine copy.
-
-- In the **Files** pane, use the **New Folder** button to create a folder called `data-raw`. (I typically make a `data-out` or similar folder for any files that I create.)
-- In a web browser, go to the [Texas Water Development Board Driller Reports](http://www.twdb.texas.gov/groundwater/data/drillersdb.asp) page and then click on the **Well Reports Search by County and Use** link.
-- In the **County** drop down, choose: Bastrop, Caldwell, Hays, Travis and Williamson counties.
-- In the **Proposed Use** column, choose **Select All**.
-- Click **View Reports**. You'll get 400+ returns.
-- Look for the floppy disk/arrow icon that is the download button. Choose **CSV (comma delimited)**.
-
-That file should end up in your Downloads folder. Use your finder to move this into your project folder in the `data-raw` folder you created.
-
-[This document](http://www.twdb.texas.gov/groundwater/data/doc/TWRSRS_UserManual.pdf?d=43539.49999999895) has some descriptions of fields we may need later.
 
 ### Inspect the data
 
 We want to look at the data so we understand it.
 
 - In the **Files** pane, click on the `data-raw` folder to open in.
-- Click on the `WellsRpts_County_Use.csv` file until you get the drop down that says View Files.
+- Click on the `CAMPRATE_2019.csv` file until you get the drop down that says View Files.
 
 ![View file](images/import-inspectdata.png)
 
-- When you choose that, you'll get a warning that it is a big file. It _should_ open it just fine, into a new window. It will look like this:
+- The file _should_ open it just fine, into a new window. It will look like this:
 
-![Wells file](images/import-wellsfile.png)
+![Wells file](images/import-ratingsfile.png)
 
 The numbers on the left are row numbers in the file. Because lines will wrap in your window, those numbers let you know where each line starts.
 
-Note that the real header for this file starts as line `5`, which means when we import this file, we need to skip the first four lines.
+We can see first row is our column headers and the first column is our `CAMPUS` ID. This ID identifies our campus.
 
-You can close this file now.
+You can close this file now by clicking on the small `x` next to the file name.
 
 ## Import csv as data
 
@@ -183,15 +169,15 @@ You can close this file now.
 - Inside the chunk, add the following and hit return, then I'll explain:
 
 ```r
-read_csv("data-raw/WellRpts_County_Use.csv")
+read_csv("data-raw/CAMPRATE_2019.csv")
 ```
 
 - `read_csv()` is the function we are using the load the data. This version from the **readr** package in the tidyverse is different from `read.csv` that comes with R. It is mo betta.
 - Inside the parenthesis is the path to our data, inside quotes. If you start typing in that path and hit tab, it will complete the path. (Easier to show than explain).
 
-This prints two things to our notebook, which are shown as tabs.
+This prints two things to our notebook, which are shown as tabs in the R output.
 
-The first resultc called "R Console" shows what columns were imported and the data types. It's important to review these to make sure things happened the way that you want. When I look at this, I'm struck that the column names all start with "Textbox", which wasn't what I expected when I was looking at the data on the website. (FWIW, the fact the text is in **red** is NOT an indication of a problem.)
+The first result called "R Console" shows what columns were imported and the data types. It's important to review these to make sure things happened the way that you want. When I look at this, I'm struck that the column names all start with "Textbox", which wasn't what I expected when I was looking at the data on the website. (FWIW, the fact the text is in **red** is NOT an indication of a problem.)
 
 ![Show cols](images/import-show-cols.png)
 
@@ -201,30 +187,9 @@ The second result prints out the data like a table. The data object is called a 
 
 ![Show imported data](images/import-show-data.png)
 
-What went wrong? Remember that our data doesn't really start until line five. We need to modify our import to skip the first for lines. But how does we find out how to do that? Help is on the way!!
+## Assign our data to a tibble
 
-### Help files
-
-Another tab over by your **Files** pane is the **Help** pane.
-
-- Click on the **Help** pane
-- In the search box, type in `read_csv` and hit Return.
-
-What you get in return is information about that function. Any function loaded into RStudio also comes with these help files. The documentation style might look foreign at first, but you'll get used to reading them.
-
-If we look through this one, we can see there is a `skip = x` option we can add to our import to skip lines.
-
-- Modify the import line to this and then rerun the entire chunk with *Cmd+shift+Return*:
-
-```r
-read_csv("data-raw/WellRpts_County_Use.csv", skip = 3)
-```
-
-I first tried `skip = 4`, but then it didn't properly use the header row, I _think_ because the readr package skips empty rows by default.
-
-## Assign our data to a data frame
-
-As of right now, we've only printed the data to our screen. We haven't "saved" it at all. What we need to do next is "assign" it to a data frame.
+As of right now, we've only printed the data to our screen. We haven't "saved" it at all. What we need to do next is "assign" it to a tibble.
 
 It's kind of weird, but the convention in R is to work from right to left. We _name_ things before we fill them with stuff. So, to create a data frame, the structure is this:
 
@@ -237,14 +202,16 @@ We have our stuff as the output of our `read_csv()` function ... now we need to 
 - Edit your existing code chunk to look like this:
 
 ```r
-wells <- read_csv("data-raw/WellRpts_County_Use.csv", skip = 3)
+ratings <- read_csv("data-raw/CAMPRATE_2019.csv")
 ```
 
 Run that chunk and two things happen:
 
-- We no longer see the result printed to the screen. That's because we created a data frame instead.
-- In the **Environment** tab at the top-right of RStudio, you'll see `wells` listed.
-    + Click on the blue play button next to wells and it will expand to show you a summary of the columns.
+> THIS IS WHERE I STOPPED
+
+- We no longer see the result printed to the screen. That's because we created a data frame instead of printing it to the screen.
+- In the **Environment** tab at the top-right of RStudio, you'll see `ratings` listed.
+    + Click on the blue play button next to ratings and it will expand to show you a summary of the columns.
     + Click on the name and it will open a "View" of the data in another window, so you can look at it, sort of like a spreadsheet.
 
 ## Inspect the data

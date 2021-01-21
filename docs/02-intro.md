@@ -36,7 +36,7 @@ When you hit **Create Project**, your RStudio window will refresh and you'll see
 
 ## Using R Notebooks
 
-For this class, we will almost always use [R Notebooks](https://rmarkdown.rstudio.com/lesson-10.html). This format allows us to write text in between our blocks of code. The text is written in a language called [R Markdown](https://rmarkdown.rstudio.com/lesson-1.html), a juiced-up version of the common documentation syntax used by programmers, Markdown. It's not hard to learn. Here's a [Markdown guide](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf).
+For this class, we will almost always use [R Notebooks](https://rmarkdown.rstudio.com/lesson-10.html). This format allows us to write text in between our blocks of code. The text is written in a language called [R Markdown](https://rmarkdown.rstudio.com/lesson-1.html), a juiced-up version of the common documentation syntax used by programmers, Markdown. It's not hard to learn.
 
 ### Create your first notebook
 
@@ -53,15 +53,15 @@ This will open a new file with some boilerplate R Markdown code.
 
 Let's take a closer look at this:
 
-- The three back tick characters ( found at the top left on your keyboard) followed by the `{r}` indicate that this is a chunk of R code. The last three back ticks say the code chunk is over.
+- The three back tick characters (the key found at the top left on your keyboard) followed by the `{r}` indicate that this is a chunk of R code. The last three back ticks say the code chunk is over.
 - The `{r}` bit can have some parameters added to it. We'll get into that later.
 - The line `plot(cars)` is R programming code. We'll see what those commands do in a bit.
 - The green right-arrow to the far right is a play button to run the code that is inside the chunk.
-- The green down-arrow and bar to the left of that runs all the code in the Notebook up to that point.
+- The green down-arrow and bar to the left of that runs all the code in the Notebook up to that point. That is useful as you make changes in your code and want to rerun what is above the chunk in question.
 
 ### Save the .Rmd file
 
-- Do command-s or hit the floppy disk icon to save the file.
+- Do *Cmd+S* or hit the floppy disk icon to save the file.
 - It will ask you what you want to name this file. Call it `01-first-file.Rmd`.
 
 When you do this, you may see another new file created in your Files directory. It's the pretty version of the notebook which we'll see in a minute.
@@ -74,7 +74,7 @@ In the metadata portion of the file, give your notebook a better title.
 
 There is only one chunk to run in this notebook, so:
 
-- Click on the green right-arrow to run the code.
+- Click on the green right-arrow to run the code. The keyboard command (from somewhere within the chunk) is *Cmd+Shift+Return*.
 
 You should get something like this:
 
@@ -88,17 +88,17 @@ But that wasn't a whole lot of code to see there is a relationship with speed vs
 
 The text after the chart describes how to insert a new code chunk. Let's do that.
 
-- Add a return after the paragraph of text about code chunks, but before the next bit about previews.
+- Add a couple of returns after the paragraph of text about code chunks, but before the next bit about previews.
 - Use the keys *Cmd+Option+I* to add the chunk.
 - Your cursor will be inserted into the middle of the chunk. Type in this code in the space provided:
 
 ```r
-# update 52 to your age
-age = 52
+# update 53 to your age
+age <- 53
 (age - 7) * 2
 ```
 
-- Change for "52" to your real age.
+- Change for "53" to your real age.
 - With your cursor somewhere in the code block, use the key command *Cmd+Shift+Return*, which is the key command to RUN ALL LINES of code chunk.
 - NOTE: To run an individual line, use *Cmd+Return* while on that line.
 
@@ -106,12 +106,12 @@ Congratulations! The answer given at the bottom of that code chunk is the [socia
 
 Throwing aside whether the formula is sound, let's break down the code.
 
-- `# update 52 to your age` is a comment. It's a way to explain what is happening in the code without being considered part of the code.
-- `age = 52` is assigning a number (`52`) to a variable name (`age`). A variable is a placeholder. It can hold numbers, text or even groups of numbers. They are key to programming because they allow you to change the value of the variable as you go along.
+- `# update 53 to your age` is a comment. It's a way to explain what is happening in the code without being considered part of the code.
+- `age <- 53` is assigning a number (`53`) to a variable name (`age`). A variable is a placeholder. It can hold numbers, text or even groups of numbers. Variables are key to programming because they allow you to change a value as you go along.
 - The next part is simple math: `(age - 7) * 2` takes the value of `age` and subtracts `7`, then multiplies by `2`.
-- When you run it, you get `[1] 90`. That means there was one observation, and the value was "90". For the record, my wife is _much_ younger than that.
+- When you run it, you get the result of the math equazion, `[1] 92` in my case. That means there was one observation, and the value was "92". For the record, my wife is _much_ younger than that.
 
-Now you can play with the age variable assignment to test out different ages.
+Now you can play with the number assigned to the age variable to test out different ages. Do that.
 
 ### Practice adding code chunks
 
@@ -125,7 +125,7 @@ The rest of the boilerplate text here describes how you can *Preview* and *Knit*
 
 This will open a new window and show you the "pretty" notebook that we are building.
 
-Preview is a little different than *Knit*, which runs all the code, then creates the new knitted HTML document. It's **Knit to HMTL** that you'll want to do before turning in your assignments.
+Preview is a little different than *Knit*, which runs all the code, then creates the new knitted HTML document. It's **Knit to HMTL** that you'll want to do before turning in your assignments. That is explained below.
 
 ### The toolbar
 
@@ -148,7 +148,7 @@ The best way to turn in all of those files into Canvas is to compress them into 
 
 - In your computer's Finder, open the `Documents/rwd` folder.
 - Follow the directions for your operating system linked below to create a compressed version of your `yourname-final-project` folder.
-- [Compress files on a Mac](http://www.macinstruct.com/node/159).
+- [Compress files on a Mac](https://www.macinstruct.com/tutorials/how-to-compress-zip-files-and-folders-on-a-mac/).
 - [Compress flies on Windows](https://www.laptopmag.com/articles/how-to-zip-files-windows-10).
 - Upload the resulting `.zip` file to the assignment for this week in Canvas.
 
@@ -156,7 +156,7 @@ Here is what the compression steps looks like on a Mac:
 
 ![Compress file: Mac](images/intro-compress.gif)
 
-If you find you make changes to your R files after you've zipped your folder, you'll need to delete the `zip` file and do it again.
+If you find you make changes to your R files after you've zipped your folder, you'll need to delete the `zip` file and compress it again.
 
 Because we are building "repeatable" code, I'll be able to download your `.zip` files, uncompress them, and the re-run them to get the same results.
 
