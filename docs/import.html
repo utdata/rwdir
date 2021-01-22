@@ -1,39 +1,38 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 Importing data | Reporting with Data in R</title>
-  <meta name="description" content="Chapter 3 Importing data | Reporting with Data in R is a series of lessons and instructions used in the Spring 2019 course J327D REPORTING WITH DATA in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald.">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta name="description" content="Chapter 3 Importing data | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Importing data | Reporting with Data in R" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="Chapter 3 Importing data | Reporting with Data in R is a series of lessons and instructions used in the Spring 2019 course J327D REPORTING WITH DATA in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald." />
-  <meta name="github-repo" content="utdata/rwd-r-reporting-with-data" />
+  <meta property="og:description" content="Chapter 3 Importing data | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <meta name="github-repo" content="utdata/rwdir" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 3 Importing data | Reporting with Data in R" />
   
-  <meta name="twitter:description" content="Chapter 3 Importing data | Reporting with Data in R is a series of lessons and instructions used in the Spring 2019 course J327D REPORTING WITH DATA in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald." />
+  <meta name="twitter:description" content="Chapter 3 Importing data | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
   
 
-<meta name="author" content="Christian McDonald">
+<meta name="author" content="Christian McDonald" />
 
 
-<meta name="date" content="2019-05-23">
+<meta name="date" content="2021-01-21" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="intro.html">
-<link rel="next" href="columns.html">
+<link rel="prev" href="intro.html"/>
+<link rel="next" href="columns.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -41,6 +40,7 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 
 
@@ -48,6 +48,11 @@
 
 
 
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
   p.caption {
     color: #777;
@@ -60,41 +65,68 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 </head>
@@ -118,9 +150,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-resources"><i class="fa fa-check"></i>Other resources</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="install.html"><a href="install.html"><i class="fa fa-check"></i><b>1</b> Install Party</a><ul>
-<li class="chapter" data-level="1.1" data-path="install.html"><a href="install.html#installing-r"><i class="fa fa-check"></i><b>1.1</b> Installing R</a></li>
-<li class="chapter" data-level="1.2" data-path="install.html"><a href="install.html#installing-rstudio"><i class="fa fa-check"></i><b>1.2</b> Installing RStudio</a></li>
-<li class="chapter" data-level="1.3" data-path="install.html"><a href="install.html#class-project-folder"><i class="fa fa-check"></i><b>1.3</b> Class project folder</a></li>
+<li class="chapter" data-level="1.1" data-path="install.html"><a href="install.html#mac-vs-pc"><i class="fa fa-check"></i><b>1.1</b> Mac vs PC</a></li>
+<li class="chapter" data-level="1.2" data-path="install.html"><a href="install.html#installing-r"><i class="fa fa-check"></i><b>1.2</b> Installing R</a></li>
+<li class="chapter" data-level="1.3" data-path="install.html"><a href="install.html#installing-rstudio"><i class="fa fa-check"></i><b>1.3</b> Installing RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="install.html"><a href="install.html#class-project-folder"><i class="fa fa-check"></i><b>1.4</b> Class project folder</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a><ul>
 <li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#rstudio-tour"><i class="fa fa-check"></i><b>2.1</b> RStudio tour</a></li>
@@ -147,14 +180,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="3.3.1" data-path="import.html"><a href="import.html#the-r-package-environment"><i class="fa fa-check"></i><b>3.3.1</b> The R Package environment</a></li>
 <li class="chapter" data-level="3.3.2" data-path="import.html"><a href="import.html#installing-and-using-packages"><i class="fa fa-check"></i><b>3.3.2</b> Installing and using packages</a></li>
 <li class="chapter" data-level="3.3.3" data-path="import.html"><a href="import.html#load-the-libraries"><i class="fa fa-check"></i><b>3.3.3</b> Load the libraries</a></li>
+<li class="chapter" data-level="3.3.4" data-path="import.html"><a href="import.html#create-a-folder-for-your-data"><i class="fa fa-check"></i><b>3.3.4</b> Create a folder for your data</a></li>
 </ul></li>
 <li class="chapter" data-level="3.4" data-path="import.html"><a href="import.html#lets-get-some-data"><i class="fa fa-check"></i><b>3.4</b> Let’s get some data</a><ul>
 <li class="chapter" data-level="3.4.1" data-path="import.html"><a href="import.html#inspect-the-data"><i class="fa fa-check"></i><b>3.4.1</b> Inspect the data</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="import.html"><a href="import.html#import-csv-as-data"><i class="fa fa-check"></i><b>3.5</b> Import csv as data</a><ul>
-<li class="chapter" data-level="3.5.1" data-path="import.html"><a href="import.html#help-files"><i class="fa fa-check"></i><b>3.5.1</b> Help files</a></li>
-</ul></li>
-<li class="chapter" data-level="3.6" data-path="import.html"><a href="import.html#assign-our-data-to-a-data-frame"><i class="fa fa-check"></i><b>3.6</b> Assign our data to a data frame</a></li>
+<li class="chapter" data-level="3.5" data-path="import.html"><a href="import.html#import-csv-as-data"><i class="fa fa-check"></i><b>3.5</b> Import csv as data</a></li>
+<li class="chapter" data-level="3.6" data-path="import.html"><a href="import.html#assign-our-data-to-a-tibble"><i class="fa fa-check"></i><b>3.6</b> Assign our data to a tibble</a></li>
 <li class="chapter" data-level="3.7" data-path="import.html"><a href="import.html#inspect-the-data-1"><i class="fa fa-check"></i><b>3.7</b> Inspect the data</a><ul>
 <li class="chapter" data-level="3.7.1" data-path="import.html"><a href="import.html#write-notes-about-things-to-change"><i class="fa fa-check"></i><b>3.7.1</b> Write notes about things to change</a></li>
 </ul></li>
@@ -400,16 +432,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="15.3" data-path="verbs.html"><a href="verbs.html#aggregation"><i class="fa fa-check"></i><b>15.3</b> Aggregation</a></li>
 <li class="chapter" data-level="15.4" data-path="verbs.html"><a href="verbs.html#math"><i class="fa fa-check"></i><b>15.4</b> Math</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html"><i class="fa fa-check"></i>Notes about future sessions</a><ul>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#maps"><i class="fa fa-check"></i>Maps</a></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#joins-1"><i class="fa fa-check"></i>Joins</a></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#data-packages"><i class="fa fa-check"></i>Data packages</a><ul>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#twitter"><i class="fa fa-check"></i>Twitter</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#tools-for-pdfs"><i class="fa fa-check"></i>Tools for PDFs</a></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#more-graphics-ideas"><i class="fa fa-check"></i>More graphics ideas</a></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#matt-waite-ideas-yet-to-incorporate"><i class="fa fa-check"></i>Matt Waite ideas yet to incorporate</a></li>
-</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -442,7 +464,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Learn how to import CSV files.</li>
 <li>Introduce the Data Frame/Tibble.</li>
 </ul>
-<p>We will do this through working with well drilling reports from the Texas Water Development board. We’ll pull reports from counties in the Austin MSA and be able to see the kinds of wells dug, where they are and the pace of drilling.</p>
+<p>We will do this through working with School Ratings data from the Texas Education Agency (the same data we used with the Sheets lesson.) We’ll download the data again.</p>
 </div>
 <div id="data-types" class="section level2">
 <h2><span class="header-section-number">3.2</span> Data types</h2>
@@ -450,9 +472,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>In this class, we will primarily be importing Excel files, CSVs (Comma Separated Value) and APIs (Application Programming Interface).</p>
 <ul>
 <li>CSVs are a kind of lowest-common-denominator for data. Most any database or program can import or export them.</li>
-<li>Excel files are good, but are often messy because humans get involved. There are often multiple header rows, columns used in multiple ways, notes added, etc. Just know you might have to clean them up before using them.</li>
+<li>Excel files are good, but are often messy because humans get involved. There often have multiple header rows, columns used in multiple ways, notes added, etc. Just know you might have to clean them up before using them.</li>
 <li>APIs are systems designed to respond to programming. In the data world, we often use the APIs by writing a query to ask a system to return a selection of data. By definition, the data is well structured. You can often determine the file type of the output as part of the API call, including …</li>
-<li>JSON (or JavaScript Object Notation) is the data format preferred by JavaScript. R can read it, too. It is often the output format of APIs, and prevalent enough that you need to understand how it works. We’ll get into it more later.</li>
+<li>JSON (or JavaScript Object Notation) is the data format preferred by JavaScript. R can read it, too. It is often the output format of APIs, and prevalent enough that you need to understand how it works. We’ll get into that later in semester.</li>
 </ul>
 <p>Don’t get me wrong … there are plenty of other data types and connections available through R, but those are the ones we’ll deal with most in the class.</p>
 <div id="what-is-clean-data" class="section level3">
@@ -461,15 +483,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li>Have a single header row with well-formed column names.
 <ul>
-<li>Once column name for each column. No merged cells.</li>
+<li>One column name for each column. No merged cells.</li>
 <li>Short names are better than long ones.</li>
 <li>Spaces in names make them harder to work with. Use and <code>_</code> or <code>.</code> between words.</li>
 </ul></li>
 <li>Remove notes or comments from the files.</li>
 <li>Each column should have the same kind of data: numbers vs words, etc.</li>
-<li>Each row should be an</li>
+<li>Each row should be a single thing called an “observation”. The columns should describe that observation.</li>
 </ul>
-<p>In our first lesson, we’ll be using a CSV file that has several rows of description at the top. We’ll be able to skip those description lines when we import.</p>
 </div>
 </div>
 <div id="create-a-new-project" class="section level2">
@@ -478,11 +499,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li>Launch RStudio</li>
 <li>Use the <code>+R</code> button to create a <strong>New Project</strong> in a <strong>New Directory</strong></li>
-<li>Name the project <code>yourfirstname-wells</code> and put it in your <code>~/Documents/rwd</code> folder.</li>
+<li>Name the project <code>yourfirstname-ratings</code> and put it in your <code>~/Documents/rwd</code> folder.</li>
 <li>Use the <code>+</code> button to use <strong>R Notebook</strong> to start a new notebook.</li>
-<li>Change the title to “Wells drilled in Austin MSA”.</li>
+<li>Change the title to “TEA School Ratings”.</li>
 <li>Delete the other boilerplate text.</li>
-<li>Save the file as <code>01-wells-import.Rmd</code>.</li>
+<li>Save the file as <code>01-ratings.Rmd</code>.</li>
 </ul>
 <div id="the-r-package-environment" class="section level3">
 <h3><span class="header-section-number">3.3.1</span> The R Package environment</h3>
@@ -496,23 +517,27 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h3><span class="header-section-number">3.3.2</span> Installing and using packages</h3>
 <p>There are two steps to using an R package:</p>
 <ul>
-<li><strong>Install the package</strong> using <code>install.packages(&quot;package_name&quot;)</code>. You only have to do this once for each computer, so I usually do it using the R Console instead of a script.</li>
+<li><strong>Install the package</strong> using `install.packages(“package_name”). You only have to do this once for each computer, so I usually do it using the R Console instead of in notebook.</li>
 <li><strong>Include the library</strong> using <code>library(package_name)</code>. This has to be done for each Notebook or script that uses it, so it is usually one of the first things in the notebook.</li>
 </ul>
-<p>We’re going to install several packages we will use in the Wells project. To do this, we are going to use the <strong>Console</strong>, which we haven’t talked about much.</p>
+<p>We’re going to install several packages we will use in the ratings project. To do this, we are going to use the <strong>Console</strong>, which we haven’t talked about much yet.</p>
 <div class="figure">
-<img src="images/import-console.png" alt="The Console and Terminal" width="600" />
+<img src="images/import-console.png" width="600" alt="" />
 <p class="caption">The Console and Terminal</p>
 </div>
 <ul>
 <li>Use the image above to orient yourself to the R Console and Terminal.</li>
-<li>In the console, type in <code>install.packages(&quot;tidyverse&quot;)</code> and hit return.</li>
+<li>In the console, type in <code>install.packages("tidyverse")</code> and hit return.
+<ul>
+<li>As you type, you will see the Console will give you hints on what you need. You can use the arrow keys to select one and hit Tab to complete that command.</li>
+</ul></li>
+<li>If it asks you to install “from source”, type <code>Yes</code> and hit return.</li>
 </ul>
 <p>You’ll see a bunch of commands work through your Console. Remember that you only have to install a package to your computer once.</p>
 <p>We’ll need another package, so also do:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;janitor&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="import.html#cb2-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;janitor&quot;</span>)</span></code></pre></div>
 <p>We’ll use some commands from janitor to clean up our data column names, among other things. A good reference to learn more is the <a href="https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html">janitor vignette</a>.</p>
-<p>I start <em>every</em> data project with these two packages.</p>
+<p>You only have to install the packages once on your computer (though you have to load them every time, which is explained below).</p>
 </div>
 <div id="load-the-libraries" class="section level3">
 <h3><span class="header-section-number">3.3.3</span> Load the libraries</h3>
@@ -521,48 +546,77 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>After the metadata at the top of your notebook, use <em>Cmd+option+i</em> to insert an R code chunk.</li>
 <li>In that chunk, type in the two libraries and run the code block with <em>Cmd+shift+Return</em>.</li>
 </ul>
+<p>This is the code you need:</p>
+<pre class="text"><code>library(tidyverse)
+library(janitor)</code></pre>
 <p>It will look like this:</p>
 <div class="figure">
-<img src="images/import-libraries.png" alt="Libraries imported" width="600" />
+<img src="images/import-libraries.png" width="600" alt="" />
 <p class="caption">Libraries imported</p>
+</div>
+</div>
+<div id="create-a-folder-for-your-data" class="section level3">
+<h3><span class="header-section-number">3.3.4</span> Create a folder for your data</h3>
+<p>I want you to create a folder called <code>data-raw</code> in your project folder. I’m going to explain three ways, but you only need to do one of them.</p>
+<div id="using-terminal" class="section level4">
+<h4><span class="header-section-number">3.3.4.1</span> Using Terminal</h4>
+<ul>
+<li>In the bottom part of the RStudio window next to the Console window is another one called <strong>Terminal</strong>. Click on that and you have a method to talk to your computer using typed commands.</li>
+<li>Once you click on that and you’ll get a flashing prompt after a <code>$</code>. Type in <code>mkdir data-raw</code> and hit return.</li>
+</ul>
+<div class="figure">
+<img src="images/terminal-mkdir.png" alt="" />
+<p class="caption">Terminal mkdir</p>
+</div>
+<p>Once you hit return, the prompt will return with no errors (hopefully). But if you look at your files window to the right you’ll see you created “made” a new directory (hence <code>mkdir</code>, as in make directory.)</p>
+<div class="figure">
+<img src="images/terminal-mkdir-done.png" alt="" />
+<p class="caption">Directory made</p>
+</div>
+<p>That was pretty easy even if a bit technical. Welcome to the power of <strong>Terminal</strong>. It’s quicker than the alternate method.</p>
+</div>
+<div id="make-a-directory-using-the-files-menu" class="section level4">
+<h4><span class="header-section-number">3.3.4.2</span> Make a directory using the Files menu</h4>
+<p>In the <strong>Files</strong> pane at the bottom-right of RStudio, there is a row of commands at the top, including <strong>New Folder</strong>.</p>
+<ul>
+<li>Click on <strong>New Folder</strong></li>
+<li>Enter the name of the folder you want to create. <code>data-raw</code> in our case.</li>
+</ul>
+</div>
+<div id="make-a-directory-using-the-file-explorer" class="section level4">
+<h4><span class="header-section-number">3.3.4.3</span> Make a directory using the file explorer</h4>
+<p>The other way to do this is to use your computer’s regular file explorer to find your project file and make a new folder. Folders and directories are the same thing. If you had trouble with the above commands, you can do it the old fashion way now. Hopefully you know how.</p>
 </div>
 </div>
 </div>
 <div id="lets-get-some-data" class="section level2">
 <h2><span class="header-section-number">3.4</span> Let’s get some data</h2>
-<p>I could’ve supplied you with the raw data, but it is not hard to find and grab yourself, so let’s do that.</p>
-<p>Because I want you to teach you good data project skills, I want you first to make a folder to store your raw data. It’s good practice to separate your raw data from any other output or data. It will make it easy for others to find, and can help you avoid overwriting that raw data, which should remain a pristine copy.</p>
+<p>Now that we have a folder for our data, we can download our data into it. I have a copy of the data in the School Ratings Github assignment.</p>
+<p>The process to download this data is explained in the <a href="https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-school-ratings/README.md">School Ratings</a> assignment in the RWD Mastery Assignments Github repository. Since we did that in an earlier assignment I won’t make you do that again here, but I will give you an opportunity to learn something else new: the Terminal.</p>
 <ul>
-<li>In the <strong>Files</strong> pane, use the <strong>New Folder</strong> button to create a folder called <code>data-raw</code>. (I typically make a <code>data-out</code> or similar folder for any files that I create.)</li>
-<li>In a web browser, go to the <a href="http://www.twdb.texas.gov/groundwater/data/drillersdb.asp">Texas Water Development Board Driller Reports</a> page and then click on the <strong>Well Reports Search by County and Use</strong> link.</li>
-<li>In the <strong>County</strong> drop down, choose: Bastrop, Caldwell, Hays, Travis and Williamson counties.</li>
-<li>In the <strong>Proposed Use</strong> column, choose <strong>Select All</strong>.</li>
-<li>Click <strong>View Reports</strong>. You’ll get 400+ returns.</li>
-<li>Look for the floppy disk/arrow icon that is the download button. Choose <strong>CSV (comma delimited)</strong>.</li>
+<li>Right-click on this link: <a href="https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-school-ratings/data/CAMPRATE_2019.csv?raw=true">CAMPRATE_2019.csv</a> and use “Save as” and use the prompt to save this file in the <code>data-raw</code> folder in your project.</li>
 </ul>
-<p>That file should end up in your Downloads folder. Use your finder to move this into your project folder in the <code>data-raw</code> folder you created.</p>
-<p><a href="http://www.twdb.texas.gov/groundwater/data/doc/TWRSRS_UserManual.pdf?d=43539.49999999895">This document</a> has some descriptions of fields we may need later.</p>
 <div id="inspect-the-data" class="section level3">
 <h3><span class="header-section-number">3.4.1</span> Inspect the data</h3>
 <p>We want to look at the data so we understand it.</p>
 <ul>
 <li>In the <strong>Files</strong> pane, click on the <code>data-raw</code> folder to open in.</li>
-<li>Click on the <code>WellsRpts_County_Use.csv</code> file until you get the drop down that says View Files.</li>
+<li>Click on the <code>CAMPRATE_2019.csv</code> file until you get the drop down that says View Files.</li>
 </ul>
 <div class="figure">
-<img src="images/import-inspectdata.png" alt="View file" />
+<img src="images/import-inspectdata.png" alt="" />
 <p class="caption">View file</p>
 </div>
 <ul>
-<li>When you choose that, you’ll get a warning that it is a big file. It <em>should</em> open it just fine, into a new window. It will look like this:</li>
+<li>The file <em>should</em> open it just fine, into a new window. It will look like this:</li>
 </ul>
 <div class="figure">
-<img src="images/import-wellsfile.png" alt="Wells file" />
+<img src="images/import-ratingsfile.png" alt="" />
 <p class="caption">Wells file</p>
 </div>
 <p>The numbers on the left are row numbers in the file. Because lines will wrap in your window, those numbers let you know where each line starts.</p>
-<p>Note that the real header for this file starts as line <code>5</code>, which means when we import this file, we need to skip the first four lines.</p>
-<p>You can close this file now.</p>
+<p>We can see first row is our column headers and the first column is our <code>CAMPUS</code> ID. This ID identifies our campus.</p>
+<p>You can close this file now by clicking on the small <code>x</code> next to the file name.</p>
 </div>
 </div>
 <div id="import-csv-as-data" class="section level2">
@@ -576,15 +630,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>After your descriptions, add a new code chunk (<em>Cmd+option+i</em>).</li>
 <li>Inside the chunk, add the following and hit return, then I’ll explain:</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&quot;data-raw/WellRpts_County_Use.csv&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="import.html#cb4-1"></a><span class="kw">read_csv</span>(<span class="st">&quot;data-raw/CAMPRATE_2019.csv&quot;</span>)</span></code></pre></div>
 <ul>
 <li><code>read_csv()</code> is the function we are using the load the data. This version from the <strong>readr</strong> package in the tidyverse is different from <code>read.csv</code> that comes with R. It is mo betta.</li>
 <li>Inside the parenthesis is the path to our data, inside quotes. If you start typing in that path and hit tab, it will complete the path. (Easier to show than explain).</li>
 </ul>
-<p>This prints two things to our notebook, which are shown as tabs.</p>
-<p>The first resultc called “R Console” shows what columns were imported and the data types. It’s important to review these to make sure things happened the way that you want. When I look at this, I’m struck that the column names all start with “Textbox”, which wasn’t what I expected when I was looking at the data on the website. (FWIW, the fact the text is in <strong>red</strong> is NOT an indication of a problem.)</p>
+<p>This prints two things to our notebook, which are shown as tabs in the R output.</p>
+<p>The first result called “R Console” shows what columns were imported and the data types. It’s important to review these to make sure things happened the way that you want. When I look at this, I’m struck that the column names all start with “Textbox”, which wasn’t what I expected when I was looking at the data on the website. (FWIW, the fact the text is in <strong>red</strong> is NOT an indication of a problem.)</p>
 <div class="figure">
-<img src="images/import-show-cols.png" alt="Show cols" />
+<img src="images/import-show-cols.png" alt="" />
 <p class="caption">Show cols</p>
 </div>
 <p>The second result prints out the data like a table. The data object is called a <a href="https://tibble.tidyverse.org/">Tibble</a>, which is a fancy version of a data frame that is part of the tidyverse.</p>
@@ -592,42 +646,29 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>I will often call a tibble a “data frame”, which is the generic R from of this data structure. Think of data frames and tibbles like a well-structured table in a spreadsheet. They are organized rows of data with columns where every item in the column is of the same data type.</p>
 </blockquote>
 <div class="figure">
-<img src="images/import-show-data.png" alt="Show imported data" />
+<img src="images/import-show-data.png" alt="" />
 <p class="caption">Show imported data</p>
 </div>
-<p>What went wrong? Remember that our data doesn’t really start until line five. We need to modify our import to skip the first for lines. But how does we find out how to do that? Help is on the way!!</p>
-<div id="help-files" class="section level3">
-<h3><span class="header-section-number">3.5.1</span> Help files</h3>
-<p>Another tab over by your <strong>Files</strong> pane is the <strong>Help</strong> pane.</p>
-<ul>
-<li>Click on the <strong>Help</strong> pane</li>
-<li>In the search box, type in <code>read_csv</code> and hit Return.</li>
-</ul>
-<p>What you get in return is information about that function. Any function loaded into RStudio also comes with these help files. The documentation style might look foreign at first, but you’ll get used to reading them.</p>
-<p>If we look through this one, we can see there is a <code>skip = x</code> option we can add to our import to skip lines.</p>
-<ul>
-<li>Modify the import line to this and then rerun the entire chunk with <em>Cmd+shift+Return</em>:</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&quot;data-raw/WellRpts_County_Use.csv&quot;</span>, <span class="dt">skip =</span> <span class="dv">3</span>)</code></pre></div>
-<p>I first tried <code>skip = 4</code>, but then it didn’t properly use the header row, I <em>think</em> because the readr package skips empty rows by default.</p>
 </div>
-</div>
-<div id="assign-our-data-to-a-data-frame" class="section level2">
-<h2><span class="header-section-number">3.6</span> Assign our data to a data frame</h2>
-<p>As of right now, we’ve only printed the data to our screen. We haven’t “saved” it at all. What we need to do next is “assign” it to a data frame.</p>
+<div id="assign-our-data-to-a-tibble" class="section level2">
+<h2><span class="header-section-number">3.6</span> Assign our data to a tibble</h2>
+<p>As of right now, we’ve only printed the data to our screen. We haven’t “saved” it at all. What we need to do next is “assign” it to a tibble.</p>
 <p>It’s kind of weird, but the convention in R is to work from right to left. We <em>name</em> things before we fill them with stuff. So, to create a data frame, the structure is this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new_data_frame &lt;-<span class="st"> </span>stuff_going_into_new_data_frame</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="import.html#cb5-1"></a>new_data_frame &lt;-<span class="st"> </span>stuff_going_into_new_data_frame</span></code></pre></div>
 <p>We have our stuff as the output of our <code>read_csv()</code> function … now we need to assign it to a data frame we will call <code>wells</code>.</p>
 <ul>
 <li>Edit your existing code chunk to look like this:</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wells &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data-raw/WellRpts_County_Use.csv&quot;</span>, <span class="dt">skip =</span> <span class="dv">3</span>)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="import.html#cb6-1"></a>ratings &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data-raw/CAMPRATE_2019.csv&quot;</span>)</span></code></pre></div>
 <p>Run that chunk and two things happen:</p>
+<blockquote>
+<p>THIS IS WHERE I STOPPED</p>
+</blockquote>
 <ul>
-<li>We no longer see the result printed to the screen. That’s because we created a data frame instead.</li>
-<li>In the <strong>Environment</strong> tab at the top-right of RStudio, you’ll see <code>wells</code> listed.
+<li>We no longer see the result printed to the screen. That’s because we created a data frame instead of printing it to the screen.</li>
+<li>In the <strong>Environment</strong> tab at the top-right of RStudio, you’ll see <code>ratings</code> listed.
 <ul>
-<li>Click on the blue play button next to wells and it will expand to show you a summary of the columns.</li>
+<li>Click on the blue play button next to ratings and it will expand to show you a summary of the columns.</li>
 <li>Click on the name and it will open a “View” of the data in another window, so you can look at it, sort of like a spreadsheet.</li>
 </ul></li>
 </ul>
@@ -695,11 +736,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -707,12 +750,11 @@ gitbook.start({
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -724,6 +766,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

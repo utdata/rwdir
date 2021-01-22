@@ -4,6 +4,10 @@ Let's get this party started.
 
 > NOTE: R and RStudio are already installed on lab computers.
 
+## Mac vs PC
+
+I use a Mac in class and in my examples. I'm a big fan of using keyboard commands to do operations in any program, but I reference this from a Mac perspective. So if I say use *Cmd+S* or *Command+S* to save, that might be *Cntl+S* or *Control+S* on a PC. The letters may not be the same on a PC, but you can usually figure it out by look at menu items in RStudio to figure out the PC command.
+
 ## Installing R
 
 Our first task is to install the [R programming language](https://www.r-project.org/) onto your computer. There are a number of "mirrors" which have the software.
@@ -17,11 +21,13 @@ Our first task is to install the [R programming language](https://www.r-project.
 
 Here's hoping it will be self explanatory after that.
 
+R will install as a program that you can launch, but we won't ever lauch it that way. We'll use RStudio, which is next.
+
 ## Installing RStudio
 
 [RStudio](https://www.rstudio.com/) is an "integrated development environment" -- or IDE -- for programming in R. Basically, it's the program you will use when doing work for this class.
 
-- Go to <https://www.rstudio.com> and find the "Download RStudio" button.
+- Go to <https://www.rstudio.com> and find the "Download" button.
 - Find the "Free" versions and find the installer for your operating system and download it.
 - Install it. Should be like installing any other program.
 

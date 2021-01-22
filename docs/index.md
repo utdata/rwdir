@@ -1,20 +1,22 @@
 --- 
 title: "Reporting with Data in R"
 author: "Christian McDonald"
-date: "2019-05-23"
+date: "2021-01-21"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
-github-repo: utdata/rwd-r-reporting-with-data
-description: "Reporting with Data in R is a series of lessons and instructions used in the Spring 2019 course J327D REPORTING WITH DATA in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald."
+github-repo: utdata/rwdir
+description: "Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice."
 ---
 
 # About this class {-}
 
-Reporting with Data in R is a series of lessons and instructions used in the Spring 2019 course J327D REPORTING WITH DATA in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by me, Christian McDonald.
+> NOTE: This class is in the middle of a rewrite. The course is changing, as well as the pubished URL. Thing will break.
+
+Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by me, Christian McDonald.
 
 There is a [companion Github repository](https://github.com/utdata/rwd-r-assignments) of mastery lessons that goes along with this book.
 
@@ -24,11 +26,11 @@ R is a super powerful, open-source programming language for data that is deep wi
 
 ## About this book {-}
 
-There is always more than one way to do things in R. This book is an opinionated collection of lessons intended to teach students new to progamming and R for the expressed act of committing journalism. As a beginner course, I strive to make it as simple as possible, which means I may not go into detail about alternative (and possibly better) ways to accomplish tasks in favor of staying in the Tidyverse and reducing options to simplify understanding.
+There is always more than one way to do things in R. This book is a [Tidyverse](https://www.tidyverse.org/)-oriented opinionated collection of lessons intended to teach students new to progamming and R for the expressed act of committing journalism. As a beginner course, I strive to make it as simple as possible, which means I may not go into detail about alternative (and possibly better) ways to accomplish tasks in favor of staying in the Tidyverse and reducing options to simplify understanding.
 
-This book was written for a specific semester of a class that changes every semester. It was my first time to introduce R to beginning students. While the experience went well, there were pros and cons to using R in a beginning data class and I continue to experiment with material. There are learnings from this first attempt that need to be incorporated into this book that have not been, and I'm not sure when I'll get back to it.
+This is the second version of this book. The first version was used in Spring 2019, and it was my first time to introduce R to beginning students. While the experience went well, there were pros and cons to using R in a beginning data class and I continue to experiment with material. I hope there learnings from that first attempt included in this book.
 
-My next running of the course (Summer 2019) will not use R and will instead focus on a series of other tools, including [Workbench](http://workbenchdata.com/), which allows for a similar scripted workflow but without the same level of coding.
+Since that class I've chosen to use a different web-based tool — [Workbench](http://workbenchdata.com/) — which allows for a similar scripted workflow but without the same level of coding. I still love that tool, but this is an attempt to get back into R at a beginner level.
 
 ## About the author {-}
 
@@ -51,6 +53,3 @@ This text stands upon the shoulders of giants and by design does not cover all a
 - [The R Graph Gallery](https://www.r-graph-gallery.com/) another place to see examples.
 - [R for Journalists](http://learn.r-journalism.com/en/) site by Andrew Tran, a reporter at the Washington Post. A series of videos and tutorials on using R in a journalism setting.
 - [Practical R for Journalism](https://www.crcpress.com/Practical-R-for-Mass-Communication-and-Journalism/Machlis/p/book/9781138726918) by Sharon Machlis, an editor with PC World and related publications, she is a longtime proponent of using R in journalism.
-
-
-

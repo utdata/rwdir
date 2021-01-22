@@ -1,39 +1,38 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 10 Joins | Reporting with Data in R</title>
-  <meta name="description" content="Chapter 10 Joins | Reporting with Data in R is a series of lessons and instructions used in the Spring 2019 course J327D REPORTING WITH DATA in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald.">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta name="description" content="Chapter 10 Joins | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 10 Joins | Reporting with Data in R" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="Chapter 10 Joins | Reporting with Data in R is a series of lessons and instructions used in the Spring 2019 course J327D REPORTING WITH DATA in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald." />
-  <meta name="github-repo" content="utdata/rwd-r-reporting-with-data" />
+  <meta property="og:description" content="Chapter 10 Joins | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <meta name="github-repo" content="utdata/rwdir" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 10 Joins | Reporting with Data in R" />
   
-  <meta name="twitter:description" content="Chapter 10 Joins | Reporting with Data in R is a series of lessons and instructions used in the Spring 2019 course J327D REPORTING WITH DATA in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald." />
+  <meta name="twitter:description" content="Chapter 10 Joins | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
   
 
-<meta name="author" content="Christian McDonald">
+<meta name="author" content="Christian McDonald" />
 
 
-<meta name="date" content="2019-05-23">
+<meta name="date" content="2021-01-21" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="reordering-factors.html">
-<link rel="next" href="census.html">
+<link rel="prev" href="reordering-factors.html"/>
+<link rel="next" href="census.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -41,6 +40,7 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 
 
@@ -48,6 +48,11 @@
 
 
 
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
   p.caption {
     color: #777;
@@ -60,41 +65,68 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 </head>
@@ -118,9 +150,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-resources"><i class="fa fa-check"></i>Other resources</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="install.html"><a href="install.html"><i class="fa fa-check"></i><b>1</b> Install Party</a><ul>
-<li class="chapter" data-level="1.1" data-path="install.html"><a href="install.html#installing-r"><i class="fa fa-check"></i><b>1.1</b> Installing R</a></li>
-<li class="chapter" data-level="1.2" data-path="install.html"><a href="install.html#installing-rstudio"><i class="fa fa-check"></i><b>1.2</b> Installing RStudio</a></li>
-<li class="chapter" data-level="1.3" data-path="install.html"><a href="install.html#class-project-folder"><i class="fa fa-check"></i><b>1.3</b> Class project folder</a></li>
+<li class="chapter" data-level="1.1" data-path="install.html"><a href="install.html#mac-vs-pc"><i class="fa fa-check"></i><b>1.1</b> Mac vs PC</a></li>
+<li class="chapter" data-level="1.2" data-path="install.html"><a href="install.html#installing-r"><i class="fa fa-check"></i><b>1.2</b> Installing R</a></li>
+<li class="chapter" data-level="1.3" data-path="install.html"><a href="install.html#installing-rstudio"><i class="fa fa-check"></i><b>1.3</b> Installing RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="install.html"><a href="install.html#class-project-folder"><i class="fa fa-check"></i><b>1.4</b> Class project folder</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a><ul>
 <li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#rstudio-tour"><i class="fa fa-check"></i><b>2.1</b> RStudio tour</a></li>
@@ -147,14 +180,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="3.3.1" data-path="import.html"><a href="import.html#the-r-package-environment"><i class="fa fa-check"></i><b>3.3.1</b> The R Package environment</a></li>
 <li class="chapter" data-level="3.3.2" data-path="import.html"><a href="import.html#installing-and-using-packages"><i class="fa fa-check"></i><b>3.3.2</b> Installing and using packages</a></li>
 <li class="chapter" data-level="3.3.3" data-path="import.html"><a href="import.html#load-the-libraries"><i class="fa fa-check"></i><b>3.3.3</b> Load the libraries</a></li>
+<li class="chapter" data-level="3.3.4" data-path="import.html"><a href="import.html#create-a-folder-for-your-data"><i class="fa fa-check"></i><b>3.3.4</b> Create a folder for your data</a></li>
 </ul></li>
 <li class="chapter" data-level="3.4" data-path="import.html"><a href="import.html#lets-get-some-data"><i class="fa fa-check"></i><b>3.4</b> Let’s get some data</a><ul>
 <li class="chapter" data-level="3.4.1" data-path="import.html"><a href="import.html#inspect-the-data"><i class="fa fa-check"></i><b>3.4.1</b> Inspect the data</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="import.html"><a href="import.html#import-csv-as-data"><i class="fa fa-check"></i><b>3.5</b> Import csv as data</a><ul>
-<li class="chapter" data-level="3.5.1" data-path="import.html"><a href="import.html#help-files"><i class="fa fa-check"></i><b>3.5.1</b> Help files</a></li>
-</ul></li>
-<li class="chapter" data-level="3.6" data-path="import.html"><a href="import.html#assign-our-data-to-a-data-frame"><i class="fa fa-check"></i><b>3.6</b> Assign our data to a data frame</a></li>
+<li class="chapter" data-level="3.5" data-path="import.html"><a href="import.html#import-csv-as-data"><i class="fa fa-check"></i><b>3.5</b> Import csv as data</a></li>
+<li class="chapter" data-level="3.6" data-path="import.html"><a href="import.html#assign-our-data-to-a-tibble"><i class="fa fa-check"></i><b>3.6</b> Assign our data to a tibble</a></li>
 <li class="chapter" data-level="3.7" data-path="import.html"><a href="import.html#inspect-the-data-1"><i class="fa fa-check"></i><b>3.7</b> Inspect the data</a><ul>
 <li class="chapter" data-level="3.7.1" data-path="import.html"><a href="import.html#write-notes-about-things-to-change"><i class="fa fa-check"></i><b>3.7.1</b> Write notes about things to change</a></li>
 </ul></li>
@@ -400,16 +432,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="15.3" data-path="verbs.html"><a href="verbs.html#aggregation"><i class="fa fa-check"></i><b>15.3</b> Aggregation</a></li>
 <li class="chapter" data-level="15.4" data-path="verbs.html"><a href="verbs.html#math"><i class="fa fa-check"></i><b>15.4</b> Math</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html"><i class="fa fa-check"></i>Notes about future sessions</a><ul>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#maps"><i class="fa fa-check"></i>Maps</a></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#joins-1"><i class="fa fa-check"></i>Joins</a></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#data-packages"><i class="fa fa-check"></i>Data packages</a><ul>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#twitter"><i class="fa fa-check"></i>Twitter</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#tools-for-pdfs"><i class="fa fa-check"></i>Tools for PDFs</a></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#more-graphics-ideas"><i class="fa fa-check"></i>More graphics ideas</a></li>
-<li class="chapter" data-level="" data-path="notes-about-future-sessions.html"><a href="notes-about-future-sessions.html#matt-waite-ideas-yet-to-incorporate"><i class="fa fa-check"></i>Matt Waite ideas yet to incorporate</a></li>
-</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -453,14 +475,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="download-the-data" class="section level3">
 <h3><span class="header-section-number">10.2.1</span> Download the data</h3>
 <p>You can download the files we are using based on their URLs in a Github repository. Once you’ve run this block of code, comment out the three <code>download.file()</code> lines by putting a <code>#</code> at the beginning. You really only need to download the files once.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Downloads the files. Convert to comments once you&#39;ve done this:</span>
-<span class="kw">download.file</span>(<span class="st">&quot;https://github.com/utdata/rwd-mastery-assignments/blob/master/football-compare/penalties.csv?raw=true&quot;</span>, <span class="st">&quot;data-raw/penalties.csv&quot;</span>)
-<span class="kw">download.file</span>(<span class="st">&quot;https://github.com/utdata/rwd-mastery-assignments/blob/master/football-compare/scoring_offense.csv?raw=true&quot;</span>, <span class="st">&quot;data-raw/scoring_offense.csv&quot;</span>)
-<span class="kw">download.file</span>(<span class="st">&quot;https://github.com/utdata/rwd-mastery-assignments/blob/master/football-compare/third_down_conversion.csv?raw=true&quot;</span>, <span class="st">&quot;data-raw/third_down_conversion.csv&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="joins.html#cb88-1"></a><span class="co"># Downloads the files. Convert to comments once you&#39;ve done this:</span></span>
+<span id="cb88-2"><a href="joins.html#cb88-2"></a><span class="kw">download.file</span>(<span class="st">&quot;https://github.com/utdata/rwd-mastery-assignments/blob/master/football-compare/penalties.csv?raw=true&quot;</span>, <span class="st">&quot;data-raw/penalties.csv&quot;</span>)</span>
+<span id="cb88-3"><a href="joins.html#cb88-3"></a><span class="kw">download.file</span>(<span class="st">&quot;https://github.com/utdata/rwd-mastery-assignments/blob/master/football-compare/scoring_offense.csv?raw=true&quot;</span>, <span class="st">&quot;data-raw/scoring_offense.csv&quot;</span>)</span>
+<span id="cb88-4"><a href="joins.html#cb88-4"></a><span class="kw">download.file</span>(<span class="st">&quot;https://github.com/utdata/rwd-mastery-assignments/blob/master/football-compare/third_down_conversion.csv?raw=true&quot;</span>, <span class="st">&quot;data-raw/third_down_conversion.csv&quot;</span>)</span></code></pre></div>
 <p>Import the three files:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># import the files</span>
-scoring &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data-raw/scoring_offense.csv&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">clean_names</span>()
-thirddown &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data-raw/third_down_conversion.csv&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">clean_names</span>()</code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="joins.html#cb89-1"></a><span class="co"># import the files</span></span>
+<span id="cb89-2"><a href="joins.html#cb89-2"></a>scoring &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data-raw/scoring_offense.csv&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">clean_names</span>()</span>
+<span id="cb89-3"><a href="joins.html#cb89-3"></a>thirddown &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data-raw/third_down_conversion.csv&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">clean_names</span>()</span></code></pre></div>
 </div>
 </div>
 <div id="the-story" class="section level2">
@@ -503,19 +525,19 @@ thirddown &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 <p>To make our plot, we need to join the two data sets on common fields. We want to start with the <code>scoring</code> data frame, and then add all the columns from the <code>thirddown</code> data frame. We want to do this based on the same year and team.</p>
 <p>There are several types of <a href="https://dplyr.tidyverse.org/reference/join.html">joins</a>. We describe these as left vs right based on which table we reference first (which is the left one). In the figure below, we can see which matching records are retained based on the type of join we use.</p>
 <div class="figure">
-<img src="images/joins-description.png" alt="Types of joins" />
+<img src="images/joins-description.png" alt="" />
 <p class="caption">Types of joins</p>
 </div>
 <p>In our case we only want records that match on both <code>year</code> and <code>name</code>, so we’ll use an <code>inner_join()</code>.</p>
 <p>The syntax works like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new_dataframe &lt;-<span class="st"> </span><span class="er">*</span><span class="kw">_join</span>(first_df, second_df, <span class="dt">by =</span> field_name_to_join_on)</code></pre></div>
-<p>If you want to use more than one field in the <em>by</em> part like we do, then you define them in a concatenated list: <code>by = &quot;field1&quot;, &quot;field2&quot;)</code>.</p>
-<p>If the fields you are joining on are not named the same, then you can define the relationships: <code>by = c(&quot;a&quot; = &quot;b&quot;)</code>.</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="joins.html#cb90-1"></a>new_dataframe &lt;-<span class="st"> </span><span class="er">*</span><span class="kw">_join</span>(first_df, second_df, <span class="dt">by =</span> field_name_to_join_on)</span></code></pre></div>
+<p>If you want to use more than one field in the <em>by</em> part like we do, then you define them in a concatenated list: <code>by = "field1", "field2")</code>.</p>
+<p>If the fields you are joining on are not named the same, then you can define the relationships: <code>by = c("a" = "b")</code>.</p>
 <p>For our project we want to use an <code>inner_join()</code>. Add the code below to your notebook along with notes describing that you are joining the two data sets:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">offense &lt;-<span class="st"> </span><span class="kw">inner_join</span>(scoring, thirddown, <span class="dt">by=</span><span class="kw">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;name&quot;</span>))
-
-<span class="co"># peak at the new data frame</span>
-offense <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>()</code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="joins.html#cb91-1"></a>offense &lt;-<span class="st"> </span><span class="kw">inner_join</span>(scoring, thirddown, <span class="dt">by=</span><span class="kw">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;name&quot;</span>))</span>
+<span id="cb91-2"><a href="joins.html#cb91-2"></a></span>
+<span id="cb91-3"><a href="joins.html#cb91-3"></a><span class="co"># peak at the new data frame</span></span>
+<span id="cb91-4"><a href="joins.html#cb91-4"></a>offense <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>()</span></code></pre></div>
 <p>So, to break this down:</p>
 <ul>
 <li>Our new combined dataframe will be called <code>offense</code>.</li>
@@ -528,23 +550,23 @@ offense <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">
 <div id="build-our-scatterplot" class="section level2">
 <h2><span class="header-section-number">10.6</span> Build our scatterplot</h2>
 <p>We’re trying to show the relationship between <code>conversion_percent</code> and <code>points_g</code>, so we can use those as our x and y values in a <code>geom_point()</code> graphic.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">offense <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() </code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="joins.html#cb92-1"></a>offense <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb92-2"><a href="joins.html#cb92-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb92-3"><a href="joins.html#cb92-3"></a><span class="st">  </span><span class="kw">geom_point</span>() </span></code></pre></div>
 <div class="figure">
-<img src="images/join-scatter.png" alt="First scatterplot" />
+<img src="images/join-scatter.png" alt="" />
 <p class="caption">First scatterplot</p>
 </div>
 <div id="add-a-fit-line" class="section level3">
 <h3><span class="header-section-number">10.6.1</span> Add a fit line</h3>
 <p>We can see by the shape of the dots that indeed, as conversion percentage goes up, points go up.</p>
 <p>In statistics, there is something called a fit line – the line that predicts what happens given the data. There’s lot of fit lines we can use but the easiest to understand is a straight line. It’s like linear algebra – for each increase or decrease in x, we get an increase or decrease in x. To get the fit line, we add <a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html"><code>geom_smooth()</code></a> with a method.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">offense <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span>lm, <span class="dt">se=</span><span class="ot">FALSE</span>) <span class="co"># adds fit line</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="joins.html#cb93-1"></a>offense <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb93-2"><a href="joins.html#cb93-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g)) <span class="op">+</span></span>
+<span id="cb93-3"><a href="joins.html#cb93-3"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb93-4"><a href="joins.html#cb93-4"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span>lm, <span class="dt">se=</span><span class="ot">FALSE</span>) <span class="co"># adds fit line</span></span></code></pre></div>
 <div class="figure">
-<img src="images/join-scatter-fitline.png" alt="First scatterplot" />
+<img src="images/join-scatter-fitline.png" alt="" />
 <p class="caption">First scatterplot</p>
 </div>
 <p>The <code>lm</code> means linear method. The <code>se=FALSE</code> removes the confidence interval (based on the standard error) of the prediction. See the <a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html"><code>geom_smooth()</code></a> for more information.</p>
@@ -552,7 +574,7 @@ offense <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">
 <div id="run-a-correlation-test" class="section level3">
 <h3><span class="header-section-number">10.6.2</span> Run a correlation test</h3>
 <p>So we can see how important third down conversions are to scoring. But still, how important? For this, we’re going to dip our toes into statistics. We want to find out the correlation coefficient (specifically the <a href="https://statistics.laerd.com/statistical-guides/pearson-correlation-coefficient-statistical-guide.php">Pearson Correlation Coefficient</a>. That will tell us how related our two numbers are. We do that using <code>cor.test()</code>, which is part of R core.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor.test</span>(offense<span class="op">$</span>conversion_percent, offense<span class="op">$</span>points_g)</code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="joins.html#cb94-1"></a><span class="kw">cor.test</span>(offense<span class="op">$</span>conversion_percent, offense<span class="op">$</span>points_g)</span></code></pre></div>
 <p>The result is:</p>
 <pre><code>    Pearson&#39;s product-moment correlation
 
@@ -565,7 +587,7 @@ sample estimates:
       cor 
 0.6569602 </code></pre>
 <p>That bottom number is the key. If we square it, we then know exactly how much of scoring can be predicted by third down conversions.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="fl">0.6569602</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.6569602</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="joins.html#cb96-1"></a>(<span class="fl">0.6569602</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.6569602</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span></code></pre></div>
 <p>Which gets us 43.15967.</p>
 <p>So what that says is that 43 percent of a team’s score is predicted by their third down percentage. That’s nearly half. In social science, anything above 10 percent is shockingly predictive. So this is huge if this were human behavior research. In football, it’s not that surprising, but we now know how much is predicted.</p>
 </div>
@@ -573,17 +595,17 @@ sample estimates:
 <div id="how-does-texas-compare" class="section level2">
 <h2><span class="header-section-number">10.7</span> How does Texas compare?</h2>
 <p>Let’s compare how Texas does vs the field by plotting their results on top of the national stats. Create a data frame of the Texas data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tx &lt;-<span class="st"> </span>offense <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(name <span class="op">==</span><span class="st"> &quot;Texas&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="joins.html#cb97-1"></a>tx &lt;-<span class="st"> </span>offense <span class="op">%&gt;%</span></span>
+<span id="cb97-2"><a href="joins.html#cb97-2"></a><span class="st">  </span><span class="kw">filter</span>(name <span class="op">==</span><span class="st"> &quot;Texas&quot;</span>)</span></code></pre></div>
 <p>And now we’ll add some layers to our ggplot graphic. We’re also editing our original <code>geom_point()</code> and <code>geom_smooth()</code> layers to make them light grey so that the Texas plots stand out more.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">offense <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="st">&quot;light grey&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="co"># adds light grey color</span>
-<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span>lm, <span class="dt">se=</span><span class="ot">FALSE</span>, <span class="dt">color =</span> <span class="st">&quot;light grey&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="co"># adds light grey color</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> tx, <span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g), <span class="dt">color =</span> <span class="st">&quot;#bf5700&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="co"># adds Texas points colored burnt orange, of course</span>
-<span class="st">  </span><span class="kw">geom_text</span>(<span class="dt">data =</span> tx, <span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g, <span class="dt">label =</span> year)) <span class="co"># adds year labels to see</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="joins.html#cb98-1"></a>offense <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb98-2"><a href="joins.html#cb98-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g)) <span class="op">+</span></span>
+<span id="cb98-3"><a href="joins.html#cb98-3"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="st">&quot;light grey&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="co"># adds light grey color</span></span>
+<span id="cb98-4"><a href="joins.html#cb98-4"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span>lm, <span class="dt">se=</span><span class="ot">FALSE</span>, <span class="dt">color =</span> <span class="st">&quot;light grey&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="co"># adds light grey color</span></span>
+<span id="cb98-5"><a href="joins.html#cb98-5"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> tx, <span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g), <span class="dt">color =</span> <span class="st">&quot;#bf5700&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="co"># adds Texas points colored burnt orange, of course</span></span>
+<span id="cb98-6"><a href="joins.html#cb98-6"></a><span class="st">  </span><span class="kw">geom_text</span>(<span class="dt">data =</span> tx, <span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g, <span class="dt">label =</span> year)) <span class="co"># adds year labels to see</span></span></code></pre></div>
 <div class="figure">
-<img src="images/join-scatter-tx.png" alt="Adding Texas to plot" />
+<img src="images/join-scatter-tx.png" alt="" />
 <p class="caption">Adding Texas to plot</p>
 </div>
 <p>This is good, but the labels for the year are sitting on top of the values. There is an R package called <a href="https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html">ggrepel</a> that will move those labels off the numbers, which we’ll use with our next set of changes. You might have to run <code>install.packages('ggrepel')</code> to make this work.</p>
@@ -594,20 +616,20 @@ sample estimates:
 <li>Add <code>labs()</code> for a title and such to finish out our graphic.</li>
 <li>Add <code>theme_minimal()</code> just to improve the looks.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="st">&quot;light grey&quot;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span>lm, <span class="dt">se=</span><span class="ot">FALSE</span>, <span class="dt">color =</span> <span class="st">&quot;light grey&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> tx, <span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g), <span class="dt">color =</span> <span class="st">&quot;#bf5700&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">data =</span> tx, <span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g), <span class="dt">method=</span>lm, <span class="dt">se=</span>F, <span class="dt">color =</span> <span class="st">&quot;#bf5700&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_text_repel</span>(<span class="dt">data =</span> tx, <span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g, <span class="dt">label =</span> year)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Third-down conversion rate&quot;</span>,
-       <span class="dt">y=</span><span class="st">&quot;Points per game&quot;</span>,
-       <span class="dt">title=</span><span class="st">&quot;Texas&#39; third down success predicts scoreboard&quot;</span>,
-       <span class="dt">subtitle=</span><span class="st">&quot;In 2018 the Longhorns were 18th in the FBS for third down conversions.&quot;</span>,
-       <span class="dt">caption=</span><span class="st">&quot;Source: NCAA&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="joins.html#cb99-1"></a>  <span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g)) <span class="op">+</span></span>
+<span id="cb99-2"><a href="joins.html#cb99-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="st">&quot;light grey&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb99-3"><a href="joins.html#cb99-3"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span>lm, <span class="dt">se=</span><span class="ot">FALSE</span>, <span class="dt">color =</span> <span class="st">&quot;light grey&quot;</span>) <span class="op">+</span></span>
+<span id="cb99-4"><a href="joins.html#cb99-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> tx, <span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g), <span class="dt">color =</span> <span class="st">&quot;#bf5700&quot;</span>) <span class="op">+</span></span>
+<span id="cb99-5"><a href="joins.html#cb99-5"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">data =</span> tx, <span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g), <span class="dt">method=</span>lm, <span class="dt">se=</span>F, <span class="dt">color =</span> <span class="st">&quot;#bf5700&quot;</span>) <span class="op">+</span></span>
+<span id="cb99-6"><a href="joins.html#cb99-6"></a><span class="st">  </span><span class="kw">geom_text_repel</span>(<span class="dt">data =</span> tx, <span class="kw">aes</span>(<span class="dt">x =</span> conversion_percent, <span class="dt">y =</span> points_g, <span class="dt">label =</span> year)) <span class="op">+</span></span>
+<span id="cb99-7"><a href="joins.html#cb99-7"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Third-down conversion rate&quot;</span>,</span>
+<span id="cb99-8"><a href="joins.html#cb99-8"></a>       <span class="dt">y=</span><span class="st">&quot;Points per game&quot;</span>,</span>
+<span id="cb99-9"><a href="joins.html#cb99-9"></a>       <span class="dt">title=</span><span class="st">&quot;Texas&#39; third down success predicts scoreboard&quot;</span>,</span>
+<span id="cb99-10"><a href="joins.html#cb99-10"></a>       <span class="dt">subtitle=</span><span class="st">&quot;In 2018 the Longhorns were 18th in the FBS for third down conversions.&quot;</span>,</span>
+<span id="cb99-11"><a href="joins.html#cb99-11"></a>       <span class="dt">caption=</span><span class="st">&quot;Source: NCAA&quot;</span>) <span class="op">+</span></span>
+<span id="cb99-12"><a href="joins.html#cb99-12"></a><span class="st">  </span><span class="kw">theme_minimal</span>()</span></code></pre></div>
 <div class="figure">
-<img src="images/join-scatter-tx-finished.png" alt="Finished Texas graphic" />
+<img src="images/join-scatter-tx-finished.png" alt="" />
 <p class="caption">Finished Texas graphic</p>
 </div>
 </div>
@@ -615,9 +637,9 @@ sample estimates:
 <h2><span class="header-section-number">10.8</span> Correlaton test for Texas</h2>
 <p>It looks like Texas tracks pretty much along the national average.</p>
 <p>Let’s do the correlation test for Texas just to compare.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor.test</span>(tx<span class="op">$</span>conversion_percent, tx<span class="op">$</span>points_g)</code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="joins.html#cb100-1"></a><span class="kw">cor.test</span>(tx<span class="op">$</span>conversion_percent, tx<span class="op">$</span>points_g)</span></code></pre></div>
 <p>Which yields a correlation of 0.685967. Let’s see how much third-down conversions predict Texas’ scoring per game.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="fl">0.685967</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.685967</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="joins.html#cb101-1"></a>(<span class="fl">0.685967</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.685967</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span></code></pre></div>
 <p>Which gets us 47.1%, not too far from the national average of 43.2%.</p>
 </div>
 <div id="practice-1-compare-penn-state" class="section level2">
@@ -646,17 +668,17 @@ sample estimates:
 <li>And each data frame has 1000 rows of data.</li>
 </ul>
 <p>If you want then all in the same file you would do this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">combined &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(fy2016, fy2017, fy2018)</code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="joins.html#cb102-1"></a>combined &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(fy2016, fy2017, fy2018)</span></code></pre></div>
 <p>The new data frame <code>combined</code> would have all the same columns, but would have 3000 rows of data.</p>
 <div id="combine-data-with-a-group" class="section level3">
 <h3><span class="header-section-number">10.11.1</span> Combine data with a group</h3>
 <p>If you needed to know which data frame each row came from, you can name a “group” for each data frame, and then merge them. We will name our groups for each year they come from.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">combined &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(
-  <span class="st">&quot;2016&quot;</span> =<span class="st"> </span>fy2016,
-  <span class="st">&quot;2017&quot;</span> =<span class="st"> </span>fy2017,
-  <span class="st">&quot;2018&quot;</span> =<span class="st"> </span>fy2018,
-  <span class="dt">.id =</span> <span class="st">&quot;year&quot;</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="joins.html#cb103-1"></a>combined &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(</span>
+<span id="cb103-2"><a href="joins.html#cb103-2"></a>  <span class="st">&quot;2016&quot;</span> =<span class="st"> </span>fy2016,</span>
+<span id="cb103-3"><a href="joins.html#cb103-3"></a>  <span class="st">&quot;2017&quot;</span> =<span class="st"> </span>fy2017,</span>
+<span id="cb103-4"><a href="joins.html#cb103-4"></a>  <span class="st">&quot;2018&quot;</span> =<span class="st"> </span>fy2018,</span>
+<span id="cb103-5"><a href="joins.html#cb103-5"></a>  <span class="dt">.id =</span> <span class="st">&quot;year&quot;</span></span>
+<span id="cb103-6"><a href="joins.html#cb103-6"></a>)</span></code></pre></div>
 <p>With this you would end up with a new data frame called <code>combined</code>, but it would have four columns: year, donor_type, date, amount. It would have all 3000 rows. All the rows that were pulled from <code>fy2016</code> would have a <code>year</code> of “2016”, and so on.</p>
 <p>It’s a good way to note which file the data came from, and especially helpful if they are from different years, like the example.</p>
 <p>It is admittedly weird that you name the groups before you specify the data frame the come from, but specify <code>.id</code> before the name of your new column. <code>¯\_(ツ)_/¯</code></p>
@@ -675,11 +697,13 @@ sample estimates:
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -687,12 +711,11 @@ gitbook.start({
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -704,6 +727,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

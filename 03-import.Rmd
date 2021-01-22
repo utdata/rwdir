@@ -8,7 +8,7 @@
 - Learn how to import CSV files.
 - Introduce the Data Frame/Tibble.
 
-We will do this through working with well drilling reports from the Texas Water Development board. We'll pull reports from counties in the Austin MSA and be able to see the kinds of wells dug, where they are and the pace of drilling.
+We will do this through working with School Ratings data from the Texas Education Agency (the same data we used with the Sheets lesson.) We'll download the data again.
 
 ## Data types
 
@@ -17,9 +17,9 @@ After installing and launching RStudio, the next trick is to import data. Depend
 In this class, we will primarily be importing Excel files, CSVs (Comma Separated Value) and APIs (Application Programming Interface).
 
 - CSVs are a kind of lowest-common-denominator for data. Most any database or program can import or export them.
-- Excel files are good, but are often messy because humans get involved. There are often multiple header rows, columns used in multiple ways, notes added, etc. Just know you might have to clean them up before using them.
+- Excel files are good, but are often messy because humans get involved. There often have multiple header rows, columns used in multiple ways, notes added, etc. Just know you might have to clean them up before using them.
 - APIs are systems designed to respond to programming. In the data world, we often use the APIs by writing a query to ask a system to return a selection of data. By definition, the data is well structured. You can often determine the file type of the output as part of the API call, including ...
-- JSON (or JavaScript Object Notation) is the data format preferred by JavaScript. R can read it, too. It is often the output format of APIs, and prevalent enough that you need to understand how it works. We'll get into it more later.
+- JSON (or JavaScript Object Notation) is the data format preferred by JavaScript. R can read it, too. It is often the output format of APIs, and prevalent enough that you need to understand how it works. We'll get into that later in semester.
 
 Don't get me wrong ... there are plenty of other data types and connections available through R, but those are the ones we'll deal with most in the class.
 
@@ -28,14 +28,12 @@ Don't get me wrong ... there are plenty of other data types and connections avai
 The Checking Your Data section of this [DataCamp tutorial](https://www.datacamp.com/community/tutorials/r-data-import-tutorial) has a good outline of what makes good data, but in general it should:
 
 - Have a single header row with well-formed column names.
-    + Once column name for each column. No merged cells.
+    + One column name for each column. No merged cells.
     + Short names are better than long ones.
     + Spaces in names make them harder to work with. Use and `_` or `.` between words.
 - Remove notes or comments from the files.
 - Each column should have the same kind of data: numbers vs words, etc.
-- Each row should be an 
-
-In our first lesson, we'll be using a CSV file that has several rows of description at the top. We'll be able to skip those description lines when we import.
+- Each row should be a single thing called an "observation". The columns should describe that observation.
 
 ## Create a new project
 
@@ -43,11 +41,11 @@ We did this in our first lesson, but here are the basic steps:
 
 - Launch RStudio
 - Use the `+R` button to create a **New Project** in a **New Directory**
-- Name the project `yourfirstname-wells` and put it in your `~/Documents/rwd` folder.
+- Name the project `yourfirstname-ratings` and put it in your `~/Documents/rwd` folder.
 - Use the `+` button to use **R Notebook** to start a new notebook.
-- Change the title to "Wells drilled in Austin MSA".
+- Change the title to "TEA School Ratings".
 - Delete the other boilerplate text.
-- Save the file as `01-wells-import.Rmd`.
+- Save the file as `01-ratings.Rmd`.
 
 ### The R Package environment
 
@@ -65,15 +63,17 @@ There are also a series of useful [cheatsheets](https://www.rstudio.com/resource
 
 There are two steps to using an R package:
 
-- **Install the package** using `install.packages("package_name")`. You only have to do this once for each computer, so I usually do it using the R Console instead of a script.
+- **Install the package** using `install.packages("package_name"). You only have to do this once for each computer, so I usually do it using the R Console instead of in notebook.
 - **Include the library** using `library(package_name)`. This has to be done for each Notebook or script that uses it, so it is usually one of the first things in the notebook.
 
-We're going to install several packages we will use in the Wells project. To do this, we are going to use the **Console**, which we haven't talked about much.
+We're going to install several packages we will use in the ratings project. To do this, we are going to use the **Console**, which we haven't talked about much yet.
 
 ![The Console and Terminal](images/import-console.png){width=600px}
 
 - Use the image above to orient yourself to the R Console and Terminal.
 - In the console, type in `install.packages("tidyverse")` and hit return.
+  + As you type, you will see the Console will give you hints on what you need. You can use the arrow keys to select one and hit Tab to complete that command.
+- If it asks you to install "from source", type `Yes` and hit return.
 
 You'll see a bunch of commands work through your Console. Remember that you only have to install a package to your computer once.
 
@@ -85,7 +85,7 @@ install.packages("janitor")
 
 We'll use some commands from janitor to clean up our data column names, among other things. A good reference to learn more is the [janitor vignette](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html).
 
-I start _every_ data project with these two packages.
+You only have to install the packages once on your computer (though you have to load them every time, which is explained below).
 
 ### Load the libraries
 
@@ -94,46 +94,71 @@ Next, we're going to tell our R Notebook to use these two libraries.
 - After the metadata at the top of your notebook, use *Cmd+option+i* to insert an R code chunk.
 - In that chunk, type in the two libraries and run the code block with *Cmd+shift+Return*.
 
+This is the code you need:
+
+```text
+library(tidyverse)
+library(janitor)
+```
+
 It will look like this:
 
 ![Libraries imported](images/import-libraries.png){width=600px}
 
+### Create a folder for your data
+
+I want you to create a folder called `data-raw` in your project folder. I'm going to explain three ways, but you only need to do one of them.
+
+#### Using Terminal
+
+- In the bottom part of the RStudio window next to the Console window is another one called **Terminal**. Click on that and you have a method to talk to your computer using typed commands.
+- Once you click on that and you'll get a flashing prompt after a `$`. Type in `mkdir data-raw` and hit return.
+
+![Terminal mkdir](images/terminal-mkdir.png)
+
+Once you hit return, the prompt will return with no errors (hopefully). But if you look at your files window to the right you'll see you created "made" a new directory (hence `mkdir`, as in make directory.)
+
+![Directory made](images/terminal-mkdir-done.png)
+
+That was pretty easy even if a bit technical. Welcome to the power of **Terminal**. It's quicker than the alternate method.
+
+#### Make a directory using the Files menu
+
+In the **Files** pane at the bottom-right of RStudio, there is a row of commands at the top, including **New Folder**.
+
+- Click on **New Folder**
+- Enter the name of the folder you want to create. `data-raw` in our case.
+
+#### Make a directory using the file explorer
+
+The other way to do this is to use your computer's regular file explorer to find your project file and make a new folder. Folders and directories are the same thing. If you had trouble with the above commands, you can do it the old fashion way now. Hopefully you know how.
 
 ## Let's get some data
 
-I could've supplied you with the raw data, but it is not hard to find and grab yourself, so let's do that.
+Now that we have a folder for our data, we can download our data into it. I have a copy of the data in the School Ratings Github assignment.
 
-Because I want you to teach you good data project skills, I want you first to make a folder to store your raw data. It's good practice to separate your raw data from any other output or data. It will make it easy for others to find, and can help you avoid overwriting that raw data, which should remain a pristine copy.
+The process to download this data is explained in the [School Ratings](https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-school-ratings/README.md) assignment in the RWD Mastery Assignments Github repository. Since we did that in an earlier assignment I won't make you do that again here, but I will give you an opportunity to learn something else new: the Terminal.
 
-- In the **Files** pane, use the **New Folder** button to create a folder called `data-raw`. (I typically make a `data-out` or similar folder for any files that I create.)
-- In a web browser, go to the [Texas Water Development Board Driller Reports](http://www.twdb.texas.gov/groundwater/data/drillersdb.asp) page and then click on the **Well Reports Search by County and Use** link.
-- In the **County** drop down, choose: Bastrop, Caldwell, Hays, Travis and Williamson counties.
-- In the **Proposed Use** column, choose **Select All**.
-- Click **View Reports**. You'll get 400+ returns.
-- Look for the floppy disk/arrow icon that is the download button. Choose **CSV (comma delimited)**.
-
-That file should end up in your Downloads folder. Use your finder to move this into your project folder in the `data-raw` folder you created.
-
-[This document](http://www.twdb.texas.gov/groundwater/data/doc/TWRSRS_UserManual.pdf?d=43539.49999999895) has some descriptions of fields we may need later.
+- Right-click on this link: [CAMPRATE_2019.csv](https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-school-ratings/data/CAMPRATE_2019.csv?raw=true) and use "Save as" and use the prompt to save this file in the `data-raw` folder in your project.
 
 ### Inspect the data
 
 We want to look at the data so we understand it.
 
 - In the **Files** pane, click on the `data-raw` folder to open in.
-- Click on the `WellsRpts_County_Use.csv` file until you get the drop down that says View Files.
+- Click on the `CAMPRATE_2019.csv` file until you get the drop down that says View Files.
 
 ![View file](images/import-inspectdata.png)
 
-- When you choose that, you'll get a warning that it is a big file. It _should_ open it just fine, into a new window. It will look like this:
+- The file _should_ open it just fine, into a new window. It will look like this:
 
-![Wells file](images/import-wellsfile.png)
+![Wells file](images/import-ratingsfile.png)
 
 The numbers on the left are row numbers in the file. Because lines will wrap in your window, those numbers let you know where each line starts.
 
-Note that the real header for this file starts as line `5`, which means when we import this file, we need to skip the first four lines.
+We can see first row is our column headers and the first column is our `CAMPUS` ID. This ID identifies our campus.
 
-You can close this file now.
+You can close this file now by clicking on the small `x` next to the file name.
 
 ## Import csv as data
 
@@ -144,15 +169,15 @@ You can close this file now.
 - Inside the chunk, add the following and hit return, then I'll explain:
 
 ```r
-read_csv("data-raw/WellRpts_County_Use.csv")
+read_csv("data-raw/CAMPRATE_2019.csv")
 ```
 
 - `read_csv()` is the function we are using the load the data. This version from the **readr** package in the tidyverse is different from `read.csv` that comes with R. It is mo betta.
 - Inside the parenthesis is the path to our data, inside quotes. If you start typing in that path and hit tab, it will complete the path. (Easier to show than explain).
 
-This prints two things to our notebook, which are shown as tabs.
+This prints two things to our notebook, which are shown as tabs in the R output.
 
-The first resultc called "R Console" shows what columns were imported and the data types. It's important to review these to make sure things happened the way that you want. When I look at this, I'm struck that the column names all start with "Textbox", which wasn't what I expected when I was looking at the data on the website. (FWIW, the fact the text is in **red** is NOT an indication of a problem.)
+The first result called "R Console" shows what columns were imported and the data types. It's important to review these to make sure things happened the way that you want. When I look at this, I'm struck that the column names all start with "Textbox", which wasn't what I expected when I was looking at the data on the website. (FWIW, the fact the text is in **red** is NOT an indication of a problem.)
 
 ![Show cols](images/import-show-cols.png)
 
@@ -162,30 +187,9 @@ The second result prints out the data like a table. The data object is called a 
 
 ![Show imported data](images/import-show-data.png)
 
-What went wrong? Remember that our data doesn't really start until line five. We need to modify our import to skip the first for lines. But how does we find out how to do that? Help is on the way!!
+## Assign our data to a tibble
 
-### Help files
-
-Another tab over by your **Files** pane is the **Help** pane.
-
-- Click on the **Help** pane
-- In the search box, type in `read_csv` and hit Return.
-
-What you get in return is information about that function. Any function loaded into RStudio also comes with these help files. The documentation style might look foreign at first, but you'll get used to reading them.
-
-If we look through this one, we can see there is a `skip = x` option we can add to our import to skip lines.
-
-- Modify the import line to this and then rerun the entire chunk with *Cmd+shift+Return*:
-
-```r
-read_csv("data-raw/WellRpts_County_Use.csv", skip = 3)
-```
-
-I first tried `skip = 4`, but then it didn't properly use the header row, I _think_ because the readr package skips empty rows by default.
-
-## Assign our data to a data frame
-
-As of right now, we've only printed the data to our screen. We haven't "saved" it at all. What we need to do next is "assign" it to a data frame.
+As of right now, we've only printed the data to our screen. We haven't "saved" it at all. What we need to do next is "assign" it to a tibble.
 
 It's kind of weird, but the convention in R is to work from right to left. We _name_ things before we fill them with stuff. So, to create a data frame, the structure is this:
 
@@ -198,14 +202,16 @@ We have our stuff as the output of our `read_csv()` function ... now we need to 
 - Edit your existing code chunk to look like this:
 
 ```r
-wells <- read_csv("data-raw/WellRpts_County_Use.csv", skip = 3)
+ratings <- read_csv("data-raw/CAMPRATE_2019.csv")
 ```
 
 Run that chunk and two things happen:
 
-- We no longer see the result printed to the screen. That's because we created a data frame instead.
-- In the **Environment** tab at the top-right of RStudio, you'll see `wells` listed.
-    + Click on the blue play button next to wells and it will expand to show you a summary of the columns.
+> THIS IS WHERE I STOPPED
+
+- We no longer see the result printed to the screen. That's because we created a data frame instead of printing it to the screen.
+- In the **Environment** tab at the top-right of RStudio, you'll see `ratings` listed.
+    + Click on the blue play button next to ratings and it will expand to show you a summary of the columns.
     + Click on the name and it will open a "View" of the data in another window, so you can look at it, sort of like a spreadsheet.
 
 ## Inspect the data
