@@ -8,11 +8,13 @@ documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
-github-repo: utdata/rwd-r-reporting-with-data
-description: "Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by Christian McDonald."
+github-repo: utdata/rwdir
+description: "Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice."
 ---
 
 # About this class {-}
+
+> NOTE: This class is in the middle of a rewrite. The course is changing, as well as the pubished URL. Thing will break.
 
 Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by me, Christian McDonald.
 
