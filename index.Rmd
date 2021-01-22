@@ -14,7 +14,7 @@ description: "Reporting with Data in R is a series of lessons and instructions u
 
 # About this class {-}
 
-> NOTE: This class is in the middle of a rewrite. The course is changing, as well as the pubished URL. Thing will break.
+> NOTE: This class is in the middle of a rewrite. The course is changing, as well as the pubished URL. Thing may break.
 
 Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It was taught by me, Christian McDonald.
 
