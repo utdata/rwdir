@@ -1,4 +1,4 @@
-# Graphics {#graphics}
+# Plots {#plots}
 
 ## Goals for this section
 

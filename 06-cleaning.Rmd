@@ -1,5 +1,12 @@
 # Cleaning {#cleaning}
 
+## UPDATES NEEDED
+
+- Use nameless marijuna data?
+- get into lubridate
+- include section on clean code and advanced tips. naming chunks. good indents. good markdown. tips for the navigation dropdown. keyboard command review. Restart and run.
+
+
 ## Goals for this section
 
 - Create a new notebook for cleaning data

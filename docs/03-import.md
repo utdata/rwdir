@@ -41,7 +41,7 @@ We did this in our first lesson, but here are the basic steps:
 
 - Launch RStudio
 - Use the `+R` button to create a **New Project** in a **New Directory**
-- Name the project `yourfirstname-ratings` and put it in your `~/Documents/rwd` folder.
+- Name the project `yourfirstname-school-ratings` and put it in your `~/Documents/rwd` folder.
 - Use the `+` button to use **R Notebook** to start a new notebook.
 - Change the title to "TEA School Ratings".
 - Delete the other boilerplate text.
@@ -71,11 +71,17 @@ We're going to install several packages we will use in the ratings project. To d
 ![The Console and Terminal](images/import-console.png){width=600px}
 
 - Use the image above to orient yourself to the R Console and Terminal.
-- In the console, type in `install.packages("tidyverse")` and hit return.
-  + As you type, you will see the Console will give you hints on what you need. You can use the arrow keys to select one and hit Tab to complete that command.
+- In the Console, type in:
+
+```r
+install.packages("tidyverse")
+```
+
+As you type into the Console, you'll see some type-assist hints on what you need. You can use the arrow keys to select one and hit Tab to complete that command, then enter the values you need.
+
 - If it asks you to install "from source", type `Yes` and hit return.
 
-You'll see a bunch of commands work through your Console. Remember that you only have to install a package to your computer once.
+You'll see a bunch of response in the Console.
 
 We'll need another package, so also do:
 
@@ -92,167 +98,227 @@ You only have to install the packages once on your computer (though you have to 
 Next, we're going to tell our R Notebook to use these two libraries.
 
 - After the metadata at the top of your notebook, use *Cmd+option+i* to insert an R code chunk.
-- In that chunk, type in the two libraries and run the code block with *Cmd+shift+Return*.
+- In that chunk, type in the two libraries and run the code block with *Cmd+Shift+Return*.
 
 This is the code you need:
 
-```text
+
+```r
 library(tidyverse)
 library(janitor)
 ```
 
-It will look like this:
+Your output will look something like this:
 
 ![Libraries imported](images/import-libraries.png){width=600px}
 
-### Create a folder for your data
+### Create a directory for your data
 
-I want you to create a folder called `data-raw` in your project folder. I'm going to explain three ways, but you only need to do one of them.
+I want you to create a folder called `data-raw` in your project folder. I'm going to explain three ways, but you only need to do **one of them**.
 
-#### Using Terminal
+In your Files pane at the bottom-right of Rstudio, there is a **New Folder** icon.
 
-- In the bottom part of the RStudio window next to the Console window is another one called **Terminal**. Click on that and you have a method to talk to your computer using typed commands.
-- Once you click on that and you'll get a flashing prompt after a `$`. Type in `mkdir data-raw` and hit return.
+- Click on the **New Folder** icon.
+- Name your new folder `data-raw`.
 
-![Terminal mkdir](images/terminal-mkdir.png)
+Once you've done that, it should show up in the file explorer in the Files pane.
 
-Once you hit return, the prompt will return with no errors (hopefully). But if you look at your files window to the right you'll see you created "made" a new directory (hence `mkdir`, as in make directory.)
-
-![Directory made](images/terminal-mkdir-done.png)
-
-That was pretty easy even if a bit technical. Welcome to the power of **Terminal**. It's quicker than the alternate method.
-
-#### Make a directory using the Files menu
-
-In the **Files** pane at the bottom-right of RStudio, there is a row of commands at the top, including **New Folder**.
-
-- Click on **New Folder**
-- Enter the name of the folder you want to create. `data-raw` in our case.
-
-#### Make a directory using the file explorer
-
-The other way to do this is to use your computer's regular file explorer to find your project file and make a new folder. Folders and directories are the same thing. If you had trouble with the above commands, you can do it the old fashion way now. Hopefully you know how.
+![Directory made](images/terminal-mkdir-done.png){width=300px}
 
 ## Let's get some data
 
-Now that we have a folder for our data, we can download our data into it. I have a copy of the data in the School Ratings Github assignment.
+Now that we have a folder for our data, we can download our data into it. I have a copy of the data in the class Github repo.
 
-The process to download this data is explained in the [School Ratings](https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-school-ratings/README.md) assignment in the RWD Mastery Assignments Github repository. Since we did that in an earlier assignment I won't make you do that again here, but I will give you an opportunity to learn something else new: the Terminal.
+The process to acquire this data is explained in the [School Ratings](https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-school-ratings/README.md) assignment in the RWD Mastery Assignments Github repository. Since we did that in an earlier assignment I won't make you do that again here. You can just download my copy using the `download.file` function in R.
 
-- Right-click on this link: [CAMPRATE_2019.csv](https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-school-ratings/data/CAMPRATE_2019.csv?raw=true) and use "Save as" and use the prompt to save this file in the `data-raw` folder in your project.
+- Add a Markdown headline and text that indicates you are downloading data. You would typically include a link and explain what it is, etc. You can build a link in Markdown with `[name of the site](url-to-the-site.html)`.
+- Create an R chunk and include the following:
+
+```r
+download.file("https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-school-ratings/data/CAMPRATE_2019.csv?raw=true", "data-raw/camprate_2019.csv")
+```
+
+This function takes at least two arguments: The URL of the file you are downloading, and then the path and name of where you want to save it.
+
+When you run this, it should save the file and then give you output like this:
+
+```text
+trying URL 'https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-school-ratings/data/CAMPRATE_2019.csv?raw=true'
+Content type 'text/plain; charset=utf-8' length 1326537 bytes (1.3 MB)
+==================================================
+downloaded 1.3 MB
+```
 
 ### Inspect the data
 
-We want to look at the data so we understand it.
+You can peek at the data before you import it into your RNotebook.
 
 - In the **Files** pane, click on the `data-raw` folder to open in.
-- Click on the `CAMPRATE_2019.csv` file until you get the drop down that says View Files.
+- Click on the `camprate_2019.csv` file until you get the drop down that says View Files.
 
-![View file](images/import-inspectdata.png)
+![View file](images/import-inspectdata.png){width=300}
 
-- The file _should_ open it just fine, into a new window. It will look like this:
+- The file _should_ open into a new window. It will look like this:
 
-![Wells file](images/import-ratingsfile.png)
+![ratings file](images/import-ratingsfile.png){width=600}
 
 The numbers on the left are row numbers in the file. Because lines will wrap in your window, those numbers let you know where each line starts.
 
 We can see first row is our column headers and the first column is our `CAMPUS` ID. This ID identifies our campus.
 
-You can close this file now by clicking on the small `x` next to the file name.
+At this point the data is only on our computer in a folder within our project. It has not been imported into our RNotebook yet.
 
-## Import csv as data
+- Close this file now by clicking on the small `x` next to the file name.
 
-- Now we need to start adding some text to indicate what we are doing, which right now we are importing the file. So, write some text in Markdown that describes where the data came from and what it is.
-    + Write where the data came from. Include the link to the web page.
-    + Include which counties were included, and which 
-- After your descriptions, add a new code chunk (*Cmd+option+i*).
-- Inside the chunk, add the following and hit return, then I'll explain:
+### Import csv as data
+
+Since we are doing a new thing, we should add another Markdown headline, like `## Import data` and explain what we are doing in text.
+
+- After your description, add a new code chunk (*Cmd+Option+i*).
+
+We'll be using the `read_csv()` function from the tidyverse [readr](https://readr.tidyverse.org/) package, which is different from `read.csv` that comes with R. It is mo betta.
+
+Inside the function we put in the path do our data, inside quotes. If you start typing in that path and hit tab, it will complete the path. (Easier to show than explain).
+
+- Add the follow code into your chunk and run it.
 
 ```r
 read_csv("data-raw/CAMPRATE_2019.csv")
 ```
 
-- `read_csv()` is the function we are using the load the data. This version from the **readr** package in the tidyverse is different from `read.csv` that comes with R. It is mo betta.
-- Inside the parenthesis is the path to our data, inside quotes. If you start typing in that path and hit tab, it will complete the path. (Easier to show than explain).
 
 This prints two things to our notebook, which are shown as tabs in the R output.
 
-The first result called "R Console" shows what columns were imported and the data types. It's important to review these to make sure things happened the way that you want. When I look at this, I'm struck that the column names all start with "Textbox", which wasn't what I expected when I was looking at the data on the website. (FWIW, the fact the text is in **red** is NOT an indication of a problem.)
+The first result called "R Console" shows what columns were imported and the data types. It's important to review these to make sure things happened the way that expected. In this case it looks like it imported most everything as a character (the default) but set one column `CALL_UPDATE` as `col_double`, which is a number.
 
-![Show cols](images/import-show-cols.png)
+Note: **Red** colored text in this output is NOT an indication of a problem.
 
-The second result prints out the data like a table. The data object is called a [Tibble](https://tibble.tidyverse.org/), which is a fancy version of a data frame that is part of the tidyverse.
+![RConsole output](images/import-show-cols.png){width=500}
 
-> I will often call a tibble a "data frame", which is the generic R from of this data structure. Think of data frames and tibbles like a well-structured table in a spreadsheet. They are organized rows of data with columns where every item in the column is of the same data type.
+The second result **spec_tbl_df** prints out the data like a table. The data object is called a data frame or [tibble](https://tibble.tidyverse.org/), which is a fancy tidyverse version of a data frame that is part of the tidyverse.
 
-![Show imported data](images/import-show-data.png)
+> I will use the term tibble and data frame interchangably. Think of data frames and tibbles like a well-structured spreadsheet. They are organized rows of data (called observations) with columns (called variables) where every item in the column is of the same data type.
 
-## Assign our data to a tibble
+![Data output](images/import-show-data.png){width=500}
 
-As of right now, we've only printed the data to our screen. We haven't "saved" it at all. What we need to do next is "assign" it to a tibble.
+### Clean names and the pipe
 
-It's kind of weird, but the convention in R is to work from right to left. We _name_ things before we fill them with stuff. So, to create a data frame, the structure is this:
+A good trait for data journalist is to be ~~anal retentive~~ obsessive. One thing I almost always do is run my data through a function called `clean_names()` which makes all the column names lowercase, removes spaces and fixes other things that can cause problems later. `clean_names()` is part of the [janitor vignette](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html) package we installed above.
+
+- Edit your code chunk to the code below and then I'll explain it.
 
 ```r
-new_data_frame <- stuff_going_into_new_data_frame
+read_csv("data-raw/CAMPRATE_2019.csv") %>% 
+  clean_names()
 ```
 
-We have our stuff as the output of our `read_csv()` function ... now we need to assign it to a data frame we will call `wells`.
+### The pipe %>%
 
-- Edit your existing code chunk to look like this:
+The code ` %>% ` we added at the end of the `read_csv()` function is called a pipe. It is a tidyverse tool that allows us to take the **results** of a function and pass into another function. Think of it "AND THEN" the next thing.
+
+We are using **read_csv** to import the data **and then** we run **clean_names** on that data.
+
+It might look like there are to arguments inside `clean_names()`, but remember because of the pipe we are passing the result of the previous function into it.
+
+For readability we often put the "next" function an indented new line, though it does work on a single line. If you do add the return, it must come **after** the ` %>% `.
+
+> There is a keyboard command for the pipe: **Cmd+Shift+m**. Learn that one.
+
+### Assign our data to a data frame
+
+As of right now, we've only printed the data to our screen. We haven't "saved" it at all. What we need to do next is assign it to an **object** so it can be named thing in our project environment.
+
+The syntax to create and object in R can seem weird at first, but the convention is to name the object first, then insert stuff into it. So, to create an object, the structure is this:
 
 ```r
-ratings <- read_csv("data-raw/CAMPRATE_2019.csv")
+# this is pseudo code. don't run it.
+new_object <- stuff_going_into_object
+```
+
+Let's make a object called `ratings` and fill it with our ratings tibble.
+
+- Edit your existing code chunk to look like this. You can add the `<-` by using **Option+-** as in holding down the Option key and then pressing the hyphen:
+
+
+```r
+ratings <- read_csv("data-raw/CAMPRATE_2019.csv") %>% 
+  clean_names()
 ```
 
 Run that chunk and two things happen:
 
-> THIS IS WHERE I STOPPED
-
-- We no longer see the result printed to the screen. That's because we created a data frame instead of printing it to the screen.
-- In the **Environment** tab at the top-right of RStudio, you'll see `ratings` listed.
+- We no longer see the result printed to the screen. That's because we created a tibble instead of printing it to the screen.
+- In the **Environment** tab at the top-right of RStudio, you'll see the `ratings` object listed.
     + Click on the blue play button next to ratings and it will expand to show you a summary of the columns.
-    + Click on the name and it will open a "View" of the data in another window, so you can look at it, sort of like a spreadsheet.
+    + Click on the name and it will open a "View" of the data in another window, so you can look at itin spreadsheet form. You can even sort and filter it.
+- Close the data view once you've looked at it.
+
+Since `ratings` is a data frame object, we'll just call it a data frame henceforth.
 
 ## Inspect the data
 
-Now that you are looking at the data, take a look at both the data types in the Environment tab, along with the View of the data. Take special care to look at the data types and examples to see if they make sense to you. Some things to consider:
+We are going to take a "glimpse" at our data frame to review the data types and peek at the data again.
+
+- Add the following code in a new chunk and run it. You'll get the return below it:
+
+
+```r
+ratings %>% glimpse
+```
+
+```
+## Rows: 8,838
+## Columns: 24
+## $ campus            <chr> "001902001", "001902041", "001902103", "001903001",…
+## $ call_update       <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ campname          <chr> "CAYUGA H S", "CAYUGA MIDDLE", "CAYUGA EL", "ELKHAR…
+## $ cdalls            <chr> "95", "83", "91", "89", ".", "86", "92", "92", "86"…
+## $ cflaeatype        <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ cflaec            <chr> "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "…
+## $ cflalted          <chr> "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "…
+## $ cflchart          <chr> "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "…
+## $ cfldaep           <chr> "N", "N", "N", "N", "Y", "N", "N", "N", "N", "N", "…
+## $ cfleek            <chr> "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "…
+## $ cfljj             <chr> "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "…
+## $ cflnewcamp        <chr> "N", "N", "N", "N", "Y", "N", "N", "N", "N", "N", "…
+## $ cflrtf            <chr> "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "…
+## $ cntyname          <chr> "ANDERSON", "ANDERSON", "ANDERSON", "ANDERSON", "AN…
+## $ county            <chr> "001", "001", "001", "001", "001", "001", "001", "0…
+## $ c_appeal_decision <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ c_rating          <chr> "A", "B", "A", "B", "Not Rated", "B", "A", "A", "B"…
+## $ c_yrs_ir          <chr> ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "…
+## $ distname          <chr> "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "ELKHART …
+## $ district          <chr> "001902", "001902", "001902", "001903", "001903", "…
+## $ grdhigh           <chr> "12", "08", "05", "12", "10", "08", "02", "05", "12…
+## $ grdlow            <chr> "09", "06", "PK", "09", "08", "06", "PK", "03", "09…
+## $ grdspan           <chr> "09 - 12", "06 - 08", "PK - 05", "09 - 12", "08 - 1…
+## $ grdtype           <chr> "S", "M", "E", "S", "S", "M", "E", "E", "S", "M", "…
+```
+
+There are 8,838 rows and 24 columns in our data. Each column is then listed out with its datatype and the first several values in that column.
+
+This is a good way to check the datatypes against the values in it. Some things to always consider:
 
 - Are numbers actually numbers or characters?
 - Are there numbers that should be strings, like ZIP codes?
 - Have integers been imported as double numbers or vice versa?
 - Are dates imported properly?
 
-### Write notes about things to change
+This data is kind of tricky as you might remember from our Sheets assignment. We actually want all these fields to be stings (characters) instead of nubmers, so we are good.
 
-- In text below the table output, I want you to write out a list of all the things you might have to fix in this data frame.
-
-We'll fix them in the next lesson, as well as start looking more closely at the data.
+If there were problems, we could make some adjustments to our import statement or do some other mutations, but we'll do that in a future assignment.
 
 ## Turn in your project
 
 Congratulations! You have created a new project in R and imported data. That is a feat of skill worth celebrating, so we will turn in this in as an assignment.
 
 - Save your `.Rmd` file.
-- Use the **Preview/Knit** button to Knit your report to HTML. Look your report over and make sure you like it.
-- If you need to, edit your `.Rmd` file, save, reKnit.
+- Use the **Preview/Knit** button to _Knit to HTML_. Look your report over and make sure you like it.
+  - If you need to, edit your `.Rmd` file, save, reKnit.
 - When you are ready, go under the **File** menu to **Close project**.
-- Go into your computer's finder and locate your `firstnanme-wells` project.
+- Go into your computer's finder and locate your `firstnanme-school-ratings` project.
 - Create a `.zip` file of the folder.
 - Upload it to the proper assignment in Canvas.
-
-## Practice assignment: Import census
-
-To practice these skills on your own, you'll create a new project and use new data. You'll work on it through multiple lessons, applying what you've learned along the way.
-
-- Create a new Project called "firstname-census-practice". You'll want to save that inside your "rwd" folder so you can use it later. We'll keep building on it.
-- Create a new folder in your project called "data-raw".
-- Download this CSV file and put it into your data-raw folder: [DEC_10_SF1_TX_County_population.csv](https://drive.google.com/file/d/1L51qQbdW3dHXTdlvlHx3z5p8Py5Cgv2a/view). The data is 2010 Census populations by county and race for Texas.
-- Start a new R Notebook with a good title and filename.
-- Write text to describe the data set.
-- Import the data using `read_csv()` and print the data to the screen.
-- Compare the imported data to the original csv file and note any problems you might see with the column names or data types that you might want to fix.
-- Save, Knit, and Zip the project folder and upload to the "Practice: Import" assignment.
 
 ## Resources
 
