@@ -1,5 +1,7 @@
 # Importing data {#import}
 
+> DRAFT FOR v1.0
+
 ## Goals for this section
 
 - Learn a little about data types available to R.
@@ -7,21 +9,30 @@
 - Learn about R packages, how to install and import them.
 - Learn how to import CSV files.
 - Introduce the Data Frame/Tibble.
+- Introduce the tidyverse ` %>% `.
 
-We will do this through working with School Ratings data from the Texas Education Agency (the same data we used with the Sheets lesson.) We'll download the data again.
+## Our project data
 
-## Data types
+We achieve these goals while working with same Texas Education Agency school ratings data we used with the [Google Sheets lesson](https://github.com/utdata/rwd-mastery-assignments/tree/master/ed-school-ratings).
+
+I'm not gonna lie ... Sheets is much easier to learn and getting the answers we wanted about the school ratings is difficult to do in R because you are learning a programming language. Using R is a trade off ... there is a lot more to learn, but it is much more powerful in the end.
+
+> “If you’re doing data analysis every day, the time it takes to learn a programming language pays off pretty quickly because you can automate more and more of what you do.” --Hadley Wickham, chief scientist at RStudio
+
+I choose to start with school ratings because if you are in the class, you are already familiar with the data. That said, you can still dive in if you haven't done the Sheets lesson.
+
+## Data sources
 
 After installing and launching RStudio, the next trick is to import data. Depending on the data source, this can be brilliantly easy or a pain in the rear. It all depends on how well-formatted is the data.
 
-In this class, we will primarily be importing Excel files, CSVs (Comma Separated Value) and APIs (Application Programming Interface).
+In this class, we will primarily be using data from Excel files, CSVs (Comma Separated Value) and APIs (Application Programming Interface).
 
-- CSVs are a kind of lowest-common-denominator for data. Most any database or program can import or export them.
-- Excel files are good, but are often messy because humans get involved. There often have multiple header rows, columns used in multiple ways, notes added, etc. Just know you might have to clean them up before using them.
-- APIs are systems designed to respond to programming. In the data world, we often use the APIs by writing a query to ask a system to return a selection of data. By definition, the data is well structured. You can often determine the file type of the output as part of the API call, including ...
-- JSON (or JavaScript Object Notation) is the data format preferred by JavaScript. R can read it, too. It is often the output format of APIs, and prevalent enough that you need to understand how it works. We'll get into that later in semester.
+- **CSVs** are a kind of lowest-common-denominator for data. Most any database or program can import or export them.
+- **Excel** files are good, but are often messy because humans get involved. There often have multiple header rows, columns used in multiple ways, notes added, etc. Just know you might have to clean them up before using them.
+- **APIs** are systems designed to respond to programming. In the data world, we often use the APIs by writing a query to ask a system to return a selection of data. By definition, the data is well structured. You can often determine the file type of the output as part of the API call, including ...
+- **JSON** (or JavaScript Object Notation) is the data format preferred by JavaScript. R can read it, too. It is often the output format of APIs, and prevalent enough that you need to understand how it works. We'll get into that later in semester.
 
-Don't get me wrong ... there are plenty of other data types and connections available through R, but those are the ones we'll deal with most in the class.
+Don't get me wrong ... there are plenty of other data types and connections available through R, but those are the ones we'll deal with most in this book.
 
 ### What is clean data
 
@@ -35,6 +46,8 @@ The Checking Your Data section of this [DataCamp tutorial](https://www.datacamp.
 - Each column should have the same kind of data: numbers vs words, etc.
 - Each row should be a single thing called an "observation". The columns should describe that observation.
 
+Data rarely comes clean like that. There can be many challenge in importing and cleaning data. We'll face some of those challenges here.
+
 ## Create a new project
 
 We did this in our first lesson, but here are the basic steps:
@@ -45,7 +58,7 @@ We did this in our first lesson, but here are the basic steps:
 - Use the `+` button to use **R Notebook** to start a new notebook.
 - Change the title to "TEA School Ratings".
 - Delete the other boilerplate text.
-- Save the file as `01-ratings.Rmd`.
+- Save the file as `01-import.Rmd`.
 
 ### The R Package environment
 
@@ -111,9 +124,11 @@ Your output will look something like this:
 
 ![Libraries imported](images/import-libraries.png){width=600px}
 
+## Downlaoding raw data
+
 ### Create a directory for your data
 
-I want you to create a folder called `data-raw` in your project folder. I'm going to explain three ways, but you only need to do **one of them**.
+I want you to create a folder called `data-raw` in your project folder. We are creating this folder because we want to keep a pristine version of it our original data that we never change or overwrite. This is a basic data journalism principle: Thou shalt not change raw data.
 
 In your Files pane at the bottom-right of Rstudio, there is a **New Folder** icon.
 
@@ -124,7 +139,7 @@ Once you've done that, it should show up in the file explorer in the Files pane.
 
 ![Directory made](images/terminal-mkdir-done.png){width=300px}
 
-## Let's get some data
+### Let's get some data
 
 Now that we have a folder for our data, we can download our data into it. I have a copy of the data in the class Github repo.
 
@@ -148,9 +163,9 @@ Content type 'text/plain; charset=utf-8' length 1326537 bytes (1.3 MB)
 downloaded 1.3 MB
 ```
 
-### Inspect the data
+### Peek at the data file
 
-You can peek at the data before you import it into your RNotebook.
+You can inspect the data before you import it into your RNotebook.
 
 - In the **Files** pane, click on the `data-raw` folder to open in.
 - Click on the `camprate_2019.csv` file until you get the drop down that says View Files.
@@ -171,8 +186,10 @@ At this point the data is only on our computer in a folder within our project. I
 
 ### Import csv as data
 
-Since we are doing a new thing, we should add another Markdown headline, like `## Import data` and explain what we are doing in text.
+Since we are doing a new thing, we should note that with a Markdown headline and text. 
 
+- A a Markdown headline: `## Import data`
+- Add some text to explain  that we are importing the school ratings data.
 - After your description, add a new code chunk (*Cmd+Option+i*).
 
 We'll be using the `read_csv()` function from the tidyverse [readr](https://readr.tidyverse.org/) package, which is different from `read.csv` that comes with R. It is mo betta.
@@ -184,7 +201,6 @@ Inside the function we put in the path do our data, inside quotes. If you start 
 ```r
 read_csv("data-raw/CAMPRATE_2019.csv")
 ```
-
 
 This prints two things to our notebook, which are shown as tabs in the R output.
 
@@ -200,20 +216,29 @@ The second result **spec_tbl_df** prints out the data like a table. The data obj
 
 ![Data output](images/import-show-data.png){width=500}
 
+When we look at the data output into RStudio, there are several things to note:
+
+- Below the column name is an indication of the data type. This is important.
+- You can use the arrow icon on the right to page through the additional columns.
+- You can use the paging numbers and controls at the bottom to page through the rows of data.
+- The number of rows and columns is displayed at the bottom.
+
+The [data dictionary](https://rptsvr1.tea.texas.gov/perfreport/account/2019/download/camprate.html) is especially helpful in understanding what the data is, since the column names are not very telling.
+
 ### Clean names and the pipe
 
 A good trait for data journalist is to be ~~anal retentive~~ obsessive. One thing I almost always do is run my data through a function called `clean_names()` which makes all the column names lowercase, removes spaces and fixes other things that can cause problems later. `clean_names()` is part of the [janitor vignette](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html) package we installed above.
 
-- Edit your code chunk to the code below and then I'll explain it.
+- Edit your code chunk to look like the code below and run it.
 
 ```r
 read_csv("data-raw/CAMPRATE_2019.csv") %>% 
   clean_names()
 ```
 
-### The pipe %>%
+### About the pipe %>%
 
-The code ` %>% ` we added at the end of the `read_csv()` function is called a pipe. It is a tidyverse tool that allows us to take the **results** of a function and pass into another function. Think of it "AND THEN" the next thing.
+The code ` %>% ` we added at the end of the `read_csv()` function is called a pipe. It is a tidyverse tool that allows us to take the **results** of an object or function and pass into another function. Think of it "AND THEN" the next thing.
 
 We are using **read_csv** to import the data **and then** we run **clean_names** on that data.
 
@@ -221,11 +246,65 @@ It might look like there are to arguments inside `clean_names()`, but remember b
 
 For readability we often put the "next" function an indented new line, though it does work on a single line. If you do add the return, it must come **after** the ` %>% `.
 
-> There is a keyboard command for the pipe: **Cmd+Shift+m**. Learn that one.
+> IMPORTANT: There is a keyboard command for the pipe ` %>% `: **Cmd+Shift+m**. Learn that one.
 
-### Assign our data to a data frame
+## Inspecting and adjusting imports
 
-As of right now, we've only printed the data to our screen. We haven't "saved" it at all. What we need to do next is assign it to an **object** so it can be named thing in our project environment.
+When we page through our data, we should notice that the `cdalls` column is a numerical value. If we review our [data dictionary](https://rptsvr1.tea.texas.gov/perfreport/account/2019/download/camprate.html) this is the "Campus 2019 Overall Scaled Score", or the number grade that corresponds to the letter grade the school received.
+
+You might notice that "ELKHART DAEP" has a `.` for a grade. A DEAP school is a "disciplinary alternative education program" and the often are exempt from ratings. There are some other schools like this, too. Because of the `.`, R though this column was supposed to be text (or `col_character()` in R-speak). These are suppose to be whole numbers, or `col_integer()`.
+
+At this point we have a decision to make. We can fix this as we import the data, or fix it afterward.
+
+The "pros" for fixing on import is it is done and we don't have to worry about it later. Any value that is not a number is not useful to us. (We can't get an average of text.)
+
+The "pros" for fixing after import is we compare the original values to the new values. Sometimes this is very important when you are changing data.
+
+That all said, we are going to fix on import because that it is importing that we are learning. We have a good handle on why the data came in as it did and fixing is a safe thing to do.
+
+### Fix `cdalls`: Assign data type upon import
+
+We have to do some more editing to our import statement to set `cdalls` as an interger on import.  
+
+The [usage](https://readr.tidyverse.org/#usage) section of the readr documentation shows There is an "argument" in the `read_csv()` function that will allow this. After our first argument of the "path" to the document, we can add a `col_types = cols()` argument and identify which colunns and data types to use inside `cols()`.
+
+To do this, we will edit the `read_csv()` part of our chunk. When I have multiple arguments in a function, I like to put them on separate lines so they are more readable. This is a bit tricky to explain in prose, but I'm adding returns after the opening `(` for both the `read_csv()` function and the `cols()` function so the internals are on separate lines.
+
+RStudio will try to help you with the indentation. If you are "inside" a function, the next line is indented.
+
+- Adjust your code to look like that below and run it:
+
+```r
+read_csv(
+  "data-raw/camprate_2019.csv",
+  col_types = cols(
+    CDALLS = col_integer()     
+  )
+) %>% 
+  clean_names()
+```
+
+Look at the data that is returned. The data type indication under the `cdalls` column should now be **<int>**, for integer. You might also notice that the value for "ELKHART DAEP" is now **NA**, which means not available. i.e, it is missing.
+
+If you look at the R Console tab, it shows this:
+
+```text
+41 parsing failures.
+row    col   expected actual                         file
+  5 CDALLS an integer      . 'data-raw/camprate_2019.csv'
+ 55 CDALLS an integer      . 'data-raw/camprate_2019.csv'
+ 56 CDALLS an integer      . 'data-raw/camprate_2019.csv'
+ 63 CDALLS an integer      . 'data-raw/camprate_2019.csv'
+ 71 CDALLS an integer      . 'data-raw/camprate_2019.csv'
+... ...... .......... ...... ............................
+See problems(...) for more details.
+```
+
+There wer parse errors each time it hit a `.` instead of a number. We are OK with this because we know why!
+
+## Assign our import to a data frame
+
+As of right now, we've only printed the data to our screen. We haven't "saved" it at all. Next we need to assign it to an **object** so it can be named thing in our project environment so we can reuse it. We don't want to re-import the data every time we use the data.
 
 The syntax to create and object in R can seem weird at first, but the convention is to name the object first, then insert stuff into it. So, to create an object, the structure is this:
 
@@ -239,7 +318,12 @@ Let's make a object called `ratings` and fill it with our ratings tibble.
 - Edit your existing code chunk to look like this. You can add the `<-` by using **Option+-** as in holding down the Option key and then pressing the hyphen:
 
 ```{r rating_assign, message=FALSE, warning=FALSE, include=TRUE, results=FALSE}
-ratings <- read_csv("data-raw/CAMPRATE_2019.csv") %>% 
+ratings <- read_csv(
+  "data-raw/camprate_2019.csv",
+  col_types = cols(
+    CDALLS = col_integer()     
+  )
+) %>% 
   clean_names()
 ```
 
@@ -253,40 +337,94 @@ Run that chunk and two things happen:
 
 Since `ratings` is a data frame object, we'll just call it a data frame henceforth.
 
-## Inspect the data
+### Print a peek to the screen
 
-We are going to take a "glimpse" at our data frame to review the data types and peek at the data again.
+After assigning my data to an object, I like to pring the object to the screen so I can go back and refer to it. We will again edit the chunk, adding this to the end.
 
-- Add the following code in a new chunk and run it. You'll get the return below it:
+- Edit your import chunk to add the last two lines of this, including the one with the `#`:
 
-```{r ratings-glimpse, eval = TRUE}
-ratings %>% glimpse
+```r
+ratings <- read_csv(
+  "data-raw/camprate_2019.csv",
+  col_types = cols(
+    CDALLS = col_integer()     
+  )
+) %>% 
+  clean_names()
+  
+# peek at the data
+ratings
 ```
 
-There are 8,838 rows and 24 columns in our data. Each column is then listed out with its datatype and the first several values in that column.
+The line with the `#` is a comment within the code chunk. Commenting what your code does is important to your future self, and sometimes we do that within the code chunk instead of markdown if it will be more clear.
 
-This is a good way to check the datatypes against the values in it. Some things to always consider:
+## Glimpse the data
 
-- Are numbers actually numbers or characters?
-- Are there numbers that should be strings, like ZIP codes?
-- Have integers been imported as double numbers or vice versa?
-- Are dates imported properly?
+While we were able to page through our printed data to see columns, that can be a hassle if we have lots of columns. There is a way to take a "glimpse" at all at once.
 
-This data is kind of tricky as you might remember from our Sheets assignment. We actually want all these fields to be stings (characters) instead of nubmers, so we are good.
+- Add a new chunk
+- Add the code to the chunk and run it.
 
-If there were problems, we could make some adjustments to our import statement or do some other mutations, but we'll do that in a future assignment.
+I'm showing the return here as well.
+
+```{r ratings-glimpse, eval = TRUE}
+ratings %>% glimpse()
+```
+
+This also shows there are 8,838 rows and 24 columns in our data. Each column is then listed out with its datatype and the first several values in that column.
+
+## Exporting data
+
+### Single-notebook philosphy
+
+I have a pretty strong opinion that you should be able to open any RNotebook in your project and run it from top to bottom without it breaking. In short, one notebook should not be dependent on the previous running of another notebook, unless it is to provide an output file that can be accessed later by another notebook.
+
+This is why I had you name this notebook `01-import.Rmd` with a number 1 at the beginning. We'll number our notebooks in the order they should be run. It's an indication that before we can use the notebook `02-analysis.Rmd` (next lesson!) that the `01-import.Rmd` notebook has to be run first.
+
+But what is important is we will create an exported file from our first notebook that can be used in the second one. Once we create that file, the second notebook can be opened and run at any time.
+
+Why make this so complicated? It might seem like overkill for this project ... after all, the csv file imported cleanly and we don't need to do anything further to it except lowercase column names.
+
+The answer is **consistency**. When you follow the same project structure each, you quickly know how to dive into that project at a later date. If everyone on your team uses the same structure, you can dive into your teammates code because you already know how it is organized. If we separate our importing and cleaning into it's own file to be used by many other notebooks, we can fix future cleaning problems in ONE place instead of many places. 
+
+One last example to belabor the point: It can save time. I've had import/cleaning notebooks that took 20 minutes to process. Imagine if I had to run that every time I wanted to rebuild my analysis notebook. Instead, the import notebook spits out clean file that can be imported in a fraction of that time.
+
+This was all a long-winded way of saying we are going to export our data now.
+
+### Exporting as rds
+
+We are able to pass cleaned data between notebooks because of a native R data format called `.rds`. When we export in this format it saves not only rows and columns, but also the data types. (If we exported as CSV, we would potentially have to re-fix data types when we imported again.)
+
+We will use another readr function called `write_rds()` to create our file to pass along to the next notebook, but first we need to create a folder to put it in. We will create `data-processed` where we will put our output files. We are separating it from our data-raw folder because "Thou shalt not change raw data" even by accident. By always writing data to this different folder, we help avoid accidentally overwriting our original data.
+
+- Make sure your Files pane explorer is situated in your project folder and not inside some other folder like data-raw. If you need to climb out of a folder, you can click on the double dot `..` listed at the top of the folder.
+- Once at your project folder, use the **New Folder** icon in the Files pane to create a new folder and call it `data-processed`.
+- Create a Markdown headline `## Exports` and write a description that you are exporting files to .rds.
+- Add a new code chunk and add the following code:
+
+<!-- running this code to get output for future chapter -->
+
+```{r}
+ratings %>% 
+  write_rds("data-processed/01_ratings.rds")
+```
+
+So, we are starting with the ratings data frame that we saved earlier. We then pipe ` %>% ` the result of that into a new function `write_rds()`. In addition to the data, the function needs to who where to save the file, so in quotes we give the path to where and what we want to call the file: `data-processed/01_ratings.rds`.
+
+Remember, we are saving in data-processed because we never export into data-raw. We are naming the file starting with `01_` to indicate to our future selves that this output came from our first notebook. We then name it, and use the `.rsd` extension.
 
 ## Turn in your project
 
-Congratulations! You have created a new project in R and imported data. That is a feat of skill worth celebrating, so we will turn in this in as an assignment.
+Congratulations! You have created a new project in R, imported data and then exported it. That is a feat of skill worth celebrating, so we will turn in waypoint as an assignment.
 
 - Save your `.Rmd` file.
-- Use the **Preview/Knit** button to _Knit to HTML_. Look your report over and make sure you like it.
+- Use the **Preview/Knit** dropdown to _Knit to HTML_. Look your report over and make sure you are happy with headlines, text, spacing, etc.
   - If you need to, edit your `.Rmd` file, save, reKnit.
 - When you are ready, go under the **File** menu to **Close project**.
 - Go into your computer's finder and locate your `firstnanme-school-ratings` project.
 - Create a `.zip` file of the folder.
-- Upload it to the proper assignment in Canvas.
+  - If you find you need to make changes after you have zipped, it is best to delete the old one, then re-zip.
+- Upload the zip file to the proper assignment in Canvas.
 
 ## Resources
 

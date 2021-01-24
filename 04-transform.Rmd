@@ -1,69 +1,119 @@
 # Transform {#transform}
 
-> NEEDS UPDATE
+> MID-UPDATE v1.0
 
 - Use school ratings data
 
 ## Goals for the section
 
-- Pay more attention to the Markdown to record our goals, actions and explain our code. We'll name our code chunks, too.
-- Use the [dplyr]() tools to filter, sort and create new columns of data.
+In this lesson we will continue with the School Ratings project you began in the last chapter. Our goals are:
+
+- To build good data journalism and programming practices.
+- Use the [dplyr](https://dplyr.tidyverse.org/) tools to select, filter, sort and create new columns of data.
 
 ## Introducing dplyr
 
-One of the packages within the tidyverse is [dplyr](https://dplyr.tidyverse.org/) ( [cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) ) which allows us to transform our data frames in ways that let us explore the data and prepare it for visualizing. It's the R equivalent of common Excel functions like sort, filter and pivoting.
+One of the packages within the tidyverse is [dplyr](https://dplyr.tidyverse.org/). Dplyr allows us to transform our data frames in ways that let us explore the data and prepare it for visualizing. It's the R equivalent of common Excel functions like sort, filter and pivoting.
 
-![dplyr functions](images/transform-dplyractions.png){width=600px}
+> There is a cheatsheet on the [dplyr](https://dplyr.tidyverse.org/) that you might find useful. 
 
-(Some slides included here are used with permission from Hadley and Charlotte Wickham.)
+![Common dplyr functions](images/transform-dplyractions.png){width=600px}
+
+(Some slides/images included here are used with permission from Hadley and Charlotte Wickham.)
 
 ## Start a new R Notebook
 
 As I explained at the end of our last lesson, it's a good practice to separate your import/cleaning functions from your analysis functions into separate notebooks, so we'll create a new one for our analysis.
 
-- Launch RStudio and open your wells project.
-- Create a new R Notebook and set a new title of "Wells exploration and analysis".
-- Remove the boilerplate language and add a description of our goals: To explore an analyze our wells project. Mention that you have to run the other notebook first in case your someone else (or your future self) comes here first.
-- Save your file as `02-wells-explore.Rmd`.
+- Open y ou school-ratings project if you haven't already.
+- Make sure the `01-import.Rmd` file is closed.
+- Under the **Session** menu in RStudio, choose _Restart R_. This cleans our environment so we don't have left-over objects from our previous session, though you still might see history in your Console.
+- Create a new R Notebook and set a new title of "School ratings analysis".
+- Remove the boilerplate language and add a description of our goals: To explore an analyze our school ratings data. Mention that you have to run the other notebook first in case your someone else (or your future self) comes here first.
+- Save your file as `02-analysis.Rmd`.
 
 ## Record our goals
 
-What do we want to learn about these wells? Look over the columns and some of the values in them and come up with a list of at least five things you might want to learn from the data.
+One thing I like to do at the top of a notebook is outline what is I'm trying to do.
+What do we want to learn about these school ratings?
 
 - Add a Markdown headline `## Goals`.
 - Create a bullet list of things you might want to find. Use a `*` or `-` to start each new line.
 
-We'll review some of your ideas in class.
+When we worked with this data in sheets we wanted to find the following:
 
-## Name your code chunks
+- Which AISD schools failed?
+- Which schools in our five-county area failed?
+- How many schools got each grade designation in AISD? Our five-county area?
+- What is the failing percentage of charter schools for AISD vs the state?
+- Let's also visualize X.
 
-By adding the word `setup` after our the `{r}` at the beginning, then we can find that chunk in our navigation drop down at the bottom of the R Notebook window.
+## Setup
 
-![R Notebook navigation](images/transform-navigate.png){width=600px}
+The first code chunk in every notebook should be a listing of all the packages used. We put them at the top so users can see if they need to install the packages. For now, we just need the tidyverse package.
+
+- Create a new Markdown headline `## Import`
+- Add a new code chunk (**Cmd-Shift+i**!)
+- Add the tidyverse library
+- Run the chunk
+
+```{r}
+library(tidyverse)
+```
+
+### Naming our chunks
+
+It is good practice to name your chunks of code to make it easier to navigate throughout your R notebook. Let's do this with our setup chunk.
+
+- In your setup chunk, change `{r}` to `{r setup}`.
+
+By doing this, you can then use the notebook navigation to move to different parts of your RNotebook.
+
+![R Notebook navigation](images/transform-navigate.png){width=500px}
+
+ > The `{r}` part of a chunk can take a number of options in addition to a name, controlling what is displayed or knitted to your final report. We aren't going to get into it now, but you might see it in other notebooks or my code.
 
 ## Import our data
 
 - Add a Markdown headline and description that you are loading the data.
-- Add a code chunk named `import` with the following:
+- Add a code chunk the following, and then run the chunk:
 
-![Wells data imported](images/transform-wells-import.png){width=600px}
+```{r}
+ratings <- read_rds("data-processed/01_ratings.rds")
+```
 
 Now we are back to where we ended with the first notebook.
 
 ## Filter()
 
-We can use dplyr's `filter()` function to capture a subset of the data, like all the wells in Travis County. It works like this:
+We can use dplyr's `filter()` function to capture a subset of the data, like all the schools in AISD. It works like this:
 
 ![dplyr filter function](images/transform-filter.png){width=600px}
 
-Let's filter our wells data to just those in Travis County. We are going to use the ` %>% ` pipe function to do this to the `wells` data frame.
+> IMPORTANT: When you see a slide like the one above, please note that `.data` might be the data that you have piped ` %>% ` into the function. In fact, it usually is.
 
-![Travis wells](images/transform-wells-travis.png)
+Let's filter our ratings data to just those in AISD. We are going to use the ` %>% ` pipe function to do this to the `ratings` data frame.
 
+- Add ad header `## Filter fun` to your notebook.
+- Add text that you are looking for AISD schools.
+- Add a chunk, insert and run the following:
 
-When you run this, you'll see that you the about 9000 rows instead of the 18,000+ of the full data set.
+> The first box shown here is the code. The second is the result. The result is prettier in RStudio.
 
-Note the two equals signs there `==`. It's important two use two of them, as a single `=` will not work, as that means something else.
+```{r}
+ratings %>% 
+  filter(distname == "AUSTIN ISD")
+```
+
+When you run this, you'll see that you the about 130 rows instead of the 8,800+ of the full data set.
+
+The `filter()` function works in this order:
+
+1. What is the colummn (or variable) you are search in.
+2. What is the operation.
+3. What is the value (or observation) you are looking for.
+
+Note the two equals signs there `==`. It's important two use two of them when you are looking for "equal", as a single `=` will not work, as that means something else in R.
 
 There are a number of these logical test operations:
 
@@ -71,9 +121,24 @@ There are a number of these logical test operations:
 
 ### Filter your turn
 
-Create new code blocks and filter for each of the following:
 
-- Wells with a proposed use of Irrigation.
+
+
+
+
+> THIS IS WHERE I STOPPED
+
+
+
+
+
+
+Create new code blocks and filter for each of the following.
+
+> You might find the [data dictionary](https://rptsvr1.tea.texas.gov/perfreport/account/2019/download/camprate.html) for this data useful, but remember we lowercased all the column names.
+
+- Schools in the "HAYS CISD" district.
+- Schools in "WILLIAMSON" county.
 - Wells at least 1000 feet deep. (HINT: If you are filtering on a number, don't put it in quotes, or it will become text instead.)
 - One more that might help you answer one of your goals you listed above.
 
