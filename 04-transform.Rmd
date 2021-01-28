@@ -57,7 +57,8 @@ The first code chunk in every notebook should be a listing of all the packages u
 - Add the tidyverse library
 - Run the chunk
 
-```{r}
+
+```{r setup, echo=T, results='hide', message=F, warning=F}
 library(tidyverse)
 ```
 
@@ -65,7 +66,16 @@ library(tidyverse)
 
 It is good practice to name your chunks of code to make it easier to navigate throughout your R notebook. Let's do this with our setup chunk.
 
-- In your setup chunk, change `{r}` to `{r setup}`.
+- In your setup chunk, change `{r}` to `{r setup}`:
+
+```text
+{r setup}
+library(tidyverse)
+```
+
+(You have to imagine the three tickmarks that begin/end the code chunk above. I can't display those in the instructions.)
+
+You can't have multi-word names. You must use a `-` or `_`, like `multi-word`.
 
 By doing this, you can then use the notebook navigation to move to different parts of your RNotebook.
 
@@ -76,13 +86,15 @@ By doing this, you can then use the notebook navigation to move to different par
 ## Import our data
 
 - Add a Markdown headline and description that you are loading the data.
-- Add a code chunk the following, and then run the chunk:
+- Add a code chunk and give it a name of **import**. Add the code below and then run the chunk:
 
-```{r}
+```{r read}
 ratings <- read_rds("data-processed/01_ratings.rds")
 ```
 
-Now we are back to where we ended with the first notebook.
+We we've done is import the data we processed at the end of our **01-import.Rmd** notebook and assigned it to a data frame called `ratings`.
+
+We are now back to where we ended with the first notebook.
 
 ## Filter()
 
@@ -94,13 +106,13 @@ We can use dplyr's `filter()` function to capture a subset of the data, like all
 
 Let's filter our ratings data to just those in AISD. We are going to use the ` %>% ` pipe function to do this to the `ratings` data frame.
 
-- Add ad header `## Filter fun` to your notebook.
+- Add a header `## Filter fun` to your notebook.
 - Add text that you are looking for AISD schools.
 - Add a chunk, insert and run the following:
 
 > The first box shown here is the code. The second is the result. The result is prettier in RStudio.
 
-```{r}
+```{r filter}
 ratings %>% 
   filter(distname == "AUSTIN ISD")
 ```
@@ -109,38 +121,28 @@ When you run this, you'll see that you the about 130 rows instead of the 8,800+ 
 
 The `filter()` function works in this order:
 
-1. What is the colummn (or variable) you are search in.
+1. What is the column (or variable) you are search in.
 2. What is the operation.
 3. What is the value (or observation) you are looking for.
 
 Note the two equals signs there `==`. It's important two use two of them when you are looking for "equal", as a single `=` will not work, as that means something else in R.
 
+### Logical tests
+
 There are a number of these logical test operations:
 
 ![dplyr logical tests](images/transform-logical-test.png){width=600px}
 
-### Filter your turn
-
-
-
-
-
-
-> THIS IS WHERE I STOPPED
-
-
-
-
-
-
-Create new code blocks and filter for each of the following.
+### Filter on your own
 
 > You might find the [data dictionary](https://rptsvr1.tea.texas.gov/perfreport/account/2019/download/camprate.html) for this data useful, but remember we lowercased all the column names.
 
+Create new code blocks and filter for each of the following.
+
 - Schools in the "HAYS CISD" district.
 - Schools in "WILLIAMSON" county.
-- Wells at least 1000 feet deep. (HINT: If you are filtering on a number, don't put it in quotes, or it will become text instead.)
-- One more that might help you answer one of your goals you listed above.
+- All schools that got a "90" or better in `cdalls`.
+- All AUSTIN ISD schools that got an "F" c_rating.
 
 ### Common mistakes with filter
 
@@ -151,15 +153,15 @@ Some common mistakes that happen when using filter.
 DON'T DO THIS:
 
 ```r
-wells %>% 
-  filter(county = "Travis")
+ratings %>% 
+  filter(distname = "AUSTIN ISD")
 ```
 
 DO THIS:
 
 ```r
-wells %>% 
-  filter(county == "Travis")
+ratings %>% 
+  filter(distname == "AUSTIN ISD")
 ```
 
 #### Forgetting quotes
@@ -167,15 +169,15 @@ wells %>%
 DON'T DO THIS:
 
 ```r
-wells %>% 
-  filter(county == Bastrop)
+ratings %>% 
+  filter(cntyname == TRAVIS)
 ```
 
 DO THIS:
 
 ```r
-wells %>% 
-  filter(county == "Bastrop")
+ratings %>% 
+  filter(cntyname == "TRAVIS")
 ```
 
 
@@ -183,20 +185,21 @@ wells %>%
 
 You can filter for more than one thing at a time by separating more than one test with a comma.
 
-```r
-wells %>% 
-  filter(county == "Travis", proposed_use == "Irrigation")
+- Add the following code block to your notebook and run it.
+- Then look at the code and the result and then **write out what the filter is doing in your own words**.
+
+```{r filter-combine}
+ratings %>% 
+  filter(cntyname == "TRAVIS", cdalls < 60)
 ```
 
-If you use a comma to separate tests, then both tests have to be true. If you want OR, then you use a pipe `|` (the shift-key above the backslash.)
+If you use a comma to separate tests, then both tests have to be true. If you want OR, then you use a pipe character `|` (the shift-key above the backslash.)
 
 ![Boolean operators](images/transform-boolean.png){width=600px}
 
-### Your turn combining filters
+### Combining filters on your own
 
-Your quest is to filter to wells in Travis or Williamson counties that have a start date in 2018.
-
-**BIG HINT**: If you include `library(lubridate)` in your notebook then you can access the year of a field with `year(name_of_date_field)`.
+- Your quest is to filter ratings to schools in AUSTIN ISD that received an "F" for `c_rating`. Do this in a new chunk. Don't forget to give the chunk a name.
 
 ### Common mistakes with combining filters
 
@@ -207,25 +210,58 @@ Some things to watch when trying to combine filters.
 DON'T DO THIS:
 
 ```r
-wells %>% 
-  filter(county == "Travis" | "Williamson")
+ratings %>% 
+  filter(cntyname == "TRAVIS" | "WILLIAMSON")
 ```
 
 DO THIS:
 
 ```r
-well %>% 
-  filter(county == "Travis" | county == "Williamson")
+ratings %>% 
+  filter(cntyname == "TRAVIS" | cntyname =="WILLIAMSON")
 ```
 
 BUT EVEN BETTER:
 
 ```r
-wells %>% 
-  filter(county %in% c("Travis", "Williamson"))
+# Adding in Hays to the list as well
+ratings %>% 
+  filter(cntyname %in% c("TRAVIS", "WILLIAMSON","HAYS"))
 ```
 
-If you want to combine a series of strings in your filter, you have to put them inside a "concatenate" function, which is shortened to `c()`, as in the example above.
+If you want to combine a series of strings in your filter, you have to put them inside a "concatenate" function, which is shortened to `c()`, as in the example above. We'll end up using this a lot.
+
+## Select()
+
+As we've worked with our filters it has been onerous to tab through all the columns to check the result we want. The `select()` function allows you to choose which fields to display from a data frame. If we are only interested in some of the fields, like `campname`, `distname` and `c_rating`, then we we can pipe the results to a select function. It works by listing the column names inside the function. You can also use `-` before a column names to remove them (as opposed to listing those to keep.)
+
+- Add a new RMarkdown headline by adding the headline `## Select`.
+- Create a new chunk, name it **ratings-county** and add the following and run it:
+
+```{r ratings-county}
+ratings %>% 
+  filter(cntyname %in% c("TRAVIS", "WILLIAMSON", "HAYS")) %>% 
+  select(distname, campname, cdalls)
+```
+
+The order of all these operations matter. If you use `select()` that removes a column, you cannot later use filter on that removed column.
+
+### Select on your own
+
+- Start a section with a headline `### Select on your own`. (We are using three `###` to make this a subheadline of `## Select`.)
+- Add text that we are looking for AISD failed schools.
+- Go back to your "Filter on your own" chunk where you combined filters to find AUSTIN ISD schools that received and "F" rating and copy the code and add it here. Rename the chunk **aisd-failes**.
+- Add on a `select` function to give you only the district name, school name and letter-grade rating.
+
+This is the answer to one of our goals for this notebook.
+
+Now for the next goal:
+
+- Add text that we are looking for schools that failed on our five-county area.
+- Add a new chunk called **metro-fails**.
+- Filter for the five counties: BASTROP, HAYS, CALDWELL, TRAVIS, WILLIAMSON. Remember you can use the `%in%` designation, putting the county list inside `c()`. Don't forget the quotes around the county names.
+- Also filter for the c_rating to get failed schools.
+- Select the county name, district name, school name and rating.
 
 ## Arrange()
 
@@ -233,61 +269,56 @@ The `arrange()` function sorts data.
 
 ```r
 dataframe %>% 
-  arrange(column)
+  arrange(column_name)
 ```
 
-Or, to arrange in descending order (biggest on top):
+It will sort in ascending (A-Z or 1-10) by default.
+
+If you want to sort the column be descending order (Z-A or 10-1), then you add on `desc()` function:
 
 ```r
 dataframe %>% 
-  arrange(desc(column))
+  arrange(desc(column_name))
 ```
 
-So, let's sort our data by the borehole depth:
+The above code wraps your sorting colun with the `desc()` function. I'm more apt to write this the tidyverse way, as the pipe makes the order of operations more clear to me:
 
 ```r
-wells %>% 
-  arrange(borehole_depth)
+dataframe %>% 
+  arrange(column_name %>% desc())
 ```
 
-You'll have to scroll the columns over to see it, and the depths start at zero, which is not very sexy. As journalists, we usually want to see the largest (or deepest) thing, so we can arrange the column in descending order with this:
+So, let's take our example data and sort it by schools who scored highest.
 
-![Deepest wells](images/transform-wells-deep.png){width=600px}
+- Add a headline `## Arrange`.
+- Take the code below and add a chunk called **ratings-highest** and run it.
 
-Now we see some deep wells ... 3300 feet when I pulled my test data.
-
-## Multi-step operations
-
-But what if you want to both filter and arrange? It is possible to chain piped opperations together.
-
-Let's find the deepest well in Travis County:
-
-```r
-wells %>% 
-  filter(county == "Travis") %>%
-  arrange(desc(borehole_depth))
+```{r arrange-example}
+ratings %>% 
+  filter(cntyname %in% c("TRAVIS", "WILLIAMSON", "HAYS")) %>% 
+  select(distname, campname, cdalls) %>% 
+  arrange(cdalls %>% desc())
 ```
 
-### Your turn to combine and pipe
+### Arrange on your own
 
-Find a list of the deepest irrigation wells in Travis County in 2017. Use the pipe to string together your functions.
+This quest will take all your skills plus the new `arrange()` function, including looking back to see how to filter on NOT EQUAL TO (look back at "Logical tests"). You also might need the record layout noted above.
 
-## Select()
-
-As we've worked with `borehole_depth` it's been kind of a pain to tab through all the fields to see the result we want. The `select()` function allows you to choose which fields to display from a data frame. If we are only interested in the `owner` and `borehole_depth` from our previous query of deepest wells in Travis, then we we can pipe the results to a select function. It works by listing the column names inside the function. You can use `-` before a column name to remove it.
-
-- One the end of your previous code chunk, add a pipe, then `select(owner_name, borehole_depth)`:
-
-```r
-wells %>% 
-  filter(county == "Travis") %>%
-  arrange(desc(borehole_depth)) %>% 
-  select(owner_name, borehole_depth)
-```
-
-The order of all these operations matter. If you use `select()` that removes a column, you cannot later use filter on that removed column.
+- Add a headline `### Arrange on your own`
+- Add a new chunk called **aisd-highschools**.
+- Filter for: AUSTIN ISD schools, with the highest grade of "12", but exclude schools with the value "Not Rated".
+- Arrange then by the highest `cdalls` value
+- Select only the campus name, number rating and grade rating.
 
 ## Mutate()
+
+
+
+> THIS IS WHERE I STOPPED
+
+
+
+
 
 We used the `mutate()` function with our data cleaning, but let's dive more into it. `mutate()` allows us to change data based on a formula. We can assign the change back to an existing column or create a new one.
 
