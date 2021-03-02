@@ -1,0 +1,498 @@
+# Old - Transform
+
+## MIDDLE OF REWRITE VERSON
+
+- This was the early rewrite that used school ratings
+- It doesn't have enough mutating to work
+- I could use some of this for an assignment.
+- I don't want to delete yet in case students are mid-use.
+
+## Goals for the section
+
+In this lesson we will continue with the School Ratings project you began in the last chapter. Our goals are:
+
+- To build good data journalism and programming practices.
+- Use the [dplyr](https://dplyr.tidyverse.org/) tools to select, filter, sort and create new columns of data.
+
+> You might find the [data dictionary](https://rptsvr1.tea.texas.gov/perfreport/account/2019/download/camprate.html) for this data useful, but remember we lowercased all the column names.
+
+## Introducing dplyr
+
+One of the packages within the tidyverse is [dplyr](https://dplyr.tidyverse.org/). Dplyr allows us to transform our data frames in ways that let us explore the data and prepare it for visualizing. It's the R equivalent of common Excel functions like sort, filter and pivoting.
+
+> There is a cheatsheet on the [dplyr](https://dplyr.tidyverse.org/) that you might find useful. 
+
+![Common dplyr functions](images/transform-dplyractions.png){width=600px}
+
+(Some slides/images included here are used with permission from Hadley and Charlotte Wickham.)
+
+## Start a new R Notebook
+
+As I explained at the end of our last lesson, it's a good practice to separate your import/cleaning functions from your analysis functions into separate notebooks, so we'll create a new one for our analysis.
+
+- Open y ou school-ratings project if you haven't already.
+- Make sure the `01-import.Rmd` file is closed.
+- Under the **Session** menu in RStudio, choose _Restart R_. This cleans our environment so we don't have left-over objects from our previous session, though you still might see history in your Console.
+- Create a new R Notebook and set a new title of "School ratings analysis".
+- Remove the boilerplate language and add a description of our goals: To explore an analyze our school ratings data. Mention that you have to run the other notebook first in case your someone else (or your future self) comes here first.
+- Save your file as `02-analysis.Rmd`.
+
+## Record our goals
+
+One thing I like to do at the top of a notebook is outline what is I'm trying to do.
+What do we want to learn about these school ratings?
+
+- Add a Markdown headline `## Goals`.
+- Create a bullet list of things you might want to find. Use a `*` or `-` to start each new line.
+
+When we worked with this data in sheets we wanted to find the following:
+
+- Which AISD schools failed?
+- Which schools in our five-county area failed?
+- How many schools got each grade designation in AISD? Our five-county area?
+- What is the failing percentage of charter schools for AISD vs the state?
+- Let's also visualize X.
+
+## Setup
+
+The first code chunk in every notebook should be a listing of all the packages used. We put them at the top so users can see if they need to install the packages. For now, we just need the tidyverse package.
+
+- Create a new Markdown headline `## Import`
+- Add a new code chunk (**Cmd-Shift+i**!)
+- Add the tidyverse library
+- Run the chunk
+
+
+
+```r
+library(tidyverse)
+```
+
+### Naming our chunks
+
+It is good practice to name your chunks of code to make it easier to navigate throughout your R notebook. Let's do this with our setup chunk.
+
+- In your setup chunk, change `{r}` to `{r setup}`:
+
+```text
+{r setup}
+library(tidyverse)
+```
+
+(You have to imagine the three tickmarks that begin/end the code chunk above. I can't display those in the instructions.)
+
+You can't have multi-word names. You must use a `-` or `_`, like `multi-word`.
+
+By doing this, you can then use the notebook navigation to move to different parts of your RNotebook.
+
+![R Notebook navigation](images/transform-navigate.png){width=500px}
+
+ > The `{r}` part of a chunk can take a number of options in addition to a name, controlling what is displayed or knitted to your final report. We aren't going to get into it now, but you might see it in other notebooks or my code.
+
+## Import our data
+
+- Add a Markdown headline and description that you are loading the data.
+- Add a code chunk and give it a name of **import**. Add the code below and then run the chunk:
+
+
+```r
+ratings <- read_rds("data-processed/01_ratings.rds")
+```
+
+We we've done is import the data we processed at the end of our **01-import.Rmd** notebook and assigned it to a data frame called `ratings`.
+
+We are now back to where we ended with the first notebook.
+
+## Filter()
+
+We can use dplyr's `filter()` function to capture a subset of the data, like all the schools in AISD. It works like this:
+
+![dplyr filter function](images/transform-filter.png){width=600px}
+
+> IMPORTANT: When you see a slide like the one above, please note that `.data` might be the data that you have piped ` %>% ` into the function. In fact, it usually is.
+
+Let's filter our ratings data to just those in AISD. We are going to use the ` %>% ` pipe function to do this to the `ratings` data frame.
+
+- Add a header `## Filter fun` to your notebook.
+- Add text that you are looking for AISD schools.
+- Add a chunk, insert and run the following:
+
+> The first box shown here is the code. The second is the result. The result is prettier in RStudio.
+
+
+```r
+ratings %>% 
+  filter(distname == "AUSTIN ISD")
+```
+
+```
+## # A tibble: 130 x 24
+##    campus call_update campname cdalls cflaeatype cflaec cflalted cflchart
+##    <chr>        <dbl> <chr>     <int> <chr>      <chr>  <chr>    <chr>   
+##  1 22790…          NA AUSTIN …     90 <NA>       N      N        N       
+##  2 22790…          NA LANIER …     83 <NA>       N      N        N       
+##  3 22790…          NA MCCALLU…     93 <NA>       N      N        N       
+##  4 22790…          NA REAGAN …     82 <NA>       N      N        N       
+##  5 22790…          NA TRAVIS …     82 <NA>       N      N        N       
+##  6 22790…          NA CROCKET…     86 <NA>       N      N        N       
+##  7 22790…          NA ANDERSO…     92 <NA>       N      N        N       
+##  8 22790…          NA ALTERNA…     NA <NA>       N      N        N       
+##  9 22790…          NA BOWIE H…     92 <NA>       N      N        N       
+## 10 22790…          NA LBJ HIG…     82 <NA>       N      N        N       
+## # … with 120 more rows, and 16 more variables: cfldaep <chr>, cfleek <chr>,
+## #   cfljj <chr>, cflnewcamp <chr>, cflrtf <chr>, cntyname <chr>, county <chr>,
+## #   c_appeal_decision <chr>, c_rating <chr>, c_yrs_ir <chr>, distname <chr>,
+## #   district <chr>, grdhigh <chr>, grdlow <chr>, grdspan <chr>, grdtype <chr>
+```
+
+When you run this, you'll see that you the about 130 rows instead of the 8,800+ of the full data set.
+
+The `filter()` function works in this order:
+
+1. What is the column (or variable) you are search in.
+2. What is the operation.
+3. What is the value (or observation) you are looking for.
+
+Note the two equals signs there `==`. It's important two use two of them when you are looking for "equal", as a single `=` will not work, as that means something else in R.
+
+### Logical tests
+
+There are a number of these logical test operations:
+
+![dplyr logical tests](images/transform-logical-test.png){width=600px}
+
+### Filter on your own
+
+> You might find the [data dictionary](https://rptsvr1.tea.texas.gov/perfreport/account/2019/download/camprate.html) for this data useful, but remember we lowercased all the column names.
+
+Create new code blocks and filter for each of the following.
+
+- Schools in the "HAYS CISD" district.
+- Schools in "WILLIAMSON" county.
+- All schools that got a "90" or better in `cdalls`.
+- All AUSTIN ISD schools that got an "F" c_rating.
+
+### Common mistakes with filter
+
+Some common mistakes that happen when using filter.
+
+#### Use two == signs for "true"
+
+DON'T DO THIS:
+
+```r
+ratings %>% 
+  filter(distname = "AUSTIN ISD")
+```
+
+DO THIS:
+
+```r
+ratings %>% 
+  filter(distname == "AUSTIN ISD")
+```
+
+#### Forgetting quotes
+
+DON'T DO THIS:
+
+```r
+ratings %>% 
+  filter(cntyname == TRAVIS)
+```
+
+DO THIS:
+
+```r
+ratings %>% 
+  filter(cntyname == "TRAVIS")
+```
+
+
+## Combining filters
+
+You can filter for more than one thing at a time by separating more than one test with a comma.
+
+- Add the following code block to your notebook and run it.
+- Then look at the code and the result and then **write out what the filter is doing in your own words**.
+
+
+```r
+ratings %>% 
+  filter(cntyname == "TRAVIS", cdalls < 60)
+```
+
+```
+## # A tibble: 16 x 24
+##    campus call_update campname cdalls cflaeatype cflaec cflalted cflchart
+##    <chr>        <dbl> <chr>     <int> <chr>      <chr>  <chr>    <chr>   
+##  1 22782…          NA KIPP DE…     50 <NA>       N      N        Y       
+##  2 22782…          NA KIPP TR…     52 <NA>       N      N        Y       
+##  3 22782…          NA KIPP UN…     54 <NA>       N      N        Y       
+##  4 22782…          NA KIPP ES…     46 <NA>       N      N        Y       
+##  5 22790…          NA BURNET …     54 <NA>       N      N        N       
+##  6 22790…          NA MARTIN …     58 <NA>       N      N        N       
+##  7 22790…          NA WEBB M S     52 <NA>       N      N        N       
+##  8 22790…          NA DOBIE M…     59 <NA>       N      N        N       
+##  9 22790…          NA MENDEZ …     50 <NA>       N      N        N       
+## 10 22790…          NA SADLER …     59 <NA>       N      N        N       
+## 11 22790…          NA ANDREWS…     56 <NA>       N      N        N       
+## 12 22790…          NA BARRING…     55 <NA>       N      N        N       
+## 13 22790…          NA NORTHWE…     59 <NA>       N      N        N       
+## 14 22790…          NA MANOR M…     50 <NA>       N      N        N       
+## 15 22791…          NA DAILEY …     59 <NA>       N      N        N       
+## 16 22791…          NA POPHAM …     56 <NA>       N      N        N       
+## # … with 16 more variables: cfldaep <chr>, cfleek <chr>, cfljj <chr>,
+## #   cflnewcamp <chr>, cflrtf <chr>, cntyname <chr>, county <chr>,
+## #   c_appeal_decision <chr>, c_rating <chr>, c_yrs_ir <chr>, distname <chr>,
+## #   district <chr>, grdhigh <chr>, grdlow <chr>, grdspan <chr>, grdtype <chr>
+```
+
+If you use a comma to separate tests, then both tests have to be true. If you want OR, then you use a pipe character `|` (the shift-key above the backslash.)
+
+![Boolean operators](images/transform-boolean.png){width=600px}
+
+### Combining filters on your own
+
+- Your quest is to filter ratings to schools in AUSTIN ISD that received an "F" for `c_rating`. Do this in a new chunk. Don't forget to give the chunk a name.
+
+### Common mistakes with combining filters
+
+Some things to watch when trying to combine filters.
+
+#### Collapsing multiple tests into one
+
+DON'T DO THIS:
+
+```r
+ratings %>% 
+  filter(cntyname == "TRAVIS" | "WILLIAMSON")
+```
+
+DO THIS:
+
+```r
+ratings %>% 
+  filter(cntyname == "TRAVIS" | cntyname =="WILLIAMSON")
+```
+
+BUT EVEN BETTER:
+
+```r
+# Adding in Hays to the list as well
+ratings %>% 
+  filter(cntyname %in% c("TRAVIS", "WILLIAMSON","HAYS"))
+```
+
+If you want to combine a series of strings in your filter, you have to put them inside a "concatenate" function, which is shortened to `c()`, as in the example above. We'll end up using this a lot.
+
+## Select()
+
+As we've worked with our filters it has been onerous to tab through all the columns to check the result we want. The `select()` function allows you to choose which fields to display from a data frame. If we are only interested in some of the fields, like `campname`, `distname` and `c_rating`, then we we can pipe the results to a select function. It works by listing the column names inside the function. You can also use `-` before a column names to remove them (as opposed to listing those to keep.)
+
+- Add a new RMarkdown headline by adding the headline `## Select`.
+- Create a new chunk, name it **ratings-county** and add the following and run it:
+
+
+```r
+ratings %>% 
+  filter(cntyname %in% c("TRAVIS", "WILLIAMSON", "HAYS")) %>% 
+  select(distname, campname, cdalls)
+```
+
+```
+## # A tibble: 529 x 3
+##    distname                     campname                          cdalls
+##    <chr>                        <chr>                              <int>
+##  1 KATHERINE ANNE PORTER SCHOOL KATHERINE ANNE PORTER SCHOOL          67
+##  2 TEXAS PREPARATORY SCHOOL     TEXAS PREPARATORY SCHOOL              48
+##  3 TEXAS PREPARATORY SCHOOL     TEXAS PREPARATORY SCHOOL - AUSTIN     40
+##  4 KI CHARTER ACADEMY           KI CHARTER ACADEMY                    NA
+##  5 SAN MARCOS CISD              SAN MARCOS H S                        76
+##  6 SAN MARCOS CISD              GOODNIGHT MIDDLE                      67
+##  7 SAN MARCOS CISD              MILLER MIDDLE                         64
+##  8 SAN MARCOS CISD              BOWIE EL                              73
+##  9 SAN MARCOS CISD              CROCKETT EL                           81
+## 10 SAN MARCOS CISD              DEZAVALA EL                           71
+## # … with 519 more rows
+```
+
+The order of all these operations matter. If you use `select()` that removes a column, you cannot later use filter on that removed column.
+
+### Select on your own
+
+- Start a section with a headline `### Select on your own`. (We are using three `###` to make this a subheadline of `## Select`.)
+- Add text that we are looking for AISD failed schools.
+- Go back to your "Filter on your own" chunk where you combined filters to find AUSTIN ISD schools that received and "F" rating and copy the code and add it here. Rename the chunk **aisd-failes**.
+- Add on a `select` function to give you only the district name, school name and letter-grade rating.
+
+This is the answer to one of our goals for this notebook.
+
+Now for the next goal:
+
+- Add text that we are looking for schools that failed on our five-county area.
+- Add a new chunk called **metro-fails**.
+- Filter for the five counties: BASTROP, HAYS, CALDWELL, TRAVIS, WILLIAMSON. Remember you can use the `%in%` designation, putting the county list inside `c()`. Don't forget the quotes around the county names.
+- Also filter for the c_rating to get failed schools.
+- Select the county name, district name, school name and rating.
+
+## Arrange()
+
+The `arrange()` function sorts data.
+
+```r
+dataframe %>% 
+  arrange(column_name)
+```
+
+It will sort in ascending (A-Z or 1-10) by default.
+
+If you want to sort the column be descending order (Z-A or 10-1), then you add on `desc()` function:
+
+```r
+dataframe %>% 
+  arrange(desc(column_name))
+```
+
+The above code wraps your sorting colun with the `desc()` function. I'm more apt to write this the tidyverse way, as the pipe makes the order of operations more clear to me:
+
+```r
+dataframe %>% 
+  arrange(column_name %>% desc())
+```
+
+So, let's take our example data and sort it by schools who scored highest.
+
+- Add a headline `## Arrange`.
+- Take the code below and add a chunk called **ratings-highest** and run it.
+
+
+```r
+ratings %>% 
+  filter(cntyname %in% c("TRAVIS", "WILLIAMSON", "HAYS")) %>% 
+  select(distname, campname, cdalls) %>% 
+  arrange(cdalls %>% desc())
+```
+
+```
+## # A tibble: 529 x 3
+##    distname                  campname                           cdalls
+##    <chr>                     <chr>                               <int>
+##  1 CHAPARRAL STAR ACADEMY    CHAPARRAL STAR ACADEMY                 98
+##  2 AUSTIN ISD                RICHARDS SCH FOR YOUNG WOMEN LEADE     98
+##  3 ROUND ROCK ISD            CANYON CREEK EL                        98
+##  4 ROUND ROCK ISD            CACTUS RANCH EL                        98
+##  5 KIPP TEXAS PUBLIC SCHOOLS KIPP UNITY PRI                         97
+##  6 AUSTIN ISD                LASA H S                               97
+##  7 AUSTIN ISD                KIKER EL                               97
+##  8 EANES ISD                 FOREST TRAIL EL                        97
+##  9 ROUND ROCK ISD            CANYON VISTA MIDDLE                    97
+## 10 ROUND ROCK ISD            JAMES GARLAND WALSH MIDDLE             97
+## # … with 519 more rows
+```
+
+### Arrange on your own
+
+This quest will take all your skills plus the new `arrange()` function, including looking back to see how to filter on NOT EQUAL TO (look back at "Logical tests"). You also might need the record layout noted above.
+
+- Add a headline `### Arrange on your own`
+- Add a new chunk called **aisd-highschools**.
+- Filter for: AUSTIN ISD schools, with the highest grade of "12", but exclude schools with the value "Not Rated".
+- Arrange then by the highest `cdalls` value.
+- Select only the campus name, number rating and grade rating.
+
+## Mutate()
+
+The [mutate()](https://dplyr.tidyverse.org/reference/mutate.html) function allows us to change a column of data or create new columns based on others. We can do calculations across columns or change data types. It is useful in cleaning data.
+
+
+
+> THIS IS WHERE I STOPPED
+
+
+
+```r
+ratings %>% 
+  filter(grdtype == "B", distname == "AUSTIN ISD") %>% 
+  glimpse()
+```
+
+```
+## Rows: 5
+## Columns: 24
+## $ campus            <chr> "227901012", "227901028", "227901030", "227901250",…
+## $ call_update       <dbl> NA, NA, NA, NA, NA
+## $ campname          <chr> "ALTERNATIVE LEARNING CENTER", "RICHARDS SCH FOR YO…
+## $ cdalls            <int> NA, 98, NA, NA, NA
+## $ cflaeatype        <chr> NA, NA, "RESIDENTIAL FACILITY", "RESIDENTIAL FACILI…
+## $ cflaec            <chr> "N", "N", "N", "N", "N"
+## $ cflalted          <chr> "N", "N", "Y", "Y", "N"
+## $ cflchart          <chr> "N", "N", "N", "N", "N"
+## $ cfldaep           <chr> "Y", "N", "N", "N", "N"
+## $ cfleek            <chr> "N", "N", "N", "N", "N"
+## $ cfljj             <chr> "N", "N", "N", "N", "N"
+## $ cflnewcamp        <chr> "N", "N", "N", "N", "N"
+## $ cflrtf            <chr> "N", "N", "Y", "Y", "N"
+## $ cntyname          <chr> "TRAVIS", "TRAVIS", "TRAVIS", "TRAVIS", "TRAVIS"
+## $ county            <chr> "227", "227", "227", "227", "227"
+## $ c_appeal_decision <chr> NA, NA, NA, NA, NA
+## $ c_rating          <chr> "Not Rated", "A", "Not Rated", "Not Rated", "Not Ra…
+## $ c_yrs_ir          <chr> ".", ".", ".", ".", "."
+## $ distname          <chr> "AUSTIN ISD", "AUSTIN ISD", "AUSTIN ISD", "AUSTIN I…
+## $ district          <chr> "227901", "227901", "227901", "227901", "227901"
+## $ grdhigh           <chr> "12", "12", "11", "12", "12"
+## $ grdlow            <chr> "06", "06", "06", "PK", "EE"
+## $ grdspan           <chr> "06 - 12", "06 - 12", "06 - 11", "PK - 12", "EE - 1…
+## $ grdtype           <chr> "B", "B", "B", "B", "B"
+```
+
+![Create columns with mutate()](images/transform-mutate.png){width=600px}
+
+In the example above:
+
+- `gapminder` is the source data frame.
+- `gdp` is the new column being created. it comes first.
+- `= gdpPercap * pop` is the function. It is multiplying the the two columns that are in the `gapminder` data frame.
+
+The applied function doesn't have to be math. It could be pulling part of a string or any number of things.
+
+
+
+### Your turn to mutate
+
+- Modify the above mutate function to also add a `month_drilled` column.
+
+### Document and save new columns
+
+- Before the code chunk, write out what we are doing. Add a Markdown headline and description of our task, which was to add a "year_drilled" and "month_drilled" column.
+- Name the chunk by adding `add_year_month` inside the `{r}` part of the chunk.
+- Edit the first line `wells %>% ` to `wells <- wells %>% ` to assign the mutate result back to our wells data frame.
+
+```r
+wells <- wells %>% 
+  mutate(
+    year_drilled = year(drilling_start_date),
+    month_drilled = month(drilling_start_date)
+  )
+```
+
+As we've seen before, when we assign the result back to `wells`, the data frame will no longer print to the screen anymore. That's OK. Inspect the `wells` data frame within the Environment tab and to make sure it was created properly. (If you really want to check the data on your screen, you could use `head(wells)` to see just the several lines.)
+
+As you may recall from our lesson on column renaming, we can create more than one column within the same `mutate()` function by separating them with commas.
+
+### Export the mutated data
+
+We actually want to keep these new columns to use later, so let's do a quick export to save them for later.
+
+```r
+wells %>% saveRDS("data-out/wells_02.rds")
+```
+
+
+
+## Transform review
+
+This has been a lot to learn, but it is the basics of just about any data analysis ... to **filter**, **select**, **arrange**,  and to create new variables with with **mutate**.
+
+Next, we'll start plotting some of this data so we can _see_ it.
+

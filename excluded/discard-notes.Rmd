@@ -1,0 +1,69 @@
+---
+title: "Discard notes"
+output: html_notebook
+---
+
+Notes from previous writings that may be useful in the future
+
+---
+
+From school ratings data in case we use it.
+
+## Inspecting and adjusting imports
+
+When we page through our data, we should notice that the `cdalls` column is a numerical value. If we review our [data dictionary](https://rptsvr1.tea.texas.gov/perfreport/account/2019/download/camprate.html) this is the "Campus 2019 Overall Scaled Score", or the number grade that corresponds to the letter grade the school received.
+
+You might notice that "ELKHART DAEP" has a `.` for a grade. A DEAP school is a "disciplinary alternative education program" and the often are exempt from ratings. There are some other schools like this, too. Because of the `.`, R though this column was supposed to be text (or `col_character()` in R-speak). These are suppose to be whole numbers, or `col_integer()`.
+
+At this point we have a decision to make. We can fix this as we import the data, or fix it afterward.
+
+The "pros" for fixing on import is it is done and we don't have to worry about it later. Any value that is not a number is not useful to us. (We can't get an average of text.)
+
+The "pros" for fixing after import is we compare the original values to the new values. Sometimes this is very important when you are changing data.
+
+That all said, we are going to fix on import because that it is importing that we are learning. We have a good handle on why the data came in as it did and fixing is a safe thing to do.
+
+### Fix `cdalls`: Assign data type upon import
+
+We have to do some more editing to our import statement to set `cdalls` as an interger on import.  
+
+The [usage](https://readr.tidyverse.org/#usage) section of the readr documentation shows There is an "argument" in the `read_csv()` function that will allow this. After our first argument of the "path" to the document, we can add a `col_types = cols()` argument and identify which colunns and data types to use inside `cols()`.
+
+To do this, we will edit the `read_csv()` part of our chunk. When I have multiple arguments in a function, I like to put them on separate lines so they are more readable. This is a bit tricky to explain in prose, but I'm adding returns after the opening `(` for both the `read_csv()` function and the `cols()` function so the internals are on separate lines.
+
+RStudio will try to help you with the indentation. If you are "inside" a function, the next line is indented.
+
+- Adjust your code to look like that below and run it:
+
+```r
+read_csv(
+  "data-raw/camprate_2019.csv",
+  col_types = cols(
+    CDALLS = col_integer()     
+  )
+) %>% 
+  clean_names()
+```
+
+Look at the data that is returned. The data type indication under the `cdalls` column should now be **<int>**, for integer. You might also notice that the value for "ELKHART DAEP" is now **NA**, which means not available. i.e, it is missing.
+
+If you look at the R Console tab, it shows this:
+
+```text
+41 parsing failures.
+row    col   expected actual                         file
+  5 CDALLS an integer      . 'data-raw/camprate_2019.csv'
+ 55 CDALLS an integer      . 'data-raw/camprate_2019.csv'
+ 56 CDALLS an integer      . 'data-raw/camprate_2019.csv'
+ 63 CDALLS an integer      . 'data-raw/camprate_2019.csv'
+ 71 CDALLS an integer      . 'data-raw/camprate_2019.csv'
+... ...... .......... ...... ............................
+See problems(...) for more details.
+```
+
+There wer parse errors each time it hit a `.` instead of a number. We are OK with this because we know why!
+
+---
+
+
+

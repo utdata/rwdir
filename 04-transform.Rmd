@@ -2,14 +2,18 @@
 
 > MID-UPDATE v1.0
 
-- Use school ratings data
+## Rewite tasks
+
+- Use sped data
+- Quick do the steps
+- Return to fill in story gaps
 
 ## Goals for the section
 
-In this lesson we will continue with the School Ratings project you began in the last chapter. Our goals are:
+In this lesson we will continue with the Special Education project you began in the last chapter. Our goals are:
 
 - To build good data journalism and programming practices.
-- Use the [dplyr](https://dplyr.tidyverse.org/) tools to select, filter, sort and create new columns of data.
+- Use the [dplyr](https://dplyr.tidyverse.org/) tools to select, filter, sort and create new columns of data with mutate. You might [read this article](https://dplyr.tidyverse.org/articles/dplyr.html) to get an idea.
 
 ## Introducing dplyr
 
@@ -17,20 +21,20 @@ One of the packages within the tidyverse is [dplyr](https://dplyr.tidyverse.org/
 
 > There is a cheatsheet on the [dplyr](https://dplyr.tidyverse.org/) that you might find useful. 
 
-![Common dplyr functions](images/transform-dplyractions.png){width=600px}
+![Common dplyr functions](images/transform-dplyractions.png){width=500px}
 
 (Some slides/images included here are used with permission from Hadley and Charlotte Wickham.)
 
 ## Start a new R Notebook
 
-As I explained at the end of our last lesson, it's a good practice to separate your import/cleaning functions from your analysis functions into separate notebooks, so we'll create a new one for our analysis.
+As I explained at the end of our last lesson, it's a good practice to separate your downloading/import code from your other notebooks. We are creating a new notebook to handle all our computations, too, in case we want to do different analysis in different notebooks going forward.
 
-- Open y ou school-ratings project if you haven't already.
+- Open your special-ed project if you haven't already.
 - Make sure the `01-import.Rmd` file is closed.
 - Under the **Session** menu in RStudio, choose _Restart R_. This cleans our environment so we don't have left-over objects from our previous session, though you still might see history in your Console.
-- Create a new R Notebook and set a new title of "School ratings analysis".
+- Create a new R Notebook and set a new title of "Special education computations".
 - Remove the boilerplate language and add a description of our goals: To explore an analyze our school ratings data. Mention that you have to run the other notebook first in case your someone else (or your future self) comes here first.
-- Save your file as `02-analysis.Rmd`.
+- Save your file as `02-computations.Rmd`.
 
 ## Record our goals
 
@@ -40,26 +44,29 @@ What do we want to learn about these school ratings?
 - Add a Markdown headline `## Goals`.
 - Create a bullet list of things you might want to find. Use a `*` or `-` to start each new line.
 
-When we worked with this data in sheets we wanted to find the following:
+```text
+- Which campus gained the most (count difference) special education students from 2015 to 2020?
+- Which campus has the highest share (percent) of special education students in 2020?
+- Which campus had the greatest change in share of in special education students between 2015 and 2020.
+- How many AISD schools would be above the special education "audit threshold" of 8.5% in 2020 if it were still in effect? How does those numbers compare to 2015?
 
-- Which AISD schools failed?
-- Which schools in our five-county area failed?
-- How many schools got each grade designation in AISD? Our five-county area?
-- What is the failing percentage of charter schools for AISD vs the state?
-- Let's also visualize X.
+We will filter our list to focus on "Regular Instructional" schools to exclude alternative, disciplinary or schools part of the justice system.
+```
+
+We will filter our list to focus on "Regular Instructional" schools to exclude alternative, disciplinary or schools part of the justice system.
 
 ## Setup
 
-The first code chunk in every notebook should be a listing of all the packages used. We put them at the top so users can see if they need to install the packages. For now, we just need the tidyverse package.
+The first code chunk in every notebook should be a listing of all the packages used. We put them at the top so users can see if they need to install the packages. For now, we need the tidyverse and janitor packages (which I include in every notebook).
 
 - Create a new Markdown headline `## Import`
 - Add a new code chunk (**Cmd-Shift+i**!)
-- Add the tidyverse library
+- Add the tidyverse and janitor libraries
 - Run the chunk
-
 
 ```{r setup, echo=T, results='hide', message=F, warning=F}
 library(tidyverse)
+library(janitor)
 ```
 
 ### Naming our chunks
@@ -79,7 +86,7 @@ You can't have multi-word names. You must use a `-` or `_`, like `multi-word`.
 
 By doing this, you can then use the notebook navigation to move to different parts of your RNotebook.
 
-![R Notebook navigation](images/transform-navigate.png){width=500px}
+![R Notebook navigation](images/transform-navigate.png){width=400px}
 
  > The `{r}` part of a chunk can take a number of options in addition to a name, controlling what is displayed or knitted to your final report. We aren't going to get into it now, but you might see it in other notebooks or my code.
 
@@ -89,60 +96,76 @@ By doing this, you can then use the notebook navigation to move to different par
 - Add a code chunk and give it a name of **import**. Add the code below and then run the chunk:
 
 ```{r read}
-ratings <- read_rds("data-processed/01_ratings.rds")
+sped <- read_rds("data-processed/01_sped.rds")
+
+sped %>% glimpse()
 ```
 
-We we've done is import the data we processed at the end of our **01-import.Rmd** notebook and assigned it to a data frame called `ratings`.
+What we've done is import the data we processed at the end of our **01-import.Rmd** notebook and assigned it to a data frame called `sped` and glimpsed it for reference.
 
 We are now back to where we ended with the first notebook.
 
+## Explore instruction type
+
+Our first task is to filter our data to remove any schools not rated by normal standards, like disciplinary schools and the like. Before we do this, we'll do a quick exploration of the data available in the `instruction_type`  field using `count()`. This is a "summarize" concept that we'll cover more in the next chapter, but it is super useful so we'll touch on it here.
+
+- Create a Markdown section with a headline and text that you are exploring instruction_type.
+- Add a code chunk and name it "explore-type".
+- Add this code and run it, then I'll explain it.
+
+```{r explore-type}
+sped %>% 
+  count(instruction_type)
+```
+
+What you've done here is very similar to a pivot table in Excel where you count the rows based on values.
+
+- We start with the data frame
+- We pipe into the function `count()`
+- We feed count the column name where we want to count the records by value.
+
+The `n` column is the number of rows. We'll talk more about `count()` and other summary functions in the next chapter. It is super useful to peek at your data and use it to check filters and such.
+
 ## Filter()
 
-We can use dplyr's `filter()` function to capture a subset of the data, like all the schools in AISD. It works like this:
+We can use dplyr's `filter()` function to capture a subset of the data, like our "REGULAR INSTRUCTIONAL" schools. It works like this:
 
-![dplyr filter function](images/transform-filter.png){width=600px}
+![dplyr filter function](images/transform-filter.png){width=500px}
 
 > IMPORTANT: When you see a slide like the one above, please note that `.data` might be the data that you have piped ` %>% ` into the function. In fact, it usually is.
 
-Let's filter our ratings data to just those in AISD. We are going to use the ` %>% ` pipe function to do this to the `ratings` data frame.
+Let's put this into practice.
+
+### Filter for Regular Instructional schools
+
+From or count we know there are four types of schools: ALTERNATIVE INSTRUCTIONAL, DAEP INSTRUCTIONAL, JJAEP INSTRUCTIONAL and REGULAR INSTRUCTIONAL. Now that we know what the "regular" schools are called, we can build a filter to find them.
 
 - Add a header `## Filter fun` to your notebook.
-- Add text that you are looking for AISD schools.
+- Add text that you filtering for regular schools.
 - Add a chunk, insert and run the following:
 
 > The first box shown here is the code. The second is the result. The result is prettier in RStudio.
 
 ```{r filter}
-ratings %>% 
-  filter(distname == "AUSTIN ISD")
+sped %>% 
+  filter(instruction_type == "REGULAR INSTRUCTIONAL")
 ```
 
-When you run this, you'll see that you the about 130 rows instead of the 8,800+ of the full data set.
+When you run this, you'll see we now have only that you the about 7,372 rows instead of the 8,002 that we started with, and that also matches our "count" from above.
 
-The `filter()` function works in this order:
+The arguments inside the `filter()` function work in this order:
 
 1. What is the column (or variable) you are search in.
-2. What is the operation.
+2. What is the logical test. In our case above we are looking for matches.
 3. What is the value (or observation) you are looking for.
 
-Note the two equals signs there `==`. It's important two use two of them when you are looking for "equal", as a single `=` will not work, as that means something else in R.
+Note the two equals signs `==` there. It's important to use two of them when you are looking for "equal", as a single `=` will not work, as that means something else in R.
 
 ### Logical tests
 
 There are a number of these logical test operations:
 
-![dplyr logical tests](images/transform-logical-test.png){width=600px}
-
-### Filter on your own
-
-> You might find the [data dictionary](https://rptsvr1.tea.texas.gov/perfreport/account/2019/download/camprate.html) for this data useful, but remember we lowercased all the column names.
-
-Create new code blocks and filter for each of the following.
-
-- Schools in the "HAYS CISD" district.
-- Schools in "WILLIAMSON" county.
-- All schools that got a "90" or better in `cdalls`.
-- All AUSTIN ISD schools that got an "F" c_rating.
+![dplyr logical tests](images/transform-logical-test.png){width=500px}
 
 ### Common mistakes with filter
 
@@ -153,15 +176,15 @@ Some common mistakes that happen when using filter.
 DON'T DO THIS:
 
 ```r
-ratings %>% 
-  filter(distname = "AUSTIN ISD")
+sped %>% 
+  filter(district_name = "AUSTIN ISD")
 ```
 
 DO THIS:
 
 ```r
-ratings %>% 
-  filter(distname == "AUSTIN ISD")
+sped %>% 
+  filter(district_name == "AUSTIN ISD")
 ```
 
 #### Forgetting quotes
@@ -170,36 +193,36 @@ DON'T DO THIS:
 
 ```r
 ratings %>% 
-  filter(cntyname == TRAVIS)
+  filter(grade_range == 09-12)
 ```
 
 DO THIS:
 
 ```r
 ratings %>% 
-  filter(cntyname == "TRAVIS")
+  filter(district_name == "09-12")
 ```
-
 
 ## Combining filters
 
-You can filter for more than one thing at a time by separating more than one test with a comma.
+You can filter for more than one thing at a time by using an operator: `&`, `|`. `!`.
 
-- Add the following code block to your notebook and run it.
+- Edit your existing code block to following code block and run it.
 - Then look at the code and the result and then **write out what the filter is doing in your own words**.
 
 ```{r filter-combine}
-ratings %>% 
-  filter(cntyname == "TRAVIS", cdalls < 60)
+sped %>% 
+  filter(
+    instruction_type == "REGULAR INSTRUCTIONAL",
+    charter_type %>% is.na()
+  )
 ```
 
-If you use a comma to separate tests, then both tests have to be true. If you want OR, then you use a pipe character `|` (the shift-key above the backslash.)
+We rewrote the first filter to indent it differently so it was more clear that we have **two logical tests** here. The second test has a nested function, testing the `charter_type` field to see if it is blank, or `is.na()`, which is a special case. We could have written this line as `is.na(charter_type)`.
 
-![Boolean operators](images/transform-boolean.png){width=600px}
+If you use a comma `,` or ampersand `&` to separate two tests, then both of them have to be true. If you want OR, then you use a bar character `|` (the shift-key version of the backslash, above the Return key. That `|` is also sometimes referred to as a pipe character, but I'll call it "bar" since we also have the ` %>% `.)
 
-### Combining filters on your own
-
-- Your quest is to filter ratings to schools in AUSTIN ISD that received an "F" for `c_rating`. Do this in a new chunk. Don't forget to give the chunk a name.
+![Boolean operators](images/transform-boolean.png){width=500px}
 
 ### Common mistakes with combining filters
 
@@ -210,270 +233,257 @@ Some things to watch when trying to combine filters.
 DON'T DO THIS:
 
 ```r
-ratings %>% 
-  filter(cntyname == "TRAVIS" | "WILLIAMSON")
+sped %>% 
+  filter(district_name == "AUSTIN ISD" | "BASTROP ISD")
 ```
 
 DO THIS:
 
 ```r
-ratings %>% 
-  filter(cntyname == "TRAVIS" | cntyname =="WILLIAMSON")
+sped %>% 
+  filter(district_name == "AUSTIN ISD" | cntyname =="BASTROP ISD")
 ```
 
 BUT EVEN BETTER:
 
 ```r
 # Adding in Hays to the list as well
-ratings %>% 
-  filter(cntyname %in% c("TRAVIS", "WILLIAMSON","HAYS"))
+sped %>% 
+  filter(district_name %in% c("AUSTIN ISD", "BASTROP ISD", "ROUND ROCK ISD"))
 ```
 
 If you want to combine a series of strings in your filter, you have to put them inside a "concatenate" function, which is shortened to `c()`, as in the example above. We'll end up using this a lot.
 
 ## Select()
 
-As we've worked with our filters it has been onerous to tab through all the columns to check the result we want. The `select()` function allows you to choose which fields to display from a data frame. If we are only interested in some of the fields, like `campname`, `distname` and `c_rating`, then we we can pipe the results to a select function. It works by listing the column names inside the function. You can also use `-` before a column names to remove them (as opposed to listing those to keep.)
+When we were preparing our CSTUD data we used the [`select()`](https://dplyr.tidyverse.org/reference/select.html) function to select or exclude specific columns. We need to append to the filter we've been using to remove the `instruction_type` and `charter_type` columns now that we are done with them.
 
-- Add a new RMarkdown headline by adding the headline `## Select`.
-- Create a new chunk, name it **ratings-county** and add the following and run it:
+In the filter code chunk you've been building, modify it i the following ways:
 
-```{r ratings-county}
-ratings %>% 
-  filter(cntyname %in% c("TRAVIS", "WILLIAMSON", "HAYS")) %>% 
-  select(distname, campname, cdalls)
+- Add a select function and remove the `charter_type` and `instruction_type` columns.
+- Assign the result to a new data frame called `sped_reg`.
+- Print the data frame to the screen so you can poke around.
+
+```{r select-remove}
+sped_reg <- sped %>% 
+  filter(
+    instruction_type == "REGULAR INSTRUCTIONAL",
+    charter_type %>% is.na()
+  ) %>% 
+  select(-charter_type, -instruction_type)
+
+sped_reg
 ```
 
-The order of all these operations matter. If you use `select()` that removes a column, you cannot later use filter on that removed column.
+Note there are some other really cool ways to use select.
 
-### Select on your own
+Here is an example capturing columns that end with "_name". (The `head()` function just gives us the first few rows of data since we don't need to show the whole data set.)
 
-- Start a section with a headline `### Select on your own`. (We are using three `###` to make this a subheadline of `## Select`.)
-- Add text that we are looking for AISD failed schools.
-- Go back to your "Filter on your own" chunk where you combined filters to find AUSTIN ISD schools that received and "F" rating and copy the code and add it here. Rename the chunk **aisd-failes**.
-- Add on a `select` function to give you only the district name, school name and letter-grade rating.
+> You don't have to do this ... I'm just showing you.
 
-This is the answer to one of our goals for this notebook.
-
-Now for the next goal:
-
-- Add text that we are looking for schools that failed on our five-county area.
-- Add a new chunk called **metro-fails**.
-- Filter for the five counties: BASTROP, HAYS, CALDWELL, TRAVIS, WILLIAMSON. Remember you can use the `%in%` designation, putting the county list inside `c()`. Don't forget the quotes around the county names.
-- Also filter for the c_rating to get failed schools.
-- Select the county name, district name, school name and rating.
-
-## Arrange()
-
-The `arrange()` function sorts data.
-
-```r
-dataframe %>% 
-  arrange(column_name)
+```{r}
+sped_reg %>% 
+  select(ends_with("_name")) %>% 
+  head()
 ```
 
-It will sort in ascending (A-Z or 1-10) by default.
+## How to describe the change
 
-If you want to sort the column be descending order (Z-A or 10-1), then you add on `desc()` function:
+Now that we have all our data in the same data `sped_reg`, we can use create new columns compare the different years. Before we get into how, let's talk about describing change.
 
-```r
-dataframe %>% 
-  arrange(desc(column_name))
-```
+We have two values for each year to work with: The "Count" of special education -- `spec15` and `spec20` -- which is the actual number of students in the program; and the "Percentage" of students in special education out of the total in that school -- `spep15` and `spep20`.
 
-The above code wraps your sorting colun with the `desc()` function. I'm more apt to write this the tidyverse way, as the pipe makes the order of operations more clear to me:
+We want to describe the change from one year to the next. You might review the Numbers in the Newsroom chapter on Measuring Change (p26) for further study. Here are some examples:
 
-```r
-dataframe %>% 
-  arrange(column_name %>% desc())
-```
+### Describing the count changes
 
-So, let's take our example data and sort it by schools who scored highest.
+- We can show the **simple difference** (or actual change) in the *count* of students from one year to the next. We'll assume there were `4` students in 2015 and `10` in 2020:
+  - `New Count - Old Count = Simple Difference`.
+  - Example: `10 - 4 = 6`.
+  - "The school served six more special education students in 2020 (10 students) compared to 2015 (four students)".
+- We can show the **percent change** in the *count* of students from one year to the next:
+  - `((New Count - Old Count) / Old Count) * 100 = Percent change`.
+  - Example: `((10 - 4) \ 4) * 100 = 150%`.
+  - "The number of special education students served increased 150% from four in 2015 to 10 in 2020."
 
-- Add a headline `## Arrange`.
-- Take the code below and add a chunk called **ratings-highest** and run it.
+### Describing percentage differences
 
-```{r arrange-example}
-ratings %>% 
-  filter(cntyname %in% c("TRAVIS", "WILLIAMSON", "HAYS")) %>% 
-  select(distname, campname, cdalls) %>% 
-  arrange(cdalls %>% desc())
-```
+We also have the *percentage* of special education students in the school, which could be important. This is the share of students that are in the program compared to the total students in the school.
 
-### Arrange on your own
+- We can find the **percentage point difference** from one year to the next using simple difference again, but we have the describe the change as the difference in percentage points:
+  - `New Percentage - Old Percentage = Percentage Point Difference`.
+  - Example: `15.5% - 11% = 4.5 percentage points` (NOT 4.5%).
+  - "The share of students in special education grew by 4.5 percentage points, from 11% in 2015 to 15.5% in 2020."
+- We can find the **percent change of share** from one year to the next, but we have to again be very specific about what we are talking about ... the growth (or decrease) of the _share_ of students in special education.
+  - `((New Percentage - Old Percentage) / Old Percentage * 100) = Change in share of students`.
+  - Example: `((15.5 - 11) / 11) * 100 = 40.9`.
+  - "The share of students in special education grew 40% from 11% of students in 2015 to 15.5% of students in 2020." This describes the growth in the share of students in the program, not the number of special education students overall.
 
-This quest will take all your skills plus the new `arrange()` function, including looking back to see how to filter on NOT EQUAL TO (look back at "Logical tests"). You also might need the record layout noted above.
+Describing a "percentage point difference" to readers can be difficult, but perhaps less confusing than describing the "percent change of a percent".
 
-- Add a headline `### Arrange on your own`
-- Add a new chunk called **aisd-highschools**.
-- Filter for: AUSTIN ISD schools, with the highest grade of "12", but exclude schools with the value "Not Rated".
-- Arrange then by the highest `cdalls` value
-- Select only the campus name, number rating and grade rating.
+Great, so which do we use for this story? That depends on what you want to describe. Schools that have fewer special education students to begin with will show a more pronounced percent change with any fluctuation. Then again, a school that has a large percentage of students could be gaining a lot of students with a small percentage change. In the end, we might need to use all of these values to describe different kinds of schools. We are talking about human beings, so perhaps the counts are important.
 
 ## Mutate()
 
+The [mutate()](https://dplyr.tidyverse.org/reference/mutate.html) function allows us to change a column of data or create new columns based on others. We can do calculations across columns or change data types. It is useful in calculations and cleaning data.
 
+For our Special Education data we need to create several calculations.
 
-> THIS IS WHERE I STOPPED
+### Simple change of counts
 
+To create a column showing the number of students up or down from 2015 to 2020, we use a simple difference between our columns.
 
+Let's set up a new data frame to hold our calculations with a glimpse so we can view them as we go along.
 
+Remember from our preparation steps, mutate works like this:
 
+1. first name the new column
+2. set it to `=` the new value
+3. specify what the new result should be
 
-We used the `mutate()` function with our data cleaning, but let's dive more into it. `mutate()` allows us to change data based on a formula. We can assign the change back to an existing column or create a new one.
-
-![Create columns with mutate()](images/transform-mutate.png){width=600px}
-
-In the example above:
-
-- `gapminder` is the source data frame.
-- `gdp` is the new column being created. it comes first.
-- `= gdpPercap * pop` is the function. It is multiplying the the two columns that are in the `gapminder` data frame.
-
-The applied function doesn't have to be math. It could be pulling part of a string or any number of things.
-
-We'll use this to create a new "year_drilled" column that has just the year that well was started. It will help us plot data later.
-
-We're going to do this is two steps. We'll first write the function to make sure it working like we want, then we'll assign the result back to the `wells` data frame.
-
-![Mutate and select](images/transform-wells-mutate.png)
-
-This added our new column to the end of the data frame.
-
-### Your turn to mutate
-
-- Modify the above mutate function to also add a `month_drilled` column.
-
-### Document and save new columns
-
-- Before the code chunk, write out what we are doing. Add a Markdown headline and description of our task, which was to add a "year_drilled" and "month_drilled" column.
-- Name the chunk by adding `add_year_month` inside the `{r}` part of the chunk.
-- Edit the first line `wells %>% ` to `wells <- wells %>% ` to assign the mutate result back to our wells data frame.
-
-```r
-wells <- wells %>% 
+```{r}
+sped_calcs <- sped_reg %>% 
   mutate(
-    year_drilled = year(drilling_start_date),
-    month_drilled = month(drilling_start_date)
+    # simple difference
+     sped_c_diff = sped_c_20 - sped_c_15
   )
+
+sped_calcs %>% glimpse()
 ```
 
-As we've seen before, when we assign the result back to `wells`, the data frame will no longer print to the screen anymore. That's OK. Inspect the `wells` data frame within the Environment tab and to make sure it was created properly. (If you really want to check the data on your screen, you could use `head(wells)` to see just the several lines.)
+You can see the first value differences in the glimpse above: **34 - 37 = -3**. If that is difficult to see we could build a quick look to see just those columns:
 
-As you may recall from our lesson on column renaming, we can create more than one column within the same `mutate()` function by separating them with commas.
+```{r}
+sped_calcs %>% 
+  select(school_name, sped_c_15, sped_c_20, sped_c_diff) %>% 
+  head()
+```
 
-### Export the mutated data
+You always want to check your mutates to make sure they work!
 
-We actually want to keep these new columns to use later, so let's do a quick export to save them for later.
+We will continue to build on our `sped_calc` data frame with new calculations.
+
+### Calculate percent change
+
+For this calculation we have the more complex task of the percent-change math. We also have to round the result to a readable number, accomplished by piping the math result into the `round_half_up()` function, which takes the argument of how many places to round the result.
+
+- Modify your calculations to include the `sped_c_prccng` result:
+
+```{r}
+sped_calcs <- sped_reg %>% 
+  mutate(
+    # simple diff
+    sped_c_diff = sped_c_20 - sped_c_15,
+    # percent change
+    spec_c_prccng = ((sped_c_20 - sped_c_15) / sped_c_15 * 100) %>% round_half_up(1),
+    # simple diff of percent
+  )
+
+sped_calcs %>% glimpse()
+```
+
+Check your math: **((34 - 37) / 37 * 100) = 8.108**.
+
+### Calculate percentage point difference
+
+This is another simple difference, but this time with the percentage fields.
+
+```{r}
+sped_calcs <- sped_reg %>% 
+  mutate(
+    # simple diff
+    sped_c_diff = sped_c_20 - sped_c_15,
+    # percent change
+    sped_c_prccng = ((sped_c_20 - sped_c_15) / sped_c_15 * 100) %>% round_half_up(1),
+    # simple diff of percent
+    sped_p_ppd = sped_p_20 - sped_p_15
+  )
+
+sped_calcs %>% glimpse()
+```
+
+Again, check your work: **19.8 - 18.0 = 1.8**.
+
+Remember, the challenge with using this value in writing is to couch it as **percentage point difference** and not a percentage or percent change.
+
+### Calculating our special education threshold
+
+As you may recall, the point of the Chronicle's story was that schools that had 8.5% or higher of special education students had to go through hoops, forcing schools to try to avoid putting students in these programs. The reason we are comparing 2015 data to 2020 is to see if there are more schools with higher percentages of special education students.
+
+The way we'll do that is to create a "threshold" column for each year. We'll use `mutate()` to create a column that says "Y" if the school is at or above the threshold, and "N" if it is not. Once we do this for both years, we can use some summaries to count them.
+
+This process will introduce [`case_when()`](https://dplyr.tidyverse.org/reference/case_when.html) which compares to the **IF=** function in Excel.
+
+It works like this _within_ a mutate:
 
 ```r
-wells %>% saveRDS("data-out/wells_02.rds")
+new_column = case_when(
+  test ~ "result_if_true",
+  TRUE ~ "result_if_false"
+)
 ```
 
-## Summarize()
+If that last `TRUE` confuses you that it is the false answer, then yeah ... me too.
 
-The `summarize()` and `summarise()` functions compute tables _about_ your data. They are the same function, as R supports both the American and European spelling of summarize. I don't care which you use.
+The power of this is you can add multiple test by adding more lines before the `TRUE` line, but we don't need that here.
 
-![Learn about your data with Summarize()](images/transform-summarise.png){width=600px}
+- Update your `sped_calcs` code chunk to include both of our threshold cases.
 
-Much like the `mutate()` function, we list the name of the new column first, then assign to it the function we want to accomplish using `=`.
 
-Let's find the average `borehole_depth` of all the wells.
+```{r calcs}
+sped_calcs <- sped_reg %>% 
+  mutate(
+    # simple diff
+    sped_c_diff = sped_c_20 - sped_c_15,
+    # percent change
+    sped_c_prccng = ((sped_c_20 - sped_c_15) / sped_c_15 * 100) %>% round_half_up(1),
+    # simple diff of percent
+    sped_p_ppd = sped_p_20 - sped_p_15,
+    # meets threshold 8.5% 2015
+    sped15_thsh = case_when(
+      sped_p_15 >= 8.5 ~ "Y",
+      TRUE ~ "N"
+    ),
+    # meets threhhold 8.5% 2020
+    sped20_thsh = case_when(
+      sped_p_20 >= 8.5 ~ "Y",
+      TRUE ~ "N"
+    )
+  )
 
-![Attempt to find the mean](images/transform-wells-nanowork.png)
-
-But, our return isn't good? What's up with that?
-
-### ignoring na
-
-In short, you can't divide by zero or a NULL or NA value. I'll show you how to ignore them, but first we should find out how many there are:
-
-![Find NA values](images/transform-wells-findna.png)
-
-Take a look at this and guess what is happening. Clearly `is.na` is a thing. How is it being used?
-
-There are 22 records returned out of 18k+. Can we safely exclude them without affecting the results? I think so.
-
-We can apply a similar function `na.rm` function inside our `summarise()` function to remove the missing values before the calculation, like this:
-
-![NAs removed from summarize](images/transform-wells-narm.png)
-
-A mean (or average in common terms) is a way to use one number to represent a group of numbers. It works well when the variance in the numbers is not great. Median is another way, and sometimes better when there are high or low numbers that would unduly influence a mean.
-
-### Your turn with summarise
-
-Like filter and mutate, you can do more than one calculation within a summarize function. Edit the code chunk above in two ways:
-
-- Make sure to name the code chunk, something like `depth_summaries`.
-- Modify the summarize function to also create a `median_depth` summary. Look at your dplyr cheat sheet or google to find out how.
-
-## Group_by()
-
-The `summarise()` function is an especially useful in combination with another function called `group_by()`, which allows us to pivot tables to count and measure data by its values.
-
-![Group by](images/transform-groupby.png)
-
-This is easier to understand when you can see an example, so let's do it.
-
-### Group and count
-
-So, we have more than 18,000 wells, but we don't know how many of each kind. We could filter them one-by-one, but there is an easier way.
-
-![Group and count](images/transform-wells-groupbyn.png)
-
-Let's break this down:
-
-- We start with the **wells** data frame.
-- We then **group_by** the data by the `proposed_use`. If we print the data frame at this point, we won't really see a difference. The `group_by()` function always needs another function to see a result.
-- We then **summarise** the grouped data. In this case, we are creating a column called `count`, and we are assigning to is a special function `n()` which counts the number of records within each group.
-    + The result is for each unique value in the **prospose_use** column, we get the number of records that have that have that value.
-- We then **arrange** the resulting table in descending order by our new column, `count`, so we can see which value has the most records.
-
-We can see that "Domestic" wells are more prevalent by a wide margin. If page through the list, you'll see that to get an accurate count of each type of well, we'll need to do some data cleaning. We'll do that at another time.
-
-Let's walk through another example:
-
-![Group and summarise](images/transform-group-summarise.png)
-
-### Your turn to group
-
-- How many wells were drilled in each county? Use the same `group_by` and `summarise` method to make a table that counts wells drilled in each county.
-- Since you can `summarise` by more than one thing, try to find the count and average (mean) borehole_depth of wells by proposed use. You can copy the first summary we did and work from that, editing the `summarise` statement.
-
-### Counting only
-
-We'll use summarize to do more than count, but if counting  is all you want to know, there is an easier way. (I'll try not to show you too many alternate methods ... there are many ways to do everything, but this is worth knowing.)
-
-```r
-well %>% 
-  count(proposed_use)
+sped_calcs %>% glimpse
 ```
 
-It creates a column named "n" with the count. You could _then_ use `rename(new = old)` to call it something else, like "wells_drilled".
+And then, of course, check the result to make sure it is right. Again, if you are having trouble seeing it in the glimpse, then build yourself a new R chunk to show you columns germane to your inspection:
 
-## Transform review
-
-This has been a lot to learn, but it is the basics of just about any data analysis ... to **filter**, **select**, **arrange**, **group** and **summarise** values. And to create new variables with with **mutate**.
-
-Next, we'll start plotting some of this data so we can _see_ it.
-
-## Turn in your in-class project
-
-At this point, you'll want so **save**, **knit to HTML** and then close your project. Zip up the folder and turn it into the assignment in Canvas.
-
-## Practice assignment: Transforms on census
-
-For this practice assignment, you'll continue with your "census-practice" project.
-
-The goal here is: For each race in the data, find the county with the highest percentage for that race. You'll use the dplyr commands from this lesson to do it.
-
-- Start a new notebook that imports the cleaned data from the last assignment. Start the notebook name with "02-" so you know the order to run them in the future.
-- Use `mutate()` to create a new column for each race that calculates the percentage for that race. You might create columns names like "hispanic_prc" with the formula "(hispanic / total_populaton) * 100". Assign those values back to the "census" data frame.
-- Create a series of code chunks, one for each race that does this: Arrange the data so the county with the highest percentage of that race is on top, then use `select()` to show these columns: The county, total population, that race total, and the percentage of that race.
-- Make sure that each each action is clearly described in Markdown headlines and text, and that each code chunk is named. 
-
-If you feel like you are repeating yourself a lot on this assignment and feel like there should be a better way, I assure you there is. We will get to that.
-
-Save, Knit, Zip and upload your project to the "Practice: Transform with dplyr" assignment.
+```{r calcs-inspect}
+sped_calcs %>% 
+  select(
+    school_name,
+    sped_p_15,
+    sped15_thsh,
+    sped_p_20
+    , sped20_thsh
+  ) %>% 
+  head(20)
+```
 
 
+## Export your computations
+
+We're going to export this data so we can use it in multiple notebooks going forward. It might be overkill in this case, but this will allow us to do future notebooks on different districts if we want.
+
+- Build a new export chunk and use `write_rds()` to create a file `02_sped_calcs.rds`.
+
+```{r export-calcs}
+sped_calcs %>% 
+  write_rds("data-processed/02_sped_calcs.rds")
+```
+
+Again, we saved our processed data away from the raw data. We used a number to match which notebook it came from, and we used a descriptive name so we know what is inside the file.
+
+## More dplyr in next lesson
+
+We have covered a lot in our last two lessons, including some of our [Basic Data Journalism functions](https://vimeo.com/showcase/7320305) of **select**,  **filter** and **join**, and we learned to create new variables with with **mutate**.
+
+There are several more dplyr functions that we haven't used yet, but will in the next lesson: `arrange()`, `group_by()` and `summarize()`.

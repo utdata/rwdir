@@ -1,5 +1,9 @@
 # Census {#census}
 
+## NEEDS REVIEW
+
+---
+
 The U.S. [Census Bureau](https://census.gov/) has a wealth of data that can help journalists tell stories. This chapter is _not_ a comprehensive guide on how to use it, but instead an introduction on some ways you can.
 
 But we can't talk about specifics of _how_ do to anything before learning _about_ the different Census programs, so here is a mini overview of some of the more popular programs.

@@ -2,6 +2,9 @@
 
 > DRAFT FOR v1.0
 
+
+> “If you’re doing data analysis every day, the time it takes to learn a programming language pays off pretty quickly because you can automate more and more of what you do.” --Hadley Wickham, chief scientist at RStudio
+
 ## Goals for this section
 
 - Learn a little about data types available to R.
@@ -10,18 +13,27 @@
 - Learn how to import CSV files.
 - Introduce the Data Frame/Tibble.
 - Introduce the tidyverse ` %>% `.
+- Using [readr]() package
+- Introduce joins
 
 ## Our project data
 
-We achieve these goals while working with same Texas Education Agency school ratings data we used with the [Google Sheets lesson](https://github.com/utdata/rwd-mastery-assignments/tree/master/ed-school-ratings).
+We achieve these goals while working with same Texas Education Agency data from their [TAPR] tool. This is a replication of an assignment for Workbench.
 
-I'm not gonna lie ... Sheets is much easier to learn and getting the answers we wanted about the school ratings is difficult to do in R because you are learning a programming language. Using R is a trade off ... there is a lot more to learn, but it is much more powerful in the end.
+For now, see [this assignment](https://github.com/utdata/rwd-mastery-assignments/tree/master/ed-special-ed) for details about the data and concepts.
 
-> “If you’re doing data analysis every day, the time it takes to learn a programming language pays off pretty quickly because you can automate more and more of what you do.” --Hadley Wickham, chief scientist at RStudio
+Here are the questions we seek from the data:
 
-I choose to start with school ratings because if you are in the class, you are already familiar with the data. That said, you can still dive in if you haven't done the Sheets lesson.
+- Which campus gained the most (count difference) special education students from 2015 to 2020?
+- Which campus has the highest share (percent) of special education students in 2020?
+- Which campus had the greatest change in share of in special education students between 2015 and 2020.
+- How many AISD schools would be above the special education "audit threshold" of 8.5% in 2020 if it were still in effect? How does those numbers compare to 2015?
 
-## Data sources
+We want to only consider "Regular Instructional" schools and exclude alternative, disciplinary or schools part of the justice system.
+
+> I NEED TO ADD MORE DETAIL HERE, BUT USE THE ASSIGNMENT LINK FOR NOW FOR BACKGROUND
+
+## About data sources
 
 After installing and launching RStudio, the next trick is to import data. Depending on the data source, this can be brilliantly easy or a pain in the rear. It all depends on how well-formatted is the data.
 
@@ -54,9 +66,9 @@ We did this in our first lesson, but here are the basic steps:
 
 - Launch RStudio
 - Use the `+R` button to create a **New Project** in a **New Directory**
-- Name the project `yourfirstname-school-ratings` and put it in your `~/Documents/rwd` folder.
+- Name the project `yourfirstname-special-ed` and put it in your `~/Documents/rwd` folder.
 - Use the `+` button to use **R Notebook** to start a new notebook.
-- Change the title to "TEA School Ratings".
+- Change the title to "TEA Special Education".
 - Delete the other boilerplate text.
 - Save the file as `01-import.Rmd`.
 
@@ -80,6 +92,8 @@ There are two steps to using an R package:
 - **Include the library** using `library(package_name)`. This has to be done for each Notebook or script that uses it, so it is usually one of the first things in the notebook.
 
 We're going to install several packages we will use in the ratings project. To do this, we are going to use the **Console**, which we haven't talked about much yet.
+
+> REPLACE THIS IMAGE
 
 ![The Console and Terminal](images/import-console.png){width=600px}
 
@@ -133,34 +147,48 @@ I want you to create a folder called `data-raw` in your project folder. We are c
 In your Files pane at the bottom-right of Rstudio, there is a **New Folder** icon.
 
 - Click on the **New Folder** icon.
-- Name your new folder `data-raw`.
+- Name your new folder `data-raw`. This is where we'll put raw data. We never write data to this folder.
+- Also create another new folder called `data-processed`. This is were we write data. We separate them so we don't accidently overwrite raw data.
 
-Once you've done that, it should show up in the file explorer in the Files pane.
+Once you've done that, they should show up in the file explorer in the Files pane. Click the refresh button if you don't see them. (The circlish thing at top right of the screenshot below.)
 
-![Directory made](images/terminal-mkdir-done.png){width=300px}
+![Directory made](images/new-folder.png){width=300px}
+
+You can ignore the `.gitignore` and `docs` folders I have there. Those are for publishing steps we'll learn later.
 
 ### Let's get some data
 
 Now that we have a folder for our data, we can download our data into it. I have a copy of the data in the class Github repo.
 
-The process to acquire this data is explained in the [School Ratings](https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-school-ratings/README.md) assignment in the RWD Mastery Assignments Github repository. Since we did that in an earlier assignment I won't make you do that again here. You can just download my copy using the `download.file` function in R.
+The process to acquire this data is explained in the [Special Education](https://github.com/utdata/rwd-mastery-assignments/tree/master/ed-special-ed) assignment in the RWD Mastery Assignments Github repository.
+
+> MIGHT UPDATE later to download the files directly instead of using download.file
+
+In the interest of time, you can just download my copy using the `download.file` function in R.
 
 - Add a Markdown headline and text that indicates you are downloading data. You would typically include a link and explain what it is, etc. You can build a link in Markdown with `[name of the site](url-to-the-site.html)`.
 - Create an R chunk and include the following:
 
 ```r
-download.file("https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-school-ratings/data/CAMPRATE_2019.csv?raw=true", "data-raw/camprate_2019.csv")
+# cstud15 download
+download.file("https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-special-ed/data/CSTUD15.csv?raw=true", "data-raw/CSTUD15.csv")
+# cstud20 download
+download.file("https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-special-ed/data/CSTUD20.csv?raw=true", "data-raw/CSTUD20.csv")
+# directory download
+download.file("https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-special-ed/data/Directory.csv?raw=true", "data-raw/Directory.csv")
+
+
 ```
 
-This function takes at least two arguments: The URL of the file you are downloading, and then the path and name of where you want to save it.
+This `download.file` function takes at least two arguments: The URL of the file you are downloading, and then the path and name of where you want to save it.
 
-When you run this, it should save the file and then give you output like this:
+When you run this, it should save the file and then give you output similar to this for each of the three files:
 
 ```text
-trying URL 'https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-school-ratings/data/CAMPRATE_2019.csv?raw=true'
-Content type 'text/plain; charset=utf-8' length 1326537 bytes (1.3 MB)
+trying URL 'https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-special-ed/data/CSTUD15.csv?raw=true'
+Content type 'text/plain; charset=utf-8' length 331596 bytes (323 KB)
 ==================================================
-downloaded 1.3 MB
+downloaded 323 KB
 ```
 
 ### Peek at the data file
@@ -168,17 +196,17 @@ downloaded 1.3 MB
 You can inspect the data before you import it into your RNotebook.
 
 - In the **Files** pane, click on the `data-raw` folder to open in.
-- Click on the `camprate_2019.csv` file until you get the drop down that says View Files.
+- Click on the `CSTUD15.csv` file until you get the drop down that says View Files.
 
 ![View file](images/import-inspectdata.png){width=300}
 
 - The file _should_ open into a new window. It will look like this:
 
-![ratings file](images/import-ratingsfile.png){width=600}
+![ratings file](images/import-view-file.png){width=600}
 
-The numbers on the left are row numbers in the file. Because lines will wrap in your window, those numbers let you know where each line starts.
+The numbers on the left are row numbers in the file.
 
-We can see first row is our column headers and the first column is our `CAMPUS` ID. This ID identifies our campus.
+We can see first row is our column headers and the first column is our `CAMPUS` ID. This ID identifies our campus, but you'll notice there is no school name. We'll have to get that from the `Directory.csv` file in a minute.
 
 At this point the data is only on our computer in a folder within our project. It has not been imported into our RNotebook yet.
 
@@ -199,16 +227,16 @@ Inside the function we put in the path do our data, inside quotes. If you start 
 - Add the follow code into your chunk and run it.
 
 ```r
-read_csv("data-raw/CAMPRATE_2019.csv")
+read_csv("data-raw/CSTUD15.csv")
 ```
 
-This prints two things to our notebook, which are shown as tabs in the R output.
+You get two results printed to your screen.
 
-The first result called "R Console" shows what columns were imported and the data types. It's important to review these to make sure things happened the way that expected. In this case it looks like it imported most everything as a character (the default) but set one column `CALL_UPDATE` as `col_double`, which is a number.
+The first result called **"R Console"** shows what columns were imported and the data types. It's important to review these to make sure things happened the way that expected. In this case it looks like it imported `CAMPUS` as text -- noted as `col_character()`, (the default) -- and everything as `col_double`, which is a number.
 
 Note: **Red** colored text in this output is NOT an indication of a problem.
 
-![RConsole output](images/import-show-cols.png){width=500}
+![RConsole output](images/import-show-cols.png){width=400}
 
 The second result **spec_tbl_df** prints out the data like a table. The data object is called a data frame or [tibble](https://tibble.tidyverse.org/), which is a fancy tidyverse version of a data frame that is part of the tidyverse.
 
@@ -218,93 +246,19 @@ The second result **spec_tbl_df** prints out the data like a table. The data obj
 
 When we look at the data output into RStudio, there are several things to note:
 
-- Below the column name is an indication of the data type. This is important.
+- Below each column name is an indication of the data type. This is important.
 - You can use the arrow icon on the right to page through the additional columns.
 - You can use the paging numbers and controls at the bottom to page through the rows of data.
 - The number of rows and columns is displayed at the bottom.
 
-The [data dictionary](https://rptsvr1.tea.texas.gov/perfreport/account/2019/download/camprate.html) is especially helpful in understanding what the data is, since the column names are not very telling.
+The **Student Enrollment by Program** portion of the [Campus Student Information data dictionary](https://rptsvr1.tea.texas.gov/perfreport/tapr/2015/xplore/cstud.html) is especially helpful in understanding what this data is since the column names are not very telling.
 
-### Clean names and the pipe
+Of special note here, we have only printed this data to the screen. We have not saved it in any way, but that will come soon.
 
-A good trait for data journalist is to be ~~anal retentive~~ obsessive. One thing I almost always do is run my data through a function called `clean_names()` which makes all the column names lowercase, removes spaces and fixes other things that can cause problems later. `clean_names()` is part of the [janitor vignette](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html) package we installed above.
-
-- Edit your code chunk to look like the code below and run it.
-
-```r
-read_csv("data-raw/CAMPRATE_2019.csv") %>% 
-  clean_names()
-```
-
-### About the pipe %>%
-
-The code ` %>% ` we added at the end of the `read_csv()` function is called a pipe. It is a tidyverse tool that allows us to take the **results** of an object or function and pass into another function. Think of it "AND THEN" the next thing.
-
-We are using **read_csv** to import the data **and then** we run **clean_names** on that data.
-
-It might look like there are to arguments inside `clean_names()`, but remember because of the pipe we are passing the result of the previous function into it.
-
-For readability we often put the "next" function an indented new line, though it does work on a single line. If you do add the return, it must come **after** the ` %>% `.
-
-> IMPORTANT: There is a keyboard command for the pipe ` %>% `: **Cmd+Shift+m**. Learn that one.
-
-## Inspecting and adjusting imports
-
-When we page through our data, we should notice that the `cdalls` column is a numerical value. If we review our [data dictionary](https://rptsvr1.tea.texas.gov/perfreport/account/2019/download/camprate.html) this is the "Campus 2019 Overall Scaled Score", or the number grade that corresponds to the letter grade the school received.
-
-You might notice that "ELKHART DAEP" has a `.` for a grade. A DEAP school is a "disciplinary alternative education program" and the often are exempt from ratings. There are some other schools like this, too. Because of the `.`, R though this column was supposed to be text (or `col_character()` in R-speak). These are suppose to be whole numbers, or `col_integer()`.
-
-At this point we have a decision to make. We can fix this as we import the data, or fix it afterward.
-
-The "pros" for fixing on import is it is done and we don't have to worry about it later. Any value that is not a number is not useful to us. (We can't get an average of text.)
-
-The "pros" for fixing after import is we compare the original values to the new values. Sometimes this is very important when you are changing data.
-
-That all said, we are going to fix on import because that it is importing that we are learning. We have a good handle on why the data came in as it did and fixing is a safe thing to do.
-
-### Fix `cdalls`: Assign data type upon import
-
-We have to do some more editing to our import statement to set `cdalls` as an interger on import.  
-
-The [usage](https://readr.tidyverse.org/#usage) section of the readr documentation shows There is an "argument" in the `read_csv()` function that will allow this. After our first argument of the "path" to the document, we can add a `col_types = cols()` argument and identify which colunns and data types to use inside `cols()`.
-
-To do this, we will edit the `read_csv()` part of our chunk. When I have multiple arguments in a function, I like to put them on separate lines so they are more readable. This is a bit tricky to explain in prose, but I'm adding returns after the opening `(` for both the `read_csv()` function and the `cols()` function so the internals are on separate lines.
-
-RStudio will try to help you with the indentation. If you are "inside" a function, the next line is indented.
-
-- Adjust your code to look like that below and run it:
-
-```r
-read_csv(
-  "data-raw/camprate_2019.csv",
-  col_types = cols(
-    CDALLS = col_integer()     
-  )
-) %>% 
-  clean_names()
-```
-
-Look at the data that is returned. The data type indication under the `cdalls` column should now be **<int>**, for integer. You might also notice that the value for "ELKHART DAEP" is now **NA**, which means not available. i.e, it is missing.
-
-If you look at the R Console tab, it shows this:
-
-```text
-41 parsing failures.
-row    col   expected actual                         file
-  5 CDALLS an integer      . 'data-raw/camprate_2019.csv'
- 55 CDALLS an integer      . 'data-raw/camprate_2019.csv'
- 56 CDALLS an integer      . 'data-raw/camprate_2019.csv'
- 63 CDALLS an integer      . 'data-raw/camprate_2019.csv'
- 71 CDALLS an integer      . 'data-raw/camprate_2019.csv'
-... ...... .......... ...... ............................
-See problems(...) for more details.
-```
-
-There wer parse errors each time it hit a `.` instead of a number. We are OK with this because we know why!
 
 ## Assign our import to a data frame
 
-As of right now, we've only printed the data to our screen. We haven't "saved" it at all. Next we need to assign it to an **object** so it can be named thing in our project environment so we can reuse it. We don't want to re-import the data every time we use the data.
+As of right now, we've only printed the data to our screen. We haven't "saved" it at all. Next we need to assign it to an  R**object** so it can be named thing in our project environment so we can reuse it. We don't want to re-import the data every time we use the data.
 
 The syntax to create and object in R can seem weird at first, but the convention is to name the object first, then insert stuff into it. So, to create an object, the structure is this:
 
@@ -313,73 +267,307 @@ The syntax to create and object in R can seem weird at first, but the convention
 new_object <- stuff_going_into_object
 ```
 
-Let's make a object called `ratings` and fill it with our ratings tibble.
+Let's make a object called `cstud15` and fill it with our imported tibble.
 
 - Edit your existing code chunk to look like this. You can add the `<-` by using **Option+-** as in holding down the Option key and then pressing the hyphen:
 
-```{r rating_assign, message=FALSE, warning=FALSE, include=TRUE, results=FALSE}
-ratings <- read_csv(
-  "data-raw/camprate_2019.csv",
-  col_types = cols(
-    CDALLS = col_integer()     
-  )
-) %>% 
-  clean_names()
+```{r cstud_assign, message=FALSE, warning=FALSE, include=TRUE, results=FALSE}
+cstud15 <- read_csv(
+  "data-raw/cstud15.csv"
+)
 ```
 
 Run that chunk and two things happen:
 
 - We no longer see the result printed to the screen. That's because we created a tibble instead of printing it to the screen.
-- In the **Environment** tab at the top-right of RStudio, you'll see the `ratings` object listed.
+- In the **Environment** tab at the top-right of RStudio, you'll see the `cstud15` object listed.
     + Click on the blue play button next to ratings and it will expand to show you a summary of the columns.
-    + Click on the name and it will open a "View" of the data in another window, so you can look at itin spreadsheet form. You can even sort and filter it.
+    + Click on the name and it will open a "View" of the data in another window, so you can look at it in spreadsheet form. You can even sort and filter it.
 - Close the data view once you've looked at it.
 
-Since `ratings` is a data frame object, we'll just call it a data frame henceforth.
+Since `cstud15` is a data frame object, we'll just call it a data frame henceforth.
 
 ### Print a peek to the screen
 
-After assigning my data to an object, I like to pring the object to the screen so I can go back and refer to it. We will again edit the chunk, adding this to the end.
+Since we can't see the data after we assign it, let's print the object to the screen so we can refer to it.
 
 - Edit your import chunk to add the last two lines of this, including the one with the `#`:
 
 ```r
-ratings <- read_csv(
-  "data-raw/camprate_2019.csv",
-  col_types = cols(
-    CDALLS = col_integer()     
-  )
-) %>% 
-  clean_names()
+cstud15 <- read_csv(
+  "data-raw/cstud15.csv"
+)
   
 # peek at the data
 ratings
 ```
 
-The line with the `#` is a comment within the code chunk. Commenting what your code does is important to your future self, and sometimes we do that within the code chunk instead of markdown if it will be more clear.
+This prints your saved data frame to the screen.
 
-## Glimpse the data
+The line with the `#` is a comment _within_ the code chunk. Commenting what your code is important to your future self, and sometimes we do that within the code chunk instead of markdown if it will be more clear.
 
-While we were able to page through our printed data to see columns, that can be a hassle if we have lots of columns. There is a way to take a "glimpse" at all at once.
+### Glimpse the data
 
-- Add a new chunk
-- Add the code to the chunk and run it.
+There is another way to peek at the data that I prefer because it is more compact and shows you all the columns and data examples without scrolling: `glimpse()`.
 
-I'm showing the return here as well.
+- In your existing chunk, edit the last line to add the `glimpse()` function as noted below.
 
-```{r ratings-glimpse, eval = TRUE}
-ratings %>% glimpse()
+I'm showing the return here as well. Afterward I'll explain the pipe: ` %>% `.
+
+```{r cstud15-glimpse, eval = TRUE}
+cstud15 <- read_csv(
+  "data-raw/cstud15.csv"
+)
+
+# peek at the data
+cstud15 %>% glimpse()
 ```
 
-This also shows there are 8,838 rows and 24 columns in our data. Each column is then listed out with its datatype and the first several values in that column.
+This also shows there are 8,646 rows and 9 columns in our data. Each column is then listed out with its data type and the first several values in that column.
+
+### About the pipe %>%
+
+We need to break down this code a little: `cstud15 %>% glimpse()`.
+
+We are starting with the data frame `cstud15`, but then we follow it with ` %>% `, which is called a pipe. It is a tidyverse tool that allows us to take the **results** of an object or function and pass into another function. Think of it at **"AND THEN" the next thing**.
+
+It might look like there are to arguments inside `glimpse()`, but what we are actually doing is passing the results of `cstud15` into it.
+
+
+> IMPORTANT: There is a keyboard command for the pipe ` %>% `: **Cmd+Shift+m**. Learn that one.
+
+### Creating consistent column names
+
+A good trait for data journalist is to be ~~anal retentive~~ obsessive. One thing I almost always do after importing data is to run it through a function called `clean_names()` that makes all the column names lowercase, removes spaces and fixes other things that can cause problems later. `clean_names()` is part of the [janitor](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html) package we installed above.
+
+- Edit your code chunk to look like the code below and run it.
+
+```{r cstud15-cleannames}
+cstud15 <- read_csv("data-raw/cstud15.csv") %>% 
+  clean_names()
+
+# peek at the data
+cstud15 %>% glimpse()
+```
+
+When writing R code we'll often string a bunch of functions together with the ` %>% ` so for readability we often put the "next" function a new indented line. When you do this, the ` %>% ` must come at the **end** of the previous line, like the `clean_names()` function above.
+
+### Import other data frames
+
+We need to import our other two data frames so we can prepare and join them. Create a new chunk for each data set, import them, clean the names and glimpse the data.
+
+We'll talk more about these data in a minute when we prepare it. Name your new data frames `cstud20` and `directory`.
+
+```{r cstud20-import}
+cstud20 <- read_csv("data-raw/cstud20.csv") %>% 
+  clean_names()
+
+# peek at the data
+cstud20 %>% glimpse()
+```
+
+```{r import-directory}
+directory <- read_csv("data-raw/Directory.csv") %>% 
+  clean_names()
+
+# peek at the data
+directory %>% glimpse()
+```
+
+## Prepare data for joining
+
+To meet our story goals here we need pieces of all three of these data sets put together in one dataframe. As such, we're going to jump ahead with some data wrangling techniques because we need them to prepare and join our data for our next lesson. Some explanations may seem cursory if I plan on getting into more detail later.
+
+### Prepare the directory data
+
+#### Selecting directory columns
+
+For our Directory data, we only need about a half dozen of the 30+ columms in the data. We will use the [`select()`](https://dplyr.tidyverse.org/reference/select.html) function to pluck columns out of the dataframe and assign them to a new data frame.
+
+Here is the code, then I'll explain it.
+
+```{r directory-cols}
+directory_cols <- directory %>% 
+  select(
+    school_number,
+    school_name,
+    district_name,
+    instruction_type,
+    charter_type,
+    grade_range
+  )
+
+directory_cols %>% glimpse()
+```
+
+When we use `select()` we are _selecting_ columns from the data. Inside the function we list them by name or order. There are many variations of `select()` which we'll get into later.
+
+Note also code indents for the `select()` function. We write the code this way to we can easily identify and edit the arguments inside the function (our list of columns in this case.)
+
+#### Clean up the school number
+
+In this data set, the TEA included a `'` before each value in the `school_number` column. They do this to ensure that it is imported as a text and not a number, which might drop the very important `00` at the beginning of the ID. It is this ID that allows us to match the directory with all other kinds of TEA data about schools.
+
+We need to remove that `'` but keep the column as a text data type. There are many different ways we could do this but we'll introduce `mutate()` and `str_replace()` to accomplish the task. We'll get into both of these functions in more detail in a later lesson.
+
+- Edit your existing code block creating the `directory_cols` data frame with a new ` %>% ` and functions indicated below and run them. I'll explain them after.
+
+```{r directory-cols-mutate}
+directory_cols <- directory %>% 
+  select(
+    school_number,
+    school_name,
+    district_name,
+    instruction_type,
+    charter_type,
+    grade_range
+  ) %>% 
+  mutate(
+    campus = school_number %>% str_replace("'","")
+  )
+  
+directory_cols %>% glimpse()
+```
+
+What we did there with your `mutate()` function was create a NEW column called **campus** that starts with the `school_number` field _AND THEN_ uses a string replace function `str_replace()` to replace the `'` character with an empty string, or nothing. We named our new column `campus` because that is that the ID is called in the CSTUD data, and that will make joining easier later.
+
+One thing of special note here: We not only used a ` %>% ` to append the `mutate()` function, but we also used a ` %>% ` _WITHIN_ the mutate arguments, modifying the `school_number` field along the way. This is called **nesting functions**. Not to get to far into the weeds, but the tidyverse ` %>% ` makes this is a lot easier to read and understand than base R, which would be: `mutate(str_replace(school_number,"'",""))`.
+
+#### Remove the old school number columns
+
+Since we don't need the `school_number` column anymore, we will remove it with `select()`, but we put a `-` before the column name because we want to _remove_ it.
+
+- Append the new `select()` lines below to your existing code block.
+
+```{r directory-cols-unselect}
+directory_cols <- directory %>% 
+  select(
+    school_number,
+    school_name,
+    district_name,
+    instruction_type,
+    charter_type,
+    grade_range
+  ) %>% 
+  mutate(
+    campus = school_number %>% str_replace("'","")
+  ) %>% 
+  select(-school_number)
+  
+directory_cols %>% glimpse()
+```
+
+OK, we are done preparing our new `directory_cols` data frame. We'll work next to prepare our CSTUD data.
+
+### Prepare CSTUD data
+
+We only need the `campus` and the two special education values from our CSTUD data for this story. If we review our data dictionaries ([2015](https://rptsvr1.tea.texas.gov/perfreport/tapr/2015/xplore/cstud.html) | [2020](https://rptsvr1.tea.texas.gov/perfreport/tapr/2020/xplore/cstud.html)) we can see these special education columns are called `CPETSPEC` (the number of special education students) and `CPETSPEP` (the percentage of students in the school that are in special education).
+
+> In 2020, the TEA modified how they define enrollment, so don't get confused by those figures in 2020 data and later. According to Page 31 of the TAPR Glossary ([linked from here](https://rptsvr1.tea.texas.gov/perfreport/tapr/2020/index.html)): _Please note, the Enrollment section of this report is new this year. The definitions below describe the nuances between Membership and Enrollment. **If comparing the data shown from this year’s report to previous reports, use the data displayed under Membership**_.
+
+We'll use `select()` to capture just the `campus`, `cpetspec` and `cpetspep` columns and put them into new data frames and then glimpse them.
+
+But we need to rename the special education columns to include the year they come from so we can tell them apart when they all get joined together. We use the [`rename()`](https://dplyr.tidyverse.org/reference/rename.html) function to do this. Like a lot of things in R, we _name the new thing first_ and then "fill it" afterward.
+
+- Add a Markdown note that we are preparing the student enrollment data
+- Add a new R chunk and add the following:
+
+```{r cstud-cols}
+# set up 2015
+cstud15_cols <- cstud15 %>% 
+  select(
+    campus,
+    cpetspec,
+    cpetspep
+  ) %>% 
+  rename(
+    sped_c_15 = cpetspec,
+    sped_p_15 = cpetspep
+  )
+
+# set up 2020
+cstud20_cols <- cstud20 %>% 
+  select(
+    campus,
+    cpetspec,
+    cpetspep
+  ) %>% 
+  rename(
+    sped_c_20 = cpetspec,
+    sped_p_20 = cpetspep
+  )
+
+# peek at both
+cstud15_cols %>% glimpse()
+cstud20_cols %>% glimpse()
+```
+
+## Joining the data together
+
+This is another case where we'll just touch on a skill -- joining data -- that we'll detail more later. You might [review the video about joins](https://vimeo.com/showcase/7320305/video/435910338) for a refresher on the terms and concepts.
+
+Our aim here is to create a single data set with a single row for each school that includes information from each of the three data sets. We do this by **joining** on the `campus` ID within each of the three data sets. However, as we do so, we'll end up losing some rows that don't have matches in the other files.
+
+To do the comparison for our story we need the schools that were open in both 2015 and 2020, but some schools existed in only one year or the other, so we'll drop those. When we join our files, we'll use an `inner_join()` to keep _only_ schools with  **matching** records from both 2015 and 2020. This will drop schools that opened after 2015 or closed before 2020.
+
+The [`join()`](https://dplyr.tidyverse.org/reference/join.html) functions (there are several) generally take three arguments: the two tables to join and then **by =** to say which columns to match on.
+
+`inner_join(first_table, second_table, by = "column")`
+
+In our case we are using some tidyverse foo, which I'll explain after you add and run the chunk.
+
+- Add notes in Markdown to note what you are doing.
+- Create a new code block for the joins
+- Add the following and run it.
+
+
+```{r join-cstud15}
+sped <- directory_cols %>% 
+  inner_join(cstud15_cols)
+
+sped %>% glimpse()
+```
+
+Here is what's going on here:
+
+- We start with our new dataframe we are creating: `sped` andbwe use ` <-` to fill it.
+- To fill `sped` we start with the `directory` data and then pipe it ` %>% ` into an `inner_join()` function as the first table argument.
+- Inside the `inner_join()` we name the second column we are joining, `cstud15_cols`.
+- We did not specify which columns to join **by =** so it did what is called a "natural join", using all the variables with common names across the two tables. It noted that with the message: **Joining, by = "campus"**.
+
+> Note we went from 9,572 rows in our `directory` data to just 8,087 rows with our joined data. This **inner_join** kept just the records that had the same `campus` ID values in both tables.
+
+Now we will amend our join statement to also join the more recent data.
+
+- Append the join statement as follows:
+
+```{r join-secondtable}
+sped <- directory_cols %>% 
+  inner_join(cstud15_cols) %>% 
+  inner_join(cstud20_cols)
+
+sped %>% glimpse()
+```
+
+The second join worked the same way as the first. It also reducee the number of rows down to 8,002 as it dropped more schools that are not present in all the data sets.
+
+We've done quite a bit here if you think about it:
+
+1. We imported three different data sets
+2. We selected only the columns we needed from each of the three columns
+3. We sometimes mutated data needed adjusting, like the school_number.
+4. We renamed our merging data so we can better identify them later.
+5. We did the actual merge.
+
+Now that we have all this data together, we can start doing some math and other calculations to see how the numbers of special education students have changed over time after the Legislature changed rules. We'll do that in the next lesson.
 
 ## Exporting data
 
-### Single-notebook philosphy
+### Single-notebook philosophy
 
 I have a pretty strong opinion that you should be able to open any RNotebook in your project and run it from top to bottom without it breaking. In short, one notebook should not be dependent on the previous running of another notebook, unless it is to provide an output file that can be accessed later by another notebook.
 
-This is why I had you name this notebook `01-import.Rmd` with a number 1 at the beginning. We'll number our notebooks in the order they should be run. It's an indication that before we can use the notebook `02-analysis.Rmd` (next lesson!) that the `01-import.Rmd` notebook has to be run first.
+This is why I had you name this notebook `01-import.Rmd` with a number 1 at the beginning. We'll number our notebooks in the order they should be run. It's an indication that before we can use the notebook `02-computations.Rmd` (next lesson!) that the `01-import.Rmd` notebook has to be run first.
 
 But what is important is we will create an exported file from our first notebook that can be used in the second one. Once we create that file, the second notebook can be opened and run at any time.
 
@@ -395,36 +583,34 @@ This was all a long-winded way of saying we are going to export our data now.
 
 We are able to pass cleaned data between notebooks because of a native R data format called `.rds`. When we export in this format it saves not only rows and columns, but also the data types. (If we exported as CSV, we would potentially have to re-fix data types when we imported again.)
 
-We will use another readr function called `write_rds()` to create our file to pass along to the next notebook, but first we need to create a folder to put it in. We will create `data-processed` where we will put our output files. We are separating it from our data-raw folder because "Thou shalt not change raw data" even by accident. By always writing data to this different folder, we help avoid accidentally overwriting our original data.
+We will use another readr function called `write_rds()` to create our file to pass along to the next notebook, saving the data into the `data-processed` folder earlier. We are separating it from our data-raw folder because "Thou shalt not change raw data" even by accident. By always writing data to this different folder, we help avoid accidentally overwriting our original data.
 
-- Make sure your Files pane explorer is situated in your project folder and not inside some other folder like data-raw. If you need to climb out of a folder, you can click on the double dot `..` listed at the top of the folder.
-- Once at your project folder, use the **New Folder** icon in the Files pane to create a new folder and call it `data-processed`.
 - Create a Markdown headline `## Exports` and write a description that you are exporting files to .rds.
 - Add a new code chunk and add the following code:
 
 <!-- running this code to get output for future chapter -->
 
 ```{r}
-ratings %>% 
-  write_rds("data-processed/01_ratings.rds")
+sped %>% 
+  write_rds("data-processed/01_sped.rds")
 ```
 
-So, we are starting with the ratings data frame that we saved earlier. We then pipe ` %>% ` the result of that into a new function `write_rds()`. In addition to the data, the function needs to who where to save the file, so in quotes we give the path to where and what we want to call the file: `data-processed/01_ratings.rds`.
+So, we are starting with the sped data frame that we saved earlier. We then pipe ` %>% ` the result of that into a new function `write_rds()`. In addition to the data, the function needs to who where to save the file, so in quotes we give the path to where and what we want to call the file: `"data-processed/01_sped.rds"`.
 
-Remember, we are saving in data-processed because we never export into data-raw. We are naming the file starting with `01_` to indicate to our future selves that this output came from our first notebook. We then name it, and use the `.rsd` extension.
+Remember, we are saving in data-processed because we never export into data-raw. We are naming the file starting with `01_` to indicate to our future selves that this output came from our first notebook. We then name it, and use the `.rds` extension.
 
-## Turn in your project
+## Review of what we've learned so far
 
-Congratulations! You have created a new project in R, imported data and then exported it. That is a feat of skill worth celebrating, so we will turn in waypoint as an assignment.
+Most of this lesson has been about importing and combining data, with some data mutating thrown in for fun. (OK, I have an odd sense of what fun is.) Importing data into R (or any data science program) can sometimes be quite challenging, depending on the circumstances. Here we were working with well-formed data, but we still used quite a few tools from tidyverse packages like readr (read_csv, write_rds) and dplyr (select, mutate).
 
-- Save your `.Rmd` file.
-- Use the **Preview/Knit** dropdown to _Knit to HTML_. Look your report over and make sure you are happy with headlines, text, spacing, etc.
-  - If you need to, edit your `.Rmd` file, save, reKnit.
-- When you are ready, go under the **File** menu to **Close project**.
-- Go into your computer's finder and locate your `firstnanme-school-ratings` project.
-- Create a `.zip` file of the folder.
-  - If you find you need to make changes after you have zipped, it is best to delete the old one, then re-zip.
-- Upload the zip file to the proper assignment in Canvas.
+You've learned a lot already: 
+
+- About using RMarkdown and RNotebooks to document and organize your work
+- About R packages like the tidyverse and janitor, and how they can add new tools to your data Swiss Army knife
+- About preserving data integrity by separating your raw and processed data
+- You learned how to import csv data, pluck out the parts you need an join them into something you can use
+
+Next we'll dive a little deeper into mutate, creating the calculations from our data that we need to reach our story goals.
 
 ## Resources
 
