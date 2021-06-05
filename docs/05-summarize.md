@@ -44,12 +44,12 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ──────────────
+## ── Attaching packages ──────────────────────────────────────────────────────── tidyverse 1.3.0 ──
 ```
 
 ```
 ## ✓ ggplot2 3.3.1     ✓ purrr   0.3.4
-## ✓ tibble  3.0.1     ✓ dplyr   1.0.0
+## ✓ tibble  3.0.1     ✓ dplyr   1.0.4
 ## ✓ tidyr   1.1.0     ✓ stringr 1.4.0
 ## ✓ readr   1.4.0     ✓ forcats 0.5.0
 ```
@@ -59,7 +59,11 @@ library(tidyverse)
 ```
 
 ```
-## ── Conflicts ───────────────────────
+## Warning: package 'dplyr' was built under R version 4.0.2
+```
+
+```
+## ── Conflicts ─────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()
 ```
@@ -368,13 +372,9 @@ aisd %>%
 ```
 
 ```
-## `summarise()` ungrouping output (override with `.groups` argument)
-```
-
-```
 ## # A tibble: 2 x 2
 ##   sped15_thsh schools
-##   <chr>         <int>
+## * <chr>         <int>
 ## 1 N                43
 ## 2 Y                66
 ```
@@ -398,7 +398,7 @@ aisd %>%
 ```
 ## # A tibble: 2 x 2
 ##   sped15_thsh     n
-##   <chr>       <int>
+## * <chr>       <int>
 ## 1 N              43
 ## 2 Y              66
 ```

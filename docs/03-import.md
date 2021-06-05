@@ -301,7 +301,7 @@ cstud15 <- read_csv(
 )
   
 # peek at the data
-ratings
+cstud15
 ```
 
 This prints your saved data frame to the screen.
@@ -325,7 +325,7 @@ cstud15 <- read_csv(
 
 ```
 ## 
-## ── Column specification ────────────
+## ── Column specification ─────────────────────────────────────────────────────────────────────────
 ## cols(
 ##   CAMPUS = col_character(),
 ##   CPETBILC = col_double(),
@@ -385,7 +385,7 @@ cstud15 <- read_csv("data-raw/cstud15.csv") %>%
 
 ```
 ## 
-## ── Column specification ────────────
+## ── Column specification ─────────────────────────────────────────────────────────────────────────
 ## cols(
 ##   CAMPUS = col_character(),
 ##   CPETBILC = col_double(),
@@ -434,7 +434,7 @@ cstud20 <- read_csv("data-raw/cstud20.csv") %>%
 
 ```
 ## 
-## ── Column specification ────────────
+## ── Column specification ─────────────────────────────────────────────────────────────────────────
 ## cols(
 ##   .default = col_double(),
 ##   CAMPUS = col_character(),
@@ -482,7 +482,7 @@ directory <- read_csv("data-raw/Directory.csv") %>%
 
 ```
 ## 
-## ── Column specification ────────────
+## ── Column specification ─────────────────────────────────────────────────────────────────────────
 ## cols(
 ##   .default = col_character(),
 ##   `District Enrollment as of Oct 2019` = col_double(),

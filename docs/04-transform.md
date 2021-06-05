@@ -139,7 +139,7 @@ sped %>%
 ```
 ## # A tibble: 4 x 2
 ##   instruction_type              n
-##   <chr>                     <int>
+## * <chr>                     <int>
 ## 1 ALTERNATIVE INSTRUCTIONAL   397
 ## 2 DAEP INSTRUCTIONAL          121
 ## 3 JJAEP INSTRUCTIONAL         112
@@ -307,7 +307,7 @@ DO THIS:
 
 ```r
 sped %>% 
-  filter(district_name == "AUSTIN ISD" | cntyname =="BASTROP ISD")
+  filter(district_name == "AUSTIN ISD" | district_name =="BASTROP ISD")
 ```
 
 BUT EVEN BETTER:

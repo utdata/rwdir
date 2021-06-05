@@ -576,18 +576,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Save the file and name it <code>03-analysis-aisd.Rmd</code>.</li>
 <li>Create your first chunk and name it “setup”. Add the tidyverse and janitor libraries.</li>
 </ul>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="summarize.html#cb82-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="summarize.html#cb1-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## Warning: package &#39;tidyverse&#39; was built under R version 4.0.2</code></pre>
-<pre><code>## ── Attaching packages ──────────────</code></pre>
+<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.1     ✓ purrr   0.3.4
-## ✓ tibble  3.0.1     ✓ dplyr   1.0.0
+## ✓ tibble  3.0.1     ✓ dplyr   1.0.4
 ## ✓ tidyr   1.1.0     ✓ stringr 1.4.0
 ## ✓ readr   1.4.0     ✓ forcats 0.5.0</code></pre>
 <pre><code>## Warning: package &#39;readr&#39; was built under R version 4.0.2</code></pre>
-<pre><code>## ── Conflicts ───────────────────────
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 4.0.2</code></pre>
+<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="summarize.html#cb88-1"></a><span class="kw">library</span>(janitor)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="summarize.html#cb8-1"></a><span class="kw">library</span>(janitor)</span></code></pre></div>
 <pre><code>## 
 ## Attaching package: &#39;janitor&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:stats&#39;:
@@ -601,9 +602,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Create a new chunk. Name it import.</li>
 <li>Add the following</li>
 </ul>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="summarize.html#cb91-1"></a>sped_calcs &lt;-<span class="st"> </span><span class="kw">read_rds</span>(<span class="st">&quot;data-processed/02_sped_calcs.rds&quot;</span>)</span>
-<span id="cb91-2"><a href="summarize.html#cb91-2"></a></span>
-<span id="cb91-3"><a href="summarize.html#cb91-3"></a>sped_calcs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">glimpse</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="summarize.html#cb11-1"></a>sped_calcs &lt;-<span class="st"> </span><span class="kw">read_rds</span>(<span class="st">&quot;data-processed/02_sped_calcs.rds&quot;</span>)</span>
+<span id="cb11-2"><a href="summarize.html#cb11-2"></a></span>
+<span id="cb11-3"><a href="summarize.html#cb11-3"></a>sped_calcs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 6,962
 ## Columns: 13
 ## $ school_name   &lt;chr&gt; &quot;CAYUGA H S&quot;, &quot;CAYUGA MIDDLE&quot;, &quot;CAYUGA EL&quot;, &quot;ELKHART H …
@@ -630,11 +631,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Assign the result to a new data frame called <code>aisd</code>.</li>
 <li>Print the data frame to the screen to you can browse through it.</li>
 </ul>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="summarize.html#cb93-1"></a>aisd &lt;-<span class="st"> </span>sped_calcs <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb93-2"><a href="summarize.html#cb93-2"></a><span class="st">  </span><span class="kw">filter</span>(district_name <span class="op">==</span><span class="st"> &quot;AUSTIN ISD&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb93-3"><a href="summarize.html#cb93-3"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>district_name, <span class="op">-</span>campus)</span>
-<span id="cb93-4"><a href="summarize.html#cb93-4"></a></span>
-<span id="cb93-5"><a href="summarize.html#cb93-5"></a>aisd</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="summarize.html#cb13-1"></a>aisd &lt;-<span class="st"> </span>sped_calcs <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb13-2"><a href="summarize.html#cb13-2"></a><span class="st">  </span><span class="kw">filter</span>(district_name <span class="op">==</span><span class="st"> &quot;AUSTIN ISD&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb13-3"><a href="summarize.html#cb13-3"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>district_name, <span class="op">-</span>campus)</span>
+<span id="cb13-4"><a href="summarize.html#cb13-4"></a></span>
+<span id="cb13-5"><a href="summarize.html#cb13-5"></a>aisd</span></code></pre></div>
 <pre><code>## # A tibble: 109 x 11
 ##    school_name grade_range sped_c_15 sped_p_15 sped_c_20 sped_p_20 sped_c_diff
 ##    &lt;chr&gt;       &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
@@ -662,15 +663,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="about-arrange" class="section level3">
 <h3><span class="header-section-number">5.2.1</span> About arrange</h3>
 <p>The <code>arrange()</code> function sorts data.</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="summarize.html#cb95-1"></a>dataframe <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb95-2"><a href="summarize.html#cb95-2"></a><span class="st">  </span><span class="kw">arrange</span>(column_name)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="summarize.html#cb15-1"></a>dataframe <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb15-2"><a href="summarize.html#cb15-2"></a><span class="st">  </span><span class="kw">arrange</span>(column_name)</span></code></pre></div>
 <p>It will sort in ascending (A-Z or 1-10) by default.</p>
 <p>If you want to sort the column be descending order (Z-A or 10-1), then you add on <code>desc()</code> function:</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="summarize.html#cb96-1"></a>dataframe <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb96-2"><a href="summarize.html#cb96-2"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(column_name))</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="summarize.html#cb16-1"></a>dataframe <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb16-2"><a href="summarize.html#cb16-2"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(column_name))</span></code></pre></div>
 <p>The above code wraps your sorting column with the <code>desc()</code> function. I’m more apt to write this the tidyverse way, as the pipe makes the order of operations more clear to me:</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="summarize.html#cb97-1"></a>dataframe <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb97-2"><a href="summarize.html#cb97-2"></a><span class="st">  </span><span class="kw">arrange</span>(column_name <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">desc</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="summarize.html#cb17-1"></a>dataframe <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb17-2"><a href="summarize.html#cb17-2"></a><span class="st">  </span><span class="kw">arrange</span>(column_name <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">desc</span>())</span></code></pre></div>
 </div>
 <div id="most-new-special-education-students" class="section level3">
 <h3><span class="header-section-number">5.2.2</span> Most new special education students</h3>
@@ -679,9 +680,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Add a markdown headline <code>## Most new special education students</code>.</li>
 <li>Add a chunk called <strong>cntdiff-highest</strong>, add the code below and run it.</li>
 </ul>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="summarize.html#cb98-1"></a>aisd <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb98-2"><a href="summarize.html#cb98-2"></a><span class="st">  </span><span class="kw">arrange</span>(sped_c_diff <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">desc</span>()) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb98-3"><a href="summarize.html#cb98-3"></a><span class="st">  </span><span class="kw">head</span>(<span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="summarize.html#cb18-1"></a>aisd <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb18-2"><a href="summarize.html#cb18-2"></a><span class="st">  </span><span class="kw">arrange</span>(sped_c_diff <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">desc</span>()) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb18-3"><a href="summarize.html#cb18-3"></a><span class="st">  </span><span class="kw">head</span>(<span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 10 x 11
 ##    school_name grade_range sped_c_15 sped_p_15 sped_c_20 sped_p_20 sped_c_diff
 ##    &lt;chr&gt;       &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
@@ -707,9 +708,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="highest-share-of-special-education-students-in-2020" class="section level3">
 <h3><span class="header-section-number">5.2.4</span> Highest share of special education students in 2020</h3>
 <p>We can reveal the answer for our next question by using <code>arrange()</code> with the <code>sped_p_20</code> column.</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="summarize.html#cb100-1"></a>aisd <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb100-2"><a href="summarize.html#cb100-2"></a><span class="st">  </span><span class="kw">arrange</span>(sped_p_<span class="dv">20</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">desc</span>()) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb100-3"><a href="summarize.html#cb100-3"></a><span class="st">  </span><span class="kw">head</span>(<span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="summarize.html#cb20-1"></a>aisd <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-2"><a href="summarize.html#cb20-2"></a><span class="st">  </span><span class="kw">arrange</span>(sped_p_<span class="dv">20</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">desc</span>()) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-3"><a href="summarize.html#cb20-3"></a><span class="st">  </span><span class="kw">head</span>(<span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 10 x 11
 ##    school_name grade_range sped_c_15 sped_p_15 sped_c_20 sped_p_20 sped_c_diff
 ##    &lt;chr&gt;       &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
@@ -731,10 +732,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">5.2.5</span> Greatest change in share of special education students</h3>
 <p>Our last question to answer with arrange is who had the “greatest change in the share of special education students”. That’s a mouthful and the answer is nuanced, too.</p>
 <p>Let’s start by arranging by the percent change in the count: <code>sped_c_prccng</code>.</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="summarize.html#cb102-1"></a>aisd <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb102-2"><a href="summarize.html#cb102-2"></a><span class="st">  </span><span class="kw">arrange</span>(</span>
-<span id="cb102-3"><a href="summarize.html#cb102-3"></a>    sped_c_prccng</span>
-<span id="cb102-4"><a href="summarize.html#cb102-4"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="summarize.html#cb22-1"></a>aisd <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb22-2"><a href="summarize.html#cb22-2"></a><span class="st">  </span><span class="kw">arrange</span>(</span>
+<span id="cb22-3"><a href="summarize.html#cb22-3"></a>    sped_c_prccng</span>
+<span id="cb22-4"><a href="summarize.html#cb22-4"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 109 x 11
 ##    school_name grade_range sped_c_15 sped_p_15 sped_c_20 sped_p_20 sped_c_diff
 ##    &lt;chr&gt;       &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
@@ -752,8 +753,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## #   sped_p_ppd &lt;dbl&gt;, sped15_thsh &lt;chr&gt;, sped20_thsh &lt;chr&gt;</code></pre>
 <p>Seven schools more than doubled their share of special education students. Wooldridge Elementary went from 35 to 79 students, a 132 percent increase.</p>
 <p>We can also look at the change in the percentage point change by sorting on <code>sped_p_ppd</code>.</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="summarize.html#cb104-1"></a>aisd <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb104-2"><a href="summarize.html#cb104-2"></a><span class="st">  </span><span class="kw">arrange</span>(sped_p_ppd <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">desc</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="summarize.html#cb24-1"></a>aisd <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb24-2"><a href="summarize.html#cb24-2"></a><span class="st">  </span><span class="kw">arrange</span>(sped_p_ppd <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">desc</span>())</span></code></pre></div>
 <pre><code>## # A tibble: 109 x 11
 ##    school_name grade_range sped_c_15 sped_p_15 sped_c_20 sped_p_20 sped_c_diff
 ##    &lt;chr&gt;       &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
@@ -784,10 +785,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Much like the <code>mutate()</code> function, we list the name of the new column first, then assign to it the function we want to accomplish using <code>=</code>.</p>
 <p>To demonstrate, let’s find the average number (or mean) of special education students in AISD schools in 2020. (You don’t need to do this, just see it.)</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="summarize.html#cb106-1"></a>aisd <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb106-2"><a href="summarize.html#cb106-2"></a><span class="st">  </span><span class="kw">summarize</span>(</span>
-<span id="cb106-3"><a href="summarize.html#cb106-3"></a>    <span class="dt">mean_sped_students =</span> sped_c_<span class="dv">20</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mean</span>()</span>
-<span id="cb106-4"><a href="summarize.html#cb106-4"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="summarize.html#cb26-1"></a>aisd <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb26-2"><a href="summarize.html#cb26-2"></a><span class="st">  </span><span class="kw">summarize</span>(</span>
+<span id="cb26-3"><a href="summarize.html#cb26-3"></a>    <span class="dt">mean_sped_students =</span> sped_c_<span class="dv">20</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mean</span>()</span>
+<span id="cb26-4"><a href="summarize.html#cb26-4"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##   mean_sped_students
 ##                &lt;dbl&gt;
@@ -806,13 +807,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="group-and-count" class="section level3">
 <h3><span class="header-section-number">5.4.1</span> Group and count</h3>
 <p>If we want to know how many schools how many AISD schools were above the the 8.5% threshold in 2015 (our `sped_)</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="summarize.html#cb108-1"></a>aisd <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb108-2"><a href="summarize.html#cb108-2"></a><span class="st">  </span><span class="kw">group_by</span>(sped15_thsh) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb108-3"><a href="summarize.html#cb108-3"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">schools =</span> <span class="kw">n</span>())</span></code></pre></div>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="summarize.html#cb28-1"></a>aisd <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb28-2"><a href="summarize.html#cb28-2"></a><span class="st">  </span><span class="kw">group_by</span>(sped15_thsh) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb28-3"><a href="summarize.html#cb28-3"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">schools =</span> <span class="kw">n</span>())</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   sped15_thsh schools
-##   &lt;chr&gt;         &lt;int&gt;
+## * &lt;chr&gt;         &lt;int&gt;
 ## 1 N                43
 ## 2 Y                66</code></pre>
 <p>Let’s break this down:</p>
@@ -825,11 +825,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">5.4.2</span> The count() function shortcut</h3>
 <p>We count row A LOT in data science, so there is a convenience function to do this: <code>count()</code>. We used it earlier when we wanted to know our instruction types.</p>
 <p>Let’s rewrite this with count:</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="summarize.html#cb111-1"></a>aisd <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb111-2"><a href="summarize.html#cb111-2"></a><span class="st">  </span><span class="kw">count</span>(sped15_thsh)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="summarize.html#cb30-1"></a>aisd <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb30-2"><a href="summarize.html#cb30-2"></a><span class="st">  </span><span class="kw">count</span>(sped15_thsh)</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   sped15_thsh     n
-##   &lt;chr&gt;       &lt;int&gt;
+## * &lt;chr&gt;       &lt;int&gt;
 ## 1 N              43
 ## 2 Y              66</code></pre>
 <p>Under the hood, <code>count()</code> is doing the same thing as the “group and summarize” function above it.</p>
@@ -843,8 +843,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Create a new chunk and name it <code>thsh-compare</code>.</li>
 <li>Add the following code:</li>
 </ul>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="summarize.html#cb113-1"></a>aisd <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb113-2"><a href="summarize.html#cb113-2"></a><span class="st">  </span><span class="kw">count</span>(sped15_thsh, sped20_thsh)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="summarize.html#cb32-1"></a>aisd <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb32-2"><a href="summarize.html#cb32-2"></a><span class="st">  </span><span class="kw">count</span>(sped15_thsh, sped20_thsh)</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 3
 ##   sped15_thsh sped20_thsh     n
 ##   &lt;chr&gt;       &lt;chr&gt;       &lt;int&gt;
@@ -864,9 +864,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>Modify your code chunk to add the rename() function below:</li>
 </ul>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="summarize.html#cb115-1"></a>aisd <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb115-2"><a href="summarize.html#cb115-2"></a><span class="st">  </span><span class="kw">count</span>(sped15_thsh, sped20_thsh) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb115-3"><a href="summarize.html#cb115-3"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">schools =</span> n)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="summarize.html#cb34-1"></a>aisd <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb34-2"><a href="summarize.html#cb34-2"></a><span class="st">  </span><span class="kw">count</span>(sped15_thsh, sped20_thsh) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb34-3"><a href="summarize.html#cb34-3"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">schools =</span> n)</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 3
 ##   sped15_thsh sped20_thsh schools
 ##   &lt;chr&gt;       &lt;chr&gt;         &lt;int&gt;
