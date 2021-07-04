@@ -21,7 +21,7 @@ How you break up this work is really up to you, your colleagues you work with, a
 Your needs may vary by project, but strive to live by these rules:
 
 1. Don't change or write over original data. One way to accomplish this is keep raw data in a separate folder and never write to it.
-2. Notebooks should run independently. You should be able to open it and do Run All and it work. (It's OK to use data from a previous notebook, but R objects should not carry over.)
+2. Notebooks should run independently. You should be able to open it and do Run All and it work. (It's OK to import data from a previous notebook, but R objects should not carry over.)
 3. If notebooks must be run in series, then indicate that in the name of the file.
 4. Use descriptive names for everything. Avoid generic terms in file names like "data" or "myfile".
 
@@ -34,7 +34,7 @@ This is a long-winded way of saying this: Time to start a new notebook.
 - Save the file and name it `03-analysis-aisd.Rmd`.
 - Create your first chunk and name it "setup". Add the tidyverse and janitor libraries.
 
-```{r setup}
+```{r setup, echo=T, message=F, warning=F}
 library(tidyverse)
 library(janitor)
 ```
@@ -49,6 +49,7 @@ We need to import our data using the `read_rds()` function.
 ```{r import}
 sped_calcs <- read_rds("data-processed/02_sped_calcs.rds")
 
+# peek at it
 sped_calcs %>% glimpse()
 ```
 
@@ -166,7 +167,7 @@ But which number makes more sense for our story? Both are accurate. Ask yourself
 
 Our last question is: How many AISD schools would be above the special education "audit threshold" of 8.5% in 2020 if it were still in effect? How does those numbers compare to 2015?
 
-To answer this we need to introduce a new concept and function: `summarize()`, and it's companion `group_by`.
+To answer this we need to introduce a new concept and function: `summarize()`, and it's companion `group_by()`.
 
 The `summarize()` and `summarise()` functions compute tables _about_ your data. They are the same function, as R supports both the American and European spelling of summarize. I don't care which you use.
 

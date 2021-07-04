@@ -21,7 +21,7 @@ How you break up this work is really up to you, your colleagues you work with, a
 Your needs may vary by project, but strive to live by these rules:
 
 1. Don't change or write over original data. One way to accomplish this is keep raw data in a separate folder and never write to it.
-2. Notebooks should run independently. You should be able to open it and do Run All and it work. (It's OK to use data from a previous notebook, but R objects should not carry over.)
+2. Notebooks should run independently. You should be able to open it and do Run All and it work. (It's OK to import data from a previous notebook, but R objects should not carry over.)
 3. If notebooks must be run in series, then indicate that in the name of the file.
 4. Use descriptive names for everything. Avoid generic terms in file names like "data" or "myfile".
 
@@ -37,50 +37,7 @@ This is a long-winded way of saying this: Time to start a new notebook.
 
 ```r
 library(tidyverse)
-```
-
-```
-## Warning: package 'tidyverse' was built under R version 4.0.2
-```
-
-```
-## ── Attaching packages ──────────────────────────────────────────────────────── tidyverse 1.3.0 ──
-```
-
-```
-## ✓ ggplot2 3.3.1     ✓ purrr   0.3.4
-## ✓ tibble  3.0.1     ✓ dplyr   1.0.4
-## ✓ tidyr   1.1.0     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.0
-```
-
-```
-## Warning: package 'readr' was built under R version 4.0.2
-```
-
-```
-## Warning: package 'dplyr' was built under R version 4.0.2
-```
-
-```
-## ── Conflicts ─────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
-```
-
-```r
 library(janitor)
-```
-
-```
-## 
-## Attaching package: 'janitor'
-```
-
-```
-## The following objects are masked from 'package:stats':
-## 
-##     chisq.test, fisher.test
 ```
 
 ### Import
