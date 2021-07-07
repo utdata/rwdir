@@ -139,7 +139,7 @@ Your output will look something like this:
 
 ![Libraries imported](images/import-libraries.png){width=600px}
 
-## Downlaoding raw data
+## Downloading raw data
 
 ### Create a directory for your data
 
@@ -149,7 +149,7 @@ In your Files pane at the bottom-right of Rstudio, there is a **New Folder** ico
 
 - Click on the **New Folder** icon.
 - Name your new folder `data-raw`. This is where we'll put raw data. We never write data to this folder.
-- Also create another new folder called `data-processed`. This is were we write data. We separate them so we don't accidently overwrite raw data.
+- Also create another new folder called `data-processed`. This is were we write data. We separate them so we don't accidentally overwrite raw data.
 
 Once you've done that, they should show up in the file explorer in the Files pane. Click the refresh button if you don't see them. (The circlish thing at top right of the screenshot below.)
 
@@ -172,13 +172,11 @@ In the interest of time, you can just download my copy using the `download.file`
 
 ```r
 # cstud15 download
-download.file("https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-special-ed/data/CSTUD15.csv?raw=true", "data-raw/CSTUD15.csv")
+download.file("https://github.com/utdata/rwd-mastery-assignments/blob/main/ed-special-ed/data/CSTUD15.csv?raw=true", "data-raw/CSTUD15.csv")
 # cstud20 download
-download.file("https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-special-ed/data/CSTUD20.csv?raw=true", "data-raw/CSTUD20.csv")
+download.file("https://github.com/utdata/rwd-mastery-assignments/blob/main/ed-special-ed/data/CSTUD20.csv?raw=true", "data-raw/CSTUD20.csv")
 # directory download
-download.file("https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-special-ed/data/Directory.csv?raw=true", "data-raw/Directory.csv")
-
-
+download.file("https://github.com/utdata/rwd-mastery-assignments/blob/main/ed-special-ed/data/Directory.csv?raw=true", "data-raw/Directory.csv")
 ```
 
 This `download.file` function takes at least two arguments: The URL of the file you are downloading, and then the path and name of where you want to save it.
@@ -186,7 +184,7 @@ This `download.file` function takes at least two arguments: The URL of the file 
 When you run this, it should save the file and then give you output similar to this for each of the three files:
 
 ```text
-trying URL 'https://github.com/utdata/rwd-mastery-assignments/blob/master/ed-special-ed/data/CSTUD15.csv?raw=true'
+trying URL 'https://github.com/utdata/rwd-mastery-assignments/blob/main/ed-special-ed/data/CSTUD15.csv?raw=true'
 Content type 'text/plain; charset=utf-8' length 331596 bytes (323 KB)
 ==================================================
 downloaded 323 KB
@@ -325,7 +323,7 @@ cstud15 <- read_csv(
 
 ```
 ## 
-## ── Column specification ─────────────────────────────────────────────────────────────────────────
+## ── Column specification ──────────────
 ## cols(
 ##   CAMPUS = col_character(),
 ##   CPETBILC = col_double(),
@@ -385,7 +383,7 @@ cstud15 <- read_csv("data-raw/cstud15.csv") %>%
 
 ```
 ## 
-## ── Column specification ─────────────────────────────────────────────────────────────────────────
+## ── Column specification ──────────────
 ## cols(
 ##   CAMPUS = col_character(),
 ##   CPETBILC = col_double(),
@@ -434,7 +432,7 @@ cstud20 <- read_csv("data-raw/cstud20.csv") %>%
 
 ```
 ## 
-## ── Column specification ─────────────────────────────────────────────────────────────────────────
+## ── Column specification ──────────────
 ## cols(
 ##   .default = col_double(),
 ##   CAMPUS = col_character(),
@@ -482,7 +480,7 @@ directory <- read_csv("data-raw/Directory.csv") %>%
 
 ```
 ## 
-## ── Column specification ─────────────────────────────────────────────────────────────────────────
+## ── Column specification ──────────────
 ## cols(
 ##   .default = col_character(),
 ##   `District Enrollment as of Oct 2019` = col_double(),

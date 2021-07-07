@@ -1,258 +1,415 @@
 # Cleaning {#cleaning}
 
-## UPDATES NEEDED
+## IN MID-UPDATE
 
-- Use nameless pot data
-- get into lubridate?
 - include section on clean code and advanced tips. naming chunks. good indents. good markdown. tips for the navigation dropdown. keyboard command review. Restart and run.
+- recode
+- case_when
 
 ---
 
+```{r setup, include=FALSE}
+# hidden setup
+library(tidyverse)
+library(janitor)
+library(readxl)
+library(lubridate)
+data <- read_rds("data-processed/06-chapter-output.rds")
+```
+
+
+In this chapter we are continuing with our "arrests" project in the `01-import.Rmd` notebook. We'll use some cleaning techniques to prepare our data for analysis later in a different notebook.
+
 ## Goals for this section
 
-- Create a new notebook for cleaning data
-- Throughout the notebook, we want to explain our thoughts and goals in Markdown. Each code block should have a human readable explanation of the goal or task.
-- Import most recent data
-- Create cleaned proposed_use column
-- Export data for next notebook
+- Recap good coding practices and build on them.
+- Create a `race_simplified` column using `recode()`.
+- Create a cleaned `arrest_charge` column.
+- Export data for next notebook.
 
 ### Resources
+
+> Update these resources or kill it since I link within the text.
 
 - [Strings](https://r4ds.had.co.nz/strings.html) chapter from Hadley Wickham's book, specifically about [`str_replace()`](https://r4ds.had.co.nz/strings.html#replacing-matches).
 - [RDocumentation](https://www.rdocumentation.org/packages/stringr/versions/1.3.1/topics/str_replace) on `str_replace()`.
 - [stringr cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/strings.pdf).
 
-## Taking stock of the data
+## Explain thyself
 
-As we were looking at the `proposed_use` field in the wells data, we found that the values there were pretty dirty, with misspellings and unofficial designations. If we look at the official designations for Proposed Use on [page 10 of the data user manual ](http://www.twdb.texas.gov/groundwater/data/doc/TWRSRS_UserManual.pdf?d=43539.49999999895), we see there are 14 official designations, none with any of various spellings of [Piezo](https://en.wikipedia.org/wiki/Piezometer), which looks to be monitor wells.
+Throughout this notebook, we want to explain our thoughts and goals in Markdown. You want to write these concepts out for collaborators or others who might read your work, but your future self is your first, best audience.
 
-We need to create a clean version of the `proposed_use` column to use with our analysis and visualizations. Typically when I discover a situation like this, I go back to my first "import and cleaning" notebook and make changes there so the work can carry through to all subsequent notebooks, but in this case we'll just make our changes in a new notebook and then document and export the changes for future work.
+- Organize sections of your notebook with headlines. Write about the goal of each section.
+- Each code block in the section should have a human readable explanation of the goal or task.
+- Name your chunks.
+- Use `#` comments in your code if you need more clarity.
 
-## Setup and import
+- Go back and update your notebook with these things if you don't have them already.
 
-- Create a new R Notebook with a title "Wells cleaning" and a filename of `03-wells-cleaning.Rmd`.
-- In Markdown, write down our purpose and goals in your own words.
-- Set up the tidyverse library and import the `data/wells_02.rds` file that we exported at the end of our last notebook. (If you don't recall how to do this, look at your last notebook, but update the code to reflect the new filename.) For this block and all others, make sure you have a Markdown description of the goal or task.
+## Syntax etiquette
 
-## Clean the proposed_use column
+You might have noticed when I write code in R, I add returns and indent code to keep it readable. I usually pipe ` %>% ` to a new line unless I have just one pipe. If I have a list of items within a function, I might put each item on a new line so they are easier to read. 
 
-### Count values in a column
+One thing you want to do is make sure no one line is too long. A good place to start adding returns to shorten a line (or nesting it) is within a function. The nested code should be indented one tab stop. RStudio helps you set tabs when you hit return, but you might need to clean up your code as you go along.
 
-Let's look again at the the values in the `proposed_use` column of the wells data. One way to see all the unique values and also find out how many there are is to use the `count()` function, which is a simple pivot table.
+This code chunk we've already written includes a lot of these concepts, including some comments to help me understand my code later. Comments like this can be on a line of their own or at the end of a line.
 
 ```r
-wells %>% 
-  count(proposed_use)
+data <- read_excel(
+    # breaking up read_excel to make shorting line
+    "data-raw/APD_marijuana_arrests_2016-2020_data.xlsx",
+    sheet = "Results",
+    col_types = c(
+      # putting values on own lines for readability
+      "text",  # key
+      "guess", # date
+      "guess", # charge
+      "guess", # race
+      "guess", # sex
+      "guess", # location
+      "text",  # zip
+      "guess", # x coordinate
+      "guess"  # y coordinate
+    )
+  ) %>% clean_names()
 ```
 
-Which gives us a list that looks something like this:
+- Go back through your code chunks and make sure the syntax is clean.
 
-| proposed_use                        |    n |
-|:------------------------------------|-----:|
-| AG WELL                             |    3 |
-| Closed-Loop Geothermal              |  246 |
-| Commercial                          |    1 |
-| De-watering                         |   33 |
-| Domestic                            | 8408 |
-| Environmental Soil Boring           | 3719 |
-| Ground Well for Electric Substation |    2 |
-| Industrial                          |  102 |
-| Injection                           |   61 |
-| Irrigation                          | 1493 |
-| IRRIGATION/TESTWELL                 |    1 |
-| Monitor                             | 3354 |
-| Monitor-VMP                         |    2 |
-| peizometer                          |    1 |
-| Peizometer                          |    8 |
-| piezo                               |    1 |
-| Piezo                               |   12 |
-| piezometer                          |   43 |
-| Piezometer                          |   25 |
-| Piezometer Installation             |    1 |
-| PLUGGING                            |    1 |
-| Public Supply                       |  174 |
-| Rig Supply                          |   14 |
-| Soil Vapor Monitor                  |   10 |
-| Stock                               |  259 |
-| Surface Slab Repair                 |    1 |
-| Test Well                           |  266 |
-| Unknown                             |    5 |
-| Vapor Monitoring Point              |    1 |
-| VAPOR POINT                         |    1 |
+## Recode the `apd_race` column
 
-We have 30 different values here that we need to combine into at most 14 categories, which are the official ones listed on [page 10 of the data user manual ](http://www.twdb.texas.gov/groundwater/data/doc/TWRSRS_UserManual.pdf?d=43539.49999999895). After looking through it and doing some Googling, I came to a couple of conclusions:
+We're going to create a simplified race column by "recoding" the values from the `apd_race` column. We'll create a smaller set of races, combing some into "other".
 
-- Anything named "piezo" or a variant should be a Monitor well.
-- Anything named "vapor" should be a Monitor well.
-- Anything that isn't on the official list should be Other.
+First, let's review the `apd_race` values:
 
-TBH, if I was writing stories about this data, I would call the TWDB and make my sure that my educated assumptions are correct. But they seem reasonable given the documentation.
+```{r race-look}
+data %>% count(apd_race)
+```
 
-### Change values in a column
+Let's rename everything that isn't Asian, Black, Hispanic or White as Other. We need to make a note (in Markdown!) that we are including the Unknowns in Other and include a note with any graphic or analysis we do later.
 
-So, our goal here is to create a new column that starts with the value of `proposed_use`, but then we search through the values for things like "piezo" and set them to something more useful.
+We are creating a new column (and avoid writing over an existing column) so we can keep the old one if we perhaps want to look at the more specific race/ethnicities. We'll also port the results into a new data frame `data_race` in case we need to get to the original data for any reason.
 
-We'll utilize a stringr function called `str_replace()` using [regular expressions](https://drive.google.com/open?id=1DvAM4lnGJLefo9skD8GgM-_9S1BEhpjJfV86yhJavI0) to do this, within a `mutate()` function, which we know we can use to create or make changes in a column data. And, of course, we need to figure out how to do it before we save it, so let's work through it.
+We are using two functions here to accomplish this: We use `mutate()` to create the column and we name the new columns `race_simple`. The values for that are filled with the `recode()` function that lists the existing value first, then the new values (which is kinda opposite from mutate, where we name the new item first).
 
-Start by calling the `wells` data frame, then using mutate to create a new column from `proposed_use`, and then count the rows from the new column. For now, it will be the same as it was for `proposed use` but we'll fix that. Note that we will work through several steps in this mutate function _before_ we save it back into wells.
+`mutate()` works like this:
 
 ```r
-wells %>% 
+df %>% 
   mutate(
-    use_clean = proposed_use
-  ) %>% 
-  count(use_clean)
-```
-
-#### Convert to lowercase
-
-It will be much easier for us to deal with different spellings of words if everything was lower case. "Piezo" is different than "piezo", so let's convert everything to lower case.
-
-```r
-wells %>% 
-  mutate(
-    use_clean = tolower(proposed_use)
-  ) %>% 
-  count(use_clean)
-```
-
-Now our results are all lowercase. It looks something like this:
-
-| use_clean              |   n |
-|:-----------------------|----:|
-| ag well                |   3 |
-| closed-loop geothermal | 246 |
-| commercial             |   1 |
-| de-watering            |  33 |
-
-#### Clean up the piezo-ish values
-
-We still have four different versions of "piezo" and the like, which need to be labeled as "monitor". You might  make a mental note of how many values you currently have for "monitor" now so we can notice how that value grows as we fix our piezos. (I have 3354 in our example, but the number will be different depending on when the data was pulled from TWDB.) We can continue to stack changes inside our `mutate()` function to deal with this using `str_replace()`.
-
-There are three arguments to the [`str_replace()` function](https://www.rdocumentation.org/packages/stringr/versions/1.3.1/topics/str_replace):
-
-- what column are we working on.
-- what pattern are we looking for, as a regular expression.
-- what value do we want it to be.
-
-We have created a new column `use_clean` that we want to continue to modify, so it is both our target and our source of our subsequent mutates.
-
-The pattern we want is anything that starts with the word "piezo" and "peizo" with anything that follows. The regex expression for "anything" is `.*`, so `piezo.*` with catch "piezo", "piezometer" and "piezo installation". We also want to set any value with those terms to "monitor", so we set up our string replace function: `str_replace(use_clean, "piezo.*", "monitor")` and add it to our list of mutates:
-
-```r
-wells %>% 
-  mutate(
-    use_clean = tolower(proposed_use),
-    use_clean = str_replace(use_clean, "piezo.*", "monitor")
-  ) %>% 
-  count(use_clean)
-```
-
-If we look at the results of that change, we see we are left with the one misspelled "peizometer". We can fix that by adding an "or" section to our search pattern, using the regular expression key `|`.
-
-```r
-wells %>% 
-  mutate(
-    use_clean = tolower(proposed_use),
-    use_clean = str_replace(use_clean, "piezo.*|peizo.*", "monitor")
-  ) %>% 
-  count(use_clean)
-```
-
-Check your results and make sure that there are no longer any versions of "piezo" in use_clean.
-
-You can keep stacking these `str_replace()` mutates to clean further values.
-
-#### Your turn: str_replace functions
-
-Now it's up to you to add more mutate strings to clean the rest of the column to get the 14 official "Proposed Use" designations listed below. It would make sense to organize your new mutate lines in logical ways, like perhaps to capture all the terms that would go into "other" together using the `|` in your search pattern, like we did with piezo and peizo example above. Here's the official list:
-
-- closed-loop geothermal
-- de-watering
-- domestic
-- environmental soil boring
-- industrial
-- injection
-- irrigation
-- monitor
-- other
-- public supply
-- rig supply
-- stock
-- test
-- unknown
-
-#### Double-check our results
-
-It might make sense to do one last check of our conversions before reassigning all of changes back to the wells data frame. Change the last `count()` function to the following:
-
-```r
-  count(use_clean) #change this line
-  distinct(proposed_use, use_clean) # to this line
-```
-
-The result looks something similar to this:
-
-| proposed_use                        | use_clean                 |
-|-------------------------------------|---------------------------|
-| Irrigation                          | irrigation                |
-| Domestic                            | domestic                  |
-| Monitor                             | monitor                   |
-| Public Supply                       | public supply             |
-| Environmental Soil Boring           | environmental soil boring |
-| Closed-Loop Geothermal              | closed-loop geothermal    |
-| Industrial                          | industrial                |
-| Piezo                               | monitor                   |
-| Stock                               | stock                     |
-| Piezometer                          | monitor                   |
-| Test Well                           | test                      |
-| Unknown                             | unknown                   |
-| piezometer                          | monitor                   |
-| De-watering                         | de-watering               |
-| Ground Well for Electric Substation | other                     |
-| VAPOR POINT                         | monitor                   |
-| Piezometer Installation             | monitor                   |
-| Surface Slab Repair                 | other                     |
-| Monitor-VMP                         | monitor                   |
-| peizometer                          | monitor                   |
-| piezo                               | monitor                   |
-| Vapor Monitoring Point              | monitor                   |
-| Injection                           | injection                 |
-| Peizometer                          | monitor                   |
-| Commercial                          | other                     |
-| IRRIGATION/TESTWELL                 | test                      |
-| Soil Vapor Monitor                  | monitor                   |
-| PLUGGING                            | other                     |
-| AG WELL                             | other                     |
-| Rig Supply                          | rig supply                |
-
-This will allow you to double check that all your conversions happened properly.
-
-### Reassign your changes back to the data frame
-
-Once you have all your column changes worked out, you need to fix it up to reassign the values to the data frame, and then **add Markdown commentary above it to explain the purpose of the code chunk**.
-
-- Edit your code chunk to remove the `distinct()` or `count()` functions at the end.
-- Edit the code chunk to reassign the values back to `wells`.
-
-```r
-wells <- wells %>% 
-  mutate(
-    use_clean = tolower(proposed_use),
-    use_clean = str_replace(use_clean, "piezo.*|peizo.*", "monitor"),
-    # your other str_replace items ...
+    new_col_name = data_to_draw_from
   )
 ```
 
-## Export your updated data frame
-
-Let's again export our data so we can use it in a new notebook. Since we are in our third notebook of this project, let's name the file `wells_03.rds` since this is coming out of our third notebook.
+And `recode()` works like this (but we will use this were `data_to_draw_from` is in our mutate).
 
 ```r
-saveRDS(wells, "data-out/wells_03.rds")
+recode(
+  "Old Value" = "New Value"
+)
 ```
 
-## Future addition
+This is like a "search and replace" for a value within a column.
 
-While this data doesn't support it, it would be good to have here an example of how you might take a column made up of codes, like school accountability ratings being "M", "I", "A", etc. and convert them to their readable values like like "Met standard", "Needs Improvement" and "Alternative standard".
+As we recode our new column we'll leave out "ASIAN", "BLACK", and "WHITE" because we aren't changing them. I'm recoding "HISPANIC OR LATINO" to just "HISPANIC" for simplicity and graph labels used later.
+
+- Read over the code below to understand what is going on, then try to write it yourself without looking back. Run the code and if there is an error, read that first and try to figure it out.
+
+> The completed code is below, but know I wrote it in stages. Sometimes I'll write part of the code first and make sure it works. I might write the mutate part and just fill `race_simple` from `apd_race` to make sure it works, then edit that to add the `recode()` step. I might not assign the data to a new data frame until I work out all the functions. It's a process. Below I just have the finished product. I used a count using both columns to check my work.
+
+```{r race-recode}
+data_race <- data %>% 
+  mutate(
+    race_simple = recode(apd_race,
+      "AMERICAN INDIAN/ALASKAN NATIVE" = "OTHER",
+      "HAWAIIAN/PACIFIC ISLANDER" = "OTHER",
+      "HISPANIC OR LATINO" = "HISPANIC",
+      "MIDDLE EASTERN" = "OTHER",
+      "UNKNOWN" = "OTHER",
+    )
+  )
+
+# peek at the results
+data_race %>%
+  count(
+    apd_race, race_simple
+  )
+```
+
+And now I can look just at the new column to get an idea of the simplified race breakdown.
+
+- Add this chunk to your notebook.
+
+```{r race-simple}
+data_race %>% count(race_simple)
+```
+
+The `race_simple` column was added to the end of the data frame. If you look at your environment, `data_race` has 10 columns vs 9 for `data`.
+
+## Filter out data we don't need
+
+Cleaning up the `arrest_charge` column is more complicated and we need to talk about our goals first. Let's look again at the different `arrest_charge` values.
+
+- Add this count to your notebook
+
+```{r charge-look}
+data_race %>% 
+  count(arrest_charge) %>% 
+  arrange(n %>% desc())
+```
+
+In your notebook you'll be able to page through the results and you can see they are a mess. (This published page doesn't paginate the results.)
+
+### About marijuana charges
+
+Understanding what these charges are is important to the story. We only care about Class B Possession charges, which are under 2 ounces. (Class A is between 2 and 4 ounces.) We also need to be aware of Drug Free Zone (or DFZ) charges as those are "enhanced" to a higher charge, so we want to exclude those. We also want to exclude Delivery charges and anything not marijuana. Lastly, we also want to remove charges that include "request to apprehend" as in that case the police were looking for the suspect on a different charge.
+
+So, in short, we only want charges under 2OZ without Drug Free Zone.
+
+**This will be a process!** We'll build filters and sometimes use `count()` to check the results before creating new data frames with the filtered data.
+
+### Filter out delivery charges
+
+Before we can remove data, we need to make sure we can find it properly. As you page through the charges results above, you'll see some rows have "DEL" in the charge description. We will use `filter()` (which we've used in the Transform chapter) and `str_detect()` to find these records, review them, and then "negate" the filter so they are NOT included.
+
+- Create a new chunk called "filter-del" and include the following code. I explain it afterward.
+
+```{r filter-del}
+data_race %>% 
+  filter(
+    str_detect(arrest_charge, "DEL") 
+  )
+```
+
+The `filter()` selects data based on a set of rules we give it. In the past, we fed the function a column name and a value to look for. This time we are feeding is a function `str_detect()` which takes two values: The column to look in, and then the text we are looking for. This method will find the text no matter where it appears within the field.
+
+There are 27 results. As you page through these results you'll see all the rows that have DEL in it, including some that have POS like "MANF/DEL-POSS MARIJ <= 4OZ > 2OZ". That's OK If it is a delivery, we don't want it.
+
+Now we add the "negate" option of `!` before the `str_detect` so we get all the rows **except** those with "DEL".
+
+- Update your "filter-del" chunk to add `!` right before the `str_detect` and run it.
+
+```{r filter-del-negate}
+data_race %>% 
+  filter(
+    !str_detect(arrest_charge, "DEL")
+  )
+```
+
+Now we'll assign that filter to a new data frame. Some folks might consider this overkill and just reassign the cleaned data to the existing `data_race` tibble. This can get confusing if you make changes up and down your notebook, so I like to create new tibbles with my changed data.
+
+- Update your "filter-del" chunk to assign the results to a new tibble, `data_nodel`.
+
+```{r data-nodel}
+data_nodel <- data_race %>% 
+  filter(
+    !str_detect(arrest_charge, "DEL")
+  )
+```
+
+If you look at your environment you'll see the `data_nodel` data has 27 fewer observations than the `data` tibble, the same number or records you got in your original filter. This is good!
+
+### Remove controlled substance
+
+If you look at the charges again, you'll see some other charges that are NOT related to marijuana. These are "controlled substance" charges. We don't want them.
+
+```{r chg-look}
+data_nodel %>% 
+  count(arrest_charge)
+```
+
+We want to remove all the cases with "CS" in the `arrest_charge` field.
+
+- Use the same technique that we used for DEL to remove the CS records and assign the results to a new dataframe `data_nocs`. Try it on your own before looking at the answer below.
+
+<details>
+  <summary>Try it first! Click to reveal answer.</summary>
+  
+```r
+data_nocs <- data_nodel %>% 
+filter(
+  !str_detect(arrest_charge, "CS")
+)
+```
+</details>
+
+
+```{r filter-cs-hidden, include=FALSE}
+data_nocs <- data_nodel %>% 
+  filter(
+    !str_detect(arrest_charge, "CS")
+  )
+```
+
+
+### Remove drug free zones
+
+Our next move is to remove all the records that have a drug free zone enhancement. Let's look at the charges data once again using `count()`.
+
+- Create a new chunk called "dfz-count" and use our `data_nocs` tibble to count `arrest_charge` values.
+
+```{r dfz-count}
+data_nocs %>% 
+  count(arrest_charge)
+```
+
+As you look through the results, you'll see the drug free zone designation is handled many different ways: DFZ, DRUG FREE ZONE, SCHOOL ZONE, etc. This might take some trial and error.
+
+We will use `str_detect()` again, but we need to search for multiple terms and we want to make sure the filter works as expected. So we'll create a variable `dfz_terms` which will include a list of terms we want to search, using some [regular expressions](https://regexone.com/). We also use our `count()` function to check our results.
+
+> Regular expressions are a powerful pattern matching concept that can get a little complicated. We'll take them slow and only use what we need to get our results.
+
+- Start a new chunk called "dfz-filter" and set it up like the code below and run it. I'll explain what is going on below.
+
+```r
+dfz_terms <- c("DFZ|SCHOOL|DRUG")
+
+data_nocs %>% 
+  filter(str_detect(arrest_charge, dfz_terms)) %>% 
+  count(arrest_charge)
+
+data_nocs %>% 
+  filter(!str_detect(arrest_charge, dfz_terms)) %>% 
+  count(arrest_charge)
+```
+
+This code gives you two sets of results. I'm giving you screen shots because this published page doesn't behave the same way.
+
+The first has the results that include the terms we are looking for:
+
+![DFZ](images/cleaning-dfz.png)
+
+Then second set shows the terms that DON'T have our terms because we negated them:
+
+![No DFZ](images/cleaning-nodfz.png)
+
+Now let me explain the code.
+
+The first line creates a variable of terms to use in our string detect: "DFZ|SCHOOL|DRUG". The pipe `|` is a "regular expression" that means "or". So when we use this list in our `str_detect()` function we are looking for DFZ or SCHOOL or DRUG.
+
+I set this up like this so we can use the same list of terms to look at the filter that contains the terms and look at a filter that negates the terms. It's the same concept we used for deliveries and controlled substances, but we create the search term in a variable so we can double-check to make sure we are getting the results we want.
+
+```{r dfz-terms-hidden, include=FALSE}
+dfz_terms <- c("DFZ|SCHOOL|DRUG")
+```
+
+Now that we know our terms are good and we are getting the results we want, we can build a new data table using a negated `str_detect` using those same terms.
+
+- Create a new chunk that assigns the result of a filter negating the dfz_terms. Call the new tibble `data_nodfz`). Use the hint below only if you can't figure it out. Remember, you don't need the count() anymore, just the filter. You should end up with 7672 observations.
+
+<details>
+  <summary>Click here for the answer</summary>
+
+```{r filter-dfz}
+data_nodfz <- data_nocs %>% 
+  filter(!str_detect(arrest_charge, dfz_terms))
+```
+
+</details>
+
+### Remove request to apprehend
+
+Use the same method as above to remove any records that have "REQUEST" or "RTA". Remember to start from your new `data_nodfz` tibble and name your new one `data_norta`. You should end up with 7665 observations.
+
+<details>
+  <summary>Try it first!</summary>
+```r
+rta_terms <- c("REQUEST|RTA")
+
+# dfz results
+data_nodfz %>% 
+  filter(
+    str_detect(arrest_charge, rta_terms)
+  )
+
+# no dfz results
+data_nodfz %>% 
+  filter(
+    !str_detect(arrest_charge, rta_terms)
+  ) %>% 
+  count(arrest_charge)
+
+# make new data frame
+data_norta <- data_nodfz %>% 
+  filter(
+    !str_detect(arrest_charge, rta_terms)
+  )
+```
+</details>
+
+```{r filter-rta-hidden, include=FALSE}
+rta_terms <- c("REQUEST|RTA")
+data_norta <- data_nodfz %>% 
+  filter(
+    !str_detect(arrest_charge, rta_terms)
+  )
+```
+
+### Removing more unwated records
+
+This charge code really is a mess. There are some other things we can remove before getting to our main challenge of finding only charges of <2OZ. There are some codes used in the charges that we know we don't want, like `(MA)` for an A Misdemeanor, and `(FS)` for a state felony, and `(F3)` for 3rd degree felony. This is tricky because we can't remove all "MA" text because that would catch "MARIJUANA", too. We have to include the parenthesis `(MA)`, and that can be tricky in regular expressions (aka regex). The parenthesis is a special character in regex so we have to "escape" it to use it as a character. Even more confusing, [when using R we have to double-escape](https://stringr.tidyverse.org/articles/regular-expressions.html#escaping) it. This is much too confusing to get into in detail here, so this filter is a "gimmie".
+
+We'll also remove any row that has a charge with "LB" because that definitely is more than 2 OZ.
+
+- Add this chunk to your project and run it.
+
+```{r}
+# list escapes ( to get (MA), etc
+fs_list <- c("\\(MA\\)|\\(FS\\)|\\(F3\\)|LB")
+
+# checks the catch list
+data_norta %>% 
+  filter(
+    str_detect(arrest_charge, fs_list)
+  ) %>% 
+  count(arrest_charge)
+
+# checks the negate
+data_norta %>% 
+  filter(
+    !str_detect(arrest_charge, fs_list)
+  ) %>% 
+  count(arrest_charge)
+
+# does the deed
+data_nofs <- data_norta %>% 
+  filter(
+    !str_detect(arrest_charge, fs_list)
+  )
+
+```
+
+You now have `data_nofs` tibble, which we'll continue with.
+
+## Finding just B misdemeanors
+
+>> THIS IS WHERE I STOPPED LAST.
+
+We've removed a lot of crap, but now we have the hard part. How do we get just B misdemeanors while dealing with some obvious data coding errors?
+
+> attempts to get to just b mis
+
+```{r}
+mb_list <- c("< *2")
+
+data_nofs %>% 
+  filter(
+    str_detect(arrest_charge, mb_list)
+  ) %>% 
+  count(arrest_charge)
+
+data_nofs %>% 
+  filter(
+    !str_detect(arrest_charge, mb_list)
+  ) %>% 
+  count(arrest_charge)
+```
+
+
+
+## Export your updated data frame
+
+> Export into data-processed
+
+
 

@@ -51,6 +51,7 @@ We need to import our data using the `read_rds()` function.
 ```r
 sped_calcs <- read_rds("data-processed/02_sped_calcs.rds")
 
+# peek at it
 sped_calcs %>% glimpse()
 ```
 
@@ -281,7 +282,7 @@ But which number makes more sense for our story? Both are accurate. Ask yourself
 
 Our last question is: How many AISD schools would be above the special education "audit threshold" of 8.5% in 2020 if it were still in effect? How does those numbers compare to 2015?
 
-To answer this we need to introduce a new concept and function: `summarize()`, and it's companion `group_by`.
+To answer this we need to introduce a new concept and function: `summarize()`, and it's companion `group_by()`.
 
 The `summarize()` and `summarise()` functions compute tables _about_ your data. They are the same function, as R supports both the American and European spelling of summarize. I don't care which you use.
 

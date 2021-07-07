@@ -4,8 +4,6 @@
 
 ## Rewite tasks
 
-- Use sped data
-- Quick do the steps
 - Return to fill in story gaps
 
 ## Goals for the section
