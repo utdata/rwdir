@@ -1,4 +1,4 @@
-# Transform {#transform}
+# Transform {#sped-transform}
 
 > MID-UPDATE v1.0
 
@@ -62,8 +62,7 @@ The first code chunk in every notebook should be a listing of all the packages u
 - Add the tidyverse and janitor libraries
 - Run the chunk
 
-
-```r
+```{r setup, echo=T, results='hide', message=F, warning=F}
 library(tidyverse)
 library(janitor)
 ```
@@ -94,26 +93,10 @@ By doing this, you can then use the notebook navigation to move to different par
 - Add a Markdown headline and description that you are loading the data.
 - Add a code chunk and give it a name of **import**. Add the code below and then run the chunk:
 
-
-```r
+```{r read}
 sped <- read_rds("data-processed/01_sped.rds")
 
 sped %>% glimpse()
-```
-
-```
-## Rows: 8,002
-## Columns: 10
-## $ school_name      <chr> "CAYUGA H S", "CAYUGA MIDDLE", "CAYUGA EL", "ELKHART…
-## $ district_name    <chr> "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "ELKHART I…
-## $ instruction_type <chr> "REGULAR INSTRUCTIONAL", "REGULAR INSTRUCTIONAL", "R…
-## $ charter_type     <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ grade_range      <chr> "'09-12", "'06-08", "'EE-05", "'09-12", "'06-08", "'…
-## $ campus           <chr> "001902001", "001902041", "001902103", "001903001", …
-## $ sped_c_15        <dbl> 37, 16, 23, 33, 36, 29, 27, 28, 16, 34, 16, 25, 96, …
-## $ sped_p_15        <dbl> 18.0, 13.3, 9.2, 9.3, 11.8, 9.6, 10.5, 12.6, 9.2, 8.…
-## $ sped_c_20        <dbl> 34, 17, 31, 44, 29, 48, 26, 19, 28, 44, 11, 14, 103,…
-## $ sped_p_20        <dbl> 19.8, 13.6, 11.9, 11.6, 11.2, 14.4, 9.4, 8.3, 15.9, …
 ```
 
 What we've done is import the data we processed at the end of our **01-import.Rmd** notebook and assigned it to a data frame called `sped` and glimpsed it for reference.
@@ -128,20 +111,9 @@ Our first task is to filter our data to remove any schools not rated by normal s
 - Add a code chunk and name it "explore-type".
 - Add this code and run it, then I'll explain it.
 
-
-```r
+```{r explore-type}
 sped %>% 
   count(instruction_type)
-```
-
-```
-## # A tibble: 4 x 2
-##   instruction_type              n
-## * <chr>                     <int>
-## 1 ALTERNATIVE INSTRUCTIONAL   397
-## 2 DAEP INSTRUCTIONAL          121
-## 3 JJAEP INSTRUCTIONAL         112
-## 4 REGULAR INSTRUCTIONAL      7372
 ```
 
 What you've done here is very similar to a pivot table in Excel where you count the rows based on values.
@@ -172,28 +144,9 @@ From or count we know there are four types of schools: ALTERNATIVE INSTRUCTIONAL
 
 > The first box shown here is the code. The second is the result. The result is prettier in RStudio.
 
-
-```r
+```{r filter}
 sped %>% 
   filter(instruction_type == "REGULAR INSTRUCTIONAL")
-```
-
-```
-## # A tibble: 7,372 x 10
-##    school_name district_name instruction_type charter_type grade_range campus
-##    <chr>       <chr>         <chr>            <chr>        <chr>       <chr> 
-##  1 CAYUGA H S  CAYUGA ISD    REGULAR INSTRUC… <NA>         '09-12      00190…
-##  2 CAYUGA MID… CAYUGA ISD    REGULAR INSTRUC… <NA>         '06-08      00190…
-##  3 CAYUGA EL   CAYUGA ISD    REGULAR INSTRUC… <NA>         'EE-05      00190…
-##  4 ELKHART H S ELKHART ISD   REGULAR INSTRUC… <NA>         '09-12      00190…
-##  5 ELKHART MI… ELKHART ISD   REGULAR INSTRUC… <NA>         '06-08      00190…
-##  6 ELKHART EL  ELKHART ISD   REGULAR INSTRUC… <NA>         'EE-02      00190…
-##  7 ELKHART INT ELKHART ISD   REGULAR INSTRUC… <NA>         '03-05      00190…
-##  8 FRANKSTON … FRANKSTON ISD REGULAR INSTRUC… <NA>         '09-12      00190…
-##  9 FRANKSTON … FRANKSTON ISD REGULAR INSTRUC… <NA>         '06-08      00190…
-## 10 FRANKSTON … FRANKSTON ISD REGULAR INSTRUC… <NA>         'EE-05      00190…
-## # … with 7,362 more rows, and 4 more variables: sped_c_15 <dbl>,
-## #   sped_p_15 <dbl>, sped_c_20 <dbl>, sped_p_20 <dbl>
 ```
 
 When you run this, you'll see we now have only that you the about 7,372 rows instead of the 8,002 that we started with, and that also matches our "count" from above.
@@ -255,31 +208,12 @@ You can filter for more than one thing at a time by using an operator: `&`, `|`.
 - Edit your existing code block to following code block and run it.
 - Then look at the code and the result and then **write out what the filter is doing in your own words**.
 
-
-```r
+```{r filter-combine}
 sped %>% 
   filter(
     instruction_type == "REGULAR INSTRUCTIONAL",
     charter_type %>% is.na()
   )
-```
-
-```
-## # A tibble: 6,962 x 10
-##    school_name district_name instruction_type charter_type grade_range campus
-##    <chr>       <chr>         <chr>            <chr>        <chr>       <chr> 
-##  1 CAYUGA H S  CAYUGA ISD    REGULAR INSTRUC… <NA>         '09-12      00190…
-##  2 CAYUGA MID… CAYUGA ISD    REGULAR INSTRUC… <NA>         '06-08      00190…
-##  3 CAYUGA EL   CAYUGA ISD    REGULAR INSTRUC… <NA>         'EE-05      00190…
-##  4 ELKHART H S ELKHART ISD   REGULAR INSTRUC… <NA>         '09-12      00190…
-##  5 ELKHART MI… ELKHART ISD   REGULAR INSTRUC… <NA>         '06-08      00190…
-##  6 ELKHART EL  ELKHART ISD   REGULAR INSTRUC… <NA>         'EE-02      00190…
-##  7 ELKHART INT ELKHART ISD   REGULAR INSTRUC… <NA>         '03-05      00190…
-##  8 FRANKSTON … FRANKSTON ISD REGULAR INSTRUC… <NA>         '09-12      00190…
-##  9 FRANKSTON … FRANKSTON ISD REGULAR INSTRUC… <NA>         '06-08      00190…
-## 10 FRANKSTON … FRANKSTON ISD REGULAR INSTRUC… <NA>         'EE-05      00190…
-## # … with 6,952 more rows, and 4 more variables: sped_c_15 <dbl>,
-## #   sped_p_15 <dbl>, sped_c_20 <dbl>, sped_p_20 <dbl>
 ```
 
 We rewrote the first filter to indent it differently so it was more clear that we have **two logical tests** here. The second test has a nested function, testing the `charter_type` field to see if it is blank, or `is.na()`, which is a special case. We could have written this line as `is.na(charter_type)`.
@@ -328,8 +262,7 @@ In the filter code chunk you've been building, modify it i the following ways:
 - Assign the result to a new data frame called `sped_reg`.
 - Print the data frame to the screen so you can poke around.
 
-
-```r
+```{r select-remove}
 sped_reg <- sped %>% 
   filter(
     instruction_type == "REGULAR INSTRUCTIONAL",
@@ -340,46 +273,16 @@ sped_reg <- sped %>%
 sped_reg
 ```
 
-```
-## # A tibble: 6,962 x 8
-##    school_name district_name grade_range campus sped_c_15 sped_p_15 sped_c_20
-##    <chr>       <chr>         <chr>       <chr>      <dbl>     <dbl>     <dbl>
-##  1 CAYUGA H S  CAYUGA ISD    '09-12      00190…        37      18          34
-##  2 CAYUGA MID… CAYUGA ISD    '06-08      00190…        16      13.3        17
-##  3 CAYUGA EL   CAYUGA ISD    'EE-05      00190…        23       9.2        31
-##  4 ELKHART H S ELKHART ISD   '09-12      00190…        33       9.3        44
-##  5 ELKHART MI… ELKHART ISD   '06-08      00190…        36      11.8        29
-##  6 ELKHART EL  ELKHART ISD   'EE-02      00190…        29       9.6        48
-##  7 ELKHART INT ELKHART ISD   '03-05      00190…        27      10.5        26
-##  8 FRANKSTON … FRANKSTON ISD '09-12      00190…        28      12.6        19
-##  9 FRANKSTON … FRANKSTON ISD '06-08      00190…        16       9.2        28
-## 10 FRANKSTON … FRANKSTON ISD 'EE-05      00190…        34       8.4        44
-## # … with 6,952 more rows, and 1 more variable: sped_p_20 <dbl>
-```
-
 Note there are some other really cool ways to use select.
 
 Here is an example capturing columns that end with "_name". (The `head()` function just gives us the first few rows of data since we don't need to show the whole data set.)
 
 > You don't have to do this ... I'm just showing you.
 
-
-```r
+```{r}
 sped_reg %>% 
   select(ends_with("_name")) %>% 
   head()
-```
-
-```
-## # A tibble: 6 x 2
-##   school_name    district_name
-##   <chr>          <chr>        
-## 1 CAYUGA H S     CAYUGA ISD   
-## 2 CAYUGA MIDDLE  CAYUGA ISD   
-## 3 CAYUGA EL      CAYUGA ISD   
-## 4 ELKHART H S    ELKHART ISD  
-## 5 ELKHART MIDDLE ELKHART ISD  
-## 6 ELKHART EL     ELKHART ISD
 ```
 
 ## How to describe the change
@@ -436,8 +339,7 @@ Remember from our preparation steps, mutate works like this:
 2. set it to `=` the new value
 3. specify what the new result should be
 
-
-```r
+```{r}
 sped_calcs <- sped_reg %>% 
   mutate(
     # simple difference
@@ -447,39 +349,12 @@ sped_calcs <- sped_reg %>%
 sped_calcs %>% glimpse()
 ```
 
-```
-## Rows: 6,962
-## Columns: 9
-## $ school_name   <chr> "CAYUGA H S", "CAYUGA MIDDLE", "CAYUGA EL", "ELKHART H …
-## $ district_name <chr> "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "ELKHART ISD"…
-## $ grade_range   <chr> "'09-12", "'06-08", "'EE-05", "'09-12", "'06-08", "'EE-…
-## $ campus        <chr> "001902001", "001902041", "001902103", "001903001", "00…
-## $ sped_c_15     <dbl> 37, 16, 23, 33, 36, 29, 27, 28, 16, 34, 16, 25, 96, 44,…
-## $ sped_p_15     <dbl> 18.0, 13.3, 9.2, 9.3, 11.8, 9.6, 10.5, 12.6, 9.2, 8.4, …
-## $ sped_c_20     <dbl> 34, 17, 31, 44, 29, 48, 26, 19, 28, 44, 11, 14, 103, 70…
-## $ sped_p_20     <dbl> 19.8, 13.6, 11.9, 11.6, 11.2, 14.4, 9.4, 8.3, 15.9, 11.…
-## $ sped_c_diff   <dbl> -3, 1, 8, 11, -7, 19, -1, -9, 12, 10, -5, -11, 7, 26, 2…
-```
-
 You can see the first value differences in the glimpse above: **34 - 37 = -3**. If that is difficult to see we could build a quick look to see just those columns:
 
-
-```r
+```{r}
 sped_calcs %>% 
   select(school_name, sped_c_15, sped_c_20, sped_c_diff) %>% 
   head()
-```
-
-```
-## # A tibble: 6 x 4
-##   school_name    sped_c_15 sped_c_20 sped_c_diff
-##   <chr>              <dbl>     <dbl>       <dbl>
-## 1 CAYUGA H S            37        34          -3
-## 2 CAYUGA MIDDLE         16        17           1
-## 3 CAYUGA EL             23        31           8
-## 4 ELKHART H S           33        44          11
-## 5 ELKHART MIDDLE        36        29          -7
-## 6 ELKHART EL            29        48          19
 ```
 
 You always want to check your mutates to make sure they work!
@@ -492,8 +367,7 @@ For this calculation we have the more complex task of the percent-change math. W
 
 - Modify your calculations to include the `sped_c_prccng` result:
 
-
-```r
+```{r}
 sped_calcs <- sped_reg %>% 
   mutate(
     # simple diff
@@ -506,29 +380,13 @@ sped_calcs <- sped_reg %>%
 sped_calcs %>% glimpse()
 ```
 
-```
-## Rows: 6,962
-## Columns: 10
-## $ school_name   <chr> "CAYUGA H S", "CAYUGA MIDDLE", "CAYUGA EL", "ELKHART H …
-## $ district_name <chr> "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "ELKHART ISD"…
-## $ grade_range   <chr> "'09-12", "'06-08", "'EE-05", "'09-12", "'06-08", "'EE-…
-## $ campus        <chr> "001902001", "001902041", "001902103", "001903001", "00…
-## $ sped_c_15     <dbl> 37, 16, 23, 33, 36, 29, 27, 28, 16, 34, 16, 25, 96, 44,…
-## $ sped_p_15     <dbl> 18.0, 13.3, 9.2, 9.3, 11.8, 9.6, 10.5, 12.6, 9.2, 8.4, …
-## $ sped_c_20     <dbl> 34, 17, 31, 44, 29, 48, 26, 19, 28, 44, 11, 14, 103, 70…
-## $ sped_p_20     <dbl> 19.8, 13.6, 11.9, 11.6, 11.2, 14.4, 9.4, 8.3, 15.9, 11.…
-## $ sped_c_diff   <dbl> -3, 1, 8, 11, -7, 19, -1, -9, 12, 10, -5, -11, 7, 26, 2…
-## $ spec_c_prccng <dbl> -8.1, 6.3, 34.8, 33.3, -19.4, 65.5, -3.7, -32.1, 75.0, …
-```
-
 Check your math: **((34 - 37) / 37 * 100) = 8.108**.
 
 ### Calculate percentage point difference
 
 This is another simple difference, but this time with the percentage fields.
 
-
-```r
+```{r}
 sped_calcs <- sped_reg %>% 
   mutate(
     # simple diff
@@ -540,22 +398,6 @@ sped_calcs <- sped_reg %>%
   )
 
 sped_calcs %>% glimpse()
-```
-
-```
-## Rows: 6,962
-## Columns: 11
-## $ school_name   <chr> "CAYUGA H S", "CAYUGA MIDDLE", "CAYUGA EL", "ELKHART H …
-## $ district_name <chr> "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "ELKHART ISD"…
-## $ grade_range   <chr> "'09-12", "'06-08", "'EE-05", "'09-12", "'06-08", "'EE-…
-## $ campus        <chr> "001902001", "001902041", "001902103", "001903001", "00…
-## $ sped_c_15     <dbl> 37, 16, 23, 33, 36, 29, 27, 28, 16, 34, 16, 25, 96, 44,…
-## $ sped_p_15     <dbl> 18.0, 13.3, 9.2, 9.3, 11.8, 9.6, 10.5, 12.6, 9.2, 8.4, …
-## $ sped_c_20     <dbl> 34, 17, 31, 44, 29, 48, 26, 19, 28, 44, 11, 14, 103, 70…
-## $ sped_p_20     <dbl> 19.8, 13.6, 11.9, 11.6, 11.2, 14.4, 9.4, 8.3, 15.9, 11.…
-## $ sped_c_diff   <dbl> -3, 1, 8, 11, -7, 19, -1, -9, 12, 10, -5, -11, 7, 26, 2…
-## $ sped_c_prccng <dbl> -8.1, 6.3, 34.8, 33.3, -19.4, 65.5, -3.7, -32.1, 75.0, …
-## $ sped_p_ppd    <dbl> 1.8, 0.3, 2.7, 2.3, -0.6, 4.8, -1.1, -4.3, 6.7, 3.1, -4…
 ```
 
 Again, check your work: **19.8 - 18.0 = 1.8**.
@@ -586,8 +428,7 @@ The power of this is you can add multiple test by adding more lines before the `
 - Update your `sped_calcs` code chunk to include both of our threshold cases.
 
 
-
-```r
+```{r calcs}
 sped_calcs <- sped_reg %>% 
   mutate(
     # simple diff
@@ -611,28 +452,9 @@ sped_calcs <- sped_reg %>%
 sped_calcs %>% glimpse
 ```
 
-```
-## Rows: 6,962
-## Columns: 13
-## $ school_name   <chr> "CAYUGA H S", "CAYUGA MIDDLE", "CAYUGA EL", "ELKHART H …
-## $ district_name <chr> "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "ELKHART ISD"…
-## $ grade_range   <chr> "'09-12", "'06-08", "'EE-05", "'09-12", "'06-08", "'EE-…
-## $ campus        <chr> "001902001", "001902041", "001902103", "001903001", "00…
-## $ sped_c_15     <dbl> 37, 16, 23, 33, 36, 29, 27, 28, 16, 34, 16, 25, 96, 44,…
-## $ sped_p_15     <dbl> 18.0, 13.3, 9.2, 9.3, 11.8, 9.6, 10.5, 12.6, 9.2, 8.4, …
-## $ sped_c_20     <dbl> 34, 17, 31, 44, 29, 48, 26, 19, 28, 44, 11, 14, 103, 70…
-## $ sped_p_20     <dbl> 19.8, 13.6, 11.9, 11.6, 11.2, 14.4, 9.4, 8.3, 15.9, 11.…
-## $ sped_c_diff   <dbl> -3, 1, 8, 11, -7, 19, -1, -9, 12, 10, -5, -11, 7, 26, 2…
-## $ sped_c_prccng <dbl> -8.1, 6.3, 34.8, 33.3, -19.4, 65.5, -3.7, -32.1, 75.0, …
-## $ sped_p_ppd    <dbl> 1.8, 0.3, 2.7, 2.3, -0.6, 4.8, -1.1, -4.3, 6.7, 3.1, -4…
-## $ sped15_thsh   <chr> "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "N", "Y", …
-## $ sped20_thsh   <chr> "Y", "Y", "Y", "Y", "Y", "Y", "Y", "N", "Y", "Y", "Y", …
-```
-
 And then, of course, check the result to make sure it is right. Again, if you are having trouble seeing it in the glimpse, then build yourself a new R chunk to show you columns germane to your inspection:
 
-
-```r
+```{r calcs-inspect}
 sped_calcs %>% 
   select(
     school_name,
@@ -644,32 +466,6 @@ sped_calcs %>%
   head(20)
 ```
 
-```
-## # A tibble: 20 x 5
-##    school_name                       sped_p_15 sped15_thsh sped_p_20 sped20_thsh
-##    <chr>                                 <dbl> <chr>           <dbl> <chr>      
-##  1 CAYUGA H S                             18   Y                19.8 Y          
-##  2 CAYUGA MIDDLE                          13.3 Y                13.6 Y          
-##  3 CAYUGA EL                               9.2 Y                11.9 Y          
-##  4 ELKHART H S                             9.3 Y                11.6 Y          
-##  5 ELKHART MIDDLE                         11.8 Y                11.2 Y          
-##  6 ELKHART EL                              9.6 Y                14.4 Y          
-##  7 ELKHART INT                            10.5 Y                 9.4 Y          
-##  8 FRANKSTON H S                          12.6 Y                 8.3 N          
-##  9 FRANKSTON MIDDLE                        9.2 Y                15.9 Y          
-## 10 FRANKSTON EL                            8.4 N                11.5 Y          
-## 11 NECHES H S                             14   Y                 9.9 Y          
-## 12 NECHES EL                               9.8 Y                 5.8 N          
-## 13 PALESTINE H S                          10.7 Y                10.4 Y          
-## 14 PALESTINE J H                           9.3 Y                13.5 Y          
-## 15 NORTHSIDE PRI                           5   N                 9.7 Y          
-## 16 WASHINGTON EARLY CHILDHOOD CENTER       9.6 Y                 8.4 N          
-## 17 SOUTHSIDE EL                            7.7 N                14.2 Y          
-## 18 STORY INT                               9.2 Y                12.9 Y          
-## 19 WESTWOOD H S                           10.5 Y                12.2 Y          
-## 20 WESTWOOD J H                            9.7 Y                15   Y
-```
-
 
 ## Export your computations
 
@@ -677,8 +473,7 @@ We're going to export this data so we can use it in multiple notebooks going for
 
 - Build a new export chunk and use `write_rds()` to create a file `02_sped_calcs.rds`.
 
-
-```r
+```{r export-calcs}
 sped_calcs %>% 
   write_rds("data-processed/02_sped_calcs.rds")
 ```

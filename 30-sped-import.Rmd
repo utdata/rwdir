@@ -1,4 +1,4 @@
-# Importing data {#import}
+# SPED Joins {#sped-import}
 
 > DRAFT FOR v1.0
 
@@ -129,8 +129,7 @@ Next, we're going to tell our R Notebook to use these two libraries.
 
 This is the code you need:
 
-
-```r
+```{r setup, echo=T, message=F, warning=F}
 library(tidyverse)
 library(janitor)
 ```
@@ -270,8 +269,7 @@ Let's make a object called `cstud15` and fill it with our imported tibble.
 
 - Edit your existing code chunk to look like this. You can add the `<-` by using **Option+-** as in holding down the Option key and then pressing the hyphen:
 
-
-```r
+```{r cstud_assign, message=FALSE, warning=FALSE, include=TRUE, results=FALSE}
 cstud15 <- read_csv(
   "data-raw/cstud15.csv"
 )
@@ -314,46 +312,13 @@ There is another way to peek at the data that I prefer because it is more compac
 
 I'm showing the return here as well. Afterward I'll explain the pipe: ` %>% `.
 
-
-```r
+```{r cstud15-glimpse, eval = TRUE}
 cstud15 <- read_csv(
   "data-raw/cstud15.csv"
 )
-```
 
-```
-## 
-## ── Column specification ──────────────
-## cols(
-##   CAMPUS = col_character(),
-##   CPETBILC = col_double(),
-##   CPETBILP = col_double(),
-##   CPETGIFC = col_double(),
-##   CPETGIFP = col_double(),
-##   CPETSPEC = col_double(),
-##   CPETSPEP = col_double(),
-##   CPETVOCC = col_double(),
-##   CPETVOCP = col_double()
-## )
-```
-
-```r
 # peek at the data
 cstud15 %>% glimpse()
-```
-
-```
-## Rows: 8,646
-## Columns: 9
-## $ CAMPUS   <chr> "001902001", "001902041", "001902103", "001903001", "0019030…
-## $ CPETBILC <dbl> 1, 0, 0, 0, 0, 0, 10, 6, 1, 3, 15, 2, 1, 26, 20, 104, 54, 13…
-## $ CPETBILP <dbl> 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 3.3, 2.3, 0.4, 1.7, 3.7, 1.8, …
-## $ CPETGIFC <dbl> 27, 15, 18, 23, 0, 9, 3, 12, 18, 5, 23, 7, 17, 33, 18, 4, 0,…
-## $ CPETGIFP <dbl> 13.1, 12.5, 7.2, 6.5, 0.0, 3.0, 1.0, 4.7, 8.1, 2.9, 5.7, 6.1…
-## $ CPETSPEC <dbl> 37, 16, 23, 33, 1, 36, 29, 27, 28, 16, 34, 16, 25, 96, 44, 2…
-## $ CPETSPEP <dbl> 18.0, 13.3, 9.2, 9.3, 100.0, 11.8, 9.6, 10.5, 12.6, 9.2, 8.4…
-## $ CPETVOCC <dbl> 144, 37, 0, 273, 0, 0, 0, 0, 213, 0, 0, 103, 15, 849, 247, 0…
-## $ CPETVOCP <dbl> 69.9, 30.8, 0.0, 76.9, 0.0, 0.0, 0.0, 0.0, 95.5, 0.0, 0.0, 9…
 ```
 
 This also shows there are 8,646 rows and 9 columns in our data. Each column is then listed out with its data type and the first several values in that column.
@@ -375,45 +340,12 @@ A good trait for data journalist is to be ~~anal retentive~~ obsessive. One thin
 
 - Edit your code chunk to look like the code below and run it.
 
-
-```r
+```{r cstud15-cleannames}
 cstud15 <- read_csv("data-raw/cstud15.csv") %>% 
   clean_names()
-```
 
-```
-## 
-## ── Column specification ──────────────
-## cols(
-##   CAMPUS = col_character(),
-##   CPETBILC = col_double(),
-##   CPETBILP = col_double(),
-##   CPETGIFC = col_double(),
-##   CPETGIFP = col_double(),
-##   CPETSPEC = col_double(),
-##   CPETSPEP = col_double(),
-##   CPETVOCC = col_double(),
-##   CPETVOCP = col_double()
-## )
-```
-
-```r
 # peek at the data
 cstud15 %>% glimpse()
-```
-
-```
-## Rows: 8,646
-## Columns: 9
-## $ campus   <chr> "001902001", "001902041", "001902103", "001903001", "0019030…
-## $ cpetbilc <dbl> 1, 0, 0, 0, 0, 0, 10, 6, 1, 3, 15, 2, 1, 26, 20, 104, 54, 13…
-## $ cpetbilp <dbl> 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 3.3, 2.3, 0.4, 1.7, 3.7, 1.8, …
-## $ cpetgifc <dbl> 27, 15, 18, 23, 0, 9, 3, 12, 18, 5, 23, 7, 17, 33, 18, 4, 0,…
-## $ cpetgifp <dbl> 13.1, 12.5, 7.2, 6.5, 0.0, 3.0, 1.0, 4.7, 8.1, 2.9, 5.7, 6.1…
-## $ cpetspec <dbl> 37, 16, 23, 33, 1, 36, 29, 27, 28, 16, 34, 16, 25, 96, 44, 2…
-## $ cpetspep <dbl> 18.0, 13.3, 9.2, 9.3, 100.0, 11.8, 9.6, 10.5, 12.6, 9.2, 8.4…
-## $ cpetvocc <dbl> 144, 37, 0, 273, 0, 0, 0, 0, 213, 0, 0, 103, 15, 849, 247, 0…
-## $ cpetvocp <dbl> 69.9, 30.8, 0.0, 76.9, 0.0, 0.0, 0.0, 0.0, 95.5, 0.0, 0.0, 9…
 ```
 
 When writing R code we'll often string a bunch of functions together with the ` %>% ` so for readability we often put the "next" function a new indented line. When you do this, the ` %>% ` must come at the **end** of the previous line, like the `clean_names()` function above.
@@ -424,113 +356,20 @@ We need to import our other two data frames so we can prepare and join them. Cre
 
 We'll talk more about these data in a minute when we prepare it. Name your new data frames `cstud20` and `directory`.
 
-
-```r
+```{r cstud20-import}
 cstud20 <- read_csv("data-raw/cstud20.csv") %>% 
   clean_names()
-```
 
-```
-## 
-## ── Column specification ──────────────
-## cols(
-##   .default = col_double(),
-##   CAMPUS = col_character(),
-##   CPNTVHSP = col_character()
-## )
-## ℹ Use `spec()` for the full column specifications.
-```
-
-```r
 # peek at the data
 cstud20 %>% glimpse()
 ```
 
-```
-## Rows: 8,866
-## Columns: 21
-## $ campus   <chr> "001902001", "001902041", "001902103", "001903001", "0019030…
-## $ cpetbilc <dbl> 0, 1, 0, 0, 3, 12, 7, 3, 5, 14, 1, 6, 126, 85, 96, 20, 92, 1…
-## $ cpetbilp <dbl> 0.0, 0.8, 0.0, 0.0, 1.2, 3.6, 2.5, 1.3, 2.8, 3.7, 0.9, 2.5, …
-## $ cpetg9xc <dbl> 172, 0, 0, 378, 0, 0, 0, 228, 0, 0, 111, 0, 987, 0, 0, 0, 0,…
-## $ cpetgifc <dbl> 14, 17, 8, 10, 13, 4, 17, 40, 14, 17, 7, 16, 35, 18, 3, 0, 8…
-## $ cpetgifp <dbl> 8.1, 13.6, 3.1, 2.6, 5.0, 1.2, 6.1, 17.5, 8.0, 4.5, 6.3, 6.6…
-## $ cpetspec <dbl> 34, 17, 31, 44, 29, 48, 26, 19, 28, 44, 11, 14, 103, 70, 50,…
-## $ cpetspep <dbl> 19.8, 13.6, 11.9, 11.6, 11.2, 14.4, 9.4, 8.3, 15.9, 11.5, 9.…
-## $ cpetvhsc <dbl> 134, 0, 0, 138, 0, 0, 0, 207, 0, 0, 49, 0, 918, 0, 0, 0, 0, …
-## $ cpetvhsp <dbl> 77.9, 0.0, 0.0, 36.5, 0.0, 0.0, 0.0, 90.8, 0.0, 0.0, 44.1, 0…
-## $ cpetvocc <dbl> 165, 0, 0, 341, 37, 0, 0, 207, 0, 0, 107, 53, 975, 133, 0, 0…
-## $ cpetvocp <dbl> 95.9, 0.0, 0.0, 90.2, 14.3, 0.0, 0.0, 90.8, 0.0, 0.0, 96.4, …
-## $ cpntbilc <dbl> 0, 1, 0, 0, 3, 12, 7, 3, 5, 14, 1, 6, 126, 85, 96, 20, 92, 1…
-## $ cpntbilp <dbl> 0.0, 0.8, 0.0, 0.0, 1.2, 3.6, 2.5, 1.3, 2.8, 3.7, 0.9, 2.5, …
-## $ cpntg9xc <dbl> 172, 0, 0, 378, 0, 0, 0, 228, 0, 0, 111, 0, 987, 0, 0, 0, 0,…
-## $ cpntgifc <dbl> 14, 17, 8, 10, 13, 4, 17, 40, 14, 17, 7, 16, 35, 18, 3, 0, 8…
-## $ cpntgifp <dbl> 8.1, 13.6, 3.1, 2.6, 5.0, 1.2, 6.1, 17.5, 8.0, 4.5, 6.3, 6.6…
-## $ cpntspec <dbl> 34, 17, 31, 44, 29, 49, 26, 19, 28, 45, 11, 15, 103, 70, 51,…
-## $ cpntspep <dbl> 19.8, 13.6, 11.9, 11.6, 11.2, 14.7, 9.4, 8.3, 15.9, 11.8, 9.…
-## $ cpntvhsc <dbl> 134, 0, 0, 138, 0, 0, 0, 207, 0, 0, 49, 0, 918, 0, 0, 0, 0, …
-## $ cpntvhsp <chr> "77.9", ".", ".", "36.5", ".", ".", ".", "90.8", ".", ".", "…
-```
-
-
-```r
+```{r import-directory}
 directory <- read_csv("data-raw/Directory.csv") %>% 
   clean_names()
-```
 
-```
-## 
-## ── Column specification ──────────────
-## cols(
-##   .default = col_character(),
-##   `District Enrollment as of Oct 2019` = col_double(),
-##   `School Enrollment as of Oct 2019` = col_double()
-## )
-## ℹ Use `spec()` for the full column specifications.
-```
-
-```r
 # peek at the data
 directory %>% glimpse()
-```
-
-```
-## Rows: 9,572
-## Columns: 34
-## $ county_number                      <chr> "'001", "'001", "'001", "'001", "'…
-## $ county_name                        <chr> "ANDERSON COUNTY", "ANDERSON COUNT…
-## $ region_number                      <chr> "'07", "'07", "'07", "'07", "'07",…
-## $ district_number                    <chr> "'001902", "'001902", "'001902", "…
-## $ district_name                      <chr> "CAYUGA ISD", "CAYUGA ISD", "CAYUG…
-## $ district_type                      <chr> "INDEPENDENT", "INDEPENDENT", "IND…
-## $ district_street_address            <chr> "P O BOX 427", "P O BOX 427", "P O…
-## $ district_city                      <chr> "CAYUGA", "CAYUGA", "CAYUGA", "ELK…
-## $ district_state                     <chr> "TX", "TX", "TX", "TX", "TX", "TX"…
-## $ district_zip                       <chr> "75832-0427", "75832-0427", "75832…
-## $ district_phone                     <chr> "(903) 928-2102", "(903) 928-2102"…
-## $ district_fax                       <chr> "(903) 928-2646", "(903) 928-2646"…
-## $ district_email_address             <chr> "admin1@cayugaisd.com", "admin1@ca…
-## $ district_web_page_address          <chr> "www.cayugaisd.com", "www.cayugais…
-## $ district_superintendent            <chr> "DR RICK WEBB", "DR RICK WEBB", "D…
-## $ district_enrollment_as_of_oct_2019 <dbl> 557, 557, 557, 1247, 1247, 1247, 1…
-## $ school_number                      <chr> "'001902001", "'001902041", "'0019…
-## $ school_name                        <chr> "CAYUGA H S", "CAYUGA MIDDLE", "CA…
-## $ instruction_type                   <chr> "REGULAR INSTRUCTIONAL", "REGULAR …
-## $ charter_type                       <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ school_street_address              <chr> "P O BOX 427", "P O BOX 427", "P O…
-## $ school_city                        <chr> "CAYUGA", "CAYUGA", "CAYUGA", "ELK…
-## $ school_state                       <chr> "TX", "TX", "TX", "TX", "TX", "TX"…
-## $ school_zip                         <chr> "75832-0427", "75832-0427", "75832…
-## $ school_phone                       <chr> "(903) 928-2294 ext:012", "(903) 9…
-## $ school_fax                         <chr> "(903) 928-2239", "(903) 928-2646"…
-## $ school_email_address               <chr> "admin1@cayugaisd.com", "admin1@ca…
-## $ school_web_page_address            <chr> "www.cayugaisd.com", "www.cayugais…
-## $ school_principal                   <chr> "DR JOE E SATTERWHITE III", "MRS S…
-## $ grade_range                        <chr> "'09-12", "'06-08", "'EE-05", "'09…
-## $ school_enrollment_as_of_oct_2019   <dbl> 172, 125, 260, 378, 0, 258, 334, 2…
-## $ school_status                      <chr> "Active", "Active", "Active", "Act…
-## $ school_status_date                 <chr> NA, "03/11/1996", NA, NA, "06/28/2…
-## $ update_date                        <chr> "2/25/2021 5:35:04 AM", "2/25/2021…
 ```
 
 ## Prepare data for joining
@@ -545,8 +384,7 @@ For our Directory data, we only need about a half dozen of the 30+ columms in th
 
 Here is the code, then I'll explain it.
 
-
-```r
+```{r directory-cols}
 directory_cols <- directory %>% 
   select(
     school_number,
@@ -558,17 +396,6 @@ directory_cols <- directory %>%
   )
 
 directory_cols %>% glimpse()
-```
-
-```
-## Rows: 9,572
-## Columns: 6
-## $ school_number    <chr> "'001902001", "'001902041", "'001902103", "'00190300…
-## $ school_name      <chr> "CAYUGA H S", "CAYUGA MIDDLE", "CAYUGA EL", "ELKHART…
-## $ district_name    <chr> "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "ELKHART I…
-## $ instruction_type <chr> "REGULAR INSTRUCTIONAL", "REGULAR INSTRUCTIONAL", "R…
-## $ charter_type     <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ grade_range      <chr> "'09-12", "'06-08", "'EE-05", "'09-12", "'KG-12", "'…
 ```
 
 When we use `select()` we are _selecting_ columns from the data. Inside the function we list them by name or order. There are many variations of `select()` which we'll get into later.
@@ -583,8 +410,7 @@ We need to remove that `'` but keep the column as a text data type. There are ma
 
 - Edit your existing code block creating the `directory_cols` data frame with a new ` %>% ` and functions indicated below and run them. I'll explain them after.
 
-
-```r
+```{r directory-cols-mutate}
 directory_cols <- directory %>% 
   select(
     school_number,
@@ -601,18 +427,6 @@ directory_cols <- directory %>%
 directory_cols %>% glimpse()
 ```
 
-```
-## Rows: 9,572
-## Columns: 7
-## $ school_number    <chr> "'001902001", "'001902041", "'001902103", "'00190300…
-## $ school_name      <chr> "CAYUGA H S", "CAYUGA MIDDLE", "CAYUGA EL", "ELKHART…
-## $ district_name    <chr> "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "ELKHART I…
-## $ instruction_type <chr> "REGULAR INSTRUCTIONAL", "REGULAR INSTRUCTIONAL", "R…
-## $ charter_type     <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ grade_range      <chr> "'09-12", "'06-08", "'EE-05", "'09-12", "'KG-12", "'…
-## $ campus           <chr> "001902001", "001902041", "001902103", "001903001", …
-```
-
 What we did there with your `mutate()` function was create a NEW column called **campus** that starts with the `school_number` field _AND THEN_ uses a string replace function `str_replace()` to replace the `'` character with an empty string, or nothing. We named our new column `campus` because that is that the ID is called in the CSTUD data, and that will make joining easier later.
 
 One thing of special note here: We not only used a ` %>% ` to append the `mutate()` function, but we also used a ` %>% ` _WITHIN_ the mutate arguments, modifying the `school_number` field along the way. This is called **nesting functions**. Not to get to far into the weeds, but the tidyverse ` %>% ` makes this is a lot easier to read and understand than base R, which would be: `mutate(str_replace(school_number,"'",""))`.
@@ -623,8 +437,7 @@ Since we don't need the `school_number` column anymore, we will remove it with `
 
 - Append the new `select()` lines below to your existing code block.
 
-
-```r
+```{r directory-cols-unselect}
 directory_cols <- directory %>% 
   select(
     school_number,
@@ -642,17 +455,6 @@ directory_cols <- directory %>%
 directory_cols %>% glimpse()
 ```
 
-```
-## Rows: 9,572
-## Columns: 6
-## $ school_name      <chr> "CAYUGA H S", "CAYUGA MIDDLE", "CAYUGA EL", "ELKHART…
-## $ district_name    <chr> "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "ELKHART I…
-## $ instruction_type <chr> "REGULAR INSTRUCTIONAL", "REGULAR INSTRUCTIONAL", "R…
-## $ charter_type     <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ grade_range      <chr> "'09-12", "'06-08", "'EE-05", "'09-12", "'KG-12", "'…
-## $ campus           <chr> "001902001", "001902041", "001902103", "001903001", …
-```
-
 OK, we are done preparing our new `directory_cols` data frame. We'll work next to prepare our CSTUD data.
 
 ### Prepare CSTUD data
@@ -668,8 +470,7 @@ But we need to rename the special education columns to include the year they com
 - Add a Markdown note that we are preparing the student enrollment data
 - Add a new R chunk and add the following:
 
-
-```r
+```{r cstud-cols}
 # set up 2015
 cstud15_cols <- cstud15 %>% 
   select(
@@ -696,26 +497,7 @@ cstud20_cols <- cstud20 %>%
 
 # peek at both
 cstud15_cols %>% glimpse()
-```
-
-```
-## Rows: 8,646
-## Columns: 3
-## $ campus    <chr> "001902001", "001902041", "001902103", "001903001", "001903…
-## $ sped_c_15 <dbl> 37, 16, 23, 33, 1, 36, 29, 27, 28, 16, 34, 16, 25, 96, 44, …
-## $ sped_p_15 <dbl> 18.0, 13.3, 9.2, 9.3, 100.0, 11.8, 9.6, 10.5, 12.6, 9.2, 8.…
-```
-
-```r
 cstud20_cols %>% glimpse()
-```
-
-```
-## Rows: 8,866
-## Columns: 3
-## $ campus    <chr> "001902001", "001902041", "001902103", "001903001", "001903…
-## $ sped_c_20 <dbl> 34, 17, 31, 44, 29, 48, 26, 19, 28, 44, 11, 14, 103, 70, 50…
-## $ sped_p_20 <dbl> 19.8, 13.6, 11.9, 11.6, 11.2, 14.4, 9.4, 8.3, 15.9, 11.5, 9…
 ```
 
 ## Joining the data together
@@ -737,31 +519,11 @@ In our case we are using some tidyverse foo, which I'll explain after you add an
 - Add the following and run it.
 
 
-
-```r
+```{r join-cstud15}
 sped <- directory_cols %>% 
   inner_join(cstud15_cols)
-```
 
-```
-## Joining, by = "campus"
-```
-
-```r
 sped %>% glimpse()
-```
-
-```
-## Rows: 8,087
-## Columns: 8
-## $ school_name      <chr> "CAYUGA H S", "CAYUGA MIDDLE", "CAYUGA EL", "ELKHART…
-## $ district_name    <chr> "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "ELKHART I…
-## $ instruction_type <chr> "REGULAR INSTRUCTIONAL", "REGULAR INSTRUCTIONAL", "R…
-## $ charter_type     <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ grade_range      <chr> "'09-12", "'06-08", "'EE-05", "'09-12", "'KG-12", "'…
-## $ campus           <chr> "001902001", "001902041", "001902103", "001903001", …
-## $ sped_c_15        <dbl> 37, 16, 23, 33, 1, 36, 29, 27, 28, 16, 34, 16, 25, 9…
-## $ sped_p_15        <dbl> 18.0, 13.3, 9.2, 9.3, 100.0, 11.8, 9.6, 10.5, 12.6, …
 ```
 
 Here is what's going on here:
@@ -777,35 +539,12 @@ Now we will amend our join statement to also join the more recent data.
 
 - Append the join statement as follows:
 
-
-```r
+```{r join-secondtable}
 sped <- directory_cols %>% 
   inner_join(cstud15_cols) %>% 
   inner_join(cstud20_cols)
-```
 
-```
-## Joining, by = "campus"
-## Joining, by = "campus"
-```
-
-```r
 sped %>% glimpse()
-```
-
-```
-## Rows: 8,002
-## Columns: 10
-## $ school_name      <chr> "CAYUGA H S", "CAYUGA MIDDLE", "CAYUGA EL", "ELKHART…
-## $ district_name    <chr> "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "ELKHART I…
-## $ instruction_type <chr> "REGULAR INSTRUCTIONAL", "REGULAR INSTRUCTIONAL", "R…
-## $ charter_type     <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ grade_range      <chr> "'09-12", "'06-08", "'EE-05", "'09-12", "'06-08", "'…
-## $ campus           <chr> "001902001", "001902041", "001902103", "001903001", …
-## $ sped_c_15        <dbl> 37, 16, 23, 33, 36, 29, 27, 28, 16, 34, 16, 25, 96, …
-## $ sped_p_15        <dbl> 18.0, 13.3, 9.2, 9.3, 11.8, 9.6, 10.5, 12.6, 9.2, 8.…
-## $ sped_c_20        <dbl> 34, 17, 31, 44, 29, 48, 26, 19, 28, 44, 11, 14, 103,…
-## $ sped_p_20        <dbl> 19.8, 13.6, 11.9, 11.6, 11.2, 14.4, 9.4, 8.3, 15.9, …
 ```
 
 The second join worked the same way as the first. It also reducee the number of rows down to 8,002 as it dropped more schools that are not present in all the data sets.
@@ -849,8 +588,7 @@ We will use another readr function called `write_rds()` to create our file to pa
 
 <!-- running this code to get output for future chapter -->
 
-
-```r
+```{r}
 sped %>% 
   write_rds("data-processed/01_sped.rds")
 ```
