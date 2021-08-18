@@ -1,0 +1,66 @@
+# Publishing your findings
+
+## NEEDS REVIEW
+
+> A work in progress
+
+Exploring a data set in R is different than publishing your findings. When you are exploring, you will ask a lot of questions and create a lot of plots that will lead to nothing. That is OK. Keep them, and write notes to your future self why you think each plot is NOT interesting, so when you return to it later you'll see you already studied that path. This is a document for your current and future self.
+
+But once you've done all your exploring and FOUND things -- findings that become sentences in your story -- you may want to (you _should_) create a new notebook that focuses on these findings and how they relate to the story. You can use this more formal R notebook as a way to explain to readers and others the specific ways you came to your conclusions. This is a document for the public, and should be written as such. Get editing help to make sure you are clear and concise in your writing.
+
+Some things to consider:
+
+- Include links to the original data. Explain what it is and how it applies to your story. Include a link to the published story if you have it.
+- Include data dictionaries or similar as files or links so others can see and use the same materials you used to understand the data. If that understanding came through interviews, explain that and include the sources when possible.
+- If you are pulling from a dataset that will change over time, include the dates you pulled the data. Save a copy of the raw data you used in your final version of the story, if possible, and explain that the data may change as records are added to the original.
+- If you cleaned or modified to the data, include those steps so they can be repeated. It is sometimes useful to split those steps into a separate notebook and export/import (as an .rds file) into subsequent notebooks.
+- For each finding, use a headline and text to explain the code block that follows. After the code block, write out your finding and how it relates to your story.
+- Unless there is a good reason not to, stick with the findings you actually used in your story. Don't waste readers' time going down paths that were not reported.
+
+## Examples
+
+> Not all of these examples are in R. Some are done in Python, but the theory is the same.
+
+- Buzzfeed [lists all their data analysis](https://github.com/BuzzFeedNews/everything) in a special Github repo. Their computational journalists use both R and Python, depending on the author or project.
+- The L.A. Times also publishes [a list of their data analysis projects](https://github.com/datadesk/notebooks) in their Github account. Most of their analysis is done in Python (usually in files that end with `.ipynb`) and the depth of the annotations vary.
+- The Washington Post Investigative team has begun hosting [analysis from their stories](https://github.com/wpinvestigative) in their their Github repo.
+- Statesman
+  - [A Question of Restraint](https://github.com/statesman/question-of-restraint-analysis)
+  - [Demolition permits in Austin](https://github.com/statesman/demolitions/blob/master/notebooks/02_Analysis_Full_demos.ipynb)
+- [Baltimore Sun Data Desk](https://github.com/baltimore-sun-data)
+- [Trend CT](https://github.com/trendct-data)
+- [SRF Data](http://srfdata.github.io/), the data investigative unit of a Swiss TV/Radio network, has robust documentation of their R analysis for stories.
+
+## How to publish your projects
+
+> Needs expounding: what is the HTML file
+
+- Explain about the HTML file and how it differs from the .Rmd file.
+- Explain Advantages to separate Github repos
+- Use chunk options to hide output or code that is not relevant to the reader.
+
+### Using Github Pages
+
+> Needs research and expounding
+
+- If you are saving your projec to Github, you can set your RMarkdown documents to knit the HTML versions of your documents into a `/docs/` folder. As such, you can use Github Pages to [publish your docs](https://help.github.com/en/articles/configuring-a-publishing-source-for-github-pages#publishing-your-github-pages-site-from-a-docs-folder-on-your-master-branch) folder.
+
+In the metadata for your RMarkdown document, include the **output** lines outlined below.
+
+```r
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "docs") })
+---
+```
+
+## Making branded graphics
+
+We haven't explored many ways to change the theme or looks of our ggplot graphics, but here are some notes worth exploring.
+
+- ggplot [themes](https://ggplot2.tidyverse.org/reference/ggtheme.html) can be added with one line.
+- [Branding ggplot graphs](https://michaeltoth.me/you-need-to-start-branding-your-graphs-heres-how-with-ggplot.html)
+- Note [this article about BBC using R, ggplot](https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535). BBC created the [bblot](https://github.com/bbc/bbplot) package to set BBC default styles, and [BBC R cookook](https://bbc.github.io/rcookbook/) as a collection of tips and tricks to build their styled graphics. It's just an example of you can customize R graphics.
