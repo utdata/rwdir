@@ -2,7 +2,7 @@
 
 > DRAFT FOR v1.0
 
-> Add a note about this being an old "first" chapter.
+> This three-part lesson was originally conceived as a first project instead of Billboard so it has some pretty specific details and explanation.
 
 ## Goals for this section
 

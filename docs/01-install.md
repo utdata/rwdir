@@ -17,7 +17,7 @@ Our first task is to install the [R programming language](https://www.r-project.
 - Go to the <https://cloud.r-project.org/>.
 - Click on the link for your operating system.
 - The following steps will differ slightly based on your operating system.
-    + For Macs, you want the "latest package"
+    + For Macs, you want the "latest package" unless you have an "M1" Mac (Nov. 2020 or newer), in which case choose the **arm64.pkg** version.
     + For Windows, you want the "base" package. You'll need to decide whether you want the 32- or 64-bit version. (Unless you've got a pretty old system, chances are you'll want 64-bit.)
 
 Here's hoping it will be self explanatory after that.

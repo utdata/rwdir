@@ -4,7 +4,7 @@
 
 When you launch RStudio, you'll get a screen that looks like this:
 
-![Rstudio launch screen](images/intro-start.png)
+![RStudio launch screen](images/intro-start.png)
 
 ## Updating preferences
 
@@ -23,6 +23,7 @@ When we work in RStudio, we will create "Projects" to hold all the files related
 - That brings up a box to create the project with several options. You want **New Directory** (unless you already have a Project directory, which you don't for this.)
 - For **Project Type**, choose **New Project**.
 - Next, for the **Directory name**, choose a new name for your project folder. For this project, use "firstname-first-project" but use YOUR firstname.
+- For the subdirectory, you want to use the **Browse** button to find your new `rwd` folder we created earlier.
 
 I want you to be anal about naming your folders. It's a good programming habit.
 
@@ -36,7 +37,7 @@ When you hit **Create Project**, your RStudio window will refresh and you'll see
 
 ## Using R Notebooks
 
-For this class, we will almost always use [R Notebooks](https://rmarkdown.rstudio.com/lesson-10.html). This format allows us to write text in between our blocks of code. The text is written in a language called [R Markdown](https://rmarkdown.rstudio.com/lesson-1.html), a juiced-up version of the common documentation syntax used by programmers, Markdown. It's not hard to learn.
+For this class, we will almost always use [R Notebooks](https://rmarkdown.rstudio.com/lesson-10.html). This format allows us to write text in between our blocks of code. The text is written in a language called [R Markdown](https://rmarkdown.rstudio.com/lesson-1.html), a juiced-up version of the common documentation syntax used by programmers, Markdown. We'll learn that in a moment.
 
 ### Create your first notebook
 
@@ -84,21 +85,55 @@ What you've done here is create a plot chart of a piece of sample data that is a
 
 But that wasn't a whole lot of code to see there is a relationship with speed vs stopping distance, eh?
 
+This is a "base R" plot. We'll be using the tidyverse ggplot methods later in the semester.
+
+### A note about RMarkdown
+
+We always want to annotate our code to explain what we are doing. To do that, we use a syntax called [RMarkdown](https://rmarkdown.rstudio.com/authoring_basics.html), which is an R-specific version of Markdown. We use this syntax because it both makes sense in text but also makes a very pretty version in HTML when we "knit" our project. You see how it to [write RMarkdown here](https://rmarkdown.rstudio.com/authoring_basics.html).
+
+This entire book is written in RMarkdown.
+
+Here is an example:
+
+```rmarkdown
+## My dating age
+
+The following section details the [socially-acceptable maximum age of anyone you should date](https://www.psychologytoday.com/us/blog/meet-catch-and-keep/201405/who-is-too-young-or-too-old-you-date).
+
+The math works like this:
+
+- Take your age
+- subtract 7
+- Double the result
+```
+
+1. The `##` line is a headline. Add more `###` and you get a smaller headline, like subheads.
+2. There is a full blank return between each element, including paragraphs of text.
+3. In the first paragraph we have embedded a hyperlink. We put the words we want to show inside square brackets and the URL in parenthesis DIRECTLY after the closing square bracket: `[words to link](https://the_url.org)`.
+4. The `-` at the beginning of a line creates a bullet list. (You can also use `*`). Those lines need to be one after another without blank lines.
+
+- Go ahead and copy the code above and add it as text in the notebook so you can see it works later.
+
 ### Adding new code chunks
 
 The text after the chart describes how to insert a new code chunk. Let's do that.
 
-- Add a couple of returns after the paragraph of text about code chunks, but before the next bit about previews.
+- Add a couple of returns before the paragraph of text about code chunks.
 - Use the keys *Cmd+Option+I* to add the chunk.
 - Your cursor will be inserted into the middle of the chunk. Type in this code in the space provided:
 
+
 ```r
-# update 53 to your age
-age <- 53
+# update 54 to your age
+age <- 54
 (age - 7) * 2
 ```
 
-- Change for "53" to your real age.
+```
+## [1] 94
+```
+
+- Change for "54" to your real age.
 - With your cursor somewhere in the code block, use the key command *Cmd+Shift+Return*, which is the key command to RUN ALL LINES of code chunk.
 - NOTE: To run an individual line, use *Cmd+Return* while on that line.
 
@@ -106,16 +141,20 @@ Congratulations! The answer given at the bottom of that code chunk is the [socia
 
 Throwing aside whether the formula is sound, let's break down the code.
 
-- `# update 53 to your age` is a comment. It's a way to explain what is happening in the code without being considered part of the code.
-- `age <- 53` is assigning a number (`53`) to a variable name (`age`). A variable is a placeholder. It can hold numbers, text or even groups of numbers. Variables are key to programming because they allow you to change a value as you go along.
+- `# update 54 to your age` is a comment. It's a way to explain what is happening in the code without being considered part of the code. We create comments by starting with `#`. You can also add a comment at the end of a line.
+- `age <- 54` is assigning a number (`54`) to an R object/variable called (`age`). A variable is a placeholder. It can hold numbers, text or even groups of numbers. Variables are key to programming because they allow you to change a value as you go along.
 - The next part is simple math: `(age - 7) * 2` takes the value of `age` and subtracts `7`, then multiplies by `2`.
-- When you run it, you get the result of the math equazion, `[1] 92` in my case. That means there was one observation, and the value was "92". For the record, my wife is _much_ younger than that.
+- When you run it, you get the result of the math equazion, `[1] 94` in my case. That means there was one observation, and the value was "92". For the record, my wife is _much_ younger than that.
 
 Now you can play with the number assigned to the age variable to test out different ages. Do that.
 
 ### Practice adding code chunks
 
-Now, on your own, add a similar code chunk that calculates the minimum age of someone you should date, but using the formula `(age / 2) + 7`. Add a comment in the code that explains what it is for.
+Now, on your own, add a similar section that calculates the minimum age of someone you should date, but using the formula `(age / 2) + 7`.
+
+- Add a RMarkdown headline and text describing what you are doing.
+- Create a code chunk that that calculates the formula based on your age.
+- Include a comment within the code block.
 
 ### Preview the report
 
@@ -136,7 +175,10 @@ One last thing to point out before we turn this in: The toolbar that runs across
 ### Knit the final workbook
 
 - Save your File with *Cmd+S*.
+- Click on the dropdown next to the **Run** menu item and choose _Restart R and Run All Chunks_. We do this to make sure everything still works.
 - Use the **Knit** button in the toolbar to choose **Knit to HTML**.
+
+This will open your knitted file. Isn't it pretty?
 
 ## Turning in our projects
 

@@ -1,7 +1,7 @@
 --- 
 title: "Reporting with Data in R"
 author: "Christian McDonald"
-date: "2021-08-18"
+date: "2021-08-19"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
@@ -32,11 +32,11 @@ This is the second version of this book. The first "beta" version was used in Sp
 
 After that Spring 2019 class I chose to use a different web-based tool — [Workbench](http://workbenchdata.com/) — which allowed for a similar scripted workflow but without the same level of coding. I loved Workbench, especially for beginning students, but the site is scheduled to close down in October 2021.
 
-## Tips on my writing style
+## Tips on my writing style {-}
 
 I try to be consistent in the way I write documentation and lessons. I'm human, so sometimes break my own rules, but in general I keep the following in mind.
 
-### Things to do
+### Things to do {-}
 
 I usually put things you need to do in bullet lists:
 
@@ -45,7 +45,7 @@ I usually put things you need to do in bullet lists:
 
 Explanations are usually in text, like this very paragraph.
 
-### Notes, some important
+### Notes, some important {-}
 
 I will use the blockquote syntax to set off irrelevant background:
 
@@ -55,7 +55,7 @@ But sometimes those asides are important. I usually indicate that:
 
 > IMPORTANT: You really should learn how to use [Rmarkdown](https://rmarkdown.rstudio.com/) as you will use it the whole semester, and hopefully for the rest of your life.
 
-### Copy code blocks
+### Copy code blocks {-}
 
 When you see R code in the instructions, you can roll your cursor over the right-corner and click on the copy icon to copy the code to your clipboard:
 
@@ -74,9 +74,11 @@ I'm a career journalist who most recently served as Data and Projects Editor at 
 - Twitter: [crit](https://twitter.com/crit)
 - Email: <christian.mcdonald@utexas.edu>
 
-## License
+## License {-}
 
-> I shoud have an official license here like [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/). But, let's just say this is free on the internet and I don't make any money from it and you shouldn't either.
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+Let's just say this is free on the internet and I don't make any money from it and you shouldn't either.
 
 ## Other resources {-}
 
