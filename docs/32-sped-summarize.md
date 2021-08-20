@@ -2,6 +2,10 @@
 
 > FIRST DRAFT OF NEW SUMMARIZE CHAPTER
 
+- fix lists
+
+----
+
 In this lesson we'll actually get answers to the questions we posed when we started this quest. All of these questions refer to Austin ISD schools: 
 
 - Which campus gained the most (count difference) special education students from 2015 to 2020?

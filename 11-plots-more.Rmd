@@ -3,6 +3,7 @@
 ## UPDATES NEEDED
 
 - This football data, perhaps? This is end exclude/joins
+- fix lists
 
 ---
 

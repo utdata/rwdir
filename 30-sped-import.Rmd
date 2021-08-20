@@ -4,6 +4,8 @@
 
 > This three-part lesson was originally conceived as a first project instead of Billboard so it has some pretty specific details and explanation.
 
+- fix lists
+
 ## Goals for this section
 
 - Learn a little about data types available to R.

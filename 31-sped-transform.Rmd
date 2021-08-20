@@ -5,6 +5,7 @@
 ## Rewite tasks
 
 - Return to fill in story gaps
+- fix lists
 
 ## Goals for the section
 

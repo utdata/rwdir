@@ -5,6 +5,7 @@
 
 - use skittles for testing? (Not j-data)
 - use billboard or military surplus for mastery
+- Fix lists
 ---
 
 old

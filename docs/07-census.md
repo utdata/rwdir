@@ -2,6 +2,7 @@
 
 ## NEEDS REVIEW
 
+- fix lists
 ---
 
 The U.S. [Census Bureau](https://census.gov/) has a wealth of data that can help journalists tell stories. This chapter is _not_ a comprehensive guide on how to use it, but instead an introduction on some ways you can.

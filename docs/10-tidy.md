@@ -3,7 +3,7 @@
 ## UPDATES NEEDED
 
 - Introduce acc data. Leave mixbev for an assignment.
-
+- fix lists
 ---
 
 old

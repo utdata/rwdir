@@ -4,6 +4,8 @@
 
 > Under construction
 
+--- 
+
 This will be a annotated list of chart code and examples from this book. It does not include the construction of the data frame used in the plot. (I'll try to go back and add links.)
 
 ## Bar charts

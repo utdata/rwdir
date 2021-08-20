@@ -2,6 +2,8 @@
 
 > Needs rewrite around a journalism problem or drop it
 
+- fix lists
+
 There is a complexity within R data frames that we need to cover becomes it comes into play when we want to order categorical data within graphics.
 
 We are going to handle this through a new project using our Survey data from class.

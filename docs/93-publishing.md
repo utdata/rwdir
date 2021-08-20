@@ -4,6 +4,10 @@
 
 > A work in progress
 
+- fix lists
+
+---
+
 Exploring a data set in R is different than publishing your findings. When you are exploring, you will ask a lot of questions and create a lot of plots that will lead to nothing. That is OK. Keep them, and write notes to your future self why you think each plot is NOT interesting, so when you return to it later you'll see you already studied that path. This is a document for your current and future self.
 
 But once you've done all your exploring and FOUND things -- findings that become sentences in your story -- you may want to (you _should_) create a new notebook that focuses on these findings and how they relate to the story. You can use this more formal R notebook as a way to explain to readers and others the specific ways you came to your conclusions. This is a document for the public, and should be written as such. Get editing help to make sure you are clear and concise in your writing.

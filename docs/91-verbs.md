@@ -2,6 +2,7 @@
 
 ## NEEDS REVIEW
 
+- fix lists
 ---
 
 An opinionated list of the most common [Tidyverse](https://www.tidyverse.org/) and other R verbs used with data storytelling.

@@ -1,5 +1,7 @@
 # Review - Data wrangling
 
+> Fix lists
+
 For practice, we are going to import some marijuana arrests data from the Austin Police Department. The data was obtained through an open records request as an Excel spreadsheet, which will be new for us. I've removed the names of the suspects.
 
 The **story** here is we want to see how many "B Misdemeanor" arrests there have been over time in Austin. This are arrest for small amounts of marijuana, less than 2 ounces.
