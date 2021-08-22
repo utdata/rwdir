@@ -1,6 +1,6 @@
 # Reordering factors
 
-> Needs rewrite around a journalism problem or drop it
+> NEEDS REWRITE
 
 - fix lists
 

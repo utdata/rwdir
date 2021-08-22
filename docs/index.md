@@ -1,7 +1,7 @@
 --- 
 title: "Reporting with Data in R"
 author: "Christian McDonald"
-date: "2021-08-20"
+date: "2021-08-22"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
@@ -14,7 +14,7 @@ description: "Reporting with Data in R is a series of lessons and instructions u
 
 # About this book {-}
 
-> NOTE: This book is in the middle of a rewrite. The original "beta" version is long gone in a commit history and the new version is being rewritten under a new URL. Stuff will be broken as chapters are completely reworked out of sync. This new version will become v1.0. As I write this edition, I can already see the a v2.0 version that has more history, theory and explanation. This v1.0 version is still focused on instruction.
+> NOTE: This book is in the middle of a rewrite. The original "beta" version used in spring 2019 is long gone in a commit history and the new version is being rewritten under a new URL. Some chapters need to be written or rewritten, as noted. This new version will become v1.0 and is being used for fall 2021.
 
 Reporting with Data in R is a series of lessons and instructions used for courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin.
 

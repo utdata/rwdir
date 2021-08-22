@@ -7,6 +7,8 @@
 - Return to fill in story gaps
 - fix lists
 
+---
+
 ## Goals for the section
 
 In this lesson we will continue with the Special Education project you began in the last chapter. Our goals are:

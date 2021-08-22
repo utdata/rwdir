@@ -6,7 +6,7 @@
 - fix lists
 ---
 
-old
+> PREVIOUS DRAFT
 
 Data "shape" can be important when you are trying to work with and visualize data. In this chapter we'll discuss "tidy" data and how this style of organization helps us.
 

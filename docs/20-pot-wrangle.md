@@ -1,6 +1,10 @@
 # Review - Data wrangling
 
-> Fix lists
+> NEEDS REWRITE
+
+- Fix lists
+
+---
 
 For practice, we are going to import some marijuana arrests data from the Austin Police Department. The data was obtained through an open records request as an Excel spreadsheet, which will be new for us. I've removed the names of the suspects.
 

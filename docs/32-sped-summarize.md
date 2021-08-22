@@ -1,6 +1,6 @@
 # Summarize {#sped-summarize}
 
-> FIRST DRAFT OF NEW SUMMARIZE CHAPTER
+> FIRST DRAFT AND NEEDS REWRITE
 
 - fix lists
 

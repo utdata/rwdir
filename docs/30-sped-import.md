@@ -6,6 +6,8 @@
 
 - fix lists
 
+---
+
 ## Goals for this section
 
 - Learn a little about data types available to R.

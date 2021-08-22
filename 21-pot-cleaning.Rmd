@@ -1,6 +1,6 @@
 # Cleaning {#cleaning}
 
-## IN MID-UPDATE
+## NOT FINISHED, NEEDS REWRITE
 
 - include section on clean code and advanced tips. naming chunks. good indents. good markdown. tips for the navigation dropdown. keyboard command review. Restart and run.
 - recode
