@@ -4,36 +4,37 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 9 Tidy data | Reporting with Data in R</title>
-  <meta name="description" content="Chapter 9 Tidy data | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <title>Chapter 8 Tidy data | Reporting with Data in R</title>
+  <meta name="description" content="Chapter 8 Tidy data | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 9 Tidy data | Reporting with Data in R" />
+  <meta property="og:title" content="Chapter 8 Tidy data | Reporting with Data in R" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="Chapter 9 Tidy data | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <meta property="og:description" content="Chapter 8 Tidy data | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
   <meta name="github-repo" content="utdata/rwdir" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 9 Tidy data | Reporting with Data in R" />
+  <meta name="twitter:title" content="Chapter 8 Tidy data | Reporting with Data in R" />
   
-  <meta name="twitter:description" content="Chapter 9 Tidy data | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <meta name="twitter:description" content="Chapter 8 Tidy data | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
   
 
 <meta name="author" content="Christian McDonald" />
 
 
-<meta name="date" content="2021-07-06" />
+<meta name="date" content="2021-08-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="plots.html"/>
+<link rel="prev" href="census.html"/>
 <link rel="next" href="review-plots.html"/>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -50,9 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <style type="text/css">
   p.caption {
     color: #777;
@@ -65,18 +65,18 @@
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -96,7 +96,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -129,6 +129,7 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+
 </head>
 
 <body>
@@ -144,390 +145,495 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Reporting with Data in R</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About this book</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About this book</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-my-philosphy"><i class="fa fa-check"></i>About my philosphy</a></li>
-<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#tips-on-my-writing-style"><i class="fa fa-check"></i><b>0.1</b> Tips on my writing style</a><ul>
-<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#things-to-do"><i class="fa fa-check"></i><b>0.1.1</b> Things to do</a></li>
-<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#notes-some-important"><i class="fa fa-check"></i><b>0.1.2</b> Notes, some important</a></li>
-<li class="chapter" data-level="0.1.3" data-path="index.html"><a href="index.html#copy-code-blocks"><i class="fa fa-check"></i><b>0.1.3</b> Copy code blocks</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#tips-on-my-writing-style"><i class="fa fa-check"></i>Tips on my writing style</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#things-to-do"><i class="fa fa-check"></i>Things to do</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#notes-some-important"><i class="fa fa-check"></i>Notes, some important</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#copy-code-blocks"><i class="fa fa-check"></i>Copy code blocks</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-author"><i class="fa fa-check"></i>About the author</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-resources"><i class="fa fa-check"></i>Other resources</a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="install.html"><a href="install.html"><i class="fa fa-check"></i><b>1</b> Install Party</a><ul>
+<li class="chapter" data-level="1" data-path="install.html"><a href="install.html"><i class="fa fa-check"></i><b>1</b> Install Party</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="install.html"><a href="install.html#mac-vs-pc"><i class="fa fa-check"></i><b>1.1</b> Mac vs PC</a></li>
 <li class="chapter" data-level="1.2" data-path="install.html"><a href="install.html#installing-r"><i class="fa fa-check"></i><b>1.2</b> Installing R</a></li>
 <li class="chapter" data-level="1.3" data-path="install.html"><a href="install.html#installing-rstudio"><i class="fa fa-check"></i><b>1.3</b> Installing RStudio</a></li>
 <li class="chapter" data-level="1.4" data-path="install.html"><a href="install.html#class-project-folder"><i class="fa fa-check"></i><b>1.4</b> Class project folder</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a><ul>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#rstudio-tour"><i class="fa fa-check"></i><b>2.1</b> RStudio tour</a></li>
 <li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#updating-preferences"><i class="fa fa-check"></i><b>2.2</b> Updating preferences</a></li>
 <li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#starting-a-new-project"><i class="fa fa-check"></i><b>2.3</b> Starting a new Project</a></li>
-<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#using-r-notebooks"><i class="fa fa-check"></i><b>2.4</b> Using R Notebooks</a><ul>
+<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#using-r-notebooks"><i class="fa fa-check"></i><b>2.4</b> Using R Notebooks</a>
+<ul>
 <li class="chapter" data-level="2.4.1" data-path="intro.html"><a href="intro.html#create-your-first-notebook"><i class="fa fa-check"></i><b>2.4.1</b> Create your first notebook</a></li>
 <li class="chapter" data-level="2.4.2" data-path="intro.html"><a href="intro.html#save-the-.rmd-file"><i class="fa fa-check"></i><b>2.4.2</b> Save the .Rmd file</a></li>
 <li class="chapter" data-level="2.4.3" data-path="intro.html"><a href="intro.html#run-the-notebook"><i class="fa fa-check"></i><b>2.4.3</b> Run the notebook</a></li>
-<li class="chapter" data-level="2.4.4" data-path="intro.html"><a href="intro.html#adding-new-code-chunks"><i class="fa fa-check"></i><b>2.4.4</b> Adding new code chunks</a></li>
-<li class="chapter" data-level="2.4.5" data-path="intro.html"><a href="intro.html#practice-adding-code-chunks"><i class="fa fa-check"></i><b>2.4.5</b> Practice adding code chunks</a></li>
-<li class="chapter" data-level="2.4.6" data-path="intro.html"><a href="intro.html#preview-the-report"><i class="fa fa-check"></i><b>2.4.6</b> Preview the report</a></li>
-<li class="chapter" data-level="2.4.7" data-path="intro.html"><a href="intro.html#the-toolbar"><i class="fa fa-check"></i><b>2.4.7</b> The toolbar</a></li>
-<li class="chapter" data-level="2.4.8" data-path="intro.html"><a href="intro.html#knit-the-final-workbook"><i class="fa fa-check"></i><b>2.4.8</b> Knit the final workbook</a></li>
+<li class="chapter" data-level="2.4.4" data-path="intro.html"><a href="intro.html#a-note-about-rmarkdown"><i class="fa fa-check"></i><b>2.4.4</b> A note about RMarkdown</a></li>
+<li class="chapter" data-level="2.4.5" data-path="intro.html"><a href="intro.html#adding-new-code-chunks"><i class="fa fa-check"></i><b>2.4.5</b> Adding new code chunks</a></li>
+<li class="chapter" data-level="2.4.6" data-path="intro.html"><a href="intro.html#practice-adding-code-chunks"><i class="fa fa-check"></i><b>2.4.6</b> Practice adding code chunks</a></li>
+<li class="chapter" data-level="2.4.7" data-path="intro.html"><a href="intro.html#preview-the-report"><i class="fa fa-check"></i><b>2.4.7</b> Preview the report</a></li>
+<li class="chapter" data-level="2.4.8" data-path="intro.html"><a href="intro.html#the-toolbar"><i class="fa fa-check"></i><b>2.4.8</b> The toolbar</a></li>
+<li class="chapter" data-level="2.4.9" data-path="intro.html"><a href="intro.html#knit-the-final-workbook"><i class="fa fa-check"></i><b>2.4.9</b> Knit the final workbook</a></li>
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="intro.html"><a href="intro.html#turning-in-our-projects"><i class="fa fa-check"></i><b>2.5</b> Turning in our projects</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="import.html"><a href="import.html"><i class="fa fa-check"></i><b>3</b> Importing data</a><ul>
-<li class="chapter" data-level="3.1" data-path="import.html"><a href="import.html#goals-for-this-section"><i class="fa fa-check"></i><b>3.1</b> Goals for this section</a></li>
-<li class="chapter" data-level="3.2" data-path="import.html"><a href="import.html#our-project-data"><i class="fa fa-check"></i><b>3.2</b> Our project data</a></li>
-<li class="chapter" data-level="3.3" data-path="import.html"><a href="import.html#about-data-sources"><i class="fa fa-check"></i><b>3.3</b> About data sources</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="import.html"><a href="import.html#what-is-clean-data"><i class="fa fa-check"></i><b>3.3.1</b> What is clean data</a></li>
-</ul></li>
-<li class="chapter" data-level="3.4" data-path="import.html"><a href="import.html#create-a-new-project"><i class="fa fa-check"></i><b>3.4</b> Create a new project</a><ul>
-<li class="chapter" data-level="3.4.1" data-path="import.html"><a href="import.html#the-r-package-environment"><i class="fa fa-check"></i><b>3.4.1</b> The R Package environment</a></li>
-<li class="chapter" data-level="3.4.2" data-path="import.html"><a href="import.html#installing-and-using-packages"><i class="fa fa-check"></i><b>3.4.2</b> Installing and using packages</a></li>
-<li class="chapter" data-level="3.4.3" data-path="import.html"><a href="import.html#load-the-libraries"><i class="fa fa-check"></i><b>3.4.3</b> Load the libraries</a></li>
-</ul></li>
-<li class="chapter" data-level="3.5" data-path="import.html"><a href="import.html#downloading-raw-data"><i class="fa fa-check"></i><b>3.5</b> Downloading raw data</a><ul>
-<li class="chapter" data-level="3.5.1" data-path="import.html"><a href="import.html#create-a-directory-for-your-data"><i class="fa fa-check"></i><b>3.5.1</b> Create a directory for your data</a></li>
-<li class="chapter" data-level="3.5.2" data-path="import.html"><a href="import.html#lets-get-some-data"><i class="fa fa-check"></i><b>3.5.2</b> Let’s get some data</a></li>
-<li class="chapter" data-level="3.5.3" data-path="import.html"><a href="import.html#peek-at-the-data-file"><i class="fa fa-check"></i><b>3.5.3</b> Peek at the data file</a></li>
-<li class="chapter" data-level="3.5.4" data-path="import.html"><a href="import.html#import-csv-as-data"><i class="fa fa-check"></i><b>3.5.4</b> Import csv as data</a></li>
-</ul></li>
-<li class="chapter" data-level="3.6" data-path="import.html"><a href="import.html#assign-our-import-to-a-data-frame"><i class="fa fa-check"></i><b>3.6</b> Assign our import to a data frame</a><ul>
-<li class="chapter" data-level="3.6.1" data-path="import.html"><a href="import.html#print-a-peek-to-the-screen"><i class="fa fa-check"></i><b>3.6.1</b> Print a peek to the screen</a></li>
-<li class="chapter" data-level="3.6.2" data-path="import.html"><a href="import.html#glimpse-the-data"><i class="fa fa-check"></i><b>3.6.2</b> Glimpse the data</a></li>
-<li class="chapter" data-level="3.6.3" data-path="import.html"><a href="import.html#about-the-pipe"><i class="fa fa-check"></i><b>3.6.3</b> About the pipe %&gt;%</a></li>
-<li class="chapter" data-level="3.6.4" data-path="import.html"><a href="import.html#creating-consistent-column-names"><i class="fa fa-check"></i><b>3.6.4</b> Creating consistent column names</a></li>
-<li class="chapter" data-level="3.6.5" data-path="import.html"><a href="import.html#import-other-data-frames"><i class="fa fa-check"></i><b>3.6.5</b> Import other data frames</a></li>
-</ul></li>
-<li class="chapter" data-level="3.7" data-path="import.html"><a href="import.html#prepare-data-for-joining"><i class="fa fa-check"></i><b>3.7</b> Prepare data for joining</a><ul>
-<li class="chapter" data-level="3.7.1" data-path="import.html"><a href="import.html#prepare-the-directory-data"><i class="fa fa-check"></i><b>3.7.1</b> Prepare the directory data</a></li>
-<li class="chapter" data-level="3.7.2" data-path="import.html"><a href="import.html#prepare-cstud-data"><i class="fa fa-check"></i><b>3.7.2</b> Prepare CSTUD data</a></li>
-</ul></li>
-<li class="chapter" data-level="3.8" data-path="import.html"><a href="import.html#joining-the-data-together"><i class="fa fa-check"></i><b>3.8</b> Joining the data together</a></li>
-<li class="chapter" data-level="3.9" data-path="import.html"><a href="import.html#exporting-data"><i class="fa fa-check"></i><b>3.9</b> Exporting data</a><ul>
-<li class="chapter" data-level="3.9.1" data-path="import.html"><a href="import.html#single-notebook-philosophy"><i class="fa fa-check"></i><b>3.9.1</b> Single-notebook philosophy</a></li>
-<li class="chapter" data-level="3.9.2" data-path="import.html"><a href="import.html#exporting-as-rds"><i class="fa fa-check"></i><b>3.9.2</b> Exporting as rds</a></li>
-</ul></li>
-<li class="chapter" data-level="3.10" data-path="import.html"><a href="import.html#review-of-what-weve-learned-so-far"><i class="fa fa-check"></i><b>3.10</b> Review of what we’ve learned so far</a></li>
-<li class="chapter" data-level="3.11" data-path="import.html"><a href="import.html#resources"><i class="fa fa-check"></i><b>3.11</b> Resources</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="transform.html"><a href="transform.html"><i class="fa fa-check"></i><b>4</b> Transform</a><ul>
-<li class="chapter" data-level="4.1" data-path="transform.html"><a href="transform.html#rewite-tasks"><i class="fa fa-check"></i><b>4.1</b> Rewite tasks</a></li>
-<li class="chapter" data-level="4.2" data-path="transform.html"><a href="transform.html#goals-for-the-section"><i class="fa fa-check"></i><b>4.2</b> Goals for the section</a></li>
-<li class="chapter" data-level="4.3" data-path="transform.html"><a href="transform.html#introducing-dplyr"><i class="fa fa-check"></i><b>4.3</b> Introducing dplyr</a></li>
-<li class="chapter" data-level="4.4" data-path="transform.html"><a href="transform.html#start-a-new-r-notebook"><i class="fa fa-check"></i><b>4.4</b> Start a new R Notebook</a></li>
-<li class="chapter" data-level="4.5" data-path="transform.html"><a href="transform.html#record-our-goals"><i class="fa fa-check"></i><b>4.5</b> Record our goals</a></li>
-<li class="chapter" data-level="4.6" data-path="transform.html"><a href="transform.html#setup"><i class="fa fa-check"></i><b>4.6</b> Setup</a><ul>
-<li class="chapter" data-level="4.6.1" data-path="transform.html"><a href="transform.html#naming-our-chunks"><i class="fa fa-check"></i><b>4.6.1</b> Naming our chunks</a></li>
-</ul></li>
-<li class="chapter" data-level="4.7" data-path="transform.html"><a href="transform.html#import-our-data"><i class="fa fa-check"></i><b>4.7</b> Import our data</a></li>
-<li class="chapter" data-level="4.8" data-path="transform.html"><a href="transform.html#explore-instruction-type"><i class="fa fa-check"></i><b>4.8</b> Explore instruction type</a></li>
-<li class="chapter" data-level="4.9" data-path="transform.html"><a href="transform.html#filter"><i class="fa fa-check"></i><b>4.9</b> Filter()</a><ul>
-<li class="chapter" data-level="4.9.1" data-path="transform.html"><a href="transform.html#filter-for-regular-instructional-schools"><i class="fa fa-check"></i><b>4.9.1</b> Filter for Regular Instructional schools</a></li>
-<li class="chapter" data-level="4.9.2" data-path="transform.html"><a href="transform.html#logical-tests"><i class="fa fa-check"></i><b>4.9.2</b> Logical tests</a></li>
-<li class="chapter" data-level="4.9.3" data-path="transform.html"><a href="transform.html#common-mistakes-with-filter"><i class="fa fa-check"></i><b>4.9.3</b> Common mistakes with filter</a></li>
-</ul></li>
-<li class="chapter" data-level="4.10" data-path="transform.html"><a href="transform.html#combining-filters"><i class="fa fa-check"></i><b>4.10</b> Combining filters</a><ul>
-<li class="chapter" data-level="4.10.1" data-path="transform.html"><a href="transform.html#common-mistakes-with-combining-filters"><i class="fa fa-check"></i><b>4.10.1</b> Common mistakes with combining filters</a></li>
-</ul></li>
-<li class="chapter" data-level="4.11" data-path="transform.html"><a href="transform.html#select"><i class="fa fa-check"></i><b>4.11</b> Select()</a></li>
-<li class="chapter" data-level="4.12" data-path="transform.html"><a href="transform.html#how-to-describe-the-change"><i class="fa fa-check"></i><b>4.12</b> How to describe the change</a><ul>
-<li class="chapter" data-level="4.12.1" data-path="transform.html"><a href="transform.html#describing-the-count-changes"><i class="fa fa-check"></i><b>4.12.1</b> Describing the count changes</a></li>
-<li class="chapter" data-level="4.12.2" data-path="transform.html"><a href="transform.html#describing-percentage-differences"><i class="fa fa-check"></i><b>4.12.2</b> Describing percentage differences</a></li>
-</ul></li>
-<li class="chapter" data-level="4.13" data-path="transform.html"><a href="transform.html#mutate"><i class="fa fa-check"></i><b>4.13</b> Mutate()</a><ul>
-<li class="chapter" data-level="4.13.1" data-path="transform.html"><a href="transform.html#simple-change-of-counts"><i class="fa fa-check"></i><b>4.13.1</b> Simple change of counts</a></li>
-<li class="chapter" data-level="4.13.2" data-path="transform.html"><a href="transform.html#calculate-percent-change"><i class="fa fa-check"></i><b>4.13.2</b> Calculate percent change</a></li>
-<li class="chapter" data-level="4.13.3" data-path="transform.html"><a href="transform.html#calculate-percentage-point-difference"><i class="fa fa-check"></i><b>4.13.3</b> Calculate percentage point difference</a></li>
-<li class="chapter" data-level="4.13.4" data-path="transform.html"><a href="transform.html#calculating-our-special-education-threshold"><i class="fa fa-check"></i><b>4.13.4</b> Calculating our special education threshold</a></li>
-</ul></li>
-<li class="chapter" data-level="4.14" data-path="transform.html"><a href="transform.html#export-your-computations"><i class="fa fa-check"></i><b>4.14</b> Export your computations</a></li>
-<li class="chapter" data-level="4.15" data-path="transform.html"><a href="transform.html#more-dplyr-in-next-lesson"><i class="fa fa-check"></i><b>4.15</b> More dplyr in next lesson</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="summarize.html"><a href="summarize.html"><i class="fa fa-check"></i><b>5</b> Summarize</a><ul>
-<li class="chapter" data-level="5.1" data-path="summarize.html"><a href="summarize.html#new-task-new-notebook"><i class="fa fa-check"></i><b>5.1</b> New task, new notebook</a><ul>
-<li class="chapter" data-level="5.1.1" data-path="summarize.html"><a href="summarize.html#create-analysis-notebook"><i class="fa fa-check"></i><b>5.1.1</b> Create analysis notebook</a></li>
-<li class="chapter" data-level="5.1.2" data-path="summarize.html"><a href="summarize.html#import-1"><i class="fa fa-check"></i><b>5.1.2</b> Import</a></li>
-<li class="chapter" data-level="5.1.3" data-path="summarize.html"><a href="summarize.html#filter-to-austin-isd"><i class="fa fa-check"></i><b>5.1.3</b> Filter to Austin ISD</a></li>
-</ul></li>
-<li class="chapter" data-level="5.2" data-path="summarize.html"><a href="summarize.html#sorting-with-arrange"><i class="fa fa-check"></i><b>5.2</b> Sorting with arrange()</a><ul>
-<li class="chapter" data-level="5.2.1" data-path="summarize.html"><a href="summarize.html#about-arrange"><i class="fa fa-check"></i><b>5.2.1</b> About arrange</a></li>
-<li class="chapter" data-level="5.2.2" data-path="summarize.html"><a href="summarize.html#most-new-special-education-students"><i class="fa fa-check"></i><b>5.2.2</b> Most new special education students</a></li>
-<li class="chapter" data-level="5.2.3" data-path="summarize.html"><a href="summarize.html#the-head-command"><i class="fa fa-check"></i><b>5.2.3</b> The head() command</a></li>
-<li class="chapter" data-level="5.2.4" data-path="summarize.html"><a href="summarize.html#highest-share-of-special-education-students-in-2020"><i class="fa fa-check"></i><b>5.2.4</b> Highest share of special education students in 2020</a></li>
-<li class="chapter" data-level="5.2.5" data-path="summarize.html"><a href="summarize.html#greatest-change-in-share-of-special-education-students"><i class="fa fa-check"></i><b>5.2.5</b> Greatest change in share of special education students</a></li>
-</ul></li>
-<li class="chapter" data-level="5.3" data-path="summarize.html"><a href="summarize.html#aggregates-with-summarize"><i class="fa fa-check"></i><b>5.3</b> Aggregates with summarize()</a></li>
-<li class="chapter" data-level="5.4" data-path="summarize.html"><a href="summarize.html#group_by"><i class="fa fa-check"></i><b>5.4</b> Group_by()</a><ul>
-<li class="chapter" data-level="5.4.1" data-path="summarize.html"><a href="summarize.html#group-and-count"><i class="fa fa-check"></i><b>5.4.1</b> Group and count</a></li>
-<li class="chapter" data-level="5.4.2" data-path="summarize.html"><a href="summarize.html#the-count-function-shortcut"><i class="fa fa-check"></i><b>5.4.2</b> The count() function shortcut</a></li>
-<li class="chapter" data-level="5.4.3" data-path="summarize.html"><a href="summarize.html#comparing-thresholds-for-2015-and-2020"><i class="fa fa-check"></i><b>5.4.3</b> Comparing thresholds for 2015 and 2020</a></li>
-</ul></li>
-<li class="chapter" data-level="5.5" data-path="summarize.html"><a href="summarize.html#more-on-summarize"><i class="fa fa-check"></i><b>5.5</b> More on summarize</a><ul>
-<li class="chapter" data-level="5.5.1" data-path="summarize.html"><a href="summarize.html#ignoring-na-values"><i class="fa fa-check"></i><b>5.5.1</b> Ignoring NA values</a></li>
-</ul></li>
-<li class="chapter" data-level="5.6" data-path="summarize.html"><a href="summarize.html#review-what-we-learned"><i class="fa fa-check"></i><b>5.6</b> Review what we learned</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="review-data-wrangling.html"><a href="review-data-wrangling.html"><i class="fa fa-check"></i><b>6</b> Review - Data wrangling</a><ul>
-<li class="chapter" data-level="6.1" data-path="review-data-wrangling.html"><a href="review-data-wrangling.html#start-a-new-project"><i class="fa fa-check"></i><b>6.1</b> Start a new project</a></li>
-<li class="chapter" data-level="6.2" data-path="review-data-wrangling.html"><a href="review-data-wrangling.html#downloading-our-data"><i class="fa fa-check"></i><b>6.2</b> Downloading our data</a></li>
-<li class="chapter" data-level="6.3" data-path="review-data-wrangling.html"><a href="review-data-wrangling.html#importing-from-an-excel-spreadsheet"><i class="fa fa-check"></i><b>6.3</b> Importing from an Excel spreadsheet</a></li>
-<li class="chapter" data-level="6.4" data-path="review-data-wrangling.html"><a href="review-data-wrangling.html#a-quick-look-at-our-data"><i class="fa fa-check"></i><b>6.4</b> A quick look at our data</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="cleaning.html"><a href="cleaning.html"><i class="fa fa-check"></i><b>7</b> Cleaning</a><ul>
-<li class="chapter" data-level="7.1" data-path="cleaning.html"><a href="cleaning.html#in-mid-update"><i class="fa fa-check"></i><b>7.1</b> IN MID-UPDATE</a></li>
-<li class="chapter" data-level="7.2" data-path="cleaning.html"><a href="cleaning.html#goals-for-this-section-1"><i class="fa fa-check"></i><b>7.2</b> Goals for this section</a><ul>
-<li class="chapter" data-level="7.2.1" data-path="cleaning.html"><a href="cleaning.html#resources-1"><i class="fa fa-check"></i><b>7.2.1</b> Resources</a></li>
-</ul></li>
-<li class="chapter" data-level="7.3" data-path="cleaning.html"><a href="cleaning.html#explain-thyself"><i class="fa fa-check"></i><b>7.3</b> Explain thyself</a></li>
-<li class="chapter" data-level="7.4" data-path="cleaning.html"><a href="cleaning.html#syntax-etiquette"><i class="fa fa-check"></i><b>7.4</b> Syntax etiquette</a></li>
-<li class="chapter" data-level="7.5" data-path="cleaning.html"><a href="cleaning.html#recode-the-apd_race-column"><i class="fa fa-check"></i><b>7.5</b> Recode the <code>apd_race</code> column</a></li>
-<li class="chapter" data-level="7.6" data-path="cleaning.html"><a href="cleaning.html#filter-out-data-we-dont-need"><i class="fa fa-check"></i><b>7.6</b> Filter out data we don’t need</a><ul>
-<li class="chapter" data-level="7.6.1" data-path="cleaning.html"><a href="cleaning.html#about-marijuana-charges"><i class="fa fa-check"></i><b>7.6.1</b> About marijuana charges</a></li>
-<li class="chapter" data-level="7.6.2" data-path="cleaning.html"><a href="cleaning.html#filter-out-delivery-charges"><i class="fa fa-check"></i><b>7.6.2</b> Filter out delivery charges</a></li>
-<li class="chapter" data-level="7.6.3" data-path="cleaning.html"><a href="cleaning.html#remove-controlled-substance"><i class="fa fa-check"></i><b>7.6.3</b> Remove controlled substance</a></li>
-<li class="chapter" data-level="7.6.4" data-path="cleaning.html"><a href="cleaning.html#remove-drug-free-zones"><i class="fa fa-check"></i><b>7.6.4</b> Remove drug free zones</a></li>
-<li class="chapter" data-level="7.6.5" data-path="cleaning.html"><a href="cleaning.html#remove-request-to-apprehend"><i class="fa fa-check"></i><b>7.6.5</b> Remove request to apprehend</a></li>
-<li class="chapter" data-level="7.6.6" data-path="cleaning.html"><a href="cleaning.html#removing-more-unwated-records"><i class="fa fa-check"></i><b>7.6.6</b> Removing more unwated records</a></li>
-</ul></li>
-<li class="chapter" data-level="7.7" data-path="cleaning.html"><a href="cleaning.html#finding-just-b-misdemeanors"><i class="fa fa-check"></i><b>7.7</b> Finding just B misdemeanors</a></li>
-<li class="chapter" data-level="7.8" data-path="cleaning.html"><a href="cleaning.html#export-your-updated-data-frame"><i class="fa fa-check"></i><b>7.8</b> Export your updated data frame</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="plots.html"><a href="plots.html"><i class="fa fa-check"></i><b>8</b> Plots</a><ul>
-<li class="chapter" data-level="8.1" data-path="plots.html"><a href="plots.html#updates-needed"><i class="fa fa-check"></i><b>8.1</b> UPDATES NEEDED</a></li>
-<li class="chapter" data-level="8.2" data-path="plots.html"><a href="plots.html#goals-for-this-section-2"><i class="fa fa-check"></i><b>8.2</b> Goals for this section</a></li>
-<li class="chapter" data-level="8.3" data-path="plots.html"><a href="plots.html#introduction-ggplot"><i class="fa fa-check"></i><b>8.3</b> Introduction ggplot</a></li>
-<li class="chapter" data-level="8.4" data-path="plots.html"><a href="plots.html#the-basic-ggplot-template"><i class="fa fa-check"></i><b>8.4</b> The basic ggplot template</a></li>
-<li class="chapter" data-level="8.5" data-path="plots.html"><a href="plots.html#lets-plot"><i class="fa fa-check"></i><b>8.5</b> Let’s plot!</a><ul>
-<li class="chapter" data-level="8.5.1" data-path="plots.html"><a href="plots.html#set-up-our-notebook"><i class="fa fa-check"></i><b>8.5.1</b> Set up our Notebook</a></li>
-<li class="chapter" data-level="8.5.2" data-path="plots.html"><a href="plots.html#scatterplot"><i class="fa fa-check"></i><b>8.5.2</b> Scatterplot</a></li>
-</ul></li>
-<li class="chapter" data-level="8.6" data-path="plots.html"><a href="plots.html#plotting-our-wells-data"><i class="fa fa-check"></i><b>8.6</b> Plotting our wells data</a><ul>
-<li class="chapter" data-level="8.6.1" data-path="plots.html"><a href="plots.html#total-wells-per-county"><i class="fa fa-check"></i><b>8.6.1</b> Total wells per county</a></li>
-<li class="chapter" data-level="8.6.2" data-path="plots.html"><a href="plots.html#add-a-layer-of-text-labels"><i class="fa fa-check"></i><b>8.6.2</b> Add a layer of text labels</a></li>
-</ul></li>
-<li class="chapter" data-level="8.7" data-path="plots.html"><a href="plots.html#wells-per-county-over-time"><i class="fa fa-check"></i><b>8.7</b> Wells per county over time</a><ul>
-<li class="chapter" data-level="8.7.1" data-path="plots.html"><a href="plots.html#work-up-the-data-frame"><i class="fa fa-check"></i><b>8.7.1</b> Work up the data frame</a></li>
-<li class="chapter" data-level="8.7.2" data-path="plots.html"><a href="plots.html#draw-the-plot"><i class="fa fa-check"></i><b>8.7.2</b> Draw the plot</a></li>
-<li class="chapter" data-level="8.7.3" data-path="plots.html"><a href="plots.html#your-turn-add-layers"><i class="fa fa-check"></i><b>8.7.3</b> Your turn: Add layers</a></li>
-<li class="chapter" data-level="8.7.4" data-path="plots.html"><a href="plots.html#dates-as-numbers-and-the-problems-they-cause"><i class="fa fa-check"></i><b>8.7.4</b> Dates as numbers and the problems they cause</a></li>
-</ul></li>
-<li class="chapter" data-level="8.8" data-path="plots.html"><a href="plots.html#your-turn-build-a-line-chart"><i class="fa fa-check"></i><b>8.8</b> Your turn: Build a line chart</a></li>
-<li class="chapter" data-level="8.9" data-path="plots.html"><a href="plots.html#review-of-ggplot"><i class="fa fa-check"></i><b>8.9</b> Review of ggplot</a></li>
-<li class="chapter" data-level="8.10" data-path="plots.html"><a href="plots.html#plotly-for-more-interactive-graphics"><i class="fa fa-check"></i><b>8.10</b> Plotly for more interactive graphics</a><ul>
-<li class="chapter" data-level="8.10.1" data-path="plots.html"><a href="plots.html#ggplotly"><i class="fa fa-check"></i><b>8.10.1</b> ggplotly</a></li>
-<li class="chapter" data-level="8.10.2" data-path="plots.html"><a href="plots.html#more-with-plot_ly-function"><i class="fa fa-check"></i><b>8.10.2</b> More with <code>plot_ly()</code> function</a></li>
-<li class="chapter" data-level="8.10.3" data-path="plots.html"><a href="plots.html#plotlys-freemium-model"><i class="fa fa-check"></i><b>8.10.3</b> Plotly’s freemium model</a></li>
-</ul></li>
-<li class="chapter" data-level="8.11" data-path="plots.html"><a href="plots.html#resources-2"><i class="fa fa-check"></i><b>8.11</b> Resources</a></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="tidy.html"><a href="tidy.html"><i class="fa fa-check"></i><b>9</b> Tidy data</a><ul>
-<li class="chapter" data-level="9.1" data-path="tidy.html"><a href="tidy.html#updates-needed-1"><i class="fa fa-check"></i><b>9.1</b> UPDATES NEEDED</a></li>
-<li class="chapter" data-level="9.2" data-path="tidy.html"><a href="tidy.html#goals-for-this-section-3"><i class="fa fa-check"></i><b>9.2</b> Goals for this section</a></li>
-<li class="chapter" data-level="9.3" data-path="tidy.html"><a href="tidy.html#what-is-tidy-data"><i class="fa fa-check"></i><b>9.3</b> What is tidy data</a></li>
-<li class="chapter" data-level="9.4" data-path="tidy.html"><a href="tidy.html#tidyr-package"><i class="fa fa-check"></i><b>9.4</b> Tidyr package</a></li>
-<li class="chapter" data-level="9.5" data-path="tidy.html"><a href="tidy.html#the-tidyr-verbs"><i class="fa fa-check"></i><b>9.5</b> The tidyr verbs</a></li>
-<li class="chapter" data-level="9.6" data-path="tidy.html"><a href="tidy.html#set-up-the-mixbev-project"><i class="fa fa-check"></i><b>9.6</b> Set up the mixbev project</a></li>
-<li class="chapter" data-level="9.7" data-path="tidy.html"><a href="tidy.html#create-an-explore-notebook"><i class="fa fa-check"></i><b>9.7</b> Create an explore notebook</a><ul>
-<li class="chapter" data-level="9.7.1" data-path="tidy.html"><a href="tidy.html#peruse-the-data"><i class="fa fa-check"></i><b>9.7.1</b> Peruse the data</a></li>
-</ul></li>
-<li class="chapter" data-level="9.8" data-path="tidy.html"><a href="tidy.html#what-might-we-learn-about-this-dataset"><i class="fa fa-check"></i><b>9.8</b> What might we learn about this dataset</a></li>
-<li class="chapter" data-level="9.9" data-path="tidy.html"><a href="tidy.html#add-years-and-months-values"><i class="fa fa-check"></i><b>9.9</b> Add years and months values</a></li>
-<li class="chapter" data-level="9.10" data-path="tidy.html"><a href="tidy.html#campus-bars"><i class="fa fa-check"></i><b>9.10</b> Campus bars</a><ul>
-<li class="chapter" data-level="9.10.1" data-path="tidy.html"><a href="tidy.html#total-78705-sales-leaders-in-2018"><i class="fa fa-check"></i><b>9.10.1</b> Total 78705 sales leaders in 2018</a></li>
-</ul></li>
-<li class="chapter" data-level="9.11" data-path="tidy.html"><a href="tidy.html#west-campus-student-hot-spots"><i class="fa fa-check"></i><b>9.11</b> West Campus student hot spots</a></li>
-<li class="chapter" data-level="9.12" data-path="tidy.html"><a href="tidy.html#campus-area-bar-sales-over-time"><i class="fa fa-check"></i><b>9.12</b> Campus-area bar sales over time</a><ul>
-<li class="chapter" data-level="9.12.1" data-path="tidy.html"><a href="tidy.html#visualizing-your-visualization"><i class="fa fa-check"></i><b>9.12.1</b> Visualizing your visualization</a></li>
-<li class="chapter" data-level="9.12.2" data-path="tidy.html"><a href="tidy.html#what-did-we-find"><i class="fa fa-check"></i><b>9.12.2</b> What did we find?</a></li>
-</ul></li>
-<li class="chapter" data-level="9.13" data-path="tidy.html"><a href="tidy.html#types-of-sales-within-student-bars"><i class="fa fa-check"></i><b>9.13</b> Types of sales within student bars</a></li>
-<li class="chapter" data-level="9.14" data-path="tidy.html"><a href="tidy.html#how-gather-works"><i class="fa fa-check"></i><b>9.14</b> How gather() works</a></li>
-<li class="chapter" data-level="9.15" data-path="tidy.html"><a href="tidy.html#applying-gather-to-beer-wine-and-liquor"><i class="fa fa-check"></i><b>9.15</b> Applying gather() to beer, wine and liquor</a><ul>
-<li class="chapter" data-level="9.15.1" data-path="tidy.html"><a href="tidy.html#plot-sales-by-type-for-a-single-campus-area-bar"><i class="fa fa-check"></i><b>9.15.1</b> Plot sales by type for a single campus-area bar</a></li>
-<li class="chapter" data-level="9.15.2" data-path="tidy.html"><a href="tidy.html#plot-sales-by-type-for-multiple-campus-area-bars"><i class="fa fa-check"></i><b>9.15.2</b> Plot sales by type for multiple campus-area bars</a></li>
-<li class="chapter" data-level="9.15.3" data-path="tidy.html"><a href="tidy.html#what-did-we-learn"><i class="fa fa-check"></i><b>9.15.3</b> What did we learn?</a></li>
-</ul></li>
-<li class="chapter" data-level="9.16" data-path="tidy.html"><a href="tidy.html#the-spread-function"><i class="fa fa-check"></i><b>9.16</b> The spread() function</a></li>
-<li class="chapter" data-level="9.17" data-path="tidy.html"><a href="tidy.html#practice-assignment-exploring-the-top-seller"><i class="fa fa-check"></i><b>9.17</b> Practice assignment: Exploring the top seller</a></li>
-<li class="chapter" data-level="9.18" data-path="tidy.html"><a href="tidy.html#bonus-top-5-sellers-in-travis-county-over-three-years"><i class="fa fa-check"></i><b>9.18</b> Bonus: Top 5 sellers in Travis County over three years</a></li>
-<li class="chapter" data-level="9.19" data-path="tidy.html"><a href="tidy.html#bonus-total-sales-by-county"><i class="fa fa-check"></i><b>9.19</b> Bonus: Total sales by county</a></li>
-</ul></li>
-<li class="chapter" data-level="10" data-path="review-plots.html"><a href="review-plots.html"><i class="fa fa-check"></i><b>10</b> Review: Plots</a><ul>
-<li class="chapter" data-level="10.1" data-path="review-plots.html"><a href="review-plots.html#updates-needed-2"><i class="fa fa-check"></i><b>10.1</b> UPDATES NEEDED</a></li>
-<li class="chapter" data-level="10.2" data-path="review-plots.html"><a href="review-plots.html#project-setup"><i class="fa fa-check"></i><b>10.2</b> Project setup</a><ul>
-<li class="chapter" data-level="10.2.1" data-path="review-plots.html"><a href="review-plots.html#download-the-data"><i class="fa fa-check"></i><b>10.2.1</b> Download the data</a></li>
-</ul></li>
-<li class="chapter" data-level="10.3" data-path="review-plots.html"><a href="review-plots.html#the-story"><i class="fa fa-check"></i><b>10.3</b> The story</a></li>
-<li class="chapter" data-level="10.4" data-path="review-plots.html"><a href="review-plots.html#explore-the-data"><i class="fa fa-check"></i><b>10.4</b> Explore the data</a><ul>
-<li class="chapter" data-level="10.4.1" data-path="review-plots.html"><a href="review-plots.html#third-down-conversions"><i class="fa fa-check"></i><b>10.4.1</b> Third-down conversions</a></li>
-<li class="chapter" data-level="10.4.2" data-path="review-plots.html"><a href="review-plots.html#scoring"><i class="fa fa-check"></i><b>10.4.2</b> Scoring</a></li>
-</ul></li>
-<li class="chapter" data-level="10.5" data-path="review-plots.html"><a href="review-plots.html#about-joins"><i class="fa fa-check"></i><b>10.5</b> About joins</a></li>
-<li class="chapter" data-level="10.6" data-path="review-plots.html"><a href="review-plots.html#build-our-scatterplot"><i class="fa fa-check"></i><b>10.6</b> Build our scatterplot</a><ul>
-<li class="chapter" data-level="10.6.1" data-path="review-plots.html"><a href="review-plots.html#add-a-fit-line"><i class="fa fa-check"></i><b>10.6.1</b> Add a fit line</a></li>
-<li class="chapter" data-level="10.6.2" data-path="review-plots.html"><a href="review-plots.html#run-a-correlation-test"><i class="fa fa-check"></i><b>10.6.2</b> Run a correlation test</a></li>
-</ul></li>
-<li class="chapter" data-level="10.7" data-path="review-plots.html"><a href="review-plots.html#how-does-texas-compare"><i class="fa fa-check"></i><b>10.7</b> How does Texas compare?</a></li>
-<li class="chapter" data-level="10.8" data-path="review-plots.html"><a href="review-plots.html#correlaton-test-for-texas"><i class="fa fa-check"></i><b>10.8</b> Correlaton test for Texas</a></li>
-<li class="chapter" data-level="10.9" data-path="review-plots.html"><a href="review-plots.html#practice-1-compare-penn-state"><i class="fa fa-check"></i><b>10.9</b> Practice 1: Compare Penn State</a></li>
-<li class="chapter" data-level="10.10" data-path="review-plots.html"><a href="review-plots.html#practice-2-penalties-vs-scoring"><i class="fa fa-check"></i><b>10.10</b> Practice 2: Penalties vs scoring</a></li>
-<li class="chapter" data-level="10.11" data-path="review-plots.html"><a href="review-plots.html#using-bind_rows-to-merge-data-sets"><i class="fa fa-check"></i><b>10.11</b> Using bind_rows() to merge data sets</a><ul>
-<li class="chapter" data-level="10.11.1" data-path="review-plots.html"><a href="review-plots.html#combine-data-with-a-group"><i class="fa fa-check"></i><b>10.11.1</b> Combine data with a group</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="11" data-path="census.html"><a href="census.html"><i class="fa fa-check"></i><b>11</b> Census</a><ul>
-<li class="chapter" data-level="11.1" data-path="census.html"><a href="census.html#needs-review"><i class="fa fa-check"></i><b>11.1</b> NEEDS REVIEW</a></li>
-<li class="chapter" data-level="11.2" data-path="census.html"><a href="census.html#goals-of-this-section"><i class="fa fa-check"></i><b>11.2</b> Goals of this section</a></li>
-<li class="chapter" data-level="11.3" data-path="census.html"><a href="census.html#census-bureau-programs-and-platforms"><i class="fa fa-check"></i><b>11.3</b> Census Bureau programs and platforms</a><ul>
-<li class="chapter" data-level="11.3.1" data-path="census.html"><a href="census.html#decennial-census"><i class="fa fa-check"></i><b>11.3.1</b> Decennial Census</a></li>
-<li class="chapter" data-level="11.3.2" data-path="census.html"><a href="census.html#american-community-survey"><i class="fa fa-check"></i><b>11.3.2</b> American Community Survey</a></li>
-<li class="chapter" data-level="11.3.3" data-path="census.html"><a href="census.html#population-estimates-program"><i class="fa fa-check"></i><b>11.3.3</b> Population Estimates Program</a></li>
-</ul></li>
-<li class="chapter" data-level="11.4" data-path="census.html"><a href="census.html#using-the-new-data-portal"><i class="fa fa-check"></i><b>11.4</b> Using the new data portal</a><ul>
-<li class="chapter" data-level="11.4.1" data-path="census.html"><a href="census.html#tips-about-using-downloaded-portal-data-in-r"><i class="fa fa-check"></i><b>11.4.1</b> Tips about using downloaded portal data in R</a></li>
-<li class="chapter" data-level="11.4.2" data-path="census.html"><a href="census.html#importing-downloaded-data"><i class="fa fa-check"></i><b>11.4.2</b> Importing downloaded data</a></li>
-<li class="chapter" data-level="11.4.3" data-path="census.html"><a href="census.html#fields-made-to-join-with-other-data"><i class="fa fa-check"></i><b>11.4.3</b> Fields made to join with other data</a></li>
-</ul></li>
-<li class="chapter" data-level="11.5" data-path="census.html"><a href="census.html#using-the-census-api-in-r"><i class="fa fa-check"></i><b>11.5</b> Using the Census API in R</a><ul>
-<li class="chapter" data-level="11.5.1" data-path="census.html"><a href="census.html#setting-up-an-api-key"><i class="fa fa-check"></i><b>11.5.1</b> Setting up an API key</a></li>
-<li class="chapter" data-level="11.5.2" data-path="census.html"><a href="census.html#the-censusapi-package"><i class="fa fa-check"></i><b>11.5.2</b> The censusapi package</a></li>
-<li class="chapter" data-level="11.5.3" data-path="census.html"><a href="census.html#the-tidycensus-package"><i class="fa fa-check"></i><b>11.5.3</b> The tidycensus package</a></li>
-<li class="chapter" data-level="11.5.4" data-path="census.html"><a href="census.html#adding-geometry-to-tidycensus"><i class="fa fa-check"></i><b>11.5.4</b> Adding geometry to tidycensus</a></li>
-<li class="chapter" data-level="11.5.5" data-path="census.html"><a href="census.html#map-shapes-only-with-tigris"><i class="fa fa-check"></i><b>11.5.5</b> Map shapes only with tigris</a></li>
-</ul></li>
-<li class="chapter" data-level="11.6" data-path="census.html"><a href="census.html#interactive-maps-with-leaflet"><i class="fa fa-check"></i><b>11.6</b> Interactive maps with leaflet</a></li>
-<li class="chapter" data-level="11.7" data-path="census.html"><a href="census.html#resources-3"><i class="fa fa-check"></i><b>11.7</b> Resources</a></li>
-</ul></li>
-<li class="chapter" data-level="12" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html"><i class="fa fa-check"></i><b>12</b> Publishing your findings</a><ul>
-<li class="chapter" data-level="12.1" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#needs-review-1"><i class="fa fa-check"></i><b>12.1</b> NEEDS REVIEW</a></li>
-<li class="chapter" data-level="12.2" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#examples"><i class="fa fa-check"></i><b>12.2</b> Examples</a></li>
-<li class="chapter" data-level="12.3" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#how-to-publish-your-projects"><i class="fa fa-check"></i><b>12.3</b> How to publish your projects</a><ul>
-<li class="chapter" data-level="12.3.1" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#using-github-pages"><i class="fa fa-check"></i><b>12.3.1</b> Using Github Pages</a></li>
-</ul></li>
-<li class="chapter" data-level="12.4" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#making-branded-graphics"><i class="fa fa-check"></i><b>12.4</b> Making branded graphics</a></li>
-</ul></li>
-<li class="chapter" data-level="13" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html"><i class="fa fa-check"></i><b>13</b> How to tackle a new dataset</a><ul>
-<li class="chapter" data-level="13.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#needs-review-2"><i class="fa fa-check"></i><b>13.1</b> NEEDS REVIEW</a></li>
-<li class="chapter" data-level="13.2" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#start-by-listing-questions"><i class="fa fa-check"></i><b>13.2</b> Start by listing questions</a></li>
-<li class="chapter" data-level="13.3" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#understand-your-data"><i class="fa fa-check"></i><b>13.3</b> Understand your data</a></li>
-<li class="chapter" data-level="13.4" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#counting-and-aggregation"><i class="fa fa-check"></i><b>13.4</b> Counting and aggregation</a><ul>
-<li class="chapter" data-level="13.4.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#counting-rows-based-on-a-column"><i class="fa fa-check"></i><b>13.4.1</b> Counting rows based on a column</a></li>
-<li class="chapter" data-level="13.4.2" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#sum-mean-and-other-aggregations"><i class="fa fa-check"></i><b>13.4.2</b> Sum, mean and other aggregations</a></li>
-<li class="chapter" data-level="13.4.3" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#creating-columns-to-show-difference"><i class="fa fa-check"></i><b>13.4.3</b> Creating columns to show difference</a></li>
-</ul></li>
-<li class="chapter" data-level="13.5" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#cleaning-up-categorical-data"><i class="fa fa-check"></i><b>13.5</b> Cleaning up categorical data</a></li>
-<li class="chapter" data-level="13.6" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#time-as-a-variable"><i class="fa fa-check"></i><b>13.6</b> Time as a variable</a></li>
-<li class="chapter" data-level="13.7" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#explore-the-distributions-in-your-data"><i class="fa fa-check"></i><b>13.7</b> Explore the distributions in your data</a><ul>
-<li class="chapter" data-level="13.7.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#more-on-histograms"><i class="fa fa-check"></i><b>13.7.1</b> More on histograms</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="verbs.html"><a href="verbs.html"><i class="fa fa-check"></i><b>14</b> Verbs</a><ul>
-<li class="chapter" data-level="14.1" data-path="verbs.html"><a href="verbs.html#needs-review-3"><i class="fa fa-check"></i><b>14.1</b> NEEDS REVIEW</a></li>
-<li class="chapter" data-level="14.2" data-path="verbs.html"><a href="verbs.html#importexport"><i class="fa fa-check"></i><b>14.2</b> Import/Export</a></li>
-<li class="chapter" data-level="14.3" data-path="verbs.html"><a href="verbs.html#data-manipulation"><i class="fa fa-check"></i><b>14.3</b> Data manipulation</a></li>
-<li class="chapter" data-level="14.4" data-path="verbs.html"><a href="verbs.html#aggregation"><i class="fa fa-check"></i><b>14.4</b> Aggregation</a></li>
-<li class="chapter" data-level="14.5" data-path="verbs.html"><a href="verbs.html#math"><i class="fa fa-check"></i><b>14.5</b> Math</a></li>
-</ul></li>
-<li class="chapter" data-level="15" data-path="chart-examples.html"><a href="chart-examples.html"><i class="fa fa-check"></i><b>15</b> Chart examples</a><ul>
-<li class="chapter" data-level="15.1" data-path="chart-examples.html"><a href="chart-examples.html#needs-review-4"><i class="fa fa-check"></i><b>15.1</b> NEEDS REVIEW</a></li>
-<li class="chapter" data-level="15.2" data-path="chart-examples.html"><a href="chart-examples.html#bar-charts"><i class="fa fa-check"></i><b>15.2</b> Bar charts</a><ul>
-<li class="chapter" data-level="15.2.1" data-path="chart-examples.html"><a href="chart-examples.html#explanaton"><i class="fa fa-check"></i><b>15.2.1</b> Explanaton</a></li>
-</ul></li>
-<li class="chapter" data-level="15.3" data-path="chart-examples.html"><a href="chart-examples.html#column-chart"><i class="fa fa-check"></i><b>15.3</b> Column chart</a></li>
-<li class="chapter" data-level="15.4" data-path="chart-examples.html"><a href="chart-examples.html#a-line-chart"><i class="fa fa-check"></i><b>15.4</b> A line chart</a><ul>
-<li class="chapter" data-level="15.4.1" data-path="chart-examples.html"><a href="chart-examples.html#explanation"><i class="fa fa-check"></i><b>15.4.1</b> Explanation</a></li>
-</ul></li>
-<li class="chapter" data-level="15.5" data-path="chart-examples.html"><a href="chart-examples.html#scatterplot-1"><i class="fa fa-check"></i><b>15.5</b> Scatterplot</a><ul>
-<li class="chapter" data-level="15.5.1" data-path="chart-examples.html"><a href="chart-examples.html#explanation-1"><i class="fa fa-check"></i><b>15.5.1</b> Explanation</a></li>
-</ul></li>
-<li class="chapter" data-level="15.6" data-path="chart-examples.html"><a href="chart-examples.html#histogram"><i class="fa fa-check"></i><b>15.6</b> Histogram</a></li>
-<li class="chapter" data-level="15.7" data-path="chart-examples.html"><a href="chart-examples.html#titles-labels-and-other-cleanup"><i class="fa fa-check"></i><b>15.7</b> Titles, labels and other cleanup</a><ul>
-<li class="chapter" data-level="15.7.1" data-path="chart-examples.html"><a href="chart-examples.html#title-and-axis-labels"><i class="fa fa-check"></i><b>15.7.1</b> Title and axis labels</a></li>
-<li class="chapter" data-level="15.7.2" data-path="chart-examples.html"><a href="chart-examples.html#flip-the-graphic"><i class="fa fa-check"></i><b>15.7.2</b> Flip the graphic</a></li>
-<li class="chapter" data-level="15.7.3" data-path="chart-examples.html"><a href="chart-examples.html#fix-exponential-numbers-on-an-axis"><i class="fa fa-check"></i><b>15.7.3</b> Fix exponential numbers on an axis</a></li>
-</ul></li>
-<li class="chapter" data-level="15.8" data-path="chart-examples.html"><a href="chart-examples.html#interactivity-with-plotly"><i class="fa fa-check"></i><b>15.8</b> Interactivity with plotly</a></li>
-<li class="chapter" data-level="15.9" data-path="chart-examples.html"><a href="chart-examples.html#resources-4"><i class="fa fa-check"></i><b>15.9</b> Resources</a></li>
-</ul></li>
-<li class="chapter" data-level="16" data-path="old-importing-data.html"><a href="old-importing-data.html"><i class="fa fa-check"></i><b>16</b> Old - Importing data</a><ul>
-<li class="chapter" data-level="16.1" data-path="old-importing-data.html"><a href="old-importing-data.html#middle-of-rewrite-verson"><i class="fa fa-check"></i><b>16.1</b> MIDDLE OF REWRITE VERSON</a></li>
-<li class="chapter" data-level="16.2" data-path="old-importing-data.html"><a href="old-importing-data.html#goals-for-this-section-4"><i class="fa fa-check"></i><b>16.2</b> Goals for this section</a></li>
-<li class="chapter" data-level="16.3" data-path="old-importing-data.html"><a href="old-importing-data.html#our-project-data-1"><i class="fa fa-check"></i><b>16.3</b> Our project data</a></li>
-<li class="chapter" data-level="16.4" data-path="old-importing-data.html"><a href="old-importing-data.html#data-sources"><i class="fa fa-check"></i><b>16.4</b> Data sources</a><ul>
-<li class="chapter" data-level="16.4.1" data-path="old-importing-data.html"><a href="old-importing-data.html#what-is-clean-data-1"><i class="fa fa-check"></i><b>16.4.1</b> What is clean data</a></li>
-</ul></li>
-<li class="chapter" data-level="16.5" data-path="old-importing-data.html"><a href="old-importing-data.html#create-a-new-project-1"><i class="fa fa-check"></i><b>16.5</b> Create a new project</a><ul>
-<li class="chapter" data-level="16.5.1" data-path="old-importing-data.html"><a href="old-importing-data.html#the-r-package-environment-1"><i class="fa fa-check"></i><b>16.5.1</b> The R Package environment</a></li>
-<li class="chapter" data-level="16.5.2" data-path="old-importing-data.html"><a href="old-importing-data.html#installing-and-using-packages-1"><i class="fa fa-check"></i><b>16.5.2</b> Installing and using packages</a></li>
-<li class="chapter" data-level="16.5.3" data-path="old-importing-data.html"><a href="old-importing-data.html#load-the-libraries-1"><i class="fa fa-check"></i><b>16.5.3</b> Load the libraries</a></li>
-</ul></li>
-<li class="chapter" data-level="16.6" data-path="old-importing-data.html"><a href="old-importing-data.html#downlaoding-raw-data"><i class="fa fa-check"></i><b>16.6</b> Downlaoding raw data</a><ul>
-<li class="chapter" data-level="16.6.1" data-path="old-importing-data.html"><a href="old-importing-data.html#create-a-directory-for-your-data-1"><i class="fa fa-check"></i><b>16.6.1</b> Create a directory for your data</a></li>
-<li class="chapter" data-level="16.6.2" data-path="old-importing-data.html"><a href="old-importing-data.html#lets-get-some-data-1"><i class="fa fa-check"></i><b>16.6.2</b> Let’s get some data</a></li>
-<li class="chapter" data-level="16.6.3" data-path="old-importing-data.html"><a href="old-importing-data.html#peek-at-the-data-file-1"><i class="fa fa-check"></i><b>16.6.3</b> Peek at the data file</a></li>
-<li class="chapter" data-level="16.6.4" data-path="old-importing-data.html"><a href="old-importing-data.html#import-csv-as-data-1"><i class="fa fa-check"></i><b>16.6.4</b> Import csv as data</a></li>
-<li class="chapter" data-level="16.6.5" data-path="old-importing-data.html"><a href="old-importing-data.html#clean-names-and-the-pipe"><i class="fa fa-check"></i><b>16.6.5</b> Clean names and the pipe</a></li>
-<li class="chapter" data-level="16.6.6" data-path="old-importing-data.html"><a href="old-importing-data.html#about-the-pipe-1"><i class="fa fa-check"></i><b>16.6.6</b> About the pipe %&gt;%</a></li>
-</ul></li>
-<li class="chapter" data-level="16.7" data-path="old-importing-data.html"><a href="old-importing-data.html#inspecting-and-adjusting-imports"><i class="fa fa-check"></i><b>16.7</b> Inspecting and adjusting imports</a><ul>
-<li class="chapter" data-level="16.7.1" data-path="old-importing-data.html"><a href="old-importing-data.html#fix-cdalls-assign-data-type-upon-import"><i class="fa fa-check"></i><b>16.7.1</b> Fix <code>cdalls</code>: Assign data type upon import</a></li>
-</ul></li>
-<li class="chapter" data-level="16.8" data-path="old-importing-data.html"><a href="old-importing-data.html#assign-our-import-to-a-data-frame-1"><i class="fa fa-check"></i><b>16.8</b> Assign our import to a data frame</a><ul>
-<li class="chapter" data-level="16.8.1" data-path="old-importing-data.html"><a href="old-importing-data.html#print-a-peek-to-the-screen-1"><i class="fa fa-check"></i><b>16.8.1</b> Print a peek to the screen</a></li>
-</ul></li>
-<li class="chapter" data-level="16.9" data-path="old-importing-data.html"><a href="old-importing-data.html#glimpse-the-data-1"><i class="fa fa-check"></i><b>16.9</b> Glimpse the data</a></li>
-<li class="chapter" data-level="16.10" data-path="old-importing-data.html"><a href="old-importing-data.html#exporting-data-1"><i class="fa fa-check"></i><b>16.10</b> Exporting data</a><ul>
-<li class="chapter" data-level="16.10.1" data-path="old-importing-data.html"><a href="old-importing-data.html#single-notebook-philosphy"><i class="fa fa-check"></i><b>16.10.1</b> Single-notebook philosphy</a></li>
-<li class="chapter" data-level="16.10.2" data-path="old-importing-data.html"><a href="old-importing-data.html#exporting-as-rds-1"><i class="fa fa-check"></i><b>16.10.2</b> Exporting as rds</a></li>
-</ul></li>
-<li class="chapter" data-level="16.11" data-path="old-importing-data.html"><a href="old-importing-data.html#turn-in-your-project"><i class="fa fa-check"></i><b>16.11</b> Turn in your project</a></li>
-<li class="chapter" data-level="16.12" data-path="old-importing-data.html"><a href="old-importing-data.html#resources-5"><i class="fa fa-check"></i><b>16.12</b> Resources</a></li>
-</ul></li>
-<li class="chapter" data-level="17" data-path="old-transform.html"><a href="old-transform.html"><i class="fa fa-check"></i><b>17</b> Old - Transform</a><ul>
-<li class="chapter" data-level="17.1" data-path="old-transform.html"><a href="old-transform.html#middle-of-rewrite-verson-1"><i class="fa fa-check"></i><b>17.1</b> MIDDLE OF REWRITE VERSON</a></li>
-<li class="chapter" data-level="17.2" data-path="old-transform.html"><a href="old-transform.html#goals-for-the-section-1"><i class="fa fa-check"></i><b>17.2</b> Goals for the section</a></li>
-<li class="chapter" data-level="17.3" data-path="old-transform.html"><a href="old-transform.html#introducing-dplyr-1"><i class="fa fa-check"></i><b>17.3</b> Introducing dplyr</a></li>
-<li class="chapter" data-level="17.4" data-path="old-transform.html"><a href="old-transform.html#start-a-new-r-notebook-1"><i class="fa fa-check"></i><b>17.4</b> Start a new R Notebook</a></li>
-<li class="chapter" data-level="17.5" data-path="old-transform.html"><a href="old-transform.html#record-our-goals-1"><i class="fa fa-check"></i><b>17.5</b> Record our goals</a></li>
-<li class="chapter" data-level="17.6" data-path="old-transform.html"><a href="old-transform.html#setup-1"><i class="fa fa-check"></i><b>17.6</b> Setup</a><ul>
-<li class="chapter" data-level="17.6.1" data-path="old-transform.html"><a href="old-transform.html#naming-our-chunks-1"><i class="fa fa-check"></i><b>17.6.1</b> Naming our chunks</a></li>
-</ul></li>
-<li class="chapter" data-level="17.7" data-path="old-transform.html"><a href="old-transform.html#import-our-data-1"><i class="fa fa-check"></i><b>17.7</b> Import our data</a></li>
-<li class="chapter" data-level="17.8" data-path="old-transform.html"><a href="old-transform.html#filter-1"><i class="fa fa-check"></i><b>17.8</b> Filter()</a><ul>
-<li class="chapter" data-level="17.8.1" data-path="old-transform.html"><a href="old-transform.html#logical-tests-1"><i class="fa fa-check"></i><b>17.8.1</b> Logical tests</a></li>
-<li class="chapter" data-level="17.8.2" data-path="old-transform.html"><a href="old-transform.html#filter-on-your-own"><i class="fa fa-check"></i><b>17.8.2</b> Filter on your own</a></li>
-<li class="chapter" data-level="17.8.3" data-path="old-transform.html"><a href="old-transform.html#common-mistakes-with-filter-1"><i class="fa fa-check"></i><b>17.8.3</b> Common mistakes with filter</a></li>
-</ul></li>
-<li class="chapter" data-level="17.9" data-path="old-transform.html"><a href="old-transform.html#combining-filters-1"><i class="fa fa-check"></i><b>17.9</b> Combining filters</a><ul>
-<li class="chapter" data-level="17.9.1" data-path="old-transform.html"><a href="old-transform.html#combining-filters-on-your-own"><i class="fa fa-check"></i><b>17.9.1</b> Combining filters on your own</a></li>
-<li class="chapter" data-level="17.9.2" data-path="old-transform.html"><a href="old-transform.html#common-mistakes-with-combining-filters-1"><i class="fa fa-check"></i><b>17.9.2</b> Common mistakes with combining filters</a></li>
-</ul></li>
-<li class="chapter" data-level="17.10" data-path="old-transform.html"><a href="old-transform.html#select-1"><i class="fa fa-check"></i><b>17.10</b> Select()</a><ul>
-<li class="chapter" data-level="17.10.1" data-path="old-transform.html"><a href="old-transform.html#select-on-your-own"><i class="fa fa-check"></i><b>17.10.1</b> Select on your own</a></li>
-</ul></li>
-<li class="chapter" data-level="17.11" data-path="old-transform.html"><a href="old-transform.html#arrange"><i class="fa fa-check"></i><b>17.11</b> Arrange()</a><ul>
-<li class="chapter" data-level="17.11.1" data-path="old-transform.html"><a href="old-transform.html#arrange-on-your-own"><i class="fa fa-check"></i><b>17.11.1</b> Arrange on your own</a></li>
-</ul></li>
-<li class="chapter" data-level="17.12" data-path="old-transform.html"><a href="old-transform.html#mutate-1"><i class="fa fa-check"></i><b>17.12</b> Mutate()</a><ul>
-<li class="chapter" data-level="17.12.1" data-path="old-transform.html"><a href="old-transform.html#your-turn-to-mutate"><i class="fa fa-check"></i><b>17.12.1</b> Your turn to mutate</a></li>
-<li class="chapter" data-level="17.12.2" data-path="old-transform.html"><a href="old-transform.html#document-and-save-new-columns"><i class="fa fa-check"></i><b>17.12.2</b> Document and save new columns</a></li>
-<li class="chapter" data-level="17.12.3" data-path="old-transform.html"><a href="old-transform.html#export-the-mutated-data"><i class="fa fa-check"></i><b>17.12.3</b> Export the mutated data</a></li>
-</ul></li>
-<li class="chapter" data-level="17.13" data-path="old-transform.html"><a href="old-transform.html#transform-review"><i class="fa fa-check"></i><b>17.13</b> Transform review</a></li>
-</ul></li>
-<li class="chapter" data-level="18" data-path="old-summarize.html"><a href="old-summarize.html"><i class="fa fa-check"></i><b>18</b> Old - Summarize</a><ul>
-<li class="chapter" data-level="18.1" data-path="old-summarize.html"><a href="old-summarize.html#middle-of-rewrite-verson-2"><i class="fa fa-check"></i><b>18.1</b> MIDDLE OF REWRITE VERSON</a></li>
-<li class="chapter" data-level="18.2" data-path="old-summarize.html"><a href="old-summarize.html#summarize-1"><i class="fa fa-check"></i><b>18.2</b> Summarize()</a><ul>
-<li class="chapter" data-level="18.2.1" data-path="old-summarize.html"><a href="old-summarize.html#ignoring-na"><i class="fa fa-check"></i><b>18.2.1</b> ignoring na</a></li>
-<li class="chapter" data-level="18.2.2" data-path="old-summarize.html"><a href="old-summarize.html#your-turn-with-summarise"><i class="fa fa-check"></i><b>18.2.2</b> Your turn with summarise</a></li>
-</ul></li>
-<li class="chapter" data-level="18.3" data-path="old-summarize.html"><a href="old-summarize.html#group_by-1"><i class="fa fa-check"></i><b>18.3</b> Group_by()</a><ul>
-<li class="chapter" data-level="18.3.1" data-path="old-summarize.html"><a href="old-summarize.html#group-and-count-1"><i class="fa fa-check"></i><b>18.3.1</b> Group and count</a></li>
-<li class="chapter" data-level="18.3.2" data-path="old-summarize.html"><a href="old-summarize.html#your-turn-to-group"><i class="fa fa-check"></i><b>18.3.2</b> Your turn to group</a></li>
-<li class="chapter" data-level="18.3.3" data-path="old-summarize.html"><a href="old-summarize.html#counting-only"><i class="fa fa-check"></i><b>18.3.3</b> Counting only</a></li>
-</ul></li>
+<li class="chapter" data-level="3" data-path="import.html"><a href="import.html"><i class="fa fa-check"></i><b>3</b> Import</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="import.html"><a href="import.html#learning-goals-of-this-lesson"><i class="fa fa-check"></i><b>3.1</b> Learning goals of this lesson</a></li>
+<li class="chapter" data-level="3.2" data-path="import.html"><a href="import.html#basic-steps-of-this-lesson"><i class="fa fa-check"></i><b>3.2</b> Basic steps of this lesson</a></li>
+<li class="chapter" data-level="3.3" data-path="import.html"><a href="import.html#create-a-new-project"><i class="fa fa-check"></i><b>3.3</b> Create a new project</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="import.html"><a href="import.html#describe-the-goals-of-the-notebook"><i class="fa fa-check"></i><b>3.3.1</b> Describe the goals of the notebook</a></li>
+<li class="chapter" data-level="3.3.2" data-path="import.html"><a href="import.html#the-r-package-environment"><i class="fa fa-check"></i><b>3.3.2</b> The R Package environment</a></li>
+<li class="chapter" data-level="3.3.3" data-path="import.html"><a href="import.html#installing-and-using-packages"><i class="fa fa-check"></i><b>3.3.3</b> Installing and using packages</a></li>
+<li class="chapter" data-level="3.3.4" data-path="import.html"><a href="import.html#load-the-libraries"><i class="fa fa-check"></i><b>3.3.4</b> Load the libraries</a></li>
+<li class="chapter" data-level="3.3.5" data-path="import.html"><a href="import.html#create-a-directory-for-your-data"><i class="fa fa-check"></i><b>3.3.5</b> Create a directory for your data</a></li>
+<li class="chapter" data-level="3.3.6" data-path="import.html"><a href="import.html#lets-get-our-data"><i class="fa fa-check"></i><b>3.3.6</b> Let’s get our data</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="import.html"><a href="import.html#about-data-sources"><i class="fa fa-check"></i><b>3.4</b> About data sources</a></li>
+<li class="chapter" data-level="3.5" data-path="import.html"><a href="import.html#our-project-data"><i class="fa fa-check"></i><b>3.5</b> Our project data</a></li>
+<li class="chapter" data-level="3.6" data-path="import.html"><a href="import.html#data-dictionary"><i class="fa fa-check"></i><b>3.6</b> Data dictionary</a></li>
+<li class="chapter" data-level="3.7" data-path="import.html"><a href="import.html#import-the-data"><i class="fa fa-check"></i><b>3.7</b> Import the data</a></li>
+<li class="chapter" data-level="3.8" data-path="import.html"><a href="import.html#assign-our-import-to-a-tibble"><i class="fa fa-check"></i><b>3.8</b> Assign our import to a tibble</a>
+<ul>
+<li class="chapter" data-level="3.8.1" data-path="import.html"><a href="import.html#print-a-peek-to-the-screen"><i class="fa fa-check"></i><b>3.8.1</b> Print a peek to the screen</a></li>
+<li class="chapter" data-level="3.8.2" data-path="import.html"><a href="import.html#glimpse-the-data"><i class="fa fa-check"></i><b>3.8.2</b> Glimpse the data</a></li>
+<li class="chapter" data-level="3.8.3" data-path="import.html"><a href="import.html#about-the-pipe"><i class="fa fa-check"></i><b>3.8.3</b> About the pipe %&gt;%</a></li>
+<li class="chapter" data-level="3.8.4" data-path="import.html"><a href="import.html#what-is-clean-data"><i class="fa fa-check"></i><b>3.8.4</b> What is clean data</a></li>
+</ul></li>
+<li class="chapter" data-level="3.9" data-path="import.html"><a href="import.html#cleaning-column-names"><i class="fa fa-check"></i><b>3.9</b> Cleaning column names</a></li>
+<li class="chapter" data-level="3.10" data-path="import.html"><a href="import.html#fixing-the-date"><i class="fa fa-check"></i><b>3.10</b> Fixing the date</a>
+<ul>
+<li class="chapter" data-level="3.10.1" data-path="import.html"><a href="import.html#working-with-mutate"><i class="fa fa-check"></i><b>3.10.1</b> Working with mutate()</a></li>
+</ul></li>
+<li class="chapter" data-level="3.11" data-path="import.html"><a href="import.html#arrange-the-data"><i class="fa fa-check"></i><b>3.11</b> Arrange the data</a></li>
+<li class="chapter" data-level="3.12" data-path="import.html"><a href="import.html#selecting-columns"><i class="fa fa-check"></i><b>3.12</b> Selecting columns</a></li>
+<li class="chapter" data-level="3.13" data-path="import.html"><a href="import.html#exporting-data"><i class="fa fa-check"></i><b>3.13</b> Exporting data</a>
+<ul>
+<li class="chapter" data-level="3.13.1" data-path="import.html"><a href="import.html#single-notebook-philosophy"><i class="fa fa-check"></i><b>3.13.1</b> Single-notebook philosophy</a></li>
+<li class="chapter" data-level="3.13.2" data-path="import.html"><a href="import.html#exporting-as-rds"><i class="fa fa-check"></i><b>3.13.2</b> Exporting as rds</a></li>
+</ul></li>
+<li class="chapter" data-level="3.14" data-path="import.html"><a href="import.html#naming-chunks"><i class="fa fa-check"></i><b>3.14</b> Naming chunks</a></li>
+<li class="chapter" data-level="3.15" data-path="import.html"><a href="import.html#knit-your-page"><i class="fa fa-check"></i><b>3.15</b> Knit your page</a></li>
+<li class="chapter" data-level="3.16" data-path="import.html"><a href="import.html#review-of-what-weve-learned-so-far"><i class="fa fa-check"></i><b>3.16</b> Review of what we’ve learned so far</a></li>
+<li class="chapter" data-level="3.17" data-path="import.html"><a href="import.html#turn-in-your-work"><i class="fa fa-check"></i><b>3.17</b> Turn in your work</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="wrangle.html"><a href="wrangle.html"><i class="fa fa-check"></i><b>4</b> Wrangle</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="wrangle.html"><a href="wrangle.html#goals-of-this-lesson"><i class="fa fa-check"></i><b>4.1</b> Goals of this lesson</a></li>
+<li class="chapter" data-level="4.2" data-path="wrangle.html"><a href="wrangle.html#about-the-story"><i class="fa fa-check"></i><b>4.2</b> About the story</a></li>
+<li class="chapter" data-level="4.3" data-path="wrangle.html"><a href="wrangle.html#setting-up-an-analysis-notebook"><i class="fa fa-check"></i><b>4.3</b> Setting up an analysis notebook</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="wrangle.html"><a href="wrangle.html#import-the-data-on-your-own"><i class="fa fa-check"></i><b>4.3.1</b> Import the data on your own</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="wrangle.html"><a href="wrangle.html#introducing-dplyr"><i class="fa fa-check"></i><b>4.4</b> Introducing dplyr</a></li>
+<li class="chapter" data-level="4.5" data-path="wrangle.html"><a href="wrangle.html#most-appearances"><i class="fa fa-check"></i><b>4.5</b> Most appearances</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="wrangle.html"><a href="wrangle.html#group-aggregate"><i class="fa fa-check"></i><b>4.5.1</b> Group &amp; Aggregate</a></li>
+<li class="chapter" data-level="4.5.2" data-path="wrangle.html"><a href="wrangle.html#summarize"><i class="fa fa-check"></i><b>4.5.2</b> Summarize</a></li>
+<li class="chapter" data-level="4.5.3" data-path="wrangle.html"><a href="wrangle.html#group-by"><i class="fa fa-check"></i><b>4.5.3</b> Group by</a></li>
+<li class="chapter" data-level="4.5.4" data-path="wrangle.html"><a href="wrangle.html#arrange-the-results"><i class="fa fa-check"></i><b>4.5.4</b> Arrange the results</a></li>
+<li class="chapter" data-level="4.5.5" data-path="wrangle.html"><a href="wrangle.html#get-the-top-of-the-list"><i class="fa fa-check"></i><b>4.5.5</b> Get the top of the list</a></li>
+<li class="chapter" data-level="4.5.6" data-path="wrangle.html"><a href="wrangle.html#a-shortcut-count"><i class="fa fa-check"></i><b>4.5.6</b> A shortcut: count()</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="wrangle.html"><a href="wrangle.html#most-songs-to-reach-no.-1"><i class="fa fa-check"></i><b>4.6</b> Most songs to reach No. 1</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="wrangle.html"><a href="wrangle.html#filter"><i class="fa fa-check"></i><b>4.6.1</b> Filter</a></li>
+<li class="chapter" data-level="4.6.2" data-path="wrangle.html"><a href="wrangle.html#comparisons-logical-tests"><i class="fa fa-check"></i><b>4.6.2</b> Comparisons: Logical tests</a></li>
+<li class="chapter" data-level="4.6.3" data-path="wrangle.html"><a href="wrangle.html#filter-for-week_position"><i class="fa fa-check"></i><b>4.6.3</b> Filter for week_position</a></li>
+<li class="chapter" data-level="4.6.4" data-path="wrangle.html"><a href="wrangle.html#complex-filters"><i class="fa fa-check"></i><b>4.6.4</b> Complex filters</a></li>
+<li class="chapter" data-level="4.6.5" data-path="wrangle.html"><a href="wrangle.html#using-distinct"><i class="fa fa-check"></i><b>4.6.5</b> Using distinct()</a></li>
+<li class="chapter" data-level="4.6.6" data-path="wrangle.html"><a href="wrangle.html#summarize-the-performers"><i class="fa fa-check"></i><b>4.6.6</b> Summarize the performers</a></li>
+<li class="chapter" data-level="4.6.7" data-path="wrangle.html"><a href="wrangle.html#filter-after-summary"><i class="fa fa-check"></i><b>4.6.7</b> Filter after summary</a></li>
+<li class="chapter" data-level="4.6.8" data-path="wrangle.html"><a href="wrangle.html#try-count-on-your-own"><i class="fa fa-check"></i><b>4.6.8</b> Try count on your own</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="wrangle.html"><a href="wrangle.html#no.-1-hits-in-last-five-years"><i class="fa fa-check"></i><b>4.7</b> No. 1 hits in last five years</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="wrangle.html"><a href="wrangle.html#group-on-your-own"><i class="fa fa-check"></i><b>4.7.1</b> Group on your own</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="wrangle.html"><a href="wrangle.html#top-10-hits-overall"><i class="fa fa-check"></i><b>4.8</b> Top 10 hits overall</a></li>
+<li class="chapter" data-level="4.9" data-path="wrangle.html"><a href="wrangle.html#most-appearances-at-any-position"><i class="fa fa-check"></i><b>4.9</b> Most appearances at any position</a></li>
+<li class="chapter" data-level="4.10" data-path="wrangle.html"><a href="wrangle.html#most-weeks-at-no.-1"><i class="fa fa-check"></i><b>4.10</b> Most weeks at No. 1</a></li>
+<li class="chapter" data-level="4.11" data-path="wrangle.html"><a href="wrangle.html#review-of-what-weve-learned"><i class="fa fa-check"></i><b>4.11</b> Review of what we’ve learned</a></li>
+<li class="chapter" data-level="4.12" data-path="wrangle.html"><a href="wrangle.html#turn-in-your-project"><i class="fa fa-check"></i><b>4.12</b> Turn in your project</a></li>
+<li class="chapter" data-level="4.13" data-path="wrangle.html"><a href="wrangle.html#soundtrack-for-this-assignment"><i class="fa fa-check"></i><b>4.13</b> Soundtrack for this assignment</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html"><i class="fa fa-check"></i><b>5</b> Wrangle mastery</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#military-surplus-transfers"><i class="fa fa-check"></i><b>5.1</b> Military surplus transfers</a></li>
+<li class="chapter" data-level="5.2" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#the-leso-program"><i class="fa fa-check"></i><b>5.2</b> The LESO program</a></li>
+<li class="chapter" data-level="5.3" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#about-the-data"><i class="fa fa-check"></i><b>5.3</b> About the data</a></li>
+<li class="chapter" data-level="5.4" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#some-helpful-hints"><i class="fa fa-check"></i><b>5.4</b> Some helpful hints</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#create-columns-using-math-from-other-columns"><i class="fa fa-check"></i><b>5.4.1</b> Create columns using math from other columns</a></li>
+<li class="chapter" data-level="5.4.2" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#math-within-summarize"><i class="fa fa-check"></i><b>5.4.2</b> Math within summarize</a></li>
+<li class="chapter" data-level="5.4.3" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#filter-from-a-collection"><i class="fa fa-check"></i><b>5.4.3</b> Filter from a collection</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#the-questions-to-answer-and-write-about"><i class="fa fa-check"></i><b>5.5</b> The questions to answer and write about</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#requirements-of-the-assignment"><i class="fa fa-check"></i><b>5.5.1</b> Requirements of the assignment</a></li>
+<li class="chapter" data-level="5.5.2" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#specifics-for-importcleaning"><i class="fa fa-check"></i><b>5.5.2</b> Specifics for import/cleaning</a></li>
+<li class="chapter" data-level="5.5.3" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#specifics-for-analysis"><i class="fa fa-check"></i><b>5.5.3</b> Specifics for analysis</a></li>
+<li class="chapter" data-level="5.5.4" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#write-a-data-drop"><i class="fa fa-check"></i><b>5.5.4</b> Write a data drop</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="plots.html"><a href="plots.html"><i class="fa fa-check"></i><b>6</b> Plots</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="plots.html"><a href="plots.html#updates-needed"><i class="fa fa-check"></i><b>6.1</b> UPDATES NEEDED</a></li>
+<li class="chapter" data-level="6.2" data-path="plots.html"><a href="plots.html#goals-for-this-section"><i class="fa fa-check"></i><b>6.2</b> Goals for this section</a></li>
+<li class="chapter" data-level="6.3" data-path="plots.html"><a href="plots.html#introduction-ggplot"><i class="fa fa-check"></i><b>6.3</b> Introduction ggplot</a></li>
+<li class="chapter" data-level="6.4" data-path="plots.html"><a href="plots.html#the-basic-ggplot-template"><i class="fa fa-check"></i><b>6.4</b> The basic ggplot template</a></li>
+<li class="chapter" data-level="6.5" data-path="plots.html"><a href="plots.html#lets-plot"><i class="fa fa-check"></i><b>6.5</b> Let’s plot!</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="plots.html"><a href="plots.html#set-up-our-notebook"><i class="fa fa-check"></i><b>6.5.1</b> Set up our Notebook</a></li>
+<li class="chapter" data-level="6.5.2" data-path="plots.html"><a href="plots.html#scatterplot"><i class="fa fa-check"></i><b>6.5.2</b> Scatterplot</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="plots.html"><a href="plots.html#plotting-our-wells-data"><i class="fa fa-check"></i><b>6.6</b> Plotting our wells data</a>
+<ul>
+<li class="chapter" data-level="6.6.1" data-path="plots.html"><a href="plots.html#total-wells-per-county"><i class="fa fa-check"></i><b>6.6.1</b> Total wells per county</a></li>
+<li class="chapter" data-level="6.6.2" data-path="plots.html"><a href="plots.html#add-a-layer-of-text-labels"><i class="fa fa-check"></i><b>6.6.2</b> Add a layer of text labels</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="plots.html"><a href="plots.html#wells-per-county-over-time"><i class="fa fa-check"></i><b>6.7</b> Wells per county over time</a>
+<ul>
+<li class="chapter" data-level="6.7.1" data-path="plots.html"><a href="plots.html#work-up-the-data-frame"><i class="fa fa-check"></i><b>6.7.1</b> Work up the data frame</a></li>
+<li class="chapter" data-level="6.7.2" data-path="plots.html"><a href="plots.html#draw-the-plot"><i class="fa fa-check"></i><b>6.7.2</b> Draw the plot</a></li>
+<li class="chapter" data-level="6.7.3" data-path="plots.html"><a href="plots.html#your-turn-add-layers"><i class="fa fa-check"></i><b>6.7.3</b> Your turn: Add layers</a></li>
+<li class="chapter" data-level="6.7.4" data-path="plots.html"><a href="plots.html#dates-as-numbers-and-the-problems-they-cause"><i class="fa fa-check"></i><b>6.7.4</b> Dates as numbers and the problems they cause</a></li>
+</ul></li>
+<li class="chapter" data-level="6.8" data-path="plots.html"><a href="plots.html#your-turn-build-a-line-chart"><i class="fa fa-check"></i><b>6.8</b> Your turn: Build a line chart</a></li>
+<li class="chapter" data-level="6.9" data-path="plots.html"><a href="plots.html#review-of-ggplot"><i class="fa fa-check"></i><b>6.9</b> Review of ggplot</a></li>
+<li class="chapter" data-level="6.10" data-path="plots.html"><a href="plots.html#plotly-for-more-interactive-graphics"><i class="fa fa-check"></i><b>6.10</b> Plotly for more interactive graphics</a>
+<ul>
+<li class="chapter" data-level="6.10.1" data-path="plots.html"><a href="plots.html#ggplotly"><i class="fa fa-check"></i><b>6.10.1</b> ggplotly</a></li>
+<li class="chapter" data-level="6.10.2" data-path="plots.html"><a href="plots.html#more-with-plot_ly-function"><i class="fa fa-check"></i><b>6.10.2</b> More with <code>plot_ly()</code> function</a></li>
+<li class="chapter" data-level="6.10.3" data-path="plots.html"><a href="plots.html#plotlys-freemium-model"><i class="fa fa-check"></i><b>6.10.3</b> Plotly’s freemium model</a></li>
+</ul></li>
+<li class="chapter" data-level="6.11" data-path="plots.html"><a href="plots.html#resources"><i class="fa fa-check"></i><b>6.11</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="census.html"><a href="census.html"><i class="fa fa-check"></i><b>7</b> Census</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="census.html"><a href="census.html#goals-of-this-section"><i class="fa fa-check"></i><b>7.1</b> Goals of this section</a></li>
+<li class="chapter" data-level="7.2" data-path="census.html"><a href="census.html#census-bureau-programs-and-platforms"><i class="fa fa-check"></i><b>7.2</b> Census Bureau programs and platforms</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="census.html"><a href="census.html#decennial-census"><i class="fa fa-check"></i><b>7.2.1</b> Decennial Census</a></li>
+<li class="chapter" data-level="7.2.2" data-path="census.html"><a href="census.html#american-community-survey"><i class="fa fa-check"></i><b>7.2.2</b> American Community Survey</a></li>
+<li class="chapter" data-level="7.2.3" data-path="census.html"><a href="census.html#population-estimates-program"><i class="fa fa-check"></i><b>7.2.3</b> Population Estimates Program</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="census.html"><a href="census.html#using-the-new-data-portal"><i class="fa fa-check"></i><b>7.3</b> Using the new data portal</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="census.html"><a href="census.html#tips-about-using-downloaded-portal-data-in-r"><i class="fa fa-check"></i><b>7.3.1</b> Tips about using downloaded portal data in R</a></li>
+<li class="chapter" data-level="7.3.2" data-path="census.html"><a href="census.html#importing-downloaded-data"><i class="fa fa-check"></i><b>7.3.2</b> Importing downloaded data</a></li>
+<li class="chapter" data-level="7.3.3" data-path="census.html"><a href="census.html#fields-made-to-join-with-other-data"><i class="fa fa-check"></i><b>7.3.3</b> Fields made to join with other data</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="census.html"><a href="census.html#using-the-census-api-in-r"><i class="fa fa-check"></i><b>7.4</b> Using the Census API in R</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="census.html"><a href="census.html#setting-up-an-api-key"><i class="fa fa-check"></i><b>7.4.1</b> Setting up an API key</a></li>
+<li class="chapter" data-level="7.4.2" data-path="census.html"><a href="census.html#the-censusapi-package"><i class="fa fa-check"></i><b>7.4.2</b> The censusapi package</a></li>
+<li class="chapter" data-level="7.4.3" data-path="census.html"><a href="census.html#the-tidycensus-package"><i class="fa fa-check"></i><b>7.4.3</b> The tidycensus package</a></li>
+<li class="chapter" data-level="7.4.4" data-path="census.html"><a href="census.html#adding-geometry-to-tidycensus"><i class="fa fa-check"></i><b>7.4.4</b> Adding geometry to tidycensus</a></li>
+<li class="chapter" data-level="7.4.5" data-path="census.html"><a href="census.html#map-shapes-only-with-tigris"><i class="fa fa-check"></i><b>7.4.5</b> Map shapes only with tigris</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="census.html"><a href="census.html#interactive-maps-with-leaflet"><i class="fa fa-check"></i><b>7.5</b> Interactive maps with leaflet</a></li>
+<li class="chapter" data-level="7.6" data-path="census.html"><a href="census.html#resources-1"><i class="fa fa-check"></i><b>7.6</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tidy.html"><a href="tidy.html"><i class="fa fa-check"></i><b>8</b> Tidy data</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tidy.html"><a href="tidy.html#updates-needed-1"><i class="fa fa-check"></i><b>8.1</b> UPDATES NEEDED</a></li>
+<li class="chapter" data-level="8.2" data-path="tidy.html"><a href="tidy.html#goals-for-this-section-1"><i class="fa fa-check"></i><b>8.2</b> Goals for this section</a></li>
+<li class="chapter" data-level="8.3" data-path="tidy.html"><a href="tidy.html#what-is-tidy-data"><i class="fa fa-check"></i><b>8.3</b> What is tidy data</a></li>
+<li class="chapter" data-level="8.4" data-path="tidy.html"><a href="tidy.html#tidyr-package"><i class="fa fa-check"></i><b>8.4</b> Tidyr package</a></li>
+<li class="chapter" data-level="8.5" data-path="tidy.html"><a href="tidy.html#the-tidyr-verbs"><i class="fa fa-check"></i><b>8.5</b> The tidyr verbs</a></li>
+<li class="chapter" data-level="8.6" data-path="tidy.html"><a href="tidy.html#set-up-the-mixbev-project"><i class="fa fa-check"></i><b>8.6</b> Set up the mixbev project</a></li>
+<li class="chapter" data-level="8.7" data-path="tidy.html"><a href="tidy.html#create-an-explore-notebook"><i class="fa fa-check"></i><b>8.7</b> Create an explore notebook</a>
+<ul>
+<li class="chapter" data-level="8.7.1" data-path="tidy.html"><a href="tidy.html#peruse-the-data"><i class="fa fa-check"></i><b>8.7.1</b> Peruse the data</a></li>
+</ul></li>
+<li class="chapter" data-level="8.8" data-path="tidy.html"><a href="tidy.html#what-might-we-learn-about-this-dataset"><i class="fa fa-check"></i><b>8.8</b> What might we learn about this dataset</a></li>
+<li class="chapter" data-level="8.9" data-path="tidy.html"><a href="tidy.html#add-years-and-months-values"><i class="fa fa-check"></i><b>8.9</b> Add years and months values</a></li>
+<li class="chapter" data-level="8.10" data-path="tidy.html"><a href="tidy.html#campus-bars"><i class="fa fa-check"></i><b>8.10</b> Campus bars</a>
+<ul>
+<li class="chapter" data-level="8.10.1" data-path="tidy.html"><a href="tidy.html#total-78705-sales-leaders-in-2018"><i class="fa fa-check"></i><b>8.10.1</b> Total 78705 sales leaders in 2018</a></li>
+</ul></li>
+<li class="chapter" data-level="8.11" data-path="tidy.html"><a href="tidy.html#west-campus-student-hot-spots"><i class="fa fa-check"></i><b>8.11</b> West Campus student hot spots</a></li>
+<li class="chapter" data-level="8.12" data-path="tidy.html"><a href="tidy.html#campus-area-bar-sales-over-time"><i class="fa fa-check"></i><b>8.12</b> Campus-area bar sales over time</a>
+<ul>
+<li class="chapter" data-level="8.12.1" data-path="tidy.html"><a href="tidy.html#visualizing-your-visualization"><i class="fa fa-check"></i><b>8.12.1</b> Visualizing your visualization</a></li>
+<li class="chapter" data-level="8.12.2" data-path="tidy.html"><a href="tidy.html#what-did-we-find"><i class="fa fa-check"></i><b>8.12.2</b> What did we find?</a></li>
+</ul></li>
+<li class="chapter" data-level="8.13" data-path="tidy.html"><a href="tidy.html#types-of-sales-within-student-bars"><i class="fa fa-check"></i><b>8.13</b> Types of sales within student bars</a></li>
+<li class="chapter" data-level="8.14" data-path="tidy.html"><a href="tidy.html#how-gather-works"><i class="fa fa-check"></i><b>8.14</b> How gather() works</a></li>
+<li class="chapter" data-level="8.15" data-path="tidy.html"><a href="tidy.html#applying-gather-to-beer-wine-and-liquor"><i class="fa fa-check"></i><b>8.15</b> Applying gather() to beer, wine and liquor</a>
+<ul>
+<li class="chapter" data-level="8.15.1" data-path="tidy.html"><a href="tidy.html#plot-sales-by-type-for-a-single-campus-area-bar"><i class="fa fa-check"></i><b>8.15.1</b> Plot sales by type for a single campus-area bar</a></li>
+<li class="chapter" data-level="8.15.2" data-path="tidy.html"><a href="tidy.html#plot-sales-by-type-for-multiple-campus-area-bars"><i class="fa fa-check"></i><b>8.15.2</b> Plot sales by type for multiple campus-area bars</a></li>
+<li class="chapter" data-level="8.15.3" data-path="tidy.html"><a href="tidy.html#what-did-we-learn"><i class="fa fa-check"></i><b>8.15.3</b> What did we learn?</a></li>
+</ul></li>
+<li class="chapter" data-level="8.16" data-path="tidy.html"><a href="tidy.html#the-spread-function"><i class="fa fa-check"></i><b>8.16</b> The spread() function</a></li>
+<li class="chapter" data-level="8.17" data-path="tidy.html"><a href="tidy.html#practice-assignment-exploring-the-top-seller"><i class="fa fa-check"></i><b>8.17</b> Practice assignment: Exploring the top seller</a></li>
+<li class="chapter" data-level="8.18" data-path="tidy.html"><a href="tidy.html#bonus-top-5-sellers-in-travis-county-over-three-years"><i class="fa fa-check"></i><b>8.18</b> Bonus: Top 5 sellers in Travis County over three years</a></li>
+<li class="chapter" data-level="8.19" data-path="tidy.html"><a href="tidy.html#bonus-total-sales-by-county"><i class="fa fa-check"></i><b>8.19</b> Bonus: Total sales by county</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="review-plots.html"><a href="review-plots.html"><i class="fa fa-check"></i><b>9</b> Review: Plots</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="review-plots.html"><a href="review-plots.html#updates-needed-2"><i class="fa fa-check"></i><b>9.1</b> UPDATES NEEDED</a></li>
+<li class="chapter" data-level="9.2" data-path="review-plots.html"><a href="review-plots.html#project-setup"><i class="fa fa-check"></i><b>9.2</b> Project setup</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="review-plots.html"><a href="review-plots.html#download-the-data"><i class="fa fa-check"></i><b>9.2.1</b> Download the data</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="review-plots.html"><a href="review-plots.html#the-story"><i class="fa fa-check"></i><b>9.3</b> The story</a></li>
+<li class="chapter" data-level="9.4" data-path="review-plots.html"><a href="review-plots.html#explore-the-data"><i class="fa fa-check"></i><b>9.4</b> Explore the data</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="review-plots.html"><a href="review-plots.html#third-down-conversions"><i class="fa fa-check"></i><b>9.4.1</b> Third-down conversions</a></li>
+<li class="chapter" data-level="9.4.2" data-path="review-plots.html"><a href="review-plots.html#scoring"><i class="fa fa-check"></i><b>9.4.2</b> Scoring</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="review-plots.html"><a href="review-plots.html#about-joins"><i class="fa fa-check"></i><b>9.5</b> About joins</a></li>
+<li class="chapter" data-level="9.6" data-path="review-plots.html"><a href="review-plots.html#build-our-scatterplot"><i class="fa fa-check"></i><b>9.6</b> Build our scatterplot</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="review-plots.html"><a href="review-plots.html#add-a-fit-line"><i class="fa fa-check"></i><b>9.6.1</b> Add a fit line</a></li>
+<li class="chapter" data-level="9.6.2" data-path="review-plots.html"><a href="review-plots.html#run-a-correlation-test"><i class="fa fa-check"></i><b>9.6.2</b> Run a correlation test</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="review-plots.html"><a href="review-plots.html#how-does-texas-compare"><i class="fa fa-check"></i><b>9.7</b> How does Texas compare?</a></li>
+<li class="chapter" data-level="9.8" data-path="review-plots.html"><a href="review-plots.html#correlaton-test-for-texas"><i class="fa fa-check"></i><b>9.8</b> Correlaton test for Texas</a></li>
+<li class="chapter" data-level="9.9" data-path="review-plots.html"><a href="review-plots.html#practice-1-compare-penn-state"><i class="fa fa-check"></i><b>9.9</b> Practice 1: Compare Penn State</a></li>
+<li class="chapter" data-level="9.10" data-path="review-plots.html"><a href="review-plots.html#practice-2-penalties-vs-scoring"><i class="fa fa-check"></i><b>9.10</b> Practice 2: Penalties vs scoring</a></li>
+<li class="chapter" data-level="9.11" data-path="review-plots.html"><a href="review-plots.html#using-bind_rows-to-merge-data-sets"><i class="fa fa-check"></i><b>9.11</b> Using bind_rows() to merge data sets</a>
+<ul>
+<li class="chapter" data-level="9.11.1" data-path="review-plots.html"><a href="review-plots.html#combine-data-with-a-group"><i class="fa fa-check"></i><b>9.11.1</b> Combine data with a group</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="reordering-factors.html"><a href="reordering-factors.html"><i class="fa fa-check"></i><b>10</b> Reordering factors</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="reordering-factors.html"><a href="reordering-factors.html#goals-for-this-section-2"><i class="fa fa-check"></i><b>10.1</b> Goals for this section</a></li>
+<li class="chapter" data-level="10.2" data-path="reordering-factors.html"><a href="reordering-factors.html#create-our-survey-project"><i class="fa fa-check"></i><b>10.2</b> Create our survey project</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="reordering-factors.html"><a href="reordering-factors.html#setup"><i class="fa fa-check"></i><b>10.2.1</b> Setup</a></li>
+<li class="chapter" data-level="10.2.2" data-path="reordering-factors.html"><a href="reordering-factors.html#libraries"><i class="fa fa-check"></i><b>10.2.2</b> Libraries</a></li>
+<li class="chapter" data-level="10.2.3" data-path="reordering-factors.html"><a href="reordering-factors.html#import-the-data-1"><i class="fa fa-check"></i><b>10.2.3</b> Import the data</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="reordering-factors.html"><a href="reordering-factors.html#figuring-out-our-data-shape"><i class="fa fa-check"></i><b>10.3</b> Figuring out our data shape</a></li>
+<li class="chapter" data-level="10.4" data-path="reordering-factors.html"><a href="reordering-factors.html#charting-the-popularity-of-princess"><i class="fa fa-check"></i><b>10.4</b> Charting the popularity of princess</a></li>
+<li class="chapter" data-level="10.5" data-path="reordering-factors.html"><a href="reordering-factors.html#create-our-princess-plot"><i class="fa fa-check"></i><b>10.5</b> Create our princess plot</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="reordering-factors.html"><a href="reordering-factors.html#labels-and-titles"><i class="fa fa-check"></i><b>10.5.1</b> Labels and titles</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="reordering-factors.html"><a href="reordering-factors.html#factors"><i class="fa fa-check"></i><b>10.6</b> Factors</a></li>
+<li class="chapter" data-level="10.7" data-path="reordering-factors.html"><a href="reordering-factors.html#reorder-princess"><i class="fa fa-check"></i><b>10.7</b> Reorder princess</a></li>
+<li class="chapter" data-level="10.8" data-path="reordering-factors.html"><a href="reordering-factors.html#factors-recap"><i class="fa fa-check"></i><b>10.8</b> Factors recap</a></li>
+<li class="chapter" data-level="10.9" data-path="reordering-factors.html"><a href="reordering-factors.html#practice-make-an-ice-cream-chart"><i class="fa fa-check"></i><b>10.9</b> Practice: Make an ice cream chart</a>
+<ul>
+<li class="chapter" data-level="10.9.1" data-path="reordering-factors.html"><a href="reordering-factors.html#turn-in-this-project"><i class="fa fa-check"></i><b>10.9.1</b> Turn in this project</a></li>
+</ul></li>
+<li class="chapter" data-level="10.10" data-path="reordering-factors.html"><a href="reordering-factors.html#resources-2"><i class="fa fa-check"></i><b>10.10</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="plotly.html"><a href="plotly.html"><i class="fa fa-check"></i><b>11</b> Plotly</a></li>
+<li class="chapter" data-level="12" data-path="review---data-wrangling.html"><a href="review---data-wrangling.html"><i class="fa fa-check"></i><b>12</b> Review - Data wrangling</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="review---data-wrangling.html"><a href="review---data-wrangling.html#start-a-new-project"><i class="fa fa-check"></i><b>12.1</b> Start a new project</a></li>
+<li class="chapter" data-level="12.2" data-path="review---data-wrangling.html"><a href="review---data-wrangling.html#downloading-our-data"><i class="fa fa-check"></i><b>12.2</b> Downloading our data</a></li>
+<li class="chapter" data-level="12.3" data-path="review---data-wrangling.html"><a href="review---data-wrangling.html#importing-from-an-excel-spreadsheet"><i class="fa fa-check"></i><b>12.3</b> Importing from an Excel spreadsheet</a></li>
+<li class="chapter" data-level="12.4" data-path="review---data-wrangling.html"><a href="review---data-wrangling.html#a-quick-look-at-our-data"><i class="fa fa-check"></i><b>12.4</b> A quick look at our data</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="cleaning.html"><a href="cleaning.html"><i class="fa fa-check"></i><b>13</b> Cleaning</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="cleaning.html"><a href="cleaning.html#not-finished-needs-rewrite"><i class="fa fa-check"></i><b>13.1</b> NOT FINISHED, NEEDS REWRITE</a></li>
+<li class="chapter" data-level="13.2" data-path="cleaning.html"><a href="cleaning.html#goals-for-this-section-3"><i class="fa fa-check"></i><b>13.2</b> Goals for this section</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="cleaning.html"><a href="cleaning.html#resources-3"><i class="fa fa-check"></i><b>13.2.1</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="cleaning.html"><a href="cleaning.html#explain-thyself"><i class="fa fa-check"></i><b>13.3</b> Explain thyself</a></li>
+<li class="chapter" data-level="13.4" data-path="cleaning.html"><a href="cleaning.html#syntax-etiquette"><i class="fa fa-check"></i><b>13.4</b> Syntax etiquette</a></li>
+<li class="chapter" data-level="13.5" data-path="cleaning.html"><a href="cleaning.html#recode-the-apd_race-column"><i class="fa fa-check"></i><b>13.5</b> Recode the <code>apd_race</code> column</a></li>
+<li class="chapter" data-level="13.6" data-path="cleaning.html"><a href="cleaning.html#filter-out-data-we-dont-need"><i class="fa fa-check"></i><b>13.6</b> Filter out data we don’t need</a>
+<ul>
+<li class="chapter" data-level="13.6.1" data-path="cleaning.html"><a href="cleaning.html#about-marijuana-charges"><i class="fa fa-check"></i><b>13.6.1</b> About marijuana charges</a></li>
+<li class="chapter" data-level="13.6.2" data-path="cleaning.html"><a href="cleaning.html#filter-out-delivery-charges"><i class="fa fa-check"></i><b>13.6.2</b> Filter out delivery charges</a></li>
+<li class="chapter" data-level="13.6.3" data-path="cleaning.html"><a href="cleaning.html#remove-controlled-substance"><i class="fa fa-check"></i><b>13.6.3</b> Remove controlled substance</a></li>
+<li class="chapter" data-level="13.6.4" data-path="cleaning.html"><a href="cleaning.html#remove-drug-free-zones"><i class="fa fa-check"></i><b>13.6.4</b> Remove drug free zones</a></li>
+<li class="chapter" data-level="13.6.5" data-path="cleaning.html"><a href="cleaning.html#remove-request-to-apprehend"><i class="fa fa-check"></i><b>13.6.5</b> Remove request to apprehend</a></li>
+<li class="chapter" data-level="13.6.6" data-path="cleaning.html"><a href="cleaning.html#removing-more-unwated-records"><i class="fa fa-check"></i><b>13.6.6</b> Removing more unwated records</a></li>
+</ul></li>
+<li class="chapter" data-level="13.7" data-path="cleaning.html"><a href="cleaning.html#finding-just-b-misdemeanors"><i class="fa fa-check"></i><b>13.7</b> Finding just B misdemeanors</a></li>
+<li class="chapter" data-level="13.8" data-path="cleaning.html"><a href="cleaning.html#export-your-updated-data-frame"><i class="fa fa-check"></i><b>13.8</b> Export your updated data frame</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="sped-import.html"><a href="sped-import.html"><i class="fa fa-check"></i><b>14</b> SPED Joins</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="sped-import.html"><a href="sped-import.html#goals-for-this-section-4"><i class="fa fa-check"></i><b>14.1</b> Goals for this section</a></li>
+<li class="chapter" data-level="14.2" data-path="sped-import.html"><a href="sped-import.html#our-project-data-1"><i class="fa fa-check"></i><b>14.2</b> Our project data</a></li>
+<li class="chapter" data-level="14.3" data-path="sped-import.html"><a href="sped-import.html#about-data-sources-1"><i class="fa fa-check"></i><b>14.3</b> About data sources</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="sped-import.html"><a href="sped-import.html#what-is-clean-data-1"><i class="fa fa-check"></i><b>14.3.1</b> What is clean data</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="sped-import.html"><a href="sped-import.html#create-a-new-project-1"><i class="fa fa-check"></i><b>14.4</b> Create a new project</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="sped-import.html"><a href="sped-import.html#the-r-package-environment-1"><i class="fa fa-check"></i><b>14.4.1</b> The R Package environment</a></li>
+<li class="chapter" data-level="14.4.2" data-path="sped-import.html"><a href="sped-import.html#installing-and-using-packages-1"><i class="fa fa-check"></i><b>14.4.2</b> Installing and using packages</a></li>
+<li class="chapter" data-level="14.4.3" data-path="sped-import.html"><a href="sped-import.html#load-the-libraries-1"><i class="fa fa-check"></i><b>14.4.3</b> Load the libraries</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="sped-import.html"><a href="sped-import.html#downloading-raw-data"><i class="fa fa-check"></i><b>14.5</b> Downloading raw data</a>
+<ul>
+<li class="chapter" data-level="14.5.1" data-path="sped-import.html"><a href="sped-import.html#create-a-directory-for-your-data-1"><i class="fa fa-check"></i><b>14.5.1</b> Create a directory for your data</a></li>
+<li class="chapter" data-level="14.5.2" data-path="sped-import.html"><a href="sped-import.html#lets-get-some-data"><i class="fa fa-check"></i><b>14.5.2</b> Let’s get some data</a></li>
+<li class="chapter" data-level="14.5.3" data-path="sped-import.html"><a href="sped-import.html#peek-at-the-data-file"><i class="fa fa-check"></i><b>14.5.3</b> Peek at the data file</a></li>
+<li class="chapter" data-level="14.5.4" data-path="sped-import.html"><a href="sped-import.html#import-csv-as-data"><i class="fa fa-check"></i><b>14.5.4</b> Import csv as data</a></li>
+</ul></li>
+<li class="chapter" data-level="14.6" data-path="sped-import.html"><a href="sped-import.html#assign-our-import-to-a-data-frame"><i class="fa fa-check"></i><b>14.6</b> Assign our import to a data frame</a>
+<ul>
+<li class="chapter" data-level="14.6.1" data-path="sped-import.html"><a href="sped-import.html#print-a-peek-to-the-screen-1"><i class="fa fa-check"></i><b>14.6.1</b> Print a peek to the screen</a></li>
+<li class="chapter" data-level="14.6.2" data-path="sped-import.html"><a href="sped-import.html#glimpse-the-data-1"><i class="fa fa-check"></i><b>14.6.2</b> Glimpse the data</a></li>
+<li class="chapter" data-level="14.6.3" data-path="sped-import.html"><a href="sped-import.html#about-the-pipe-1"><i class="fa fa-check"></i><b>14.6.3</b> About the pipe %&gt;%</a></li>
+<li class="chapter" data-level="14.6.4" data-path="sped-import.html"><a href="sped-import.html#creating-consistent-column-names"><i class="fa fa-check"></i><b>14.6.4</b> Creating consistent column names</a></li>
+<li class="chapter" data-level="14.6.5" data-path="sped-import.html"><a href="sped-import.html#import-other-data-frames"><i class="fa fa-check"></i><b>14.6.5</b> Import other data frames</a></li>
+</ul></li>
+<li class="chapter" data-level="14.7" data-path="sped-import.html"><a href="sped-import.html#prepare-data-for-joining"><i class="fa fa-check"></i><b>14.7</b> Prepare data for joining</a>
+<ul>
+<li class="chapter" data-level="14.7.1" data-path="sped-import.html"><a href="sped-import.html#prepare-the-directory-data"><i class="fa fa-check"></i><b>14.7.1</b> Prepare the directory data</a></li>
+<li class="chapter" data-level="14.7.2" data-path="sped-import.html"><a href="sped-import.html#prepare-cstud-data"><i class="fa fa-check"></i><b>14.7.2</b> Prepare CSTUD data</a></li>
+</ul></li>
+<li class="chapter" data-level="14.8" data-path="sped-import.html"><a href="sped-import.html#joining-the-data-together"><i class="fa fa-check"></i><b>14.8</b> Joining the data together</a></li>
+<li class="chapter" data-level="14.9" data-path="sped-import.html"><a href="sped-import.html#exporting-data-1"><i class="fa fa-check"></i><b>14.9</b> Exporting data</a>
+<ul>
+<li class="chapter" data-level="14.9.1" data-path="sped-import.html"><a href="sped-import.html#single-notebook-philosophy-1"><i class="fa fa-check"></i><b>14.9.1</b> Single-notebook philosophy</a></li>
+<li class="chapter" data-level="14.9.2" data-path="sped-import.html"><a href="sped-import.html#exporting-as-rds-1"><i class="fa fa-check"></i><b>14.9.2</b> Exporting as rds</a></li>
+</ul></li>
+<li class="chapter" data-level="14.10" data-path="sped-import.html"><a href="sped-import.html#review-of-what-weve-learned-so-far-1"><i class="fa fa-check"></i><b>14.10</b> Review of what we’ve learned so far</a></li>
+<li class="chapter" data-level="14.11" data-path="sped-import.html"><a href="sped-import.html#resources-4"><i class="fa fa-check"></i><b>14.11</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="sped-transform.html"><a href="sped-transform.html"><i class="fa fa-check"></i><b>15</b> Transform</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="sped-transform.html"><a href="sped-transform.html#rewite-tasks"><i class="fa fa-check"></i><b>15.1</b> Rewite tasks</a></li>
+<li class="chapter" data-level="15.2" data-path="sped-transform.html"><a href="sped-transform.html#goals-for-the-section"><i class="fa fa-check"></i><b>15.2</b> Goals for the section</a></li>
+<li class="chapter" data-level="15.3" data-path="sped-transform.html"><a href="sped-transform.html#introducing-dplyr-1"><i class="fa fa-check"></i><b>15.3</b> Introducing dplyr</a></li>
+<li class="chapter" data-level="15.4" data-path="sped-transform.html"><a href="sped-transform.html#start-a-new-r-notebook"><i class="fa fa-check"></i><b>15.4</b> Start a new R Notebook</a></li>
+<li class="chapter" data-level="15.5" data-path="sped-transform.html"><a href="sped-transform.html#record-our-goals"><i class="fa fa-check"></i><b>15.5</b> Record our goals</a></li>
+<li class="chapter" data-level="15.6" data-path="sped-transform.html"><a href="sped-transform.html#setup-1"><i class="fa fa-check"></i><b>15.6</b> Setup</a>
+<ul>
+<li class="chapter" data-level="15.6.1" data-path="sped-transform.html"><a href="sped-transform.html#naming-our-chunks"><i class="fa fa-check"></i><b>15.6.1</b> Naming our chunks</a></li>
+</ul></li>
+<li class="chapter" data-level="15.7" data-path="sped-transform.html"><a href="sped-transform.html#import-our-data"><i class="fa fa-check"></i><b>15.7</b> Import our data</a></li>
+<li class="chapter" data-level="15.8" data-path="sped-transform.html"><a href="sped-transform.html#explore-instruction-type"><i class="fa fa-check"></i><b>15.8</b> Explore instruction type</a></li>
+<li class="chapter" data-level="15.9" data-path="sped-transform.html"><a href="sped-transform.html#filter-1"><i class="fa fa-check"></i><b>15.9</b> Filter()</a>
+<ul>
+<li class="chapter" data-level="15.9.1" data-path="sped-transform.html"><a href="sped-transform.html#filter-for-regular-instructional-schools"><i class="fa fa-check"></i><b>15.9.1</b> Filter for Regular Instructional schools</a></li>
+<li class="chapter" data-level="15.9.2" data-path="sped-transform.html"><a href="sped-transform.html#logical-tests"><i class="fa fa-check"></i><b>15.9.2</b> Logical tests</a></li>
+<li class="chapter" data-level="15.9.3" data-path="sped-transform.html"><a href="sped-transform.html#common-mistakes-with-filter"><i class="fa fa-check"></i><b>15.9.3</b> Common mistakes with filter</a></li>
+</ul></li>
+<li class="chapter" data-level="15.10" data-path="sped-transform.html"><a href="sped-transform.html#combining-filters"><i class="fa fa-check"></i><b>15.10</b> Combining filters</a>
+<ul>
+<li class="chapter" data-level="15.10.1" data-path="sped-transform.html"><a href="sped-transform.html#common-mistakes-with-combining-filters"><i class="fa fa-check"></i><b>15.10.1</b> Common mistakes with combining filters</a></li>
+</ul></li>
+<li class="chapter" data-level="15.11" data-path="sped-transform.html"><a href="sped-transform.html#select"><i class="fa fa-check"></i><b>15.11</b> Select()</a></li>
+<li class="chapter" data-level="15.12" data-path="sped-transform.html"><a href="sped-transform.html#how-to-describe-the-change"><i class="fa fa-check"></i><b>15.12</b> How to describe the change</a>
+<ul>
+<li class="chapter" data-level="15.12.1" data-path="sped-transform.html"><a href="sped-transform.html#describing-the-count-changes"><i class="fa fa-check"></i><b>15.12.1</b> Describing the count changes</a></li>
+<li class="chapter" data-level="15.12.2" data-path="sped-transform.html"><a href="sped-transform.html#describing-percentage-differences"><i class="fa fa-check"></i><b>15.12.2</b> Describing percentage differences</a></li>
+</ul></li>
+<li class="chapter" data-level="15.13" data-path="sped-transform.html"><a href="sped-transform.html#mutate"><i class="fa fa-check"></i><b>15.13</b> Mutate()</a>
+<ul>
+<li class="chapter" data-level="15.13.1" data-path="sped-transform.html"><a href="sped-transform.html#simple-change-of-counts"><i class="fa fa-check"></i><b>15.13.1</b> Simple change of counts</a></li>
+<li class="chapter" data-level="15.13.2" data-path="sped-transform.html"><a href="sped-transform.html#calculate-percent-change"><i class="fa fa-check"></i><b>15.13.2</b> Calculate percent change</a></li>
+<li class="chapter" data-level="15.13.3" data-path="sped-transform.html"><a href="sped-transform.html#calculate-percentage-point-difference"><i class="fa fa-check"></i><b>15.13.3</b> Calculate percentage point difference</a></li>
+<li class="chapter" data-level="15.13.4" data-path="sped-transform.html"><a href="sped-transform.html#calculating-our-special-education-threshold"><i class="fa fa-check"></i><b>15.13.4</b> Calculating our special education threshold</a></li>
+</ul></li>
+<li class="chapter" data-level="15.14" data-path="sped-transform.html"><a href="sped-transform.html#export-your-computations"><i class="fa fa-check"></i><b>15.14</b> Export your computations</a></li>
+<li class="chapter" data-level="15.15" data-path="sped-transform.html"><a href="sped-transform.html#more-dplyr-in-next-lesson"><i class="fa fa-check"></i><b>15.15</b> More dplyr in next lesson</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="sped-summarize.html"><a href="sped-summarize.html"><i class="fa fa-check"></i><b>16</b> Summarize</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="sped-summarize.html"><a href="sped-summarize.html#new-task-new-notebook"><i class="fa fa-check"></i><b>16.1</b> New task, new notebook</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="sped-summarize.html"><a href="sped-summarize.html#create-analysis-notebook"><i class="fa fa-check"></i><b>16.1.1</b> Create analysis notebook</a></li>
+<li class="chapter" data-level="16.1.2" data-path="sped-summarize.html"><a href="sped-summarize.html#import-1"><i class="fa fa-check"></i><b>16.1.2</b> Import</a></li>
+<li class="chapter" data-level="16.1.3" data-path="sped-summarize.html"><a href="sped-summarize.html#filter-to-austin-isd"><i class="fa fa-check"></i><b>16.1.3</b> Filter to Austin ISD</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="sped-summarize.html"><a href="sped-summarize.html#sorting-with-arrange"><i class="fa fa-check"></i><b>16.2</b> Sorting with arrange()</a>
+<ul>
+<li class="chapter" data-level="16.2.1" data-path="sped-summarize.html"><a href="sped-summarize.html#about-arrange"><i class="fa fa-check"></i><b>16.2.1</b> About arrange</a></li>
+<li class="chapter" data-level="16.2.2" data-path="sped-summarize.html"><a href="sped-summarize.html#most-new-special-education-students"><i class="fa fa-check"></i><b>16.2.2</b> Most new special education students</a></li>
+<li class="chapter" data-level="16.2.3" data-path="sped-summarize.html"><a href="sped-summarize.html#the-head-command"><i class="fa fa-check"></i><b>16.2.3</b> The head() command</a></li>
+<li class="chapter" data-level="16.2.4" data-path="sped-summarize.html"><a href="sped-summarize.html#highest-share-of-special-education-students-in-2020"><i class="fa fa-check"></i><b>16.2.4</b> Highest share of special education students in 2020</a></li>
+<li class="chapter" data-level="16.2.5" data-path="sped-summarize.html"><a href="sped-summarize.html#greatest-change-in-share-of-special-education-students"><i class="fa fa-check"></i><b>16.2.5</b> Greatest change in share of special education students</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="sped-summarize.html"><a href="sped-summarize.html#aggregates-with-summarize"><i class="fa fa-check"></i><b>16.3</b> Aggregates with summarize()</a></li>
+<li class="chapter" data-level="16.4" data-path="sped-summarize.html"><a href="sped-summarize.html#group_by"><i class="fa fa-check"></i><b>16.4</b> Group_by()</a>
+<ul>
+<li class="chapter" data-level="16.4.1" data-path="sped-summarize.html"><a href="sped-summarize.html#group-and-count"><i class="fa fa-check"></i><b>16.4.1</b> Group and count</a></li>
+<li class="chapter" data-level="16.4.2" data-path="sped-summarize.html"><a href="sped-summarize.html#the-count-function-shortcut"><i class="fa fa-check"></i><b>16.4.2</b> The count() function shortcut</a></li>
+<li class="chapter" data-level="16.4.3" data-path="sped-summarize.html"><a href="sped-summarize.html#comparing-thresholds-for-2015-and-2020"><i class="fa fa-check"></i><b>16.4.3</b> Comparing thresholds for 2015 and 2020</a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="sped-summarize.html"><a href="sped-summarize.html#more-on-summarize"><i class="fa fa-check"></i><b>16.5</b> More on summarize</a>
+<ul>
+<li class="chapter" data-level="16.5.1" data-path="sped-summarize.html"><a href="sped-summarize.html#ignoring-na-values"><i class="fa fa-check"></i><b>16.5.1</b> Ignoring NA values</a></li>
+</ul></li>
+<li class="chapter" data-level="16.6" data-path="sped-summarize.html"><a href="sped-summarize.html#review-what-we-learned"><i class="fa fa-check"></i><b>16.6</b> Review what we learned</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html"><i class="fa fa-check"></i><b>17</b> How to tackle a new dataset</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#needs-review"><i class="fa fa-check"></i><b>17.1</b> NEEDS REVIEW</a></li>
+<li class="chapter" data-level="17.2" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#start-by-listing-questions"><i class="fa fa-check"></i><b>17.2</b> Start by listing questions</a></li>
+<li class="chapter" data-level="17.3" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#understand-your-data"><i class="fa fa-check"></i><b>17.3</b> Understand your data</a></li>
+<li class="chapter" data-level="17.4" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#counting-and-aggregation"><i class="fa fa-check"></i><b>17.4</b> Counting and aggregation</a>
+<ul>
+<li class="chapter" data-level="17.4.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#counting-rows-based-on-a-column"><i class="fa fa-check"></i><b>17.4.1</b> Counting rows based on a column</a></li>
+<li class="chapter" data-level="17.4.2" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#sum-mean-and-other-aggregations"><i class="fa fa-check"></i><b>17.4.2</b> Sum, mean and other aggregations</a></li>
+<li class="chapter" data-level="17.4.3" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#creating-columns-to-show-difference"><i class="fa fa-check"></i><b>17.4.3</b> Creating columns to show difference</a></li>
+</ul></li>
+<li class="chapter" data-level="17.5" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#cleaning-up-categorical-data"><i class="fa fa-check"></i><b>17.5</b> Cleaning up categorical data</a></li>
+<li class="chapter" data-level="17.6" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#time-as-a-variable"><i class="fa fa-check"></i><b>17.6</b> Time as a variable</a></li>
+<li class="chapter" data-level="17.7" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#explore-the-distributions-in-your-data"><i class="fa fa-check"></i><b>17.7</b> Explore the distributions in your data</a>
+<ul>
+<li class="chapter" data-level="17.7.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#more-on-histograms"><i class="fa fa-check"></i><b>17.7.1</b> More on histograms</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="verbs.html"><a href="verbs.html"><i class="fa fa-check"></i><b>18</b> Verbs</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="verbs.html"><a href="verbs.html#needs-review-1"><i class="fa fa-check"></i><b>18.1</b> NEEDS REVIEW</a></li>
+<li class="chapter" data-level="18.2" data-path="verbs.html"><a href="verbs.html#importexport"><i class="fa fa-check"></i><b>18.2</b> Import/Export</a></li>
+<li class="chapter" data-level="18.3" data-path="verbs.html"><a href="verbs.html#data-manipulation"><i class="fa fa-check"></i><b>18.3</b> Data manipulation</a></li>
+<li class="chapter" data-level="18.4" data-path="verbs.html"><a href="verbs.html#aggregation"><i class="fa fa-check"></i><b>18.4</b> Aggregation</a></li>
+<li class="chapter" data-level="18.5" data-path="verbs.html"><a href="verbs.html#math"><i class="fa fa-check"></i><b>18.5</b> Math</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="chart-examples.html"><a href="chart-examples.html"><i class="fa fa-check"></i><b>19</b> Chart examples</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="chart-examples.html"><a href="chart-examples.html#needs-review-2"><i class="fa fa-check"></i><b>19.1</b> NEEDS REVIEW</a></li>
+<li class="chapter" data-level="19.2" data-path="chart-examples.html"><a href="chart-examples.html#bar-charts"><i class="fa fa-check"></i><b>19.2</b> Bar charts</a>
+<ul>
+<li class="chapter" data-level="19.2.1" data-path="chart-examples.html"><a href="chart-examples.html#explanaton"><i class="fa fa-check"></i><b>19.2.1</b> Explanaton</a></li>
+</ul></li>
+<li class="chapter" data-level="19.3" data-path="chart-examples.html"><a href="chart-examples.html#column-chart"><i class="fa fa-check"></i><b>19.3</b> Column chart</a></li>
+<li class="chapter" data-level="19.4" data-path="chart-examples.html"><a href="chart-examples.html#a-line-chart"><i class="fa fa-check"></i><b>19.4</b> A line chart</a>
+<ul>
+<li class="chapter" data-level="19.4.1" data-path="chart-examples.html"><a href="chart-examples.html#explanation"><i class="fa fa-check"></i><b>19.4.1</b> Explanation</a></li>
+</ul></li>
+<li class="chapter" data-level="19.5" data-path="chart-examples.html"><a href="chart-examples.html#scatterplot-1"><i class="fa fa-check"></i><b>19.5</b> Scatterplot</a>
+<ul>
+<li class="chapter" data-level="19.5.1" data-path="chart-examples.html"><a href="chart-examples.html#explanation-1"><i class="fa fa-check"></i><b>19.5.1</b> Explanation</a></li>
+</ul></li>
+<li class="chapter" data-level="19.6" data-path="chart-examples.html"><a href="chart-examples.html#histogram"><i class="fa fa-check"></i><b>19.6</b> Histogram</a></li>
+<li class="chapter" data-level="19.7" data-path="chart-examples.html"><a href="chart-examples.html#titles-labels-and-other-cleanup"><i class="fa fa-check"></i><b>19.7</b> Titles, labels and other cleanup</a>
+<ul>
+<li class="chapter" data-level="19.7.1" data-path="chart-examples.html"><a href="chart-examples.html#title-and-axis-labels"><i class="fa fa-check"></i><b>19.7.1</b> Title and axis labels</a></li>
+<li class="chapter" data-level="19.7.2" data-path="chart-examples.html"><a href="chart-examples.html#flip-the-graphic"><i class="fa fa-check"></i><b>19.7.2</b> Flip the graphic</a></li>
+<li class="chapter" data-level="19.7.3" data-path="chart-examples.html"><a href="chart-examples.html#fix-exponential-numbers-on-an-axis"><i class="fa fa-check"></i><b>19.7.3</b> Fix exponential numbers on an axis</a></li>
+</ul></li>
+<li class="chapter" data-level="19.8" data-path="chart-examples.html"><a href="chart-examples.html#interactivity-with-plotly"><i class="fa fa-check"></i><b>19.8</b> Interactivity with plotly</a></li>
+<li class="chapter" data-level="19.9" data-path="chart-examples.html"><a href="chart-examples.html#resources-5"><i class="fa fa-check"></i><b>19.9</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html"><i class="fa fa-check"></i><b>20</b> Publishing your findings</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#needs-review-3"><i class="fa fa-check"></i><b>20.1</b> NEEDS REVIEW</a></li>
+<li class="chapter" data-level="20.2" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#examples"><i class="fa fa-check"></i><b>20.2</b> Examples</a></li>
+<li class="chapter" data-level="20.3" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#how-to-publish-your-projects"><i class="fa fa-check"></i><b>20.3</b> How to publish your projects</a>
+<ul>
+<li class="chapter" data-level="20.3.1" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#using-github-pages"><i class="fa fa-check"></i><b>20.3.1</b> Using Github Pages</a></li>
+</ul></li>
+<li class="chapter" data-level="20.4" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#making-branded-graphics"><i class="fa fa-check"></i><b>20.4</b> Making branded graphics</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -549,22 +655,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="tidy" class="section level1">
-<h1><span class="header-section-number">Chapter 9</span> Tidy data</h1>
-<div id="updates-needed-1" class="section level2">
-<h2><span class="header-section-number">9.1</span> UPDATES NEEDED</h2>
+<div id="tidy" class="section level1" number="8">
+<h1><span class="header-section-number">Chapter 8</span> Tidy data</h1>
+<div id="updates-needed-1" class="section level2" number="8.1">
+<h2><span class="header-section-number">8.1</span> UPDATES NEEDED</h2>
 <ul>
 <li>Introduce acc data. Leave mixbev for an assignment.</li>
+<li><h2 id="fix-lists-1">fix lists</h2></li>
 </ul>
-<hr />
-<p>old</p>
+<blockquote>
+<p>PREVIOUS DRAFT</p>
+</blockquote>
 <p>Data “shape” can be important when you are trying to work with and visualize data. In this chapter we’ll discuss “tidy” data and how this style of organization helps us.</p>
 <blockquote>
 <p>Slides by Hadley Wickham are used with permission from the author.</p>
 </blockquote>
 </div>
-<div id="goals-for-this-section-3" class="section level2">
-<h2><span class="header-section-number">9.2</span> Goals for this section</h2>
+<div id="goals-for-this-section-1" class="section level2" number="8.2">
+<h2><span class="header-section-number">8.2</span> Goals for this section</h2>
 <ul>
 <li>Explore what it means to have “tidy” data.</li>
 <li>Learn <code>gather()</code>, <code>spread()</code> and other <a href="https://tidyr.tidyverse.org/">tidyr</a> verbs.</li>
@@ -575,9 +683,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Explore and chart the alcohol data to practice our skills.</li>
 </ul>
 </div>
-<div id="what-is-tidy-data" class="section level2">
-<h2><span class="header-section-number">9.3</span> What is tidy data</h2>
-<p>“Tidy” data is well formatted so each variable is in a column, each observation is in a row and each value is a cell. Our first step in working with any data is to make sure we are “tidy”.</p>
+<div id="what-is-tidy-data" class="section level2" number="8.3">
+<h2><span class="header-section-number">8.3</span> What is tidy data</h2>
+<p>“Tidy” data is well formatted so each variable is in a column, each observation is in a row and each value is a cell. Our first step in working with any data is to make sure we are “tidy.”</p>
 <div class="figure">
 <img src="images/tidy-example.png" alt="" />
 <p class="caption">Tidy data definition</p>
@@ -602,26 +710,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p class="caption">Manipulate a tidy table</p>
 </div>
 </div>
-<div id="tidyr-package" class="section level2">
-<h2><span class="header-section-number">9.4</span> Tidyr package</h2>
+<div id="tidyr-package" class="section level2" number="8.4">
+<h2><span class="header-section-number">8.4</span> Tidyr package</h2>
 <p>When our data is tidy, we can use the <a href="https://tidyr.tidyverse.org/">tidyr</a> package to reshape the layout of our data to suit our needs.</p>
-<p>In the figure below, the table on the left is “wide”. There are are multiple year columns describing the same variable. It might be useful if we want to calculate the difference of the values for two different years. It’s less useful if we want plot on a graphic because we don’t have columns to map as X and Y values.</p>
-<p>The table on the right is “long”, in that each column describes a single variable. It is this shape we need when we want to plot values on a chart. We can then set our “Year” column as an X axis, our “n” column on our Y axis, and group by the “Country”.</p>
+<p>In the figure below, the table on the left is “wide.” There are are multiple year columns describing the same variable. It might be useful if we want to calculate the difference of the values for two different years. It’s less useful if we want plot on a graphic because we don’t have columns to map as X and Y values.</p>
+<p>The table on the right is “long,” in that each column describes a single variable. It is this shape we need when we want to plot values on a chart. We can then set our “Year” column as an X axis, our “n” column on our Y axis, and group by the “Country.”</p>
 <div class="figure">
 <img src="images/tidy-wide-vs-long.png" alt="" />
 <p class="caption">Wide vs long</p>
 </div>
 </div>
-<div id="the-tidyr-verbs" class="section level2">
-<h2><span class="header-section-number">9.5</span> The tidyr verbs</h2>
+<div id="the-tidyr-verbs" class="section level2" number="8.5">
+<h2><span class="header-section-number">8.5</span> The tidyr verbs</h2>
 <p>We’ll use functions within the <a href="https://tidyr.tidyverse.org/">tidyr</a> package to manipulate data to our liking, depending on our need.</p>
 <div class="figure">
 <img src="images/tidy-verbs.png" alt="" />
 <p class="caption">Tidy verbs</p>
 </div>
 </div>
-<div id="set-up-the-mixbev-project" class="section level2">
-<h2><span class="header-section-number">9.6</span> Set up the mixbev project</h2>
+<div id="set-up-the-mixbev-project" class="section level2" number="8.6">
+<h2><span class="header-section-number">8.6</span> Set up the mixbev project</h2>
 <p>We’re going to work in a new project with new data for this assignment. I will try to get you up and running as quickly as possible.</p>
 <ul>
 <li>In RStudio, choose File &gt; New Project</li>
@@ -637,8 +745,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>Running that notebook will download three years of data from Travis County establishments and save it into your <code>data-raw</code> folder in your project. How that is done is all documented in that notebook, but we may spend some time in class explaining going over it.</p>
 </div>
-<div id="create-an-explore-notebook" class="section level2">
-<h2><span class="header-section-number">9.7</span> Create an explore notebook</h2>
+<div id="create-an-explore-notebook" class="section level2" number="8.7">
+<h2><span class="header-section-number">8.7</span> Create an explore notebook</h2>
 <p>Now that we have data we don’t have to download it again. Let’s create a new RNotebook to import and explore it (and learn Tidyr while we are at it).</p>
 <ul>
 <li>Create a new RNotebook. Save the file as <code>02-mixbev-explore.Rmd</code>.</li>
@@ -646,14 +754,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Remove the boilerplate below the data.</li>
 <li>Add the code below, then <strong>Restart R and Run All Chunks</strong>.</li>
 </ul>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="tidy.html#cb184-1"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb184-2"><a href="tidy.html#cb184-2"></a><span class="kw">library</span>(lubridate)</span>
-<span id="cb184-3"><a href="tidy.html#cb184-3"></a><span class="kw">library</span>(scales)</span>
-<span id="cb184-4"><a href="tidy.html#cb184-4"></a></span>
-<span id="cb184-5"><a href="tidy.html#cb184-5"></a><span class="co"># import the data</span></span>
-<span id="cb184-6"><a href="tidy.html#cb184-6"></a>receipts &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;data-raw/receipts_api.rds&quot;</span>)</span></code></pre></div>
-<div id="peruse-the-data" class="section level3">
-<h3><span class="header-section-number">9.7.1</span> Peruse the data</h3>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="tidy.html#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb97-2"><a href="tidy.html#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb97-3"><a href="tidy.html#cb97-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb97-4"><a href="tidy.html#cb97-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-5"><a href="tidy.html#cb97-5" aria-hidden="true" tabindex="-1"></a><span class="co"># import the data</span></span>
+<span id="cb97-6"><a href="tidy.html#cb97-6" aria-hidden="true" tabindex="-1"></a>receipts <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;data-raw/receipts_api.rds&quot;</span>)</span></code></pre></div>
+<div id="peruse-the-data" class="section level3" number="8.7.1">
+<h3><span class="header-section-number">8.7.1</span> Peruse the data</h3>
 <p>In the environment window, click on the <strong>receipts</strong> data frame so it opens and you can look at the data. Some key things to know about the data:</p>
 <ul>
 <li>Columns with <strong><code>location_</code></strong> are about a specific restaurant or bar selling alcohol.</li>
@@ -666,8 +774,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>So these are NOT the number of drinks sold. It’s the amount of money brought in for the total sale of each type of liquor within that month. The <strong>total_receipts</strong> is used to calculate tax paid to the state on those sales based on a formula. See the record layout on <a href="https://data.texas.gov/Government-and-Taxes/Mixed-Beverage-Gross-Receipts/naix-2893">Socrata</a> for more information.</p>
 </div>
 </div>
-<div id="what-might-we-learn-about-this-dataset" class="section level2">
-<h2><span class="header-section-number">9.8</span> What might we learn about this dataset</h2>
+<div id="what-might-we-learn-about-this-dataset" class="section level2" number="8.8">
+<h2><span class="header-section-number">8.8</span> What might we learn about this dataset</h2>
 <p>If we look at the data set, there are a series of questions we might ask it.</p>
 <ul>
 <li>How have total sales changed over the past three years?</li>
@@ -678,40 +786,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>There are others for sure, but for this lesson we’ll concentrate on campus-area bars you <em>might</em> be familiar with.</p>
 </div>
-<div id="add-years-and-months-values" class="section level2">
-<h2><span class="header-section-number">9.9</span> Add years and months values</h2>
+<div id="add-years-and-months-values" class="section level2" number="8.9">
+<h2><span class="header-section-number">8.9</span> Add years and months values</h2>
 <p>We will end up doing a lot of summaries based on year and month of the data. It will be easier to do that if we create some new columns that have those values.</p>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="tidy.html#cb185-1"></a>receipts &lt;-<span class="st"> </span>receipts <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb185-2"><a href="tidy.html#cb185-2"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
-<span id="cb185-3"><a href="tidy.html#cb185-3"></a>    <span class="co"># sales_year = year(obligation_end_date_yyyymmdd),</span></span>
-<span id="cb185-4"><a href="tidy.html#cb185-4"></a>    <span class="dt">sales_year =</span> <span class="kw">year</span>(obligation_end_date_yyyymmdd) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.character</span>(),</span>
-<span id="cb185-5"><a href="tidy.html#cb185-5"></a>    <span class="dt">sales_month =</span> <span class="kw">month</span>(obligation_end_date_yyyymmdd, <span class="dt">label =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb185-6"><a href="tidy.html#cb185-6"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="tidy.html#cb98-1" aria-hidden="true" tabindex="-1"></a>receipts <span class="ot">&lt;-</span> receipts <span class="sc">%&gt;%</span> </span>
+<span id="cb98-2"><a href="tidy.html#cb98-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb98-3"><a href="tidy.html#cb98-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># sales_year = year(obligation_end_date_yyyymmdd),</span></span>
+<span id="cb98-4"><a href="tidy.html#cb98-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sales_year =</span> <span class="fu">year</span>(obligation_end_date_yyyymmdd) <span class="sc">%&gt;%</span> <span class="fu">as.character</span>(),</span>
+<span id="cb98-5"><a href="tidy.html#cb98-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sales_month =</span> <span class="fu">month</span>(obligation_end_date_yyyymmdd, <span class="at">label =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb98-6"><a href="tidy.html#cb98-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <blockquote>
-<p>I specifically coerced <code>sales_year</code> into a string because the year as a continuous number was causing problems with plots later when I got an axis mark for “2016.5”. Probably not the best solution, but it worked.</p>
+<p>I specifically coerced <code>sales_year</code> into a string because the year as a continuous number was causing problems with plots later when I got an axis mark for “2016.5.” Probably not the best solution, but it worked.</p>
 </blockquote>
 </div>
-<div id="campus-bars" class="section level2">
-<h2><span class="header-section-number">9.10</span> Campus bars</h2>
+<div id="campus-bars" class="section level2" number="8.10">
+<h2><span class="header-section-number">8.10</span> Campus bars</h2>
 <p>Let’s take a look at sales around campus. Make a data frame of just the receipts from the 78705 area.</p>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="tidy.html#cb186-1"></a>uni_area &lt;-<span class="st"> </span>receipts <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb186-2"><a href="tidy.html#cb186-2"></a><span class="st">  </span><span class="kw">filter</span>(</span>
-<span id="cb186-3"><a href="tidy.html#cb186-3"></a>    location_zip  <span class="op">==</span><span class="st"> &#39;78705&#39;</span></span>
-<span id="cb186-4"><a href="tidy.html#cb186-4"></a>  )</span>
-<span id="cb186-5"><a href="tidy.html#cb186-5"></a></span>
-<span id="cb186-6"><a href="tidy.html#cb186-6"></a><span class="co"># peek at the result</span></span>
-<span id="cb186-7"><a href="tidy.html#cb186-7"></a>uni_area <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>()</span></code></pre></div>
-<div id="total-78705-sales-leaders-in-2018" class="section level3">
-<h3><span class="header-section-number">9.10.1</span> Total 78705 sales leaders in 2018</h3>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="tidy.html#cb99-1" aria-hidden="true" tabindex="-1"></a>uni_area <span class="ot">&lt;-</span> receipts <span class="sc">%&gt;%</span> </span>
+<span id="cb99-2"><a href="tidy.html#cb99-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb99-3"><a href="tidy.html#cb99-3" aria-hidden="true" tabindex="-1"></a>    location_zip  <span class="sc">==</span> <span class="st">&#39;78705&#39;</span></span>
+<span id="cb99-4"><a href="tidy.html#cb99-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb99-5"><a href="tidy.html#cb99-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-6"><a href="tidy.html#cb99-6" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
+<span id="cb99-7"><a href="tidy.html#cb99-7" aria-hidden="true" tabindex="-1"></a>uni_area <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<div id="total-78705-sales-leaders-in-2018" class="section level3" number="8.10.1">
+<h3><span class="header-section-number">8.10.1</span> Total 78705 sales leaders in 2018</h3>
 <p>Let’s make a quick table to add <code>total_receipts</code> for 2018 so we can find the top selling bars from last year. We can do that by filtering for 2018, grouping by location and address, and then summing together the total receipts.</p>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="tidy.html#cb187-1"></a>uni_area <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb187-2"><a href="tidy.html#cb187-2"></a><span class="st">  </span><span class="kw">filter</span>(sales_year <span class="op">==</span><span class="st"> </span><span class="dv">2018</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb187-3"><a href="tidy.html#cb187-3"></a><span class="st">  </span><span class="kw">group_by</span>(location_name, location_address) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb187-4"><a href="tidy.html#cb187-4"></a><span class="st">  </span><span class="kw">summarize</span>(</span>
-<span id="cb187-5"><a href="tidy.html#cb187-5"></a>    <span class="dt">total_sales =</span> <span class="kw">sum</span>(total_receipts)</span>
-<span id="cb187-6"><a href="tidy.html#cb187-6"></a>  ) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb187-7"><a href="tidy.html#cb187-7"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(total_sales)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb187-8"><a href="tidy.html#cb187-8"></a><span class="st">  </span><span class="kw">head</span>(<span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="tidy.html#cb100-1" aria-hidden="true" tabindex="-1"></a>uni_area <span class="sc">%&gt;%</span> </span>
+<span id="cb100-2"><a href="tidy.html#cb100-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sales_year <span class="sc">==</span> <span class="dv">2018</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb100-3"><a href="tidy.html#cb100-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(location_name, location_address) <span class="sc">%&gt;%</span> </span>
+<span id="cb100-4"><a href="tidy.html#cb100-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb100-5"><a href="tidy.html#cb100-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_sales =</span> <span class="fu">sum</span>(total_receipts)</span>
+<span id="cb100-6"><a href="tidy.html#cb100-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb100-7"><a href="tidy.html#cb100-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total_sales)) <span class="sc">%&gt;%</span> </span>
+<span id="cb100-8"><a href="tidy.html#cb100-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div>
 <p>And we get this:</p>
 <table>
 <thead>
@@ -776,22 +884,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 </div>
 </div>
-<div id="west-campus-student-hot-spots" class="section level2">
-<h2><span class="header-section-number">9.11</span> West Campus student hot spots</h2>
+<div id="west-campus-student-hot-spots" class="section level2" number="8.11">
+<h2><span class="header-section-number">8.11</span> West Campus student hot spots</h2>
 <p>Looking at the list above, let’s filter our original data to some top student hangouts that we know are still open.</p>
-<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="tidy.html#cb188-1"></a>student_bars &lt;-<span class="st"> </span>receipts <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb188-2"><a href="tidy.html#cb188-2"></a><span class="st">  </span><span class="kw">filter</span>(</span>
-<span id="cb188-3"><a href="tidy.html#cb188-3"></a>    location_name <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(</span>
-<span id="cb188-4"><a href="tidy.html#cb188-4"></a>      <span class="st">&quot;SPIDER HOUSE&quot;</span>,</span>
-<span id="cb188-5"><a href="tidy.html#cb188-5"></a>      <span class="st">&quot;CAIN &amp; ABEL&#39;S&quot;</span>,</span>
-<span id="cb188-6"><a href="tidy.html#cb188-6"></a>      <span class="st">&quot;TRUDY&#39;S TEXAS STAR CAFE&quot;</span>,</span>
-<span id="cb188-7"><a href="tidy.html#cb188-7"></a>      <span class="st">&quot;THE HOLE IN THE WALL&quot;</span>,</span>
-<span id="cb188-8"><a href="tidy.html#cb188-8"></a>      <span class="st">&quot;THE LOCAL PUB AND PATIO&quot;</span></span>
-<span id="cb188-9"><a href="tidy.html#cb188-9"></a>    )</span>
-<span id="cb188-10"><a href="tidy.html#cb188-10"></a>  )</span>
-<span id="cb188-11"><a href="tidy.html#cb188-11"></a>  </span>
-<span id="cb188-12"><a href="tidy.html#cb188-12"></a><span class="co"># check the results</span></span>
-<span id="cb188-13"><a href="tidy.html#cb188-13"></a>student_bars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(location_name, location_address)</span></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="tidy.html#cb101-1" aria-hidden="true" tabindex="-1"></a>student_bars <span class="ot">&lt;-</span> receipts <span class="sc">%&gt;%</span> </span>
+<span id="cb101-2"><a href="tidy.html#cb101-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb101-3"><a href="tidy.html#cb101-3" aria-hidden="true" tabindex="-1"></a>    location_name <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb101-4"><a href="tidy.html#cb101-4" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;SPIDER HOUSE&quot;</span>,</span>
+<span id="cb101-5"><a href="tidy.html#cb101-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;CAIN &amp; ABEL&#39;S&quot;</span>,</span>
+<span id="cb101-6"><a href="tidy.html#cb101-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;TRUDY&#39;S TEXAS STAR CAFE&quot;</span>,</span>
+<span id="cb101-7"><a href="tidy.html#cb101-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;THE HOLE IN THE WALL&quot;</span>,</span>
+<span id="cb101-8"><a href="tidy.html#cb101-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;THE LOCAL PUB AND PATIO&quot;</span></span>
+<span id="cb101-9"><a href="tidy.html#cb101-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb101-10"><a href="tidy.html#cb101-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb101-11"><a href="tidy.html#cb101-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb101-12"><a href="tidy.html#cb101-12" aria-hidden="true" tabindex="-1"></a><span class="co"># check the results</span></span>
+<span id="cb101-13"><a href="tidy.html#cb101-13" aria-hidden="true" tabindex="-1"></a>student_bars <span class="sc">%&gt;%</span> <span class="fu">count</span>(location_name, location_address)</span></code></pre></div>
 <p>Note the <code>filter()</code> function above. In order to feed in a list of location names into the filter, I used the <code>%in%</code> operator (instead of <code>==</code>) and I put list of locations into a <code>c()</code> function. The C stands for concatenate, FWIW.</p>
 <p>After creating the <code>student_bars</code> data frame above, I used <code>count()</code> to make sure we caught all the bars and made sure each had the same number of reports. Which looks like this:</p>
 <table>
@@ -832,30 +940,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <p>Note I didn’t save the <code>count()</code> function back to the data frame. I just viewed that to the notebook so we could check our work.</p>
 </div>
-<div id="campus-area-bar-sales-over-time" class="section level2">
-<h2><span class="header-section-number">9.12</span> Campus-area bar sales over time</h2>
-<div id="visualizing-your-visualization" class="section level3">
-<h3><span class="header-section-number">9.12.1</span> Visualizing your visualization</h3>
+<div id="campus-area-bar-sales-over-time" class="section level2" number="8.12">
+<h2><span class="header-section-number">8.12</span> Campus-area bar sales over time</h2>
+<div id="visualizing-your-visualization" class="section level3" number="8.12.1">
+<h3><span class="header-section-number">8.12.1</span> Visualizing your visualization</h3>
 <p>Now, if we are interested in charting it helps to think about what we need and how to shape our data to get it.</p>
 <p>Let’s start with charting <strong>how sales at each bar have changed over the past three years</strong>. Since we are looking at value over time for multiple things, a line chart will probably work best.</p>
 <p>If our basic line chart works like this:</p>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="tidy.html#cb189-1"></a><span class="kw">ggplot</span>(<span class="op">&lt;</span>DATA<span class="op">&gt;</span>, <span class="kw">aes</span>(<span class="dt">x=</span><span class="op">&lt;</span>COL_VALUE<span class="op">&gt;</span>, <span class="dt">y=</span><span class="op">&lt;</span>COL_VALUE<span class="op">&gt;</span>, <span class="dt">group=</span><span class="op">&lt;</span>COL_VALUE<span class="op">&gt;</span>)) <span class="op">+</span></span>
-<span id="cb189-2"><a href="tidy.html#cb189-2"></a><span class="st">  </span><span class="kw">geom_line</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="tidy.html#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="sc">&lt;</span>DATA<span class="sc">&gt;</span>, <span class="fu">aes</span>(<span class="at">x=</span><span class="sc">&lt;</span>COL_VALUE<span class="sc">&gt;</span>, <span class="at">y=</span><span class="sc">&lt;</span>COL_VALUE<span class="sc">&gt;</span>, <span class="at">group=</span><span class="sc">&lt;</span>COL_VALUE<span class="sc">&gt;</span>)) <span class="sc">+</span></span>
+<span id="cb102-2"><a href="tidy.html#cb102-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
 <p>We need to figure out how to configure our data to fit the chart.</p>
 <ul>
 <li>For the “X” value (horizontal) we have the <code>sales_year</code> field to track over time.</li>
 <li>For the “Y” value (vertical) we want the total sales of each bar for that year. We’ll need to do a summary to get that.</li>
-<li>We want a line for each campus bar, which means we need a column for <code>location_name</code> for our “group”, too.</li>
+<li>We want a line for each campus bar, which means we need a column for <code>location_name</code> for our “group,” too.</li>
 </ul>
 <p>We create this data frame by using our <code>group_by()</code> on <code>location_name</code> and <code>sales_year</code> and then <code>summarize()</code> to get our total sales by our grouping:</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="tidy.html#cb190-1"></a>student_bars_grouped &lt;-<span class="st"> </span>student_bars <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb190-2"><a href="tidy.html#cb190-2"></a><span class="st">  </span><span class="kw">group_by</span>(location_name, sales_year) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb190-3"><a href="tidy.html#cb190-3"></a><span class="st">  </span><span class="kw">summarise</span>(</span>
-<span id="cb190-4"><a href="tidy.html#cb190-4"></a>    <span class="dt">total_sales =</span> <span class="kw">sum</span>(total_receipts)</span>
-<span id="cb190-5"><a href="tidy.html#cb190-5"></a>  )</span>
-<span id="cb190-6"><a href="tidy.html#cb190-6"></a>  </span>
-<span id="cb190-7"><a href="tidy.html#cb190-7"></a><span class="co"># peek at the results</span></span>
-<span id="cb190-8"><a href="tidy.html#cb190-8"></a>student_bars_grouped <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="tidy.html#cb103-1" aria-hidden="true" tabindex="-1"></a>student_bars_grouped <span class="ot">&lt;-</span> student_bars <span class="sc">%&gt;%</span> </span>
+<span id="cb103-2"><a href="tidy.html#cb103-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(location_name, sales_year) <span class="sc">%&gt;%</span> </span>
+<span id="cb103-3"><a href="tidy.html#cb103-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb103-4"><a href="tidy.html#cb103-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_sales =</span> <span class="fu">sum</span>(total_receipts)</span>
+<span id="cb103-5"><a href="tidy.html#cb103-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb103-6"><a href="tidy.html#cb103-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb103-7"><a href="tidy.html#cb103-7" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the results</span></span>
+<span id="cb103-8"><a href="tidy.html#cb103-8" aria-hidden="true" tabindex="-1"></a>student_bars_grouped <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
 <p>Which ends up looking this this:</p>
 <table>
 <thead>
@@ -899,23 +1007,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Now we can plug in our columns to get our chart:</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="tidy.html#cb191-1"></a><span class="kw">ggplot</span>(student_bars_grouped, <span class="kw">aes</span>(<span class="dt">x=</span>sales_year, <span class="dt">y=</span>total_sales, <span class="dt">group=</span>location_name)) <span class="op">+</span></span>
-<span id="cb191-2"><a href="tidy.html#cb191-2"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">color=</span>location_name)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb191-3"><a href="tidy.html#cb191-3"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
-<span id="cb191-4"><a href="tidy.html#cb191-4"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels=</span>comma)</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="tidy.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(student_bars_grouped, <span class="fu">aes</span>(<span class="at">x=</span>sales_year, <span class="at">y=</span>total_sales, <span class="at">group=</span>location_name)) <span class="sc">+</span></span>
+<span id="cb104-2"><a href="tidy.html#cb104-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color=</span>location_name)) <span class="sc">+</span> </span>
+<span id="cb104-3"><a href="tidy.html#cb104-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb104-4"><a href="tidy.html#cb104-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span>comma)</span></code></pre></div>
 <div class="figure">
 <img src="images/tidy-campus-bars-over-time.png" alt="" />
 <p class="caption">Campus bar sales over time</p>
 </div>
 <p>We’ve added a couple of do-dads to our line chart to make it prettier, like adding a color aesthetic the <code>geom_line()</code> function to color the lines and give us a legend, and a scale with labels to make the Y numbers pretty.</p>
 </div>
-<div id="what-did-we-find" class="section level3">
-<h3><span class="header-section-number">9.12.2</span> What did we find?</h3>
+<div id="what-did-we-find" class="section level3" number="8.12.2">
+<h3><span class="header-section-number">8.12.2</span> What did we find?</h3>
 <p>Looking at the chart, we can see that Cain &amp; Abel’s is the only top campus-area bar with an increase in alcohol sales over each of the past three years. The Hole in the Wall did have a good 2018, reversing a downward trend. Everywhere else dropped sales each year.</p>
 </div>
 </div>
-<div id="types-of-sales-within-student-bars" class="section level2">
-<h2><span class="header-section-number">9.13</span> Types of sales within student bars</h2>
+<div id="types-of-sales-within-student-bars" class="section level2" number="8.13">
+<h2><span class="header-section-number">8.13</span> Types of sales within student bars</h2>
 <p>If we want to see how beer, liquor and wine sales differ at an establishment, we could use a very similar chart, but we would want each line to be the type of alcohol: beer, wine or liquor.</p>
 <p>But this is how our columns look right now. Beer, wine and liquor are separate columns.</p>
 <div class="figure">
@@ -924,9 +1032,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>This is where we introduce <code>gather()</code> from tidyr so we can shape our data to meet our needs.</p>
 </div>
-<div id="how-gather-works" class="section level2">
-<h2><span class="header-section-number">9.14</span> How gather() works</h2>
-<p>The <a href="https://tidyr.tidyverse.org/reference/gather.html"><code>gather()</code></a> function is what we use to change wide data into long data. We are “gathering” all the extra columns into two: one for the value and one to describe it. In the example below, a <strong>key</strong> column is created called “Year” and a <strong>value</strong> column called “n” is created to hold the values from each of the yearly columns. For each value, a new row is created, and the column name is used for the “key” and the data is use for the “value”.</p>
+<div id="how-gather-works" class="section level2" number="8.14">
+<h2><span class="header-section-number">8.14</span> How gather() works</h2>
+<p>The <a href="https://tidyr.tidyverse.org/reference/gather.html"><code>gather()</code></a> function is what we use to change wide data into long data. We are “gathering” all the extra columns into two: one for the value and one to describe it. In the example below, a <strong>key</strong> column is created called “Year” and a <strong>value</strong> column called “n” is created to hold the values from each of the yearly columns. For each value, a new row is created, and the column name is used for the “key” and the data is use for the “value.”</p>
 <div class="figure">
 <img src="images/tidy-gather-show.png" alt="" />
 <p class="caption">Show how gather works</p>
@@ -968,17 +1076,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p class="caption">Range through deselect</p>
 </div>
 </div>
-<div id="applying-gather-to-beer-wine-and-liquor" class="section level2">
-<h2><span class="header-section-number">9.15</span> Applying gather() to beer, wine and liquor</h2>
+<div id="applying-gather-to-beer-wine-and-liquor" class="section level2" number="8.15">
+<h2><span class="header-section-number">8.15</span> Applying gather() to beer, wine and liquor</h2>
 <p>Let’s start by making a new data frame with just the columns we need to work with. We are starting with the <code>student_bars</code> data frame we created that has the three years of receipts from just our five campus-area bars:</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="tidy.html#cb192-1"></a>student_sales &lt;-<span class="st"> </span>student_bars <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb192-2"><a href="tidy.html#cb192-2"></a><span class="st">  </span><span class="kw">select</span>(location_name, sales_year, beer_receipts, wine_receipts, liquor_receipts) <span class="op">%&gt;%</span></span>
-<span id="cb192-3"><a href="tidy.html#cb192-3"></a><span class="st">  </span><span class="kw">rename</span>(</span>
-<span id="cb192-4"><a href="tidy.html#cb192-4"></a>    <span class="dt">beer =</span> beer_receipts,</span>
-<span id="cb192-5"><a href="tidy.html#cb192-5"></a>    <span class="dt">wine =</span> wine_receipts,</span>
-<span id="cb192-6"><a href="tidy.html#cb192-6"></a>    <span class="dt">liquor =</span> liquor_receipts</span>
-<span id="cb192-7"><a href="tidy.html#cb192-7"></a>  )</span>
-<span id="cb192-8"><a href="tidy.html#cb192-8"></a>student_sales <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>() <span class="co"># to show our results</span></span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="tidy.html#cb105-1" aria-hidden="true" tabindex="-1"></a>student_sales <span class="ot">&lt;-</span> student_bars <span class="sc">%&gt;%</span> </span>
+<span id="cb105-2"><a href="tidy.html#cb105-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(location_name, sales_year, beer_receipts, wine_receipts, liquor_receipts) <span class="sc">%&gt;%</span></span>
+<span id="cb105-3"><a href="tidy.html#cb105-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb105-4"><a href="tidy.html#cb105-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">beer =</span> beer_receipts,</span>
+<span id="cb105-5"><a href="tidy.html#cb105-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">wine =</span> wine_receipts,</span>
+<span id="cb105-6"><a href="tidy.html#cb105-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">liquor =</span> liquor_receipts</span>
+<span id="cb105-7"><a href="tidy.html#cb105-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb105-8"><a href="tidy.html#cb105-8" aria-hidden="true" tabindex="-1"></a>student_sales <span class="sc">%&gt;%</span> <span class="fu">head</span>() <span class="co"># to show our results</span></span></code></pre></div>
 <p>We get a result like this:</p>
 <table>
 <thead>
@@ -1037,55 +1145,55 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <p>Now, if we can “gather” the beer, wine and liquor columns into two new columns – alcohol type and sales amount – then we could group and sum by the year and type.</p>
 <p>The code below builds the new data frame we’ll use for our chart (<code>student_sales_grouped</code>) but you skip the beginning data frame assignment and walk through it line by line to see how it gets built, starting with the <code>student_sales</code> data frame. Once you have it, then assign it back to <code>student_sales_group</code>.</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="tidy.html#cb193-1"></a>student_sales_grouped &lt;-<span class="st"> </span>student_sales <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb193-2"><a href="tidy.html#cb193-2"></a><span class="st">  </span><span class="kw">gather</span>(alcohol_type, sales_by_type, <span class="dv">3</span><span class="op">:</span><span class="dv">5</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb193-3"><a href="tidy.html#cb193-3"></a><span class="st">  </span><span class="kw">group_by</span>(location_name, sales_year, alcohol_type) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb193-4"><a href="tidy.html#cb193-4"></a><span class="st">  </span><span class="kw">summarise</span>(</span>
-<span id="cb193-5"><a href="tidy.html#cb193-5"></a>    <span class="dt">sales_sum_year =</span> <span class="kw">sum</span>(sales_by_type)</span>
-<span id="cb193-6"><a href="tidy.html#cb193-6"></a>  )</span>
-<span id="cb193-7"><a href="tidy.html#cb193-7"></a>  </span>
-<span id="cb193-8"><a href="tidy.html#cb193-8"></a><span class="co"># peek at the result</span></span>
-<span id="cb193-9"><a href="tidy.html#cb193-9"></a>student_sales_grouped <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>() </span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="tidy.html#cb106-1" aria-hidden="true" tabindex="-1"></a>student_sales_grouped <span class="ot">&lt;-</span> student_sales <span class="sc">%&gt;%</span> </span>
+<span id="cb106-2"><a href="tidy.html#cb106-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(alcohol_type, sales_by_type, <span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb106-3"><a href="tidy.html#cb106-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(location_name, sales_year, alcohol_type) <span class="sc">%&gt;%</span> </span>
+<span id="cb106-4"><a href="tidy.html#cb106-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb106-5"><a href="tidy.html#cb106-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sales_sum_year =</span> <span class="fu">sum</span>(sales_by_type)</span>
+<span id="cb106-6"><a href="tidy.html#cb106-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb106-7"><a href="tidy.html#cb106-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb106-8"><a href="tidy.html#cb106-8" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
+<span id="cb106-9"><a href="tidy.html#cb106-9" aria-hidden="true" tabindex="-1"></a>student_sales_grouped <span class="sc">%&gt;%</span> <span class="fu">head</span>() </span></code></pre></div>
 <ul>
 <li>We start with the <code>student_sales</code> data frame, where each row has the sales for each month of the year in multiple columns.</li>
 <li><code>gather()</code> names our fields “alcohol_type” and “sales_by_type” and gathers our beer, wine and liquor columns. At this point, each row of data has the individual sale of a type of alcohol for each month of each year.</li>
 <li><code>group_by()</code> collects our data by the name, year and type. This prepares us to:</li>
 <li><code>summarize()</code> adds together all the beer sales for each month are summed up into one row for each year.</li>
 </ul>
-<div id="plot-sales-by-type-for-a-single-campus-area-bar" class="section level3">
-<h3><span class="header-section-number">9.15.1</span> Plot sales by type for a single campus-area bar</h3>
+<div id="plot-sales-by-type-for-a-single-campus-area-bar" class="section level3" number="8.15.1">
+<h3><span class="header-section-number">8.15.1</span> Plot sales by type for a single campus-area bar</h3>
 <p>Let’s figure out the line chart with one establishment first:</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="tidy.html#cb194-1"></a>cain &lt;-<span class="st"> </span>student_sales_grouped <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb194-2"><a href="tidy.html#cb194-2"></a><span class="st">  </span><span class="kw">filter</span>(location_name <span class="op">==</span><span class="st"> &quot;CAIN &amp; ABEL&#39;S&quot;</span>)</span>
-<span id="cb194-3"><a href="tidy.html#cb194-3"></a></span>
-<span id="cb194-4"><a href="tidy.html#cb194-4"></a><span class="kw">ggplot</span>(cain, <span class="kw">aes</span>(<span class="dt">x=</span>sales_year, <span class="dt">y=</span>sales_sum_year, <span class="dt">group=</span>alcohol_type, <span class="dt">color=</span>alcohol_type)) <span class="op">+</span></span>
-<span id="cb194-5"><a href="tidy.html#cb194-5"></a><span class="st">  </span><span class="kw">geom_line</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="tidy.html#cb107-1" aria-hidden="true" tabindex="-1"></a>cain <span class="ot">&lt;-</span> student_sales_grouped <span class="sc">%&gt;%</span> </span>
+<span id="cb107-2"><a href="tidy.html#cb107-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(location_name <span class="sc">==</span> <span class="st">&quot;CAIN &amp; ABEL&#39;S&quot;</span>)</span>
+<span id="cb107-3"><a href="tidy.html#cb107-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb107-4"><a href="tidy.html#cb107-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cain, <span class="fu">aes</span>(<span class="at">x=</span>sales_year, <span class="at">y=</span>sales_sum_year, <span class="at">group=</span>alcohol_type, <span class="at">color=</span>alcohol_type)) <span class="sc">+</span></span>
+<span id="cb107-5"><a href="tidy.html#cb107-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
 <p>We get our chart like this:</p>
 <div class="figure">
 <img src="images/tidy-cain-chart.png" alt="" />
 <p class="caption">Cain &amp; Abel’s alcohol sales</p>
 </div>
 </div>
-<div id="plot-sales-by-type-for-multiple-campus-area-bars" class="section level3">
-<h3><span class="header-section-number">9.15.2</span> Plot sales by type for multiple campus-area bars</h3>
+<div id="plot-sales-by-type-for-multiple-campus-area-bars" class="section level3" number="8.15.2">
+<h3><span class="header-section-number">8.15.2</span> Plot sales by type for multiple campus-area bars</h3>
 <p>For this chart, we are going to duplicate what we did for the graphic above, and then instead of applying to the <code>cain</code> data frame, we’ll substitute in our our <code>student_sales_grouped</code> data frame so have all the West Campus bars.</p>
 <p>And now we can introduce the <code>facet_wrap()</code>, which allows you to duplicate a graphic based on one of the categories in the data. We feed the <code>facet_wrap()</code> function with the variable (the column name) we want to duplicate. Weirdly, it has to start with a tilde, like this: <code>facet_wrap(~location_name)</code>.</p>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="tidy.html#cb195-1"></a><span class="kw">ggplot</span>(student_sales_grouped, <span class="kw">aes</span>(<span class="dt">x=</span>sales_year, <span class="dt">y=</span>sales_sum_year, <span class="dt">group=</span>alcohol_type, <span class="dt">color=</span>alcohol_type)) <span class="op">+</span></span>
-<span id="cb195-2"><a href="tidy.html#cb195-2"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb195-3"><a href="tidy.html#cb195-3"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>location_name) <span class="op">+</span></span>
-<span id="cb195-4"><a href="tidy.html#cb195-4"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">label=</span>comma)</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="tidy.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(student_sales_grouped, <span class="fu">aes</span>(<span class="at">x=</span>sales_year, <span class="at">y=</span>sales_sum_year, <span class="at">group=</span>alcohol_type, <span class="at">color=</span>alcohol_type)) <span class="sc">+</span></span>
+<span id="cb108-2"><a href="tidy.html#cb108-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb108-3"><a href="tidy.html#cb108-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>location_name) <span class="sc">+</span></span>
+<span id="cb108-4"><a href="tidy.html#cb108-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">label=</span>comma)</span></code></pre></div>
 <div class="figure">
 <img src="images/tidy-student-bars-wrapped.png" alt="" />
 <p class="caption">Student bars as a facet wrap</p>
 </div>
 </div>
-<div id="what-did-we-learn" class="section level3">
-<h3><span class="header-section-number">9.15.3</span> What did we learn?</h3>
+<div id="what-did-we-learn" class="section level3" number="8.15.3">
+<h3><span class="header-section-number">8.15.3</span> What did we learn?</h3>
 <p>Liquor sales are what is driving Cain &amp; Abel’s increase in revenue. Wine sales are pretty low everywhere and Trudy’s really sells a lot of liquor. It’s those Mexican Martinis and Margaritas, I imagine.</p>
 </div>
 </div>
-<div id="the-spread-function" class="section level2">
-<h2><span class="header-section-number">9.16</span> The spread() function</h2>
+<div id="the-spread-function" class="section level2" number="8.16">
+<h2><span class="header-section-number">8.16</span> The spread() function</h2>
 <p>There is another tidyr function called <a href="https://tidyr.tidyverse.org/reference/spread.html"><code>spread()</code></a> that does the opposite of <code>gather()</code>. We won’t do an example with this lesson, but this is how it generally works.</p>
 <div class="figure">
 <img src="images/tidy-spread-function.png" alt="" />
@@ -1096,11 +1204,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p class="caption">A spread() example</p>
 </div>
 </div>
-<div id="practice-assignment-exploring-the-top-seller" class="section level2">
-<h2><span class="header-section-number">9.17</span> Practice assignment: Exploring the top seller</h2>
+<div id="practice-assignment-exploring-the-top-seller" class="section level2" number="8.17">
+<h2><span class="header-section-number">8.17</span> Practice assignment: Exploring the top seller</h2>
 <p>This assignment looks a little further into some specific establishments from the Mixed Beverage Data. Here are the directions, with lots of hints thrown in.</p>
 <ul>
-<li>Create a new notebook called “03-practice.Rmd”. Use the same libraries and data as the in-class assignment.</li>
+<li>Create a new notebook called “03-practice.Rmd.” Use the same libraries and data as the in-class assignment.</li>
 <li>Find the establishment with highest total receipts in last three years. See the first Bonus section below for the the code.</li>
 <li>For the top establishment found, <strong>create a bar chart with sales by year</strong>. Here are some hints:
 <ul>
@@ -1132,16 +1240,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul>
 </div>
-<div id="bonus-top-5-sellers-in-travis-county-over-three-years" class="section level2">
-<h2><span class="header-section-number">9.18</span> Bonus: Top 5 sellers in Travis County over three years</h2>
+<div id="bonus-top-5-sellers-in-travis-county-over-three-years" class="section level2" number="8.18">
+<h2><span class="header-section-number">8.18</span> Bonus: Top 5 sellers in Travis County over three years</h2>
 <p>Because some chains might have that same <code>location_name</code> but more than one location, we need to group by both the <code>location_name</code> and the <code>location_address</code> fields. Then we can summarize their total sales.</p>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="tidy.html#cb196-1"></a>receipts <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb196-2"><a href="tidy.html#cb196-2"></a><span class="st">  </span><span class="kw">group_by</span>(location_name, location_address) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb196-3"><a href="tidy.html#cb196-3"></a><span class="st">  </span><span class="kw">summarise</span>(</span>
-<span id="cb196-4"><a href="tidy.html#cb196-4"></a>    <span class="dt">total_sales =</span> <span class="kw">sum</span>(total_receipts)</span>
-<span id="cb196-5"><a href="tidy.html#cb196-5"></a>  ) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb196-6"><a href="tidy.html#cb196-6"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(total_sales)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb196-7"><a href="tidy.html#cb196-7"></a><span class="st">  </span><span class="kw">head</span>(<span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="tidy.html#cb109-1" aria-hidden="true" tabindex="-1"></a>receipts <span class="sc">%&gt;%</span> </span>
+<span id="cb109-2"><a href="tidy.html#cb109-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(location_name, location_address) <span class="sc">%&gt;%</span> </span>
+<span id="cb109-3"><a href="tidy.html#cb109-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb109-4"><a href="tidy.html#cb109-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_sales =</span> <span class="fu">sum</span>(total_receipts)</span>
+<span id="cb109-5"><a href="tidy.html#cb109-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb109-6"><a href="tidy.html#cb109-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total_sales)) <span class="sc">%&gt;%</span> </span>
+<span id="cb109-7"><a href="tidy.html#cb109-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code></pre></div>
 <p>Which gives you something like this:</p>
 <table>
 <thead>
@@ -1182,24 +1290,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>What exactly is that top location? (Google it). It looks like that location (hint: a hotel) has sold more that twice the amount as the next hotel.</p>
 <p>What is the second location? That could be pretty interesting to look further into as well.</p>
 </div>
-<div id="bonus-total-sales-by-county" class="section level2">
-<h2><span class="header-section-number">9.19</span> Bonus: Total sales by county</h2>
+<div id="bonus-total-sales-by-county" class="section level2" number="8.19">
+<h2><span class="header-section-number">8.19</span> Bonus: Total sales by county</h2>
 <p>So, are alcohol sales going up in Travis County? We can use our new <code>sales_year</code> column to group the data and summarize by the sum of <code>total_sales</code>.</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="tidy.html#cb197-1"></a>receipts <span class="op">%&gt;%</span></span>
-<span id="cb197-2"><a href="tidy.html#cb197-2"></a><span class="st">  </span><span class="kw">group_by</span>(sales_year) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb197-3"><a href="tidy.html#cb197-3"></a><span class="st">  </span><span class="kw">summarise</span>(</span>
-<span id="cb197-4"><a href="tidy.html#cb197-4"></a>    <span class="dt">total_sales =</span> <span class="kw">sum</span>(total_receipts)</span>
-<span id="cb197-5"><a href="tidy.html#cb197-5"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="tidy.html#cb110-1" aria-hidden="true" tabindex="-1"></a>receipts <span class="sc">%&gt;%</span></span>
+<span id="cb110-2"><a href="tidy.html#cb110-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sales_year) <span class="sc">%&gt;%</span> </span>
+<span id="cb110-3"><a href="tidy.html#cb110-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb110-4"><a href="tidy.html#cb110-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_sales =</span> <span class="fu">sum</span>(total_receipts)</span>
+<span id="cb110-5"><a href="tidy.html#cb110-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <p>If you want to <em>see</em> the result, we can plot as a bar chart. I’m repeating our code above, but then shoving it into a new data frame, which we use to plot.</p>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="tidy.html#cb198-1"></a>receipts_group_all &lt;-<span class="st"> </span>receipts <span class="op">%&gt;%</span></span>
-<span id="cb198-2"><a href="tidy.html#cb198-2"></a><span class="st">  </span><span class="kw">group_by</span>(sales_year) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb198-3"><a href="tidy.html#cb198-3"></a><span class="st">  </span><span class="kw">summarise</span>(</span>
-<span id="cb198-4"><a href="tidy.html#cb198-4"></a>    <span class="dt">total_sales =</span> <span class="kw">sum</span>(total_receipts)</span>
-<span id="cb198-5"><a href="tidy.html#cb198-5"></a>  )</span>
-<span id="cb198-6"><a href="tidy.html#cb198-6"></a></span>
-<span id="cb198-7"><a href="tidy.html#cb198-7"></a><span class="kw">ggplot</span>(receipts_group_all, <span class="kw">aes</span>(<span class="dt">x=</span>sales_year, <span class="dt">y=</span>total_sales)) <span class="op">+</span></span>
-<span id="cb198-8"><a href="tidy.html#cb198-8"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="op">+</span></span>
-<span id="cb198-9"><a href="tidy.html#cb198-9"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels=</span>comma)</span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="tidy.html#cb111-1" aria-hidden="true" tabindex="-1"></a>receipts_group_all <span class="ot">&lt;-</span> receipts <span class="sc">%&gt;%</span></span>
+<span id="cb111-2"><a href="tidy.html#cb111-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sales_year) <span class="sc">%&gt;%</span> </span>
+<span id="cb111-3"><a href="tidy.html#cb111-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb111-4"><a href="tidy.html#cb111-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_sales =</span> <span class="fu">sum</span>(total_receipts)</span>
+<span id="cb111-5"><a href="tidy.html#cb111-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb111-6"><a href="tidy.html#cb111-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-7"><a href="tidy.html#cb111-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(receipts_group_all, <span class="fu">aes</span>(<span class="at">x=</span>sales_year, <span class="at">y=</span>total_sales)) <span class="sc">+</span></span>
+<span id="cb111-8"><a href="tidy.html#cb111-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="sc">+</span></span>
+<span id="cb111-9"><a href="tidy.html#cb111-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span>comma)</span></code></pre></div>
 <p>The last line in the plot comes from the <a href="https://www.rdocumentation.org/packages/scales/versions/0.4.1">scales</a> package and it gives us pretty numbers on the Y axis.</p>
 <p>If you are writing a story about alcohol sales in Travis County over the last three years, you can say that sales have risen over each year. You might go further and compare the sales to the population over the same time period, but we’ll skip that for now.</p>
 
@@ -1210,7 +1318,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="plots.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="census.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="review-plots.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
@@ -1234,6 +1342,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -1242,7 +1351,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/09-tidy.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/10-tidy.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -1254,6 +1363,10 @@ gitbook.start({
 "text": null
 },
 "download": null,
+"search": {
+"engine": "lunr",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }

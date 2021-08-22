@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 14 SPED Joins | Reporting with Data in R</title>
+  <meta name="description" content="Chapter 14 SPED Joins | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 14 SPED Joins | Reporting with Data in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Chapter 14 SPED Joins | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <meta name="github-repo" content="utdata/rwdir" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 14 SPED Joins | Reporting with Data in R" />
+  
+  <meta name="twitter:description" content="Chapter 14 SPED Joins | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  
+
+<meta name="author" content="Christian McDonald" />
+
+
+<meta name="date" content="2021-08-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="cleaning.html"/>
+<link rel="next" href="sped-transform.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<style type="text/css">
+  p.caption {
+    color: #777;
+    margin-top: 10px;
+  }
+  p code, pre, pre code, li code {
+    background-color: #DCDCDC !important;
+  }
+</style>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Reporting with Data in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About this book</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-my-philosphy"><i class="fa fa-check"></i>About my philosphy</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#tips-on-my-writing-style"><i class="fa fa-check"></i>Tips on my writing style</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#things-to-do"><i class="fa fa-check"></i>Things to do</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#notes-some-important"><i class="fa fa-check"></i>Notes, some important</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#copy-code-blocks"><i class="fa fa-check"></i>Copy code blocks</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-author"><i class="fa fa-check"></i>About the author</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-resources"><i class="fa fa-check"></i>Other resources</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="install.html"><a href="install.html"><i class="fa fa-check"></i><b>1</b> Install Party</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="install.html"><a href="install.html#mac-vs-pc"><i class="fa fa-check"></i><b>1.1</b> Mac vs PC</a></li>
+<li class="chapter" data-level="1.2" data-path="install.html"><a href="install.html#installing-r"><i class="fa fa-check"></i><b>1.2</b> Installing R</a></li>
+<li class="chapter" data-level="1.3" data-path="install.html"><a href="install.html#installing-rstudio"><i class="fa fa-check"></i><b>1.3</b> Installing RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="install.html"><a href="install.html#class-project-folder"><i class="fa fa-check"></i><b>1.4</b> Class project folder</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#rstudio-tour"><i class="fa fa-check"></i><b>2.1</b> RStudio tour</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#updating-preferences"><i class="fa fa-check"></i><b>2.2</b> Updating preferences</a></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#starting-a-new-project"><i class="fa fa-check"></i><b>2.3</b> Starting a new Project</a></li>
+<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#using-r-notebooks"><i class="fa fa-check"></i><b>2.4</b> Using R Notebooks</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="intro.html"><a href="intro.html#create-your-first-notebook"><i class="fa fa-check"></i><b>2.4.1</b> Create your first notebook</a></li>
+<li class="chapter" data-level="2.4.2" data-path="intro.html"><a href="intro.html#save-the-.rmd-file"><i class="fa fa-check"></i><b>2.4.2</b> Save the .Rmd file</a></li>
+<li class="chapter" data-level="2.4.3" data-path="intro.html"><a href="intro.html#run-the-notebook"><i class="fa fa-check"></i><b>2.4.3</b> Run the notebook</a></li>
+<li class="chapter" data-level="2.4.4" data-path="intro.html"><a href="intro.html#a-note-about-rmarkdown"><i class="fa fa-check"></i><b>2.4.4</b> A note about RMarkdown</a></li>
+<li class="chapter" data-level="2.4.5" data-path="intro.html"><a href="intro.html#adding-new-code-chunks"><i class="fa fa-check"></i><b>2.4.5</b> Adding new code chunks</a></li>
+<li class="chapter" data-level="2.4.6" data-path="intro.html"><a href="intro.html#practice-adding-code-chunks"><i class="fa fa-check"></i><b>2.4.6</b> Practice adding code chunks</a></li>
+<li class="chapter" data-level="2.4.7" data-path="intro.html"><a href="intro.html#preview-the-report"><i class="fa fa-check"></i><b>2.4.7</b> Preview the report</a></li>
+<li class="chapter" data-level="2.4.8" data-path="intro.html"><a href="intro.html#the-toolbar"><i class="fa fa-check"></i><b>2.4.8</b> The toolbar</a></li>
+<li class="chapter" data-level="2.4.9" data-path="intro.html"><a href="intro.html#knit-the-final-workbook"><i class="fa fa-check"></i><b>2.4.9</b> Knit the final workbook</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="intro.html"><a href="intro.html#turning-in-our-projects"><i class="fa fa-check"></i><b>2.5</b> Turning in our projects</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="import.html"><a href="import.html"><i class="fa fa-check"></i><b>3</b> Import</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="import.html"><a href="import.html#learning-goals-of-this-lesson"><i class="fa fa-check"></i><b>3.1</b> Learning goals of this lesson</a></li>
+<li class="chapter" data-level="3.2" data-path="import.html"><a href="import.html#basic-steps-of-this-lesson"><i class="fa fa-check"></i><b>3.2</b> Basic steps of this lesson</a></li>
+<li class="chapter" data-level="3.3" data-path="import.html"><a href="import.html#create-a-new-project"><i class="fa fa-check"></i><b>3.3</b> Create a new project</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="import.html"><a href="import.html#describe-the-goals-of-the-notebook"><i class="fa fa-check"></i><b>3.3.1</b> Describe the goals of the notebook</a></li>
+<li class="chapter" data-level="3.3.2" data-path="import.html"><a href="import.html#the-r-package-environment"><i class="fa fa-check"></i><b>3.3.2</b> The R Package environment</a></li>
+<li class="chapter" data-level="3.3.3" data-path="import.html"><a href="import.html#installing-and-using-packages"><i class="fa fa-check"></i><b>3.3.3</b> Installing and using packages</a></li>
+<li class="chapter" data-level="3.3.4" data-path="import.html"><a href="import.html#load-the-libraries"><i class="fa fa-check"></i><b>3.3.4</b> Load the libraries</a></li>
+<li class="chapter" data-level="3.3.5" data-path="import.html"><a href="import.html#create-a-directory-for-your-data"><i class="fa fa-check"></i><b>3.3.5</b> Create a directory for your data</a></li>
+<li class="chapter" data-level="3.3.6" data-path="import.html"><a href="import.html#lets-get-our-data"><i class="fa fa-check"></i><b>3.3.6</b> Let’s get our data</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="import.html"><a href="import.html#about-data-sources"><i class="fa fa-check"></i><b>3.4</b> About data sources</a></li>
+<li class="chapter" data-level="3.5" data-path="import.html"><a href="import.html#our-project-data"><i class="fa fa-check"></i><b>3.5</b> Our project data</a></li>
+<li class="chapter" data-level="3.6" data-path="import.html"><a href="import.html#data-dictionary"><i class="fa fa-check"></i><b>3.6</b> Data dictionary</a></li>
+<li class="chapter" data-level="3.7" data-path="import.html"><a href="import.html#import-the-data"><i class="fa fa-check"></i><b>3.7</b> Import the data</a></li>
+<li class="chapter" data-level="3.8" data-path="import.html"><a href="import.html#assign-our-import-to-a-tibble"><i class="fa fa-check"></i><b>3.8</b> Assign our import to a tibble</a>
+<ul>
+<li class="chapter" data-level="3.8.1" data-path="import.html"><a href="import.html#print-a-peek-to-the-screen"><i class="fa fa-check"></i><b>3.8.1</b> Print a peek to the screen</a></li>
+<li class="chapter" data-level="3.8.2" data-path="import.html"><a href="import.html#glimpse-the-data"><i class="fa fa-check"></i><b>3.8.2</b> Glimpse the data</a></li>
+<li class="chapter" data-level="3.8.3" data-path="import.html"><a href="import.html#about-the-pipe"><i class="fa fa-check"></i><b>3.8.3</b> About the pipe %&gt;%</a></li>
+<li class="chapter" data-level="3.8.4" data-path="import.html"><a href="import.html#what-is-clean-data"><i class="fa fa-check"></i><b>3.8.4</b> What is clean data</a></li>
+</ul></li>
+<li class="chapter" data-level="3.9" data-path="import.html"><a href="import.html#cleaning-column-names"><i class="fa fa-check"></i><b>3.9</b> Cleaning column names</a></li>
+<li class="chapter" data-level="3.10" data-path="import.html"><a href="import.html#fixing-the-date"><i class="fa fa-check"></i><b>3.10</b> Fixing the date</a>
+<ul>
+<li class="chapter" data-level="3.10.1" data-path="import.html"><a href="import.html#working-with-mutate"><i class="fa fa-check"></i><b>3.10.1</b> Working with mutate()</a></li>
+</ul></li>
+<li class="chapter" data-level="3.11" data-path="import.html"><a href="import.html#arrange-the-data"><i class="fa fa-check"></i><b>3.11</b> Arrange the data</a></li>
+<li class="chapter" data-level="3.12" data-path="import.html"><a href="import.html#selecting-columns"><i class="fa fa-check"></i><b>3.12</b> Selecting columns</a></li>
+<li class="chapter" data-level="3.13" data-path="import.html"><a href="import.html#exporting-data"><i class="fa fa-check"></i><b>3.13</b> Exporting data</a>
+<ul>
+<li class="chapter" data-level="3.13.1" data-path="import.html"><a href="import.html#single-notebook-philosophy"><i class="fa fa-check"></i><b>3.13.1</b> Single-notebook philosophy</a></li>
+<li class="chapter" data-level="3.13.2" data-path="import.html"><a href="import.html#exporting-as-rds"><i class="fa fa-check"></i><b>3.13.2</b> Exporting as rds</a></li>
+</ul></li>
+<li class="chapter" data-level="3.14" data-path="import.html"><a href="import.html#naming-chunks"><i class="fa fa-check"></i><b>3.14</b> Naming chunks</a></li>
+<li class="chapter" data-level="3.15" data-path="import.html"><a href="import.html#knit-your-page"><i class="fa fa-check"></i><b>3.15</b> Knit your page</a></li>
+<li class="chapter" data-level="3.16" data-path="import.html"><a href="import.html#review-of-what-weve-learned-so-far"><i class="fa fa-check"></i><b>3.16</b> Review of what we’ve learned so far</a></li>
+<li class="chapter" data-level="3.17" data-path="import.html"><a href="import.html#turn-in-your-work"><i class="fa fa-check"></i><b>3.17</b> Turn in your work</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="wrangle.html"><a href="wrangle.html"><i class="fa fa-check"></i><b>4</b> Wrangle</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="wrangle.html"><a href="wrangle.html#goals-of-this-lesson"><i class="fa fa-check"></i><b>4.1</b> Goals of this lesson</a></li>
+<li class="chapter" data-level="4.2" data-path="wrangle.html"><a href="wrangle.html#about-the-story"><i class="fa fa-check"></i><b>4.2</b> About the story</a></li>
+<li class="chapter" data-level="4.3" data-path="wrangle.html"><a href="wrangle.html#setting-up-an-analysis-notebook"><i class="fa fa-check"></i><b>4.3</b> Setting up an analysis notebook</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="wrangle.html"><a href="wrangle.html#import-the-data-on-your-own"><i class="fa fa-check"></i><b>4.3.1</b> Import the data on your own</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="wrangle.html"><a href="wrangle.html#introducing-dplyr"><i class="fa fa-check"></i><b>4.4</b> Introducing dplyr</a></li>
+<li class="chapter" data-level="4.5" data-path="wrangle.html"><a href="wrangle.html#most-appearances"><i class="fa fa-check"></i><b>4.5</b> Most appearances</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="wrangle.html"><a href="wrangle.html#group-aggregate"><i class="fa fa-check"></i><b>4.5.1</b> Group &amp; Aggregate</a></li>
+<li class="chapter" data-level="4.5.2" data-path="wrangle.html"><a href="wrangle.html#summarize"><i class="fa fa-check"></i><b>4.5.2</b> Summarize</a></li>
+<li class="chapter" data-level="4.5.3" data-path="wrangle.html"><a href="wrangle.html#group-by"><i class="fa fa-check"></i><b>4.5.3</b> Group by</a></li>
+<li class="chapter" data-level="4.5.4" data-path="wrangle.html"><a href="wrangle.html#arrange-the-results"><i class="fa fa-check"></i><b>4.5.4</b> Arrange the results</a></li>
+<li class="chapter" data-level="4.5.5" data-path="wrangle.html"><a href="wrangle.html#get-the-top-of-the-list"><i class="fa fa-check"></i><b>4.5.5</b> Get the top of the list</a></li>
+<li class="chapter" data-level="4.5.6" data-path="wrangle.html"><a href="wrangle.html#a-shortcut-count"><i class="fa fa-check"></i><b>4.5.6</b> A shortcut: count()</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="wrangle.html"><a href="wrangle.html#most-songs-to-reach-no.-1"><i class="fa fa-check"></i><b>4.6</b> Most songs to reach No. 1</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="wrangle.html"><a href="wrangle.html#filter"><i class="fa fa-check"></i><b>4.6.1</b> Filter</a></li>
+<li class="chapter" data-level="4.6.2" data-path="wrangle.html"><a href="wrangle.html#comparisons-logical-tests"><i class="fa fa-check"></i><b>4.6.2</b> Comparisons: Logical tests</a></li>
+<li class="chapter" data-level="4.6.3" data-path="wrangle.html"><a href="wrangle.html#filter-for-week_position"><i class="fa fa-check"></i><b>4.6.3</b> Filter for week_position</a></li>
+<li class="chapter" data-level="4.6.4" data-path="wrangle.html"><a href="wrangle.html#complex-filters"><i class="fa fa-check"></i><b>4.6.4</b> Complex filters</a></li>
+<li class="chapter" data-level="4.6.5" data-path="wrangle.html"><a href="wrangle.html#using-distinct"><i class="fa fa-check"></i><b>4.6.5</b> Using distinct()</a></li>
+<li class="chapter" data-level="4.6.6" data-path="wrangle.html"><a href="wrangle.html#summarize-the-performers"><i class="fa fa-check"></i><b>4.6.6</b> Summarize the performers</a></li>
+<li class="chapter" data-level="4.6.7" data-path="wrangle.html"><a href="wrangle.html#filter-after-summary"><i class="fa fa-check"></i><b>4.6.7</b> Filter after summary</a></li>
+<li class="chapter" data-level="4.6.8" data-path="wrangle.html"><a href="wrangle.html#try-count-on-your-own"><i class="fa fa-check"></i><b>4.6.8</b> Try count on your own</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="wrangle.html"><a href="wrangle.html#no.-1-hits-in-last-five-years"><i class="fa fa-check"></i><b>4.7</b> No. 1 hits in last five years</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="wrangle.html"><a href="wrangle.html#group-on-your-own"><i class="fa fa-check"></i><b>4.7.1</b> Group on your own</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="wrangle.html"><a href="wrangle.html#top-10-hits-overall"><i class="fa fa-check"></i><b>4.8</b> Top 10 hits overall</a></li>
+<li class="chapter" data-level="4.9" data-path="wrangle.html"><a href="wrangle.html#most-appearances-at-any-position"><i class="fa fa-check"></i><b>4.9</b> Most appearances at any position</a></li>
+<li class="chapter" data-level="4.10" data-path="wrangle.html"><a href="wrangle.html#most-weeks-at-no.-1"><i class="fa fa-check"></i><b>4.10</b> Most weeks at No. 1</a></li>
+<li class="chapter" data-level="4.11" data-path="wrangle.html"><a href="wrangle.html#review-of-what-weve-learned"><i class="fa fa-check"></i><b>4.11</b> Review of what we’ve learned</a></li>
+<li class="chapter" data-level="4.12" data-path="wrangle.html"><a href="wrangle.html#turn-in-your-project"><i class="fa fa-check"></i><b>4.12</b> Turn in your project</a></li>
+<li class="chapter" data-level="4.13" data-path="wrangle.html"><a href="wrangle.html#soundtrack-for-this-assignment"><i class="fa fa-check"></i><b>4.13</b> Soundtrack for this assignment</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html"><i class="fa fa-check"></i><b>5</b> Wrangle mastery</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#military-surplus-transfers"><i class="fa fa-check"></i><b>5.1</b> Military surplus transfers</a></li>
+<li class="chapter" data-level="5.2" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#the-leso-program"><i class="fa fa-check"></i><b>5.2</b> The LESO program</a></li>
+<li class="chapter" data-level="5.3" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#about-the-data"><i class="fa fa-check"></i><b>5.3</b> About the data</a></li>
+<li class="chapter" data-level="5.4" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#some-helpful-hints"><i class="fa fa-check"></i><b>5.4</b> Some helpful hints</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#create-columns-using-math-from-other-columns"><i class="fa fa-check"></i><b>5.4.1</b> Create columns using math from other columns</a></li>
+<li class="chapter" data-level="5.4.2" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#math-within-summarize"><i class="fa fa-check"></i><b>5.4.2</b> Math within summarize</a></li>
+<li class="chapter" data-level="5.4.3" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#filter-from-a-collection"><i class="fa fa-check"></i><b>5.4.3</b> Filter from a collection</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#the-questions-to-answer-and-write-about"><i class="fa fa-check"></i><b>5.5</b> The questions to answer and write about</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#requirements-of-the-assignment"><i class="fa fa-check"></i><b>5.5.1</b> Requirements of the assignment</a></li>
+<li class="chapter" data-level="5.5.2" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#specifics-for-importcleaning"><i class="fa fa-check"></i><b>5.5.2</b> Specifics for import/cleaning</a></li>
+<li class="chapter" data-level="5.5.3" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#specifics-for-analysis"><i class="fa fa-check"></i><b>5.5.3</b> Specifics for analysis</a></li>
+<li class="chapter" data-level="5.5.4" data-path="wrangle-mastery.html"><a href="wrangle-mastery.html#write-a-data-drop"><i class="fa fa-check"></i><b>5.5.4</b> Write a data drop</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="plots.html"><a href="plots.html"><i class="fa fa-check"></i><b>6</b> Plots</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="plots.html"><a href="plots.html#updates-needed"><i class="fa fa-check"></i><b>6.1</b> UPDATES NEEDED</a></li>
+<li class="chapter" data-level="6.2" data-path="plots.html"><a href="plots.html#goals-for-this-section"><i class="fa fa-check"></i><b>6.2</b> Goals for this section</a></li>
+<li class="chapter" data-level="6.3" data-path="plots.html"><a href="plots.html#introduction-ggplot"><i class="fa fa-check"></i><b>6.3</b> Introduction ggplot</a></li>
+<li class="chapter" data-level="6.4" data-path="plots.html"><a href="plots.html#the-basic-ggplot-template"><i class="fa fa-check"></i><b>6.4</b> The basic ggplot template</a></li>
+<li class="chapter" data-level="6.5" data-path="plots.html"><a href="plots.html#lets-plot"><i class="fa fa-check"></i><b>6.5</b> Let’s plot!</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="plots.html"><a href="plots.html#set-up-our-notebook"><i class="fa fa-check"></i><b>6.5.1</b> Set up our Notebook</a></li>
+<li class="chapter" data-level="6.5.2" data-path="plots.html"><a href="plots.html#scatterplot"><i class="fa fa-check"></i><b>6.5.2</b> Scatterplot</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="plots.html"><a href="plots.html#plotting-our-wells-data"><i class="fa fa-check"></i><b>6.6</b> Plotting our wells data</a>
+<ul>
+<li class="chapter" data-level="6.6.1" data-path="plots.html"><a href="plots.html#total-wells-per-county"><i class="fa fa-check"></i><b>6.6.1</b> Total wells per county</a></li>
+<li class="chapter" data-level="6.6.2" data-path="plots.html"><a href="plots.html#add-a-layer-of-text-labels"><i class="fa fa-check"></i><b>6.6.2</b> Add a layer of text labels</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="plots.html"><a href="plots.html#wells-per-county-over-time"><i class="fa fa-check"></i><b>6.7</b> Wells per county over time</a>
+<ul>
+<li class="chapter" data-level="6.7.1" data-path="plots.html"><a href="plots.html#work-up-the-data-frame"><i class="fa fa-check"></i><b>6.7.1</b> Work up the data frame</a></li>
+<li class="chapter" data-level="6.7.2" data-path="plots.html"><a href="plots.html#draw-the-plot"><i class="fa fa-check"></i><b>6.7.2</b> Draw the plot</a></li>
+<li class="chapter" data-level="6.7.3" data-path="plots.html"><a href="plots.html#your-turn-add-layers"><i class="fa fa-check"></i><b>6.7.3</b> Your turn: Add layers</a></li>
+<li class="chapter" data-level="6.7.4" data-path="plots.html"><a href="plots.html#dates-as-numbers-and-the-problems-they-cause"><i class="fa fa-check"></i><b>6.7.4</b> Dates as numbers and the problems they cause</a></li>
+</ul></li>
+<li class="chapter" data-level="6.8" data-path="plots.html"><a href="plots.html#your-turn-build-a-line-chart"><i class="fa fa-check"></i><b>6.8</b> Your turn: Build a line chart</a></li>
+<li class="chapter" data-level="6.9" data-path="plots.html"><a href="plots.html#review-of-ggplot"><i class="fa fa-check"></i><b>6.9</b> Review of ggplot</a></li>
+<li class="chapter" data-level="6.10" data-path="plots.html"><a href="plots.html#plotly-for-more-interactive-graphics"><i class="fa fa-check"></i><b>6.10</b> Plotly for more interactive graphics</a>
+<ul>
+<li class="chapter" data-level="6.10.1" data-path="plots.html"><a href="plots.html#ggplotly"><i class="fa fa-check"></i><b>6.10.1</b> ggplotly</a></li>
+<li class="chapter" data-level="6.10.2" data-path="plots.html"><a href="plots.html#more-with-plot_ly-function"><i class="fa fa-check"></i><b>6.10.2</b> More with <code>plot_ly()</code> function</a></li>
+<li class="chapter" data-level="6.10.3" data-path="plots.html"><a href="plots.html#plotlys-freemium-model"><i class="fa fa-check"></i><b>6.10.3</b> Plotly’s freemium model</a></li>
+</ul></li>
+<li class="chapter" data-level="6.11" data-path="plots.html"><a href="plots.html#resources"><i class="fa fa-check"></i><b>6.11</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="census.html"><a href="census.html"><i class="fa fa-check"></i><b>7</b> Census</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="census.html"><a href="census.html#goals-of-this-section"><i class="fa fa-check"></i><b>7.1</b> Goals of this section</a></li>
+<li class="chapter" data-level="7.2" data-path="census.html"><a href="census.html#census-bureau-programs-and-platforms"><i class="fa fa-check"></i><b>7.2</b> Census Bureau programs and platforms</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="census.html"><a href="census.html#decennial-census"><i class="fa fa-check"></i><b>7.2.1</b> Decennial Census</a></li>
+<li class="chapter" data-level="7.2.2" data-path="census.html"><a href="census.html#american-community-survey"><i class="fa fa-check"></i><b>7.2.2</b> American Community Survey</a></li>
+<li class="chapter" data-level="7.2.3" data-path="census.html"><a href="census.html#population-estimates-program"><i class="fa fa-check"></i><b>7.2.3</b> Population Estimates Program</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="census.html"><a href="census.html#using-the-new-data-portal"><i class="fa fa-check"></i><b>7.3</b> Using the new data portal</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="census.html"><a href="census.html#tips-about-using-downloaded-portal-data-in-r"><i class="fa fa-check"></i><b>7.3.1</b> Tips about using downloaded portal data in R</a></li>
+<li class="chapter" data-level="7.3.2" data-path="census.html"><a href="census.html#importing-downloaded-data"><i class="fa fa-check"></i><b>7.3.2</b> Importing downloaded data</a></li>
+<li class="chapter" data-level="7.3.3" data-path="census.html"><a href="census.html#fields-made-to-join-with-other-data"><i class="fa fa-check"></i><b>7.3.3</b> Fields made to join with other data</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="census.html"><a href="census.html#using-the-census-api-in-r"><i class="fa fa-check"></i><b>7.4</b> Using the Census API in R</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="census.html"><a href="census.html#setting-up-an-api-key"><i class="fa fa-check"></i><b>7.4.1</b> Setting up an API key</a></li>
+<li class="chapter" data-level="7.4.2" data-path="census.html"><a href="census.html#the-censusapi-package"><i class="fa fa-check"></i><b>7.4.2</b> The censusapi package</a></li>
+<li class="chapter" data-level="7.4.3" data-path="census.html"><a href="census.html#the-tidycensus-package"><i class="fa fa-check"></i><b>7.4.3</b> The tidycensus package</a></li>
+<li class="chapter" data-level="7.4.4" data-path="census.html"><a href="census.html#adding-geometry-to-tidycensus"><i class="fa fa-check"></i><b>7.4.4</b> Adding geometry to tidycensus</a></li>
+<li class="chapter" data-level="7.4.5" data-path="census.html"><a href="census.html#map-shapes-only-with-tigris"><i class="fa fa-check"></i><b>7.4.5</b> Map shapes only with tigris</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="census.html"><a href="census.html#interactive-maps-with-leaflet"><i class="fa fa-check"></i><b>7.5</b> Interactive maps with leaflet</a></li>
+<li class="chapter" data-level="7.6" data-path="census.html"><a href="census.html#resources-1"><i class="fa fa-check"></i><b>7.6</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tidy.html"><a href="tidy.html"><i class="fa fa-check"></i><b>8</b> Tidy data</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tidy.html"><a href="tidy.html#updates-needed-1"><i class="fa fa-check"></i><b>8.1</b> UPDATES NEEDED</a></li>
+<li class="chapter" data-level="8.2" data-path="tidy.html"><a href="tidy.html#goals-for-this-section-1"><i class="fa fa-check"></i><b>8.2</b> Goals for this section</a></li>
+<li class="chapter" data-level="8.3" data-path="tidy.html"><a href="tidy.html#what-is-tidy-data"><i class="fa fa-check"></i><b>8.3</b> What is tidy data</a></li>
+<li class="chapter" data-level="8.4" data-path="tidy.html"><a href="tidy.html#tidyr-package"><i class="fa fa-check"></i><b>8.4</b> Tidyr package</a></li>
+<li class="chapter" data-level="8.5" data-path="tidy.html"><a href="tidy.html#the-tidyr-verbs"><i class="fa fa-check"></i><b>8.5</b> The tidyr verbs</a></li>
+<li class="chapter" data-level="8.6" data-path="tidy.html"><a href="tidy.html#set-up-the-mixbev-project"><i class="fa fa-check"></i><b>8.6</b> Set up the mixbev project</a></li>
+<li class="chapter" data-level="8.7" data-path="tidy.html"><a href="tidy.html#create-an-explore-notebook"><i class="fa fa-check"></i><b>8.7</b> Create an explore notebook</a>
+<ul>
+<li class="chapter" data-level="8.7.1" data-path="tidy.html"><a href="tidy.html#peruse-the-data"><i class="fa fa-check"></i><b>8.7.1</b> Peruse the data</a></li>
+</ul></li>
+<li class="chapter" data-level="8.8" data-path="tidy.html"><a href="tidy.html#what-might-we-learn-about-this-dataset"><i class="fa fa-check"></i><b>8.8</b> What might we learn about this dataset</a></li>
+<li class="chapter" data-level="8.9" data-path="tidy.html"><a href="tidy.html#add-years-and-months-values"><i class="fa fa-check"></i><b>8.9</b> Add years and months values</a></li>
+<li class="chapter" data-level="8.10" data-path="tidy.html"><a href="tidy.html#campus-bars"><i class="fa fa-check"></i><b>8.10</b> Campus bars</a>
+<ul>
+<li class="chapter" data-level="8.10.1" data-path="tidy.html"><a href="tidy.html#total-78705-sales-leaders-in-2018"><i class="fa fa-check"></i><b>8.10.1</b> Total 78705 sales leaders in 2018</a></li>
+</ul></li>
+<li class="chapter" data-level="8.11" data-path="tidy.html"><a href="tidy.html#west-campus-student-hot-spots"><i class="fa fa-check"></i><b>8.11</b> West Campus student hot spots</a></li>
+<li class="chapter" data-level="8.12" data-path="tidy.html"><a href="tidy.html#campus-area-bar-sales-over-time"><i class="fa fa-check"></i><b>8.12</b> Campus-area bar sales over time</a>
+<ul>
+<li class="chapter" data-level="8.12.1" data-path="tidy.html"><a href="tidy.html#visualizing-your-visualization"><i class="fa fa-check"></i><b>8.12.1</b> Visualizing your visualization</a></li>
+<li class="chapter" data-level="8.12.2" data-path="tidy.html"><a href="tidy.html#what-did-we-find"><i class="fa fa-check"></i><b>8.12.2</b> What did we find?</a></li>
+</ul></li>
+<li class="chapter" data-level="8.13" data-path="tidy.html"><a href="tidy.html#types-of-sales-within-student-bars"><i class="fa fa-check"></i><b>8.13</b> Types of sales within student bars</a></li>
+<li class="chapter" data-level="8.14" data-path="tidy.html"><a href="tidy.html#how-gather-works"><i class="fa fa-check"></i><b>8.14</b> How gather() works</a></li>
+<li class="chapter" data-level="8.15" data-path="tidy.html"><a href="tidy.html#applying-gather-to-beer-wine-and-liquor"><i class="fa fa-check"></i><b>8.15</b> Applying gather() to beer, wine and liquor</a>
+<ul>
+<li class="chapter" data-level="8.15.1" data-path="tidy.html"><a href="tidy.html#plot-sales-by-type-for-a-single-campus-area-bar"><i class="fa fa-check"></i><b>8.15.1</b> Plot sales by type for a single campus-area bar</a></li>
+<li class="chapter" data-level="8.15.2" data-path="tidy.html"><a href="tidy.html#plot-sales-by-type-for-multiple-campus-area-bars"><i class="fa fa-check"></i><b>8.15.2</b> Plot sales by type for multiple campus-area bars</a></li>
+<li class="chapter" data-level="8.15.3" data-path="tidy.html"><a href="tidy.html#what-did-we-learn"><i class="fa fa-check"></i><b>8.15.3</b> What did we learn?</a></li>
+</ul></li>
+<li class="chapter" data-level="8.16" data-path="tidy.html"><a href="tidy.html#the-spread-function"><i class="fa fa-check"></i><b>8.16</b> The spread() function</a></li>
+<li class="chapter" data-level="8.17" data-path="tidy.html"><a href="tidy.html#practice-assignment-exploring-the-top-seller"><i class="fa fa-check"></i><b>8.17</b> Practice assignment: Exploring the top seller</a></li>
+<li class="chapter" data-level="8.18" data-path="tidy.html"><a href="tidy.html#bonus-top-5-sellers-in-travis-county-over-three-years"><i class="fa fa-check"></i><b>8.18</b> Bonus: Top 5 sellers in Travis County over three years</a></li>
+<li class="chapter" data-level="8.19" data-path="tidy.html"><a href="tidy.html#bonus-total-sales-by-county"><i class="fa fa-check"></i><b>8.19</b> Bonus: Total sales by county</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="review-plots.html"><a href="review-plots.html"><i class="fa fa-check"></i><b>9</b> Review: Plots</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="review-plots.html"><a href="review-plots.html#updates-needed-2"><i class="fa fa-check"></i><b>9.1</b> UPDATES NEEDED</a></li>
+<li class="chapter" data-level="9.2" data-path="review-plots.html"><a href="review-plots.html#project-setup"><i class="fa fa-check"></i><b>9.2</b> Project setup</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="review-plots.html"><a href="review-plots.html#download-the-data"><i class="fa fa-check"></i><b>9.2.1</b> Download the data</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="review-plots.html"><a href="review-plots.html#the-story"><i class="fa fa-check"></i><b>9.3</b> The story</a></li>
+<li class="chapter" data-level="9.4" data-path="review-plots.html"><a href="review-plots.html#explore-the-data"><i class="fa fa-check"></i><b>9.4</b> Explore the data</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="review-plots.html"><a href="review-plots.html#third-down-conversions"><i class="fa fa-check"></i><b>9.4.1</b> Third-down conversions</a></li>
+<li class="chapter" data-level="9.4.2" data-path="review-plots.html"><a href="review-plots.html#scoring"><i class="fa fa-check"></i><b>9.4.2</b> Scoring</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="review-plots.html"><a href="review-plots.html#about-joins"><i class="fa fa-check"></i><b>9.5</b> About joins</a></li>
+<li class="chapter" data-level="9.6" data-path="review-plots.html"><a href="review-plots.html#build-our-scatterplot"><i class="fa fa-check"></i><b>9.6</b> Build our scatterplot</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="review-plots.html"><a href="review-plots.html#add-a-fit-line"><i class="fa fa-check"></i><b>9.6.1</b> Add a fit line</a></li>
+<li class="chapter" data-level="9.6.2" data-path="review-plots.html"><a href="review-plots.html#run-a-correlation-test"><i class="fa fa-check"></i><b>9.6.2</b> Run a correlation test</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="review-plots.html"><a href="review-plots.html#how-does-texas-compare"><i class="fa fa-check"></i><b>9.7</b> How does Texas compare?</a></li>
+<li class="chapter" data-level="9.8" data-path="review-plots.html"><a href="review-plots.html#correlaton-test-for-texas"><i class="fa fa-check"></i><b>9.8</b> Correlaton test for Texas</a></li>
+<li class="chapter" data-level="9.9" data-path="review-plots.html"><a href="review-plots.html#practice-1-compare-penn-state"><i class="fa fa-check"></i><b>9.9</b> Practice 1: Compare Penn State</a></li>
+<li class="chapter" data-level="9.10" data-path="review-plots.html"><a href="review-plots.html#practice-2-penalties-vs-scoring"><i class="fa fa-check"></i><b>9.10</b> Practice 2: Penalties vs scoring</a></li>
+<li class="chapter" data-level="9.11" data-path="review-plots.html"><a href="review-plots.html#using-bind_rows-to-merge-data-sets"><i class="fa fa-check"></i><b>9.11</b> Using bind_rows() to merge data sets</a>
+<ul>
+<li class="chapter" data-level="9.11.1" data-path="review-plots.html"><a href="review-plots.html#combine-data-with-a-group"><i class="fa fa-check"></i><b>9.11.1</b> Combine data with a group</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="reordering-factors.html"><a href="reordering-factors.html"><i class="fa fa-check"></i><b>10</b> Reordering factors</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="reordering-factors.html"><a href="reordering-factors.html#goals-for-this-section-2"><i class="fa fa-check"></i><b>10.1</b> Goals for this section</a></li>
+<li class="chapter" data-level="10.2" data-path="reordering-factors.html"><a href="reordering-factors.html#create-our-survey-project"><i class="fa fa-check"></i><b>10.2</b> Create our survey project</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="reordering-factors.html"><a href="reordering-factors.html#setup"><i class="fa fa-check"></i><b>10.2.1</b> Setup</a></li>
+<li class="chapter" data-level="10.2.2" data-path="reordering-factors.html"><a href="reordering-factors.html#libraries"><i class="fa fa-check"></i><b>10.2.2</b> Libraries</a></li>
+<li class="chapter" data-level="10.2.3" data-path="reordering-factors.html"><a href="reordering-factors.html#import-the-data-1"><i class="fa fa-check"></i><b>10.2.3</b> Import the data</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="reordering-factors.html"><a href="reordering-factors.html#figuring-out-our-data-shape"><i class="fa fa-check"></i><b>10.3</b> Figuring out our data shape</a></li>
+<li class="chapter" data-level="10.4" data-path="reordering-factors.html"><a href="reordering-factors.html#charting-the-popularity-of-princess"><i class="fa fa-check"></i><b>10.4</b> Charting the popularity of princess</a></li>
+<li class="chapter" data-level="10.5" data-path="reordering-factors.html"><a href="reordering-factors.html#create-our-princess-plot"><i class="fa fa-check"></i><b>10.5</b> Create our princess plot</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="reordering-factors.html"><a href="reordering-factors.html#labels-and-titles"><i class="fa fa-check"></i><b>10.5.1</b> Labels and titles</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="reordering-factors.html"><a href="reordering-factors.html#factors"><i class="fa fa-check"></i><b>10.6</b> Factors</a></li>
+<li class="chapter" data-level="10.7" data-path="reordering-factors.html"><a href="reordering-factors.html#reorder-princess"><i class="fa fa-check"></i><b>10.7</b> Reorder princess</a></li>
+<li class="chapter" data-level="10.8" data-path="reordering-factors.html"><a href="reordering-factors.html#factors-recap"><i class="fa fa-check"></i><b>10.8</b> Factors recap</a></li>
+<li class="chapter" data-level="10.9" data-path="reordering-factors.html"><a href="reordering-factors.html#practice-make-an-ice-cream-chart"><i class="fa fa-check"></i><b>10.9</b> Practice: Make an ice cream chart</a>
+<ul>
+<li class="chapter" data-level="10.9.1" data-path="reordering-factors.html"><a href="reordering-factors.html#turn-in-this-project"><i class="fa fa-check"></i><b>10.9.1</b> Turn in this project</a></li>
+</ul></li>
+<li class="chapter" data-level="10.10" data-path="reordering-factors.html"><a href="reordering-factors.html#resources-2"><i class="fa fa-check"></i><b>10.10</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="plotly.html"><a href="plotly.html"><i class="fa fa-check"></i><b>11</b> Plotly</a></li>
+<li class="chapter" data-level="12" data-path="review---data-wrangling.html"><a href="review---data-wrangling.html"><i class="fa fa-check"></i><b>12</b> Review - Data wrangling</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="review---data-wrangling.html"><a href="review---data-wrangling.html#start-a-new-project"><i class="fa fa-check"></i><b>12.1</b> Start a new project</a></li>
+<li class="chapter" data-level="12.2" data-path="review---data-wrangling.html"><a href="review---data-wrangling.html#downloading-our-data"><i class="fa fa-check"></i><b>12.2</b> Downloading our data</a></li>
+<li class="chapter" data-level="12.3" data-path="review---data-wrangling.html"><a href="review---data-wrangling.html#importing-from-an-excel-spreadsheet"><i class="fa fa-check"></i><b>12.3</b> Importing from an Excel spreadsheet</a></li>
+<li class="chapter" data-level="12.4" data-path="review---data-wrangling.html"><a href="review---data-wrangling.html#a-quick-look-at-our-data"><i class="fa fa-check"></i><b>12.4</b> A quick look at our data</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="cleaning.html"><a href="cleaning.html"><i class="fa fa-check"></i><b>13</b> Cleaning</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="cleaning.html"><a href="cleaning.html#not-finished-needs-rewrite"><i class="fa fa-check"></i><b>13.1</b> NOT FINISHED, NEEDS REWRITE</a></li>
+<li class="chapter" data-level="13.2" data-path="cleaning.html"><a href="cleaning.html#goals-for-this-section-3"><i class="fa fa-check"></i><b>13.2</b> Goals for this section</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="cleaning.html"><a href="cleaning.html#resources-3"><i class="fa fa-check"></i><b>13.2.1</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="cleaning.html"><a href="cleaning.html#explain-thyself"><i class="fa fa-check"></i><b>13.3</b> Explain thyself</a></li>
+<li class="chapter" data-level="13.4" data-path="cleaning.html"><a href="cleaning.html#syntax-etiquette"><i class="fa fa-check"></i><b>13.4</b> Syntax etiquette</a></li>
+<li class="chapter" data-level="13.5" data-path="cleaning.html"><a href="cleaning.html#recode-the-apd_race-column"><i class="fa fa-check"></i><b>13.5</b> Recode the <code>apd_race</code> column</a></li>
+<li class="chapter" data-level="13.6" data-path="cleaning.html"><a href="cleaning.html#filter-out-data-we-dont-need"><i class="fa fa-check"></i><b>13.6</b> Filter out data we don’t need</a>
+<ul>
+<li class="chapter" data-level="13.6.1" data-path="cleaning.html"><a href="cleaning.html#about-marijuana-charges"><i class="fa fa-check"></i><b>13.6.1</b> About marijuana charges</a></li>
+<li class="chapter" data-level="13.6.2" data-path="cleaning.html"><a href="cleaning.html#filter-out-delivery-charges"><i class="fa fa-check"></i><b>13.6.2</b> Filter out delivery charges</a></li>
+<li class="chapter" data-level="13.6.3" data-path="cleaning.html"><a href="cleaning.html#remove-controlled-substance"><i class="fa fa-check"></i><b>13.6.3</b> Remove controlled substance</a></li>
+<li class="chapter" data-level="13.6.4" data-path="cleaning.html"><a href="cleaning.html#remove-drug-free-zones"><i class="fa fa-check"></i><b>13.6.4</b> Remove drug free zones</a></li>
+<li class="chapter" data-level="13.6.5" data-path="cleaning.html"><a href="cleaning.html#remove-request-to-apprehend"><i class="fa fa-check"></i><b>13.6.5</b> Remove request to apprehend</a></li>
+<li class="chapter" data-level="13.6.6" data-path="cleaning.html"><a href="cleaning.html#removing-more-unwated-records"><i class="fa fa-check"></i><b>13.6.6</b> Removing more unwated records</a></li>
+</ul></li>
+<li class="chapter" data-level="13.7" data-path="cleaning.html"><a href="cleaning.html#finding-just-b-misdemeanors"><i class="fa fa-check"></i><b>13.7</b> Finding just B misdemeanors</a></li>
+<li class="chapter" data-level="13.8" data-path="cleaning.html"><a href="cleaning.html#export-your-updated-data-frame"><i class="fa fa-check"></i><b>13.8</b> Export your updated data frame</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="sped-import.html"><a href="sped-import.html"><i class="fa fa-check"></i><b>14</b> SPED Joins</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="sped-import.html"><a href="sped-import.html#goals-for-this-section-4"><i class="fa fa-check"></i><b>14.1</b> Goals for this section</a></li>
+<li class="chapter" data-level="14.2" data-path="sped-import.html"><a href="sped-import.html#our-project-data-1"><i class="fa fa-check"></i><b>14.2</b> Our project data</a></li>
+<li class="chapter" data-level="14.3" data-path="sped-import.html"><a href="sped-import.html#about-data-sources-1"><i class="fa fa-check"></i><b>14.3</b> About data sources</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="sped-import.html"><a href="sped-import.html#what-is-clean-data-1"><i class="fa fa-check"></i><b>14.3.1</b> What is clean data</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="sped-import.html"><a href="sped-import.html#create-a-new-project-1"><i class="fa fa-check"></i><b>14.4</b> Create a new project</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="sped-import.html"><a href="sped-import.html#the-r-package-environment-1"><i class="fa fa-check"></i><b>14.4.1</b> The R Package environment</a></li>
+<li class="chapter" data-level="14.4.2" data-path="sped-import.html"><a href="sped-import.html#installing-and-using-packages-1"><i class="fa fa-check"></i><b>14.4.2</b> Installing and using packages</a></li>
+<li class="chapter" data-level="14.4.3" data-path="sped-import.html"><a href="sped-import.html#load-the-libraries-1"><i class="fa fa-check"></i><b>14.4.3</b> Load the libraries</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="sped-import.html"><a href="sped-import.html#downloading-raw-data"><i class="fa fa-check"></i><b>14.5</b> Downloading raw data</a>
+<ul>
+<li class="chapter" data-level="14.5.1" data-path="sped-import.html"><a href="sped-import.html#create-a-directory-for-your-data-1"><i class="fa fa-check"></i><b>14.5.1</b> Create a directory for your data</a></li>
+<li class="chapter" data-level="14.5.2" data-path="sped-import.html"><a href="sped-import.html#lets-get-some-data"><i class="fa fa-check"></i><b>14.5.2</b> Let’s get some data</a></li>
+<li class="chapter" data-level="14.5.3" data-path="sped-import.html"><a href="sped-import.html#peek-at-the-data-file"><i class="fa fa-check"></i><b>14.5.3</b> Peek at the data file</a></li>
+<li class="chapter" data-level="14.5.4" data-path="sped-import.html"><a href="sped-import.html#import-csv-as-data"><i class="fa fa-check"></i><b>14.5.4</b> Import csv as data</a></li>
+</ul></li>
+<li class="chapter" data-level="14.6" data-path="sped-import.html"><a href="sped-import.html#assign-our-import-to-a-data-frame"><i class="fa fa-check"></i><b>14.6</b> Assign our import to a data frame</a>
+<ul>
+<li class="chapter" data-level="14.6.1" data-path="sped-import.html"><a href="sped-import.html#print-a-peek-to-the-screen-1"><i class="fa fa-check"></i><b>14.6.1</b> Print a peek to the screen</a></li>
+<li class="chapter" data-level="14.6.2" data-path="sped-import.html"><a href="sped-import.html#glimpse-the-data-1"><i class="fa fa-check"></i><b>14.6.2</b> Glimpse the data</a></li>
+<li class="chapter" data-level="14.6.3" data-path="sped-import.html"><a href="sped-import.html#about-the-pipe-1"><i class="fa fa-check"></i><b>14.6.3</b> About the pipe %&gt;%</a></li>
+<li class="chapter" data-level="14.6.4" data-path="sped-import.html"><a href="sped-import.html#creating-consistent-column-names"><i class="fa fa-check"></i><b>14.6.4</b> Creating consistent column names</a></li>
+<li class="chapter" data-level="14.6.5" data-path="sped-import.html"><a href="sped-import.html#import-other-data-frames"><i class="fa fa-check"></i><b>14.6.5</b> Import other data frames</a></li>
+</ul></li>
+<li class="chapter" data-level="14.7" data-path="sped-import.html"><a href="sped-import.html#prepare-data-for-joining"><i class="fa fa-check"></i><b>14.7</b> Prepare data for joining</a>
+<ul>
+<li class="chapter" data-level="14.7.1" data-path="sped-import.html"><a href="sped-import.html#prepare-the-directory-data"><i class="fa fa-check"></i><b>14.7.1</b> Prepare the directory data</a></li>
+<li class="chapter" data-level="14.7.2" data-path="sped-import.html"><a href="sped-import.html#prepare-cstud-data"><i class="fa fa-check"></i><b>14.7.2</b> Prepare CSTUD data</a></li>
+</ul></li>
+<li class="chapter" data-level="14.8" data-path="sped-import.html"><a href="sped-import.html#joining-the-data-together"><i class="fa fa-check"></i><b>14.8</b> Joining the data together</a></li>
+<li class="chapter" data-level="14.9" data-path="sped-import.html"><a href="sped-import.html#exporting-data-1"><i class="fa fa-check"></i><b>14.9</b> Exporting data</a>
+<ul>
+<li class="chapter" data-level="14.9.1" data-path="sped-import.html"><a href="sped-import.html#single-notebook-philosophy-1"><i class="fa fa-check"></i><b>14.9.1</b> Single-notebook philosophy</a></li>
+<li class="chapter" data-level="14.9.2" data-path="sped-import.html"><a href="sped-import.html#exporting-as-rds-1"><i class="fa fa-check"></i><b>14.9.2</b> Exporting as rds</a></li>
+</ul></li>
+<li class="chapter" data-level="14.10" data-path="sped-import.html"><a href="sped-import.html#review-of-what-weve-learned-so-far-1"><i class="fa fa-check"></i><b>14.10</b> Review of what we’ve learned so far</a></li>
+<li class="chapter" data-level="14.11" data-path="sped-import.html"><a href="sped-import.html#resources-4"><i class="fa fa-check"></i><b>14.11</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="sped-transform.html"><a href="sped-transform.html"><i class="fa fa-check"></i><b>15</b> Transform</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="sped-transform.html"><a href="sped-transform.html#rewite-tasks"><i class="fa fa-check"></i><b>15.1</b> Rewite tasks</a></li>
+<li class="chapter" data-level="15.2" data-path="sped-transform.html"><a href="sped-transform.html#goals-for-the-section"><i class="fa fa-check"></i><b>15.2</b> Goals for the section</a></li>
+<li class="chapter" data-level="15.3" data-path="sped-transform.html"><a href="sped-transform.html#introducing-dplyr-1"><i class="fa fa-check"></i><b>15.3</b> Introducing dplyr</a></li>
+<li class="chapter" data-level="15.4" data-path="sped-transform.html"><a href="sped-transform.html#start-a-new-r-notebook"><i class="fa fa-check"></i><b>15.4</b> Start a new R Notebook</a></li>
+<li class="chapter" data-level="15.5" data-path="sped-transform.html"><a href="sped-transform.html#record-our-goals"><i class="fa fa-check"></i><b>15.5</b> Record our goals</a></li>
+<li class="chapter" data-level="15.6" data-path="sped-transform.html"><a href="sped-transform.html#setup-1"><i class="fa fa-check"></i><b>15.6</b> Setup</a>
+<ul>
+<li class="chapter" data-level="15.6.1" data-path="sped-transform.html"><a href="sped-transform.html#naming-our-chunks"><i class="fa fa-check"></i><b>15.6.1</b> Naming our chunks</a></li>
+</ul></li>
+<li class="chapter" data-level="15.7" data-path="sped-transform.html"><a href="sped-transform.html#import-our-data"><i class="fa fa-check"></i><b>15.7</b> Import our data</a></li>
+<li class="chapter" data-level="15.8" data-path="sped-transform.html"><a href="sped-transform.html#explore-instruction-type"><i class="fa fa-check"></i><b>15.8</b> Explore instruction type</a></li>
+<li class="chapter" data-level="15.9" data-path="sped-transform.html"><a href="sped-transform.html#filter-1"><i class="fa fa-check"></i><b>15.9</b> Filter()</a>
+<ul>
+<li class="chapter" data-level="15.9.1" data-path="sped-transform.html"><a href="sped-transform.html#filter-for-regular-instructional-schools"><i class="fa fa-check"></i><b>15.9.1</b> Filter for Regular Instructional schools</a></li>
+<li class="chapter" data-level="15.9.2" data-path="sped-transform.html"><a href="sped-transform.html#logical-tests"><i class="fa fa-check"></i><b>15.9.2</b> Logical tests</a></li>
+<li class="chapter" data-level="15.9.3" data-path="sped-transform.html"><a href="sped-transform.html#common-mistakes-with-filter"><i class="fa fa-check"></i><b>15.9.3</b> Common mistakes with filter</a></li>
+</ul></li>
+<li class="chapter" data-level="15.10" data-path="sped-transform.html"><a href="sped-transform.html#combining-filters"><i class="fa fa-check"></i><b>15.10</b> Combining filters</a>
+<ul>
+<li class="chapter" data-level="15.10.1" data-path="sped-transform.html"><a href="sped-transform.html#common-mistakes-with-combining-filters"><i class="fa fa-check"></i><b>15.10.1</b> Common mistakes with combining filters</a></li>
+</ul></li>
+<li class="chapter" data-level="15.11" data-path="sped-transform.html"><a href="sped-transform.html#select"><i class="fa fa-check"></i><b>15.11</b> Select()</a></li>
+<li class="chapter" data-level="15.12" data-path="sped-transform.html"><a href="sped-transform.html#how-to-describe-the-change"><i class="fa fa-check"></i><b>15.12</b> How to describe the change</a>
+<ul>
+<li class="chapter" data-level="15.12.1" data-path="sped-transform.html"><a href="sped-transform.html#describing-the-count-changes"><i class="fa fa-check"></i><b>15.12.1</b> Describing the count changes</a></li>
+<li class="chapter" data-level="15.12.2" data-path="sped-transform.html"><a href="sped-transform.html#describing-percentage-differences"><i class="fa fa-check"></i><b>15.12.2</b> Describing percentage differences</a></li>
+</ul></li>
+<li class="chapter" data-level="15.13" data-path="sped-transform.html"><a href="sped-transform.html#mutate"><i class="fa fa-check"></i><b>15.13</b> Mutate()</a>
+<ul>
+<li class="chapter" data-level="15.13.1" data-path="sped-transform.html"><a href="sped-transform.html#simple-change-of-counts"><i class="fa fa-check"></i><b>15.13.1</b> Simple change of counts</a></li>
+<li class="chapter" data-level="15.13.2" data-path="sped-transform.html"><a href="sped-transform.html#calculate-percent-change"><i class="fa fa-check"></i><b>15.13.2</b> Calculate percent change</a></li>
+<li class="chapter" data-level="15.13.3" data-path="sped-transform.html"><a href="sped-transform.html#calculate-percentage-point-difference"><i class="fa fa-check"></i><b>15.13.3</b> Calculate percentage point difference</a></li>
+<li class="chapter" data-level="15.13.4" data-path="sped-transform.html"><a href="sped-transform.html#calculating-our-special-education-threshold"><i class="fa fa-check"></i><b>15.13.4</b> Calculating our special education threshold</a></li>
+</ul></li>
+<li class="chapter" data-level="15.14" data-path="sped-transform.html"><a href="sped-transform.html#export-your-computations"><i class="fa fa-check"></i><b>15.14</b> Export your computations</a></li>
+<li class="chapter" data-level="15.15" data-path="sped-transform.html"><a href="sped-transform.html#more-dplyr-in-next-lesson"><i class="fa fa-check"></i><b>15.15</b> More dplyr in next lesson</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="sped-summarize.html"><a href="sped-summarize.html"><i class="fa fa-check"></i><b>16</b> Summarize</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="sped-summarize.html"><a href="sped-summarize.html#new-task-new-notebook"><i class="fa fa-check"></i><b>16.1</b> New task, new notebook</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="sped-summarize.html"><a href="sped-summarize.html#create-analysis-notebook"><i class="fa fa-check"></i><b>16.1.1</b> Create analysis notebook</a></li>
+<li class="chapter" data-level="16.1.2" data-path="sped-summarize.html"><a href="sped-summarize.html#import-1"><i class="fa fa-check"></i><b>16.1.2</b> Import</a></li>
+<li class="chapter" data-level="16.1.3" data-path="sped-summarize.html"><a href="sped-summarize.html#filter-to-austin-isd"><i class="fa fa-check"></i><b>16.1.3</b> Filter to Austin ISD</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="sped-summarize.html"><a href="sped-summarize.html#sorting-with-arrange"><i class="fa fa-check"></i><b>16.2</b> Sorting with arrange()</a>
+<ul>
+<li class="chapter" data-level="16.2.1" data-path="sped-summarize.html"><a href="sped-summarize.html#about-arrange"><i class="fa fa-check"></i><b>16.2.1</b> About arrange</a></li>
+<li class="chapter" data-level="16.2.2" data-path="sped-summarize.html"><a href="sped-summarize.html#most-new-special-education-students"><i class="fa fa-check"></i><b>16.2.2</b> Most new special education students</a></li>
+<li class="chapter" data-level="16.2.3" data-path="sped-summarize.html"><a href="sped-summarize.html#the-head-command"><i class="fa fa-check"></i><b>16.2.3</b> The head() command</a></li>
+<li class="chapter" data-level="16.2.4" data-path="sped-summarize.html"><a href="sped-summarize.html#highest-share-of-special-education-students-in-2020"><i class="fa fa-check"></i><b>16.2.4</b> Highest share of special education students in 2020</a></li>
+<li class="chapter" data-level="16.2.5" data-path="sped-summarize.html"><a href="sped-summarize.html#greatest-change-in-share-of-special-education-students"><i class="fa fa-check"></i><b>16.2.5</b> Greatest change in share of special education students</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="sped-summarize.html"><a href="sped-summarize.html#aggregates-with-summarize"><i class="fa fa-check"></i><b>16.3</b> Aggregates with summarize()</a></li>
+<li class="chapter" data-level="16.4" data-path="sped-summarize.html"><a href="sped-summarize.html#group_by"><i class="fa fa-check"></i><b>16.4</b> Group_by()</a>
+<ul>
+<li class="chapter" data-level="16.4.1" data-path="sped-summarize.html"><a href="sped-summarize.html#group-and-count"><i class="fa fa-check"></i><b>16.4.1</b> Group and count</a></li>
+<li class="chapter" data-level="16.4.2" data-path="sped-summarize.html"><a href="sped-summarize.html#the-count-function-shortcut"><i class="fa fa-check"></i><b>16.4.2</b> The count() function shortcut</a></li>
+<li class="chapter" data-level="16.4.3" data-path="sped-summarize.html"><a href="sped-summarize.html#comparing-thresholds-for-2015-and-2020"><i class="fa fa-check"></i><b>16.4.3</b> Comparing thresholds for 2015 and 2020</a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="sped-summarize.html"><a href="sped-summarize.html#more-on-summarize"><i class="fa fa-check"></i><b>16.5</b> More on summarize</a>
+<ul>
+<li class="chapter" data-level="16.5.1" data-path="sped-summarize.html"><a href="sped-summarize.html#ignoring-na-values"><i class="fa fa-check"></i><b>16.5.1</b> Ignoring NA values</a></li>
+</ul></li>
+<li class="chapter" data-level="16.6" data-path="sped-summarize.html"><a href="sped-summarize.html#review-what-we-learned"><i class="fa fa-check"></i><b>16.6</b> Review what we learned</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html"><i class="fa fa-check"></i><b>17</b> How to tackle a new dataset</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#needs-review"><i class="fa fa-check"></i><b>17.1</b> NEEDS REVIEW</a></li>
+<li class="chapter" data-level="17.2" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#start-by-listing-questions"><i class="fa fa-check"></i><b>17.2</b> Start by listing questions</a></li>
+<li class="chapter" data-level="17.3" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#understand-your-data"><i class="fa fa-check"></i><b>17.3</b> Understand your data</a></li>
+<li class="chapter" data-level="17.4" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#counting-and-aggregation"><i class="fa fa-check"></i><b>17.4</b> Counting and aggregation</a>
+<ul>
+<li class="chapter" data-level="17.4.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#counting-rows-based-on-a-column"><i class="fa fa-check"></i><b>17.4.1</b> Counting rows based on a column</a></li>
+<li class="chapter" data-level="17.4.2" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#sum-mean-and-other-aggregations"><i class="fa fa-check"></i><b>17.4.2</b> Sum, mean and other aggregations</a></li>
+<li class="chapter" data-level="17.4.3" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#creating-columns-to-show-difference"><i class="fa fa-check"></i><b>17.4.3</b> Creating columns to show difference</a></li>
+</ul></li>
+<li class="chapter" data-level="17.5" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#cleaning-up-categorical-data"><i class="fa fa-check"></i><b>17.5</b> Cleaning up categorical data</a></li>
+<li class="chapter" data-level="17.6" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#time-as-a-variable"><i class="fa fa-check"></i><b>17.6</b> Time as a variable</a></li>
+<li class="chapter" data-level="17.7" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#explore-the-distributions-in-your-data"><i class="fa fa-check"></i><b>17.7</b> Explore the distributions in your data</a>
+<ul>
+<li class="chapter" data-level="17.7.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#more-on-histograms"><i class="fa fa-check"></i><b>17.7.1</b> More on histograms</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="verbs.html"><a href="verbs.html"><i class="fa fa-check"></i><b>18</b> Verbs</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="verbs.html"><a href="verbs.html#needs-review-1"><i class="fa fa-check"></i><b>18.1</b> NEEDS REVIEW</a></li>
+<li class="chapter" data-level="18.2" data-path="verbs.html"><a href="verbs.html#importexport"><i class="fa fa-check"></i><b>18.2</b> Import/Export</a></li>
+<li class="chapter" data-level="18.3" data-path="verbs.html"><a href="verbs.html#data-manipulation"><i class="fa fa-check"></i><b>18.3</b> Data manipulation</a></li>
+<li class="chapter" data-level="18.4" data-path="verbs.html"><a href="verbs.html#aggregation"><i class="fa fa-check"></i><b>18.4</b> Aggregation</a></li>
+<li class="chapter" data-level="18.5" data-path="verbs.html"><a href="verbs.html#math"><i class="fa fa-check"></i><b>18.5</b> Math</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="chart-examples.html"><a href="chart-examples.html"><i class="fa fa-check"></i><b>19</b> Chart examples</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="chart-examples.html"><a href="chart-examples.html#needs-review-2"><i class="fa fa-check"></i><b>19.1</b> NEEDS REVIEW</a></li>
+<li class="chapter" data-level="19.2" data-path="chart-examples.html"><a href="chart-examples.html#bar-charts"><i class="fa fa-check"></i><b>19.2</b> Bar charts</a>
+<ul>
+<li class="chapter" data-level="19.2.1" data-path="chart-examples.html"><a href="chart-examples.html#explanaton"><i class="fa fa-check"></i><b>19.2.1</b> Explanaton</a></li>
+</ul></li>
+<li class="chapter" data-level="19.3" data-path="chart-examples.html"><a href="chart-examples.html#column-chart"><i class="fa fa-check"></i><b>19.3</b> Column chart</a></li>
+<li class="chapter" data-level="19.4" data-path="chart-examples.html"><a href="chart-examples.html#a-line-chart"><i class="fa fa-check"></i><b>19.4</b> A line chart</a>
+<ul>
+<li class="chapter" data-level="19.4.1" data-path="chart-examples.html"><a href="chart-examples.html#explanation"><i class="fa fa-check"></i><b>19.4.1</b> Explanation</a></li>
+</ul></li>
+<li class="chapter" data-level="19.5" data-path="chart-examples.html"><a href="chart-examples.html#scatterplot-1"><i class="fa fa-check"></i><b>19.5</b> Scatterplot</a>
+<ul>
+<li class="chapter" data-level="19.5.1" data-path="chart-examples.html"><a href="chart-examples.html#explanation-1"><i class="fa fa-check"></i><b>19.5.1</b> Explanation</a></li>
+</ul></li>
+<li class="chapter" data-level="19.6" data-path="chart-examples.html"><a href="chart-examples.html#histogram"><i class="fa fa-check"></i><b>19.6</b> Histogram</a></li>
+<li class="chapter" data-level="19.7" data-path="chart-examples.html"><a href="chart-examples.html#titles-labels-and-other-cleanup"><i class="fa fa-check"></i><b>19.7</b> Titles, labels and other cleanup</a>
+<ul>
+<li class="chapter" data-level="19.7.1" data-path="chart-examples.html"><a href="chart-examples.html#title-and-axis-labels"><i class="fa fa-check"></i><b>19.7.1</b> Title and axis labels</a></li>
+<li class="chapter" data-level="19.7.2" data-path="chart-examples.html"><a href="chart-examples.html#flip-the-graphic"><i class="fa fa-check"></i><b>19.7.2</b> Flip the graphic</a></li>
+<li class="chapter" data-level="19.7.3" data-path="chart-examples.html"><a href="chart-examples.html#fix-exponential-numbers-on-an-axis"><i class="fa fa-check"></i><b>19.7.3</b> Fix exponential numbers on an axis</a></li>
+</ul></li>
+<li class="chapter" data-level="19.8" data-path="chart-examples.html"><a href="chart-examples.html#interactivity-with-plotly"><i class="fa fa-check"></i><b>19.8</b> Interactivity with plotly</a></li>
+<li class="chapter" data-level="19.9" data-path="chart-examples.html"><a href="chart-examples.html#resources-5"><i class="fa fa-check"></i><b>19.9</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html"><i class="fa fa-check"></i><b>20</b> Publishing your findings</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#needs-review-3"><i class="fa fa-check"></i><b>20.1</b> NEEDS REVIEW</a></li>
+<li class="chapter" data-level="20.2" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#examples"><i class="fa fa-check"></i><b>20.2</b> Examples</a></li>
+<li class="chapter" data-level="20.3" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#how-to-publish-your-projects"><i class="fa fa-check"></i><b>20.3</b> How to publish your projects</a>
+<ul>
+<li class="chapter" data-level="20.3.1" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#using-github-pages"><i class="fa fa-check"></i><b>20.3.1</b> Using Github Pages</a></li>
+</ul></li>
+<li class="chapter" data-level="20.4" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#making-branded-graphics"><i class="fa fa-check"></i><b>20.4</b> Making branded graphics</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Reporting with Data in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sped-import" class="section level1" number="14">
+<h1><span class="header-section-number">Chapter 14</span> SPED Joins</h1>
+<blockquote>
+<p>DRAFT FOR v1.0</p>
+</blockquote>
+<blockquote>
+<p>This three-part lesson was originally conceived as a first project instead of Billboard so it has some pretty specific details and explanation.</p>
+</blockquote>
+<ul>
+<li>fix lists</li>
+</ul>
+<hr />
+<div id="goals-for-this-section-4" class="section level2" number="14.1">
+<h2><span class="header-section-number">14.1</span> Goals for this section</h2>
+<ul>
+<li>Learn a little about data types available to R.</li>
+<li>Practice organized project setup.</li>
+<li>Learn about R packages, how to install and import them.</li>
+<li>Learn how to import CSV files.</li>
+<li>Introduce the Data Frame/Tibble.</li>
+<li>Introduce the tidyverse <code>%&gt;%</code>.</li>
+<li>Using <a href="">readr</a> package</li>
+<li>Introduce joins</li>
+</ul>
+</div>
+<div id="our-project-data-1" class="section level2" number="14.2">
+<h2><span class="header-section-number">14.2</span> Our project data</h2>
+<p>We achieve these goals while working with same Texas Education Agency data from their [TAPR] tool. This is a replication of an assignment for Workbench.</p>
+<p>For now, see <a href="https://github.com/utdata/rwd-mastery-assignments/tree/master/ed-special-ed">this assignment</a> for details about the data and concepts.</p>
+<p>Here are the questions we seek from the data:</p>
+<ul>
+<li>Which campus gained the most (count difference) special education students from 2015 to 2020?</li>
+<li>Which campus has the highest share (percent) of special education students in 2020?</li>
+<li>Which campus had the greatest change in share of in special education students between 2015 and 2020.</li>
+<li>How many AISD schools would be above the special education “audit threshold” of 8.5% in 2020 if it were still in effect? How does those numbers compare to 2015?</li>
+</ul>
+<p>We want to only consider “Regular Instructional” schools and exclude alternative, disciplinary or schools part of the justice system.</p>
+<blockquote>
+<p>I NEED TO ADD MORE DETAIL HERE, BUT USE THE ASSIGNMENT LINK FOR NOW FOR BACKGROUND</p>
+</blockquote>
+</div>
+<div id="about-data-sources-1" class="section level2" number="14.3">
+<h2><span class="header-section-number">14.3</span> About data sources</h2>
+<p>After installing and launching RStudio, the next trick is to import data. Depending on the data source, this can be brilliantly easy or a pain in the rear. It all depends on how well-formatted is the data.</p>
+<p>In this class, we will primarily be using data from Excel files, CSVs (Comma Separated Value) and APIs (Application Programming Interface).</p>
+<ul>
+<li><strong>CSVs</strong> are a kind of lowest-common-denominator for data. Most any database or program can import or export them.</li>
+<li><strong>Excel</strong> files are good, but are often messy because humans get involved. There often have multiple header rows, columns used in multiple ways, notes added, etc. Just know you might have to clean them up before using them.</li>
+<li><strong>APIs</strong> are systems designed to respond to programming. In the data world, we often use the APIs by writing a query to ask a system to return a selection of data. By definition, the data is well structured. You can often determine the file type of the output as part of the API call, including …</li>
+<li><strong>JSON</strong> (or JavaScript Object Notation) is the data format preferred by JavaScript. R can read it, too. It is often the output format of APIs, and prevalent enough that you need to understand how it works. We’ll get into that later in semester.</li>
+</ul>
+<p>Don’t get me wrong … there are plenty of other data types and connections available through R, but those are the ones we’ll deal with most in this book.</p>
+<div id="what-is-clean-data-1" class="section level3" number="14.3.1">
+<h3><span class="header-section-number">14.3.1</span> What is clean data</h3>
+<p>The Checking Your Data section of this <a href="https://www.datacamp.com/community/tutorials/r-data-import-tutorial">DataCamp tutorial</a> has a good outline of what makes good data, but in general it should:</p>
+<ul>
+<li>Have a single header row with well-formed column names.
+<ul>
+<li>One column name for each column. No merged cells.</li>
+<li>Short names are better than long ones.</li>
+<li>Spaces in names make them harder to work with. Use and <code>_</code> or <code>.</code> between words.</li>
+</ul></li>
+<li>Remove notes or comments from the files.</li>
+<li>Each column should have the same kind of data: numbers vs words, etc.</li>
+<li>Each row should be a single thing called an “observation.” The columns should describe that observation.</li>
+</ul>
+<p>Data rarely comes clean like that. There can be many challenge in importing and cleaning data. We’ll face some of those challenges here.</p>
+</div>
+</div>
+<div id="create-a-new-project-1" class="section level2" number="14.4">
+<h2><span class="header-section-number">14.4</span> Create a new project</h2>
+<p>We did this in our first lesson, but here are the basic steps:</p>
+<ul>
+<li>Launch RStudio</li>
+<li>Use the <code>+R</code> button to create a <strong>New Project</strong> in a <strong>New Directory</strong></li>
+<li>Name the project <code>yourfirstname-special-ed</code> and put it in your <code>~/Documents/rwd</code> folder.</li>
+<li>Use the <code>+</code> button to use <strong>R Notebook</strong> to start a new notebook.</li>
+<li>Change the title to “TEA Special Education.”</li>
+<li>Delete the other boilerplate text.</li>
+<li>Save the file as <code>01-import.Rmd</code>.</li>
+</ul>
+<div id="the-r-package-environment-1" class="section level3" number="14.4.1">
+<h3><span class="header-section-number">14.4.1</span> The R Package environment</h3>
+<p>We have to back up from the step-by-step nature of this lesson and talk a little about the R programming language.</p>
+<p>R is an open-source language, which means that other programmers can contribute to how it works. It is what makes R beautiful.</p>
+<p>What happens is developers will find it difficult to do a certain task, so they will write an R “Package” of code that helps them with that task. They share that code with the community, and suddenly the R garage has an <a href="https://youtu.be/Y1En6FKd5Pk?t=24">“ultimate set of tools”</a> that would make Spicoli’s dad proud.</p>
+<p>One set of these tools is Hadley Wickham’s <a href="https://www.tidyverse.org/">Tidyverse</a>, a set of packages for data science. These are the tools we will use most in this course. While not required reading, I highly recommend Wickham’s book <a href="https://r4ds.had.co.nz/index.html">R for data science</a>, which is free. We’ll use some of Wickham’s lectures in the course.</p>
+<p>There are also a series of useful <a href="https://www.rstudio.com/resources/cheatsheets/">cheatsheets</a> that can help you as you use the packages and functions from the tidyverse. We’ll refer to these throughout the course.</p>
+</div>
+<div id="installing-and-using-packages-1" class="section level3" number="14.4.2">
+<h3><span class="header-section-number">14.4.2</span> Installing and using packages</h3>
+<p>There are two steps to using an R package:</p>
+<ul>
+<li><strong>Install the package</strong> using `install.packages(“package_name”). You only have to do this once for each computer, so I usually do it using the R Console instead of in notebook.</li>
+<li><strong>Include the library</strong> using <code>library(package_name)</code>. This has to be done for each Notebook or script that uses it, so it is usually one of the first things in the notebook.</li>
+</ul>
+<p>We’re going to install several packages we will use in the ratings project. To do this, we are going to use the <strong>Console</strong>, which we haven’t talked about much yet.</p>
+<blockquote>
+<p>REPLACE THIS IMAGE</p>
+</blockquote>
+<div class="figure">
+<img src="images/import-console.png" width="600" alt="" />
+<p class="caption">The Console and Terminal</p>
+</div>
+<ul>
+<li>Use the image above to orient yourself to the R Console and Terminal.</li>
+<li>In the Console, type in:</li>
+</ul>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="sped-import.html#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
+<p>As you type into the Console, you’ll see some type-assist hints on what you need. You can use the arrow keys to select one and hit Tab to complete that command, then enter the values you need.</p>
+<ul>
+<li>If it asks you to install “from source,” type <code>Yes</code> and hit return.</li>
+</ul>
+<p>You’ll see a bunch of response in the Console.</p>
+<p>We’ll need another package, so also do:</p>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="sped-import.html#cb189-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;janitor&quot;</span>)</span></code></pre></div>
+<p>We’ll use some commands from janitor to clean up our data column names, among other things. A good reference to learn more is the <a href="https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html">janitor vignette</a>.</p>
+<p>You only have to install the packages once on your computer (though you have to load them every time, which is explained below).</p>
+</div>
+<div id="load-the-libraries-1" class="section level3" number="14.4.3">
+<h3><span class="header-section-number">14.4.3</span> Load the libraries</h3>
+<p>Next, we’re going to tell our R Notebook to use these two libraries.</p>
+<ul>
+<li>After the metadata at the top of your notebook, use <em>Cmd+option+i</em> to insert an R code chunk.</li>
+<li>In that chunk, type in the two libraries and run the code block with <em>Cmd+Shift+Return</em>.</li>
+</ul>
+<p>This is the code you need:</p>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="sped-import.html#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb190-2"><a href="sped-import.html#cb190-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code></pre></div>
+<p>Your output will look something like this:</p>
+<div class="figure">
+<img src="images/import-libraries.png" width="600" alt="" />
+<p class="caption">Libraries imported</p>
+</div>
+</div>
+</div>
+<div id="downloading-raw-data" class="section level2" number="14.5">
+<h2><span class="header-section-number">14.5</span> Downloading raw data</h2>
+<div id="create-a-directory-for-your-data-1" class="section level3" number="14.5.1">
+<h3><span class="header-section-number">14.5.1</span> Create a directory for your data</h3>
+<p>I want you to create a folder called <code>data-raw</code> in your project folder. We are creating this folder because we want to keep a pristine version of it our original data that we never change or overwrite. This is a basic data journalism principle: Thou shalt not change raw data.</p>
+<p>In your Files pane at the bottom-right of Rstudio, there is a <strong>New Folder</strong> icon.</p>
+<ul>
+<li>Click on the <strong>New Folder</strong> icon.</li>
+<li>Name your new folder <code>data-raw</code>. This is where we’ll put raw data. We never write data to this folder.</li>
+<li>Also create another new folder called <code>data-processed</code>. This is were we write data. We separate them so we don’t accidentally overwrite raw data.</li>
+</ul>
+<p>Once you’ve done that, they should show up in the file explorer in the Files pane. Click the refresh button if you don’t see them. (The circlish thing at top right of the screenshot below.)</p>
+<div class="figure">
+<img src="images/new-folder.png" width="300" alt="" />
+<p class="caption">Directory made</p>
+</div>
+<p>You can ignore the <code>.gitignore</code> and <code>docs</code> folders I have there. Those are for publishing steps we’ll learn later.</p>
+</div>
+<div id="lets-get-some-data" class="section level3" number="14.5.2">
+<h3><span class="header-section-number">14.5.2</span> Let’s get some data</h3>
+<p>Now that we have a folder for our data, we can download our data into it. I have a copy of the data in the class Github repo.</p>
+<p>The process to acquire this data is explained in the <a href="https://github.com/utdata/rwd-mastery-assignments/tree/master/ed-special-ed">Special Education</a> assignment in the RWD Mastery Assignments Github repository.</p>
+<blockquote>
+<p>MIGHT UPDATE later to download the files directly instead of using download.file</p>
+</blockquote>
+<p>In the interest of time, you can just download my copy using the <code>download.file</code> function in R.</p>
+<ul>
+<li>Add a Markdown headline and text that indicates you are downloading data. You would typically include a link and explain what it is, etc. You can build a link in Markdown with <code>[name of the site](url-to-the-site.html)</code>.</li>
+<li>Create an R chunk and include the following:</li>
+</ul>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="sped-import.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cstud15 download</span></span>
+<span id="cb191-2"><a href="sped-import.html#cb191-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">&quot;https://github.com/utdata/rwd-mastery-assignments/blob/main/ed-special-ed/data/CSTUD15.csv?raw=true&quot;</span>, <span class="st">&quot;data-raw/CSTUD15.csv&quot;</span>)</span>
+<span id="cb191-3"><a href="sped-import.html#cb191-3" aria-hidden="true" tabindex="-1"></a><span class="co"># cstud20 download</span></span>
+<span id="cb191-4"><a href="sped-import.html#cb191-4" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">&quot;https://github.com/utdata/rwd-mastery-assignments/blob/main/ed-special-ed/data/CSTUD20.csv?raw=true&quot;</span>, <span class="st">&quot;data-raw/CSTUD20.csv&quot;</span>)</span>
+<span id="cb191-5"><a href="sped-import.html#cb191-5" aria-hidden="true" tabindex="-1"></a><span class="co"># directory download</span></span>
+<span id="cb191-6"><a href="sped-import.html#cb191-6" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">&quot;https://github.com/utdata/rwd-mastery-assignments/blob/main/ed-special-ed/data/Directory.csv?raw=true&quot;</span>, <span class="st">&quot;data-raw/Directory.csv&quot;</span>)</span></code></pre></div>
+<p>This <code>download.file</code> function takes at least two arguments: The URL of the file you are downloading, and then the path and name of where you want to save it.</p>
+<p>When you run this, it should save the file and then give you output similar to this for each of the three files:</p>
+<pre class="text"><code>trying URL &#39;https://github.com/utdata/rwd-mastery-assignments/blob/main/ed-special-ed/data/CSTUD15.csv?raw=true&#39;
+Content type &#39;text/plain; charset=utf-8&#39; length 331596 bytes (323 KB)
+==================================================
+downloaded 323 KB</code></pre>
+</div>
+<div id="peek-at-the-data-file" class="section level3" number="14.5.3">
+<h3><span class="header-section-number">14.5.3</span> Peek at the data file</h3>
+<p>You can inspect the data before you import it into your RNotebook.</p>
+<ul>
+<li>In the <strong>Files</strong> pane, click on the <code>data-raw</code> folder to open in.</li>
+<li>Click on the <code>CSTUD15.csv</code> file until you get the drop down that says View Files.</li>
+</ul>
+<div class="figure">
+<img src="images/import-inspectdata.png" width="300" alt="" />
+<p class="caption">View file</p>
+</div>
+<ul>
+<li>The file <em>should</em> open into a new window. It will look like this:</li>
+</ul>
+<div class="figure">
+<img src="images/import-view-file.png" width="600" alt="" />
+<p class="caption">ratings file</p>
+</div>
+<p>The numbers on the left are row numbers in the file.</p>
+<p>We can see first row is our column headers and the first column is our <code>CAMPUS</code> ID. This ID identifies our campus, but you’ll notice there is no school name. We’ll have to get that from the <code>Directory.csv</code> file in a minute.</p>
+<p>At this point the data is only on our computer in a folder within our project. It has not been imported into our RNotebook yet.</p>
+<ul>
+<li>Close this file now by clicking on the small <code>x</code> next to the file name.</li>
+</ul>
+</div>
+<div id="import-csv-as-data" class="section level3" number="14.5.4">
+<h3><span class="header-section-number">14.5.4</span> Import csv as data</h3>
+<p>Since we are doing a new thing, we should note that with a Markdown headline and text.</p>
+<ul>
+<li>Add a Markdown headline: <code>## Import data</code></li>
+<li>Add some text to explain that we are importing the school ratings data.</li>
+<li>After your description, add a new code chunk (<em>Cmd+Option+i</em>).</li>
+</ul>
+<p>We’ll be using the <code>read_csv()</code> function from the tidyverse <a href="https://readr.tidyverse.org/">readr</a> package, which is different from <code>read.csv</code> that comes with R. It is mo betta.</p>
+<p>Inside the function we put in the path do our data, inside quotes. If you start typing in that path and hit tab, it will complete the path. (Easier to show than explain).</p>
+<ul>
+<li>Add the follow code into your chunk and run it.</li>
+</ul>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="sped-import.html#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">&quot;data-raw/CSTUD15.csv&quot;</span>)</span></code></pre></div>
+<p>You get two results printed to your screen.</p>
+<p>The first result called <strong>“R Console”</strong> shows what columns were imported and the data types. It’s important to review these to make sure things happened the way that expected. In this case it looks like it imported <code>CAMPUS</code> as text – noted as <code>col_character()</code>, (the default) – and everything as <code>col_double</code>, which is a number.</p>
+<p>Note: <strong>Red</strong> colored text in this output is NOT an indication of a problem.</p>
+<div class="figure">
+<img src="images/import-show-cols.png" width="400" alt="" />
+<p class="caption">RConsole output</p>
+</div>
+<p>The second result <strong>spec_tbl_df</strong> prints out the data like a table. The data object is called a data frame or <a href="https://tibble.tidyverse.org/">tibble</a>, which is a fancy tidyverse version of a data frame that is part of the tidyverse.</p>
+<blockquote>
+<p>I will use the term tibble and data frame interchangably. Think of data frames and tibbles like a well-structured spreadsheet. They are organized rows of data (called observations) with columns (called variables) where every item in the column is of the same data type.</p>
+</blockquote>
+<div class="figure">
+<img src="images/import-show-data.png" width="500" alt="" />
+<p class="caption">Data output</p>
+</div>
+<p>When we look at the data output into RStudio, there are several things to note:</p>
+<ul>
+<li>Below each column name is an indication of the data type. This is important.</li>
+<li>You can use the arrow icon on the right to page through the additional columns.</li>
+<li>You can use the paging numbers and controls at the bottom to page through the rows of data.</li>
+<li>The number of rows and columns is displayed at the bottom.</li>
+</ul>
+<p>The <strong>Student Enrollment by Program</strong> portion of the <a href="https://rptsvr1.tea.texas.gov/perfreport/tapr/2015/xplore/cstud.html">Campus Student Information data dictionary</a> is especially helpful in understanding what this data is since the column names are not very telling.</p>
+<p>Of special note here, we have only printed this data to the screen. We have not saved it in any way, but that will come soon.</p>
+</div>
+</div>
+<div id="assign-our-import-to-a-data-frame" class="section level2" number="14.6">
+<h2><span class="header-section-number">14.6</span> Assign our import to a data frame</h2>
+<p>As of right now, we’ve only printed the data to our screen. We haven’t “saved” it at all. Next we need to assign it to an R<strong>object</strong> so it can be named thing in our project environment so we can reuse it. We don’t want to re-import the data every time we use the data.</p>
+<p>The syntax to create and object in R can seem weird at first, but the convention is to name the object first, then insert stuff into it. So, to create an object, the structure is this:</p>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="sped-import.html#cb194-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is pseudo code. don&#39;t run it.</span></span>
+<span id="cb194-2"><a href="sped-import.html#cb194-2" aria-hidden="true" tabindex="-1"></a>new_object <span class="ot">&lt;-</span> stuff_going_into_object</span></code></pre></div>
+<p>Let’s make a object called <code>cstud15</code> and fill it with our imported tibble.</p>
+<ul>
+<li>Edit your existing code chunk to look like this. You can add the <code>&lt;-</code> by using <strong>Option+-</strong> as in holding down the Option key and then pressing the hyphen:</li>
+</ul>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="sped-import.html#cb195-1" aria-hidden="true" tabindex="-1"></a>cstud15 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb195-2"><a href="sped-import.html#cb195-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;data-raw/cstud15.csv&quot;</span></span>
+<span id="cb195-3"><a href="sped-import.html#cb195-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Run that chunk and two things happen:</p>
+<ul>
+<li>We no longer see the result printed to the screen. That’s because we created a tibble instead of printing it to the screen.</li>
+<li>In the <strong>Environment</strong> tab at the top-right of RStudio, you’ll see the <code>cstud15</code> object listed.
+<ul>
+<li>Click on the blue play button next to ratings and it will expand to show you a summary of the columns.</li>
+<li>Click on the name and it will open a “View” of the data in another window, so you can look at it in spreadsheet form. You can even sort and filter it.</li>
+</ul></li>
+<li>Close the data view once you’ve looked at it.</li>
+</ul>
+<p>Since <code>cstud15</code> is a data frame object, we’ll just call it a data frame henceforth.</p>
+<div id="print-a-peek-to-the-screen-1" class="section level3" number="14.6.1">
+<h3><span class="header-section-number">14.6.1</span> Print a peek to the screen</h3>
+<p>Since we can’t see the data after we assign it, let’s print the object to the screen so we can refer to it.</p>
+<ul>
+<li>Edit your import chunk to add the last two lines of this, including the one with the <code>#</code>:</li>
+</ul>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="sped-import.html#cb196-1" aria-hidden="true" tabindex="-1"></a>cstud15 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb196-2"><a href="sped-import.html#cb196-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;data-raw/cstud15.csv&quot;</span></span>
+<span id="cb196-3"><a href="sped-import.html#cb196-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb196-4"><a href="sped-import.html#cb196-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb196-5"><a href="sped-import.html#cb196-5" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb196-6"><a href="sped-import.html#cb196-6" aria-hidden="true" tabindex="-1"></a>cstud15</span></code></pre></div>
+<p>This prints your saved data frame to the screen.</p>
+<p>The line with the <code>#</code> is a comment <em>within</em> the code chunk. Commenting what your code is important to your future self, and sometimes we do that within the code chunk instead of markdown if it will be more clear.</p>
+</div>
+<div id="glimpse-the-data-1" class="section level3" number="14.6.2">
+<h3><span class="header-section-number">14.6.2</span> Glimpse the data</h3>
+<p>There is another way to peek at the data that I prefer because it is more compact and shows you all the columns and data examples without scrolling: <code>glimpse()</code>.</p>
+<ul>
+<li>In your existing chunk, edit the last line to add the <code>glimpse()</code> function as noted below.</li>
+</ul>
+<p>I’m showing the return here as well. Afterward I’ll explain the pipe: <code>%&gt;%</code>.</p>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="sped-import.html#cb197-1" aria-hidden="true" tabindex="-1"></a>cstud15 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb197-2"><a href="sped-import.html#cb197-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;data-raw/cstud15.csv&quot;</span></span>
+<span id="cb197-3"><a href="sped-import.html#cb197-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## Rows: 8646 Columns: 9</code></pre>
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (1): CAMPUS
+## dbl (8): CPETBILC, CPETBILP, CPETGIFC, CPETGIFP, CPETSPEC, CPETSPEP, CPETVOC...</code></pre>
+<pre><code>## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="sped-import.html#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb201-2"><a href="sped-import.html#cb201-2" aria-hidden="true" tabindex="-1"></a>cstud15 <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 8,646
+## Columns: 9
+## $ CAMPUS   &lt;chr&gt; &quot;001902001&quot;, &quot;001902041&quot;, &quot;001902103&quot;, &quot;001903001&quot;, &quot;00190300…
+## $ CPETBILC &lt;dbl&gt; 1, 0, 0, 0, 0, 0, 10, 6, 1, 3, 15, 2, 1, 26, 20, 104, 54, 130…
+## $ CPETBILP &lt;dbl&gt; 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 3.3, 2.3, 0.4, 1.7, 3.7, 1.8, 0…
+## $ CPETGIFC &lt;dbl&gt; 27, 15, 18, 23, 0, 9, 3, 12, 18, 5, 23, 7, 17, 33, 18, 4, 0, …
+## $ CPETGIFP &lt;dbl&gt; 13.1, 12.5, 7.2, 6.5, 0.0, 3.0, 1.0, 4.7, 8.1, 2.9, 5.7, 6.1,…
+## $ CPETSPEC &lt;dbl&gt; 37, 16, 23, 33, 1, 36, 29, 27, 28, 16, 34, 16, 25, 96, 44, 27…
+## $ CPETSPEP &lt;dbl&gt; 18.0, 13.3, 9.2, 9.3, 100.0, 11.8, 9.6, 10.5, 12.6, 9.2, 8.4,…
+## $ CPETVOCC &lt;dbl&gt; 144, 37, 0, 273, 0, 0, 0, 0, 213, 0, 0, 103, 15, 849, 247, 0,…
+## $ CPETVOCP &lt;dbl&gt; 69.9, 30.8, 0.0, 76.9, 0.0, 0.0, 0.0, 0.0, 95.5, 0.0, 0.0, 90…</code></pre>
+<p>This also shows there are 8,646 rows and 9 columns in our data. Each column is then listed out with its data type and the first several values in that column.</p>
+</div>
+<div id="about-the-pipe-1" class="section level3" number="14.6.3">
+<h3><span class="header-section-number">14.6.3</span> About the pipe %&gt;%</h3>
+<p>We need to break down this code a little: <code>cstud15 %&gt;% glimpse()</code>.</p>
+<p>We are starting with the data frame <code>cstud15</code>, but then we follow it with <code>%&gt;%</code>, which is called a pipe. It is a tidyverse tool that allows us to take the <strong>results</strong> of an object or function and pass into another function. Think of it at <strong>“AND THEN” the next thing</strong>.</p>
+<p>It might look like there are to arguments inside <code>glimpse()</code>, but what we are actually doing is passing the results of <code>cstud15</code> into it.</p>
+<blockquote>
+<p>IMPORTANT: There is a keyboard command for the pipe <code>%&gt;%</code>: <strong>Cmd+Shift+m</strong>. Learn that one.</p>
+</blockquote>
+</div>
+<div id="creating-consistent-column-names" class="section level3" number="14.6.4">
+<h3><span class="header-section-number">14.6.4</span> Creating consistent column names</h3>
+<p>A good trait for data journalist is to be <del>anal retentive</del> obsessive. One thing I almost always do after importing data is to run it through a function called <code>clean_names()</code> that makes all the column names lowercase, removes spaces and fixes other things that can cause problems later. <code>clean_names()</code> is part of the <a href="https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html">janitor</a> package we installed above.</p>
+<ul>
+<li>Edit your code chunk to look like the code below and run it.</li>
+</ul>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="sped-import.html#cb203-1" aria-hidden="true" tabindex="-1"></a>cstud15 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/cstud15.csv&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb203-2"><a href="sped-import.html#cb203-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span></code></pre></div>
+<pre><code>## Rows: 8646 Columns: 9</code></pre>
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (1): CAMPUS
+## dbl (8): CPETBILC, CPETBILP, CPETGIFC, CPETGIFP, CPETSPEC, CPETSPEP, CPETVOC...</code></pre>
+<pre><code>## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="sped-import.html#cb207-1" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb207-2"><a href="sped-import.html#cb207-2" aria-hidden="true" tabindex="-1"></a>cstud15 <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 8,646
+## Columns: 9
+## $ campus   &lt;chr&gt; &quot;001902001&quot;, &quot;001902041&quot;, &quot;001902103&quot;, &quot;001903001&quot;, &quot;00190300…
+## $ cpetbilc &lt;dbl&gt; 1, 0, 0, 0, 0, 0, 10, 6, 1, 3, 15, 2, 1, 26, 20, 104, 54, 130…
+## $ cpetbilp &lt;dbl&gt; 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 3.3, 2.3, 0.4, 1.7, 3.7, 1.8, 0…
+## $ cpetgifc &lt;dbl&gt; 27, 15, 18, 23, 0, 9, 3, 12, 18, 5, 23, 7, 17, 33, 18, 4, 0, …
+## $ cpetgifp &lt;dbl&gt; 13.1, 12.5, 7.2, 6.5, 0.0, 3.0, 1.0, 4.7, 8.1, 2.9, 5.7, 6.1,…
+## $ cpetspec &lt;dbl&gt; 37, 16, 23, 33, 1, 36, 29, 27, 28, 16, 34, 16, 25, 96, 44, 27…
+## $ cpetspep &lt;dbl&gt; 18.0, 13.3, 9.2, 9.3, 100.0, 11.8, 9.6, 10.5, 12.6, 9.2, 8.4,…
+## $ cpetvocc &lt;dbl&gt; 144, 37, 0, 273, 0, 0, 0, 0, 213, 0, 0, 103, 15, 849, 247, 0,…
+## $ cpetvocp &lt;dbl&gt; 69.9, 30.8, 0.0, 76.9, 0.0, 0.0, 0.0, 0.0, 95.5, 0.0, 0.0, 90…</code></pre>
+<p>When writing R code we’ll often string a bunch of functions together with the <code>%&gt;%</code> so for readability we often put the “next” function a new indented line. When you do this, the <code>%&gt;%</code> must come at the <strong>end</strong> of the previous line, like the <code>clean_names()</code> function above.</p>
+</div>
+<div id="import-other-data-frames" class="section level3" number="14.6.5">
+<h3><span class="header-section-number">14.6.5</span> Import other data frames</h3>
+<p>We need to import our other two data frames so we can prepare and join them. Create a new chunk for each data set, import them, clean the names and glimpse the data.</p>
+<p>We’ll talk more about these data in a minute when we prepare it. Name your new data frames <code>cstud20</code> and <code>directory</code>.</p>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="sped-import.html#cb209-1" aria-hidden="true" tabindex="-1"></a>cstud20 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/cstud20.csv&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb209-2"><a href="sped-import.html#cb209-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span></code></pre></div>
+<pre><code>## Rows: 8866 Columns: 21</code></pre>
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (2): CAMPUS, CPNTVHSP
+## dbl (19): CPETBILC, CPETBILP, CPETG9XC, CPETGIFC, CPETGIFP, CPETSPEC, CPETSP...</code></pre>
+<pre><code>## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="sped-import.html#cb213-1" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb213-2"><a href="sped-import.html#cb213-2" aria-hidden="true" tabindex="-1"></a>cstud20 <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 8,866
+## Columns: 21
+## $ campus   &lt;chr&gt; &quot;001902001&quot;, &quot;001902041&quot;, &quot;001902103&quot;, &quot;001903001&quot;, &quot;00190304…
+## $ cpetbilc &lt;dbl&gt; 0, 1, 0, 0, 3, 12, 7, 3, 5, 14, 1, 6, 126, 85, 96, 20, 92, 13…
+## $ cpetbilp &lt;dbl&gt; 0.0, 0.8, 0.0, 0.0, 1.2, 3.6, 2.5, 1.3, 2.8, 3.7, 0.9, 2.5, 1…
+## $ cpetg9xc &lt;dbl&gt; 172, 0, 0, 378, 0, 0, 0, 228, 0, 0, 111, 0, 987, 0, 0, 0, 0, …
+## $ cpetgifc &lt;dbl&gt; 14, 17, 8, 10, 13, 4, 17, 40, 14, 17, 7, 16, 35, 18, 3, 0, 8,…
+## $ cpetgifp &lt;dbl&gt; 8.1, 13.6, 3.1, 2.6, 5.0, 1.2, 6.1, 17.5, 8.0, 4.5, 6.3, 6.6,…
+## $ cpetspec &lt;dbl&gt; 34, 17, 31, 44, 29, 48, 26, 19, 28, 44, 11, 14, 103, 70, 50, …
+## $ cpetspep &lt;dbl&gt; 19.8, 13.6, 11.9, 11.6, 11.2, 14.4, 9.4, 8.3, 15.9, 11.5, 9.9…
+## $ cpetvhsc &lt;dbl&gt; 134, 0, 0, 138, 0, 0, 0, 207, 0, 0, 49, 0, 918, 0, 0, 0, 0, 0…
+## $ cpetvhsp &lt;dbl&gt; 77.9, 0.0, 0.0, 36.5, 0.0, 0.0, 0.0, 90.8, 0.0, 0.0, 44.1, 0.…
+## $ cpetvocc &lt;dbl&gt; 165, 0, 0, 341, 37, 0, 0, 207, 0, 0, 107, 53, 975, 133, 0, 0,…
+## $ cpetvocp &lt;dbl&gt; 95.9, 0.0, 0.0, 90.2, 14.3, 0.0, 0.0, 90.8, 0.0, 0.0, 96.4, 2…
+## $ cpntbilc &lt;dbl&gt; 0, 1, 0, 0, 3, 12, 7, 3, 5, 14, 1, 6, 126, 85, 96, 20, 92, 13…
+## $ cpntbilp &lt;dbl&gt; 0.0, 0.8, 0.0, 0.0, 1.2, 3.6, 2.5, 1.3, 2.8, 3.7, 0.9, 2.5, 1…
+## $ cpntg9xc &lt;dbl&gt; 172, 0, 0, 378, 0, 0, 0, 228, 0, 0, 111, 0, 987, 0, 0, 0, 0, …
+## $ cpntgifc &lt;dbl&gt; 14, 17, 8, 10, 13, 4, 17, 40, 14, 17, 7, 16, 35, 18, 3, 0, 8,…
+## $ cpntgifp &lt;dbl&gt; 8.1, 13.6, 3.1, 2.6, 5.0, 1.2, 6.1, 17.5, 8.0, 4.5, 6.3, 6.6,…
+## $ cpntspec &lt;dbl&gt; 34, 17, 31, 44, 29, 49, 26, 19, 28, 45, 11, 15, 103, 70, 51, …
+## $ cpntspep &lt;dbl&gt; 19.8, 13.6, 11.9, 11.6, 11.2, 14.7, 9.4, 8.3, 15.9, 11.8, 9.9…
+## $ cpntvhsc &lt;dbl&gt; 134, 0, 0, 138, 0, 0, 0, 207, 0, 0, 49, 0, 918, 0, 0, 0, 0, 0…
+## $ cpntvhsp &lt;chr&gt; &quot;77.9&quot;, &quot;.&quot;, &quot;.&quot;, &quot;36.5&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;90.8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;4…</code></pre>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="sped-import.html#cb215-1" aria-hidden="true" tabindex="-1"></a>directory <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/Directory.csv&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb215-2"><a href="sped-import.html#cb215-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span></code></pre></div>
+<pre><code>## Rows: 9572 Columns: 34</code></pre>
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (32): County Number, County Name, Region Number, District Number, Distri...
+## dbl  (2): District Enrollment as of Oct 2019, School Enrollment as of Oct 2019</code></pre>
+<pre><code>## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="sped-import.html#cb219-1" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb219-2"><a href="sped-import.html#cb219-2" aria-hidden="true" tabindex="-1"></a>directory <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 9,572
+## Columns: 34
+## $ county_number                      &lt;chr&gt; &quot;&#39;001&quot;, &quot;&#39;001&quot;, &quot;&#39;001&quot;, &quot;&#39;001&quot;, &quot;&#39;0…
+## $ county_name                        &lt;chr&gt; &quot;ANDERSON COUNTY&quot;, &quot;ANDERSON COUNTY…
+## $ region_number                      &lt;chr&gt; &quot;&#39;07&quot;, &quot;&#39;07&quot;, &quot;&#39;07&quot;, &quot;&#39;07&quot;, &quot;&#39;07&quot;, …
+## $ district_number                    &lt;chr&gt; &quot;&#39;001902&quot;, &quot;&#39;001902&quot;, &quot;&#39;001902&quot;, &quot;&#39;…
+## $ district_name                      &lt;chr&gt; &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;CAYUGA…
+## $ district_type                      &lt;chr&gt; &quot;INDEPENDENT&quot;, &quot;INDEPENDENT&quot;, &quot;INDE…
+## $ district_street_address            &lt;chr&gt; &quot;P O BOX 427&quot;, &quot;P O BOX 427&quot;, &quot;P O …
+## $ district_city                      &lt;chr&gt; &quot;CAYUGA&quot;, &quot;CAYUGA&quot;, &quot;CAYUGA&quot;, &quot;ELKH…
+## $ district_state                     &lt;chr&gt; &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;,…
+## $ district_zip                       &lt;chr&gt; &quot;75832-0427&quot;, &quot;75832-0427&quot;, &quot;75832-…
+## $ district_phone                     &lt;chr&gt; &quot;(903) 928-2102&quot;, &quot;(903) 928-2102&quot;,…
+## $ district_fax                       &lt;chr&gt; &quot;(903) 928-2646&quot;, &quot;(903) 928-2646&quot;,…
+## $ district_email_address             &lt;chr&gt; &quot;admin1@cayugaisd.com&quot;, &quot;admin1@cay…
+## $ district_web_page_address          &lt;chr&gt; &quot;www.cayugaisd.com&quot;, &quot;www.cayugaisd…
+## $ district_superintendent            &lt;chr&gt; &quot;DR RICK WEBB&quot;, &quot;DR RICK WEBB&quot;, &quot;DR…
+## $ district_enrollment_as_of_oct_2019 &lt;dbl&gt; 557, 557, 557, 1247, 1247, 1247, 12…
+## $ school_number                      &lt;chr&gt; &quot;&#39;001902001&quot;, &quot;&#39;001902041&quot;, &quot;&#39;00190…
+## $ school_name                        &lt;chr&gt; &quot;CAYUGA H S&quot;, &quot;CAYUGA MIDDLE&quot;, &quot;CAY…
+## $ instruction_type                   &lt;chr&gt; &quot;REGULAR INSTRUCTIONAL&quot;, &quot;REGULAR I…
+## $ charter_type                       &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ school_street_address              &lt;chr&gt; &quot;P O BOX 427&quot;, &quot;P O BOX 427&quot;, &quot;P O …
+## $ school_city                        &lt;chr&gt; &quot;CAYUGA&quot;, &quot;CAYUGA&quot;, &quot;CAYUGA&quot;, &quot;ELKH…
+## $ school_state                       &lt;chr&gt; &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;,…
+## $ school_zip                         &lt;chr&gt; &quot;75832-0427&quot;, &quot;75832-0427&quot;, &quot;75832-…
+## $ school_phone                       &lt;chr&gt; &quot;(903) 928-2294 ext:012&quot;, &quot;(903) 92…
+## $ school_fax                         &lt;chr&gt; &quot;(903) 928-2239&quot;, &quot;(903) 928-2646&quot;,…
+## $ school_email_address               &lt;chr&gt; &quot;admin1@cayugaisd.com&quot;, &quot;admin1@cay…
+## $ school_web_page_address            &lt;chr&gt; &quot;www.cayugaisd.com&quot;, &quot;www.cayugaisd…
+## $ school_principal                   &lt;chr&gt; &quot;DR JOE E SATTERWHITE III&quot;, &quot;MRS SH…
+## $ grade_range                        &lt;chr&gt; &quot;&#39;09-12&quot;, &quot;&#39;06-08&quot;, &quot;&#39;EE-05&quot;, &quot;&#39;09-…
+## $ school_enrollment_as_of_oct_2019   &lt;dbl&gt; 172, 125, 260, 378, 0, 258, 334, 27…
+## $ school_status                      &lt;chr&gt; &quot;Active&quot;, &quot;Active&quot;, &quot;Active&quot;, &quot;Acti…
+## $ school_status_date                 &lt;chr&gt; NA, &quot;03/11/1996&quot;, NA, NA, &quot;06/28/20…
+## $ update_date                        &lt;chr&gt; &quot;2/25/2021 5:35:04 AM&quot;, &quot;2/25/2021 …</code></pre>
+</div>
+</div>
+<div id="prepare-data-for-joining" class="section level2" number="14.7">
+<h2><span class="header-section-number">14.7</span> Prepare data for joining</h2>
+<p>To meet our story goals here we need pieces of all three of these data sets put together in one dataframe. As such, we’re going to jump ahead with some data wrangling techniques because we need them to prepare and join our data for our next lesson. Some explanations may seem cursory if I plan on getting into more detail later.</p>
+<div id="prepare-the-directory-data" class="section level3" number="14.7.1">
+<h3><span class="header-section-number">14.7.1</span> Prepare the directory data</h3>
+<div id="selecting-directory-columns" class="section level4" number="14.7.1.1">
+<h4><span class="header-section-number">14.7.1.1</span> Selecting directory columns</h4>
+<p>For our Directory data, we only need about a half dozen of the 30+ columms in the data. We will use the <a href="https://dplyr.tidyverse.org/reference/select.html"><code>select()</code></a> function to pluck columns out of the dataframe and assign them to a new data frame.</p>
+<p>Here is the code, then I’ll explain it.</p>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="sped-import.html#cb221-1" aria-hidden="true" tabindex="-1"></a>directory_cols <span class="ot">&lt;-</span> directory <span class="sc">%&gt;%</span> </span>
+<span id="cb221-2"><a href="sped-import.html#cb221-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb221-3"><a href="sped-import.html#cb221-3" aria-hidden="true" tabindex="-1"></a>    school_number,</span>
+<span id="cb221-4"><a href="sped-import.html#cb221-4" aria-hidden="true" tabindex="-1"></a>    school_name,</span>
+<span id="cb221-5"><a href="sped-import.html#cb221-5" aria-hidden="true" tabindex="-1"></a>    district_name,</span>
+<span id="cb221-6"><a href="sped-import.html#cb221-6" aria-hidden="true" tabindex="-1"></a>    instruction_type,</span>
+<span id="cb221-7"><a href="sped-import.html#cb221-7" aria-hidden="true" tabindex="-1"></a>    charter_type,</span>
+<span id="cb221-8"><a href="sped-import.html#cb221-8" aria-hidden="true" tabindex="-1"></a>    grade_range</span>
+<span id="cb221-9"><a href="sped-import.html#cb221-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb221-10"><a href="sped-import.html#cb221-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb221-11"><a href="sped-import.html#cb221-11" aria-hidden="true" tabindex="-1"></a>directory_cols <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 9,572
+## Columns: 6
+## $ school_number    &lt;chr&gt; &quot;&#39;001902001&quot;, &quot;&#39;001902041&quot;, &quot;&#39;001902103&quot;, &quot;&#39;001903001…
+## $ school_name      &lt;chr&gt; &quot;CAYUGA H S&quot;, &quot;CAYUGA MIDDLE&quot;, &quot;CAYUGA EL&quot;, &quot;ELKHART …
+## $ district_name    &lt;chr&gt; &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;ELKHART IS…
+## $ instruction_type &lt;chr&gt; &quot;REGULAR INSTRUCTIONAL&quot;, &quot;REGULAR INSTRUCTIONAL&quot;, &quot;RE…
+## $ charter_type     &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+## $ grade_range      &lt;chr&gt; &quot;&#39;09-12&quot;, &quot;&#39;06-08&quot;, &quot;&#39;EE-05&quot;, &quot;&#39;09-12&quot;, &quot;&#39;KG-12&quot;, &quot;&#39;0…</code></pre>
+<p>When we use <code>select()</code> we are <em>selecting</em> columns from the data. Inside the function we list them by name or order. There are many variations of <code>select()</code> which we’ll get into later.</p>
+<p>Note also code indents for the <code>select()</code> function. We write the code this way to we can easily identify and edit the arguments inside the function (our list of columns in this case.)</p>
+</div>
+<div id="clean-up-the-school-number" class="section level4" number="14.7.1.2">
+<h4><span class="header-section-number">14.7.1.2</span> Clean up the school number</h4>
+<p>In this data set, the TEA included a <code>'</code> before each value in the <code>school_number</code> column. They do this to ensure that it is imported as a text and not a number, which might drop the very important <code>00</code> at the beginning of the ID. It is this ID that allows us to match the directory with all other kinds of TEA data about schools.</p>
+<p>We need to remove that <code>'</code> but keep the column as a text data type. There are many different ways we could do this but we’ll introduce <code>mutate()</code> and <code>str_replace()</code> to accomplish the task. We’ll get into both of these functions in more detail in a later lesson.</p>
+<ul>
+<li>Edit your existing code block creating the <code>directory_cols</code> data frame with a new <code>%&gt;%</code> and functions indicated below and run them. I’ll explain them after.</li>
+</ul>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="sped-import.html#cb223-1" aria-hidden="true" tabindex="-1"></a>directory_cols <span class="ot">&lt;-</span> directory <span class="sc">%&gt;%</span> </span>
+<span id="cb223-2"><a href="sped-import.html#cb223-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb223-3"><a href="sped-import.html#cb223-3" aria-hidden="true" tabindex="-1"></a>    school_number,</span>
+<span id="cb223-4"><a href="sped-import.html#cb223-4" aria-hidden="true" tabindex="-1"></a>    school_name,</span>
+<span id="cb223-5"><a href="sped-import.html#cb223-5" aria-hidden="true" tabindex="-1"></a>    district_name,</span>
+<span id="cb223-6"><a href="sped-import.html#cb223-6" aria-hidden="true" tabindex="-1"></a>    instruction_type,</span>
+<span id="cb223-7"><a href="sped-import.html#cb223-7" aria-hidden="true" tabindex="-1"></a>    charter_type,</span>
+<span id="cb223-8"><a href="sped-import.html#cb223-8" aria-hidden="true" tabindex="-1"></a>    grade_range</span>
+<span id="cb223-9"><a href="sped-import.html#cb223-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb223-10"><a href="sped-import.html#cb223-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb223-11"><a href="sped-import.html#cb223-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">campus =</span> school_number <span class="sc">%&gt;%</span> <span class="fu">str_replace</span>(<span class="st">&quot;&#39;&quot;</span>,<span class="st">&quot;&quot;</span>)</span>
+<span id="cb223-12"><a href="sped-import.html#cb223-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb223-13"><a href="sped-import.html#cb223-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb223-14"><a href="sped-import.html#cb223-14" aria-hidden="true" tabindex="-1"></a>directory_cols <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 9,572
+## Columns: 7
+## $ school_number    &lt;chr&gt; &quot;&#39;001902001&quot;, &quot;&#39;001902041&quot;, &quot;&#39;001902103&quot;, &quot;&#39;001903001…
+## $ school_name      &lt;chr&gt; &quot;CAYUGA H S&quot;, &quot;CAYUGA MIDDLE&quot;, &quot;CAYUGA EL&quot;, &quot;ELKHART …
+## $ district_name    &lt;chr&gt; &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;ELKHART IS…
+## $ instruction_type &lt;chr&gt; &quot;REGULAR INSTRUCTIONAL&quot;, &quot;REGULAR INSTRUCTIONAL&quot;, &quot;RE…
+## $ charter_type     &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+## $ grade_range      &lt;chr&gt; &quot;&#39;09-12&quot;, &quot;&#39;06-08&quot;, &quot;&#39;EE-05&quot;, &quot;&#39;09-12&quot;, &quot;&#39;KG-12&quot;, &quot;&#39;0…
+## $ campus           &lt;chr&gt; &quot;001902001&quot;, &quot;001902041&quot;, &quot;001902103&quot;, &quot;001903001&quot;, &quot;…</code></pre>
+<p>What we did there with your <code>mutate()</code> function was create a NEW column called <strong>campus</strong> that starts with the <code>school_number</code> field <em>AND THEN</em> uses a string replace function <code>str_replace()</code> to replace the <code>'</code> character with an empty string, or nothing. We named our new column <code>campus</code> because that is that the ID is called in the CSTUD data, and that will make joining easier later.</p>
+<p>One thing of special note here: We not only used a <code>%&gt;%</code> to append the <code>mutate()</code> function, but we also used a <code>%&gt;%</code> <em>WITHIN</em> the mutate arguments, modifying the <code>school_number</code> field along the way. This is called <strong>nesting functions</strong>. Not to get to far into the weeds, but the tidyverse <code>%&gt;%</code> makes this is a lot easier to read and understand than base R, which would be: <code>mutate(str_replace(school_number,"'",""))</code>.</p>
+</div>
+<div id="remove-the-old-school-number-columns" class="section level4" number="14.7.1.3">
+<h4><span class="header-section-number">14.7.1.3</span> Remove the old school number columns</h4>
+<p>Since we don’t need the <code>school_number</code> column anymore, we will remove it with <code>select()</code>, but we put a <code>-</code> before the column name because we want to <em>remove</em> it.</p>
+<ul>
+<li>Append the new <code>select()</code> lines below to your existing code block.</li>
+</ul>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="sped-import.html#cb225-1" aria-hidden="true" tabindex="-1"></a>directory_cols <span class="ot">&lt;-</span> directory <span class="sc">%&gt;%</span> </span>
+<span id="cb225-2"><a href="sped-import.html#cb225-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb225-3"><a href="sped-import.html#cb225-3" aria-hidden="true" tabindex="-1"></a>    school_number,</span>
+<span id="cb225-4"><a href="sped-import.html#cb225-4" aria-hidden="true" tabindex="-1"></a>    school_name,</span>
+<span id="cb225-5"><a href="sped-import.html#cb225-5" aria-hidden="true" tabindex="-1"></a>    district_name,</span>
+<span id="cb225-6"><a href="sped-import.html#cb225-6" aria-hidden="true" tabindex="-1"></a>    instruction_type,</span>
+<span id="cb225-7"><a href="sped-import.html#cb225-7" aria-hidden="true" tabindex="-1"></a>    charter_type,</span>
+<span id="cb225-8"><a href="sped-import.html#cb225-8" aria-hidden="true" tabindex="-1"></a>    grade_range</span>
+<span id="cb225-9"><a href="sped-import.html#cb225-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb225-10"><a href="sped-import.html#cb225-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb225-11"><a href="sped-import.html#cb225-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">campus =</span> school_number <span class="sc">%&gt;%</span> <span class="fu">str_replace</span>(<span class="st">&quot;&#39;&quot;</span>,<span class="st">&quot;&quot;</span>)</span>
+<span id="cb225-12"><a href="sped-import.html#cb225-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb225-13"><a href="sped-import.html#cb225-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>school_number)</span>
+<span id="cb225-14"><a href="sped-import.html#cb225-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb225-15"><a href="sped-import.html#cb225-15" aria-hidden="true" tabindex="-1"></a>directory_cols <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 9,572
+## Columns: 6
+## $ school_name      &lt;chr&gt; &quot;CAYUGA H S&quot;, &quot;CAYUGA MIDDLE&quot;, &quot;CAYUGA EL&quot;, &quot;ELKHART …
+## $ district_name    &lt;chr&gt; &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;ELKHART IS…
+## $ instruction_type &lt;chr&gt; &quot;REGULAR INSTRUCTIONAL&quot;, &quot;REGULAR INSTRUCTIONAL&quot;, &quot;RE…
+## $ charter_type     &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+## $ grade_range      &lt;chr&gt; &quot;&#39;09-12&quot;, &quot;&#39;06-08&quot;, &quot;&#39;EE-05&quot;, &quot;&#39;09-12&quot;, &quot;&#39;KG-12&quot;, &quot;&#39;0…
+## $ campus           &lt;chr&gt; &quot;001902001&quot;, &quot;001902041&quot;, &quot;001902103&quot;, &quot;001903001&quot;, &quot;…</code></pre>
+<p>OK, we are done preparing our new <code>directory_cols</code> data frame. We’ll work next to prepare our CSTUD data.</p>
+</div>
+</div>
+<div id="prepare-cstud-data" class="section level3" number="14.7.2">
+<h3><span class="header-section-number">14.7.2</span> Prepare CSTUD data</h3>
+<p>We only need the <code>campus</code> and the two special education values from our CSTUD data for this story. If we review our data dictionaries (<a href="https://rptsvr1.tea.texas.gov/perfreport/tapr/2015/xplore/cstud.html">2015</a> | <a href="https://rptsvr1.tea.texas.gov/perfreport/tapr/2020/xplore/cstud.html">2020</a>) we can see these special education columns are called <code>CPETSPEC</code> (the number of special education students) and <code>CPETSPEP</code> (the percentage of students in the school that are in special education).</p>
+<blockquote>
+<p>In 2020, the TEA modified how they define enrollment, so don’t get confused by those figures in 2020 data and later. According to Page 31 of the TAPR Glossary (<a href="https://rptsvr1.tea.texas.gov/perfreport/tapr/2020/index.html">linked from here</a>): <em>Please note, the Enrollment section of this report is new this year. The definitions below describe the nuances between Membership and Enrollment. <strong>If comparing the data shown from this year’s report to previous reports, use the data displayed under Membership</strong></em>.</p>
+</blockquote>
+<p>We’ll use <code>select()</code> to capture just the <code>campus</code>, <code>cpetspec</code> and <code>cpetspep</code> columns and put them into new data frames and then glimpse them.</p>
+<p>But we need to rename the special education columns to include the year they come from so we can tell them apart when they all get joined together. We use the <a href="https://dplyr.tidyverse.org/reference/rename.html"><code>rename()</code></a> function to do this. Like a lot of things in R, we <em>name the new thing first</em> and then “fill it” afterward.</p>
+<ul>
+<li>Add a Markdown note that we are preparing the student enrollment data</li>
+<li>Add a new R chunk and add the following:</li>
+</ul>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="sped-import.html#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set up 2015</span></span>
+<span id="cb227-2"><a href="sped-import.html#cb227-2" aria-hidden="true" tabindex="-1"></a>cstud15_cols <span class="ot">&lt;-</span> cstud15 <span class="sc">%&gt;%</span> </span>
+<span id="cb227-3"><a href="sped-import.html#cb227-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb227-4"><a href="sped-import.html#cb227-4" aria-hidden="true" tabindex="-1"></a>    campus,</span>
+<span id="cb227-5"><a href="sped-import.html#cb227-5" aria-hidden="true" tabindex="-1"></a>    cpetspec,</span>
+<span id="cb227-6"><a href="sped-import.html#cb227-6" aria-hidden="true" tabindex="-1"></a>    cpetspep</span>
+<span id="cb227-7"><a href="sped-import.html#cb227-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb227-8"><a href="sped-import.html#cb227-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb227-9"><a href="sped-import.html#cb227-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_c_15 =</span> cpetspec,</span>
+<span id="cb227-10"><a href="sped-import.html#cb227-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_p_15 =</span> cpetspep</span>
+<span id="cb227-11"><a href="sped-import.html#cb227-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb227-12"><a href="sped-import.html#cb227-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb227-13"><a href="sped-import.html#cb227-13" aria-hidden="true" tabindex="-1"></a><span class="co"># set up 2020</span></span>
+<span id="cb227-14"><a href="sped-import.html#cb227-14" aria-hidden="true" tabindex="-1"></a>cstud20_cols <span class="ot">&lt;-</span> cstud20 <span class="sc">%&gt;%</span> </span>
+<span id="cb227-15"><a href="sped-import.html#cb227-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb227-16"><a href="sped-import.html#cb227-16" aria-hidden="true" tabindex="-1"></a>    campus,</span>
+<span id="cb227-17"><a href="sped-import.html#cb227-17" aria-hidden="true" tabindex="-1"></a>    cpetspec,</span>
+<span id="cb227-18"><a href="sped-import.html#cb227-18" aria-hidden="true" tabindex="-1"></a>    cpetspep</span>
+<span id="cb227-19"><a href="sped-import.html#cb227-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb227-20"><a href="sped-import.html#cb227-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb227-21"><a href="sped-import.html#cb227-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_c_20 =</span> cpetspec,</span>
+<span id="cb227-22"><a href="sped-import.html#cb227-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_p_20 =</span> cpetspep</span>
+<span id="cb227-23"><a href="sped-import.html#cb227-23" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb227-24"><a href="sped-import.html#cb227-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb227-25"><a href="sped-import.html#cb227-25" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at both</span></span>
+<span id="cb227-26"><a href="sped-import.html#cb227-26" aria-hidden="true" tabindex="-1"></a>cstud15_cols <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 8,646
+## Columns: 3
+## $ campus    &lt;chr&gt; &quot;001902001&quot;, &quot;001902041&quot;, &quot;001902103&quot;, &quot;001903001&quot;, &quot;0019030…
+## $ sped_c_15 &lt;dbl&gt; 37, 16, 23, 33, 1, 36, 29, 27, 28, 16, 34, 16, 25, 96, 44, 2…
+## $ sped_p_15 &lt;dbl&gt; 18.0, 13.3, 9.2, 9.3, 100.0, 11.8, 9.6, 10.5, 12.6, 9.2, 8.4…</code></pre>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="sped-import.html#cb229-1" aria-hidden="true" tabindex="-1"></a>cstud20_cols <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 8,866
+## Columns: 3
+## $ campus    &lt;chr&gt; &quot;001902001&quot;, &quot;001902041&quot;, &quot;001902103&quot;, &quot;001903001&quot;, &quot;0019030…
+## $ sped_c_20 &lt;dbl&gt; 34, 17, 31, 44, 29, 48, 26, 19, 28, 44, 11, 14, 103, 70, 50,…
+## $ sped_p_20 &lt;dbl&gt; 19.8, 13.6, 11.9, 11.6, 11.2, 14.4, 9.4, 8.3, 15.9, 11.5, 9.…</code></pre>
+</div>
+</div>
+<div id="joining-the-data-together" class="section level2" number="14.8">
+<h2><span class="header-section-number">14.8</span> Joining the data together</h2>
+<p>This is another case where we’ll just touch on a skill – joining data – that we’ll detail more later. You might <a href="https://vimeo.com/showcase/7320305/video/435910338">review the video about joins</a> for a refresher on the terms and concepts.</p>
+<p>Our aim here is to create a single data set with a single row for each school that includes information from each of the three data sets. We do this by <strong>joining</strong> on the <code>campus</code> ID within each of the three data sets. However, as we do so, we’ll end up losing some rows that don’t have matches in the other files.</p>
+<p>To do the comparison for our story we need the schools that were open in both 2015 and 2020, but some schools existed in only one year or the other, so we’ll drop those. When we join our files, we’ll use an <code>inner_join()</code> to keep <em>only</em> schools with <strong>matching</strong> records from both 2015 and 2020. This will drop schools that opened after 2015 or closed before 2020.</p>
+<p>The <a href="https://dplyr.tidyverse.org/reference/join.html"><code>join()</code></a> functions (there are several) generally take three arguments: the two tables to join and then <strong>by =</strong> to say which columns to match on.</p>
+<p><code>inner_join(first_table, second_table, by = "column")</code></p>
+<p>In our case we are using some tidyverse foo, which I’ll explain after you add and run the chunk.</p>
+<ul>
+<li>Add notes in Markdown to note what you are doing.</li>
+<li>Create a new code block for the joins</li>
+<li>Add the following and run it.</li>
+</ul>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="sped-import.html#cb231-1" aria-hidden="true" tabindex="-1"></a>sped <span class="ot">&lt;-</span> directory_cols <span class="sc">%&gt;%</span> </span>
+<span id="cb231-2"><a href="sped-import.html#cb231-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(cstud15_cols)</span></code></pre></div>
+<pre><code>## Joining, by = &quot;campus&quot;</code></pre>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="sped-import.html#cb233-1" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 8,087
+## Columns: 8
+## $ school_name      &lt;chr&gt; &quot;CAYUGA H S&quot;, &quot;CAYUGA MIDDLE&quot;, &quot;CAYUGA EL&quot;, &quot;ELKHART …
+## $ district_name    &lt;chr&gt; &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;ELKHART IS…
+## $ instruction_type &lt;chr&gt; &quot;REGULAR INSTRUCTIONAL&quot;, &quot;REGULAR INSTRUCTIONAL&quot;, &quot;RE…
+## $ charter_type     &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+## $ grade_range      &lt;chr&gt; &quot;&#39;09-12&quot;, &quot;&#39;06-08&quot;, &quot;&#39;EE-05&quot;, &quot;&#39;09-12&quot;, &quot;&#39;KG-12&quot;, &quot;&#39;0…
+## $ campus           &lt;chr&gt; &quot;001902001&quot;, &quot;001902041&quot;, &quot;001902103&quot;, &quot;001903001&quot;, &quot;…
+## $ sped_c_15        &lt;dbl&gt; 37, 16, 23, 33, 1, 36, 29, 27, 28, 16, 34, 16, 25, 96…
+## $ sped_p_15        &lt;dbl&gt; 18.0, 13.3, 9.2, 9.3, 100.0, 11.8, 9.6, 10.5, 12.6, 9…</code></pre>
+<p>Here is what’s going on here:</p>
+<ul>
+<li>We start with our new dataframe we are creating: <code>sped</code> andbwe use <code>&lt;-</code> to fill it.</li>
+<li>To fill <code>sped</code> we start with the <code>directory</code> data and then pipe it <code>%&gt;%</code> into an <code>inner_join()</code> function as the first table argument.</li>
+<li>Inside the <code>inner_join()</code> we name the second column we are joining, <code>cstud15_cols</code>.</li>
+<li>We did not specify which columns to join <strong>by =</strong> so it did what is called a “natural join,” using all the variables with common names across the two tables. It noted that with the message: <strong>Joining, by = “campus”</strong>.</li>
+</ul>
+<blockquote>
+<p>Note we went from 9,572 rows in our <code>directory</code> data to just 8,087 rows with our joined data. This <strong>inner_join</strong> kept just the records that had the same <code>campus</code> ID values in both tables.</p>
+</blockquote>
+<p>Now we will amend our join statement to also join the more recent data.</p>
+<ul>
+<li>Append the join statement as follows:</li>
+</ul>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="sped-import.html#cb235-1" aria-hidden="true" tabindex="-1"></a>sped <span class="ot">&lt;-</span> directory_cols <span class="sc">%&gt;%</span> </span>
+<span id="cb235-2"><a href="sped-import.html#cb235-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(cstud15_cols) <span class="sc">%&gt;%</span> </span>
+<span id="cb235-3"><a href="sped-import.html#cb235-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(cstud20_cols)</span></code></pre></div>
+<pre><code>## Joining, by = &quot;campus&quot;
+## Joining, by = &quot;campus&quot;</code></pre>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="sped-import.html#cb237-1" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 8,002
+## Columns: 10
+## $ school_name      &lt;chr&gt; &quot;CAYUGA H S&quot;, &quot;CAYUGA MIDDLE&quot;, &quot;CAYUGA EL&quot;, &quot;ELKHART …
+## $ district_name    &lt;chr&gt; &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;ELKHART IS…
+## $ instruction_type &lt;chr&gt; &quot;REGULAR INSTRUCTIONAL&quot;, &quot;REGULAR INSTRUCTIONAL&quot;, &quot;RE…
+## $ charter_type     &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+## $ grade_range      &lt;chr&gt; &quot;&#39;09-12&quot;, &quot;&#39;06-08&quot;, &quot;&#39;EE-05&quot;, &quot;&#39;09-12&quot;, &quot;&#39;06-08&quot;, &quot;&#39;E…
+## $ campus           &lt;chr&gt; &quot;001902001&quot;, &quot;001902041&quot;, &quot;001902103&quot;, &quot;001903001&quot;, &quot;…
+## $ sped_c_15        &lt;dbl&gt; 37, 16, 23, 33, 36, 29, 27, 28, 16, 34, 16, 25, 96, 4…
+## $ sped_p_15        &lt;dbl&gt; 18.0, 13.3, 9.2, 9.3, 11.8, 9.6, 10.5, 12.6, 9.2, 8.4…
+## $ sped_c_20        &lt;dbl&gt; 34, 17, 31, 44, 29, 48, 26, 19, 28, 44, 11, 14, 103, …
+## $ sped_p_20        &lt;dbl&gt; 19.8, 13.6, 11.9, 11.6, 11.2, 14.4, 9.4, 8.3, 15.9, 1…</code></pre>
+<p>The second join worked the same way as the first. It also reducee the number of rows down to 8,002 as it dropped more schools that are not present in all the data sets.</p>
+<p>We’ve done quite a bit here if you think about it:</p>
+<ol style="list-style-type: decimal">
+<li>We imported three different data sets</li>
+<li>We selected only the columns we needed from each of the three columns</li>
+<li>We sometimes mutated data needed adjusting, like the school_number.</li>
+<li>We renamed our merging data so we can better identify them later.</li>
+<li>We did the actual merge.</li>
+</ol>
+<p>Now that we have all this data together, we can start doing some math and other calculations to see how the numbers of special education students have changed over time after the Legislature changed rules. We’ll do that in the next lesson.</p>
+</div>
+<div id="exporting-data-1" class="section level2" number="14.9">
+<h2><span class="header-section-number">14.9</span> Exporting data</h2>
+<div id="single-notebook-philosophy-1" class="section level3" number="14.9.1">
+<h3><span class="header-section-number">14.9.1</span> Single-notebook philosophy</h3>
+<p>I have a pretty strong opinion that you should be able to open any RNotebook in your project and run it from top to bottom without it breaking. In short, one notebook should not be dependent on the previous running of another notebook, unless it is to provide an output file that can be accessed later by another notebook.</p>
+<p>This is why I had you name this notebook <code>01-import.Rmd</code> with a number 1 at the beginning. We’ll number our notebooks in the order they should be run. It’s an indication that before we can use the notebook <code>02-computations.Rmd</code> (next lesson!) that the <code>01-import.Rmd</code> notebook has to be run first.</p>
+<p>But what is important is we will create an exported file from our first notebook that can be used in the second one. Once we create that file, the second notebook can be opened and run at any time.</p>
+<p>Why make this so complicated? It might seem like overkill for this project … after all, the csv file imported cleanly and we don’t need to do anything further to it except lowercase column names.</p>
+<p>The answer is <strong>consistency</strong>. When you follow the same project structure each, you quickly know how to dive into that project at a later date. If everyone on your team uses the same structure, you can dive into your teammates code because you already know how it is organized. If we separate our importing and cleaning into it’s own file to be used by many other notebooks, we can fix future cleaning problems in ONE place instead of many places.</p>
+<p>One last example to belabor the point: It can save time. I’ve had import/cleaning notebooks that took 20 minutes to process. Imagine if I had to run that every time I wanted to rebuild my analysis notebook. Instead, the import notebook spits out clean file that can be imported in a fraction of that time.</p>
+<p>This was all a long-winded way of saying we are going to export our data now.</p>
+</div>
+<div id="exporting-as-rds-1" class="section level3" number="14.9.2">
+<h3><span class="header-section-number">14.9.2</span> Exporting as rds</h3>
+<p>We are able to pass cleaned data between notebooks because of a native R data format called <code>.rds</code>. When we export in this format it saves not only rows and columns, but also the data types. (If we exported as CSV, we would potentially have to re-fix data types when we imported again.)</p>
+<p>We will use another readr function called <code>write_rds()</code> to create our file to pass along to the next notebook, saving the data into the <code>data-processed</code> folder earlier. We are separating it from our data-raw folder because “Thou shalt not change raw data” even by accident. By always writing data to this different folder, we help avoid accidentally overwriting our original data.</p>
+<ul>
+<li>Create a Markdown headline <code>## Exports</code> and write a description that you are exporting files to .rds.</li>
+<li>Add a new code chunk and add the following code:</li>
+</ul>
+<!-- running this code to get output for future chapter -->
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="sped-import.html#cb239-1" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> </span>
+<span id="cb239-2"><a href="sped-import.html#cb239-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_rds</span>(<span class="st">&quot;data-processed/01_sped.rds&quot;</span>)</span></code></pre></div>
+<p>So, we are starting with the sped data frame that we saved earlier. We then pipe <code>%&gt;%</code> the result of that into a new function <code>write_rds()</code>. In addition to the data, the function needs to who where to save the file, so in quotes we give the path to where and what we want to call the file: <code>"data-processed/01_sped.rds"</code>.</p>
+<p>Remember, we are saving in data-processed because we never export into data-raw. We are naming the file starting with <code>01_</code> to indicate to our future selves that this output came from our first notebook. We then name it, and use the <code>.rds</code> extension.</p>
+</div>
+</div>
+<div id="review-of-what-weve-learned-so-far-1" class="section level2" number="14.10">
+<h2><span class="header-section-number">14.10</span> Review of what we’ve learned so far</h2>
+<p>Most of this lesson has been about importing and combining data, with some data mutating thrown in for fun. (OK, I have an odd sense of what fun is.) Importing data into R (or any data science program) can sometimes be quite challenging, depending on the circumstances. Here we were working with well-formed data, but we still used quite a few tools from tidyverse packages like readr (read_csv, write_rds) and dplyr (select, mutate).</p>
+<p>You’ve learned a lot already:</p>
+<ul>
+<li>About using RMarkdown and RNotebooks to document and organize your work</li>
+<li>About R packages like the tidyverse and janitor, and how they can add new tools to your data Swiss Army knife</li>
+<li>About preserving data integrity by separating your raw and processed data</li>
+<li>You learned how to import csv data, pluck out the parts you need an join them into something you can use</li>
+</ul>
+<p>Next we’ll dive a little deeper into mutate, creating the calculations from our data that we need to reach our story goals.</p>
+</div>
+<div id="resources-4" class="section level2" number="14.11">
+<h2><span class="header-section-number">14.11</span> Resources</h2>
+<ul>
+<li>This <a href="https://www.datacamp.com/community/tutorials/r-data-import-tutorial">DataCamp tutorial on imports</a> covers a ton of different data types and connections.</li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="cleaning.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="sped-transform.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/30-sped-import.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
