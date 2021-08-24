@@ -1,7 +1,5 @@
 # Import {#import}
 
-> Draft
-
 > “If you’re doing data analysis every day, the time it takes to learn a programming language pays off pretty quickly because you can automate more and more of what you do.” --Hadley Wickham, chief scientist at RStudio
 
 ## Learning goals of this lesson
@@ -28,12 +26,12 @@ Before we get into our storytelling, we have to get our data and make sure it is
 
 ## Create a new project
 
-We did this in once Chapter 2, but here are the basic steps:
+We did this once Chapter 2, but here are the basic steps:
 
 1. Launch RStudio
 1. Make sure you don't have an existing project open. Use File > Close project if you do.
 1. Use the `+R` button to create a **New Project** in a **New Directory**
-1. Name the project `yourfirstname-special-ed` and put it in your `~/Documents/rwd` folder.
+1. Name the project `yourfirstname-billboard` and put it in your `~/Documents/rwd` folder.
 1. Use the `+` button and use **R Notebook** to start a new notebook.
 1. Change the title to "Billboard Hot 100".
 1. Delete the other boilerplate text.
@@ -147,11 +145,9 @@ Your `.Rproj` file name is likely different (and that s OK) and you can ignore t
 
 ### Let's get our data
 
-Now that we have a folder for our data, we can download our data into it. I have a copy of the data in in a Github repo.
+Now that we have a folder for our data, we can download our data into it. The data was scraped and saved on [data.world](https://data.world/kcmillersean/billboard-hot-100-1958-2017) by Sean Miller, but you can just download my copy of the data using the `download.file` function in R.
 
-> The process I used to acquire this data is explained in the [rwd-billboard-data](https://github.com/utdata/rwd-billboard-data) repo on Github, but it's beyond the scope of this lesson. Suffice to say it comes from Billboard Media.
-
-In the interest of time, you can just download my copy of the data using the `download.file` function in R.
+For the purposes of this assignment, we will "source" the data as being from Billboard Media, as that who inititally provided it. I've worked with data fairly extensively, and it is sound.
 
 1. Add a Markdown headline `## Downloading data` and on a new line text that indicates you are downloading data. You would typically include a link and explain what it is, etc, often linking to the original source.
 1. Create an R chunk and include the following (hint: use the copy icon at the top right):

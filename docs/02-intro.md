@@ -89,7 +89,7 @@ This is a "base R" plot. We'll be using the tidyverse ggplot methods later in th
 
 ### A note about RMarkdown
 
-We always want to annotate our code to explain what we are doing. To do that, we use a syntax called [RMarkdown](https://rmarkdown.rstudio.com/authoring_basics.html), which is an R-specific version of Markdown. We use this syntax because it both makes sense in text but also makes a very pretty version in HTML when we "knit" our project. You see how it to [write RMarkdown here](https://rmarkdown.rstudio.com/authoring_basics.html).
+We always want to annotate our code to explain what we are doing. To do that, we use a syntax called [RMarkdown](https://rmarkdown.rstudio.com/authoring_basics.html), which is an R-specific version of Markdown. We use this syntax because it both makes sense in text but also makes a very pretty version in HTML when we "knit" our project. You can see how it to [write RMarkdown here](https://rmarkdown.rstudio.com/authoring_basics.html).
 
 This entire book is written in RMarkdown.
 
@@ -151,7 +151,7 @@ Now you can play with the number assigned to the age variable to test out differ
 
 ### Practice adding code chunks
 
-Now, on your own, add a similar section that calculates the minimum age of someone you should date, but using the formula `(age / 2) + 7`.
+Now, on your own, add a similar section that calculates the **minimum** age of someone you should date, but using the formula `(age / 2) + 7`.
 
 1. Add a RMarkdown headline and text describing what you are doing.
 1. Create a code chunk that that calculates the formula based on your age.
