@@ -1,7 +1,7 @@
 --- 
 title: "Reporting with Data in R"
 author: "Christian McDonald"
-date: "2021-08-24"
+date: "2021-08-25"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
@@ -66,7 +66,7 @@ When you see R code in the instructions, you can roll your cursor over the right
 
 ![Copy to clipboard](images/index-copy-clipboard.png)
 
-You can then paste they code inside your R chunk.
+You can then paste the code inside your R chunk.
 
 That said, typing code yourself has many, many benefits. You learn better when you type yourself, make mistakes and have to fix them. **I encourage you to always type short code snippets.** Leave the copying to long ones.
 
