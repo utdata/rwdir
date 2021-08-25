@@ -162,7 +162,7 @@ This `download.file` function takes at least two arguments:
 - The URL of the file you are downloading
 - The path and name of where you want to save it.
 
-Note those two arguments are in quotes. The path includes the folder name you are saving the file to, which we called `hot100.csv`.
+Note those two arguments are in quotes. The path includes the folder name you are saving the file to, which we called `hot-stuff.csv`.
 
 When you run this, it should save the file and then give you output similar to this:
 
