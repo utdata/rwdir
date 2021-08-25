@@ -24,7 +24,7 @@
 <meta name="author" content="Christian McDonald" />
 
 
-<meta name="date" content="2021-08-24" />
+<meta name="date" content="2021-08-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -693,7 +693,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Use the <code>+R</code> button to create a <strong>New Project</strong> in a <strong>New Directory</strong></li>
 <li>Name the project <code>yourfirstname-billboard</code> and put it in your <code>~/Documents/rwd</code> folder.</li>
 <li>Use the <code>+</code> button and use <strong>R Notebook</strong> to start a new notebook.</li>
-<li>Change the title to “Billboard Hot 100.”</li>
+<li>Change the title to “Billboard Hot 100 Import.”</li>
 <li>Delete the other boilerplate text.</li>
 <li>Save the file as <code>01-import.Rmd</code>.</li>
 </ol>
@@ -709,7 +709,7 @@ Steps to prepare our data:
 - Clean up data types and columns
 - Export for next notebook</code></pre>
 <p>We want to start each notebook with a list like this so our future selves and others know what the heck we are trying to accomplish.</p>
-<p>We will also write comments like this for each new “section” or goal in the notebook.</p>
+<p>We will also write text like this for each new “section” or goal in the notebook.</p>
 </div>
 <div id="the-r-package-environment" class="section level3" number="3.3.2">
 <h3><span class="header-section-number">3.3.2</span> The R Package environment</h3>
@@ -722,10 +722,10 @@ Steps to prepare our data:
 <div id="installing-and-using-packages" class="section level3" number="3.3.3">
 <h3><span class="header-section-number">3.3.3</span> Installing and using packages</h3>
 <p>There are two steps to using an R package:</p>
-<ol style="list-style-type: decimal">
-<li><strong>Install the package</strong> using `install.packages(“package_name”). You only have to do this once for each computer, so I usually do it using the R Console instead of in notebook.</li>
+<ul>
+<li><strong>Install the package</strong> using <code>install.packages("package_name")</code>. You only have to do this once for each computer, so I usually do it using the R Console instead of in notebook.</li>
 <li><strong>Include the library</strong> using <code>library(package_name)</code>. This has to be done for each Notebook or script that uses it, so it is usually one of the first things in the notebook.</li>
-</ol>
+</ul>
 <blockquote>
 <p>Note that you have to use “quotes” around the package name when you are installing, but you DON’T use quotes when you load the library.</p>
 </blockquote>
@@ -739,7 +739,7 @@ Steps to prepare our data:
 <li>In the Console, type in:</li>
 </ol>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="import.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
-<p>As you type into the Console, you’ll see some type-assist hints on what you need. You can use the arrow keys to select one and hit Tab to complete that command, then enter the values you need.If it asks you to install “from source,” type <code>Yes</code> and hit return.</p>
+<p>As you type into the Console, you’ll see some type-assist hints on what you need. You can use the arrow keys to select one and hit the <em>tab</em> key to complete that command, then enter the values you need. If it asks you to install “from source,” type <code>Yes</code> and hit return.</p>
 <p>You’ll see a bunch of response in the Console.</p>
 <ol style="list-style-type: decimal">
 <li>We need two other packages as well, so also do:</li>
@@ -778,7 +778,7 @@ Steps to prepare our data:
 </ol>
 <p>Once you’ve done that, they should show up in the file explorer in the Files pane. Click the refresh button if you don’t see them. (The circlish thing at top right of the screenshot below. You might have to widen the pane to see it.)</p>
 <div class="figure">
-<img src="images/bb-new-folder.png" width="300" alt="" />
+<img src="images/bb-new-folder.png" width="400" alt="" />
 <p class="caption">Directory made</p>
 </div>
 <p>Your <code>.Rproj</code> file name is likely different (and that s OK) and you can ignore the <code>.gitignore</code> I have there.</p>
@@ -786,7 +786,7 @@ Steps to prepare our data:
 <div id="lets-get-our-data" class="section level3" number="3.3.6">
 <h3><span class="header-section-number">3.3.6</span> Let’s get our data</h3>
 <p>Now that we have a folder for our data, we can download our data into it. The data was scraped and saved on <a href="https://data.world/kcmillersean/billboard-hot-100-1958-2017">data.world</a> by Sean Miller, but you can just download my copy of the data using the <code>download.file</code> function in R.</p>
-<p>For the purposes of this assignment, we will “source” the data as being from Billboard Media, as that who inititally provided it. I’ve worked with data fairly extensively, and it is sound.</p>
+<p>For the purposes of this assignment, we will “source” the data as being from Billboard Media, as that is who initially provided it. I’ve worked with data fairly extensively, and it is sound.</p>
 <ol style="list-style-type: decimal">
 <li>Add a Markdown headline <code>## Downloading data</code> and on a new line text that indicates you are downloading data. You would typically include a link and explain what it is, etc, often linking to the original source.</li>
 <li>Create an R chunk and include the following (hint: use the copy icon at the top right):</li>
@@ -829,16 +829,16 @@ downloaded 43.7 MB</code></pre>
 <h2><span class="header-section-number">3.6</span> Data dictionary</h2>
 <p>This data contains weekly Hot 100 singles chart from Billboard.com. <strong>Each row of data represents a song and the corresponding position on that week’s chart.</strong> Included in each row are the following elements:</p>
 <ul>
-<li>Billboard Chart URL</li>
-<li>WeekID</li>
+<li>Billboard Chart URL: Website for the chart</li>
+<li>WeekID: Basically the date</li>
 <li>Song name</li>
 <li>Performer name</li>
-<li>SongID - Concatenation of song &amp; performer</li>
+<li>SongID: Concatenation of song &amp; performer</li>
 <li>Current week on chart</li>
-<li>Instance (this is used to separate breaks on the chart for a given song. Example, an instance of 6 tells you that this is the sixth time this song has fallen off and then appeared on the chart)</li>
+<li>Instance: This is used to separate breaks on the chart for a given song. For example, an instance of 6 tells you that this is the sixth time this song has fallen off and then appeared on the chart</li>
 <li>Previous week position</li>
-<li>Peak Position (as of the corresponding week)</li>
-<li>Weeks on Chart (as of the corresponding week)</li>
+<li>Peak Position: As of the current week</li>
+<li>Weeks on Chart: As of the current week</li>
 </ul>
 <p>Let’s import it so we can <em>see</em> the data.</p>
 </div>
@@ -850,8 +850,8 @@ downloaded 43.7 MB</code></pre>
 <li>Add some text to explain that we are importing the Billboard Hot 100 data.</li>
 <li>After your description, add a new code chunk (<em>Cmd+Option+i</em>).</li>
 </ol>
-<p>We’ll be using the <code>read_csv()</code> function from the tidyverse <a href="https://readr.tidyverse.org/">readr</a> package, which is different from <code>read.csv</code> that comes with base R. It is mo betta.</p>
-<p>Inside the function we put in the path do our data, inside quotes. If you start typing in that path and hit tab, it will complete the path. (Easier to show than explain).</p>
+<p>We’ll be using the <code>read_csv()</code> function from the tidyverse <a href="https://readr.tidyverse.org/">readr</a> package, which is different from <code>read.csv</code> that comes with base R. <code>read_csv()</code> is mo betta.</p>
+<p>Inside the function we put in the path to our data, inside quotes. If you start typing in that path and hit tab, it will complete the path. (Easier to show than explain).</p>
 <ol style="list-style-type: decimal">
 <li>Add the follow code into your chunk and run it.</li>
 </ol>
@@ -886,7 +886,7 @@ downloaded 43.7 MB</code></pre>
 <div id="assign-our-import-to-a-tibble" class="section level2" number="3.8">
 <h2><span class="header-section-number">3.8</span> Assign our import to a tibble</h2>
 <p>As of right now, we’ve only printed the data to our screen. We haven’t “saved” it at all. Next we need to assign it to an <strong>R object</strong> so it can be named thing in our project environment so we can reuse it. We don’t want to re-import the data every time we use the data.</p>
-<p>The syntax to create and object in R can seem weird at first, but the convention is to name the object first, then insert stuff into it. So, to create an object, the structure is this:</p>
+<p>The syntax to create an object in R can seem weird at first, but the convention is to name the object first, then insert stuff into it. So, to create an object, the structure is this:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="import.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is pseudo code. don&#39;t run it.</span></span>
 <span id="cb11-2"><a href="import.html#cb11-2" aria-hidden="true" tabindex="-1"></a>new_object <span class="ot">&lt;-</span> stuff_going_into_object</span></code></pre></div>
 <p>Let’s make a object called <code>hot100</code> and fill it with our imported tibble.</p>
@@ -967,7 +967,7 @@ downloaded 43.7 MB</code></pre>
 </ul></li>
 <li>Remove notes or comments from the files.</li>
 <li>Each column should have the same kind of data: numbers vs words, etc.</li>
-<li>Each row should be a single thing called an “observation.” The columns should describe that observation.</li>
+<li>Each row should be a single thing called an “observation.” The columns should describe attributes of that observation.</li>
 </ul>
 <p>Data rarely comes clean like that. There can be many challenges importing and cleaning data. We’ll face some of those challenges here. In our case our columns names could use help, and our field <code>WeekID</code> is not really a date, but text characters. We’ll tackle those issues next.</p>
 </div>
@@ -1095,7 +1095,7 @@ downloaded 43.7 MB</code></pre>
 <p>If you inspect our newish <code>week_id</code> in your glimpse return, you’ll notice the first record starts in “1965-07-17” but our data goes back to 1958. We want to sort our data by the oldest records first using <code>arrange()</code>.</p>
 <p>We will use the <code>%&gt;%</code> and then the arrange function, feeding it our data (implied with the pipe) and the columns we wish to sort by.</p>
 <ol style="list-style-type: decimal">
-<li>Edit your chunk to the following:</li>
+<li>Edit your chunk to the following to add the <code>arrange()</code> function:</li>
 </ol>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="import.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># part we will build on</span></span>
 <span id="cb23-2"><a href="import.html#cb23-2" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="ot">&lt;-</span> hot100 <span class="sc">%&gt;%</span> </span>
@@ -1151,7 +1151,10 @@ downloaded 43.7 MB</code></pre>
 <div id="selecting-columns" class="section level2" number="3.12">
 <h2><span class="header-section-number">3.12</span> Selecting columns</h2>
 <p>We don’t need all of these columns for our analysis, so we are going to <strong>select</strong> only the ones we need. This will make our exported data file smaller. To understand the concept, you can review the <a href="https://vimeo.com/showcase/7320305">Select</a> video in the Basic Data Journalism Functions series.</p>
-<p>It boils down to this: We are selecting only the columns we need. In doing so, we will drop <code>url</code>, <code>song_id</code> and <code>instance</code>.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/L0FYEy1W8Wc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+<p><br>
+It boils down to this: We are selecting only the columns we need. In doing so, we will drop <code>url</code>, <code>song_id</code> and <code>instance</code>.</p>
 <ol style="list-style-type: decimal">
 <li>Add a Markdown headline: <code>## Selecting columns</code>.</li>
 <li>Explain in text we are tightening the date to only the columns we need.</li>
@@ -1182,7 +1185,7 @@ downloaded 43.7 MB</code></pre>
 </ul>
 <p>Alternately, we could just name the columns we want to keep without the <code>-</code> sign. But there were fewer to remove than keep.</p>
 <blockquote>
-<p>To be clear, there are other ways to use <a href="https://dplyr.tidyverse.org/reference/select.html"><code>select()</code></a> this that use less code, but I want to be as straigtforward as possible at this point. It’s pretty powerful.</p>
+<p>To be clear, there are other ways to use <a href="https://dplyr.tidyverse.org/reference/select.html"><code>select()</code></a> this that use less code, but I want to be as straigtforward as possible at this point. It’s <a href="https://dplyr.tidyverse.org/reference/select.html">pretty powerful</a>.</p>
 </blockquote>
 </div>
 <div id="exporting-data" class="section level2" number="3.13">
@@ -1211,7 +1214,7 @@ downloaded 43.7 MB</code></pre>
 <!-- running this code to get output for future chapter -->
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="import.html#cb29-1" aria-hidden="true" tabindex="-1"></a>hot100_tight <span class="sc">%&gt;%</span> </span>
 <span id="cb29-2"><a href="import.html#cb29-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">write_rds</span>(<span class="st">&quot;data-processed/01-hot100.rds&quot;</span>)</span></code></pre></div>
-<p>So, we are starting with the sped data frame that we saved earlier. We then pipe <code>%&gt;%</code> the result of that into a new function <code>write_rds()</code>. In addition to the data, the function needs to who where to save the file, so in quotes we give the path to where and what we want to call the file: <code>"data-processed/hot100.rds"</code>.</p>
+<p>So, we are starting with the <code>hot100_tight</code> tibble that we saved earlier. We then pipe <code>%&gt;%</code> the result of that into a new function <code>write_rds()</code>. In addition to the data, the function needs to where to save the file, so in quotes we give the path to where and what we want to call the file: <code>"data-processed/hot100.rds"</code>.</p>
 <p>Remember, we are saving in data-processed because we never export into data-raw. We are naming the file starting with <code>01-</code> to indicate to our future selves that this output came from our first notebook. We then name it, and use the <code>.rds</code> extension.</p>
 </div>
 </div>
@@ -1237,9 +1240,9 @@ downloaded 43.7 MB</code></pre>
 </ul>
 <ol style="list-style-type: decimal">
 <li>Go back through your notebook and name all your chunks.</li>
-<li>Under the <strong>Run</strong> menu, choose <strong>Restart R and run all chunks</strong>.</li>
+<li>Under the <strong>Run</strong> menu, choose <em>Restart R and run all chunks</em>.</li>
 </ol>
-<p>Make sure that your Notebook ran all the way from top to bottom. The order of stuff in the notebook matters and you can make errors as you edit up and down the notebook. You <strong>Always</strong> want to do this before you finish a notebook.</p>
+<p>Make sure that your Notebook ran all the way from top to bottom. The order of stuff in the notebook matters and you can make errors as you edit up and down the notebook. You <strong>always</strong> want to do this before you finish a notebook.</p>
 </div>
 <div id="knit-your-page" class="section level2" number="3.15">
 <h2><span class="header-section-number">3.15</span> Knit your page</h2>
@@ -1260,7 +1263,7 @@ downloaded 43.7 MB</code></pre>
 </div>
 <div id="review-of-what-weve-learned-so-far" class="section level2" number="3.16">
 <h2><span class="header-section-number">3.16</span> Review of what we’ve learned so far</h2>
-<p>Most of this lesson has been about importing and combining data, with some data mutating thrown in for fun. (OK, I have an odd sense of what fun is.) Importing data into R (or any data science program) can sometimes be quite challenging, depending on the circumstances. Here we were working with well-formed data, but we still used quite a few tools from tidyverse packages like readr (read_csv, write_rds) and dplyr (select, mutate).</p>
+<p>Most of this lesson has been about importing and combining data, with some data mutating thrown in for fun. (OK, I have an odd sense of what fun is.) Importing data into R (or any data science program) can sometimes be quite challenging, depending on the circumstances. Here we were working with well-formed data, but we still used quite a few tools from the tidyverse universe like readr (read_csv, write_rds) and dplyr (select, mutate).</p>
 <p>Here are the functions we used and what they do. Most are linked to documentation sites:</p>
 <ul>
 <li><code>install.packages()</code> downloads an R package to your computer. Typically executed from within the Console and only once per computer. We installed the <a href="https://www.tidyverse.org/packages/">tidyverse</a>, <a href="https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html">janitor</a> and <a href="https://lubridate.tidyverse.org/">lubridate</a> packages.</li>

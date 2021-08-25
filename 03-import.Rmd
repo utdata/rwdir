@@ -33,7 +33,7 @@ We did this once Chapter 2, but here are the basic steps:
 1. Use the `+R` button to create a **New Project** in a **New Directory**
 1. Name the project `yourfirstname-billboard` and put it in your `~/Documents/rwd` folder.
 1. Use the `+` button and use **R Notebook** to start a new notebook.
-1. Change the title to "Billboard Hot 100".
+1. Change the title to "Billboard Hot 100 Import".
 1. Delete the other boilerplate text.
 1. Save the file as `01-import.Rmd`.
 
@@ -55,7 +55,7 @@ Steps to prepare our data:
 
 We want to start each notebook with a list like this so our future selves and others know what the heck we are trying to accomplish.
 
-We will also write comments like this for each new "section" or goal in the notebook.
+We will also write text like this for each new "section" or goal in the notebook.
 
 ### The R Package environment
 
@@ -73,8 +73,8 @@ There are also a series of useful [cheatsheets](https://www.rstudio.com/resource
 
 There are two steps to using an R package:
 
-1. **Install the package** using `install.packages("package_name"). You only have to do this once for each computer, so I usually do it using the R Console instead of in notebook.
-1. **Include the library** using `library(package_name)`. This has to be done for each Notebook or script that uses it, so it is usually one of the first things in the notebook.
+- **Install the package** using `install.packages("package_name")`. You only have to do this once for each computer, so I usually do it using the R Console instead of in notebook.
+- **Include the library** using `library(package_name)`. This has to be done for each Notebook or script that uses it, so it is usually one of the first things in the notebook.
 
 > Note that you have to use "quotes" around the package name when you are installing, but you DON'T use quotes when you load the library.
 
@@ -89,7 +89,7 @@ We're going to install several packages we will use in this project. To do this,
 install.packages("tidyverse")
 ```
 
-As you type into the Console, you'll see some type-assist hints on what you need. You can use the arrow keys to select one and hit Tab to complete that command, then enter the values you need.If it asks you to install "from source", type `Yes` and hit return.
+As you type into the Console, you'll see some type-assist hints on what you need. You can use the arrow keys to select one and hit the _tab_ key to complete that command, then enter the values you need. If it asks you to install "from source", type `Yes` and hit return.
 
 You'll see a bunch of response in the Console.
 
@@ -138,7 +138,7 @@ In your Files pane at the bottom-right of Rstudio, there is a **New Folder** ico
 
 Once you've done that, they should show up in the file explorer in the Files pane. Click the refresh button if you don't see them. (The circlish thing at top right of the screenshot below. You might have to widen the pane to see it.)
 
-![Directory made](images/bb-new-folder.png){width=300px}
+![Directory made](images/bb-new-folder.png){width=400px}
 
 Your `.Rproj` file name is likely different (and that s OK) and you can ignore the `.gitignore` I have there.
 
@@ -146,7 +146,7 @@ Your `.Rproj` file name is likely different (and that s OK) and you can ignore t
 
 Now that we have a folder for our data, we can download our data into it. The data was scraped and saved on [data.world](https://data.world/kcmillersean/billboard-hot-100-1958-2017) by Sean Miller, but you can just download my copy of the data using the `download.file` function in R.
 
-For the purposes of this assignment, we will "source" the data as being from Billboard Media, as that who inititally provided it. I've worked with data fairly extensively, and it is sound.
+For the purposes of this assignment, we will "source" the data as being from Billboard Media, as that is who initially provided it. I've worked with data fairly extensively, and it is sound.
 
 1. Add a Markdown headline `## Downloading data` and on a new line text that indicates you are downloading data. You would typically include a link and explain what it is, etc, often linking to the original source.
 1. Create an R chunk and include the following (hint: use the copy icon at the top right):
@@ -201,16 +201,16 @@ When you write about this data (and you will), you should source it as **the Bil
 
 This data contains weekly Hot 100 singles chart from Billboard.com. **Each row of data represents a song and the corresponding position on that week's chart.** Included in each row are the following elements:
 
-- Billboard Chart URL
-- WeekID
+- Billboard Chart URL: Website for the chart
+- WeekID: Basically the date
 - Song name
 - Performer name
-- SongID - Concatenation of song & performer
+- SongID: Concatenation of song & performer
 - Current week on chart
-- Instance (this is used to separate breaks on the chart for a given song. Example, an instance of 6 tells you that this is the sixth time this song has fallen off and then appeared on the chart)
+- Instance: This is used to separate breaks on the chart for a given song. For example, an instance of 6 tells you that this is the sixth time this song has fallen off and then appeared on the chart
 - Previous week position
-- Peak Position (as of the corresponding week)
-- Weeks on Chart (as of the corresponding week)
+- Peak Position: As of the current week
+- Weeks on Chart: As of the current week
 
 Let's import it so we can _see_ the data.
 
@@ -222,9 +222,9 @@ Since we are doing a new thing, we should note that with a Markdown headline and
 1. Add some text to explain  that we are importing the Billboard Hot 100 data.
 1. After your description, add a new code chunk (*Cmd+Option+i*).
 
-We'll be using the `read_csv()` function from the tidyverse [readr](https://readr.tidyverse.org/) package, which is different from `read.csv` that comes with base R. It is mo betta.
+We'll be using the `read_csv()` function from the tidyverse [readr](https://readr.tidyverse.org/) package, which is different from `read.csv` that comes with base R. `read_csv()` is mo betta.
 
-Inside the function we put in the path do our data, inside quotes. If you start typing in that path and hit tab, it will complete the path. (Easier to show than explain).
+Inside the function we put in the path to our data, inside quotes. If you start typing in that path and hit tab, it will complete the path. (Easier to show than explain).
 
 1. Add the follow code into your chunk and run it.
 
@@ -261,7 +261,7 @@ Of special note here, we have only printed this data to the screen. We have not 
 
 As of right now, we've only printed the data to our screen. We haven't "saved" it at all. Next we need to assign it to an **R object** so it can be named thing in our project environment so we can reuse it. We don't want to re-import the data every time we use the data.
 
-The syntax to create and object in R can seem weird at first, but the convention is to name the object first, then insert stuff into it. So, to create an object, the structure is this:
+The syntax to create an object in R can seem weird at first, but the convention is to name the object first, then insert stuff into it. So, to create an object, the structure is this:
 
 ```r
 # this is pseudo code. don't run it.
@@ -350,7 +350,7 @@ The "Checking Your Data" section of this [DataCamp tutorial](https://www.datacam
     + Spaces in names make them harder to work with. Use and `_` or `.` between words. I prefer `_` and lowercase text.
 - Remove notes or comments from the files.
 - Each column should have the same kind of data: numbers vs words, etc.
-- Each row should be a single thing called an "observation". The columns should describe that observation.
+- Each row should be a single thing called an "observation". The columns should describe attributes of that observation.
 
 Data rarely comes clean like that. There can be many challenges importing and cleaning data. We'll face some of those challenges here. In our case our columns names could use help, and our field `WeekID` is not really a date, but text characters. We'll tackle those issues next.
 
@@ -457,7 +457,7 @@ If you inspect our newish `week_id` in your glimpse return, you'll notice the fi
 
 We will use the `%>%` and then the arrange function, feeding it our data (implied with the pipe) and the columns we wish to sort by.
 
-1. Edit your chunk to the following:
+1. Edit your chunk to the following to add the `arrange()` function:
 
 ```{r clean-date}
 # part we will build on
@@ -492,6 +492,9 @@ This just prints the first 10 lines of the data.
 
 We don't need all of these columns for our analysis, so we are going to **select** only the ones we need. This will make our exported data file smaller. To understand the concept, you can review the [Select](https://vimeo.com/showcase/7320305) video in the Basic Data Journalism Functions series.
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/L0FYEy1W8Wc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<br>
 It boils down to this: We are selecting only the columns we need. In doing so, we will drop `url`, `song_id` and `instance`.
 
 1. Add a Markdown headline: `## Selecting columns`.
@@ -517,7 +520,7 @@ In our code we:
 
 Alternately, we could just name the columns we want to keep without the `-` sign. But there were fewer to remove than keep.
 
-> To be clear, there are other ways to use [`select()`](https://dplyr.tidyverse.org/reference/select.html) this that use less code, but I want to be as straigtforward as possible at this point. It's pretty powerful.
+> To be clear, there are other ways to use [`select()`](https://dplyr.tidyverse.org/reference/select.html) this that use less code, but I want to be as straigtforward as possible at this point. It's [pretty powerful](https://dplyr.tidyverse.org/reference/select.html).
 
 ## Exporting data
 
@@ -555,7 +558,7 @@ hot100_tight %>%
    write_rds("data-processed/01-hot100.rds")
 ```
 
-So, we are starting with the sped data frame that we saved earlier. We then pipe ` %>% ` the result of that into a new function `write_rds()`. In addition to the data, the function needs to who where to save the file, so in quotes we give the path to where and what we want to call the file: `"data-processed/hot100.rds"`.
+So, we are starting with the `hot100_tight` tibble that we saved earlier. We then pipe ` %>% ` the result of that into a new function `write_rds()`. In addition to the data, the function needs to where to save the file, so in quotes we give the path to where and what we want to call the file: `"data-processed/hot100.rds"`.
 
 Remember, we are saving in data-processed because we never export into data-raw. We are naming the file starting with `01-` to indicate to our future selves that this output came from our first notebook. We then name it, and use the `.rds` extension.
 
@@ -581,9 +584,9 @@ See where I have `{r download}`? I named it that because that is what the chunk 
 - There are other configurations we can do here, but that is for later.
 
 1. Go back through your notebook and name all your chunks.
-1. Under the **Run** menu, choose **Restart R and run all chunks**.
+1. Under the **Run** menu, choose _Restart R and run all chunks_.
 
-Make sure that your Notebook ran all the way from top to bottom. The order of stuff in the notebook matters and you can make errors as you edit up and down the notebook. You **Always** want to do this before you finish a notebook.
+Make sure that your Notebook ran all the way from top to bottom. The order of stuff in the notebook matters and you can make errors as you edit up and down the notebook. You **always** want to do this before you finish a notebook.
 
 ## Knit your page
 
@@ -602,7 +605,7 @@ This will open a nice reader-friendly version of your notebook. You could send t
 
 ## Review of what we've learned so far
 
-Most of this lesson has been about importing and combining data, with some data mutating thrown in for fun. (OK, I have an odd sense of what fun is.) Importing data into R (or any data science program) can sometimes be quite challenging, depending on the circumstances. Here we were working with well-formed data, but we still used quite a few tools from tidyverse packages like readr (read_csv, write_rds) and dplyr (select, mutate).
+Most of this lesson has been about importing and combining data, with some data mutating thrown in for fun. (OK, I have an odd sense of what fun is.) Importing data into R (or any data science program) can sometimes be quite challenging, depending on the circumstances. Here we were working with well-formed data, but we still used quite a few tools from the tidyverse universe like readr (read_csv, write_rds) and dplyr (select, mutate).
 
 Here are the functions we used and what they do. Most are linked to documentation sites:
 
