@@ -8,11 +8,13 @@ Let's get this party started.
 
 I use a Mac in class and in my examples. I'm a big fan of using keyboard commands to do operations in any program, but I reference this from a Mac perspective. So if I say use *Cmd+S* or *Command+S* to save, that might be *Cntl+S* or *Control+S* on a PC. The letters may not be the same on a PC, but you can usually figure it out by look at menu items in RStudio to figure out the PC command.
 
-We will install R and RStudio. Directions are below, but you can also follow [this tutorial](https://learnr-examples.shinyapps.io/ex-setup-r/).
+We will install R and RStudio. It might take some time depending on your Internet connection.
+
+**If you are doing this on your own** you might follow [this tutorial](https://learnr-examples.shinyapps.io/ex-setup-r/). But below you'll find the basic steps.
 
 ## Installing R
 
-Our first task is to install the [R programming language](https://www.r-project.org/) onto your computer. 
+Our first task is to install the R programming language onto your computer. 
 
 - Go to the <https://cloud.r-project.org/>.
 - Click on the link for your operating system.
