@@ -728,6 +728,8 @@ Here are the functions we used and what they do. Most are linked to documentatio
 - [`select()`](https://dplyr.tidyverse.org/reference/select.html) selects columns in your tibble. You can list all the columns to keep, or use `-` to remove columns. There are many variations.
 - [`write_rds()`](https://readr.tidyverse.org/reference/read_rds.html) writes data out to a file in a format that preserves data types.
 
-## Turn in your work
+## What's next
 
-It's likely I'll have you turn in your project at this point. See Canvas for the assignment and review the steps to compress the files in the Intro chapter.
+Importing data is just the first step of exploring a data set. We'll work through the next chapter before we turn in any work on this.
+
+Please reach out to me if you have questions on what you've done so far. These are important skills you'll use on future projects.
