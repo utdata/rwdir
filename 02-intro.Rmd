@@ -15,6 +15,8 @@ There is a preference in RStudio that I would like you to change. By default, th
 1. On the option "Save Workspace to .Rdata on exit", change that to **Never**.
 1. Click *OK* to close the box.
 
+![RStudio preferences](images/rstudio-prefs.png)
+
 ## Starting a new Project
 
 When we work in RStudio, we will create "Projects" to hold all the files related to one another. This sets the "working directory", which is a sort of home base for the project.
