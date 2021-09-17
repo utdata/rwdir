@@ -20,46 +20,67 @@ The data there comes in an Excel spreadsheet that has a new sheet for each state
 
 ## About the data
 
-There is no data dictionary or record layout included with the data but I have corresponded with the Defense Logistics Agency to get a decent understanding of what is included.
+There is no data dictionary or record layout included with the data but I have corresponded with the Defense Logistics Agency to get a decent understanding of what is included. Columns in bold are those we care about the most.
 
 - sheet: Which sheet the data came from. This is an artifact from the data merging script.
-- state: A two-letter designation for the state of the agency.
-- agency_name: This is the agency that got the equipment.
+- **state**: A two-letter designation for the state of the agency.
+- **agency_name**: This is the agency that got the equipment.
 - nsn: A special number that identifies the item. It is not germane to this specific assignment.
-- item_name: The item transferred. Googling the names can sometimes yield more info on specific items.
-- quantity: The number of the "units" the agency received.
+- **item_name**: The item transferred. Googling the names can sometimes yield more info on specific items.
+- **quantity**: The number of the "units" the agency received.
 - ui: Unit of measurement (item, kit, etc.)
-- acquisition_value: a cost *per unit* for the item.
+- **acquisition_value**: a cost *per unit* for the item.
 - demil_code: Another special code not germane to this assignment.
 - demil_ic: Another special code not germane to this assignment.
-- ship_date: The date the item(s) were sent to the agency.
+- **ship_date**: The date the item(s) were sent to the agency.
 - station_type: What kind of law enforcement agency made the request.
 
-Each row of data is a transfer of a particular type of item from the U.S. Department of Defense to a local law enforcement agency. The row includes the type of item, the number of them, and the cost of each unit. This means to get the **total value** of the items in the shipment you have to multiply the `quantity` times the `acquisition_value`.
+Here is a sample of our main columns of interest, except for the date:
 
-The agencies really only pay the shipping costs, _so you can't say they paid for the items_, so the **total value** you calculate is the "value" of the items, not their cost to the agency.
+```{r leso-setup, echo=F, message=F, warning=F}
+library(tidyverse)
+library(DT)
+leso_sample <- read_rds("data-raw/leso-sample.rds")
+```
 
-## Some helpful hints
+```{r leso-print, echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
+leso_sample %>% 
+  select(
+    state,
+    agency_name,
+    item_name,
+    quantity,
+    acquisition_value
+  ) %>%
+  head(5) %>% 
+  datatable(rownames = FALSE, options = list(
+  dom = "t"
+  ))
+```
+<br>
 
-> Note there are some "Technical hints" below that you will need to tackle the challenges noted below. Be sure to read those before proceeding.
+Each row of data is a transfer of a particular type of item from the U.S. Department of Defense to a local law enforcement agency. The row includes the name of the item, the quantity, and the value ($) of a single unit.
+
+What the data doesn't have is the **total value** of the items in the shipment. If there are 5 generators as noted in the first row above and the cost of each one is $4623.09, we have to multiply the `quantity` times the `acquisition_value` to get the total value. You will need to calculate that. Details are below.
+
+The local agencies really only pay the shipping costs for the item, _so you can't say they paid for the items_, so the **total value** you calculate is the "value" of the items, not their cost to the local agency.
 
 ## The questions to answer and write about
 
-Read everything here before you start.
+> _**IMPORTANT**_: there is some "Technical help" and other information below that you will need to tackle the questions noted here. Review everything on this page before you start.
 
 All answers should be based on data from **Jan. 1, 2010** to present. In addition, only consider **Texas** agencies as you answer the following.
 
-- For each agency in Texas, find the **total_quantity** and **total_value** of the equipment they received.
-  - Are there any that stand out? Why?
-- Like above, find the **total_quantity** and **total_value** , but filter the summary to the following local agencies:
+- For each agency in Texas, find the summed **quantity** and summed **total value** of the equipment they received. (When I say "summed" that means adding together all the values in the column. See the Technical note below.)
+  - Once you have the list, are there any that stand out? Why?
+- Like above, find the summed **quantity** and summed **total value** , but then filter that summary to show only the following local agencies:
   - AUSTIN POLICE DEPT
   - SAN MARCOS POLICE DEPT
   - TRAVIS COUNTY SHERIFFS OFFICE
   - UNIV OF TEXAS SYSTEM POLICE HI_ED
   - WILLIAMSON COUNTY SHERIFF'S OFFICE
-- What is the summed **total quantity** and summed **total value** of each **item** shipped to **each local agency** listed above. i.e., each agency should have its own table (own code chunk) that lists the unique items, their summed quantity and summed total value.
-- Research some of the more interesting items in the items list (i.e. Google them).
-  - You might check explore when they were shipped to the agency.
+- For each of the agencies above (a code block for each agency), summarize the **total quantity** and **acquisition_value** of each **item** shipped to the agency. i.e., each agency should have its own table that lists the items, their summed quantity and summed total value.
+- Research some of the more interesting items the agencies received (i.e. Google the names) so you can include them in your data drop.
 
 ### Requirements of the assignment
 
@@ -74,14 +95,14 @@ You are following the same project structure employed with the Billboard project
 
 ### Specifics for import/cleaning
 
-These are not in a specific order, but make sure you take care of them at some point.
+Make sure you take care of each of these.
 
-1. Use the `download.file()` function to download the file into your project. This is similar to what you did in the Billboard project to download the data. The url for the data is `https://github.com/utdata/rwd-r-leso/blob/main/data-processed/leso.csv?raw=true`. You will also need to supply the path and file name to save the data into, which is the second argument in that function. It should go into a `data-raw` folder, but you need to add a file name. (nont hot100, but something like `leso-data.csv`)
-2. Once imported and saved into an R object, remove the columns we aren't using: `sheet`, `nsn`, `demil_code` and `demil_ic`. this is similar to how we removed columns in the Billboard assignment.
-3. Make sure you focus only on Texas records. `filter()` is your friend here.
-4. Make sure you use only records with the dates noted in the questions list. Again, `filter()`.
+1. Use the `download.file()` function to download the file into your project. This is similar to what you did in the Billboard project to download the data. The url for the data is `https://github.com/utdata/rwd-r-leso/blob/main/data-processed/leso.csv?raw=true`. You will also need to supply the path and file name to save the data into, which is the second argument in that function. It should go into a `data-raw` folder, but you need to add a file name. (not hot100, but something like `leso-data.csv`)
+3. Make sure you focus only on Texas records (TX). `filter()` is your friend here.
+4. Make sure you use only records from **Jan. 1, 2010** or later. Again, `filter()`.
+2. AFTER you have filtered for only Texas records, remove the columns we aren't using: `sheet`, `state`, `nsn`, `demil_code` and `demil_ic`. this is similar to how we removed columns in the Billboard assignment.
 5. Make sure you create a new column (`mutate()`!) that gives the **total_value** of the equipment for each row. See the Technical note below "Create columns using math from other columns".
-6. Export the cleaned data as an `.rds` file.
+6. Export the cleaned data as an `.rds` file to your data-processed folder.
 
 ### Specifics for analysis
 
@@ -137,9 +158,7 @@ There are some operations needed in this assignment that we touched on only tang
 
 This relates to creating a `total_value` column in the import notebook to tell you the total value for the items the agency received.
 
-When we used `mutate()` in the Billboard assignment, we were reassigning values in each row if a column back into the same column. This is when we converted the date.
-
-In the "import" part of this assignment you'll need to use `mutate()` to create a new column with new values based on a calculation -- `quantity` multiplied by the `acquisition_value` -- for each row. So here is a quick discussion on that.
+When we used `mutate()` to convert the date in the Billboard assignment, we were reassigning values in each row of a column back into the same column. In the "import" part of this assignment you'll need to use `mutate()` to create a **new** column with new values based on a calculation -- `quantity` multiplied by the `acquisition_value` -- for each row. So here is a quick discussion on how this is done.
 
 If you started with data like this:
 
@@ -156,7 +175,7 @@ data %>%
   mutate(total_value = item_count * item_value)
 ```
 
-And you would get a return like this:
+And you would get a return like this,with your new `total_value` column added at the end:
 
 | item  | item_count | item_value | total_value |
 |-------|-----------:|-----------:|------------:|
@@ -166,11 +185,9 @@ And you would get a return like this:
 
 Other math operators work as well: `+`, `-`,  `*` and `/`.
 
-### Math within summarize
+### Adding values within summarize
 
-This relates to finding the *sum* of `quantity` and `total_value`.
-
-While there was one example of summarizing number values in our Billboard assignment using `mean()`, you'll be doing more math summaries in this lesson, so ...
+This relates to finding the *sum* of the `quantity` and `total_value` columns.
 
 If you want to summarize to **add together all the values within a column** you use the `sum()` function:
 
@@ -179,7 +196,7 @@ If you started with the groceries table above and wanted to know the total numbe
 ```r
 data %>% 
   summarize(
-    sum_items_count = sum(item_count),
+    sum_item_count = sum(item_count),
     sum_total_value = sum(total_value)
   )
 ```
@@ -190,11 +207,11 @@ and you would end up with this:
 |------------:|-----------:|
 |           6 |      32.75 |
 
-If you use a `group_by` before your summary, it will do the math _within_ each group.
+If you use a `group_by` before your summary, it will do the math _within_ each group. i.e., in our military surplus data, if you group by `agency_name`, it will summarize the columns for each one.
 
 ### Filter from a collection
 
-One last thing that might help in this assignment. This relates to the quest for finding the local agencies.
+One last thing that might help in this assignment. This relates to the quest to filter your summary to the local agencies.
 
 When you filter data, you usually choose the column and then compare for some value. To find the rows for "Bread" in our data above, we would use:
 
@@ -203,7 +220,7 @@ groceries %>%
   filter(item == "Bread")
 ```
 
-You can also find look for rows that contain any values `%in%` a collection of terms. If we wanted to find all rows with "Bread" or "Beer", we could do this:
+You can also filter for rows that contain any value in a collection of terms. If we wanted to find all rows with "Bread" or "Beer", we could do this:
 
 ```r
 groceries %>% 
