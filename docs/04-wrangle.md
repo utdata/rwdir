@@ -709,7 +709,7 @@ The logic is very similar to the "most No. 1 hits" quest you did above, but you 
 1. Describe what you are doing
 1. Do it using the group_by/summarize method and have a logical number or rows. (i.e., don't stop at a tie)
 
-## Most appearances at any position
+## Song/Performer with most appearances at any position
 
 Which performer/song combination has been on the charts the most number of weeks at any position?
 
@@ -717,7 +717,7 @@ OK, this time we'll talk through the logic, but you have to give your own answer
 
 The logic is actually straightforward:
 
-- We wan to count combinations over two columsn: `song, performer`. When you give a count (or group_by) more then one column, it will group rows where the values are the same in all columns. i.e. all rows with both "Rush" as a performer and _Tom Sawyer_ as a song.
+- We want to count combinations over two columsn: `song, performer`. When you give a count (or group_by) more then one column, it will group rows where the values are the same in all columns. i.e. all rows with both "Rush" as a performer and _Tom Sawyer_ as a song.
 - Once you have a summary table, sort it with the most appearances on the top and then filter it to a logical stopping place.
 
 So, here's the quest:
@@ -726,12 +726,12 @@ So, here's the quest:
 1. Use the `count()` method to find the song/performer combination with the most rows, sorting it properly within count.
 1. Filter the summary table to a logical end.
 
-## Most weeks at No. 1
+## Song/Performer with most weeks at No. 1
 
-This last quest is all on your own. You need to figure out the logic and then execute it. You can use any method you want (group_by/summarize or count), but make sure the table is sorted correctly and ends logically.
+This last quest is all on your own. You need to figure out the logic and then execute it. You can use any method you want (group_by/summarizearrange or count), but make sure the table is sorted correctly and ends logically.
 
 1. Start a section and describe it
-2. Make a list of songs counting the number of weeks at No. 1. Sort by the most at top and end the table logically.
+2. Make a list of songs/performers that count the number of weeks at No. 1. Sort by the most weeks at top and end the table logically.
 
 ## Review of what we've learned
 
