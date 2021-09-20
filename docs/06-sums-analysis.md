@@ -1,4 +1,4 @@
-# Summmarize with math - analysis {#sums-analyze}
+# Summarize with math - analysis {#sums-analyze}
 
 > Pre-draft notes. Will become detailed instructions (with quests) for analysis notebook.
 
