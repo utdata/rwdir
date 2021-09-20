@@ -1,7 +1,7 @@
 --- 
 title: "Reporting with Data in R"
 author: "Christian McDonald"
-date: "2021-09-17"
+date: "2021-09-19"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
