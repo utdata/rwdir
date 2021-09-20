@@ -344,6 +344,8 @@ hot100 %>%
 
 To get the same pretty table you still have to rename the new column and reverse the sort, you just do it differently as arguments within the `count()` function. You must still pipe into `head()` to limit the output. You can view the [`count()` options here.](https://dplyr.tidyverse.org/reference/count.html)
 
+- Add this chunk to your notebook (with a note you are trying `count()`) so you have it to refer to.
+
 
 ```r
 hot100 %>% 
@@ -707,7 +709,8 @@ The logic is very similar to the "most No. 1 hits" quest you did above, but you 
 
 1. Make a new section
 1. Describe what you are doing
-1. Do it using the group_by/summarize method and have a logical number or rows. (i.e., don't stop at a tie)
+1. Do it using the group_by/summarize method
+1. Filter to cut off at a logical number or rows. (i.e., don't stop at a tie)
 
 ## Song/Performer with most appearances at any position
 
@@ -717,7 +720,7 @@ OK, this time we'll talk through the logic, but you have to give your own answer
 
 The logic is actually straightforward:
 
-- We want to count combinations over two columsn: `song, performer`. When you give a count (or group_by) more then one column, it will group rows where the values are the same in all columns. i.e. all rows with both "Rush" as a performer and _Tom Sawyer_ as a song.
+- We want to count combinations over two columns: `song, performer`. When you give a count (or group_by) more then one column, it will group rows where the values are the same in all columns. i.e. all rows with both "Rush" as a performer and _Tom Sawyer_ as a song.
 - Once you have a summary table, sort it with the most appearances on the top and then filter it to a logical stopping place.
 
 So, here's the quest:
