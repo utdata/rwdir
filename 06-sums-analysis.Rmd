@@ -1,38 +1,72 @@
 # Summarize with math - analysis {#sums-analyze}
 
-> Pre-draft notes. Will become detailed instructions (with quests) for analysis notebook.
+> Mid-draft in progress.
 
-## Analysis notebook
+In the last chapter, we covered the overall story about the LESO data ... that local law enforcement agencies can get surplus military equipment from the U.S. Department of Defense. We downloaded a pre-processed version of the data and filtered it to just Texas records over a specific time period (2010 to present), and used `mutate()` to create a new column calculated fron other variables in the data.
 
-### Requirements of the assignment
+## Learning goals of this lesson
 
-You are following the same project structure employed with the Billboard project.
+In this chapter we will start querying the data using **summarize with math**, basically using summarize to add values in a column instead of counting rows, which we did with the Billboard assignment.
 
-- Create a new project with the proper folder structure.
-- Use separate RNotebooks for downloading/cleaning of the data and the analysis.
-- Name your files logically and save files in proper folders.
-- Each notebook should list the goals at the top.
-- Each section within a notebook should have a headline and description for the task.
-- Each notebook should run independently if you Restart R and Run All Chunks.
+Our learning goals are:
 
-### Specifics for import/cleaning
+- To use the combination of `group_by()`, `summarize()` and `arrange()` to add columns of date using `sum()`.
+- To use different groupings `group_by()` to do the above in specified ways to get desired results.
+- To practice using `filter()` on those summaries to better see certain results.
+- We'll research and write about some of the findings, practicing data-centric ledes and sentences describing data.
 
-Make sure you take care of each of these.
+## Questions to answer
 
-1. Use the `download.file()` function to download the file into your project. This is similar to what you did in the Billboard project to download the data. The url for the data is `https://github.com/utdata/rwd-r-leso/blob/main/data-processed/leso.csv?raw=true`. You will also need to supply the path and file name to save the data into, which is the second argument in that function. It should go into a `data-raw` folder, but you need to add a file name. (not hot100, but something like `leso-data.csv`)
-3. Make sure you focus only on Texas records (TX). `filter()` is your friend here.
-4. Make sure you use only records from **Jan. 1, 2010** or later. Again, `filter()`.
-2. AFTER you have filtered for only Texas records, remove the columns we aren't using: `sheet`, `state`, `nsn`, `demil_code` and `demil_ic`. this is similar to how we removed columns in the Billboard assignment.
-5. Make sure you create a new column (`mutate()`!) that gives the **total_value** of the equipment for each row. See the Technical note below "Create columns using math from other columns".
-6. Export the cleaned data as an `.rds` file to your data-processed folder.
+A reminder of what we are looking for: All answers are be based on data from **Jan. 1, 2010** to present for only consider **Texas** agencies. We did this filtering already. 
 
-### Specifics for analysis
+- For each agency in Texas, find the summed **quantity** and summed **total value** of the equipment they received. (When I say "summed" that means we'll add together all the values in the column.)
+  - Once you have the list, we'll think about what stands out and why?
+- We'll take the list above, but filter that summary to show only the following local agencies:
+  - AUSTIN POLICE DEPT
+  - SAN MARCOS POLICE DEPT
+  - TRAVIS COUNTY SHERIFFS OFFICE
+  - UNIV OF TEXAS SYSTEM POLICE HI_ED
+  - WILLIAMSON COUNTY SHERIFF'S OFFICE
+- For each of the agencies above we'll summarize the **total quantity** and **acquisition_value** of each **item** shipped to the agency. We'll arrange the list by agency so we can write about each one.
+- You'll research some of the more interesting items the agencies received (i.e. Google the names) so you can include them in your data drop.
 
-1. The analysis should use the cleaned data from the import notebook. You'll import this with `read_rds()`.
-2. The summary tables you create require math beyond counting rows, so group_by/summarize are your friend (instead of `count()`). See the Technical note "Math within summarize".
-3. You should end up with a table for each of the questions in the list. One of the questions requires multiple code chunks (one for each agency listed).
+## Set up the analysis notebook
 
-## How to tackle the summaries
+Before we get into how to do this, let's set up our analysis notebook.
+
+1. Make sure you have your military surplus project open in RStudio. If you have your import notebook open, close it and use Run > Restart R and Clear Output.
+1. Create a new RNotebook and edit the title as "Military surplus analysis".
+1. Remove the boilerplate text.
+1. Create a setup section (headline, text and code chunk) that loads the tidyverse library.
+
+We've started each notebook like this, so you should be able to do this on your own now.
+
+```{r setup, include=FALSE}
+library(tidyverse)
+```
+
+### Load the data into a tibble
+
+1. Next create an import section (headline, text and chunk) that loads the data from the previous notebook and save it into a tibble called `tx`.
+1. Add a `glimpse()` of the data for your reference.
+
+We did this in Billboard and you should be able to do it. You'll use `read_rds()` and find your data in your data-raw folder.
+
+<details>
+  <summary>Remember your data is in data-raw</summary>
+```{r import}
+tx <- read_rds("data-processed/01-leso-tx.rds")
+
+tx %>% glimpse()
+```
+
+<details>
+
+You should see the `tx` object in you Environment.
+
+## How to tackle summaries
+
+As we get into the first quest, let's talk about "how" we do summaries.
 
 When I am querying my data, I start by envisioning what the result should look like.
 
@@ -40,69 +74,116 @@ Let's take the first question: For each agency in Texas, find the **total_quanti
 
 Let's break this down:
 
-- "For each agency in Texas". For all the questions, we only want Texas agencies. In the import notebook, you should filter for only the TX agencies. So, if done right, the TX agencies are already filtered. But the "For each agency" part tells me I need to **group_by** the `agency_name` so I can summarize totals within each agency.
+- "For each agency in Texas". For all the questions, we only want Texas agencies. In the import notebook, you should've filter for only the TX agencies. So, if done right, the TX agencies are already filtered. But the "For each agency" part tells me I need to **group_by** the `agency_name` so I can summarize totals within each agency.
 - "find the **total_quantity** and **total_value**": Because I'm looking for a total (or `sum()` of columns) I need `summarize()`.
 
 So I envision my result looking like this:
 
 | agency_name        | item_count | equip_value |
 |--------------------|-----------:|------------:|
-| A POLICE DEPT      |       6419 |  10825707.5 |
-| B SHERIFF'S OFFICE |        381 |  3776291.52 |
-| C SHERIFF'S OFFICE |        270 |  3464741.36 |
-| D POLICE DEPT      |       1082 |  3100420.57 |
+| AFAKE POLICE DEPT      |       6419 |  10825707.5 |
+| BFAKE SHERIFF'S OFFICE |        381 |  3776291.52 |
+| CFAKE SHERIFF'S OFFICE |        270 |  3464741.36 |
+| DFAKE POLICE DEPT      |       1082 |  3100420.57 |
 
 With `group_by` I can organize all the rows by their `agency_name` so that my "summarize" can do the math within those groups.
 
 ```r
-data %>% 
+tx %>% 
   group_by(agency_name)
 ```
 
-Running that code by itself doesn't show me anything of worth. It is the summarize that adds the totals for `quantity` Here is what it looks like once I've added that, but see the Technincal help below "Math within summarize" for the details of how it works.
+Running that code by itself doesn't show me anything of worth. It's grouping the data, but we can't _see_ it at this point. We need `summarize()` for that. A `group_by` almost is almost always followed by `summarize`.
 
-```r
-data %>% 
+### Summaries with math
+
+We'll start with the **total_quantity**.
+
+1. Add a new section (headline, text and chunk) that describes the first quest: For each agency in Texas, find the summed **quantity** and summed **total value** of the equipment they received.
+
+
+```{r all-quantity}
+tx %>% 
+  group_by(agency_name) %>% 
+  summarize(
+    sum_quantity = sum(quantity)
+  )
+```
+
+Let's break this down a little.
+
+- We start with the tx data, and then ...
+- We group by `agency_name`. This organizes our data (behind the scenes) so our summarize actions will happen _within each agency_.
+- In `summarize()` we first name our new column: `sum_quantity`. We could call this whatever we want, but good practice is to name it what it is. We use good naming techniqes and split the words using `_`. I also use all lowercase.
+- We set that column to equal `=` the **sum of all values in the `quantity` column**. `sum()` is the function, and we feed it the column we want to add together: `quantity`.
+- I put the inside of the summarize function in its own line because we will add to it. I increases readability. RStudio will help you with the indenting, etc.
+
+This is taking all the rows for the "ABERNATHY POLICE DEPT" and then adding together all the values in the `quantity` field.
+
+If you wanted to test this (and it is a real good idea), you might look at the data from one of the values and check the math. Here are the Abernathy rows.
+
+```{r}
+tx %>% 
+  filter(agency_name == "ABERNATHY POLICE DEPT")
+```
+
+If we look at the `quantity` column there and eyeball all the rows, we see there 8 rows with a value of "1", and one row with a value of "5". 8 + 5 = 13, which matches our `sum_quantity` answer in our summary table. We're good!
+
+### Add the total_value
+
+We don't have to stop at one summary. We can perform other summarize actions on the same or other columns in the same expression.
+
+**Edit your chunk** to:
+
+1. Add add a comma after the first summarize action.
+1. Add the new expression to give us the `sum_total_value`.
+
+```{r}
+tx %>% 
   group_by(agency_name) %>% 
   summarize(
     sum_quantity = sum(quantity),
     sum_total_value = sum(total_value)
   )
+
 ```
 
-In that `summarize()` I have two lines. Within each line I name the new column first and then make it equal the sum of the respective columns I'm adding.
+### Arrange the results
 
-## Technical help
+OK, this gives us our answers, but in alphabetical order. We want to arrange the data so it gives us the most `sum_total_value` in **desc**ending order.
 
-There are some operations needed in this assignment that we touched on only tangentially in the Billboard assignment, so I want to provide some specifics here.
+1. EDIT your block to add an `arrange()` function below
 
-### Create columns using math from other columns
-
-
-
-### Adding values within summarize
-
-This relates to finding the *sum* of the `quantity` and `total_value` columns.
-
-If you want to summarize to **add together all the values within a column** you use the `sum()` function:
-
-If you started with the groceries table above and wanted to know the total number of all items and the total cost of all your groceries:
-
-```r
-data %>% 
+```{r}
+tx %>% 
+  group_by(agency_name) %>% 
   summarize(
-    sum_item_count = sum(item_count),
+    sum_quantity = sum(quantity),
     sum_total_value = sum(total_value)
-  )
+  ) %>% 
+  arrange(sum_total_value %>% desc())
 ```
 
-and you would end up with this:
+### Consider the results
 
-| sum_item_count | sum_total_value |
-|------------:|-----------:|
-|           6 |      32.75 |
+Is there anything that sticks out in that list? It helps if you know a little bit about Texas cities and counties, but here are some thoughts to poder:
 
-If you use a `group_by` before your summary, it will do the math _within_ each group. i.e., in our military surplus data, if you group by `agency_name`, it will summarize the columns for each one.
+- Houston is the largest city in the state (4th largest in the country). It makes sense that it tops the list. Same for Harris County or even the state police force.
+- Looking locally, Austin being up there is also not crazy, as it's almost a million people. But San Marcos (63,220)? Or Milam County (24,770)?
+
+Perhaps we should look some at the police agencies closest to us.
+
+## Looking a local agencies
+
+### Filter in a vector
+
+Filter list to local agencies. see tech note below.
+
+### Item quantiies, totals for local agencies
+
+The separate chunks.
+
+
 
 ### Filter from a collection
 
