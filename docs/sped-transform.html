@@ -24,7 +24,7 @@
 <meta name="author" content="Christian McDonald" />
 
 
-<meta name="date" content="2021-09-20" />
+<meta name="date" content="2021-09-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -313,8 +313,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.5" data-path="sums-analyze.html"><a href="sums-analyze.html#looking-a-local-agencies"><i class="fa fa-check"></i><b>6.5</b> Looking a local agencies</a>
 <ul>
 <li class="chapter" data-level="6.5.1" data-path="sums-analyze.html"><a href="sums-analyze.html#filter-in-a-vector"><i class="fa fa-check"></i><b>6.5.1</b> Filter in a vector</a></li>
-<li class="chapter" data-level="6.5.2" data-path="sums-analyze.html"><a href="sums-analyze.html#item-quantiies-totals-for-local-agencies"><i class="fa fa-check"></i><b>6.5.2</b> Item quantiies, totals for local agencies</a></li>
-<li class="chapter" data-level="6.5.3" data-path="sums-analyze.html"><a href="sums-analyze.html#filter-from-a-collection"><i class="fa fa-check"></i><b>6.5.3</b> Filter from a collection</a></li>
+<li class="chapter" data-level="6.5.2" data-path="sums-analyze.html"><a href="sums-analyze.html#use-the-vector-to-build-this-filter"><i class="fa fa-check"></i><b>6.5.2</b> Use the vector to build this filter</a></li>
+<li class="chapter" data-level="6.5.3" data-path="sums-analyze.html"><a href="sums-analyze.html#item-quantities-totals-for-local-agencies"><i class="fa fa-check"></i><b>6.5.3</b> Item quantities, totals for local agencies</a></li>
+<li class="chapter" data-level="6.5.4" data-path="sums-analyze.html"><a href="sums-analyze.html#build-the-lists-for-other-agencies"><i class="fa fa-check"></i><b>6.5.4</b> Build the lists for other agencies</a></li>
+<li class="chapter" data-level="6.5.5" data-path="sums-analyze.html"><a href="sums-analyze.html#google-some-interesting-items"><i class="fa fa-check"></i><b>6.5.5</b> Google some interesting items</a></li>
 </ul></li>
 <li class="chapter" data-level="6.6" data-path="sums-analyze.html"><a href="sums-analyze.html#write-a-data-drop"><i class="fa fa-check"></i><b>6.6</b> Write a data drop</a></li>
 </ul></li>
@@ -759,8 +761,8 @@ We will filter our list to focus on &quot;Regular Instructional&quot; schools to
 <li>Add the tidyverse and janitor libraries</li>
 <li>Run the chunk</li>
 </ul>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="sped-transform.html#cb275-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb275-2"><a href="sped-transform.html#cb275-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="sped-transform.html#cb281-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb281-2"><a href="sped-transform.html#cb281-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code></pre></div>
 <div id="naming-our-chunks" class="section level3" number="16.6.1">
 <h3><span class="header-section-number">16.6.1</span> Naming our chunks</h3>
 <p>It is good practice to name your chunks of code to make it easier to navigate throughout your R notebook. Let’s do this with our setup chunk.</p>
@@ -787,9 +789,9 @@ library(tidyverse)</code></pre>
 <li>Add a Markdown headline and description that you are loading the data.</li>
 <li>Add a code chunk and give it a name of <strong>import</strong>. Add the code below and then run the chunk:</li>
 </ul>
-<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="sped-transform.html#cb277-1" aria-hidden="true" tabindex="-1"></a>sped <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;data-processed/01_sped.rds&quot;</span>)</span>
-<span id="cb277-2"><a href="sped-transform.html#cb277-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb277-3"><a href="sped-transform.html#cb277-3" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="sped-transform.html#cb283-1" aria-hidden="true" tabindex="-1"></a>sped <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;data-processed/01_sped.rds&quot;</span>)</span>
+<span id="cb283-2"><a href="sped-transform.html#cb283-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb283-3"><a href="sped-transform.html#cb283-3" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 8,002
 ## Columns: 10
 ## $ school_name      &lt;chr&gt; &quot;CAYUGA H S&quot;, &quot;CAYUGA MIDDLE&quot;, &quot;CAYUGA EL&quot;, &quot;ELKHART …
@@ -813,8 +815,8 @@ library(tidyverse)</code></pre>
 <li>Add a code chunk and name it “explore-type.”</li>
 <li>Add this code and run it, then I’ll explain it.</li>
 </ul>
-<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="sped-transform.html#cb279-1" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> </span>
-<span id="cb279-2"><a href="sped-transform.html#cb279-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(instruction_type)</span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="sped-transform.html#cb285-1" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> </span>
+<span id="cb285-2"><a href="sped-transform.html#cb285-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(instruction_type)</span></code></pre></div>
 <pre><code>## # A tibble: 4 × 2
 ##   instruction_type              n
 ##   &lt;chr&gt;                     &lt;int&gt;
@@ -852,8 +854,8 @@ library(tidyverse)</code></pre>
 <blockquote>
 <p>The first box shown here is the code. The second is the result. The result is prettier in RStudio.</p>
 </blockquote>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="sped-transform.html#cb281-1" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> </span>
-<span id="cb281-2"><a href="sped-transform.html#cb281-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(instruction_type <span class="sc">==</span> <span class="st">&quot;REGULAR INSTRUCTIONAL&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="sped-transform.html#cb287-1" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> </span>
+<span id="cb287-2"><a href="sped-transform.html#cb287-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(instruction_type <span class="sc">==</span> <span class="st">&quot;REGULAR INSTRUCTIONAL&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 7,372 × 10
 ##    school_name   district_name instruction_type  charter_type grade_range campus
 ##    &lt;chr&gt;         &lt;chr&gt;         &lt;chr&gt;             &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt; 
@@ -892,20 +894,20 @@ library(tidyverse)</code></pre>
 <div id="use-two-signs-for-true" class="section level4" number="16.9.3.1">
 <h4><span class="header-section-number">16.9.3.1</span> Use two == signs for “true”</h4>
 <p>DON’T DO THIS:</p>
-<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="sped-transform.html#cb283-1" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> </span>
-<span id="cb283-2"><a href="sped-transform.html#cb283-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="at">district_name =</span> <span class="st">&quot;AUSTIN ISD&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="sped-transform.html#cb289-1" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> </span>
+<span id="cb289-2"><a href="sped-transform.html#cb289-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="at">district_name =</span> <span class="st">&quot;AUSTIN ISD&quot;</span>)</span></code></pre></div>
 <p>DO THIS:</p>
-<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="sped-transform.html#cb284-1" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> </span>
-<span id="cb284-2"><a href="sped-transform.html#cb284-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(district_name <span class="sc">==</span> <span class="st">&quot;AUSTIN ISD&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="sped-transform.html#cb290-1" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> </span>
+<span id="cb290-2"><a href="sped-transform.html#cb290-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(district_name <span class="sc">==</span> <span class="st">&quot;AUSTIN ISD&quot;</span>)</span></code></pre></div>
 </div>
 <div id="forgetting-quotes" class="section level4" number="16.9.3.2">
 <h4><span class="header-section-number">16.9.3.2</span> Forgetting quotes</h4>
 <p>DON’T DO THIS:</p>
-<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="sped-transform.html#cb285-1" aria-hidden="true" tabindex="-1"></a>ratings <span class="sc">%&gt;%</span> </span>
-<span id="cb285-2"><a href="sped-transform.html#cb285-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(grade_range <span class="sc">==</span> <span class="dv">09-12</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="sped-transform.html#cb291-1" aria-hidden="true" tabindex="-1"></a>ratings <span class="sc">%&gt;%</span> </span>
+<span id="cb291-2"><a href="sped-transform.html#cb291-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(grade_range <span class="sc">==</span> <span class="dv">09-12</span>)</span></code></pre></div>
 <p>DO THIS:</p>
-<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="sped-transform.html#cb286-1" aria-hidden="true" tabindex="-1"></a>ratings <span class="sc">%&gt;%</span> </span>
-<span id="cb286-2"><a href="sped-transform.html#cb286-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(district_name <span class="sc">==</span> <span class="st">&quot;09-12&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="sped-transform.html#cb292-1" aria-hidden="true" tabindex="-1"></a>ratings <span class="sc">%&gt;%</span> </span>
+<span id="cb292-2"><a href="sped-transform.html#cb292-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(district_name <span class="sc">==</span> <span class="st">&quot;09-12&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -916,11 +918,11 @@ library(tidyverse)</code></pre>
 <li>Edit your existing code block to following code block and run it.</li>
 <li>Then look at the code and the result and then <strong>write out what the filter is doing in your own words</strong>.</li>
 </ul>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="sped-transform.html#cb287-1" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> </span>
-<span id="cb287-2"><a href="sped-transform.html#cb287-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb287-3"><a href="sped-transform.html#cb287-3" aria-hidden="true" tabindex="-1"></a>    instruction_type <span class="sc">==</span> <span class="st">&quot;REGULAR INSTRUCTIONAL&quot;</span>,</span>
-<span id="cb287-4"><a href="sped-transform.html#cb287-4" aria-hidden="true" tabindex="-1"></a>    charter_type <span class="sc">%&gt;%</span> <span class="fu">is.na</span>()</span>
-<span id="cb287-5"><a href="sped-transform.html#cb287-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="sped-transform.html#cb293-1" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> </span>
+<span id="cb293-2"><a href="sped-transform.html#cb293-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb293-3"><a href="sped-transform.html#cb293-3" aria-hidden="true" tabindex="-1"></a>    instruction_type <span class="sc">==</span> <span class="st">&quot;REGULAR INSTRUCTIONAL&quot;</span>,</span>
+<span id="cb293-4"><a href="sped-transform.html#cb293-4" aria-hidden="true" tabindex="-1"></a>    charter_type <span class="sc">%&gt;%</span> <span class="fu">is.na</span>()</span>
+<span id="cb293-5"><a href="sped-transform.html#cb293-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 6,962 × 10
 ##    school_name   district_name instruction_type  charter_type grade_range campus
 ##    &lt;chr&gt;         &lt;chr&gt;         &lt;chr&gt;             &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt; 
@@ -948,15 +950,15 @@ library(tidyverse)</code></pre>
 <div id="collapsing-multiple-tests-into-one" class="section level4" number="16.10.1.1">
 <h4><span class="header-section-number">16.10.1.1</span> Collapsing multiple tests into one</h4>
 <p>DON’T DO THIS:</p>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="sped-transform.html#cb289-1" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> </span>
-<span id="cb289-2"><a href="sped-transform.html#cb289-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(district_name <span class="sc">==</span> <span class="st">&quot;AUSTIN ISD&quot;</span> <span class="sc">|</span> <span class="st">&quot;BASTROP ISD&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="sped-transform.html#cb295-1" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> </span>
+<span id="cb295-2"><a href="sped-transform.html#cb295-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(district_name <span class="sc">==</span> <span class="st">&quot;AUSTIN ISD&quot;</span> <span class="sc">|</span> <span class="st">&quot;BASTROP ISD&quot;</span>)</span></code></pre></div>
 <p>DO THIS:</p>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="sped-transform.html#cb290-1" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> </span>
-<span id="cb290-2"><a href="sped-transform.html#cb290-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(district_name <span class="sc">==</span> <span class="st">&quot;AUSTIN ISD&quot;</span> <span class="sc">|</span> district_name <span class="sc">==</span><span class="st">&quot;BASTROP ISD&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="sped-transform.html#cb296-1" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> </span>
+<span id="cb296-2"><a href="sped-transform.html#cb296-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(district_name <span class="sc">==</span> <span class="st">&quot;AUSTIN ISD&quot;</span> <span class="sc">|</span> district_name <span class="sc">==</span><span class="st">&quot;BASTROP ISD&quot;</span>)</span></code></pre></div>
 <p>BUT EVEN BETTER:</p>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="sped-transform.html#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adding in Hays to the list as well</span></span>
-<span id="cb291-2"><a href="sped-transform.html#cb291-2" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> </span>
-<span id="cb291-3"><a href="sped-transform.html#cb291-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(district_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;AUSTIN ISD&quot;</span>, <span class="st">&quot;BASTROP ISD&quot;</span>, <span class="st">&quot;ROUND ROCK ISD&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="sped-transform.html#cb297-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adding in Hays to the list as well</span></span>
+<span id="cb297-2"><a href="sped-transform.html#cb297-2" aria-hidden="true" tabindex="-1"></a>sped <span class="sc">%&gt;%</span> </span>
+<span id="cb297-3"><a href="sped-transform.html#cb297-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(district_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;AUSTIN ISD&quot;</span>, <span class="st">&quot;BASTROP ISD&quot;</span>, <span class="st">&quot;ROUND ROCK ISD&quot;</span>))</span></code></pre></div>
 <p>If you want to combine a series of strings in your filter, you have to put them inside a “concatenate” function, which is shortened to <code>c()</code>, as in the example above. We’ll end up using this a lot.</p>
 </div>
 </div>
@@ -970,14 +972,14 @@ library(tidyverse)</code></pre>
 <li>Assign the result to a new data frame called <code>sped_reg</code>.</li>
 <li>Print the data frame to the screen so you can poke around.</li>
 </ul>
-<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="sped-transform.html#cb292-1" aria-hidden="true" tabindex="-1"></a>sped_reg <span class="ot">&lt;-</span> sped <span class="sc">%&gt;%</span> </span>
-<span id="cb292-2"><a href="sped-transform.html#cb292-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb292-3"><a href="sped-transform.html#cb292-3" aria-hidden="true" tabindex="-1"></a>    instruction_type <span class="sc">==</span> <span class="st">&quot;REGULAR INSTRUCTIONAL&quot;</span>,</span>
-<span id="cb292-4"><a href="sped-transform.html#cb292-4" aria-hidden="true" tabindex="-1"></a>    charter_type <span class="sc">%&gt;%</span> <span class="fu">is.na</span>()</span>
-<span id="cb292-5"><a href="sped-transform.html#cb292-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb292-6"><a href="sped-transform.html#cb292-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>charter_type, <span class="sc">-</span>instruction_type)</span>
-<span id="cb292-7"><a href="sped-transform.html#cb292-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb292-8"><a href="sped-transform.html#cb292-8" aria-hidden="true" tabindex="-1"></a>sped_reg</span></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="sped-transform.html#cb298-1" aria-hidden="true" tabindex="-1"></a>sped_reg <span class="ot">&lt;-</span> sped <span class="sc">%&gt;%</span> </span>
+<span id="cb298-2"><a href="sped-transform.html#cb298-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb298-3"><a href="sped-transform.html#cb298-3" aria-hidden="true" tabindex="-1"></a>    instruction_type <span class="sc">==</span> <span class="st">&quot;REGULAR INSTRUCTIONAL&quot;</span>,</span>
+<span id="cb298-4"><a href="sped-transform.html#cb298-4" aria-hidden="true" tabindex="-1"></a>    charter_type <span class="sc">%&gt;%</span> <span class="fu">is.na</span>()</span>
+<span id="cb298-5"><a href="sped-transform.html#cb298-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb298-6"><a href="sped-transform.html#cb298-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>charter_type, <span class="sc">-</span>instruction_type)</span>
+<span id="cb298-7"><a href="sped-transform.html#cb298-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb298-8"><a href="sped-transform.html#cb298-8" aria-hidden="true" tabindex="-1"></a>sped_reg</span></code></pre></div>
 <pre><code>## # A tibble: 6,962 × 8
 ##    school_name   district_name grade_range campus  sped_c_15 sped_p_15 sped_c_20
 ##    &lt;chr&gt;         &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
@@ -997,9 +999,9 @@ library(tidyverse)</code></pre>
 <blockquote>
 <p>You don’t have to do this … I’m just showing you.</p>
 </blockquote>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="sped-transform.html#cb294-1" aria-hidden="true" tabindex="-1"></a>sped_reg <span class="sc">%&gt;%</span> </span>
-<span id="cb294-2"><a href="sped-transform.html#cb294-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">ends_with</span>(<span class="st">&quot;_name&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb294-3"><a href="sped-transform.html#cb294-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="sped-transform.html#cb300-1" aria-hidden="true" tabindex="-1"></a>sped_reg <span class="sc">%&gt;%</span> </span>
+<span id="cb300-2"><a href="sped-transform.html#cb300-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">ends_with</span>(<span class="st">&quot;_name&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb300-3"><a href="sped-transform.html#cb300-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 2
 ##   school_name    district_name
 ##   &lt;chr&gt;          &lt;chr&gt;        
@@ -1067,13 +1069,13 @@ library(tidyverse)</code></pre>
 <li>set it to <code>=</code> the new value</li>
 <li>specify what the new result should be</li>
 </ol>
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="sped-transform.html#cb296-1" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="ot">&lt;-</span> sped_reg <span class="sc">%&gt;%</span> </span>
-<span id="cb296-2"><a href="sped-transform.html#cb296-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb296-3"><a href="sped-transform.html#cb296-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># simple difference</span></span>
-<span id="cb296-4"><a href="sped-transform.html#cb296-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">sped_c_diff =</span> sped_c_20 <span class="sc">-</span> sped_c_15</span>
-<span id="cb296-5"><a href="sped-transform.html#cb296-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb296-6"><a href="sped-transform.html#cb296-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb296-7"><a href="sped-transform.html#cb296-7" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="sped-transform.html#cb302-1" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="ot">&lt;-</span> sped_reg <span class="sc">%&gt;%</span> </span>
+<span id="cb302-2"><a href="sped-transform.html#cb302-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb302-3"><a href="sped-transform.html#cb302-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># simple difference</span></span>
+<span id="cb302-4"><a href="sped-transform.html#cb302-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">sped_c_diff =</span> sped_c_20 <span class="sc">-</span> sped_c_15</span>
+<span id="cb302-5"><a href="sped-transform.html#cb302-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb302-6"><a href="sped-transform.html#cb302-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb302-7"><a href="sped-transform.html#cb302-7" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 6,962
 ## Columns: 9
 ## $ school_name   &lt;chr&gt; &quot;CAYUGA H S&quot;, &quot;CAYUGA MIDDLE&quot;, &quot;CAYUGA EL&quot;, &quot;ELKHART H S…
@@ -1086,9 +1088,9 @@ library(tidyverse)</code></pre>
 ## $ sped_p_20     &lt;dbl&gt; 19.8, 13.6, 11.9, 11.6, 11.2, 14.4, 9.4, 8.3, 15.9, 11.5…
 ## $ sped_c_diff   &lt;dbl&gt; -3, 1, 8, 11, -7, 19, -1, -9, 12, 10, -5, -11, 7, 26, 23…</code></pre>
 <p>You can see the first value differences in the glimpse above: <strong>34 - 37 = -3</strong>. If that is difficult to see we could build a quick look to see just those columns:</p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="sped-transform.html#cb298-1" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="sc">%&gt;%</span> </span>
-<span id="cb298-2"><a href="sped-transform.html#cb298-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(school_name, sped_c_15, sped_c_20, sped_c_diff) <span class="sc">%&gt;%</span> </span>
-<span id="cb298-3"><a href="sped-transform.html#cb298-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="sped-transform.html#cb304-1" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="sc">%&gt;%</span> </span>
+<span id="cb304-2"><a href="sped-transform.html#cb304-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(school_name, sped_c_15, sped_c_20, sped_c_diff) <span class="sc">%&gt;%</span> </span>
+<span id="cb304-3"><a href="sped-transform.html#cb304-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 4
 ##   school_name    sped_c_15 sped_c_20 sped_c_diff
 ##   &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
@@ -1107,16 +1109,16 @@ library(tidyverse)</code></pre>
 <ul>
 <li>Modify your calculations to include the <code>sped_c_prccng</code> result:</li>
 </ul>
-<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="sped-transform.html#cb300-1" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="ot">&lt;-</span> sped_reg <span class="sc">%&gt;%</span> </span>
-<span id="cb300-2"><a href="sped-transform.html#cb300-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb300-3"><a href="sped-transform.html#cb300-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># simple diff</span></span>
-<span id="cb300-4"><a href="sped-transform.html#cb300-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_c_diff =</span> sped_c_20 <span class="sc">-</span> sped_c_15,</span>
-<span id="cb300-5"><a href="sped-transform.html#cb300-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># percent change</span></span>
-<span id="cb300-6"><a href="sped-transform.html#cb300-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">spec_c_prccng =</span> ((sped_c_20 <span class="sc">-</span> sped_c_15) <span class="sc">/</span> sped_c_15 <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span> <span class="fu">round_half_up</span>(<span class="dv">1</span>),</span>
-<span id="cb300-7"><a href="sped-transform.html#cb300-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># simple diff of percent</span></span>
-<span id="cb300-8"><a href="sped-transform.html#cb300-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb300-9"><a href="sped-transform.html#cb300-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb300-10"><a href="sped-transform.html#cb300-10" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="sped-transform.html#cb306-1" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="ot">&lt;-</span> sped_reg <span class="sc">%&gt;%</span> </span>
+<span id="cb306-2"><a href="sped-transform.html#cb306-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb306-3"><a href="sped-transform.html#cb306-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># simple diff</span></span>
+<span id="cb306-4"><a href="sped-transform.html#cb306-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_c_diff =</span> sped_c_20 <span class="sc">-</span> sped_c_15,</span>
+<span id="cb306-5"><a href="sped-transform.html#cb306-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># percent change</span></span>
+<span id="cb306-6"><a href="sped-transform.html#cb306-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">spec_c_prccng =</span> ((sped_c_20 <span class="sc">-</span> sped_c_15) <span class="sc">/</span> sped_c_15 <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span> <span class="fu">round_half_up</span>(<span class="dv">1</span>),</span>
+<span id="cb306-7"><a href="sped-transform.html#cb306-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># simple diff of percent</span></span>
+<span id="cb306-8"><a href="sped-transform.html#cb306-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb306-9"><a href="sped-transform.html#cb306-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb306-10"><a href="sped-transform.html#cb306-10" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 6,962
 ## Columns: 10
 ## $ school_name   &lt;chr&gt; &quot;CAYUGA H S&quot;, &quot;CAYUGA MIDDLE&quot;, &quot;CAYUGA EL&quot;, &quot;ELKHART H S…
@@ -1134,17 +1136,17 @@ library(tidyverse)</code></pre>
 <div id="calculate-percentage-point-difference" class="section level3" number="16.13.3">
 <h3><span class="header-section-number">16.13.3</span> Calculate percentage point difference</h3>
 <p>This is another simple difference, but this time with the percentage fields.</p>
-<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="sped-transform.html#cb302-1" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="ot">&lt;-</span> sped_reg <span class="sc">%&gt;%</span> </span>
-<span id="cb302-2"><a href="sped-transform.html#cb302-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb302-3"><a href="sped-transform.html#cb302-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># simple diff</span></span>
-<span id="cb302-4"><a href="sped-transform.html#cb302-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_c_diff =</span> sped_c_20 <span class="sc">-</span> sped_c_15,</span>
-<span id="cb302-5"><a href="sped-transform.html#cb302-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># percent change</span></span>
-<span id="cb302-6"><a href="sped-transform.html#cb302-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_c_prccng =</span> ((sped_c_20 <span class="sc">-</span> sped_c_15) <span class="sc">/</span> sped_c_15 <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span> <span class="fu">round_half_up</span>(<span class="dv">1</span>),</span>
-<span id="cb302-7"><a href="sped-transform.html#cb302-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># simple diff of percent</span></span>
-<span id="cb302-8"><a href="sped-transform.html#cb302-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_p_ppd =</span> sped_p_20 <span class="sc">-</span> sped_p_15</span>
-<span id="cb302-9"><a href="sped-transform.html#cb302-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb302-10"><a href="sped-transform.html#cb302-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb302-11"><a href="sped-transform.html#cb302-11" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="sped-transform.html#cb308-1" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="ot">&lt;-</span> sped_reg <span class="sc">%&gt;%</span> </span>
+<span id="cb308-2"><a href="sped-transform.html#cb308-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb308-3"><a href="sped-transform.html#cb308-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># simple diff</span></span>
+<span id="cb308-4"><a href="sped-transform.html#cb308-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_c_diff =</span> sped_c_20 <span class="sc">-</span> sped_c_15,</span>
+<span id="cb308-5"><a href="sped-transform.html#cb308-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># percent change</span></span>
+<span id="cb308-6"><a href="sped-transform.html#cb308-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_c_prccng =</span> ((sped_c_20 <span class="sc">-</span> sped_c_15) <span class="sc">/</span> sped_c_15 <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span> <span class="fu">round_half_up</span>(<span class="dv">1</span>),</span>
+<span id="cb308-7"><a href="sped-transform.html#cb308-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># simple diff of percent</span></span>
+<span id="cb308-8"><a href="sped-transform.html#cb308-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_p_ppd =</span> sped_p_20 <span class="sc">-</span> sped_p_15</span>
+<span id="cb308-9"><a href="sped-transform.html#cb308-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb308-10"><a href="sped-transform.html#cb308-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb308-11"><a href="sped-transform.html#cb308-11" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 6,962
 ## Columns: 11
 ## $ school_name   &lt;chr&gt; &quot;CAYUGA H S&quot;, &quot;CAYUGA MIDDLE&quot;, &quot;CAYUGA EL&quot;, &quot;ELKHART H S…
@@ -1167,36 +1169,36 @@ library(tidyverse)</code></pre>
 <p>The way we’ll do that is to create a “threshold” column for each year. We’ll use <code>mutate()</code> to create a column that says “Y” if the school is at or above the threshold, and “N” if it is not. Once we do this for both years, we can use some summaries to count them.</p>
 <p>This process will introduce <a href="https://dplyr.tidyverse.org/reference/case_when.html"><code>case_when()</code></a> which compares to the <strong>IF=</strong> function in Excel.</p>
 <p>It works like this <em>within</em> a mutate:</p>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="sped-transform.html#cb304-1" aria-hidden="true" tabindex="-1"></a>new_column <span class="ot">=</span> <span class="fu">case_when</span>(</span>
-<span id="cb304-2"><a href="sped-transform.html#cb304-2" aria-hidden="true" tabindex="-1"></a>  test <span class="sc">~</span> <span class="st">&quot;result_if_true&quot;</span>,</span>
-<span id="cb304-3"><a href="sped-transform.html#cb304-3" aria-hidden="true" tabindex="-1"></a>  <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;result_if_false&quot;</span></span>
-<span id="cb304-4"><a href="sped-transform.html#cb304-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="sped-transform.html#cb310-1" aria-hidden="true" tabindex="-1"></a>new_column <span class="ot">=</span> <span class="fu">case_when</span>(</span>
+<span id="cb310-2"><a href="sped-transform.html#cb310-2" aria-hidden="true" tabindex="-1"></a>  test <span class="sc">~</span> <span class="st">&quot;result_if_true&quot;</span>,</span>
+<span id="cb310-3"><a href="sped-transform.html#cb310-3" aria-hidden="true" tabindex="-1"></a>  <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;result_if_false&quot;</span></span>
+<span id="cb310-4"><a href="sped-transform.html#cb310-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>If that last <code>TRUE</code> confuses you that it is the false answer, then yeah … me too.</p>
 <p>The power of this is you can add multiple test by adding more lines before the <code>TRUE</code> line, but we don’t need that here.</p>
 <ul>
 <li>Update your <code>sped_calcs</code> code chunk to include both of our threshold cases.</li>
 </ul>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="sped-transform.html#cb305-1" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="ot">&lt;-</span> sped_reg <span class="sc">%&gt;%</span> </span>
-<span id="cb305-2"><a href="sped-transform.html#cb305-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb305-3"><a href="sped-transform.html#cb305-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># simple diff</span></span>
-<span id="cb305-4"><a href="sped-transform.html#cb305-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_c_diff =</span> sped_c_20 <span class="sc">-</span> sped_c_15,</span>
-<span id="cb305-5"><a href="sped-transform.html#cb305-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># percent change</span></span>
-<span id="cb305-6"><a href="sped-transform.html#cb305-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_c_prccng =</span> ((sped_c_20 <span class="sc">-</span> sped_c_15) <span class="sc">/</span> sped_c_15 <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span> <span class="fu">round_half_up</span>(<span class="dv">1</span>),</span>
-<span id="cb305-7"><a href="sped-transform.html#cb305-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># simple diff of percent</span></span>
-<span id="cb305-8"><a href="sped-transform.html#cb305-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_p_ppd =</span> sped_p_20 <span class="sc">-</span> sped_p_15,</span>
-<span id="cb305-9"><a href="sped-transform.html#cb305-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># meets threshold 8.5% 2015</span></span>
-<span id="cb305-10"><a href="sped-transform.html#cb305-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped15_thsh =</span> <span class="fu">case_when</span>(</span>
-<span id="cb305-11"><a href="sped-transform.html#cb305-11" aria-hidden="true" tabindex="-1"></a>      sped_p_15 <span class="sc">&gt;=</span> <span class="fl">8.5</span> <span class="sc">~</span> <span class="st">&quot;Y&quot;</span>,</span>
-<span id="cb305-12"><a href="sped-transform.html#cb305-12" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;N&quot;</span></span>
-<span id="cb305-13"><a href="sped-transform.html#cb305-13" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb305-14"><a href="sped-transform.html#cb305-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># meets threhhold 8.5% 2020</span></span>
-<span id="cb305-15"><a href="sped-transform.html#cb305-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped20_thsh =</span> <span class="fu">case_when</span>(</span>
-<span id="cb305-16"><a href="sped-transform.html#cb305-16" aria-hidden="true" tabindex="-1"></a>      sped_p_20 <span class="sc">&gt;=</span> <span class="fl">8.5</span> <span class="sc">~</span> <span class="st">&quot;Y&quot;</span>,</span>
-<span id="cb305-17"><a href="sped-transform.html#cb305-17" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;N&quot;</span></span>
-<span id="cb305-18"><a href="sped-transform.html#cb305-18" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb305-19"><a href="sped-transform.html#cb305-19" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb305-20"><a href="sped-transform.html#cb305-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb305-21"><a href="sped-transform.html#cb305-21" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="sc">%&gt;%</span> glimpse</span></code></pre></div>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="sped-transform.html#cb311-1" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="ot">&lt;-</span> sped_reg <span class="sc">%&gt;%</span> </span>
+<span id="cb311-2"><a href="sped-transform.html#cb311-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb311-3"><a href="sped-transform.html#cb311-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># simple diff</span></span>
+<span id="cb311-4"><a href="sped-transform.html#cb311-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_c_diff =</span> sped_c_20 <span class="sc">-</span> sped_c_15,</span>
+<span id="cb311-5"><a href="sped-transform.html#cb311-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># percent change</span></span>
+<span id="cb311-6"><a href="sped-transform.html#cb311-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_c_prccng =</span> ((sped_c_20 <span class="sc">-</span> sped_c_15) <span class="sc">/</span> sped_c_15 <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span> <span class="fu">round_half_up</span>(<span class="dv">1</span>),</span>
+<span id="cb311-7"><a href="sped-transform.html#cb311-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># simple diff of percent</span></span>
+<span id="cb311-8"><a href="sped-transform.html#cb311-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_p_ppd =</span> sped_p_20 <span class="sc">-</span> sped_p_15,</span>
+<span id="cb311-9"><a href="sped-transform.html#cb311-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># meets threshold 8.5% 2015</span></span>
+<span id="cb311-10"><a href="sped-transform.html#cb311-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped15_thsh =</span> <span class="fu">case_when</span>(</span>
+<span id="cb311-11"><a href="sped-transform.html#cb311-11" aria-hidden="true" tabindex="-1"></a>      sped_p_15 <span class="sc">&gt;=</span> <span class="fl">8.5</span> <span class="sc">~</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb311-12"><a href="sped-transform.html#cb311-12" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;N&quot;</span></span>
+<span id="cb311-13"><a href="sped-transform.html#cb311-13" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb311-14"><a href="sped-transform.html#cb311-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># meets threhhold 8.5% 2020</span></span>
+<span id="cb311-15"><a href="sped-transform.html#cb311-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped20_thsh =</span> <span class="fu">case_when</span>(</span>
+<span id="cb311-16"><a href="sped-transform.html#cb311-16" aria-hidden="true" tabindex="-1"></a>      sped_p_20 <span class="sc">&gt;=</span> <span class="fl">8.5</span> <span class="sc">~</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb311-17"><a href="sped-transform.html#cb311-17" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;N&quot;</span></span>
+<span id="cb311-18"><a href="sped-transform.html#cb311-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb311-19"><a href="sped-transform.html#cb311-19" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb311-20"><a href="sped-transform.html#cb311-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb311-21"><a href="sped-transform.html#cb311-21" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="sc">%&gt;%</span> glimpse</span></code></pre></div>
 <pre><code>## Rows: 6,962
 ## Columns: 13
 ## $ school_name   &lt;chr&gt; &quot;CAYUGA H S&quot;, &quot;CAYUGA MIDDLE&quot;, &quot;CAYUGA EL&quot;, &quot;ELKHART H S…
@@ -1213,15 +1215,15 @@ library(tidyverse)</code></pre>
 ## $ sped15_thsh   &lt;chr&gt; &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;N&quot;, &quot;Y&quot;, &quot;…
 ## $ sped20_thsh   &lt;chr&gt; &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;N&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;…</code></pre>
 <p>And then, of course, check the result to make sure it is right. Again, if you are having trouble seeing it in the glimpse, then build yourself a new R chunk to show you columns germane to your inspection:</p>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="sped-transform.html#cb307-1" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="sc">%&gt;%</span> </span>
-<span id="cb307-2"><a href="sped-transform.html#cb307-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb307-3"><a href="sped-transform.html#cb307-3" aria-hidden="true" tabindex="-1"></a>    school_name,</span>
-<span id="cb307-4"><a href="sped-transform.html#cb307-4" aria-hidden="true" tabindex="-1"></a>    sped_p_15,</span>
-<span id="cb307-5"><a href="sped-transform.html#cb307-5" aria-hidden="true" tabindex="-1"></a>    sped15_thsh,</span>
-<span id="cb307-6"><a href="sped-transform.html#cb307-6" aria-hidden="true" tabindex="-1"></a>    sped_p_20</span>
-<span id="cb307-7"><a href="sped-transform.html#cb307-7" aria-hidden="true" tabindex="-1"></a>    , sped20_thsh</span>
-<span id="cb307-8"><a href="sped-transform.html#cb307-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb307-9"><a href="sped-transform.html#cb307-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="sped-transform.html#cb313-1" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="sc">%&gt;%</span> </span>
+<span id="cb313-2"><a href="sped-transform.html#cb313-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb313-3"><a href="sped-transform.html#cb313-3" aria-hidden="true" tabindex="-1"></a>    school_name,</span>
+<span id="cb313-4"><a href="sped-transform.html#cb313-4" aria-hidden="true" tabindex="-1"></a>    sped_p_15,</span>
+<span id="cb313-5"><a href="sped-transform.html#cb313-5" aria-hidden="true" tabindex="-1"></a>    sped15_thsh,</span>
+<span id="cb313-6"><a href="sped-transform.html#cb313-6" aria-hidden="true" tabindex="-1"></a>    sped_p_20</span>
+<span id="cb313-7"><a href="sped-transform.html#cb313-7" aria-hidden="true" tabindex="-1"></a>    , sped20_thsh</span>
+<span id="cb313-8"><a href="sped-transform.html#cb313-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb313-9"><a href="sped-transform.html#cb313-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">20</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 20 × 5
 ##    school_name                       sped_p_15 sped15_thsh sped_p_20 sped20_thsh
 ##    &lt;chr&gt;                                 &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt;      
@@ -1253,8 +1255,8 @@ library(tidyverse)</code></pre>
 <ul>
 <li>Build a new export chunk and use <code>write_rds()</code> to create a file <code>02_sped_calcs.rds</code>.</li>
 </ul>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="sped-transform.html#cb309-1" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="sc">%&gt;%</span> </span>
-<span id="cb309-2"><a href="sped-transform.html#cb309-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_rds</span>(<span class="st">&quot;data-processed/02_sped_calcs.rds&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="sped-transform.html#cb315-1" aria-hidden="true" tabindex="-1"></a>sped_calcs <span class="sc">%&gt;%</span> </span>
+<span id="cb315-2"><a href="sped-transform.html#cb315-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_rds</span>(<span class="st">&quot;data-processed/02_sped_calcs.rds&quot;</span>)</span></code></pre></div>
 <p>Again, we saved our processed data away from the raw data. We used a number to match which notebook it came from, and we used a descriptive name so we know what is inside the file.</p>
 </div>
 <div id="more-dplyr-in-next-lesson" class="section level2" number="16.15">

@@ -27,7 +27,7 @@ A reminder of what we are looking for: All answers are be based on data from **J
   - TRAVIS COUNTY SHERIFFS OFFICE
   - UNIV OF TEXAS SYSTEM POLICE HI_ED
   - WILLIAMSON COUNTY SHERIFF'S OFFICE
-- For each of the agencies above we'll summarize the **total quantity** and **acquisition_value** of each **item** shipped to the agency. We'll arrange the list by agency so we can write about each one.
+- For each of the agencies above we'll summarize the **total quantity** and **acquisition_value** of each **item** shipped to the agency. We'll create a summarized list for each agency so we can write about each one.
 - You'll research some of the more interesting items the agencies received (i.e. Google the names) so you can include them in your data drop.
 
 ## Set up the analysis notebook
@@ -259,42 +259,188 @@ Perhaps we should look some at the police agencies closest to us.
 
 ## Looking a local agencies
 
+Our next goal is this:
+
+We'll take the list above, but filter that summary to show only the following local agencies. (and then there is a list of them.)
+
+Since we are taking an existing summary and adding more filtering to it, it makes sense to go back into that chunk and save it into a new object so we can reuse it.
+
+1. EDIT the chunk to save it into an object. Name it `tx_quants_totals` so we are all on the same page.
+1. Add a new line that prints the result to the screen so you can still see it.
+
+
+```r
+# adding the new tibble object in next line
+tx_quants_totals <- tx %>% 
+  group_by(agency_name) %>% 
+  summarize(
+    sum_quantity = sum(quantity),
+    sum_total_value = sum(total_value)
+  ) %>% 
+  arrange(sum_total_value %>% desc())
+
+# peek at the result
+tx_quants_totals
+```
+
+```
+## # A tibble: 357 × 3
+##    agency_name                       sum_quantity sum_total_value
+##    <chr>                                    <dbl>           <dbl>
+##  1 HOUSTON POLICE DEPT                       6419       10825708.
+##  2 HARRIS COUNTY SHERIFF'S OFFICE             381        3776292.
+##  3 DPS SWAT- TEXAS RANGERS                   1730        3520630.
+##  4 JEFFERSON COUNTY SHERIFF'S OFFICE          270        3464741.
+##  5 SAN MARCOS POLICE DEPT                    1082        3100421.
+##  6 AUSTIN POLICE DEPT                        1458        2741021.
+##  7 MILAM COUNTY SHERIFF DEPT                  125        2723192.
+##  8 ALVIN POLICE DEPT                          539        2545240.
+##  9 HARRIS COUNTY CONSTABLE PCT 3              293        2376945.
+## 10 PARKS AND WILDLIFE DEPT                   5608        2325655.
+## # … with 347 more rows
+```
+
 ### Filter in a vector
 
-Filter list to local agencies. see tech note below.
+Our next goal is to use `filter()` to look at only our local organizations. The list includes:
 
-### Item quantiies, totals for local agencies
+- AUSTIN POLICE DEPT
+- SAN MARCOS POLICE DEPT
+- TRAVIS COUNTY SHERIFFS OFFICE
+- UNIV OF TEXAS SYSTEM POLICE HI_ED
+- WILLIAMSON COUNTY SHERIFF'S OFFICE
+  
+To be clear, in the interest of time I've done some work here to figure out the exact names. It helps that I'm familiar with local agencies so I used some creative filtering to find their "official" names in the data.
 
-The separate chunks.
+**Let's talk through the concepts before you try it with this data.**
 
-
-
-### Filter from a collection
-
-One last thing that might help in this assignment. This relates to the quest to filter your summary to the local agencies.
-
-When you filter data, you usually choose the column and then compare for some value. To find the rows for "Bread" in our data above, we would use:
-
-```r
-groceries %>% 
-  filter(item == "Bread")
-```
-
-You can also filter for rows that contain any value in a collection of terms. If we wanted to find all rows with "Bread" or "Beer", we could do this:
+When we talked about filtering with the Billboard project, we discussed using the `|` operator as an "OR" function. If we were to apply that logic here, it would look like this:
 
 ```r
-groceries %>% 
-  filter(item %in% c("Bread", "Beer"))
+data %>% 
+  filter(column_name == "Test to find" | column_name == "More text to find")
 ```
 
-The `c()` function is for "combine" to create a collection of values. You can even save that collection in an object and use that in a function:
+That can get pretty unwieldy if you have more than a couple of things to look for.
+
+There is another operator `%in%` where we can search for multiple items from a list. (This list of terms is officially called a vector, but whatever.) Think of it like this in plain English: *Filter* the *column* for things *in* this *list*>
 
 ```r
-items_important = c("Bread", "Beer")
-
-groceries %>% 
-  filter(item %in% items_important)
+data %>% 
+  filter(col_name %in% c("This string", "That string"))
 ```
+
+We can take this a step further by saving the items in our list into an R object so we can reuse that list and not have to type out all the terms all the time.
+
+```r
+list_of_strings <- c(
+  "This string",
+  "That string"
+)
+
+data %>% 
+  filter(col_name %in% list_of_strings)
+```
+
+### Use the vector to build this filter
+
+1. Create a new section (headline, text and chunk) and describe you are filtering the summed quantity/values for some select local agencies.
+1. Create a saved vector list (like the list_of_strings above) of the five agencies we want to focus on. Call it `local_agencies`.
+1. Start with the `tx_quants_totals` tibble you created for totals by agency and then use `filter()` and `%in%` to filter by your new `local_agencies` list.
+
+These are the agencies:
+- AUSTIN POLICE DEPT
+- SAN MARCOS POLICE DEPT
+- TRAVIS COUNTY SHERIFFS OFFICE
+- UNIV OF TEXAS SYSTEM POLICE HI_ED
+- WILLIAMSON COUNTY SHERIFF'S OFFICE
+
+<details>
+  <summary>Use the example above to build with yoru data</summary>
+  
+
+```r
+local_agencies <- c(
+  "AUSTIN POLICE DEPT",
+  "SAN MARCOS POLICE DEPT",
+  "TRAVIS COUNTY SHERIFFS OFFICE",
+  "UNIV OF TEXAS SYSTEM POLICE HI_ED",
+  "WILLIAMSON COUNTY SHERIFF'S OFFICE"
+)
+
+tx_quants_totals %>% 
+  filter(agency_name %in% local_agencies)
+```
+
+```
+## # A tibble: 5 × 3
+##   agency_name                        sum_quantity sum_total_value
+##   <chr>                                     <dbl>           <dbl>
+## 1 SAN MARCOS POLICE DEPT                     1082        3100421.
+## 2 AUSTIN POLICE DEPT                         1458        2741021.
+## 3 UNIV OF TEXAS SYSTEM POLICE HI_ED             3        1305000 
+## 4 TRAVIS COUNTY SHERIFFS OFFICE               151         935354.
+## 5 WILLIAMSON COUNTY SHERIFF'S OFFICE          210         431449.
+```
+
+</details>
+
+### Item quantities, totals for local agencies
+
+Now that we have an overall idea of what local agencies are doing, let's dive a little deeper. It's time to figure out the specific items that they got.
+
+Here is the quest: For each of the agencies above we'll summarize the _summed_ **quantity** and _summed_ **total_value** of each **item** shipped to the agency. We'll create a summarized list for each agency so we can write about each one.
+
+In some cases an agency might get the same item shipped to them at different times. For instance, APD has multiple rows of a single "ILLUMINATOR,INTEGRATED,SMALL ARM" shipped to them on the same date, and at other times the quantity is combined as 30 items into a single row. We'll group our summarize by **item_name** so we know the totals for both **quantity** and **total_value**.
+
+1. Create a new section (headline, text and first code chunk) and describe that you are finding the sums of each different item the agency has received since 2010.
+2. Our first code chunk will start with the `tx` data, and then filter the results to just "AUSTIN POLICE DEPT".
+3. Use `group_by` to group by `item_name`.
+4. Use summarize to build the `summed_quantity` and `summed_total_value` columns.
+5. Arrange the results so the most expensive items are at the top.
+
+
+```r
+tx %>% 
+  filter(agency_name == "AUSTIN POLICE DEPT") %>% 
+  group_by(item_name) %>% 
+  summarize(
+    summed_quantity = sum(quantity),
+    summed_total_value = sum(total_value)
+  ) %>% 
+  arrange(summed_total_value %>% desc())
+```
+
+```
+## # A tibble: 46 × 3
+##    item_name                                           summed_quantity summed_total_va…
+##    <chr>                                                         <dbl>            <dbl>
+##  1 HELICOPTER,FLIGHT TRAINER                                         1          833400 
+##  2 IMAGE INTENSIFIER,NIGHT VISION                                   85          467847.
+##  3 SIGHT,THERMAL                                                    29          442310 
+##  4 PACKBOT 510 WITH FASTAC REMOTELY CONTROLLED VEHICLE               4          308000 
+##  5 SIGHT,REFLEX                                                    420          144245.
+##  6 ILLUMINATOR,INTEGRATED,SMALL ARMS                               135          122302 
+##  7 RECON SCOUT XT                                                    8           92451.
+##  8 RECON SCOUT XT,SPEC                                               6           81900 
+##  9 TEST SET,NIGHT VISION VIEWER                                      2           56650 
+## 10 PICKUP                                                            1           26327 
+## # … with 36 more rows
+```
+
+Do realize that APD might have gotten these items at any time during our time period. If you want to learn more about _when_ they got the items, you would have to build a new list of the data without grouping/summarizing.
+
+### Build the lists for other agencies
+
+On your own ...
+
+1. Build a similar list for all the other local agencies. Basically you are just changing the filtering.
+
+### Google some interesting items
+
+You'll want some more detail in your data drop about some of these specific items.
+
+1. Do some Googling on some of these items of interest to learn more about them. I realize (and you should, too) that for a "real" story we would need to reach out to sources for more information, but you can get a general idea from what you find online for the writing assignment below.
 
 ## Write a data drop
 

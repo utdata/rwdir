@@ -24,7 +24,7 @@
 <meta name="author" content="Christian McDonald" />
 
 
-<meta name="date" content="2021-09-20" />
+<meta name="date" content="2021-09-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -313,8 +313,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.5" data-path="sums-analyze.html"><a href="sums-analyze.html#looking-a-local-agencies"><i class="fa fa-check"></i><b>6.5</b> Looking a local agencies</a>
 <ul>
 <li class="chapter" data-level="6.5.1" data-path="sums-analyze.html"><a href="sums-analyze.html#filter-in-a-vector"><i class="fa fa-check"></i><b>6.5.1</b> Filter in a vector</a></li>
-<li class="chapter" data-level="6.5.2" data-path="sums-analyze.html"><a href="sums-analyze.html#item-quantiies-totals-for-local-agencies"><i class="fa fa-check"></i><b>6.5.2</b> Item quantiies, totals for local agencies</a></li>
-<li class="chapter" data-level="6.5.3" data-path="sums-analyze.html"><a href="sums-analyze.html#filter-from-a-collection"><i class="fa fa-check"></i><b>6.5.3</b> Filter from a collection</a></li>
+<li class="chapter" data-level="6.5.2" data-path="sums-analyze.html"><a href="sums-analyze.html#use-the-vector-to-build-this-filter"><i class="fa fa-check"></i><b>6.5.2</b> Use the vector to build this filter</a></li>
+<li class="chapter" data-level="6.5.3" data-path="sums-analyze.html"><a href="sums-analyze.html#item-quantities-totals-for-local-agencies"><i class="fa fa-check"></i><b>6.5.3</b> Item quantities, totals for local agencies</a></li>
+<li class="chapter" data-level="6.5.4" data-path="sums-analyze.html"><a href="sums-analyze.html#build-the-lists-for-other-agencies"><i class="fa fa-check"></i><b>6.5.4</b> Build the lists for other agencies</a></li>
+<li class="chapter" data-level="6.5.5" data-path="sums-analyze.html"><a href="sums-analyze.html#google-some-interesting-items"><i class="fa fa-check"></i><b>6.5.5</b> Google some interesting items</a></li>
 </ul></li>
 <li class="chapter" data-level="6.6" data-path="sums-analyze.html"><a href="sums-analyze.html#write-a-data-drop"><i class="fa fa-check"></i><b>6.6</b> Write a data drop</a></li>
 </ul></li>
@@ -722,7 +724,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>UNIV OF TEXAS SYSTEM POLICE HI_ED</li>
 <li>WILLIAMSON COUNTY SHERIFF’S OFFICE</li>
 </ul></li>
-<li>For each of the agencies above we’ll summarize the <strong>total quantity</strong> and <strong>acquisition_value</strong> of each <strong>item</strong> shipped to the agency. We’ll arrange the list by agency so we can write about each one.</li>
+<li>For each of the agencies above we’ll summarize the <strong>total quantity</strong> and <strong>acquisition_value</strong> of each <strong>item</strong> shipped to the agency. We’ll create a summarized list for each agency so we can write about each one.</li>
 <li>You’ll research some of the more interesting items the agencies received (i.e. Google the names) so you can include them in your data drop.</li>
 </ul>
 </div>
@@ -933,28 +935,152 @@ Remember your data is in data-raw
 </div>
 <div id="looking-a-local-agencies" class="section level2" number="6.5">
 <h2><span class="header-section-number">6.5</span> Looking a local agencies</h2>
+<p>Our next goal is this:</p>
+<p>We’ll take the list above, but filter that summary to show only the following local agencies. (and then there is a list of them.)</p>
+<p>Since we are taking an existing summary and adding more filtering to it, it makes sense to go back into that chunk and save it into a new object so we can reuse it.</p>
+<ol style="list-style-type: decimal">
+<li>EDIT the chunk to save it into an object. Name it <code>tx_quants_totals</code> so we are all on the same page.</li>
+<li>Add a new line that prints the result to the screen so you can still see it.</li>
+</ol>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="sums-analyze.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adding the new tibble object in next line</span></span>
+<span id="cb101-2"><a href="sums-analyze.html#cb101-2" aria-hidden="true" tabindex="-1"></a>tx_quants_totals <span class="ot">&lt;-</span> tx <span class="sc">%&gt;%</span> </span>
+<span id="cb101-3"><a href="sums-analyze.html#cb101-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb101-4"><a href="sums-analyze.html#cb101-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb101-5"><a href="sums-analyze.html#cb101-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_quantity =</span> <span class="fu">sum</span>(quantity),</span>
+<span id="cb101-6"><a href="sums-analyze.html#cb101-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_total_value =</span> <span class="fu">sum</span>(total_value)</span>
+<span id="cb101-7"><a href="sums-analyze.html#cb101-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb101-8"><a href="sums-analyze.html#cb101-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(sum_total_value <span class="sc">%&gt;%</span> <span class="fu">desc</span>())</span>
+<span id="cb101-9"><a href="sums-analyze.html#cb101-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb101-10"><a href="sums-analyze.html#cb101-10" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
+<span id="cb101-11"><a href="sums-analyze.html#cb101-11" aria-hidden="true" tabindex="-1"></a>tx_quants_totals</span></code></pre></div>
+<pre><code>## # A tibble: 357 × 3
+##    agency_name                       sum_quantity sum_total_value
+##    &lt;chr&gt;                                    &lt;dbl&gt;           &lt;dbl&gt;
+##  1 HOUSTON POLICE DEPT                       6419       10825708.
+##  2 HARRIS COUNTY SHERIFF&#39;S OFFICE             381        3776292.
+##  3 DPS SWAT- TEXAS RANGERS                   1730        3520630.
+##  4 JEFFERSON COUNTY SHERIFF&#39;S OFFICE          270        3464741.
+##  5 SAN MARCOS POLICE DEPT                    1082        3100421.
+##  6 AUSTIN POLICE DEPT                        1458        2741021.
+##  7 MILAM COUNTY SHERIFF DEPT                  125        2723192.
+##  8 ALVIN POLICE DEPT                          539        2545240.
+##  9 HARRIS COUNTY CONSTABLE PCT 3              293        2376945.
+## 10 PARKS AND WILDLIFE DEPT                   5608        2325655.
+## # … with 347 more rows</code></pre>
 <div id="filter-in-a-vector" class="section level3" number="6.5.1">
 <h3><span class="header-section-number">6.5.1</span> Filter in a vector</h3>
-<p>Filter list to local agencies. see tech note below.</p>
+<p>Our next goal is to use <code>filter()</code> to look at only our local organizations. The list includes:</p>
+<ul>
+<li>AUSTIN POLICE DEPT</li>
+<li>SAN MARCOS POLICE DEPT</li>
+<li>TRAVIS COUNTY SHERIFFS OFFICE</li>
+<li>UNIV OF TEXAS SYSTEM POLICE HI_ED</li>
+<li>WILLIAMSON COUNTY SHERIFF’S OFFICE</li>
+</ul>
+<p>To be clear, in the interest of time I’ve done some work here to figure out the exact names. It helps that I’m familiar with local agencies so I used some creative filtering to find their “official” names in the data.</p>
+<p><strong>Let’s talk through the concepts before you try it with this data.</strong></p>
+<p>When we talked about filtering with the Billboard project, we discussed using the <code>|</code> operator as an “OR” function. If we were to apply that logic here, it would look like this:</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="sums-analyze.html#cb103-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
+<span id="cb103-2"><a href="sums-analyze.html#cb103-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(column_name <span class="sc">==</span> <span class="st">&quot;Test to find&quot;</span> <span class="sc">|</span> column_name <span class="sc">==</span> <span class="st">&quot;More text to find&quot;</span>)</span></code></pre></div>
+<p>That can get pretty unwieldy if you have more than a couple of things to look for.</p>
+<p>There is another operator <code>%in%</code> where we can search for multiple items from a list. (This list of terms is officially called a vector, but whatever.) Think of it like this in plain English: <em>Filter</em> the <em>column</em> for things <em>in</em> this <em>list</em>&gt;</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="sums-analyze.html#cb104-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
+<span id="cb104-2"><a href="sums-analyze.html#cb104-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;This string&quot;</span>, <span class="st">&quot;That string&quot;</span>))</span></code></pre></div>
+<p>We can take this a step further by saving the items in our list into an R object so we can reuse that list and not have to type out all the terms all the time.</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="sums-analyze.html#cb105-1" aria-hidden="true" tabindex="-1"></a>list_of_strings <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb105-2"><a href="sums-analyze.html#cb105-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;This string&quot;</span>,</span>
+<span id="cb105-3"><a href="sums-analyze.html#cb105-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;That string&quot;</span></span>
+<span id="cb105-4"><a href="sums-analyze.html#cb105-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb105-5"><a href="sums-analyze.html#cb105-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-6"><a href="sums-analyze.html#cb105-6" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
+<span id="cb105-7"><a href="sums-analyze.html#cb105-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_name <span class="sc">%in%</span> list_of_strings)</span></code></pre></div>
 </div>
-<div id="item-quantiies-totals-for-local-agencies" class="section level3" number="6.5.2">
-<h3><span class="header-section-number">6.5.2</span> Item quantiies, totals for local agencies</h3>
-<p>The separate chunks.</p>
+<div id="use-the-vector-to-build-this-filter" class="section level3" number="6.5.2">
+<h3><span class="header-section-number">6.5.2</span> Use the vector to build this filter</h3>
+<ol style="list-style-type: decimal">
+<li>Create a new section (headline, text and chunk) and describe you are filtering the summed quantity/values for some select local agencies.</li>
+<li>Create a saved vector list (like the list_of_strings above) of the five agencies we want to focus on. Call it <code>local_agencies</code>.</li>
+<li>Start with the <code>tx_quants_totals</code> tibble you created for totals by agency and then use <code>filter()</code> and <code>%in%</code> to filter by your new <code>local_agencies</code> list.</li>
+</ol>
+<p>These are the agencies:
+- AUSTIN POLICE DEPT
+- SAN MARCOS POLICE DEPT
+- TRAVIS COUNTY SHERIFFS OFFICE
+- UNIV OF TEXAS SYSTEM POLICE HI_ED
+- WILLIAMSON COUNTY SHERIFF’S OFFICE</p>
+<details>
+<summary>
+Use the example above to build with yoru data
+</summary>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="sums-analyze.html#cb106-1" aria-hidden="true" tabindex="-1"></a>local_agencies <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb106-2"><a href="sums-analyze.html#cb106-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;AUSTIN POLICE DEPT&quot;</span>,</span>
+<span id="cb106-3"><a href="sums-analyze.html#cb106-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;SAN MARCOS POLICE DEPT&quot;</span>,</span>
+<span id="cb106-4"><a href="sums-analyze.html#cb106-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;TRAVIS COUNTY SHERIFFS OFFICE&quot;</span>,</span>
+<span id="cb106-5"><a href="sums-analyze.html#cb106-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;UNIV OF TEXAS SYSTEM POLICE HI_ED&quot;</span>,</span>
+<span id="cb106-6"><a href="sums-analyze.html#cb106-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;WILLIAMSON COUNTY SHERIFF&#39;S OFFICE&quot;</span></span>
+<span id="cb106-7"><a href="sums-analyze.html#cb106-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb106-8"><a href="sums-analyze.html#cb106-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-9"><a href="sums-analyze.html#cb106-9" aria-hidden="true" tabindex="-1"></a>tx_quants_totals <span class="sc">%&gt;%</span> </span>
+<span id="cb106-10"><a href="sums-analyze.html#cb106-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">%in%</span> local_agencies)</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 3
+##   agency_name                        sum_quantity sum_total_value
+##   &lt;chr&gt;                                     &lt;dbl&gt;           &lt;dbl&gt;
+## 1 SAN MARCOS POLICE DEPT                     1082        3100421.
+## 2 AUSTIN POLICE DEPT                         1458        2741021.
+## 3 UNIV OF TEXAS SYSTEM POLICE HI_ED             3        1305000 
+## 4 TRAVIS COUNTY SHERIFFS OFFICE               151         935354.
+## 5 WILLIAMSON COUNTY SHERIFF&#39;S OFFICE          210         431449.</code></pre>
+</details>
 </div>
-<div id="filter-from-a-collection" class="section level3" number="6.5.3">
-<h3><span class="header-section-number">6.5.3</span> Filter from a collection</h3>
-<p>One last thing that might help in this assignment. This relates to the quest to filter your summary to the local agencies.</p>
-<p>When you filter data, you usually choose the column and then compare for some value. To find the rows for “Bread” in our data above, we would use:</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="sums-analyze.html#cb101-1" aria-hidden="true" tabindex="-1"></a>groceries <span class="sc">%&gt;%</span> </span>
-<span id="cb101-2"><a href="sums-analyze.html#cb101-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(item <span class="sc">==</span> <span class="st">&quot;Bread&quot;</span>)</span></code></pre></div>
-<p>You can also filter for rows that contain any value in a collection of terms. If we wanted to find all rows with “Bread” or “Beer,” we could do this:</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="sums-analyze.html#cb102-1" aria-hidden="true" tabindex="-1"></a>groceries <span class="sc">%&gt;%</span> </span>
-<span id="cb102-2"><a href="sums-analyze.html#cb102-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(item <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Bread&quot;</span>, <span class="st">&quot;Beer&quot;</span>))</span></code></pre></div>
-<p>The <code>c()</code> function is for “combine” to create a collection of values. You can even save that collection in an object and use that in a function:</p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="sums-analyze.html#cb103-1" aria-hidden="true" tabindex="-1"></a>items_important <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;Bread&quot;</span>, <span class="st">&quot;Beer&quot;</span>)</span>
-<span id="cb103-2"><a href="sums-analyze.html#cb103-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb103-3"><a href="sums-analyze.html#cb103-3" aria-hidden="true" tabindex="-1"></a>groceries <span class="sc">%&gt;%</span> </span>
-<span id="cb103-4"><a href="sums-analyze.html#cb103-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(item <span class="sc">%in%</span> items_important)</span></code></pre></div>
+<div id="item-quantities-totals-for-local-agencies" class="section level3" number="6.5.3">
+<h3><span class="header-section-number">6.5.3</span> Item quantities, totals for local agencies</h3>
+<p>Now that we have an overall idea of what local agencies are doing, let’s dive a little deeper. It’s time to figure out the specific items that they got.</p>
+<p>Here is the quest: For each of the agencies above we’ll summarize the <em>summed</em> <strong>quantity</strong> and <em>summed</em> <strong>total_value</strong> of each <strong>item</strong> shipped to the agency. We’ll create a summarized list for each agency so we can write about each one.</p>
+<p>In some cases an agency might get the same item shipped to them at different times. For instance, APD has multiple rows of a single “ILLUMINATOR,INTEGRATED,SMALL ARM” shipped to them on the same date, and at other times the quantity is combined as 30 items into a single row. We’ll group our summarize by <strong>item_name</strong> so we know the totals for both <strong>quantity</strong> and <strong>total_value</strong>.</p>
+<ol style="list-style-type: decimal">
+<li>Create a new section (headline, text and first code chunk) and describe that you are finding the sums of each different item the agency has received since 2010.</li>
+<li>Our first code chunk will start with the <code>tx</code> data, and then filter the results to just “AUSTIN POLICE DEPT.”</li>
+<li>Use <code>group_by</code> to group by <code>item_name</code>.</li>
+<li>Use summarize to build the <code>summed_quantity</code> and <code>summed_total_value</code> columns.</li>
+<li>Arrange the results so the most expensive items are at the top.</li>
+</ol>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="sums-analyze.html#cb108-1" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> </span>
+<span id="cb108-2"><a href="sums-analyze.html#cb108-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">==</span> <span class="st">&quot;AUSTIN POLICE DEPT&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb108-3"><a href="sums-analyze.html#cb108-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(item_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb108-4"><a href="sums-analyze.html#cb108-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb108-5"><a href="sums-analyze.html#cb108-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity),</span>
+<span id="cb108-6"><a href="sums-analyze.html#cb108-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_total_value =</span> <span class="fu">sum</span>(total_value)</span>
+<span id="cb108-7"><a href="sums-analyze.html#cb108-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb108-8"><a href="sums-analyze.html#cb108-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(summed_total_value <span class="sc">%&gt;%</span> <span class="fu">desc</span>())</span></code></pre></div>
+<pre><code>## # A tibble: 46 × 3
+##    item_name                                           summed_quantity summed_total_va…
+##    &lt;chr&gt;                                                         &lt;dbl&gt;            &lt;dbl&gt;
+##  1 HELICOPTER,FLIGHT TRAINER                                         1          833400 
+##  2 IMAGE INTENSIFIER,NIGHT VISION                                   85          467847.
+##  3 SIGHT,THERMAL                                                    29          442310 
+##  4 PACKBOT 510 WITH FASTAC REMOTELY CONTROLLED VEHICLE               4          308000 
+##  5 SIGHT,REFLEX                                                    420          144245.
+##  6 ILLUMINATOR,INTEGRATED,SMALL ARMS                               135          122302 
+##  7 RECON SCOUT XT                                                    8           92451.
+##  8 RECON SCOUT XT,SPEC                                               6           81900 
+##  9 TEST SET,NIGHT VISION VIEWER                                      2           56650 
+## 10 PICKUP                                                            1           26327 
+## # … with 36 more rows</code></pre>
+<p>Do realize that APD might have gotten these items at any time during our time period. If you want to learn more about <em>when</em> they got the items, you would have to build a new list of the data without grouping/summarizing.</p>
+</div>
+<div id="build-the-lists-for-other-agencies" class="section level3" number="6.5.4">
+<h3><span class="header-section-number">6.5.4</span> Build the lists for other agencies</h3>
+<p>On your own …</p>
+<ol style="list-style-type: decimal">
+<li>Build a similar list for all the other local agencies. Basically you are just changing the filtering.</li>
+</ol>
+</div>
+<div id="google-some-interesting-items" class="section level3" number="6.5.5">
+<h3><span class="header-section-number">6.5.5</span> Google some interesting items</h3>
+<p>You’ll want some more detail in your data drop about some of these specific items.</p>
+<ol style="list-style-type: decimal">
+<li>Do some Googling on some of these items of interest to learn more about them. I realize (and you should, too) that for a “real” story we would need to reach out to sources for more information, but you can get a general idea from what you find online for the writing assignment below.</li>
+</ol>
 </div>
 </div>
 <div id="write-a-data-drop" class="section level2" number="6.6">
