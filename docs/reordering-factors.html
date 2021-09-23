@@ -24,7 +24,7 @@
 <meta name="author" content="Christian McDonald" />
 
 
-<meta name="date" content="2021-09-20" />
+<meta name="date" content="2021-09-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -313,8 +313,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.5" data-path="sums-analyze.html"><a href="sums-analyze.html#looking-a-local-agencies"><i class="fa fa-check"></i><b>6.5</b> Looking a local agencies</a>
 <ul>
 <li class="chapter" data-level="6.5.1" data-path="sums-analyze.html"><a href="sums-analyze.html#filter-in-a-vector"><i class="fa fa-check"></i><b>6.5.1</b> Filter in a vector</a></li>
-<li class="chapter" data-level="6.5.2" data-path="sums-analyze.html"><a href="sums-analyze.html#item-quantiies-totals-for-local-agencies"><i class="fa fa-check"></i><b>6.5.2</b> Item quantiies, totals for local agencies</a></li>
-<li class="chapter" data-level="6.5.3" data-path="sums-analyze.html"><a href="sums-analyze.html#filter-from-a-collection"><i class="fa fa-check"></i><b>6.5.3</b> Filter from a collection</a></li>
+<li class="chapter" data-level="6.5.2" data-path="sums-analyze.html"><a href="sums-analyze.html#use-the-vector-to-build-this-filter"><i class="fa fa-check"></i><b>6.5.2</b> Use the vector to build this filter</a></li>
+<li class="chapter" data-level="6.5.3" data-path="sums-analyze.html"><a href="sums-analyze.html#item-quantities-totals-for-local-agencies"><i class="fa fa-check"></i><b>6.5.3</b> Item quantities, totals for local agencies</a></li>
+<li class="chapter" data-level="6.5.4" data-path="sums-analyze.html"><a href="sums-analyze.html#build-the-lists-for-other-agencies"><i class="fa fa-check"></i><b>6.5.4</b> Build the lists for other agencies</a></li>
+<li class="chapter" data-level="6.5.5" data-path="sums-analyze.html"><a href="sums-analyze.html#google-some-interesting-items"><i class="fa fa-check"></i><b>6.5.5</b> Google some interesting items</a></li>
 </ul></li>
 <li class="chapter" data-level="6.6" data-path="sums-analyze.html"><a href="sums-analyze.html#write-a-data-drop"><i class="fa fa-check"></i><b>6.6</b> Write a data drop</a></li>
 </ul></li>
@@ -727,16 +729,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="libraries" class="section level3" number="10.2.2">
 <h3><span class="header-section-number">10.2.2</span> Libraries</h3>
 <p>We need two libraries. I <em>think</em> the <strong>forcats</strong> library is already installed, but if not you’ll have to run the following in your RConsole: <code>install.packages("forcats")</code>.</p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="reordering-factors.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb157-2"><a href="reordering-factors.html#cb157-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forcats)</span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="reordering-factors.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb163-2"><a href="reordering-factors.html#cb163-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forcats)</span></code></pre></div>
 </div>
 <div id="import-the-data-2" class="section level3" number="10.2.3">
 <h3><span class="header-section-number">10.2.3</span> Import the data</h3>
 <p>Import the data from the csv</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="reordering-factors.html#cb158-1" aria-hidden="true" tabindex="-1"></a>survey <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data-raw/survey-results.csv&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>()</span>
-<span id="cb158-2"><a href="reordering-factors.html#cb158-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb158-3"><a href="reordering-factors.html#cb158-3" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
-<span id="cb158-4"><a href="reordering-factors.html#cb158-4" aria-hidden="true" tabindex="-1"></a>survey <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="reordering-factors.html#cb164-1" aria-hidden="true" tabindex="-1"></a>survey <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data-raw/survey-results.csv&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>()</span>
+<span id="cb164-2"><a href="reordering-factors.html#cb164-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb164-3"><a href="reordering-factors.html#cb164-3" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb164-4"><a href="reordering-factors.html#cb164-4" aria-hidden="true" tabindex="-1"></a>survey <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
 <p>Peeking at the data, we see it is something like this:</p>
 <table>
 <thead>
@@ -811,13 +813,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="charting-the-popularity-of-princess" class="section level2" number="10.4">
 <h2><span class="header-section-number">10.4</span> Charting the popularity of princess</h2>
 <p>So, we need a <code>princess</code> column and a <code>votes</code> column. These easiest way to do this is a simple <code>count()</code> summary. Build the count <em>before</em> you assign it back to <code>princess_count</code> so you see what is happening, but this is similar to what we’ve done in the past.</p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="reordering-factors.html#cb159-1" aria-hidden="true" tabindex="-1"></a>princess_count <span class="ot">&lt;-</span> survey <span class="sc">%&gt;%</span></span>
-<span id="cb159-2"><a href="reordering-factors.html#cb159-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(princess) <span class="sc">%&gt;%</span></span>
-<span id="cb159-3"><a href="reordering-factors.html#cb159-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">votes =</span> n) <span class="sc">%&gt;%</span></span>
-<span id="cb159-4"><a href="reordering-factors.html#cb159-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(votes))</span>
-<span id="cb159-5"><a href="reordering-factors.html#cb159-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb159-6"><a href="reordering-factors.html#cb159-6" aria-hidden="true" tabindex="-1"></a><span class="co"># peak</span></span>
-<span id="cb159-7"><a href="reordering-factors.html#cb159-7" aria-hidden="true" tabindex="-1"></a>princess <span class="sc">%&gt;%</span> head</span></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="reordering-factors.html#cb165-1" aria-hidden="true" tabindex="-1"></a>princess_count <span class="ot">&lt;-</span> survey <span class="sc">%&gt;%</span></span>
+<span id="cb165-2"><a href="reordering-factors.html#cb165-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(princess) <span class="sc">%&gt;%</span></span>
+<span id="cb165-3"><a href="reordering-factors.html#cb165-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">votes =</span> n) <span class="sc">%&gt;%</span></span>
+<span id="cb165-4"><a href="reordering-factors.html#cb165-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(votes))</span>
+<span id="cb165-5"><a href="reordering-factors.html#cb165-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-6"><a href="reordering-factors.html#cb165-6" aria-hidden="true" tabindex="-1"></a><span class="co"># peak</span></span>
+<span id="cb165-7"><a href="reordering-factors.html#cb165-7" aria-hidden="true" tabindex="-1"></a>princess <span class="sc">%&gt;%</span> head</span></code></pre></div>
 <p>In order, we are:</p>
 <ul>
 <li>Assigning the result (which you do at the end), starting from <code>survey</code>.</li>
@@ -876,11 +878,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="create-our-princess-plot" class="section level2" number="10.5">
 <h2><span class="header-section-number">10.5</span> Create our princess plot</h2>
 <p>We are going to use a new chart, <code>geom_col</code>, which is like <code>geom_bar</code> but it already understands the <code>stat="identity"</code>.</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="reordering-factors.html#cb160-1" aria-hidden="true" tabindex="-1"></a>princess_count <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)) <span class="sc">+</span></span>
-<span id="cb160-2"><a href="reordering-factors.html#cb160-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb160-3"><a href="reordering-factors.html#cb160-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb160-4"><a href="reordering-factors.html#cb160-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Favorite Disney Princesses in class&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Princess&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Votes&quot;</span>) <span class="sc">+</span></span>
-<span id="cb160-5"><a href="reordering-factors.html#cb160-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> votes), <span class="at">hjust=</span><span class="sc">-</span>.<span class="dv">25</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="reordering-factors.html#cb166-1" aria-hidden="true" tabindex="-1"></a>princess_count <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)) <span class="sc">+</span></span>
+<span id="cb166-2"><a href="reordering-factors.html#cb166-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb166-3"><a href="reordering-factors.html#cb166-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb166-4"><a href="reordering-factors.html#cb166-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Favorite Disney Princesses in class&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Princess&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Votes&quot;</span>) <span class="sc">+</span></span>
+<span id="cb166-5"><a href="reordering-factors.html#cb166-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> votes), <span class="at">hjust=</span><span class="sc">-</span>.<span class="dv">25</span>)</span></code></pre></div>
 <p>And we get this:</p>
 <div class="figure">
 <img src="images/factors-wrong-order.png" alt="" />
@@ -910,16 +912,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>fct_lump()</code>: Collapsing the least/most frequent values of a factor into “other.”</li>
 </ul>
 <p>We will use <a href="https://forcats.tidyverse.org/reference/fct_reorder.html"><code>fct_reorder()</code></a> to reorder the <strong>princess</strong> values based on the <strong>votes</strong> values. <code>fct_reorder()</code> takes two main arguments: a) the factor (or column) whose levels you want to modify, and b) a numeric vector (or column of values) that you want to use to reorder the levels.</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="reordering-factors.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fct_reorder</span>(what_you_are_reordering, the_col_to_base_it_on)</span></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="reordering-factors.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fct_reorder</span>(what_you_are_reordering, the_col_to_base_it_on)</span></code></pre></div>
 </div>
 <div id="reorder-princess" class="section level2" number="10.7">
 <h2><span class="header-section-number">10.7</span> Reorder princess</h2>
 <p>While we could do this in the ggplot code, I find it’s easiest to do in the data frame as we shape our data. So, go back up to where we made the <code>princes_count</code> data frame and add a new pipe like this:</p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="reordering-factors.html#cb162-1" aria-hidden="true" tabindex="-1"></a>princess_count <span class="ot">&lt;-</span> survey <span class="sc">%&gt;%</span></span>
-<span id="cb162-2"><a href="reordering-factors.html#cb162-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(princess) <span class="sc">%&gt;%</span></span>
-<span id="cb162-3"><a href="reordering-factors.html#cb162-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">votes =</span> n) <span class="sc">%&gt;%</span></span>
-<span id="cb162-4"><a href="reordering-factors.html#cb162-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(votes)) <span class="sc">%&gt;%</span> </span>
-<span id="cb162-5"><a href="reordering-factors.html#cb162-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">princess =</span> <span class="fu">fct_reorder</span>(princess, votes)) <span class="co"># this line reorders the factors</span></span></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="reordering-factors.html#cb168-1" aria-hidden="true" tabindex="-1"></a>princess_count <span class="ot">&lt;-</span> survey <span class="sc">%&gt;%</span></span>
+<span id="cb168-2"><a href="reordering-factors.html#cb168-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(princess) <span class="sc">%&gt;%</span></span>
+<span id="cb168-3"><a href="reordering-factors.html#cb168-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">votes =</span> n) <span class="sc">%&gt;%</span></span>
+<span id="cb168-4"><a href="reordering-factors.html#cb168-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(votes)) <span class="sc">%&gt;%</span> </span>
+<span id="cb168-5"><a href="reordering-factors.html#cb168-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">princess =</span> <span class="fu">fct_reorder</span>(princess, votes)) <span class="co"># this line reorders the factors</span></span></code></pre></div>
 <p>The data frame won’t look any different but if you re-run the ggplot code chunk, you graphic will be reordered.</p>
 <div class="figure">
 <img src="images/factors-graphic-example.png" alt="" />
