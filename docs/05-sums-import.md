@@ -1,10 +1,8 @@
 # Summarize with math - import {#sums-import}
 
-> First draft of Sept 2021 rewrite
-
 With our Billboard assignment, we went through some common data wrangling processes — importing data, cleaning it and querying it for answers. All of our answers involved counting numbers of rows and we did so with two methods: The summary trio: `group_by`, `summmarize` and `arrange` (which I dub GSA), and then the shortcut `count()` that allows us to do all of that in one line.
 
-For this data story we need to leave `count` behind and stick with the summary trio GSA because now we must do different kinds of math in our summarize functions, mainly `sum()`.
+For this data story we need to leave `count` behind and stick with the summary trio GSA because now we must do different kinds of math within our summarize functions, mainly `sum()`.
 
 ## About the story: Military surplus transfers
 
@@ -45,8 +43,8 @@ Here is a sample of our main columns of interest, except for the date:
 
 
 ```{=html}
-<div id="htmlwidget-43e05376a214cd11ee58" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-43e05376a214cd11ee58">{"x":{"filter":"none","vertical":false,"data":[["KY","SC","CA","TX","OH"],["MEADE COUNTY SHERIFF DEPT","PROSPERITY POLICE DEPT","KERN COUNTY SHERIFF OFFICE","LEAGUE CITY POLICE DEPT","TRUMBULL COUNTY SHERIFF'S OFFICE"],["GENERATOR SET,DIESEL ENGINE","RIFLE,7.62 MILLIMETER","MARKER,TUBE TYPE","RIFLE,5.56 MILLIMETER","RIFLE,5.56 MILLIMETER"],[5,1,32,1,1],[4623.09,138,16.91,749,749]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>state<\/th>\n      <th>agency_name<\/th>\n      <th>item_name<\/th>\n      <th>quantity<\/th>\n      <th>acquisition_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[3,4]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-857fd2ffcd57ebf90d52" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-857fd2ffcd57ebf90d52">{"x":{"filter":"none","vertical":false,"data":[["KY","SC","CA","TX","OH"],["MEADE COUNTY SHERIFF DEPT","PROSPERITY POLICE DEPT","KERN COUNTY SHERIFF OFFICE","LEAGUE CITY POLICE DEPT","TRUMBULL COUNTY SHERIFF'S OFFICE"],["GENERATOR SET,DIESEL ENGINE","RIFLE,7.62 MILLIMETER","MARKER,TUBE TYPE","RIFLE,5.56 MILLIMETER","RIFLE,5.56 MILLIMETER"],[5,1,32,1,1],[4623.09,138,16.91,749,749]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>state<\/th>\n      <th>agency_name<\/th>\n      <th>item_name<\/th>\n      <th>quantity<\/th>\n      <th>acquisition_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[3,4]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ```
 <br>
 
@@ -68,7 +66,7 @@ All answers will be based on data from **Jan. 1, 2010** to present. In addition,
   - TRAVIS COUNTY SHERIFFS OFFICE
   - UNIV OF TEXAS SYSTEM POLICE HI_ED
   - WILLIAMSON COUNTY SHERIFF'S OFFICE
-- For each of the agencies above we'll summarize the **total quantity** and **acquisition_value** of each **item** shipped to the agency. We'll create a summarized list for each agency so we can write about each one.
+- For each of the agencies above we'll use summarize to get the  _summed_ **quantity** and _summed_ **total_value** of each **item** shipped to the agency. We'll create a summarized list for each agency so we can write about each one.
 - You'll research some of the more interesting items the agencies received (i.e. Google the names) so you can include them in your data drop.
 
 ## Create your project
@@ -86,6 +84,7 @@ Again, like Billboard, we'll create a notebook specifically for downloading, cle
 1. Create your RNotebook.
 1. Rename the title "Military Surplus import/clean".
 1. Remove the rest of the boilerplate template.
+1. Save the file and name it `01-import.Rmd`.
 
 ### Add the goals of the notebook
 
@@ -99,7 +98,7 @@ Again, like Billboard, we'll create a notebook specifically for downloading, cle
 - Remove unnecessary columns
 - Create a total_value column
 - Filter to Texas agencies
-- Filter the date range (since )
+- Filter the date range (since Jan. 1 2010)
 - Export the cleaned data
 ```
 
@@ -133,7 +132,7 @@ download.file("url_to_data", "path_to_folder/filename.csv")
 ```
 
 - The data can be found at this url: `https://github.com/utdata/rwd-r-leso/blob/main/data-processed/leso.csv?raw=true`
-- It should be saved in our `data-raw` folder with a name for the file.
+- It should be saved into your `data-raw` folder with a name for the file.
 
 Once you've built your code chunk and run it, you should make sure the file downloaded into the correct place: in your `data-raw` folder.
 
@@ -151,17 +150,22 @@ download.file("https://github.com/utdata/rwd-r-leso/blob/main/data-processed/les
 
 ### Import the data
 
-We are again working with a CSV, or comma-separated-values text file. I suggest you build the code chunk a bit at a time in this order:
+We are again working with a CSV, or comma-separated-values text file.
+
+1. Add a new section: Headline, text if needed, code chunk.
+
+I suggest you build the code chunk a bit at a time in this order:
 
 1. Use `read_csv()` to read the file from our `data-raw` folder.
 1. Edit that line to put the result into a tibble object using `<-`. Name your new tibble `leso`.
 1. Print the tibble as a table to the screen again by putting the tibble object on a new line and running it. This allows you to see it in columnar form.
 
 <details>
-  <summary>Try real hard first before clicking here for the answer</summary>
+  <summary>Try real hard first before clicking here for the answer. Note the book will also show the response.</summary>
   
 
 ```r
+# assigning the tibble
 leso <- read_csv("data-raw/leso.csv")
 ```
 
@@ -184,6 +188,7 @@ leso <- read_csv("data-raw/leso.csv")
 ```
 
 ```r
+# printing the tibble
 leso
 ```
 
@@ -248,7 +253,7 @@ This data set looks good (because I pre-prepared it fo you), but you always want
 Sometimes at this point in a project, you might not know what columns you need to keep and which you could do without. The nice thing about doing this with code in a notebook is we can always go back, make corrections and run our notebook again. In this case, I'm going to tell you which columns you can remove so we have a tighter data set to work with. We'll also learn a cool trick with `select()`.
 
 1. Start a new section with a headline, text to explain you are removing unneeded columns.
-2. Add the following code. I'll explain it below.
+2. Add a code chunk and the following code. I'll explain it below.
 
 
 ```r
@@ -275,9 +280,13 @@ leso_tight %>% glimpse()
 ## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
 ```
 
-We did a select like this with billboard, but note the third item within the `select()`: `-starts_with("demil")`. This removes both the `demil_code` and `demil_ic` columns in one move.
+We did a select like this with billboard, but note the third item within the `select()`:
 
-There are other special operators like that: `ends_with()`, `contains()` and many more. [Check out the docs on the select function](https://dplyr.tidyverse.org/reference/select.html).
+`-starts_with("demil")`.
+
+This removes both the `demil_code` and `demil_ic` columns in one move by finding all the columns that "start with 'demil'". The `-` before it negates (or removes) the columns.
+
+There are other special operators you can use with select(), like: `ends_with()`, `contains()` and many more. [Check out the docs on the select function](https://dplyr.tidyverse.org/reference/select.html).
 
 So now we have a tibble called `leso_tight` that we will work with in the next section.
 
@@ -285,7 +294,7 @@ So now we have a tibble called `leso_tight` that we will work with in the next s
 
 When we used `mutate()` to convert the date in the Billboard assignment, we were reassigning values in each row of a column back into the same column.
 
-In this assignment, we will use `mutate()` to create a **new** column with new values based on a calculation -- `quantity` multiplied by the `acquisition_value` -- for each row. Let's review the concept first
+In this assignment, we will use `mutate()` to create a **new** column with new values based on a calculation (`quantity` multiplied by the `acquisition_value`) for each row. Let's review the concept first.
 
 If you started with data like this:
 
@@ -314,8 +323,9 @@ Other math operators work as well: `+`, `-`,  `*` and `/`.
 
 So, now that we've talked about how it is done, I want you to:
 
-1. Use `mutate()` to create= a new `total_value` column that multiplies `quantity` times `acquisition_value`.
-2. Put the results into a new tibble called `leso_total` so we can all be on the same page.
+1. Create a new section with headline, text and code chunk.
+1. Use `mutate()` to create a new `total_value` column that multiplies `quantity` times `acquisition_value`.
+2. Assign those results into a new tibble called `leso_total` so we can all be on the same page.
 3. Glimpse the new tibble so you can check the results.
 
 <details>
@@ -346,6 +356,7 @@ leso_total %>% glimpse()
 ```
 
 </details>
+<br>
 
 **Check that it worked!!**. Use the glimpsed data to check the first item: For me, 10 * 1626.00 = 16260.00, which is correct!
 
@@ -353,7 +364,7 @@ Note that new columns are added at the end of the tibble. That is why I suggeste
 
 ### Filtering our data
 
-You used filter in the Billboard lesson to get No. 1 songs and to get a date range of data. We need to do something similar here to get only Texas data of a certain date range, but we'll build the filters one at a time so we can check the results.
+You used `filter()` in the Billboard lesson to get No. 1 songs and to get a date range of data. We need to do something similar here to get only Texas data of a certain date range, but we'll build the filters one at a time so we can check the results.
 
 #### Apply the TX filter
 
@@ -434,7 +445,7 @@ leso_total %>%
 
 How do you know this date filter worked? Well, we went from 8600+ rows to 7400+ rows, so we did something. You might look at the results table and click over to the `ship_date` columns so you can see some of the results, but you can't be sure the top row is the oldest. We could use an `arrange()` to test that, but I have another suggestion: `summary()`.
 
-Now, `summary()` is different than `summarize()`, which we'll do plenty of in a mintue. The summary function will show you some results about each column in your data, and when it is a number or date, it will give you some basic stats like min, max and median values.
+Now, `summary()` is different than `summarize()`, which we'll do plenty of in a mintue. The `summary()` function will show you some results about each column in your data, and when it is a number or date, it will give you some basic stats like min, max and median values.
 
 1. Use the image below to add a `summary()` function to your filtering data chunk.
 2. Once you've confirmed that the "Min." of `ship_date` is not older than 2010, then **REMOVE THE SUMMARY STATEMENT**.
@@ -497,3 +508,9 @@ leso_filtered %>% write_rds("data-processed/01-leso-tx.rds")
 
 </details>
 
+## Things we learned in this lesson
+
+This chapter was similar to when we imported data for Billboard, but we did introduce a couple of new concepts:
+
+- `starts_with()` can be used within a `select()` function to select columns with similar names. There are also `ends_with()` and `contains()` and others. [See the documentation on Select](https://dplyr.tidyverse.org/reference/select.html).
+- `summary()` gives you descriptive statistics about your tibble. We used it to check the "min" date, but you can also see averages (mean), max and medians.
