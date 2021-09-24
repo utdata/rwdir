@@ -24,7 +24,7 @@
 <meta name="author" content="Christian McDonald" />
 
 
-<meta name="date" content="2021-09-22" />
+<meta name="date" content="2021-09-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -294,6 +294,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.4.8" data-path="sums-import.html"><a href="sums-import.html#filtering-our-data"><i class="fa fa-check"></i><b>5.4.8</b> Filtering our data</a></li>
 <li class="chapter" data-level="5.4.9" data-path="sums-import.html"><a href="sums-import.html#export-cleaned-data"><i class="fa fa-check"></i><b>5.4.9</b> Export cleaned data</a></li>
 </ul></li>
+<li class="chapter" data-level="5.5" data-path="sums-import.html"><a href="sums-import.html#things-we-learned-in-this-lesson"><i class="fa fa-check"></i><b>5.5</b> Things we learned in this lesson</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="sums-analyze.html"><a href="sums-analyze.html"><i class="fa fa-check"></i><b>6</b> Summarize with math - analysis</a>
 <ul>
@@ -312,13 +313,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6.5" data-path="sums-analyze.html"><a href="sums-analyze.html#looking-a-local-agencies"><i class="fa fa-check"></i><b>6.5</b> Looking a local agencies</a>
 <ul>
-<li class="chapter" data-level="6.5.1" data-path="sums-analyze.html"><a href="sums-analyze.html#filter-in-a-vector"><i class="fa fa-check"></i><b>6.5.1</b> Filter in a vector</a></li>
+<li class="chapter" data-level="6.5.1" data-path="sums-analyze.html"><a href="sums-analyze.html#filtering-within-a-vector"><i class="fa fa-check"></i><b>6.5.1</b> Filtering within a vector</a></li>
 <li class="chapter" data-level="6.5.2" data-path="sums-analyze.html"><a href="sums-analyze.html#use-the-vector-to-build-this-filter"><i class="fa fa-check"></i><b>6.5.2</b> Use the vector to build this filter</a></li>
-<li class="chapter" data-level="6.5.3" data-path="sums-analyze.html"><a href="sums-analyze.html#item-quantities-totals-for-local-agencies"><i class="fa fa-check"></i><b>6.5.3</b> Item quantities, totals for local agencies</a></li>
-<li class="chapter" data-level="6.5.4" data-path="sums-analyze.html"><a href="sums-analyze.html#build-the-lists-for-other-agencies"><i class="fa fa-check"></i><b>6.5.4</b> Build the lists for other agencies</a></li>
-<li class="chapter" data-level="6.5.5" data-path="sums-analyze.html"><a href="sums-analyze.html#google-some-interesting-items"><i class="fa fa-check"></i><b>6.5.5</b> Google some interesting items</a></li>
 </ul></li>
-<li class="chapter" data-level="6.6" data-path="sums-analyze.html"><a href="sums-analyze.html#write-a-data-drop"><i class="fa fa-check"></i><b>6.6</b> Write a data drop</a></li>
+<li class="chapter" data-level="6.6" data-path="sums-analyze.html"><a href="sums-analyze.html#item-quantities-totals-for-local-agencies"><i class="fa fa-check"></i><b>6.6</b> Item quantities, totals for local agencies</a>
+<ul>
+<li class="chapter" data-level="6.6.1" data-path="sums-analyze.html"><a href="sums-analyze.html#build-the-lists-for-other-agencies"><i class="fa fa-check"></i><b>6.6.1</b> Build the lists for other agencies</a></li>
+<li class="chapter" data-level="6.6.2" data-path="sums-analyze.html"><a href="sums-analyze.html#google-some-interesting-items"><i class="fa fa-check"></i><b>6.6.2</b> Google some interesting items</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="sums-analyze.html"><a href="sums-analyze.html#write-a-data-drop"><i class="fa fa-check"></i><b>6.7</b> Write a data drop</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="plots.html"><a href="plots.html"><i class="fa fa-check"></i><b>7</b> Plots</a>
 <ul>
@@ -721,9 +724,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">18.4.1</span> Counting rows based on a column</h3>
 <p>If you are just counting the number of rows based on the values within a column (or columns), then <code>count()</code> is the key. When you use <code>count()</code> like this, a new column called <code>n</code> is created to hold the count of the rows. You can then use <code>arrange()</code> to sort the <code>n</code> column. (I’ll often rename <code>n</code> to something more useful. If you do, make sure you <code>arrange()</code> by the new name.)</p>
 <p>In this example, we are counting the number of rows for each princess in our survey data, the arranging by <code>'n</code> then in decending order.</p>
-<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="how-to-tackle-a-new-dataset.html#cb342-1" aria-hidden="true" tabindex="-1"></a>survey <span class="sc">%&gt;%</span> </span>
-<span id="cb342-2"><a href="how-to-tackle-a-new-dataset.html#cb342-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(princess) <span class="sc">%&gt;%</span> </span>
-<span id="cb342-3"><a href="how-to-tackle-a-new-dataset.html#cb342-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(n <span class="sc">%&gt;%</span> <span class="fu">desc</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="how-to-tackle-a-new-dataset.html#cb341-1" aria-hidden="true" tabindex="-1"></a>survey <span class="sc">%&gt;%</span> </span>
+<span id="cb341-2"><a href="how-to-tackle-a-new-dataset.html#cb341-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(princess) <span class="sc">%&gt;%</span> </span>
+<span id="cb341-3"><a href="how-to-tackle-a-new-dataset.html#cb341-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(n <span class="sc">%&gt;%</span> <span class="fu">desc</span>())</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -775,12 +778,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">18.4.2</span> Sum, mean and other aggregations</h3>
 <p>If you want to aggregate values in a column, like adding together values, or to find a mean or median, then you will want to use <code>group_by()</code> on your columns of interest, then use <code>summarize()</code> to aggregate the data in the manner you choose, like <code>sum()</code>, <code>mean()</code> or the number of rows <code>n()</code>.</p>
 <p>Here is an example where we use <code>group_by</code> and <code>summarize()</code> to add together values in our mixed beverage data. In this case, we had multiple rows for each name/address group, but we wanted to add together <code>total_receipts()</code> for each group.</p>
-<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="how-to-tackle-a-new-dataset.html#cb343-1" aria-hidden="true" tabindex="-1"></a>receipts <span class="sc">%&gt;%</span> </span>
-<span id="cb343-2"><a href="how-to-tackle-a-new-dataset.html#cb343-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(location_name, location_address) <span class="sc">%&gt;%</span> </span>
-<span id="cb343-3"><a href="how-to-tackle-a-new-dataset.html#cb343-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb343-4"><a href="how-to-tackle-a-new-dataset.html#cb343-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_sales =</span> <span class="fu">sum</span>(total_receipts)</span>
-<span id="cb343-5"><a href="how-to-tackle-a-new-dataset.html#cb343-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb343-6"><a href="how-to-tackle-a-new-dataset.html#cb343-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total_sales))</span></code></pre></div>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="how-to-tackle-a-new-dataset.html#cb342-1" aria-hidden="true" tabindex="-1"></a>receipts <span class="sc">%&gt;%</span> </span>
+<span id="cb342-2"><a href="how-to-tackle-a-new-dataset.html#cb342-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(location_name, location_address) <span class="sc">%&gt;%</span> </span>
+<span id="cb342-3"><a href="how-to-tackle-a-new-dataset.html#cb342-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb342-4"><a href="how-to-tackle-a-new-dataset.html#cb342-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_sales =</span> <span class="fu">sum</span>(total_receipts)</span>
+<span id="cb342-5"><a href="how-to-tackle-a-new-dataset.html#cb342-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb342-6"><a href="how-to-tackle-a-new-dataset.html#cb342-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total_sales))</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -822,10 +825,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="creating-columns-to-show-difference" class="section level3" number="18.4.3">
 <h3><span class="header-section-number">18.4.3</span> Creating columns to show difference</h3>
 <p>Sometimes you need to perform math on two columns to show the difference between them. Use <code>mutate()</code> to create the column and do the math. Here’s a pseudo-code example:</p>
-<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="how-to-tackle-a-new-dataset.html#cb344-1" aria-hidden="true" tabindex="-1"></a>new_or_reassigned_df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
-<span id="cb344-2"><a href="how-to-tackle-a-new-dataset.html#cb344-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb344-3"><a href="how-to-tackle-a-new-dataset.html#cb344-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_col_name =</span> (part_col <span class="sc">/</span> total_col) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb344-4"><a href="how-to-tackle-a-new-dataset.html#cb344-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="how-to-tackle-a-new-dataset.html#cb343-1" aria-hidden="true" tabindex="-1"></a>new_or_reassigned_df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb343-2"><a href="how-to-tackle-a-new-dataset.html#cb343-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb343-3"><a href="how-to-tackle-a-new-dataset.html#cb343-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_col_name =</span> (part_col <span class="sc">/</span> total_col) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb343-4"><a href="how-to-tackle-a-new-dataset.html#cb343-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 </div>
 </div>
 <div id="cleaning-up-categorical-data" class="section level2" number="18.5">
@@ -853,9 +856,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">18.7</span> Explore the distributions in your data</h2>
 <p>We didn’t talk about histograms in class, but sometimes you might want see the “distributon” of values in your data, i.e. how the values vary within the column. Are many of the values similar? A histogram can show this.</p>
 <p>Here is an example of a histogram from our wells data exploring the borehole_depth. Each bar represents the number of wells broken down in 100ft depth increments (set with <code>binwidth=100</code>). So the first bar shows that most of the wells (more than 7000) are less than 100 feet deep.</p>
-<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="how-to-tackle-a-new-dataset.html#cb345-1" aria-hidden="true" tabindex="-1"></a>wells <span class="sc">%&gt;%</span> </span>
-<span id="cb345-2"><a href="how-to-tackle-a-new-dataset.html#cb345-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> borehole_depth)) <span class="sc">+</span></span>
-<span id="cb345-3"><a href="how-to-tackle-a-new-dataset.html#cb345-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">100</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="how-to-tackle-a-new-dataset.html#cb344-1" aria-hidden="true" tabindex="-1"></a>wells <span class="sc">%&gt;%</span> </span>
+<span id="cb344-2"><a href="how-to-tackle-a-new-dataset.html#cb344-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> borehole_depth)) <span class="sc">+</span></span>
+<span id="cb344-3"><a href="how-to-tackle-a-new-dataset.html#cb344-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">100</span>)</span></code></pre></div>
 <div class="figure">
 <img src="images/explore-histogram.png" alt="" />
 <p class="caption">Borehole depth histogram</p>

@@ -24,7 +24,7 @@
 <meta name="author" content="Christian McDonald" />
 
 
-<meta name="date" content="2021-09-22" />
+<meta name="date" content="2021-09-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -294,6 +294,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.4.8" data-path="sums-import.html"><a href="sums-import.html#filtering-our-data"><i class="fa fa-check"></i><b>5.4.8</b> Filtering our data</a></li>
 <li class="chapter" data-level="5.4.9" data-path="sums-import.html"><a href="sums-import.html#export-cleaned-data"><i class="fa fa-check"></i><b>5.4.9</b> Export cleaned data</a></li>
 </ul></li>
+<li class="chapter" data-level="5.5" data-path="sums-import.html"><a href="sums-import.html#things-we-learned-in-this-lesson"><i class="fa fa-check"></i><b>5.5</b> Things we learned in this lesson</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="sums-analyze.html"><a href="sums-analyze.html"><i class="fa fa-check"></i><b>6</b> Summarize with math - analysis</a>
 <ul>
@@ -312,13 +313,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6.5" data-path="sums-analyze.html"><a href="sums-analyze.html#looking-a-local-agencies"><i class="fa fa-check"></i><b>6.5</b> Looking a local agencies</a>
 <ul>
-<li class="chapter" data-level="6.5.1" data-path="sums-analyze.html"><a href="sums-analyze.html#filter-in-a-vector"><i class="fa fa-check"></i><b>6.5.1</b> Filter in a vector</a></li>
+<li class="chapter" data-level="6.5.1" data-path="sums-analyze.html"><a href="sums-analyze.html#filtering-within-a-vector"><i class="fa fa-check"></i><b>6.5.1</b> Filtering within a vector</a></li>
 <li class="chapter" data-level="6.5.2" data-path="sums-analyze.html"><a href="sums-analyze.html#use-the-vector-to-build-this-filter"><i class="fa fa-check"></i><b>6.5.2</b> Use the vector to build this filter</a></li>
-<li class="chapter" data-level="6.5.3" data-path="sums-analyze.html"><a href="sums-analyze.html#item-quantities-totals-for-local-agencies"><i class="fa fa-check"></i><b>6.5.3</b> Item quantities, totals for local agencies</a></li>
-<li class="chapter" data-level="6.5.4" data-path="sums-analyze.html"><a href="sums-analyze.html#build-the-lists-for-other-agencies"><i class="fa fa-check"></i><b>6.5.4</b> Build the lists for other agencies</a></li>
-<li class="chapter" data-level="6.5.5" data-path="sums-analyze.html"><a href="sums-analyze.html#google-some-interesting-items"><i class="fa fa-check"></i><b>6.5.5</b> Google some interesting items</a></li>
 </ul></li>
-<li class="chapter" data-level="6.6" data-path="sums-analyze.html"><a href="sums-analyze.html#write-a-data-drop"><i class="fa fa-check"></i><b>6.6</b> Write a data drop</a></li>
+<li class="chapter" data-level="6.6" data-path="sums-analyze.html"><a href="sums-analyze.html#item-quantities-totals-for-local-agencies"><i class="fa fa-check"></i><b>6.6</b> Item quantities, totals for local agencies</a>
+<ul>
+<li class="chapter" data-level="6.6.1" data-path="sums-analyze.html"><a href="sums-analyze.html#build-the-lists-for-other-agencies"><i class="fa fa-check"></i><b>6.6.1</b> Build the lists for other agencies</a></li>
+<li class="chapter" data-level="6.6.2" data-path="sums-analyze.html"><a href="sums-analyze.html#google-some-interesting-items"><i class="fa fa-check"></i><b>6.6.2</b> Google some interesting items</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="sums-analyze.html"><a href="sums-analyze.html#write-a-data-drop"><i class="fa fa-check"></i><b>6.7</b> Write a data drop</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="plots.html"><a href="plots.html"><i class="fa fa-check"></i><b>7</b> Plots</a>
 <ul>
@@ -771,11 +774,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">12.3.2</span> Importing downloaded data</h3>
 <p>When I import this data into R, I typically use the <code>read_csv()</code> function and skip the first, less-descriptive row. The second row becomes the headers, which are really long but explain the columns. I then rename them to something shorter. If you are only using selected columns, then you might use <code>select()</code> to get only those you need.</p>
 <p>Here is an example:</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="census.html#cb169-1" aria-hidden="true" tabindex="-1"></a>tx_income <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/ACSDT5Y2017.B19013_2019-04-20T000022/ACSDT5Y2017.B19013_data_with_overlays_2019-04-20T000019.csv&quot;</span>, <span class="at">skip =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb169-2"><a href="census.html#cb169-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb169-3"><a href="census.html#cb169-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_income =</span> <span class="st">`</span><span class="at">Estimate!!Median household income in the past 12 months (in 2017 inflation-adjusted dollars)</span><span class="st">`</span>,</span>
-<span id="cb169-4"><a href="census.html#cb169-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_income_moe =</span> <span class="st">`</span><span class="at">Margin of Error!!Median household income in the past 12 months (in 2017 inflation-adjusted dollars)</span><span class="st">`</span></span>
-<span id="cb169-5"><a href="census.html#cb169-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="census.html#cb168-1" aria-hidden="true" tabindex="-1"></a>tx_income <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/ACSDT5Y2017.B19013_2019-04-20T000022/ACSDT5Y2017.B19013_data_with_overlays_2019-04-20T000019.csv&quot;</span>, <span class="at">skip =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb168-2"><a href="census.html#cb168-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb168-3"><a href="census.html#cb168-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_income =</span> <span class="st">`</span><span class="at">Estimate!!Median household income in the past 12 months (in 2017 inflation-adjusted dollars)</span><span class="st">`</span>,</span>
+<span id="cb168-4"><a href="census.html#cb168-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_income_moe =</span> <span class="st">`</span><span class="at">Margin of Error!!Median household income in the past 12 months (in 2017 inflation-adjusted dollars)</span><span class="st">`</span></span>
+<span id="cb168-5"><a href="census.html#cb168-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>()</span></code></pre></div>
 <p>Which yields this:</p>
 <table>
 <thead>
@@ -833,9 +836,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><a href="https://twitter.com/hannah_recht?lang=en">Hannah Recht</a> of Bloomberg News developed the <a href="https://hrecht.github.io/censusapi/">censusapi</a> to pull data directly from the Census Bureau into R. See that site for more examples and documentation on use.</p>
 <p>You can view the <a href="https://utdata.github.io/rwd-r-census-examples/01-censusapi.html">full notebook of the examples below here</a>.</p>
 <p>This example code chunk pulls the same data set we manually downloaded from the portal. We are asking for the median income estimate (<code>B19013_001E</code>) and margin of error (<code>B19013_001M</code>), but I’m also including the total population for the county with <code>B01003_001E</code>, which was not in the “B19013” table. This is another advantage to using the API, as we are pulling from multiple tables at once. To do this manually, we would have to search for and download two separate data sets and merge them.</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="census.html#cb170-1" aria-hidden="true" tabindex="-1"></a>tx_income <span class="ot">&lt;-</span> <span class="fu">getCensus</span>(<span class="at">name =</span> <span class="st">&quot;acs/acs5&quot;</span>, <span class="at">vintage =</span> <span class="dv">2017</span>, </span>
-<span id="cb170-2"><a href="census.html#cb170-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">vars =</span> <span class="fu">c</span>(<span class="st">&quot;NAME&quot;</span>,<span class="st">&quot;B01003_001E&quot;</span>, <span class="st">&quot;B19013_001E&quot;</span>, <span class="st">&quot;B19013_001M&quot;</span>), </span>
-<span id="cb170-3"><a href="census.html#cb170-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">region =</span> <span class="st">&quot;county:*&quot;</span>, <span class="at">regionin =</span> <span class="st">&quot;state:48&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="census.html#cb169-1" aria-hidden="true" tabindex="-1"></a>tx_income <span class="ot">&lt;-</span> <span class="fu">getCensus</span>(<span class="at">name =</span> <span class="st">&quot;acs/acs5&quot;</span>, <span class="at">vintage =</span> <span class="dv">2017</span>, </span>
+<span id="cb169-2"><a href="census.html#cb169-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">vars =</span> <span class="fu">c</span>(<span class="st">&quot;NAME&quot;</span>,<span class="st">&quot;B01003_001E&quot;</span>, <span class="st">&quot;B19013_001E&quot;</span>, <span class="st">&quot;B19013_001M&quot;</span>), </span>
+<span id="cb169-3"><a href="census.html#cb169-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">region =</span> <span class="st">&quot;county:*&quot;</span>, <span class="at">regionin =</span> <span class="st">&quot;state:48&quot;</span>)</span></code></pre></div>
 <p>Which ends up looking like this:</p>
 <table>
 <thead>
@@ -883,11 +886,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><a href="http://personal.tcu.edu/kylewalker/">Kyle Walker</a> is a professor at TCU who developed the <a href="https://walkerke.github.io/tidycensus/index.html">tidycensus</a> package to return census data in tidyverse-ready data frames. He also includes an option to pull the spatial geometry to make maps.</p>
 <p>You can <a href="https://utdata.github.io/rwd-r-census-examples/01-tidycensus.html">view this example in full</a>, with the map.</p>
 <p>With tidycensus we don’t have to specify to get the MOE with his <code>get_acs()</code> function, it just comes. We only supply the two variables we want, those for population and the median income.</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="census.html#cb171-1" aria-hidden="true" tabindex="-1"></a>tx_income <span class="ot">&lt;-</span> <span class="fu">get_acs</span>(</span>
-<span id="cb171-2"><a href="census.html#cb171-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">geography =</span> <span class="st">&quot;county&quot;</span>,</span>
-<span id="cb171-3"><a href="census.html#cb171-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">variables =</span> <span class="fu">c</span>(<span class="st">&quot;B01003_001&quot;</span>,<span class="st">&quot;B19013_001&quot;</span>),</span>
-<span id="cb171-4"><a href="census.html#cb171-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">state =</span> <span class="st">&quot;TX&quot;</span></span>
-<span id="cb171-5"><a href="census.html#cb171-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="census.html#cb170-1" aria-hidden="true" tabindex="-1"></a>tx_income <span class="ot">&lt;-</span> <span class="fu">get_acs</span>(</span>
+<span id="cb170-2"><a href="census.html#cb170-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">geography =</span> <span class="st">&quot;county&quot;</span>,</span>
+<span id="cb170-3"><a href="census.html#cb170-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">variables =</span> <span class="fu">c</span>(<span class="st">&quot;B01003_001&quot;</span>,<span class="st">&quot;B19013_001&quot;</span>),</span>
+<span id="cb170-4"><a href="census.html#cb170-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">state =</span> <span class="st">&quot;TX&quot;</span></span>
+<span id="cb170-5"><a href="census.html#cb170-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <p>And the result is this:</p>
 <table>
 <thead>
@@ -950,19 +953,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">12.4.4</span> Adding geometry to tidycensus</h3>
 <p>The tidycensus package also allows you to download the geometry or shapes of your data at the same time by adding <code>geometry = TRUE</code> to your tidycensus call. This allows you to quickly make static maps of your data.</p>
 <p>I’m removing the population variable because we don’t need it for the map.</p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="census.html#cb172-1" aria-hidden="true" tabindex="-1"></a>tx_income_map <span class="ot">&lt;-</span> <span class="fu">get_acs</span>(</span>
-<span id="cb172-2"><a href="census.html#cb172-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">geography =</span> <span class="st">&quot;county&quot;</span>,</span>
-<span id="cb172-3"><a href="census.html#cb172-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">variables =</span> <span class="fu">c</span>(<span class="st">&quot;B19013_001&quot;</span>),</span>
-<span id="cb172-4"><a href="census.html#cb172-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">state =</span> <span class="st">&quot;TX&quot;</span>,</span>
-<span id="cb172-5"><a href="census.html#cb172-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">geometry =</span> <span class="cn">TRUE</span> <span class="co"># gets shapes</span></span>
-<span id="cb172-6"><a href="census.html#cb172-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="census.html#cb171-1" aria-hidden="true" tabindex="-1"></a>tx_income_map <span class="ot">&lt;-</span> <span class="fu">get_acs</span>(</span>
+<span id="cb171-2"><a href="census.html#cb171-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">geography =</span> <span class="st">&quot;county&quot;</span>,</span>
+<span id="cb171-3"><a href="census.html#cb171-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">variables =</span> <span class="fu">c</span>(<span class="st">&quot;B19013_001&quot;</span>),</span>
+<span id="cb171-4"><a href="census.html#cb171-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">state =</span> <span class="st">&quot;TX&quot;</span>,</span>
+<span id="cb171-5"><a href="census.html#cb171-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">geometry =</span> <span class="cn">TRUE</span> <span class="co"># gets shapes</span></span>
+<span id="cb171-6"><a href="census.html#cb171-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <p>Now we can use <code>geom_sf()</code> to plot the <code>estimate</code> value to each county in shapefile in ggplot.</p>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="census.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tx_income_map) <span class="sc">+</span> </span>
-<span id="cb173-2"><a href="census.html#cb173-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill=</span>estimate), <span class="at">color=</span><span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
-<span id="cb173-3"><a href="census.html#cb173-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
-<span id="cb173-4"><a href="census.html#cb173-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">&#39;transparent&#39;</span>)) <span class="sc">+</span></span>
-<span id="cb173-5"><a href="census.html#cb173-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_distiller</span>(<span class="at">palette=</span><span class="st">&quot;Oranges&quot;</span>, <span class="at">direction=</span><span class="dv">1</span>, <span class="at">name=</span><span class="st">&quot;Median income&quot;</span>) <span class="sc">+</span></span>
-<span id="cb173-6"><a href="census.html#cb173-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;2017 median income in Texas counties&quot;</span>, <span class="at">caption=</span><span class="st">&quot;Source: Census Bureau/ACS5 2017&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="census.html#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tx_income_map) <span class="sc">+</span> </span>
+<span id="cb172-2"><a href="census.html#cb172-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill=</span>estimate), <span class="at">color=</span><span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb172-3"><a href="census.html#cb172-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb172-4"><a href="census.html#cb172-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">&#39;transparent&#39;</span>)) <span class="sc">+</span></span>
+<span id="cb172-5"><a href="census.html#cb172-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_distiller</span>(<span class="at">palette=</span><span class="st">&quot;Oranges&quot;</span>, <span class="at">direction=</span><span class="dv">1</span>, <span class="at">name=</span><span class="st">&quot;Median income&quot;</span>) <span class="sc">+</span></span>
+<span id="cb172-6"><a href="census.html#cb172-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;2017 median income in Texas counties&quot;</span>, <span class="at">caption=</span><span class="st">&quot;Source: Census Bureau/ACS5 2017&quot;</span>)</span></code></pre></div>
 <p>Which yields this:</p>
 <div class="figure">
 <img src="images/census-tx-tidycensus.png" alt="" />
