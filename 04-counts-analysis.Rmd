@@ -1,21 +1,33 @@
-# Wrangle {#wrangle}
+# Summarize with count - analysis {#count-analysis}
+
+> THIS IS IN MIDDLE OF REWRITE AFTER FALL 2021.
+
+## Rewrite goals
+
+- Rearranging order of challenges to more clearly cover GSA.
+- Move talk of distinct to end
+- Cover count at the very end. Don't confuse learning GSA.
+
+---
 
 This chapter continues the Billboard Hot 100 project. In the previous chapter we downloaded, imported and cleaned the data. We'll be working in the same project.
 
 ## Goals of this lesson
 
-- Dive deeper into dplyr functions to filter and summarize data.
+- To use group by/summarize/arrange combination to count rows.
+- To use filter to both focus data for summaries, and to logically end summary lists.
+- Introduce the shortcut `count()` function.
 
-## About the story
+## The questions we'll answer
 
 Now that we have the Billboard Hot 100 charts data in our project it's time to find the answers to the following questions:
 
-- Who are the 10 performers with the most appearances on the Hot 100 chart at any position?
+- Which performers had the most appearances on the Hot 100 chart at any position?
+- Which performer/song combination has been on the charts the most number of weeks at any position?
+- Which performer/song combination was No. 1 for the most number of weeks?
 - Which performer had the most songs reach No. 1?
 - Which performer had the most songs reach No. 1 in the most recent five years?
 - Which performer had the most Top 10 hits overall?
-- Which performer/song combination has been on the charts the most number of weeks at any position?
-- Which performer/song combination was No. 1 for the most number of weeks?
 
 > What are your guesses for the questions above? No peeking!
 
@@ -85,7 +97,7 @@ We've used `select()`, `mutate()` and `arrange()` already, but we'll introduce m
 
 ## Most appearances
 
-Our first question: Who are the 10 performers with the most appearances on the Hot 100 chart at any position?
+Our first question: Which performers had the most appearances on the Hot 100 chart at any position?
 
 ### Group & Aggregate
 
@@ -186,7 +198,7 @@ That's great, but who had the most?
 
 ### Arrange the results
 
-Remember in our last notebook when we had to sort the songs by date. We'll use the same `arrange()` function here, but we'll change the result to **desc**ending order, because journalists almost always want to know the _most_ of something.
+Remember in our import notebook when we had to sort the songs by date. We'll use the same `arrange()` function here, but we'll change the result to **desc**ending order, because journalists almost always want to know the _most_ of something.
 
 1. Add the pipe and arrange function below and run it, then I'll explain.
 
@@ -201,6 +213,8 @@ hot100 %>%
 - _Within the arrange function_ we piped the "appearances" part into another function: `desc()` to change the order.
 
 So if you read that line in English it would be "arrange by (appearances AND THEN descending order)".
+
+You may also see this as `arrange(desc(appearances))`.
 
 ### Get the top of the list
 
@@ -228,56 +242,44 @@ If I was to explain the code above in English, I would descibe it as this:
 
 Since we have our answer here and we're not using the result later, we don't need to create a new tibble or anything.
 
-### A shortcut: count()
-
-You are going to think I'm a horrible person, but there is an easier way to do this ...
-
-We count stuff in data science (and journalism) all the time. Because of this tidyverse has a shortcut to group and count rows of data. I needed to show you the long way because a) we will use `group_by()` and `summarize()` with other math that isn't just counting rows, and b) you need to understand what is happening when you use `count()`, which is really just using group_by/summarize underneath.
-
-The [`count()`](https://dplyr.tidyverse.org/reference/count.html) function takes the columns you want to group and then does the summarize on `n()` for you:
-
-```{r count-short}
-hot100 %>% 
-  count(performer)
-```
-
-To get the same pretty table you still have to rename the new column and reverse the sort, you just do it differently as arguments within the `count()` function. You must still pipe into `head()` to limit the output. You can view the [`count()` options here.](https://dplyr.tidyverse.org/reference/count.html)
-
-- Add this chunk to your notebook (with a note you are trying `count()`) so you have it to refer to.
-
-```{r count-expanded}
-hot100 %>% 
-  count(performer, name = "appearances", sort = TRUE) %>%
-  head(10)
-```
-
-So you have to do the same things get the nice Top 10 table, but when you just need a quick count to get an answer, then `count()` is brilliant. 
-
 > AN IMPORTANT NOTE: The list we've created here is based on unique `performer` names, and as such considers collaborations separately. For instance, Drake is near the top of the list but those are only songs he performed alone and not the many, many collaborations he has had with other performers. So, songs by "Drake" are counted separately than "Drake featuring Future" and "Future featuring Drake". You'll need to make this clear when you write your data drop in a later assignment.
 
 So, **Taylor Swift** ... is that who you guessed? A little history here, Swift past Elton John in the summer of 2019. Elton John has been around a long time, but Swift's popularity at a young age, plus changes in how Billboard counts plays in the modern era (like streaming) has rocketed her to the top. (Sorry, Rocket Man).
 
+## Performer/song with most appearances
 
-## Most songs to reach No. 1
+Our quest here is this: **Which performer/song combination has been on the charts the most number of weeks at any position?**
 
-Our second quest is to find "Which performer has the most No. 1 hits?" The answer might be easier to guess, but perhaps not.
+This is very similar to our quest to find the artist with the most appearances, but we have to consider `performer` and `song` together because different artists can perform songs of the same name. For example, 17 different performers have a song called "Hold On" on the Hot 100 (at least through 2020).
 
-Again, let's think through the logic of what we have to do to get our answer:
+1. Start a new section (headline, text describing goal and a new code chunk.)
+1. Add the code below to the chunk and run it and then I'll outline it below.
 
-- We need to consider only No. 1 songs.
-- Because a song could be No. 1 for more than one week, we need to consider the same song/performer combination only once.
-- Once we have all the unique No. 1 songs in a list, then we can count how many times a performer is on the list.
+```{r appear-start}
+hot100 %>% # start with the data, and then ...
+  group_by(performer, song) %>% # group by performer and song, and then ..
+  summarize(appearances = n()) %>% # name the column, then fill it with the number of rows ...
+  arrange(appearances %>% desc()) # arrange by appearances in descending order
+```
 
-To solve our first criteria, we need to learn a new function: [`filter()`](https://dplyr.tidyverse.org/reference/filter.html).
+The logic is actually straightforward:
 
-### Filter
+- We want to count combinations over two columns: `song, performer`. When you  group_by more then one column, it will group rows where the values are the same in all columns. i.e. all rows with both "Rush" as a performer and _Tom Sawyer_ as a song. Rows with "Rush" and _Red Barchetta_ will be considered in a different group.
+- With `summarize()`, we name the new column first (we chose `appearances`), then describe what should fill it. In this case we filled the column using the `n()`, which counts the number of rows in each group.
+- Once you have a summary table, we sort it by appearances and set it to **desc**ending order, which puts the highest value on the top.
+
+We will _often_ use `group_by()`, `summarize()` and `arrange()` together, which is why I'll refer to this as the GSA trio. They are like three close friends that always want to be together.
+
+### Introducing filter()
+
+I showed you `head()` in the previous quest and that is useful to quickly cut off a list, but it does so indiscriminately. In this case, if we use the default `head()` that retains six rows, it would cut right in the middle of a tie at 68 records. (at least with data through 2020). A better strategy is to cut off the list at a logical place using `filter()`. Let's dive into this new function:
 
 Filtering is one of those Basic Data Journalism Functions:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ckojM4rtlMc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <br>
-The `filter()` function of dplyr reduces the number of rows in our data based on one or more criteria.
+The dplyr function `filter()` reduces the number of rows in our data based on one or more criteria.
 
 The syntax works like this:
 
@@ -291,15 +293,15 @@ hot100 %>%
   filter(performer == "Judas Priest")
 ```
 
-The `filter()` function works in this order:
+The `filter()` function typically works in this order:
 
 - What is the variable (or column) you are searching in.
 - What is the comparison you want to do. Equal to? Greater than?
 - What is the observation (or value in the data) you are looking for?
 
-Note the two equals signs `==` there. It's important to use two of them when you are looking for "equals", as a single `=` will not work, as that means something else in R.
+Note the two equals signs `==` in our Judas Priest example above. It's important to use two of them when you are looking for "equals", as a single `=` will not work, as that means something else in R.
 
-### Comparisons: Logical tests
+#### Comparisons: Logical tests
 
 There are a number of these logical test for the comparison:
 
@@ -315,59 +317,143 @@ There are a number of these logical test for the comparison:
 | **is.na(**x**)**  | Is NA                    |
 | **!is.na(**x**)** | Is not NA                |
 
-### Filter for week_position
+Where you apply a filter matters. If we filter before group by/summarize/arrange (GSA) we are focusing the data before we summarize. If we filter after the GSA, we are affecting only the results of the summarize function, which is what we want to do here.
 
-Now that we've seen how filter works, let's see it in action:
+#### Filter to a logical cutoff
 
-1. Start a new section with a headline and text of what you are doing.
-1. Add a code chunk and add the following:
+In this case, I want you to use filter _after_ the GSA actions to include **only results with 65 or more appearances**.
 
-```{r filter-start}
+1. Edit your current chunk to add a filter as noted in the example below. I'll explain it afte.
+
+```{r song-appear-filter}
+hot100 %>%
+  group_by(performer, song) %>%
+  summarize(appearances = n()) %>%
+  arrange(appearances %>% desc()) %>% 
+  filter(appearances >= 65) # this is the new line
+```
+
+Let's break down that last line:
+
+- `filter()` is the function.
+- The first argument in the function is the column we are looking in, `appearances` in our case.
+- We then provide a comparison operator `>=` to get "greater than or equal to".
+- We then give the value to compare, `65` in our case.
+
+## Song/Performer with most weeks at No. 1
+
+We introduced `filter()` in rhe last quest to limit the summary. For this quest you'll need to filter the data _before_ the group by/summarize/arrange trio.
+
+Let's review the quest: **Which performer/song combination was No. 1 for the most number of weeks?**
+
+While this quest is very similar to the one above, it _really_ helps to think about the logic of what you nneed and then build the query one line at a time to make each line works.
+
+Let's talk through the logic:
+
+- We are starting with our `hot100` data.
+- Do we want to consider all the data? In this case, no: We only want songs that have a `week_position` of 1. This means we will **filter** before any summarizing.
+- Then we want to count the number of rows with the same **performer** and **song** combinations. This means we need to `group_by` both `performer` and `song`.
+- Since we are **counting row**, we need use `n()` as our summarize function, which counts the **number** or rows in each group.
+
+So let's step through this with code: 
+
+1. Create a section with a headline, text and code chunk
+2. Start with the `hot100` data and then pipe into `filter()`.
+1. Within the filter, set the `week_position` to be `==` to `1`.
+1. Run the result and check it
+
+```{r song-no1-filter}
 hot100 %>% 
   filter(week_position == 1)
 ```
 
-Since we are filtering on a number `1` and not the text character "1" we don't put the value in quotes. If you are looking for text, you need to put it in quotes: `performer == "Robert Plant"`.
+The result should show _only_ songs with a `1` for `week_position`.
 
-### Complex filters
+The rest of our logic is just like our last quest. We need to group by the `song` and `performer` and then `summarize` using `n()` to count the rows.
 
-Don't do these, but you'll need them for reference later:
+1. Edit your existing chunk to add the `group_by` and `summarize` functions. Name your new column `appearances` and set it to count the rows with `n()`.
 
-If you want single expression with multiple criteria, you write two equations and combine with `&`. Only rows with both sides being true are returned.
+> While I say to write and run your code one line at a time, `group_by()` won't actually show you any different results, so I usually write `group_by()` and `summarize()` together.
 
-```r
-# gives you only Poor Little Fool rows where song is No. 1, but not any other position
-filter(song == "Poor Little Fool" & week_position == 1)
+<detail>
+  <summary>Try this on your own before you peek</summary>
+```{r song-no1-group}
+hot100 %>%
+  filter(week_position == 1) %>% 
+  group_by(performer, song) %>%
+  summarize(appearances = n())
 ```
+</detail>
 
-If you want an "or" filter, then you write two equations with a `|` between them.
+Look at your results to make sure you have the three columns you expect: performer, song and appearances.
 
-> `|` is the _Shift_ of the `\` key above Return on your keyboard. That `|` character is also sometimes called a "pipe", which gets confusing in R with ` %>% `.)
+This doesn't quite get us where we want because it is alphabetically by the perfomer. You need to **arrange** the data to show us the most appearances at the top.
 
-```r
-# gives you Taylor or Drake songs
-filter(performer == "Taylor Swift" | performer == "Drake")
+1. Edit your chunk to add the `arrange()` function to sort by `appearances` in `desc()` order. This is just like our last quest.
+
+<detail>
+  <summary>Maybe check your last chunk on how you did this</summary>
+  
+```{r song-no1-arrange}
+hot100 %>%
+  filter(week_position == 1) %>% 
+  group_by(performer, song) %>%
+  summarize(appearances = n()) %>%
+  arrange(appearances %>% desc())
 ```
+</detail>
 
-If you have multiple criteria, you separate them with a comma `,`. Note I've also added returns to make it more readable.
+You have your answer now (you go, Lil Nas) but we are listing more than 1,000 rows. Let's cut this off at a logical place like we did in our last quest.
 
-```r
-# gives us rows with either Taylor Swift or Drake, but only those at No. 1
-filter(
-  performer == "Taylor Swift" | performer == "Drake",
-  week_position == 1
-)
+1. Use `filter()` to cut your summary off at `appearances` of 14 or greater.
+
+<detail>
+  <summary>You've done this before ... try it on your own!</summary>
+
+```{r song-no1-cutoff}
+hot100 %>%
+  filter(week_position == 1) %>% 
+  group_by(performer, song) %>%
+  summarize(appearances = n()) %>%
+  arrange(appearances %>% desc()) %>% 
+  filter(appearances >= 14)
 ```
+</detail> 
 
-Getting back to our quest to find the artist with the most No. 1 hits ...
+Now you have the answers to the performer/song with the most weeks at No. 1 with a logical cutoff. If you add to the data, that logic will still hold and not cut off arbitrarily at a certain number of records.
 
-If you look at our original filter result, you now only have No. 1 songs. But also note that Ricky Nelson's _Poor Little Fool_ is listed more than once (as are other songs.) That's because it was No. 1 on more than one week.
+## Performer with most songs to reach No. 1
+
+Our new quest is this: **Which performer had the most songs reach No. 1?** The answer might be easier to guess if you know music history, but perhaps not.
+
+This sounds similar to our last quest, but there is a **distinct** difference. (That's a bad joke that will reveal itself here in a bit.)
+
+Again, let's think through the logic of what we have to do to get our answer:
+
+- We need to consider only No. 1 songs. (filter!)
+- Because a song could be No. 1 for more than one week, we need to consider the same song/performer combination only once. (We'll introduce a new function for this.)
+- Once we have all the unique No. 1 songs in a list, then we can group by **performer** and count how many times many times they are on the list.
+
+Let's start by getting the No. 1 songs. You've did this in the last quest.
+
+1. Create a new section with a headline, text and code chunk.
+1. Start with the `hot100` data and filter it so you only have `week_position` of 1.
+
+<detail>
+  <summary>Try on your own. You got this!</summary.
+```{r most-no1-filter}
+hot100 %>% 
+  filter(week_position == 1)
+```
+</detail>  
+
+Now look at the result. Note how "Poor Little Fool" shows up more than once? Other songs to as well. If we counted rows by `performer` now, we could count that song more than once. That's not what we want. 
 
 ### Using distinct()
 
-Our next challenge in our logic is to show only unique song and performer combinations. We do this with [`distinct()`](https://dplyr.tidyverse.org/reference/distinct.html).
+Our next challenge in our logic is to show only unique performer/song combinations. We do this with [`distinct()`](https://dplyr.tidyverse.org/reference/distinct.html).
 
-We feed the `distinct()` function with the variables we want to consider together, in our case the `song` and `performer`. All other columns are dropped since including them would mess up their distinctness.
+We feed the `distinct()` function with the variables we want to consider together, in our case the `perfomer` and `song`. All other columns are dropped since including them would mess up their distinctness.
 
 1. Add the distinct() function to your code chunk.
 
@@ -383,10 +469,13 @@ Now we have a list of just No. 1 songs!
 
 Now that we have our list of No. 1 songs, we can "count" the number of times a performer is in the list to know how many No. 1 songs they have.
 
-We'll use the group_by/summarize combination for this. We `group_by()` the `performer`, and then we find the number `n()` of rows in each group. Lastly, we need to `arrange()` to get the most on the top.
+We'll again use the group_by/summarize combination for this, but we are only grouping by `performer` since that is what we are counting.
 
-1. Add the steps for the group_by, summarize and arrange functions:
+1. Edit your chunk to add a group_by on `performer` and then a `summarize()` to count the rows. Name the new column `no_hits`. Run it.
+1. After you are sure the group_by/summarize runs, add an `arrange()` to show the `no1_hits` in descending order.
 
+<detail>
+  <summary>You've done this. Give it ago!</summary>
 ```{r no1_group}
 hot100 %>% 
   filter(week_position == 1) %>%
@@ -395,45 +484,40 @@ hot100 %>%
   summarize(no1_hits = n()) %>%
   arrange(no1_hits %>% desc())
 ```
+</detail>
 
-### Filter after summary
+### Filter for a good cutoff
 
-OK, we're going to do one last thing here ... we don't need all 744 rows of our summary We could use `head()` to include just the top 10 rows, but what if our "break" is in the middle of tied records? (i.e., if the 11th record "Daryl Hall John Oates" also had 7 chart toppers. They didn't, but we'll have to deal with other ties like this later.)
+Like we did earlier, use a `filter()` after your arrange to cut the list off at a logical place.
 
-Instead of taking the Top 10 rows, we are instead going to filter the rows to those that have 7 hits or more. We are doing this to show you can not only filter your data _before_ your group, but you can also filter on the _result_ after your summary.
+1. Edit your chunk to filter the summary to show performer with `8` or more No. 1 hits.
 
-1. Modify your code to add the last filter. I've commented all the lines to explain what they do. You should do the same in your own words.
-
-```{r no1_afilter}
+<detail>
+  <summary>You can do this. Really</summary>
+```{r no1_cutoff}
 hot100 %>% 
-  filter(week_position == 1) %>% # filters to no 1 songs
-  distinct(song, performer) %>% # gets a unique list
-  group_by(performer) %>% # groups by the performer
-  summarize(no1_hits = n()) %>% # gets number or rows in groups, names new column
-  arrange(no1_hits %>% desc()) %>%  # sorts by highest no_hits
-  filter(no1_hits >= 7) # filters the result to 7+
+  filter(week_position == 1) %>%
+  distinct(song, performer) %>%
+  group_by(performer) %>%
+  summarize(no1_hits = n()) %>%
+  arrange(no1_hits %>% desc()) %>% 
+  filter(no1_hits >= 8)
 ```
 
-### Try count on your own
-
-OK, in the first challenge I also showed you how you can get this same result using `count()`. I want you to try and do this on your own.
-
-1. Create a new code block and find the same answer using `count()` instead of group_by, summarize and arrange.
-
-<details>
-  <summary>Try real hard first before clicking here for the answer</summary>
-
-```{r no1-count-alt}
-hot100 %>% 
-  filter(week_position == 1) %>% 
-  distinct(song, performer) %>% 
-  count(performer, sort = T, name = "no1_hits") %>% 
-  filter(no1_hits >= 7)
-```
-
-<details>
+</detail>
 
 ## No. 1 hits in last five years
+
+
+
+
+
+> THIS IS WHERE I STOPPED TONIGHT
+
+
+
+
+
 
 Which performer had the most songs reach No. 1 in the most recent five years?
 
@@ -489,29 +573,34 @@ The logic is very similar to the "most No. 1 hits" quest you did above, but you 
 1. Do it using the group_by/summarize method
 1. Filter to cut off at a logical number or rows. (i.e., don't stop at a tie)
 
-## Song/Performer with most appearances at any position
 
-Which performer/song combination has been on the charts the most number of weeks at any position?
 
-OK, this time we'll talk through the logic, but you have to give your own answer using the count() method.
 
-The logic is actually straightforward:
 
-- We want to count combinations over two columns: `song, performer`. When you give a count (or group_by) more then one column, it will group rows where the values are the same in all columns. i.e. all rows with both "Rush" as a performer and _Tom Sawyer_ as a song.
-- Once you have a summary table, sort it with the most appearances on the top and then filter it to a logical stopping place.
+### A shortcut: count()
 
-So, here's the quest:
+You are going to think I'm a horrible person, but there is an easier way to do this ...
 
-1. Start a new section with a proper headline and description
-1. Use the `count()` method to find the song/performer combination with the most rows, sorting it properly within count.
-1. Filter the summary table to a logical end.
+We count stuff in data science (and journalism) all the time. Because of this tidyverse has a shortcut to group and count rows of data. I needed to show you the long way because a) we will use `group_by()` and `summarize()` with other math that isn't just counting rows, and b) you need to understand what is happening when you use `count()`, which is really just using group_by/summarize underneath.
 
-## Song/Performer with most weeks at No. 1
+The [`count()`](https://dplyr.tidyverse.org/reference/count.html) function takes the columns you want to group and then does the summarize on `n()` for you:
 
-This last quest is all on your own. You need to figure out the logic and then execute it. You can use any method you want (group_by/summarizearrange or count), but make sure the table is sorted correctly and ends logically.
+```{r count-short}
+hot100 %>% 
+  count(performer)
+```
 
-1. Start a section and describe it
-2. Make a list of songs/performers that count the number of weeks at No. 1. Sort by the most weeks at top and end the table logically.
+To get the same pretty table you still have to rename the new column and reverse the sort, you just do it differently as arguments within the `count()` function. You must still pipe into `head()` to limit the output. You can view the [`count()` options here.](https://dplyr.tidyverse.org/reference/count.html)
+
+- Add this chunk to your notebook (with a note you are trying `count()`) so you have it to refer to.
+
+```{r count-expanded}
+hot100 %>% 
+  count(performer, name = "appearances", sort = TRUE) %>%
+  head(10)
+```
+
+So you have to do the same things get the nice Top 10 table, but when you just need a quick count to get an answer, then `count()` is brilliant.
 
 ## Review of what we've learned
 
@@ -532,3 +621,41 @@ We introduced a number of new functions in this lesson, most of them from the [d
 ## Soundtrack for this assignment
 
 This lesson was constructed with the vibes of [The Bright Light Social Hour](https://www.thebrightlightsocialhour.com/home). They've never had a song on the Hot 100 (at least not through 2020).
+
+## Leftovers
+
+
+
+### Complex filters
+
+Don't do these, but you'll need them for reference later:
+
+If you want single expression with multiple criteria, you write two equations and combine with `&`. Only rows with both sides being true are returned.
+
+```r
+# gives you only Poor Little Fool rows where song is No. 1, but not any other position
+filter(song == "Poor Little Fool" & week_position == 1)
+```
+
+If you want an "or" filter, then you write two equations with a `|` between them.
+
+> `|` is the _Shift_ of the `\` key above Return on your keyboard. That `|` character is also sometimes called a "pipe", which gets confusing in R with ` %>% `.)
+
+```r
+# gives you Taylor or Drake songs
+filter(performer == "Taylor Swift" | performer == "Drake")
+```
+
+If you have multiple criteria, you separate them with a comma `,`. Note I've also added returns to make it more readable.
+
+```r
+# gives us rows with either Taylor Swift or Drake, but only those at No. 1
+filter(
+  performer == "Taylor Swift" | performer == "Drake",
+  week_position == 1
+)
+```
+
+Getting back to our quest to find the artist with the most No. 1 hits ...
+
+If you look at our original filter result, you now only have No. 1 songs. But also note that Ricky Nelson's _Poor Little Fool_ is listed more than once (as are other songs.) That's because it was No. 1 on more than one week.
