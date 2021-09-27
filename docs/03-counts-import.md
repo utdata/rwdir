@@ -1,4 +1,4 @@
-# Import {#import}
+# Summarize with count - import {#counts-import}
 
 > “If you’re doing data analysis every day, the time it takes to learn a programming language pays off pretty quickly because you can automate more and more of what you do.” --Hadley Wickham, chief scientist at RStudio
 

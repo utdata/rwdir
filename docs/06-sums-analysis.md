@@ -8,7 +8,7 @@ In this chapter we will start querying the data using **summarize with math**, b
 
 Our learning goals are:
 
-- To use the combination of `group_by()`, `summarize()` and `arrange()` to add columns of date using `sum()`.
+- To use the combination of `group_by()`, `summarize()` and `arrange()` to add columns of data using `sum()`.
 - To use different `group_by()` groupings in specific ways to get desired results.
 - To practice using `filter()` on those summaries to better see certain results, including filtering with*in* a vector (or list of strings).
 - We'll research and write about some of the findings, practicing data-centric ledes and sentences describing data.
@@ -86,7 +86,7 @@ Let's take the first question: For each agency in Texas, find the summed **quant
 
 Let's break this down:
 
-- "For each agency in Texas". For all the questions, we only want Texas agencies. We took care of this in nthe import book so TX agencies shouuld already filtered.
+- "For each agency in Texas". For all the questions, we only want Texas agencies. We took care of this in nthe import book so TX agencies should already filtered.
 - But the "For each agency" part tells me I need to **group_by** the `agency_name` so I can summarize totals within each agency.
 - "find the summed **quantity** and summed **total_value**": Because I'm looking for a total (or `sum()` of columns) I need `summarize()`.
 
@@ -304,19 +304,19 @@ When we talked about filtering with the Billboard project, we discussed using th
 
 ```r
 data %>% 
-  filter(column_name == "Test to find" | column_name == "More text to find")
+  filter(column_name == "Text to find" | column_name == "More text to find")
 ```
 
 That can get pretty unwieldy if you have more than a couple of things to look for.
 
-There is another operator `%in%` where we can search for multiple items from a list. (This list of terms is officially called a vector, but whatever.) Think of it like this in plain English: *Filter* the *column* for things *in* this *list*>
+There is another operator `%in%` where we can search for multiple items from a list. (This list of terms is officially called a vector, but whatever.) Think of it like this in plain English: *Filter* the *column* for things *in* this *list*.
 
 ```r
 data %>% 
   filter(col_name %in% c("This string", "That string"))
 ```
 
-We can take this a step further by saving the items in our list into an R object so we can reuse that list and not have to type out all the terms each time we use them
+We can take this a step further by saving the items in our list into an R object so we can reuse that list and not have to type out all the terms each time we use them.
 
 ```r
 list_of_strings <- c(
@@ -335,6 +335,7 @@ data %>%
 1. Start with the `tx_quants_totals` tibble you created for totals by agency and then use `filter()` and `%in%` to filter by your new `local_agencies` list.
 
 These are the agencies:
+
 - AUSTIN POLICE DEPT
 - SAN MARCOS POLICE DEPT
 - TRAVIS COUNTY SHERIFFS OFFICE
