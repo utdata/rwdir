@@ -1,3 +1,0 @@
-# Plotly {#plotly}
-
-Introduce here.

@@ -1,8 +1,9 @@
 # Verbs {#verbs}
 
-## NEEDS REVIEW
+> NEEDS REVIEW
 
-- fix lists
+- Needs `pivot_longer()` and `pivot_wider()` instead of gather and spread.
+
 ---
 
 An opinionated list of the most common [Tidyverse](https://www.tidyverse.org/) and other R verbs used with data storytelling.

@@ -1,22 +1,12 @@
 # Summarize with count - analysis {#count-analysis}
 
-> THIS IS IN MIDDLE OF REWRITE AFTER FALL 2021.
-
-## Rewrite goals
-
-- Rearranging order of challenges to more clearly cover GSA.
-- Move talk of distinct to end
-- Cover count at the very end. Don't confuse learning GSA.
-
----
-
 This chapter continues the Billboard Hot 100 project. In the previous chapter we downloaded, imported and cleaned the data. We'll be working in the same project.
 
 ## Goals of this lesson
 
 - To use group by/summarize/arrange combination to count rows.
 - To use filter to both focus data for summaries, and to logically end summary lists.
-- Introduce the shortcut `count()` function.
+- Introduce the shortcut `count()` function, along with complex filters.
 
 ## The questions we'll answer
 
@@ -508,20 +498,7 @@ hot100 %>%
 
 ## No. 1 hits in last five years
 
-
-
-
-
-> THIS IS WHERE I STOPPED TONIGHT
-
-
-
-
-
-
 Which performer had the most songs reach No. 1 in the most recent five years?
-
-This time I'll have you try the `count()` method on your own with some hints, but you'll need to do the group/summarize method all on your own.
 
 Let's talk through the logic. This is very similar to the No. 1 hits above but with two differences:
 
@@ -534,9 +511,12 @@ We haven't talked about filtering dates, so let me tell you this: You can use fi
 filter(week_id > "2015-12-31")
 ```
 
-Go back and review the "Complex filters" section where I showed how to combine more than one filter and apply that logic here. There is more than one correct answer. Here's the task:
+But since we need this filter before our group, we can do this within the same filter function where we get the number one songs.
 
-1. Build a summary table that gets the most No. 1 hits in the last five years. Exclude results with a single No. 1 hit. Use the `count()` method.
+1. Create a new section (headline, text, chunk).
+1. Build (from scratch) the same filter, group_by, summarize and arrange as above, but leave out the cut-off filter at the end. (We'll need to adjust that based on the results). Make sure it runs.
+1. EDIT your filter to put a comma after `week_position == 1` and then add this filter: `week_id > "2015-12-31"`. Run the code.
+1. Build a new cut-off filter at the end keep only rows with more than 1 `top_hits`.
 
 <details>
   <summary>No, really. Try it on your own first.</summary>
@@ -548,34 +528,26 @@ hot100 %>%
     week_id > "2015-12-31"
   ) %>% 
   distinct(song, performer) %>% 
-  count(performer, sort = T, name = "top_hits") %>% 
+  group_by(performer) %>% 
+  summarize(top_hits = n()) %>% 
+  arrange(top_hits %>% desc()) %>% 
   filter(top_hits > 1)
 ```
 
 </details>
 
-### Group on your own
-
-1. Find the same results as above, but using the `group_by()` and `summarize()` method instead of count.
-
-No hints this time ;-).
-
 ## Top 10 hits overall
 
 Which performer had the most Top 10 hits overall?
 
-This time we'll talk through the logic, but you have to figure out the answer on your own using the group_by/summarize method.
+This one I want you to do on your own.
 
-The logic is very similar to the "most No. 1 hits" quest you did above, but you need to adjust your filter to find songs within position 1 through 10. Don't overthink it, but do recognize that the "top" of the charts are smaller numbers.
+The logic is very similar to the "Most No. 1 hits" quest you did before, but you need to adjust your filter to find songs within position 1 through 10. Don't overthink it, but do recognize that the "top" of the charts are smaller numbers, not larger ones.
 
 1. Make a new section
 1. Describe what you are doing
 1. Do it using the group_by/summarize method
 1. Filter to cut off at a logical number or rows. (i.e., don't stop at a tie)
-
-
-
-
 
 ### A shortcut: count()
 
@@ -590,47 +562,25 @@ hot100 %>%
   count(performer)
 ```
 
-To get the same pretty table you still have to rename the new column and reverse the sort, you just do it differently as arguments within the `count()` function. You must still pipe into `head()` to limit the output. You can view the [`count()` options here.](https://dplyr.tidyverse.org/reference/count.html)
+To get the same pretty table you still have to rename the new column and reverse the sort, you just do it differently as arguments within the `count()` function. You can view the [`count()` options here.](https://dplyr.tidyverse.org/reference/count.html)
 
 - Add this chunk to your notebook (with a note you are trying `count()`) so you have it to refer to.
 
 ```{r count-expanded}
 hot100 %>% 
-  count(performer, name = "appearances", sort = TRUE) %>%
-  head(10)
+  count(performer, name = "appearances", sort = TRUE) %>% 
+  filter(appearances > 600)
 ```
 
-So you have to do the same things get the nice Top 10 table, but when you just need a quick count to get an answer, then `count()` is brilliant.
+So you have to do the same things here as in our first quest, but when you just need a quick count to get an answer, then `count()` is brilliant.
 
-## Review of what we've learned
-
-We introduced a number of new functions in this lesson, most of them from the [dplyr](https://dplyr.tidyverse.org/) package. Mostly we filtered and summarized our data. Here are the functions we introduced in this chapter, many with links to documentation:
-
-- [`filter()`](https://dplyr.tidyverse.org/reference/filter.html) returns only rows that meet logical criteria you specify.
-- [`summarize()`](https://dplyr.tidyverse.org/reference/summarise.html) builds a summary table _about_ your data. You can count rows [`n()`](https://dplyr.tidyverse.org/reference/n.html) or do math on numerical values, like `mean()`.
-- [`group_by()`](https://dplyr.tidyverse.org/reference/group_by.html) is often used with `summarize()` to put data into groups before building a summary table based on the groups.
-- [`count()`](https://dplyr.tidyverse.org/reference/count.html) is a shorthand for the group_by/summarize operation to count rows based on groups. You can name your summary columns and sort the data within the same function.
-- [`distinct()`](https://dplyr.tidyverse.org/reference/distinct.html) returns rows based on unique values in columns you specify. i.e., it deduplicates data.
-
-## Turn in your project
-
-1. Make sure everything runs properly (Restart R and Run All Chunks) and then Knit to HTML.
-1. Zip the folder.
-1. Upload to the Canvas assignment.
-
-## Soundtrack for this assignment
-
-This lesson was constructed with the vibes of [The Bright Light Social Hour](https://www.thebrightlightsocialhour.com/home). They've never had a song on the Hot 100 (at least not through 2020).
-
-## Leftovers
-
-
+> IMPORTANT: We concentrate on using group_by/summarize/arrange because it can do so much more than `count()`. Count can ONLY count rows. It can't do any other kind of math in summarize. 
 
 ### Complex filters
 
 Don't do these, but you'll need them for reference later:
 
-If you want single expression with multiple criteria, you write two equations and combine with `&`. Only rows with both sides being true are returned.
+If you want filter data for multiple criteria, you can write two equations and combine with `&`. Only rows with both sides being true are returned.
 
 ```r
 # gives you only Poor Little Fool rows where song is No. 1, but not any other position
@@ -656,6 +606,22 @@ filter(
 )
 ```
 
-Getting back to our quest to find the artist with the most No. 1 hits ...
+## Review of what we've learned
 
-If you look at our original filter result, you now only have No. 1 songs. But also note that Ricky Nelson's _Poor Little Fool_ is listed more than once (as are other songs.) That's because it was No. 1 on more than one week.
+We introduced a number of new functions in this lesson, most of them from the [dplyr](https://dplyr.tidyverse.org/) package. Mostly we filtered and summarized our data. Here are the functions we introduced in this chapter, many with links to documentation:
+
+- [`filter()`](https://dplyr.tidyverse.org/reference/filter.html) returns only rows that meet logical criteria you specify.
+- [`summarize()`](https://dplyr.tidyverse.org/reference/summarise.html) builds a summary table _about_ your data. You can count rows [`n()`](https://dplyr.tidyverse.org/reference/n.html) or do math on numerical values, like `mean()`.
+- [`group_by()`](https://dplyr.tidyverse.org/reference/group_by.html) is often used with `summarize()` to put data into groups before building a summary table based on the groups.
+- [`distinct()`](https://dplyr.tidyverse.org/reference/distinct.html) returns rows based on unique values in columns you specify. i.e., it deduplicates data.
+- [`count()`](https://dplyr.tidyverse.org/reference/count.html) is a shorthand for the group_by/summarize operation to count rows based on groups. You can name your summary columns and sort the data within the same function.
+
+## Turn in your project
+
+1. Make sure everything runs properly (Restart R and Run All Chunks) and then Knit to HTML.
+1. Zip the folder.
+1. Upload to the Canvas assignment.
+
+## Soundtrack for this assignment
+
+This lesson was constructed with the vibes of [The Bright Light Social Hour](https://www.thebrightlightsocialhour.com/home). They've never had a song on the Hot 100 (at least not through 2020).

@@ -1,8 +1,6 @@
 # Chart examples
 
-## NEEDS REVIEW
-
-> Under construction
+> NEEDS REVIEW AND UPDATES
 
 --- 
 

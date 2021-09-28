@@ -1,10 +1,6 @@
 # Publishing your findings
 
-## NEEDS REVIEW
-
-> A work in progress
-
-- fix lists
+> NEEDS UPDATING
 
 ---
 
