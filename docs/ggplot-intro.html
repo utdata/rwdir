@@ -4,21 +4,21 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Reporting with Data in R</title>
-  <meta name="description" content="Page not found | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <title>Chapter 7 Intro to ggplot | Reporting with Data in R</title>
+  <meta name="description" content="Chapter 7 Intro to ggplot | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
   <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Reporting with Data in R" />
+  <meta property="og:title" content="Chapter 7 Intro to ggplot | Reporting with Data in R" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="Page not found | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <meta property="og:description" content="Chapter 7 Intro to ggplot | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
   <meta name="github-repo" content="utdata/rwdir" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Reporting with Data in R" />
+  <meta name="twitter:title" content="Chapter 7 Intro to ggplot | Reporting with Data in R" />
   
-  <meta name="twitter:description" content="Page not found | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <meta name="twitter:description" content="Chapter 7 Intro to ggplot | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
   
 
 <meta name="author" content="Christian McDonald" />
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-
+<link rel="prev" href="sums-analyze.html"/>
+<link rel="next" href="how-to-tackle-a-new-dataset.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -429,19 +429,329 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="ggplot-intro" class="section level1" number="7">
+<h1><span class="header-section-number">Chapter 7</span> Intro to ggplot</h1>
+<div id="goals-for-this-section" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> Goals for this section</h2>
+<ul>
+<li>An introduction to the Grammar of Graphics</li>
+<li>We’ll make charts!</li>
+</ul>
+</div>
+<div id="introduction-ggplot" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> Introduction ggplot</h2>
+<p><a href="https://ggplot2.tidyverse.org/">ggplot2</a> is the data visualization library within Hadley Wickham’s <a href="https://www.tidyverse.org/">tidyverse</a>. It uses a concept called the <a href="https://byrneslab.net/classes/biol607/readings/wickham_layered-grammar.pdf">Grammar of Graphics</a>, the idea that you can build every graph from the same components: a data set, a coordinate system, and geoms – the visual marks that represent data points.</p>
+<div id="what-i-likedislike-about-ggplot" class="section level3" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> What I like/dislike about ggplot</h3>
+<p>The ggplot system allows you to display data right in your notebook. It is really good at helping you find important things in your data that can inform reporting. It’s an important tool in your R-based data journalism toolkit.</p>
+<p>What ggplot is less good at is creating publishable graphics. Don’t get me wrong … you can do it, but nuances of the ggplot system take time to master at that level. There are other tools (like <a href="https://www.datawrapper.de/">Datawrapper</a> and <a href="https://flourish.studio/">Flourish</a>) that can do that better, even without code. That said, there is a place for R in that workflow, too. We’ll cover using Datawrapper in a later chapter.</p>
+</div>
+<div id="the-grammar-of-graphics" class="section level3" number="7.2.2">
+<h3><span class="header-section-number">7.2.2</span> The Grammar of Graphics</h3>
+<p>ggplot uses this concept of the Grammar of Graphics … i.e., that you can use code to describe how to build a chart layer-by-layer.</p>
+<p>With a hat tip to <a href="http://www.mattwaite.com/">Matt Waite</a>, we can describe the components of the Grammar of Graphics as:</p>
+<ul>
+<li><strong>data</strong>: which data you are pulling from for the chart.</li>
+<li><strong>aesthetics</strong>: describes how to apply specific data to the plot. What is on x axis, what is on y axis, for starters.</li>
+<li><strong>geometries</strong>: the shape the data is going to take. lines, columns, points.</li>
+<li><strong>scales</strong>: any transformations we might make on the data.</li>
+<li><strong>layers</strong>: how we might layer multiple geometries over top of each other to reveal new information.</li>
+<li><strong>facets</strong>: how we might graph many elements of the same data set in the same space.</li>
+</ul>
+<p>What to remember here is this: for every graphic we start with the data, and then we build a chart from it one “layer” at a time.</p>
+<p>The best way to learn this system is to do it and explain along the way.</p>
+</div>
+</div>
+<div id="start-a-new-project" class="section level2" number="7.3">
+<h2><span class="header-section-number">7.3</span> Start a new project</h2>
+<ol style="list-style-type: decimal">
+<li>Get into RStudio and make sure you don’t have any other files or projects open.</li>
+<li>Create a new project, name it <code>yourname-ggplot</code> and save it in your rwd folder.</li>
+<li>No need to create our folder structure … we won’t need it here.</li>
+<li>Start a new RMarkdown notebook and save it as <code>01-intro-ggplot.Rmd</code>.</li>
+<li>Remove the boilerplate and create a setup section that loads <code>library(tidyverse)</code>, like we do with every notebook.</li>
+</ol>
+</div>
+<div id="the-layers-of-ggplot" class="section level2" number="7.4">
+<h2><span class="header-section-number">7.4</span> The layers of ggplot</h2>
+<blockquote>
+<p>Much of this first plot explanation comes from Hadley Wickham’s <a href="https://r4ds.had.co.nz/data-visualisation.html?q=aes#data-visualisation">R for Data Science</a>, with edits to fit the lesson here.</p>
+</blockquote>
+<p>We’re going to use a data set that is part of the tidyverse to explore how ggplot works.</p>
+<ol style="list-style-type: decimal">
+<li>Start a new section “First plot” and add a code chunk.</li>
+<li>Add the code below and run it to see what the mpg dataset looks like.</li>
+</ol>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="ggplot-intro.html#cb124-1" aria-hidden="true" tabindex="-1"></a>mpg</span></code></pre></div>
+<pre><code>## # A tibble: 234 × 11
+##    manufacturer model      displ  year   cyl trans drv     cty   hwy fl    class
+##    &lt;chr&gt;        &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+##  1 audi         a4           1.8  1999     4 auto… f        18    29 p     comp…
+##  2 audi         a4           1.8  1999     4 manu… f        21    29 p     comp…
+##  3 audi         a4           2    2008     4 manu… f        20    31 p     comp…
+##  4 audi         a4           2    2008     4 auto… f        21    30 p     comp…
+##  5 audi         a4           2.8  1999     6 auto… f        16    26 p     comp…
+##  6 audi         a4           2.8  1999     6 manu… f        18    26 p     comp…
+##  7 audi         a4           3.1  2008     6 auto… f        18    27 p     comp…
+##  8 audi         a4 quattro   1.8  1999     4 manu… 4        18    26 p     comp…
+##  9 audi         a4 quattro   1.8  1999     4 auto… 4        16    25 p     comp…
+## 10 audi         a4 quattro   2    2008     4 manu… 4        20    28 p     comp…
+## # … with 224 more rows</code></pre>
+<p>The <code>mpg</code> data contains observations collected by the US Environmental Protection Agency on 38 models of cars. It’s a data set embedded into the tidyverse for lessons like this one.</p>
+<p>Among the variables in mpg are:</p>
+<ul>
+<li><code>displ</code>, a car’s engine size, in liters.</li>
+<li><code>hwy</code>, a car’s fuel efficiency on the highway, in miles per gallon (mpg).</li>
+</ul>
+<p>With these two variables we can test the theory that cars with smaller engines (<code>displ</code>) get better gas mileage (<code>hwy</code>).</p>
+<div id="build-the-base-layer" class="section level3" number="7.4.1">
+<h3><span class="header-section-number">7.4.1</span> Build the base layer</h3>
+<p>With ggplot2, you begin a plot with the function<code>ggplot()</code>. <code>ggplot()</code> creates a coordinate system that you can add layers to. The first argument for <code>ggplot()</code> is the data set to use in the graph So <code>ggplot(mpg)</code> creates an empty graph with no axes or anything.</p>
+<p>You complete your graph by adding one or more layers to <code>ggplot()</code>. The function <code>geom_point()</code> adds a layer of points to your plot, which creates a scatterplot. ggplot2 comes with many geom functions that each add a different type of layer to a plot.</p>
+<p>Each geom function in ggplot2 takes a <code>mapping</code> argument. This defines how variables in your dataset are mapped to visual properties. The <code>mapping</code> argument is always paired with <code>aes()</code>, and the <code>x</code> and <code>y</code> arguments of <code>aes()</code> specify which variables to map to the x and y axes. ggplot2 looks for the mapped variables in the <code>data</code> argument, in this case, <code>mpg.</code></p>
+<p>We can apply <code>aes()</code> mappings to the graph as a whole and/or to the individual geom layers.</p>
+<p>Frankly, it is easier to show this than explain it. The code below sets up the grid and axes lines, but it hasn’t placed any data on the plot.</p>
+<p>Do this:</p>
+<ol style="list-style-type: decimal">
+<li>Add some text that you are building the mpg chart.</li>
+<li>Add the code chunk below and run it.</li>
+</ol>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="ggplot-intro.html#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(<span class="at">x =</span> displ, <span class="at">y =</span> hwy))</span></code></pre></div>
+<p><img src="07-plots_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Let’s work through the code above:</p>
+<ul>
+<li><code>ggplot</code> is our function to make a chart.</li>
+<li>The first argument <code>ggplot</code> needs is the data. It could be specified as <code>data = mpg</code> but we don’t need the <code>data =</code> part as it is always the first item specified inside of (or piped into) <code>ggplot()</code></li>
+<li>Next is the <strong>aesthetics</strong> or <code>aes()</code>. This is where tell ggplot what data us plot on the <code>x</code> and <code>y</code> axis. You might see this as <code>mapping = aes(&lt;VALUES&gt;)</code> but we can often get by without the <code>mapping =</code> part.</li>
+</ul>
+<p>In our case we are applying these <code>aes()</code> to the entire chart. You’ll see later we can also specify different <code>aes()</code> to specific geoms.</p>
+</div>
+<div id="layers-can-we-add-to-our-plots" class="section level3" number="7.4.2">
+<h3><span class="header-section-number">7.4.2</span> Layers can we add to our plots</h3>
+<p>We’ll now add onto this base layer a number of things:</p>
+<ul>
+<li><strong>geometries</strong> (or geoms as we call them) are the way we plot data on the base grid. There are <a href="https://github.com/rstudio/cheatsheets/blob/master/data-visualization.pdf">many geoms</a>, but here are a few common ones:
+<ul>
+<li><code>geom_points()</code> adds dots onto the grid based on the data. Will will use these here to build at scatterplot graph.</li>
+<li><code>geom_line()</code> adds lines between data points on the grid. Basically a line chart.</li>
+<li><code>geom_col()</code> and <code>goem_bars()</code> adds bars to the grid based on values in the data. A bar chart. We’ll use <code>geom_col()</code> later in this lesson but you can read about the difference between the two in a later chapter.</li>
+<li><code>geom_text()</code> adds labels based on values in the data.</li>
+</ul></li>
+<li><strong>labels</strong> (or labs, since we use the <code>labs()</code> function for them) are a series of text-based items we can layer onto our plots like titles, bylines and axis names.</li>
+<li><strong>themes</strong> change the visual styles of the grids and axis. There are several available within ggplot and <a href="https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/">many other from the R community</a>.</li>
+</ul>
+<p>We add layers onto the chart using the <code>+</code> at the end of a line. Think of the <code>+</code> as the <code>%&gt;%</code> of ggplot.</p>
+</div>
+<div id="add-geom_points" class="section level3" number="7.4.3">
+<h3><span class="header-section-number">7.4.3</span> Add geom_points</h3>
+<ol style="list-style-type: decimal">
+<li>EDIT your plot chunk to add the <code>+</code> and a new line for <code>geom_point()</code></li>
+</ol>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="ggplot-intro.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(<span class="at">x =</span> displ, <span class="at">y =</span> hwy)) <span class="sc">+</span> <span class="co"># don&#39;t forget the + at the end of this line</span></span>
+<span id="cb127-2"><a href="ggplot-intro.html#cb127-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="co"># the geom_point</span></span></code></pre></div>
+<p><img src="07-plots_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>The <code>geom_point()</code> function above is inheriting the <code>aes()</code> values from the line above it.</p>
+</div>
+<div id="adding-other-mappings" class="section level3" number="7.4.4">
+<h3><span class="header-section-number">7.4.4</span> Adding other mappings</h3>
+<p>We can add aesthetics to either the plot as a whole (which we did with the x and y values above) and those will apply to all the geoms unless overwritten.</p>
+<p>But we can also add aesthetics to specific geoms. We’ll demonstrate this below.</p>
+<ol style="list-style-type: decimal">
+<li>Edit your <code>geom_point()</code> function to add a color mapping to the points with <code>aes(color = class)</code>. <code>color</code> is the type of aesthetic, and <code>class</code> is a column in the data.</li>
+</ol>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="ggplot-intro.html#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(<span class="at">x =</span> displ, <span class="at">y =</span> hwy)) <span class="sc">+</span></span>
+<span id="cb128-2"><a href="ggplot-intro.html#cb128-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> class)) <span class="co"># this is the line you are editing</span></span></code></pre></div>
+<p><img src="07-plots_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>As you can see, the dots were given colors based on the values in the <code>class</code> column, and ggplot also added a legend to the graphic.</p>
+<p>There are other aesthetics you can use.</p>
+<ol style="list-style-type: decimal">
+<li>Change the <code>color</code> aesthetic to one of these values and run it to see how it affects the chart: <code>alpha</code>, <code>size</code> and <code>shape</code>. (i.e., <code>alpha = class</code>.)</li>
+<li>Once you’ve tried them, change it back to <code>color</code>.</li>
+</ol>
+<p>OK, enough of the basics … let’s build a chart you <em>might</em> care about.</p>
+</div>
+</div>
+<div id="lets-build-a-bar-chart" class="section level2" number="7.5">
+<h2><span class="header-section-number">7.5</span> Let’s build a bar chart</h2>
+<p>We’ll build some charts from our first-day survey where you told me your favorite Disney Princess and favored flavor of ice cream.</p>
+<p>We aren’t going to create different notebooks or download the data to to your computer … we’re just doing to save it directly into a tibble.</p>
+<ol style="list-style-type: decimal">
+<li>Start a new section: Princess preference chart.</li>
+<li>Use text to note that we’ll use class data to build a chart.</li>
+<li>Add the code below to get the data.</li>
+</ol>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="ggplot-intro.html#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read the data and fill the tibble: class</span></span>
+<span id="cb129-2"><a href="ggplot-intro.html#cb129-2" aria-hidden="true" tabindex="-1"></a>class <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://docs.google.com/spreadsheets/d/e/2PACX-1vRnSAx9eBoOGdZ3pMLZ2XhrBlgl56BeycxJwdTofmgfTBTZ7A1-LMuBxAI094aAZnCmeThPNXaU-xro/pub?gid=1648328850&amp;single=true&amp;output=csv&quot;</span>)</span></code></pre></div>
+<pre><code>## Rows: 34 Columns: 3</code></pre>
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (3): name, princess, ice_cream</code></pre>
+<pre><code>## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="ggplot-intro.html#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb133-2"><a href="ggplot-intro.html#cb133-2" aria-hidden="true" tabindex="-1"></a>class</span></code></pre></div>
+<pre><code>## # A tibble: 34 × 3
+##    name     princess                      ice_cream          
+##    &lt;chr&gt;    &lt;chr&gt;                         &lt;chr&gt;              
+##  1 Addie    Rapunzel (Tangled)            Cookie Dough       
+##  2 Aisling  Pocahontas                    Mint Chocolate Chip
+##  3 Alexis   Jasmine (Aladdin)             Cookie Dough       
+##  4 Ana      Belle (Beauty and the Beast)  Cookies and Cream  
+##  5 Andreana Mulan                         Strawberry         
+##  6 Angelica Tiana (Princess and the Frog) Strawberry         
+##  7 Ariana   Merida (Brave)                Coffee/Jamoca      
+##  8 Cecilia  Cinderella                    Mint Chocolate Chip
+##  9 Chandle  Jasmine (Aladdin)             Cookie Dough       
+## 10 Chris    Cinderella                    Cookie Dough       
+## # … with 24 more rows</code></pre>
+<div id="prepare-the-data" class="section level3" number="7.5.1">
+<h3><span class="header-section-number">7.5.1</span> Prepare the data</h3>
+<p>While there are ways for ggplot to calculate values from your data on the fly, I much prefer to first build a table of the values I want plotted on a chart.</p>
+<p>Our goal here is to make a bar (or column) chart showing the number of votes for each princess from the data. So, we need to count the number of rows for each value … our typical group_by/summarize/arrange process. I’m going to use the <code>count()</code> shortcut for our GSA here since we haven’t used it much lately. I’m saving the summarized data into a new dataframe called <code>princess_data</code>. Follow along in your notebook:</p>
+<ol style="list-style-type: decimal">
+<li>Add a new section: Princess chart</li>
+<li>Add text that you are creating a data frame to plot.</li>
+<li>Add the code below to create that data.</li>
+</ol>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="ggplot-intro.html#cb135-1" aria-hidden="true" tabindex="-1"></a>princess_data <span class="ot">&lt;-</span> class <span class="sc">%&gt;%</span> </span>
+<span id="cb135-2"><a href="ggplot-intro.html#cb135-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(princess, <span class="at">name =</span> <span class="st">&quot;votes&quot;</span>, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb135-3"><a href="ggplot-intro.html#cb135-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this above line counts the princess rows, sets the name and sorts</span></span>
+<span id="cb135-4"><a href="ggplot-intro.html#cb135-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb135-5"><a href="ggplot-intro.html#cb135-5" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb135-6"><a href="ggplot-intro.html#cb135-6" aria-hidden="true" tabindex="-1"></a>princess_data</span></code></pre></div>
+<pre><code>## # A tibble: 10 × 2
+##    princess                      votes
+##    &lt;chr&gt;                         &lt;int&gt;
+##  1 Mulan                             8
+##  2 Jasmine (Aladdin)                 4
+##  3 Pocahontas                        4
+##  4 Aurora (Sleeping Beauty)          3
+##  5 Belle (Beauty and the Beast)      3
+##  6 Cinderella                        3
+##  7 Rapunzel (Tangled)                3
+##  8 Tiana (Princess and the Frog)     3
+##  9 Merida (Brave)                    2
+## 10 Ariel (Little Mermaid)            1</code></pre>
+<p>I hope you understand what we’ve done here. We’re counting the number of rows for each princess.</p>
+</div>
+<div id="build-our-plot-with-geom_col" class="section level3" number="7.5.2">
+<h3><span class="header-section-number">7.5.2</span> Build our plot with geom_col</h3>
+<p>Our first goal is to build the first layer the plot … basically tell ggplot what data we are using so it will build the grid to hold our plots.</p>
+<ol style="list-style-type: decimal">
+<li>Add some text noting that you’ll now plot.</li>
+<li>Add the following code chunk that starts the plot and run it.</li>
+</ol>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="ggplot-intro.html#cb137-1" aria-hidden="true" tabindex="-1"></a>princess_data <span class="sc">%&gt;%</span> </span>
+<span id="cb137-2"><a href="ggplot-intro.html#cb137-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)) <span class="co"># sets our x and y axes</span></span></code></pre></div>
+<p><img src="07-plots_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Note that I used <code>%&gt;%</code> to pipe the data into <code>ggplot()</code> instead of naming it as an argument.</p>
+<p>You’ll see the grid and x/y axis of the data, but no geometries are applied yet. Don’t worry yet now it looks … we’ll get there.</p>
+</div>
+<div id="add-the-geom_col-layer" class="section level3" number="7.5.3">
+<h3><span class="header-section-number">7.5.3</span> Add the geom_col layer</h3>
+<p>Now it is time to add our columns.</p>
+<ol style="list-style-type: decimal">
+<li>Edit the plot code to add the ggplot pipe <code>+</code> and on the next line add <code>geom_col()</code>.</li>
+</ol>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="ggplot-intro.html#cb138-1" aria-hidden="true" tabindex="-1"></a>princess_data <span class="sc">%&gt;%</span> </span>
+<span id="cb138-2"><a href="ggplot-intro.html#cb138-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)) <span class="sc">+</span> <span class="co"># don&#39;t forget the +</span></span>
+<span id="cb138-3"><a href="ggplot-intro.html#cb138-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="co"># adds the bars</span></span></code></pre></div>
+<p><img src="07-plots_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>This added our data to the plot, though there are a couple of issues:</p>
+<ul>
+<li>We can’t read the value names. We can fix this.</li>
+<li>The order of the bars is alphabetical instead of in vote order. Again, we can fix it.</li>
+</ul>
+</div>
+<div id="flip-the-axis" class="section level3" number="7.5.4">
+<h3><span class="header-section-number">7.5.4</span> Flip the axis</h3>
+<p>We can “flip” the axis to turn it sideways to read the labels. This can be a bit confusing later because the “x” axis is now going up/down.</p>
+<ol style="list-style-type: decimal">
+<li>Edit your plot chunk to add the ggplot pipe <code>+</code>and <code>coord_flip()</code> on the next line.</li>
+</ol>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="ggplot-intro.html#cb139-1" aria-hidden="true" tabindex="-1"></a>princess_data <span class="sc">%&gt;%</span> </span>
+<span id="cb139-2"><a href="ggplot-intro.html#cb139-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)) <span class="sc">+</span></span>
+<span id="cb139-3"><a href="ggplot-intro.html#cb139-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span> <span class="co"># don&#39;t forget the +</span></span>
+<span id="cb139-4"><a href="ggplot-intro.html#cb139-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="co"># flips the axis</span></span></code></pre></div>
+<p><img src="07-plots_files/figure-html/princess-flipped-1.png" width="672" /></p>
+</div>
+<div id="reorder-the-bars" class="section level3" number="7.5.5">
+<h3><span class="header-section-number">7.5.5</span> Reorder the bars</h3>
+<p>The bars on our chart are in alphabetical order of the x axis (and reversed thanks to our flip.) We want to order the values based on the <code>votes</code> in the data.</p>
+<p>We can do that by editing the <code>x</code> values in our <code>aes()</code> using the a function called <code>reorder()</code>.</p>
+<p>The <code>reorder()</code> takes two arguments: The column to reorder, and the column to base that reorder on. It can happen in two different ways, and I’ll be honest and say I don’t know which is easier to comprehend.</p>
+<ul>
+<li><code>x = reorder(princess, votes)</code> says "set the x axis as <code>princess</code>, but order as <code>votes</code>. OR …</li>
+<li><code>x = princess %&gt;% reorder(votes)</code> says "set the x axis as <code>princess</code> <em>and then</em> reorder by <code>votes</code>.</li>
+</ul>
+<p>They both work. Even though I’m a fan of the tidyverse <code>%&gt;%</code> construct, I’m going with the first version.</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="ggplot-intro.html#cb140-1" aria-hidden="true" tabindex="-1"></a>princess_data <span class="sc">%&gt;%</span> </span>
+<span id="cb140-2"><a href="ggplot-intro.html#cb140-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> <span class="co"># this is the line you edit</span></span>
+<span id="cb140-3"><a href="ggplot-intro.html#cb140-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb140-4"><a href="ggplot-intro.html#cb140-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div>
+<p><img src="07-plots_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="add-some-titles-labels" class="section level3" number="7.5.6">
+<h3><span class="header-section-number">7.5.6</span> Add some titles, labels</h3>
+<p>Now we’ll add a <strong>layer</strong> of labels to our chart using the the <code>labs()</code> function. You’ll see we can add and change a number of things with <code>labs()</code>.</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="ggplot-intro.html#cb141-1" aria-hidden="true" tabindex="-1"></a>princess_data <span class="sc">%&gt;%</span> </span>
+<span id="cb141-2"><a href="ggplot-intro.html#cb141-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> </span>
+<span id="cb141-3"><a href="ggplot-intro.html#cb141-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb141-4"><a href="ggplot-intro.html#cb141-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="co"># don&#39;t forget +</span></span>
+<span id="cb141-5"><a href="ggplot-intro.html#cb141-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb141-6"><a href="ggplot-intro.html#cb141-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Favored princess&quot;</span>, <span class="co"># adds a title</span></span>
+<span id="cb141-7"><a href="ggplot-intro.html#cb141-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Disney Princess votes from Reporting with Data, Fall 2021.&quot;</span>, <span class="co"># adds a subtitle</span></span>
+<span id="cb141-8"><a href="ggplot-intro.html#cb141-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;By Christian McDonald&quot;</span>, <span class="co"># adds the byline</span></span>
+<span id="cb141-9"><a href="ggplot-intro.html#cb141-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Princess choices&quot;</span>, <span class="co"># renames the x axis label (which is really y since it is flipped)</span></span>
+<span id="cb141-10"><a href="ggplot-intro.html#cb141-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Number of votes&quot;</span> <span class="co"># renames the y axis label (which is really x since it is flipped)</span></span>
+<span id="cb141-11"><a href="ggplot-intro.html#cb141-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="07-plots_files/figure-html/princess-labs-1.png" width="672" /></p>
+<p>There you go! You’ve made a chart showing how our classes rated Disney Princesses.</p>
+</div>
+</div>
+<div id="build-the-ice-cream-chart-on-your-own" class="section level2" number="7.6">
+<h2><span class="header-section-number">7.6</span> Build the ice cream chart on your own</h2>
+<p>Now it is time for you to put these skills to work:</p>
+<ol style="list-style-type: decimal">
+<li>Build a chart about the favorite ice creams from RWD classes.</li>
+</ol>
+<p>Some things to consider:</p>
+<ul>
+<li>You need a new section, etc.</li>
+<li>Your starting with the same <code>class</code> data</li>
+<li>You need to prepare the data</li>
+<li>You need to build the chart</li>
+</ul>
+<p>It’s essentially the same process we used for the princess chart, but using <code>ice_cream</code> variable.</p>
+</div>
+<div id="turn-in-this-notebook" class="section level2" number="7.7">
+<h2><span class="header-section-number">7.7</span> Turn in this notebook</h2>
+<p>Make sure this notebook runs all the way through (Restart R and Run All), knit, stuff, and turn into Canvas.</p>
+</div>
+<div id="what-weve-learned" class="section level2" number="7.8">
+<h2><span class="header-section-number">7.8</span> What we’ve learned</h2>
+<p>There is a ton, really.</p>
+<ul>
+<li>ggplot2 (which is really the <code>ggplot()</code> function) is the charting library for the tidyverse. This whole lesson was about it.</li>
+</ul>
+<p>Here are some more references for ggplot:</p>
+<ul>
+<li><a href="http://ggplot2.tidyverse.org/reference/index.html">The ggplot2 documentation</a> and <a href="https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf">ggplot2 cheatsheets</a>.</li>
+<li><a href="https://r4ds.had.co.nz/data-visualisation.html">R for Data Science, Chap 3.</a> Hadley Wickam dives right into plots in his book.</li>
+<li><a href="https://r-graphics.org/">R Graphics Cookbook</a> has lots of example plots. Good to harvest code and see how to do things.</li>
+<li><a href="https://www.r-graph-gallery.com/">The R Graph Gallery</a> another place to see examples.</li>
+</ul>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-
+<a href="sums-analyze.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="how-to-tackle-a-new-dataset.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -473,7 +783,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/%s",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/07-plots.Rmd",
 "text": "Edit"
 },
 "history": {
