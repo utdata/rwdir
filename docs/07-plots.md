@@ -9,6 +9,8 @@
 
 [ggplot2](https://ggplot2.tidyverse.org/) is the data visualization library within Hadley Wickham's [tidyverse](https://www.tidyverse.org/). It uses a concept called the [Grammar of Graphics](https://byrneslab.net/classes/biol607/readings/wickham_layered-grammar.pdf), the idea that you can build every graph from the same components: a data set, a coordinate system, and geoms -- the visual marks that represent data points.
 
+Even though the package is called `ggplot2`, the function to make graphs is just `ggplot()`. I will often just call everything `ggplot`.
+
 ### What I like/dislike about ggplot
 
 The ggplot system allows you to display data right in your notebook. It is really good at helping you find important things in your data that can inform reporting. It's an important tool in your R-based data journalism toolkit.
@@ -23,7 +25,7 @@ With a hat tip to [Matt Waite](http://www.mattwaite.com/), we can describe the c
 
 - **data**: which data you are pulling from for the chart.
 - **aesthetics**: describes how to apply specific data to the plot. What is on x axis, what is on y axis, for starters.
-- **geometries**: the shape the data is going to take. lines, columns, points.
+- **geometries**: the shape the data is going to take on the graph. lines, columns, points.
 - **scales**: any transformations we might make on the data.
 - **layers**: how we might layer multiple geometries over top of each other to reveal new information.
 - **facets**: how we might graph many elements of the same data set in the same space.
@@ -104,22 +106,22 @@ Do this:
 ggplot(mpg, aes(x = displ, y = hwy))
 ```
 
-<img src="07-plots_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+<img src="07-plots_files/figure-html/mpg-base-1.png" width="672" />
 
 Let's work through the code above:
 
-- `ggplot` is our function to make a chart.
-- The first argument `ggplot` needs is the data. It could be specified as `data = mpg` but we don't need the `data = ` part as it is always the first item specified inside of (or piped into) `ggplot()`
-- Next is the **aesthetics** or `aes()`. This is where tell ggplot what data us plot on the `x` and `y` axis. You might see this as `mapping = aes(<VALUES>)` but we can often get by without the `mapping =` part.
+- `ggplot()` is our function to make a chart.
+- The first argument `ggplot()` needs is the data. It could be specified as `data = mpg` but we don't need the `data = ` part as it is always the first item specified inside of (or piped into) `ggplot()`
+- Next is the **aesthetics** or `aes()`. This is where tell ggplot what data to plot on the `x` and `y` axis. You might see this as `mapping = aes(<VALUES>)` but we can often get by without the `mapping =` part.
 
-In our case we are applying these `aes()` to the entire chart. You'll see later we can also specify different `aes()` to specific geoms.
+In our case we are applying these `aes()` to the entire chart. You'll see later we can also apply different `aes()` to specific geoms.
 
 ### Layers can we add to our plots
 
 We'll now add onto this base layer a number of things:
 
 - **geometries** (or geoms as we call them) are the way we plot data on the base grid. There are [many geoms](https://github.com/rstudio/cheatsheets/blob/master/data-visualization.pdf), but here are a few common ones:
-    - `geom_points()` adds dots onto the grid based on the data. Will will use these here to build at scatterplot graph.
+    - `geom_points()` adds dots onto the grid based on the data. Will will use these here to build a scatterplot graph.
     - `geom_line()` adds lines between data points on the grid. Basically a line chart.
     - `geom_col()` and `goem_bars()` adds bars to the grid based on values in the data. A bar chart. We'll use `geom_col()` later in this lesson but you can read about the difference between the two in a later chapter.
     - `geom_text()` adds labels based on values in the data.
@@ -138,7 +140,7 @@ ggplot(mpg, aes(x = displ, y = hwy)) + # don't forget the + at the end of this l
   geom_point() # the geom_point
 ```
 
-<img src="07-plots_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+<img src="07-plots_files/figure-html/mpg-points-1.png" width="672" />
 
 The `geom_point()` function above is inheriting the `aes()` values from the line above it.
 
@@ -156,7 +158,7 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
   geom_point(aes(color = class)) # this is the line you are editing
 ```
 
-<img src="07-plots_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+<img src="07-plots_files/figure-html/mpg-color-1.png" width="672" />
 
 As you can see, the dots were given colors based on the values in the `class` column, and ggplot also added a legend to the graphic.
 
@@ -268,13 +270,10 @@ Our first goal is to build the first layer the plot ... basically tell ggplot wh
 
 
 ```r
-princess_data %>% 
-  ggplot(aes(x = princess, y = votes)) # sets our x and y axes
+ggplot(princess_data, aes(x = princess, y = votes)) # sets our x and y axes
 ```
 
-<img src="07-plots_files/figure-html/unnamed-chunk-5-1.png" width="672" />
-
-Note that I used ` %>% ` to pipe the data into `ggplot()` instead of naming it as an argument.
+<img src="07-plots_files/figure-html/princess-base-1.png" width="672" />
 
 You'll see the grid and x/y axis of the data, but no geometries are applied yet. Don't worry yet now it looks ... we'll get there.
 
@@ -286,12 +285,11 @@ Now it is time to add our columns.
 
 
 ```r
-princess_data %>% 
-  ggplot(aes(x = princess, y = votes)) + # don't forget the +
+ggplot(princess_data, aes(x = princess, y = votes)) + # don't forget the + on this line
   geom_col() # adds the bars
 ```
 
-<img src="07-plots_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+<img src="07-plots_files/figure-html/princess-col-1.png" width="672" />
 
 This added our data to the plot, though there are a couple of issues:
 
@@ -306,8 +304,7 @@ We can "flip" the axis to turn it sideways to read the labels. This can be a bit
 
 
 ```r
-princess_data %>% 
-  ggplot(aes(x = princess, y = votes)) +
+ggplot(princess_data, aes(x = princess, y = votes)) +
   geom_col() + # don't forget the +
   coord_flip() # flips the axis
 ```
@@ -327,26 +324,33 @@ The `reorder()` takes two arguments: The column to reorder, and the column to ba
 
 They both work. Even though I'm a fan of the tidyverse ` %>% ` construct, I'm going with the first version.
 
+1. Edit your chunk to reorder the bars.
+
 
 ```r
-princess_data %>% 
-  ggplot(aes(x = reorder(princess, votes), y = votes)) + # this is the line you edit
+ggplot(princess_data, aes(x = reorder(princess, votes), y = votes)) + # this is the line you edit
   geom_col() +
   coord_flip()
 ```
 
-<img src="07-plots_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+<img src="07-plots_files/figure-html/princess-reorder-1.png" width="672" />
 
 ### Add some titles, labels
 
 Now we'll add a **layer** of labels to our chart using the the `labs()` function. You'll see we can add and change a number of things with `labs()`.
 
+- To add the labels to the bars, we use a `geom_text()` because we are actually plotting them on the graph. The example below also changes the color of the text and moves the labels to inside the bar with `hjust` (or horizontal justification. `vjust` would move it up and down).
+- The `labs()` function allows for labels "around" the chart. These are some standard values used.
+
+
+
 
 ```r
-princess_data %>% 
-  ggplot(aes(x = reorder(princess, votes), y = votes)) + 
+ggplot(princess_data, aes(x = reorder(princess, votes), y = votes)) + 
   geom_col() +
   coord_flip() + # don't forget +
+  geom_text(aes(label = votes), hjust = 2, color = "white") + # plots votes text values on chart
+  # labs below has several settings
   labs(
     title = "Favored princess", # adds a title
     subtitle = "Disney Princess votes from Reporting with Data, Fall 2021.", # adds a subtitle
@@ -360,7 +364,7 @@ princess_data %>%
 
 There you go! You've made a chart showing how our classes rated Disney Princesses.
 
-## Build the ice cream chart on your own
+## On your own: Ice cream!
 
 Now it is time for you to put these skills to work:
 
@@ -369,16 +373,17 @@ Now it is time for you to put these skills to work:
 Some things to consider:
 
 - You need a new section, etc.
-- Your starting with the same `class` data
-- You need to prepare the data
+- You're starting with the same `class` data
+- You need to prepare the data based on `ice_cream`
 - You need to build the chart
 
 It's essentially the same process we used for the princess chart, but using `ice_cream` variable.
 
 ## Turn in this notebook
 
-Make sure this notebook runs all the way through (Restart R and Run All), knit, stuff, and turn into Canvas.
+> WILL I TURN IN HERE? OR WAIT UNTIL THE NEXT CHAPTER?
 
+Make sure this notebook runs all the way through (Restart R and Run All), knit, stuff, and turn into Canvas.
 
 ## What we've learned
 

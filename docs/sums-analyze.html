@@ -24,7 +24,7 @@
 <meta name="author" content="Christian McDonald" />
 
 
-<meta name="date" content="2021-09-29" />
+<meta name="date" content="2021-10-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -61,6 +61,10 @@
 <script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
 <link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
 <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<script src="libs/plotly-binding-4.9.4.1/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
 <style type="text/css">
   p.caption {
     color: #777;
@@ -347,67 +351,106 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.5.5" data-path="ggplot-intro.html"><a href="ggplot-intro.html#reorder-the-bars"><i class="fa fa-check"></i><b>7.5.5</b> Reorder the bars</a></li>
 <li class="chapter" data-level="7.5.6" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-some-titles-labels"><i class="fa fa-check"></i><b>7.5.6</b> Add some titles, labels</a></li>
 </ul></li>
-<li class="chapter" data-level="7.6" data-path="ggplot-intro.html"><a href="ggplot-intro.html#build-the-ice-cream-chart-on-your-own"><i class="fa fa-check"></i><b>7.6</b> Build the ice cream chart on your own</a></li>
+<li class="chapter" data-level="7.6" data-path="ggplot-intro.html"><a href="ggplot-intro.html#on-your-own-ice-cream"><i class="fa fa-check"></i><b>7.6</b> On your own: Ice cream!</a></li>
 <li class="chapter" data-level="7.7" data-path="ggplot-intro.html"><a href="ggplot-intro.html#turn-in-this-notebook"><i class="fa fa-check"></i><b>7.7</b> Turn in this notebook</a></li>
 <li class="chapter" data-level="7.8" data-path="ggplot-intro.html"><a href="ggplot-intro.html#what-weve-learned"><i class="fa fa-check"></i><b>7.8</b> What we’ve learned</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html"><i class="fa fa-check"></i><b>8</b> How to tackle a new dataset</a>
+<li class="chapter" data-level="8" data-path="ggplot-more.html"><a href="ggplot-more.html"><i class="fa fa-check"></i><b>8</b> Deeper into ggplot</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#start-by-listing-questions"><i class="fa fa-check"></i><b>8.1</b> Start by listing questions</a></li>
-<li class="chapter" data-level="8.2" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#understand-your-data"><i class="fa fa-check"></i><b>8.2</b> Understand your data</a></li>
-<li class="chapter" data-level="8.3" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#counting-and-aggregation"><i class="fa fa-check"></i><b>8.3</b> Counting and aggregation</a>
+<li class="chapter" data-level="8.1" data-path="ggplot-more.html"><a href="ggplot-more.html#references"><i class="fa fa-check"></i><b>8.1</b> References</a></li>
+<li class="chapter" data-level="8.2" data-path="ggplot-more.html"><a href="ggplot-more.html#learning-goals-for-this-chapter"><i class="fa fa-check"></i><b>8.2</b> Learning goals for this chapter</a></li>
+<li class="chapter" data-level="8.3" data-path="ggplot-more.html"><a href="ggplot-more.html#set-up-your-notebook"><i class="fa fa-check"></i><b>8.3</b> Set up your notebook</a>
 <ul>
-<li class="chapter" data-level="8.3.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#counting-rows-based-on-a-column"><i class="fa fa-check"></i><b>8.3.1</b> Counting rows based on a column</a></li>
-<li class="chapter" data-level="8.3.2" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#sum-mean-and-other-aggregations"><i class="fa fa-check"></i><b>8.3.2</b> Sum, mean and other aggregations</a></li>
-<li class="chapter" data-level="8.3.3" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#creating-columns-to-show-difference"><i class="fa fa-check"></i><b>8.3.3</b> Creating columns to show difference</a></li>
+<li class="chapter" data-level="8.3.1" data-path="ggplot-more.html"><a href="ggplot-more.html#lets-get-the-data"><i class="fa fa-check"></i><b>8.3.1</b> Let’s get the data</a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#cleaning-up-categorical-data"><i class="fa fa-check"></i><b>8.4</b> Cleaning up categorical data</a></li>
-<li class="chapter" data-level="8.5" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#time-as-a-variable"><i class="fa fa-check"></i><b>8.5</b> Time as a variable</a></li>
-<li class="chapter" data-level="8.6" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#explore-the-distributions-in-your-data"><i class="fa fa-check"></i><b>8.6</b> Explore the distributions in your data</a>
+<li class="chapter" data-level="8.4" data-path="ggplot-more.html"><a href="ggplot-more.html#make-a-line-chart-of-the-texas-data"><i class="fa fa-check"></i><b>8.4</b> Make a line chart of the Texas data</a>
 <ul>
-<li class="chapter" data-level="8.6.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#more-on-histograms"><i class="fa fa-check"></i><b>8.6.1</b> More on histograms</a></li>
+<li class="chapter" data-level="8.4.1" data-path="ggplot-more.html"><a href="ggplot-more.html#prepare-the-data-1"><i class="fa fa-check"></i><b>8.4.1</b> Prepare the data</a></li>
+<li class="chapter" data-level="8.4.2" data-path="ggplot-more.html"><a href="ggplot-more.html#plot-the-chart"><i class="fa fa-check"></i><b>8.4.2</b> Plot the chart</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="ggplot-more.html"><a href="ggplot-more.html#adding-more-information"><i class="fa fa-check"></i><b>8.5</b> Adding more information</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="ggplot-more.html"><a href="ggplot-more.html#prepare-the-data-2"><i class="fa fa-check"></i><b>8.5.1</b> Prepare the data</a></li>
+<li class="chapter" data-level="8.5.2" data-path="ggplot-more.html"><a href="ggplot-more.html#plot-multiple-line-chart"><i class="fa fa-check"></i><b>8.5.2</b> Plot multiple line chart</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="ggplot-more.html"><a href="ggplot-more.html#tour-of-some-other-adjustments"><i class="fa fa-check"></i><b>8.6</b> Tour of some other adjustments</a>
+<ul>
+<li class="chapter" data-level="8.6.1" data-path="ggplot-more.html"><a href="ggplot-more.html#line-width"><i class="fa fa-check"></i><b>8.6.1</b> Line width</a></li>
+<li class="chapter" data-level="8.6.2" data-path="ggplot-more.html"><a href="ggplot-more.html#line-type"><i class="fa fa-check"></i><b>8.6.2</b> Line type</a></li>
+<li class="chapter" data-level="8.6.3" data-path="ggplot-more.html"><a href="ggplot-more.html#adjust-axis"><i class="fa fa-check"></i><b>8.6.3</b> Adjust axis</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="ggplot-more.html"><a href="ggplot-more.html#saving-plots-as-an-object"><i class="fa fa-check"></i><b>8.7</b> Saving plots as an object</a></li>
+<li class="chapter" data-level="8.8" data-path="ggplot-more.html"><a href="ggplot-more.html#themes"><i class="fa fa-check"></i><b>8.8</b> Themes</a>
+<ul>
+<li class="chapter" data-level="8.8.1" data-path="ggplot-more.html"><a href="ggplot-more.html#more-with-ggthemes"><i class="fa fa-check"></i><b>8.8.1</b> More with ggthemes</a></li>
+<li class="chapter" data-level="8.8.2" data-path="ggplot-more.html"><a href="ggplot-more.html#there-is-more-to-themes"><i class="fa fa-check"></i><b>8.8.2</b> There is more to themes</a></li>
+</ul></li>
+<li class="chapter" data-level="8.9" data-path="ggplot-more.html"><a href="ggplot-more.html#facets"><i class="fa fa-check"></i><b>8.9</b> Facets</a>
+<ul>
+<li class="chapter" data-level="8.9.1" data-path="ggplot-more.html"><a href="ggplot-more.html#facet-wrap"><i class="fa fa-check"></i><b>8.9.1</b> Facet wrap</a></li>
+<li class="chapter" data-level="8.9.2" data-path="ggplot-more.html"><a href="ggplot-more.html#facet-grids"><i class="fa fa-check"></i><b>8.9.2</b> Facet grids</a></li>
+</ul></li>
+<li class="chapter" data-level="8.10" data-path="ggplot-more.html"><a href="ggplot-more.html#saving-plots"><i class="fa fa-check"></i><b>8.10</b> Saving plots</a></li>
+<li class="chapter" data-level="8.11" data-path="ggplot-more.html"><a href="ggplot-more.html#interactive-plots"><i class="fa fa-check"></i><b>8.11</b> Interactive plots</a></li>
+<li class="chapter" data-level="8.12" data-path="ggplot-more.html"><a href="ggplot-more.html#what-we-learned"><i class="fa fa-check"></i><b>8.12</b> What we learned</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html"><i class="fa fa-check"></i><b>9</b> How to tackle a new dataset</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#start-by-listing-questions"><i class="fa fa-check"></i><b>9.1</b> Start by listing questions</a></li>
+<li class="chapter" data-level="9.2" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#understand-your-data"><i class="fa fa-check"></i><b>9.2</b> Understand your data</a></li>
+<li class="chapter" data-level="9.3" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#counting-and-aggregation"><i class="fa fa-check"></i><b>9.3</b> Counting and aggregation</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#counting-rows-based-on-a-column"><i class="fa fa-check"></i><b>9.3.1</b> Counting rows based on a column</a></li>
+<li class="chapter" data-level="9.3.2" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#sum-mean-and-other-aggregations"><i class="fa fa-check"></i><b>9.3.2</b> Sum, mean and other aggregations</a></li>
+<li class="chapter" data-level="9.3.3" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#creating-columns-to-show-difference"><i class="fa fa-check"></i><b>9.3.3</b> Creating columns to show difference</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#cleaning-up-categorical-data"><i class="fa fa-check"></i><b>9.4</b> Cleaning up categorical data</a></li>
+<li class="chapter" data-level="9.5" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#time-as-a-variable"><i class="fa fa-check"></i><b>9.5</b> Time as a variable</a></li>
+<li class="chapter" data-level="9.6" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#explore-the-distributions-in-your-data"><i class="fa fa-check"></i><b>9.6</b> Explore the distributions in your data</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#more-on-histograms"><i class="fa fa-check"></i><b>9.6.1</b> More on histograms</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="verbs.html"><a href="verbs.html"><i class="fa fa-check"></i><b>9</b> Verbs</a>
+<li class="chapter" data-level="10" data-path="verbs.html"><a href="verbs.html"><i class="fa fa-check"></i><b>10</b> Verbs</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="verbs.html"><a href="verbs.html#importexport"><i class="fa fa-check"></i><b>9.1</b> Import/Export</a></li>
-<li class="chapter" data-level="9.2" data-path="verbs.html"><a href="verbs.html#data-manipulation"><i class="fa fa-check"></i><b>9.2</b> Data manipulation</a></li>
-<li class="chapter" data-level="9.3" data-path="verbs.html"><a href="verbs.html#aggregation"><i class="fa fa-check"></i><b>9.3</b> Aggregation</a></li>
-<li class="chapter" data-level="9.4" data-path="verbs.html"><a href="verbs.html#math"><i class="fa fa-check"></i><b>9.4</b> Math</a></li>
+<li class="chapter" data-level="10.1" data-path="verbs.html"><a href="verbs.html#importexport"><i class="fa fa-check"></i><b>10.1</b> Import/Export</a></li>
+<li class="chapter" data-level="10.2" data-path="verbs.html"><a href="verbs.html#data-manipulation"><i class="fa fa-check"></i><b>10.2</b> Data manipulation</a></li>
+<li class="chapter" data-level="10.3" data-path="verbs.html"><a href="verbs.html#aggregation"><i class="fa fa-check"></i><b>10.3</b> Aggregation</a></li>
+<li class="chapter" data-level="10.4" data-path="verbs.html"><a href="verbs.html#math"><i class="fa fa-check"></i><b>10.4</b> Math</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="chart-examples.html"><a href="chart-examples.html"><i class="fa fa-check"></i><b>10</b> Chart examples</a>
+<li class="chapter" data-level="11" data-path="chart-examples.html"><a href="chart-examples.html"><i class="fa fa-check"></i><b>11</b> Chart examples</a>
 <ul>
-<li class="chapter" data-level="10.1" data-path="chart-examples.html"><a href="chart-examples.html#bar-charts"><i class="fa fa-check"></i><b>10.1</b> Bar charts</a>
+<li class="chapter" data-level="11.1" data-path="chart-examples.html"><a href="chart-examples.html#bar-charts"><i class="fa fa-check"></i><b>11.1</b> Bar charts</a>
 <ul>
-<li class="chapter" data-level="10.1.1" data-path="chart-examples.html"><a href="chart-examples.html#explanaton"><i class="fa fa-check"></i><b>10.1.1</b> Explanaton</a></li>
+<li class="chapter" data-level="11.1.1" data-path="chart-examples.html"><a href="chart-examples.html#explanaton"><i class="fa fa-check"></i><b>11.1.1</b> Explanaton</a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="chart-examples.html"><a href="chart-examples.html#column-chart"><i class="fa fa-check"></i><b>10.2</b> Column chart</a></li>
-<li class="chapter" data-level="10.3" data-path="chart-examples.html"><a href="chart-examples.html#a-line-chart"><i class="fa fa-check"></i><b>10.3</b> A line chart</a>
+<li class="chapter" data-level="11.2" data-path="chart-examples.html"><a href="chart-examples.html#column-chart"><i class="fa fa-check"></i><b>11.2</b> Column chart</a></li>
+<li class="chapter" data-level="11.3" data-path="chart-examples.html"><a href="chart-examples.html#a-line-chart"><i class="fa fa-check"></i><b>11.3</b> A line chart</a>
 <ul>
-<li class="chapter" data-level="10.3.1" data-path="chart-examples.html"><a href="chart-examples.html#explanation"><i class="fa fa-check"></i><b>10.3.1</b> Explanation</a></li>
+<li class="chapter" data-level="11.3.1" data-path="chart-examples.html"><a href="chart-examples.html#explanation"><i class="fa fa-check"></i><b>11.3.1</b> Explanation</a></li>
 </ul></li>
-<li class="chapter" data-level="10.4" data-path="chart-examples.html"><a href="chart-examples.html#scatterplot"><i class="fa fa-check"></i><b>10.4</b> Scatterplot</a>
+<li class="chapter" data-level="11.4" data-path="chart-examples.html"><a href="chart-examples.html#scatterplot"><i class="fa fa-check"></i><b>11.4</b> Scatterplot</a>
 <ul>
-<li class="chapter" data-level="10.4.1" data-path="chart-examples.html"><a href="chart-examples.html#explanation-1"><i class="fa fa-check"></i><b>10.4.1</b> Explanation</a></li>
+<li class="chapter" data-level="11.4.1" data-path="chart-examples.html"><a href="chart-examples.html#explanation-1"><i class="fa fa-check"></i><b>11.4.1</b> Explanation</a></li>
 </ul></li>
-<li class="chapter" data-level="10.5" data-path="chart-examples.html"><a href="chart-examples.html#histogram"><i class="fa fa-check"></i><b>10.5</b> Histogram</a></li>
-<li class="chapter" data-level="10.6" data-path="chart-examples.html"><a href="chart-examples.html#titles-labels-and-other-cleanup"><i class="fa fa-check"></i><b>10.6</b> Titles, labels and other cleanup</a>
+<li class="chapter" data-level="11.5" data-path="chart-examples.html"><a href="chart-examples.html#histogram"><i class="fa fa-check"></i><b>11.5</b> Histogram</a></li>
+<li class="chapter" data-level="11.6" data-path="chart-examples.html"><a href="chart-examples.html#titles-labels-and-other-cleanup"><i class="fa fa-check"></i><b>11.6</b> Titles, labels and other cleanup</a>
 <ul>
-<li class="chapter" data-level="10.6.1" data-path="chart-examples.html"><a href="chart-examples.html#title-and-axis-labels"><i class="fa fa-check"></i><b>10.6.1</b> Title and axis labels</a></li>
-<li class="chapter" data-level="10.6.2" data-path="chart-examples.html"><a href="chart-examples.html#flip-the-graphic"><i class="fa fa-check"></i><b>10.6.2</b> Flip the graphic</a></li>
-<li class="chapter" data-level="10.6.3" data-path="chart-examples.html"><a href="chart-examples.html#fix-exponential-numbers-on-an-axis"><i class="fa fa-check"></i><b>10.6.3</b> Fix exponential numbers on an axis</a></li>
+<li class="chapter" data-level="11.6.1" data-path="chart-examples.html"><a href="chart-examples.html#title-and-axis-labels"><i class="fa fa-check"></i><b>11.6.1</b> Title and axis labels</a></li>
+<li class="chapter" data-level="11.6.2" data-path="chart-examples.html"><a href="chart-examples.html#flip-the-graphic"><i class="fa fa-check"></i><b>11.6.2</b> Flip the graphic</a></li>
+<li class="chapter" data-level="11.6.3" data-path="chart-examples.html"><a href="chart-examples.html#fix-exponential-numbers-on-an-axis"><i class="fa fa-check"></i><b>11.6.3</b> Fix exponential numbers on an axis</a></li>
 </ul></li>
-<li class="chapter" data-level="10.7" data-path="chart-examples.html"><a href="chart-examples.html#interactivity-with-plotly"><i class="fa fa-check"></i><b>10.7</b> Interactivity with plotly</a></li>
-<li class="chapter" data-level="10.8" data-path="chart-examples.html"><a href="chart-examples.html#resources"><i class="fa fa-check"></i><b>10.8</b> Resources</a></li>
+<li class="chapter" data-level="11.7" data-path="chart-examples.html"><a href="chart-examples.html#interactivity-with-plotly"><i class="fa fa-check"></i><b>11.7</b> Interactivity with plotly</a></li>
+<li class="chapter" data-level="11.8" data-path="chart-examples.html"><a href="chart-examples.html#resources"><i class="fa fa-check"></i><b>11.8</b> Resources</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html"><i class="fa fa-check"></i><b>11</b> Publishing your findings</a>
+<li class="chapter" data-level="12" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html"><i class="fa fa-check"></i><b>12</b> Publishing your findings</a>
 <ul>
-<li class="chapter" data-level="11.1" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#examples"><i class="fa fa-check"></i><b>11.1</b> Examples</a></li>
-<li class="chapter" data-level="11.2" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#how-to-publish-your-projects"><i class="fa fa-check"></i><b>11.2</b> How to publish your projects</a>
+<li class="chapter" data-level="12.1" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#examples"><i class="fa fa-check"></i><b>12.1</b> Examples</a></li>
+<li class="chapter" data-level="12.2" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#how-to-publish-your-projects"><i class="fa fa-check"></i><b>12.2</b> How to publish your projects</a>
 <ul>
-<li class="chapter" data-level="11.2.1" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#using-github-pages"><i class="fa fa-check"></i><b>11.2.1</b> Using Github Pages</a></li>
+<li class="chapter" data-level="12.2.1" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#using-github-pages"><i class="fa fa-check"></i><b>12.2.1</b> Using Github Pages</a></li>
 </ul></li>
-<li class="chapter" data-level="11.3" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#making-branded-graphics"><i class="fa fa-check"></i><b>11.3</b> Making branded graphics</a></li>
+<li class="chapter" data-level="12.3" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#making-branded-graphics"><i class="fa fa-check"></i><b>12.3</b> Making branded graphics</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -730,13 +773,11 @@ Remember your data is in data-processed
 <li>Start with the <code>tx_quants_totals</code> tibble you created for totals by agency and then use <code>filter()</code> and <code>%in%</code> to filter by your new <code>local_agencies</code> list.</li>
 </ol>
 <p>These are the agencies:</p>
-<ul>
-<li>AUSTIN POLICE DEPT</li>
-<li>SAN MARCOS POLICE DEPT</li>
-<li>TRAVIS COUNTY SHERIFFS OFFICE</li>
-<li>UNIV OF TEXAS SYSTEM POLICE HI_ED</li>
-<li>WILLIAMSON COUNTY SHERIFF’S OFFICE</li>
-</ul>
+<pre><code>AUSTIN POLICE DEPT
+SAN MARCOS POLICE DEPT
+TRAVIS COUNTY SHERIFFS OFFICE
+UNIV OF TEXAS SYSTEM POLICE HI_ED
+WILLIAMSON COUNTY SHERIFF&#39;S OFFICE</code></pre>
 <blockquote>
 <p>To be clear, in the interest of time I’ve done considerable work beforehand to figure out the exact names of these agencies. It helps that I’m familiar with local cities and counties so I used some creative filtering to find their “official” names in the data. I just don’t want to get into how right now.</p>
 </blockquote>
@@ -744,16 +785,16 @@ Remember your data is in data-processed
 <summary>
 Use the example above to build with your data
 </summary>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="sums-analyze.html#cb120-1" aria-hidden="true" tabindex="-1"></a>local_agencies <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb120-2"><a href="sums-analyze.html#cb120-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;AUSTIN POLICE DEPT&quot;</span>,</span>
-<span id="cb120-3"><a href="sums-analyze.html#cb120-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;SAN MARCOS POLICE DEPT&quot;</span>,</span>
-<span id="cb120-4"><a href="sums-analyze.html#cb120-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;TRAVIS COUNTY SHERIFFS OFFICE&quot;</span>,</span>
-<span id="cb120-5"><a href="sums-analyze.html#cb120-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;UNIV OF TEXAS SYSTEM POLICE HI_ED&quot;</span>,</span>
-<span id="cb120-6"><a href="sums-analyze.html#cb120-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;WILLIAMSON COUNTY SHERIFF&#39;S OFFICE&quot;</span></span>
-<span id="cb120-7"><a href="sums-analyze.html#cb120-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb120-8"><a href="sums-analyze.html#cb120-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb120-9"><a href="sums-analyze.html#cb120-9" aria-hidden="true" tabindex="-1"></a>tx_quants_totals <span class="sc">%&gt;%</span> </span>
-<span id="cb120-10"><a href="sums-analyze.html#cb120-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">%in%</span> local_agencies)</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="sums-analyze.html#cb121-1" aria-hidden="true" tabindex="-1"></a>local_agencies <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb121-2"><a href="sums-analyze.html#cb121-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;AUSTIN POLICE DEPT&quot;</span>,</span>
+<span id="cb121-3"><a href="sums-analyze.html#cb121-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;SAN MARCOS POLICE DEPT&quot;</span>,</span>
+<span id="cb121-4"><a href="sums-analyze.html#cb121-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;TRAVIS COUNTY SHERIFFS OFFICE&quot;</span>,</span>
+<span id="cb121-5"><a href="sums-analyze.html#cb121-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;UNIV OF TEXAS SYSTEM POLICE HI_ED&quot;</span>,</span>
+<span id="cb121-6"><a href="sums-analyze.html#cb121-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;WILLIAMSON COUNTY SHERIFF&#39;S OFFICE&quot;</span></span>
+<span id="cb121-7"><a href="sums-analyze.html#cb121-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb121-8"><a href="sums-analyze.html#cb121-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-9"><a href="sums-analyze.html#cb121-9" aria-hidden="true" tabindex="-1"></a>tx_quants_totals <span class="sc">%&gt;%</span> </span>
+<span id="cb121-10"><a href="sums-analyze.html#cb121-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">%in%</span> local_agencies)</span></code></pre></div>
 <pre><code>## # A tibble: 5 × 3
 ##   agency_name                        sum_quantity sum_total_value
 ##   &lt;chr&gt;                                     &lt;dbl&gt;           &lt;dbl&gt;
@@ -777,14 +818,14 @@ Use the example above to build with your data
 <li>Use summarize to build the <code>summed_quantity</code> and <code>summed_total_value</code> columns.</li>
 <li>Arrange the results so the most expensive items are at the top.</li>
 </ol>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="sums-analyze.html#cb122-1" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> </span>
-<span id="cb122-2"><a href="sums-analyze.html#cb122-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">==</span> <span class="st">&quot;AUSTIN POLICE DEPT&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb122-3"><a href="sums-analyze.html#cb122-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(item_name) <span class="sc">%&gt;%</span> </span>
-<span id="cb122-4"><a href="sums-analyze.html#cb122-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb122-5"><a href="sums-analyze.html#cb122-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity),</span>
-<span id="cb122-6"><a href="sums-analyze.html#cb122-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_total_value =</span> <span class="fu">sum</span>(total_value)</span>
-<span id="cb122-7"><a href="sums-analyze.html#cb122-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb122-8"><a href="sums-analyze.html#cb122-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(summed_total_value <span class="sc">%&gt;%</span> <span class="fu">desc</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="sums-analyze.html#cb123-1" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> </span>
+<span id="cb123-2"><a href="sums-analyze.html#cb123-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">==</span> <span class="st">&quot;AUSTIN POLICE DEPT&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb123-3"><a href="sums-analyze.html#cb123-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(item_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb123-4"><a href="sums-analyze.html#cb123-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb123-5"><a href="sums-analyze.html#cb123-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity),</span>
+<span id="cb123-6"><a href="sums-analyze.html#cb123-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_total_value =</span> <span class="fu">sum</span>(total_value)</span>
+<span id="cb123-7"><a href="sums-analyze.html#cb123-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb123-8"><a href="sums-analyze.html#cb123-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(summed_total_value <span class="sc">%&gt;%</span> <span class="fu">desc</span>())</span></code></pre></div>
 <pre><code>## # A tibble: 46 × 3
 ##    item_name                                           summed_quantity summed_total_va…
 ##    &lt;chr&gt;                                                         &lt;dbl&gt;            &lt;dbl&gt;

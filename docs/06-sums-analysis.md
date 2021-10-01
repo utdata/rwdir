@@ -336,11 +336,13 @@ data %>%
 
 These are the agencies:
 
-- AUSTIN POLICE DEPT
-- SAN MARCOS POLICE DEPT
-- TRAVIS COUNTY SHERIFFS OFFICE
-- UNIV OF TEXAS SYSTEM POLICE HI_ED
-- WILLIAMSON COUNTY SHERIFF'S OFFICE
+```
+AUSTIN POLICE DEPT
+SAN MARCOS POLICE DEPT
+TRAVIS COUNTY SHERIFFS OFFICE
+UNIV OF TEXAS SYSTEM POLICE HI_ED
+WILLIAMSON COUNTY SHERIFF'S OFFICE
+```
 
 > To be clear, in the interest of time I've done considerable work beforehand to figure out the exact names of these agencies. It helps that I'm familiar with local cities and counties so I used some creative filtering to find their "official" names in the data. I just don't want to get into how right now.
 
