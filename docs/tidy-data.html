@@ -4,21 +4,21 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 6 Summarize with math - analysis | Reporting with Data in R</title>
-  <meta name="description" content="Chapter 6 Summarize with math - analysis | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <title>Chapter 9 Tidy data | Reporting with Data in R</title>
+  <meta name="description" content="Chapter 9 Tidy data | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
   <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 6 Summarize with math - analysis | Reporting with Data in R" />
+  <meta property="og:title" content="Chapter 9 Tidy data | Reporting with Data in R" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="Chapter 6 Summarize with math - analysis | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <meta property="og:description" content="Chapter 9 Tidy data | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
   <meta name="github-repo" content="utdata/rwdir" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 6 Summarize with math - analysis | Reporting with Data in R" />
+  <meta name="twitter:title" content="Chapter 9 Tidy data | Reporting with Data in R" />
   
-  <meta name="twitter:description" content="Chapter 6 Summarize with math - analysis | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <meta name="twitter:description" content="Chapter 9 Tidy data | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
   
 
 <meta name="author" content="Christian McDonald" />
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="sums-import.html"/>
-<link rel="next" href="ggplot-intro.html"/>
+<link rel="prev" href="ggplot-more.html"/>
+<link rel="next" href="how-to-tackle-a-new-dataset.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -504,418 +504,325 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="sums-analyze" class="section level1" number="6">
-<h1><span class="header-section-number">Chapter 6</span> Summarize with math - analysis</h1>
-<p>In the last chapter, we covered the overall story about the LESO data … that local law enforcement agencies can get surplus military equipment from the U.S. Department of Defense. We downloaded a pre-processed version of the data and filtered it to just Texas records over a specific time period (2010 to present), and used <code>mutate()</code> to create a new column calculated fron other variables in the data.</p>
-<div id="learning-goals-of-this-lesson-1" class="section level2" number="6.1">
-<h2><span class="header-section-number">6.1</span> Learning goals of this lesson</h2>
-<p>In this chapter we will start querying the data using <strong>summarize with math</strong>, basically using summarize to add values in a column instead of counting rows, which we did with the Billboard assignment.</p>
-<p>Our learning goals are:</p>
+<div id="tidy-data" class="section level1" number="9">
+<h1><span class="header-section-number">Chapter 9</span> Tidy data</h1>
+<blockquote>
+<p>DRAFT</p>
+</blockquote>
+<p>Data “shape” can be important when you are trying to work with and visualize data. In this chapter we’ll discuss “tidy” data and how this style of organization helps us.</p>
+<blockquote>
+<p>Slides by Hadley Wickham are used with permission from the author.</p>
+</blockquote>
+<div id="goals-for-this-section-1" class="section level2" number="9.1">
+<h2><span class="header-section-number">9.1</span> Goals for this section</h2>
 <ul>
-<li>To use the combination of <code>group_by()</code>, <code>summarize()</code> and <code>arrange()</code> to add columns of data using <code>sum()</code>.</li>
-<li>To use different <code>group_by()</code> groupings in specific ways to get desired results.</li>
-<li>To practice using <code>filter()</code> on those summaries to better see certain results, including filtering with<em>in</em> a vector (or list of strings).</li>
-<li>We’ll research and write about some of the findings, practicing data-centric ledes and sentences describing data.</li>
+<li>Explore what it means to have “tidy” data.</li>
+<li>Learn about and use <code>pivot_longer()</code>, <code>pivot_wider()</code> to make our data tidy.</li>
+<li>Use Skittles to explore shaping data.</li>
 </ul>
 </div>
-<div id="questions-to-answer" class="section level2" number="6.2">
-<h2><span class="header-section-number">6.2</span> Questions to answer</h2>
-<p>A reminder of what we are looking for: All answers are be based on data from <strong>Jan. 1, 2010</strong> to present for only consider <strong>Texas</strong> agencies. We did this filtering already.</p>
+<div id="the-questions-well-answer-1" class="section level2" number="9.2">
+<h2><span class="header-section-number">9.2</span> The questions we’ll answer</h2>
 <ul>
-<li>For each agency in Texas, find the summed <strong>quantity</strong> and summed <strong>total value</strong> of the equipment they received. (When I say “summed” that means we’ll add together all the values in the column.)
-<ul>
-<li>Once you have the list, we’ll think about what stands out and why?</li>
-</ul></li>
-<li>We’ll take the list above, but filter that summary to show only the following local agencies:
-<ul>
-<li>AUSTIN POLICE DEPT</li>
-<li>SAN MARCOS POLICE DEPT</li>
-<li>TRAVIS COUNTY SHERIFFS OFFICE</li>
-<li>UNIV OF TEXAS SYSTEM POLICE HI_ED</li>
-<li>WILLIAMSON COUNTY SHERIFF’S OFFICE</li>
-</ul></li>
-<li>For each of the agencies above we’ll use summarize to get the <em>summed</em> <strong>quantity</strong> and <em>summed</em> <strong>total_value</strong> of each <strong>item</strong> shipped to the agency. We’ll create a summarized list for each agency so we can write about each one.</li>
-<li>You’ll research some of the more interesting items the agencies received (i.e. Google the names) so you can include them in your data drop.</li>
+<li>Are candy colors evenly distributed within a package of Skittles? (The mean of candies by color over all packages)</li>
+<li>Plot the average number of colored candies among all packages using ggplot,</li>
+<li>Plot the same data in datawrapper.</li>
+<li>Bonus 1: Who got the most candies in their bag?</li>
+<li>Bonus 2: What is the average number of candy in a bag?</li>
 </ul>
 </div>
-<div id="set-up-the-analysis-notebook" class="section level2" number="6.3">
-<h2><span class="header-section-number">6.3</span> Set up the analysis notebook</h2>
-<p>Before we get into how to do this, let’s set up our analysis notebook.</p>
+<div id="what-is-tidy-data" class="section level2" number="9.3">
+<h2><span class="header-section-number">9.3</span> What is tidy data</h2>
+<p>“Tidy” data is well formatted so each variable is in a column, each observation is in a row and each value is a cell. Our first step in working with any data is to make sure we are “tidy.”</p>
+<div class="figure">
+<img src="images/tidy-example.png" alt="" />
+<p class="caption">Tidy data definition</p>
+</div>
+<p>It’s easiest to see the difference through examples. The data frame below is of tuberculosis reports from the World Health Organization.</p>
+<ul>
+<li>Each row is a set of observations (or case) from a single country for a single year.</li>
+<li>Each column describes a unique variable. The year, the number of cases and the population of the country at that time.</li>
+</ul>
+<div class="figure">
+<img src="images/tidy-table-tidy.png" alt="" />
+<p class="caption">A tidy table</p>
+</div>
+<p>Table2 below isn’t tidy. The <strong>count</strong> column contains two different type of values.</p>
+<div class="figure">
+<img src="images/tidy-table-nottidy.png" alt="" />
+<p class="caption">A tidy table</p>
+</div>
+<p>When our data is tidy, it is easy to manipulate. We can use functions like <code>mutate()</code> to calculate new values for each case.</p>
+<div class="figure">
+<img src="images/tidy-table-manipulate.png" alt="" />
+<p class="caption">Manipulate a tidy table</p>
+</div>
+</div>
+<div id="tidyr-package" class="section level2" number="9.4">
+<h2><span class="header-section-number">9.4</span> Tidyr package</h2>
+<p>When our data is tidy, we can use the <a href="https://tidyr.tidyverse.org/">tidyr</a> package to reshape the layout of our data to suit our needs.</p>
+<p>In the figure below, the table on the left is “wide.” There are are multiple year columns describing the same variable. It might be useful if we want to calculate the difference of the values for two different years. It’s less useful if we want plot on a graphic because we don’t have columns to map as X and Y values.</p>
+<p>The table on the right is “long,” in that each column describes a single variable. It is this shape we need when we want to plot values on a chart. We can then set our “Year” column as an X axis, our “n” column on our Y axis, and group by the “Country.”</p>
+<div class="figure">
+<img src="images/tidy-wide-vs-long.png" alt="" />
+<p class="caption">Wide vs long</p>
+</div>
+</div>
+<div id="the-tidyr-verbs" class="section level2" number="9.5">
+<h2><span class="header-section-number">9.5</span> The tidyr verbs</h2>
+<p>The two functions we’ll use most to reshape are data are:</p>
+<ul>
+<li><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a> “lengthens” data, increasing the number of rows and decreasing the number of columns.</li>
+<li><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> “widens” data, increasing the number of columns and decreasing the number of rows.</li>
+</ul>
+<p>Again, the best way to learn this is to present the problem and solve it with explanation.</p>
+</div>
+<div id="prepare-our-skittles-project" class="section level2" number="9.6">
+<h2><span class="header-section-number">9.6</span> Prepare our Skittles project</h2>
+<p>Start a new project to explore this subject.</p>
 <ol style="list-style-type: decimal">
-<li>Make sure you have your military surplus project open in RStudio. If you have your import notebook open, close it and use Run &gt; Restart R and Clear Output.</li>
-<li>Create a new RNotebook and edit the title as “Military surplus analysis.”</li>
-<li>Remove the boilerplate text.</li>
-<li>Create a setup section (headline, text and code chunk) that loads the tidyverse library.</li>
-<li>Save the notebook at <code>02-analysis.Rmd</code>.</li>
+<li>Create a new project and call it: <code>yourname-skittles</code></li>
+<li>No need to create folders. We’ll just load data directly into the notebook.</li>
+<li>Start a new RNotebook and edit the headline</li>
+<li>Create your setup block and load the libraries below.</li>
 </ol>
-<p>We’ve started each notebook like this, so you should be able to do this on your own now.</p>
-<div id="load-the-data-into-a-tibble" class="section level3" number="6.3.1">
-<h3><span class="header-section-number">6.3.1</span> Load the data into a tibble</h3>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="tidy-data.html#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb174-2"><a href="tidy-data.html#cb174-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb174-3"><a href="tidy-data.html#cb174-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code></pre></div>
+<div id="get-the-data" class="section level3" number="9.6.1">
+<h3><span class="header-section-number">9.6.1</span> Get the data</h3>
+<p>We’ll just load this data directly from Google Sheets into this notebook.</p>
 <ol style="list-style-type: decimal">
-<li>Next create an import section (headline, text and chunk) that loads the data from the previous notebook and save it into a tibble called <code>tx</code>.</li>
-<li>Add a <code>glimpse()</code> of the data for your reference.</li>
+<li>Add a section that you are importing data.</li>
+<li>Add this import chunk.</li>
 </ol>
-<p>We did this in Billboard and you should be able to do it. You’ll use <code>read_rds()</code> and find your data in your data-processed folder.</p>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="tidy-data.html#cb175-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://docs.google.com/spreadsheets/d/e/2PACX-1vTxm9NxK67thlGjYOQBo_0JRvx2d137xt0nZGffqR6P1vl8QrlTUduiOsDJ2FKF6yLgQAQphVZve76z/pub?output=csv&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>()</span></code></pre></div>
+<pre><code>## Rows: 123 Columns: 7</code></pre>
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (2): Timestamp, Name
+## dbl (5): Red, Green, Orange, Yellow, Purple</code></pre>
+<pre><code>## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="tidy-data.html#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb179-2"><a href="tidy-data.html#cb179-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 123
+## Columns: 7
+## $ timestamp &lt;chr&gt; &quot;7/27/2020 18:21:19&quot;, &quot;8/1/2020 16:04:56&quot;, &quot;7/30/2020 14:56:…
+## $ name      &lt;chr&gt; &quot;Alora Jones&quot;, &quot;Alyssa Hiarker&quot;, &quot;Annie Patton&quot;, &quot;Christian …
+## $ red       &lt;dbl&gt; 12, 13, 12, 9, 7, 10, 12, 11, 7, 18, 13, 11, 10, 14, 8, 8, 1…
+## $ green     &lt;dbl&gt; 11, 15, 12, 10, 12, 14, 15, 5, 10, 9, 11, 13, 7, 12, 15, 10,…
+## $ orange    &lt;dbl&gt; 12, 10, 8, 17, 13, 9, 12, 17, 10, 13, 11, 7, 12, 10, 20, 13,…
+## $ yellow    &lt;dbl&gt; 9, 9, 10, 6, 11, 11, 10, 14, 21, 7, 11, 7, 15, 9, 4, 14, 10,…
+## $ purple    &lt;dbl&gt; 15, 15, 18, 18, 17, 16, 12, 13, 14, 13, 12, 21, 16, 14, 10, …</code></pre>
+<p>We cleaned the name on import. The <code>timestamp</code> is not a real date, so we need to fix that.</p>
+</div>
+<div id="fix-the-data" class="section level3" number="9.6.2">
+<h3><span class="header-section-number">9.6.2</span> Fix the data</h3>
+<p>We’re going to convert the <code>timestamp</code> and then turn it into a regular date.</p>
+<ol style="list-style-type: decimal">
+<li>Create a section that you are fixing dates.</li>
+<li>Add this chunk and run it.</li>
+</ol>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="tidy-data.html#cb181-1" aria-hidden="true" tabindex="-1"></a>skittles <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb181-2"><a href="tidy-data.html#cb181-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb181-3"><a href="tidy-data.html#cb181-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">date_entered =</span> <span class="fu">mdy_hms</span>(timestamp) <span class="sc">%&gt;%</span> <span class="fu">date</span>()</span>
+<span id="cb181-4"><a href="tidy-data.html#cb181-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb181-5"><a href="tidy-data.html#cb181-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>timestamp)</span>
+<span id="cb181-6"><a href="tidy-data.html#cb181-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb181-7"><a href="tidy-data.html#cb181-7" aria-hidden="true" tabindex="-1"></a>skittles <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 123
+## Columns: 7
+## $ name         &lt;chr&gt; &quot;Alora Jones&quot;, &quot;Alyssa Hiarker&quot;, &quot;Annie Patton&quot;, &quot;Christi…
+## $ red          &lt;dbl&gt; 12, 13, 12, 9, 7, 10, 12, 11, 7, 18, 13, 11, 10, 14, 8, 8…
+## $ green        &lt;dbl&gt; 11, 15, 12, 10, 12, 14, 15, 5, 10, 9, 11, 13, 7, 12, 15, …
+## $ orange       &lt;dbl&gt; 12, 10, 8, 17, 13, 9, 12, 17, 10, 13, 11, 7, 12, 10, 20, …
+## $ yellow       &lt;dbl&gt; 9, 9, 10, 6, 11, 11, 10, 14, 21, 7, 11, 7, 15, 9, 4, 14, …
+## $ purple       &lt;dbl&gt; 15, 15, 18, 18, 17, 16, 12, 13, 14, 13, 12, 21, 16, 14, 1…
+## $ date_entered &lt;date&gt; 2020-07-27, 2020-08-01, 2020-07-30, 2020-06-23, 2020-07-…</code></pre>
+<p>Let’s talk just a minute about what we’ve done here:</p>
+<ul>
+<li>We name our new tibble.</li>
+<li>We are filling that tibble starting with our imported data called <code>data</code>.</li>
+<li>We use mutate to create a new column <code>date_entered</code>, then fill it by first converting the text to an official timestamp datatype (which requires the lubridate function <code>mdy_hms()</code>), and then we extract just the date of that with <code>date()</code>.</li>
+<li>We then use <code>select()</code> to remove the old timestamp column.</li>
+</ul>
+</div>
+<div id="peek-at-the-untidy-table" class="section level3" number="9.6.3">
+<h3><span class="header-section-number">9.6.3</span> Peek at the untidy table</h3>
+<p>Let’s look closer at this:</p>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="tidy-data.html#cb183-1" aria-hidden="true" tabindex="-1"></a>skittles <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 7
+##   name                 red green orange yellow purple date_entered
+##   &lt;chr&gt;              &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;date&gt;      
+## 1 Alora Jones           12    11     12      9     15 2020-07-27  
+## 2 Alyssa Hiarker        13    15     10      9     15 2020-08-01  
+## 3 Annie Patton          12    12      8     10     18 2020-07-30  
+## 4 Christian McDonald     9    10     17      6     18 2020-06-23  
+## 5 Claudia Ng             7    12     13     11     17 2020-07-30  
+## 6 Cristina Pop          10    14      9     11     16 2020-07-22</code></pre>
+<p>This is not the worst example of data. It could be useful to create a “total” column, but there are better ways to do this with <strong>long</strong> data.</p>
+</div>
+</div>
+<div id="pivot-longer" class="section level2" number="9.7">
+<h2><span class="header-section-number">9.7</span> Pivot longer</h2>
+<p>What we want here is five rows for Alora Jones, with a column for “color” and a column for “candies.”</p>
+<p>The <code>pivot_longer()</code> function needs several arguments:</p>
+<ul>
+<li>Which columns do you want to pivot? For us, these are the color columns.</li>
+<li>What do you want to name the new column to describe the column names? For us we want to name this “color” since that’s what those columns described.</li>
+<li>What do you want to name the new column to describe the values that were in the cells? For us we want to call this “candies” since these are the number of candies in each bag.</li>
+</ul>
+<p>There are a number of ways we can describe which columns to pivot … anything in <a href="https://tidyr.tidyverse.org/reference/tidyr_tidy_select.html">tidy-select</a> works. You can see a bunch of <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html#examples">examples here</a>.</p>
+<p>We are using a range, naming the first “red” and the last column “purple” with <code>:</code> in between. This only works because those columns are all together. We could also use <code>cols = !c(name, date_entered)</code> to say everything but those two columns.</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="tidy-data.html#cb185-1" aria-hidden="true" tabindex="-1"></a>skittles_long <span class="ot">&lt;-</span> skittles <span class="sc">%&gt;%</span> </span>
+<span id="cb185-2"><a href="tidy-data.html#cb185-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb185-3"><a href="tidy-data.html#cb185-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> red<span class="sc">:</span>purple, <span class="co"># sets which columns to pivot based on their names</span></span>
+<span id="cb185-4"><a href="tidy-data.html#cb185-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;color&quot;</span>, <span class="co"># sets column name for color</span></span>
+<span id="cb185-5"><a href="tidy-data.html#cb185-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;candies&quot;</span> <span class="co"># sets column name for candies</span></span>
+<span id="cb185-6"><a href="tidy-data.html#cb185-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb185-7"><a href="tidy-data.html#cb185-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb185-8"><a href="tidy-data.html#cb185-8" aria-hidden="true" tabindex="-1"></a>skittles_long <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   name           date_entered color  candies
+##   &lt;chr&gt;          &lt;date&gt;       &lt;chr&gt;    &lt;dbl&gt;
+## 1 Alora Jones    2020-07-27   red         12
+## 2 Alora Jones    2020-07-27   green       11
+## 3 Alora Jones    2020-07-27   orange      12
+## 4 Alora Jones    2020-07-27   yellow       9
+## 5 Alora Jones    2020-07-27   purple      15
+## 6 Alyssa Hiarker 2020-08-01   red         13</code></pre>
+<div id="average-candies-per-color" class="section level3" number="9.7.1">
+<h3><span class="header-section-number">9.7.1</span> Average candies per color</h3>
+<p>To get the average number of candies per each color, we can use our <code>skittles_long</code> data and <code>group_by</code> color (which will consider all the <strong>red</strong> rows together, etc.) and use <code>summarize()</code> to get the mean.</p>
+<p>This is something you should be able to do on your own, as it is very similar to the <code>sum()</code>s we did with military surplus, but you use <code>mean()</code> instead.</p>
+<p>Save the resulting summary table into a new tibble called <code>skittles_avg</code>.</p>
 <details>
 <summary>
-Remember your data is in data-processed
+Try it on your own
 </summary>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="sums-analyze.html#cb105-1" aria-hidden="true" tabindex="-1"></a>tx <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;data-processed/01-leso-tx.rds&quot;</span>)</span>
-<span id="cb105-2"><a href="sums-analyze.html#cb105-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb105-3"><a href="sums-analyze.html#cb105-3" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
-<pre><code>## Rows: 7,407
-## Columns: 9
-## $ state             &lt;chr&gt; &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;…
-## $ agency_name       &lt;chr&gt; &quot;ABERNATHY POLICE DEPT&quot;, &quot;ABERNATHY POLICE DEPT&quot;, &quot;A…
-## $ item_name         &lt;chr&gt; &quot;PISTOL,CALIBER .45,AUTOMATIC&quot;, &quot;PISTOL,CALIBER .45,…
-## $ quantity          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
-## $ ui                &lt;chr&gt; &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Eac…
-## $ acquisition_value &lt;dbl&gt; 58.71, 58.71, 58.71, 58.71, 58.71, 749.00, 749.00, 3…
-## $ ship_date         &lt;dttm&gt; 2011-11-03, 2011-11-03, 2011-11-03, 2011-11-03, 201…
-## $ station_type      &lt;chr&gt; &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;…
-## $ total_value       &lt;dbl&gt; 58.71, 58.71, 58.71, 58.71, 58.71, 749.00, 749.00, 1…</code></pre>
-</details>
-<p>You should see the <code>tx</code> object in you Environment.</p>
-</div>
-</div>
-<div id="how-to-tackle-summaries" class="section level2" number="6.4">
-<h2><span class="header-section-number">6.4</span> How to tackle summaries</h2>
-<p>As we get into the first quest, let’s talk about “how” we do summaries.</p>
-<p>When I am querying my data, I start by envisioning what the result should look like.</p>
-<p>Let’s take the first question: For each agency in Texas, find the summed <strong>quantity</strong> and summed <strong>total value</strong> of the equipment they received.</p>
-<p>Let’s break this down:</p>
-<ul>
-<li>“For each agency in Texas.” For all the questions, we only want Texas agencies. We took care of this in nthe import book so TX agencies should already filtered.</li>
-<li>But the “For each agency” part tells me I need to <strong>group_by</strong> the <code>agency_name</code> so I can summarize totals within each agency.</li>
-<li>“find the summed <strong>quantity</strong> and summed <strong>total_value</strong>”: Because I’m looking for a total (or <code>sum()</code> of columns) I need <code>summarize()</code>.</li>
-</ul>
-<p>So I envision my result looking like this:</p>
-<table>
-<thead>
-<tr class="header">
-<th>agency_name</th>
-<th align="right">summed_quantity</th>
-<th align="right">summed_total_value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>AFAKE POLICE DEPT</td>
-<td align="right">6419</td>
-<td align="right">10825707.5</td>
-</tr>
-<tr class="even">
-<td>BFAKE SHERIFF’S OFFICE</td>
-<td align="right">381</td>
-<td align="right">3776291.52</td>
-</tr>
-<tr class="odd">
-<td>CFAKE SHERIFF’S OFFICE</td>
-<td align="right">270</td>
-<td align="right">3464741.36</td>
-</tr>
-<tr class="even">
-<td>DFAKE POLICE DEPT</td>
-<td align="right">1082</td>
-<td align="right">3100420.57</td>
-</tr>
-</tbody>
-</table>
-<p>The first columns in that summary will be our grouped values. This example is only grouping by one thing, <code>agency_name</code>. The other two columns are the summed values I’m looking to generate.</p>
-<div id="summaries-with-math" class="section level3" number="6.4.1">
-<h3><span class="header-section-number">6.4.1</span> Summaries with math</h3>
-<p>We’ll start with the <strong>total_quantity</strong>.</p>
-<ol style="list-style-type: decimal">
-<li>Add a new section (headline, text and chunk) that describes the first quest: For each agency in Texas, find the summed <strong>quantity</strong> and summed <strong>total value</strong> of the equipment they received.</li>
-<li>Add the code below into the chunk and run it.</li>
-</ol>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="sums-analyze.html#cb107-1" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> </span>
-<span id="cb107-2"><a href="sums-analyze.html#cb107-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">%&gt;%</span> </span>
-<span id="cb107-3"><a href="sums-analyze.html#cb107-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb107-4"><a href="sums-analyze.html#cb107-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_quantity =</span> <span class="fu">sum</span>(quantity)</span>
-<span id="cb107-5"><a href="sums-analyze.html#cb107-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code>## # A tibble: 357 × 2
-##    agency_name                     sum_quantity
-##    &lt;chr&gt;                                  &lt;dbl&gt;
-##  1 ABERNATHY POLICE DEPT                     13
-##  2 ALLEN POLICE DEPT                         11
-##  3 ALVARADO ISD PD                            4
-##  4 ALVIN POLICE DEPT                        539
-##  5 ANDERSON COUNTY SHERIFFS OFFICE            8
-##  6 ANDREWS COUNTY SHERIFF OFFICE             12
-##  7 ANSON POLICE DEPT                          9
-##  8 ANTHONY POLICE DEPT                       10
-##  9 ARANSAS PASS POLICE DEPARTMENT            38
-## 10 ARP POLICE DEPARTMENT                     18
-## # … with 347 more rows</code></pre>
-<p>Let’s break this down a little.</p>
-<ul>
-<li>We start with the <code>tx</code> data, and then …</li>
-<li>We group by <code>agency_name</code>. This organizes our data (behind the scenes) so our summarize actions will happen <em>within each agency</em>. Now I normally say run your code one line at a time, but you would note be able to <em>see</em> the groupings, so I usually write <code>group_by()</code> and <code>summarize()</code> together.</li>
-<li>In <code>summarize()</code> we first name our new column: <code>sum_quantity</code>. We could call this whatever we want, but good practice is to name it what it is. We use good naming techniqes and split the words using <code>_</code>. I also use all lowercase characters.</li>
-<li>We set that column to equal <code>=</code> the <strong>sum of all values in the <code>quantity</code> column</strong>. <code>sum()</code> is the function, and we feed it the column we want to add together: <code>quantity</code>.</li>
-<li>I put the inside of the summarize function in its own line because we will add to it. I enhances readability. RStudio will help you with the indenting, etc.</li>
-</ul>
-<p>If you look at the first line of the return, it is taking all the rows for the “ABERNATHY POLICE DEPT” and then adding together all the values in the <code>quantity</code> field.</p>
-<p>If you wanted to test this (and it is a real good idea), you might look at the data from one of the values and check the math. Here are the Abernathy rows. I usually do these tests in a code chunk of their own, and sometimes I delete them after I’m sure it worked.</p>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="sums-analyze.html#cb109-1" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> </span>
-<span id="cb109-2"><a href="sums-analyze.html#cb109-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">==</span> <span class="st">&quot;ABERNATHY POLICE DEPT&quot;</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 9 × 9
-##   state agency_name           item_name                    quantity ui    acquisition_val…
-##   &lt;chr&gt; &lt;chr&gt;                 &lt;chr&gt;                           &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt;
-## 1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-## 2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-## 3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-## 4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-## 5 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-## 6 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIMETER               1 Each             749  
-## 7 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIMETER               1 Each             749  
-## 8 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX                        5 Each             333  
-## 9 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY                       1 Each           62627  
-## # … with 3 more variables: ship_date &lt;dttm&gt;, station_type &lt;chr&gt;,
-## #   total_value &lt;dbl&gt;</code></pre>
-<p>If we look at the <code>quantity</code> column there and eyeball all the rows, we see there 8 rows with a value of “1,” and one row with a value of “5.” 8 + 5 = 13, which matches our <code>sum_quantity</code> answer in our summary table. We’re good!</p>
-</div>
-<div id="add-the-total_value" class="section level3" number="6.4.2">
-<h3><span class="header-section-number">6.4.2</span> Add the total_value</h3>
-<p>We don’t have to stop at one summary. We can perform multiple summarize actions on the same or different columns within the same expression.</p>
-<p><strong>Edit your summary chunk</strong> to:</p>
-<ol style="list-style-type: decimal">
-<li>Add add a comma after the first summarize action.</li>
-<li>Add the new expression to give us the <code>sum_total_value</code> and run it.</li>
-</ol>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="sums-analyze.html#cb111-1" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> </span>
-<span id="cb111-2"><a href="sums-analyze.html#cb111-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">%&gt;%</span> </span>
-<span id="cb111-3"><a href="sums-analyze.html#cb111-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb111-4"><a href="sums-analyze.html#cb111-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_quantity =</span> <span class="fu">sum</span>(quantity),</span>
-<span id="cb111-5"><a href="sums-analyze.html#cb111-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_total_value =</span> <span class="fu">sum</span>(total_value)</span>
-<span id="cb111-6"><a href="sums-analyze.html#cb111-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code>## # A tibble: 357 × 3
-##    agency_name                     sum_quantity sum_total_value
-##    &lt;chr&gt;                                  &lt;dbl&gt;           &lt;dbl&gt;
-##  1 ABERNATHY POLICE DEPT                     13          66084.
-##  2 ALLEN POLICE DEPT                         11        1404024 
-##  3 ALVARADO ISD PD                            4            480 
-##  4 ALVIN POLICE DEPT                        539        2545240.
-##  5 ANDERSON COUNTY SHERIFFS OFFICE            8         827891 
-##  6 ANDREWS COUNTY SHERIFF OFFICE             12           1476 
-##  7 ANSON POLICE DEPT                          9           5077 
-##  8 ANTHONY POLICE DEPT                       10           7490 
-##  9 ARANSAS PASS POLICE DEPARTMENT            38         571738 
-## 10 ARP POLICE DEPARTMENT                     18           5789.
-## # … with 347 more rows</code></pre>
-</div>
-<div id="arrange-the-results-1" class="section level3" number="6.4.3">
-<h3><span class="header-section-number">6.4.3</span> Arrange the results</h3>
-<p>OK, this gives us our answers, but in alphabetical order. We want to arrange the data so it gives us the most <code>sum_total_value</code> in <strong>desc</strong>ending order.</p>
-<ol style="list-style-type: decimal">
-<li>EDIT your block to add an <code>arrange()</code> function below</li>
-</ol>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="sums-analyze.html#cb113-1" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> </span>
-<span id="cb113-2"><a href="sums-analyze.html#cb113-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">%&gt;%</span> </span>
-<span id="cb113-3"><a href="sums-analyze.html#cb113-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb113-4"><a href="sums-analyze.html#cb113-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_quantity =</span> <span class="fu">sum</span>(quantity),</span>
-<span id="cb113-5"><a href="sums-analyze.html#cb113-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_total_value =</span> <span class="fu">sum</span>(total_value)</span>
-<span id="cb113-6"><a href="sums-analyze.html#cb113-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb113-7"><a href="sums-analyze.html#cb113-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(sum_total_value <span class="sc">%&gt;%</span> <span class="fu">desc</span>())</span></code></pre></div>
-<pre><code>## # A tibble: 357 × 3
-##    agency_name                       sum_quantity sum_total_value
-##    &lt;chr&gt;                                    &lt;dbl&gt;           &lt;dbl&gt;
-##  1 HOUSTON POLICE DEPT                       6419       10825708.
-##  2 HARRIS COUNTY SHERIFF&#39;S OFFICE             381        3776292.
-##  3 DPS SWAT- TEXAS RANGERS                   1730        3520630.
-##  4 JEFFERSON COUNTY SHERIFF&#39;S OFFICE          270        3464741.
-##  5 SAN MARCOS POLICE DEPT                    1082        3100421.
-##  6 AUSTIN POLICE DEPT                        1458        2741021.
-##  7 MILAM COUNTY SHERIFF DEPT                  125        2723192.
-##  8 ALVIN POLICE DEPT                          539        2545240.
-##  9 HARRIS COUNTY CONSTABLE PCT 3              293        2376945.
-## 10 PARKS AND WILDLIFE DEPT                   5608        2325655.
-## # … with 347 more rows</code></pre>
-</div>
-<div id="consider-the-results" class="section level3" number="6.4.4">
-<h3><span class="header-section-number">6.4.4</span> Consider the results</h3>
-<p>Is there anything that sticks out in that list? It helps if you know a little bit about Texas cities and counties, but here are some thoughts to ponder:</p>
-<ul>
-<li>Houston is the largest city in the state (4th largest in the country). It makes sense that it tops the list. Same for Harris County or even the state police force. Austin being up there is also not crazy, as it’s almost a million people.</li>
-<li>But what about San Marcos (63,220)? Or Milam County (24,770)? Those are way smaller cities and law enforcement agencies. They might be worth looking into.</li>
-</ul>
-<p>Perhaps we should look some at the police agencies closest to us.</p>
-</div>
-</div>
-<div id="looking-a-local-agencies" class="section level2" number="6.5">
-<h2><span class="header-section-number">6.5</span> Looking a local agencies</h2>
-<p>Our next goal is this:</p>
-<p>We’ll take the summary above, but filter it to show only some local agencies of interest.</p>
-<p>Since we are essentially taking an existing summary and adding more filtering to it, it makes sense to go back into that chunk and save it into a new object so we can reuse it.</p>
-<ol style="list-style-type: decimal">
-<li>EDIT your existing summary chunk to save it into a new tibble. Name it <code>tx_quants_totals</code> so we are all on the same page.</li>
-<li>Add a new line that prints the result to the screen so you can still see it.</li>
-</ol>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="sums-analyze.html#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adding the new tibble object in next line</span></span>
-<span id="cb115-2"><a href="sums-analyze.html#cb115-2" aria-hidden="true" tabindex="-1"></a>tx_quants_totals <span class="ot">&lt;-</span> tx <span class="sc">%&gt;%</span> </span>
-<span id="cb115-3"><a href="sums-analyze.html#cb115-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">%&gt;%</span> </span>
-<span id="cb115-4"><a href="sums-analyze.html#cb115-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb115-5"><a href="sums-analyze.html#cb115-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_quantity =</span> <span class="fu">sum</span>(quantity),</span>
-<span id="cb115-6"><a href="sums-analyze.html#cb115-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_total_value =</span> <span class="fu">sum</span>(total_value)</span>
-<span id="cb115-7"><a href="sums-analyze.html#cb115-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb115-8"><a href="sums-analyze.html#cb115-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(sum_total_value <span class="sc">%&gt;%</span> <span class="fu">desc</span>())</span>
-<span id="cb115-9"><a href="sums-analyze.html#cb115-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb115-10"><a href="sums-analyze.html#cb115-10" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
-<span id="cb115-11"><a href="sums-analyze.html#cb115-11" aria-hidden="true" tabindex="-1"></a>tx_quants_totals</span></code></pre></div>
-<pre><code>## # A tibble: 357 × 3
-##    agency_name                       sum_quantity sum_total_value
-##    &lt;chr&gt;                                    &lt;dbl&gt;           &lt;dbl&gt;
-##  1 HOUSTON POLICE DEPT                       6419       10825708.
-##  2 HARRIS COUNTY SHERIFF&#39;S OFFICE             381        3776292.
-##  3 DPS SWAT- TEXAS RANGERS                   1730        3520630.
-##  4 JEFFERSON COUNTY SHERIFF&#39;S OFFICE          270        3464741.
-##  5 SAN MARCOS POLICE DEPT                    1082        3100421.
-##  6 AUSTIN POLICE DEPT                        1458        2741021.
-##  7 MILAM COUNTY SHERIFF DEPT                  125        2723192.
-##  8 ALVIN POLICE DEPT                          539        2545240.
-##  9 HARRIS COUNTY CONSTABLE PCT 3              293        2376945.
-## 10 PARKS AND WILDLIFE DEPT                   5608        2325655.
-## # … with 347 more rows</code></pre>
-<p>The result is the same, but we can reuse the <code>tx_quants_totals</code> tibble.</p>
-<div id="filtering-within-a-vector" class="section level3" number="6.5.1">
-<h3><span class="header-section-number">6.5.1</span> Filtering within a vector</h3>
-<p><strong>Let’s talk through the filter concepts before you try it with this data.</strong></p>
-<p>When we talked about filtering with the Billboard project, we discussed using the <code>|</code> operator as an “OR” function. If we were to apply that logic here, it would look like this:</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="sums-analyze.html#cb117-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
-<span id="cb117-2"><a href="sums-analyze.html#cb117-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(column_name <span class="sc">==</span> <span class="st">&quot;Text to find&quot;</span> <span class="sc">|</span> column_name <span class="sc">==</span> <span class="st">&quot;More text to find&quot;</span>)</span></code></pre></div>
-<p>That can get pretty unwieldy if you have more than a couple of things to look for.</p>
-<p>There is another operator <code>%in%</code> where we can search for multiple items from a list. (This list of terms is officially called a vector, but whatever.) Think of it like this in plain English: <em>Filter</em> the <em>column</em> for things <em>in</em> this <em>list</em>.</p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="sums-analyze.html#cb118-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
-<span id="cb118-2"><a href="sums-analyze.html#cb118-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;This string&quot;</span>, <span class="st">&quot;That string&quot;</span>))</span></code></pre></div>
-<p>We can take this a step further by saving the items in our list into an R object so we can reuse that list and not have to type out all the terms each time we use them.</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="sums-analyze.html#cb119-1" aria-hidden="true" tabindex="-1"></a>list_of_strings <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb119-2"><a href="sums-analyze.html#cb119-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;This string&quot;</span>,</span>
-<span id="cb119-3"><a href="sums-analyze.html#cb119-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;That string&quot;</span></span>
-<span id="cb119-4"><a href="sums-analyze.html#cb119-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb119-5"><a href="sums-analyze.html#cb119-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb119-6"><a href="sums-analyze.html#cb119-6" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
-<span id="cb119-7"><a href="sums-analyze.html#cb119-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_name <span class="sc">%in%</span> list_of_strings)</span></code></pre></div>
-</div>
-<div id="use-the-vector-to-build-this-filter" class="section level3" number="6.5.2">
-<h3><span class="header-section-number">6.5.2</span> Use the vector to build this filter</h3>
-<ol style="list-style-type: decimal">
-<li>Create a new section (headline, text and chunk) and describe you are filtering the summed quantity/values for some select local agencies.</li>
-<li>Create a saved vector list (like the list_of_strings above) of the five agencies we want to focus on. Call it <code>local_agencies</code>.</li>
-<li>Start with the <code>tx_quants_totals</code> tibble you created for totals by agency and then use <code>filter()</code> and <code>%in%</code> to filter by your new <code>local_agencies</code> list.</li>
-</ol>
-<p>These are the agencies:</p>
-<pre><code>AUSTIN POLICE DEPT
-SAN MARCOS POLICE DEPT
-TRAVIS COUNTY SHERIFFS OFFICE
-UNIV OF TEXAS SYSTEM POLICE HI_ED
-WILLIAMSON COUNTY SHERIFF&#39;S OFFICE</code></pre>
-<blockquote>
-<p>To be clear, in the interest of time I’ve done considerable work beforehand to figure out the exact names of these agencies. It helps that I’m familiar with local cities and counties so I used some creative filtering to find their “official” names in the data. I just don’t want to get into how right now.</p>
-</blockquote>
-<details>
-<summary>
-Use the example above to build with your data
-</summary>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="sums-analyze.html#cb121-1" aria-hidden="true" tabindex="-1"></a>local_agencies <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb121-2"><a href="sums-analyze.html#cb121-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;AUSTIN POLICE DEPT&quot;</span>,</span>
-<span id="cb121-3"><a href="sums-analyze.html#cb121-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;SAN MARCOS POLICE DEPT&quot;</span>,</span>
-<span id="cb121-4"><a href="sums-analyze.html#cb121-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;TRAVIS COUNTY SHERIFFS OFFICE&quot;</span>,</span>
-<span id="cb121-5"><a href="sums-analyze.html#cb121-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;UNIV OF TEXAS SYSTEM POLICE HI_ED&quot;</span>,</span>
-<span id="cb121-6"><a href="sums-analyze.html#cb121-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;WILLIAMSON COUNTY SHERIFF&#39;S OFFICE&quot;</span></span>
-<span id="cb121-7"><a href="sums-analyze.html#cb121-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb121-8"><a href="sums-analyze.html#cb121-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb121-9"><a href="sums-analyze.html#cb121-9" aria-hidden="true" tabindex="-1"></a>tx_quants_totals <span class="sc">%&gt;%</span> </span>
-<span id="cb121-10"><a href="sums-analyze.html#cb121-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">%in%</span> local_agencies)</span></code></pre></div>
-<pre><code>## # A tibble: 5 × 3
-##   agency_name                        sum_quantity sum_total_value
-##   &lt;chr&gt;                                     &lt;dbl&gt;           &lt;dbl&gt;
-## 1 SAN MARCOS POLICE DEPT                     1082        3100421.
-## 2 AUSTIN POLICE DEPT                         1458        2741021.
-## 3 UNIV OF TEXAS SYSTEM POLICE HI_ED             3        1305000 
-## 4 TRAVIS COUNTY SHERIFFS OFFICE               151         935354.
-## 5 WILLIAMSON COUNTY SHERIFF&#39;S OFFICE          210         431449.</code></pre>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="tidy-data.html#cb187-1" aria-hidden="true" tabindex="-1"></a>skittles_avg <span class="ot">&lt;-</span> skittles_long <span class="sc">%&gt;%</span> </span>
+<span id="cb187-2"><a href="tidy-data.html#cb187-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(color) <span class="sc">%&gt;%</span> </span>
+<span id="cb187-3"><a href="tidy-data.html#cb187-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candies))</span>
+<span id="cb187-4"><a href="tidy-data.html#cb187-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb187-5"><a href="tidy-data.html#cb187-5" aria-hidden="true" tabindex="-1"></a>skittles_avg</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 2
+##   color  avg_candies
+##   &lt;chr&gt;        &lt;dbl&gt;
+## 1 green         11.2
+## 2 orange        12.2
+## 3 purple        12  
+## 4 red           11.5
+## 5 yellow        11.5</code></pre>
 </details>
 </div>
-</div>
-<div id="item-quantities-totals-for-local-agencies" class="section level2" number="6.6">
-<h2><span class="header-section-number">6.6</span> Item quantities, totals for local agencies</h2>
-<p>Now that we have an overall idea of what local agencies are doing, let’s dive a little deeper. It’s time to figure out the specific items that they received.</p>
-<p>Here is the quest: For each of the agencies above we’ll use summarize to get the <em>summed</em> <strong>quantity</strong> and <em>summed</em> <strong>total_value</strong> of each <strong>item</strong> shipped to the agency. We’ll create a summarized list for each agency so we can write about each one.</p>
-<p>In some cases an agency might get the same item shipped to them at different times. For instance, APD has multiple rows of a single “ILLUMINATOR,INTEGRATED,SMALL ARM” shipped to them on the same date, and at other times the quantity is combined as 30 items into a single row. We’ll group our summarize by <strong>item_name</strong> so we can get the totals for both <strong>quantity</strong> and <strong>total_value</strong> for like items.</p>
+<div id="round-the-averages" class="section level3" number="9.7.2">
+<h3><span class="header-section-number">9.7.2</span> Round the averages</h3>
+<p>Let’s modify this chart to round the averages to tenths so they will plot nicely on our chart.’</p>
+<p>The <code>round()</code> function needs the column to change, and then the number of digits past the decimal to include.</p>
 <ol style="list-style-type: decimal">
-<li>Create a new section (headline, text and first code chunk) and describe that you are finding the sums of each different item the agency has received since 2010.</li>
-<li>Our first code chunk will start with the <code>tx</code> data, and then filter the results to just “AUSTIN POLICE DEPT.”</li>
-<li>Use <code>group_by</code> to group by <code>item_name</code>.</li>
-<li>Use summarize to build the <code>summed_quantity</code> and <code>summed_total_value</code> columns.</li>
-<li>Arrange the results so the most expensive items are at the top.</li>
+<li>Edit your summary to include the mutate below.</li>
 </ol>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="sums-analyze.html#cb123-1" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> </span>
-<span id="cb123-2"><a href="sums-analyze.html#cb123-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">==</span> <span class="st">&quot;AUSTIN POLICE DEPT&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb123-3"><a href="sums-analyze.html#cb123-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(item_name) <span class="sc">%&gt;%</span> </span>
-<span id="cb123-4"><a href="sums-analyze.html#cb123-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb123-5"><a href="sums-analyze.html#cb123-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity),</span>
-<span id="cb123-6"><a href="sums-analyze.html#cb123-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_total_value =</span> <span class="fu">sum</span>(total_value)</span>
-<span id="cb123-7"><a href="sums-analyze.html#cb123-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb123-8"><a href="sums-analyze.html#cb123-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(summed_total_value <span class="sc">%&gt;%</span> <span class="fu">desc</span>())</span></code></pre></div>
-<pre><code>## # A tibble: 46 × 3
-##    item_name                                           summed_quantity summed_total_va…
-##    &lt;chr&gt;                                                         &lt;dbl&gt;            &lt;dbl&gt;
-##  1 HELICOPTER,FLIGHT TRAINER                                         1          833400 
-##  2 IMAGE INTENSIFIER,NIGHT VISION                                   85          467847.
-##  3 SIGHT,THERMAL                                                    29          442310 
-##  4 PACKBOT 510 WITH FASTAC REMOTELY CONTROLLED VEHICLE               4          308000 
-##  5 SIGHT,REFLEX                                                    420          144245.
-##  6 ILLUMINATOR,INTEGRATED,SMALL ARMS                               135          122302 
-##  7 RECON SCOUT XT                                                    8           92451.
-##  8 RECON SCOUT XT,SPEC                                               6           81900 
-##  9 TEST SET,NIGHT VISION VIEWER                                      2           56650 
-## 10 PICKUP                                                            1           26327 
-## # … with 36 more rows</code></pre>
-<p><strong>Please realize</strong> that this combines items that may have been shipped on any date our time period. If you want to learn more about <em>when</em> they got the items, you would have to build a new list of the data without grouping/summarizing.</p>
-<div id="build-the-lists-for-other-agencies" class="section level3" number="6.6.1">
-<h3><span class="header-section-number">6.6.1</span> Build the lists for other agencies</h3>
-<p>On your own …</p>
-<ol style="list-style-type: decimal">
-<li>Build a similar list for all the other local agencies. Basically you are just changing the filtering. You should end up with five chunks, each summarizing a different agency.</li>
-</ol>
-</div>
-<div id="google-some-interesting-items" class="section level3" number="6.6.2">
-<h3><span class="header-section-number">6.6.2</span> Google some interesting items</h3>
-<p>You’ll want some more detail in your data drop about some of these specific items.</p>
-<ol style="list-style-type: decimal">
-<li>Do some Googling on some of these items of interest to learn more about them. I realize (and you should, too) that for a “real” story we would need to reach out to sources for more information, but you can get a general idea from what you find online for the writing assignment below.</li>
-</ol>
-</div>
-</div>
-<div id="write-a-data-drop" class="section level2" number="6.7">
-<h2><span class="header-section-number">6.7</span> Write a data drop</h2>
-<p>Once you’ve found answers to all the questions listed, you’ll weave those into a writing assignment. Include this as a Microsoft Word document saved into your project folder along with your notebooks. (If you are a Google Docs fan, you can write there and then export as a Word doc.)</p>
-<p>You will <strong>not</strong> be writing a full story … we are just practicing writing a lede and “data sentences” about what you’ve found. You <em>do</em> need to source the data and briefly describe the program but this is not a fully-fleshed story. Just concentrate on how you would write the facts and attribution. You will want to refer back to <a href="https://utdata.github.io/rwdir/sums-import.html#about-the-story-military-surplus-transfers">Chapter 5.1</a> and the subchapters there for more information.</p>
-<ol style="list-style-type: decimal">
-<li>Write a data drop from the data of between four and six paragraphs. Be sure to include attribution about where the data came from.</li>
-<li>You can pick the lede angle from any of the questions outlined above. Each additional paragraph should describe what you found from the data.</li>
-<li>Use Microsoft Word and include it inside your stuffed project when you upload it to Canvas.</li>
-</ol>
-<p>Here is a <strong>partial</strong> example to give you an idea of what I’m looking for. (These numbers may be old and you can’t use this angle as your lede ;-)).</p>
-<blockquote>
-<p>The Jefferson County Sheriff’s Office is flying high thanks to gifts of over $3.5 million worth of surplus U.S. Department of Defense equipment.</p>
-</blockquote>
-<blockquote>
-<p>Among the items transferred over the past decade to the department was a $923,000 helicopter in October 2016 and related parts the following year, according to data from the Defense Logistics Agency data — the agency that handles the transfers.</p>
-</blockquote>
-<blockquote>
-<p>The sheriff’s office has received the fourth highest value of equipment among any law enforcement agency in Texas since August 2014 despite being a county of only 250,000 people.</p>
-</blockquote>
-</div>
-<div id="what-we-learned-in-this-chapter" class="section level2" number="6.8">
-<h2><span class="header-section-number">6.8</span> What we learned in this chapter</h2>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="tidy-data.html#cb189-1" aria-hidden="true" tabindex="-1"></a>skittles_avg <span class="ot">&lt;-</span> skittles_long <span class="sc">%&gt;%</span> </span>
+<span id="cb189-2"><a href="tidy-data.html#cb189-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(color) <span class="sc">%&gt;%</span> </span>
+<span id="cb189-3"><a href="tidy-data.html#cb189-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candies)) <span class="sc">%&gt;%</span> </span>
+<span id="cb189-4"><a href="tidy-data.html#cb189-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb189-5"><a href="tidy-data.html#cb189-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_candies =</span> <span class="fu">round</span>(avg_candies, <span class="dv">1</span>)</span>
+<span id="cb189-6"><a href="tidy-data.html#cb189-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb189-7"><a href="tidy-data.html#cb189-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb189-8"><a href="tidy-data.html#cb189-8" aria-hidden="true" tabindex="-1"></a>skittles_avg</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 2
+##   color  avg_candies
+##   &lt;chr&gt;        &lt;dbl&gt;
+## 1 green         11.2
+## 2 orange        12.2
+## 3 purple        12  
+## 4 red           11.5
+## 5 yellow        11.5</code></pre>
+<p>BONUS POINT OPPORTUNITY: Using a similar method to rounding above, you can also capitalize the names of the colors. You don’t <em>have</em> to do this, but I’ll give you bonus points if you do:</p>
 <ul>
-<li>We used <code>sum()</code> within a <code>group_by()</code>/<code>summarize()</code> function to add values within a column.</li>
-<li>We used <code>summary()</code> to get descriptive statistics about our data, like the minimum and maximum values, or an average (mean).</li>
-<li>We learned how to use <code>c()</code> to <strong>combine</strong> a list of like values into a <em>vector</em>, and then used that vector to filter a column for valus <code>%in%</code> that vector.</li>
+<li>In your mutate, add a rule that updates <code>color</code> column using <code>str_to_title()</code>.</li>
 </ul>
+</div>
+<div id="plot-the-averages" class="section level3" number="9.7.3">
+<h3><span class="header-section-number">9.7.3</span> Plot the averages</h3>
+<p>Now I want you to use ggplot to create a bar chart that shows the average number of candies in a bag. This is very similar to your plots of Disney Princesses and ice cream in Chapter 6.</p>
+<ol style="list-style-type: decimal">
+<li>Build a bar chart of averge color using ggplot.</li>
+</ol>
+<p>Some things to consider:</p>
+<ul>
+<li>I want the bars to be ordered by the highest average on top.</li>
+<li>I want a good title, subtitle and byline, along with good axis names.</li>
+<li>Include the values on the bars</li>
+<li>Change the theme to something other than the default</li>
+</ul>
+<p><img src="09-tidy-data_files/figure-html/avg-plot-1.png" width="672" /></p>
+</div>
+</div>
+<div id="using-datawrapper" class="section level2" number="9.8">
+<h2><span class="header-section-number">9.8</span> Using Datawrapper</h2>
+<p>There are some other great charting tools that journalists use. My favorite is <a href="https://www.datawrapper.de/">Datawrapper</a> and is free for the level you need it.</p>
+<p>Datawrapper is so easy I don’t even have to teach you how to use it. They have <a href="https://academy.datawrapper.de/">excellent tutorials</a>.</p>
+<p>What you do need is the data to plot, but you’ve already “shaped” it the way you need it. Your <code>skittles_avg</code> tibble is what you need.</p>
+<p>Here are the steps I want you to follow:</p>
+<div id="review-how-to-make-a-bar-chart" class="section level3" number="9.8.1">
+<h3><span class="header-section-number">9.8.1</span> Review how to make a bar chart</h3>
+<ol style="list-style-type: decimal">
+<li>In a web browser, go to the <a href="https://academy.datawrapper.de/">Datawrapper Academy</a></li>
+<li>Click on <strong>Bar charts</strong></li>
+<li>Choose <strong><a href="https://academy.datawrapper.de/article/7-bar-chart">How to create a bar chart</a></strong></li>
+</ol>
+<p>The first thing to note there is they show you what they expect the data to look like. Your <code>skittles_avg</code> tibble is just like this, but with Color and Candies.</p>
+<p>You’ll use these directions to create your charts so you might keep this open in its own tab.</p>
+</div>
+<div id="start-a-chart" class="section level3" number="9.8.2">
+<h3><span class="header-section-number">9.8.2</span> Start a chart</h3>
+<ol style="list-style-type: decimal">
+<li>In a new browser tab, go to <a href="https://www.datawrapper.de/">datawrapper.de</a> and click the big <strong>Start creating</strong> button.</li>
+<li>Use the <strong>Login/Sign Up</strong> button along the top to create an account or log in if you have one.</li>
+<li>The first screen you have is where you can <strong>Upload data</strong> or paste it into the window. We are going to paste the data, but we have to do some stuff in R to get it.</li>
+</ol>
+</div>
+<div id="get-your-candies-data" class="section level3" number="9.8.3">
+<h3><span class="header-section-number">9.8.3</span> Get your candies data</h3>
+<p>We need to install a package called clipr.</p>
+<ol style="list-style-type: decimal">
+<li>In your R project in the R Console install clipr: <code>install.packages("clipr")</code>.</li>
+<li>Start a section that says you are going to get data for Datawrapper.</li>
+<li>Create a chunk with the following and run it.</li>
+</ol>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="tidy-data.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(clipr)</span>
+<span id="cb191-2"><a href="tidy-data.html#cb191-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb191-3"><a href="tidy-data.html#cb191-3" aria-hidden="true" tabindex="-1"></a>skittles_avg <span class="sc">%&gt;%</span> <span class="fu">write_clip</span>()</span></code></pre></div>
+<p>You don’t see anything happen, but all the data in <code>skittles_long</code> has been added to your clipboard.</p>
+</div>
+<div id="build-the-datawrapper-graphic" class="section level3" number="9.8.4">
+<h3><span class="header-section-number">9.8.4</span> Build the datawrapper graphic</h3>
+<ol style="list-style-type: decimal">
+<li>Return to the browser where you are making the chart, but your cursor into the “Paste your copied data here …” window and paste.</li>
+<li>Click <strong>Proceed</strong>.</li>
+</ol>
+<p>You can now follow the Datawrapper Academy directions to finish your chart.</p>
+<p>When you get to the Publish &amp; Embed window, I want you to add that link to your R Notebook so I can find it for grading.</p>
+</div>
+</div>
+<div id="bonus-questions" class="section level2" number="9.9">
+<h2><span class="header-section-number">9.9</span> Bonus questions</h2>
+<p>More opportunities for bonus points on this assignment. These aren’t plots, just data wrangling.</p>
+<div id="mostleast-candies" class="section level3" number="9.9.1">
+<h3><span class="header-section-number">9.9.1</span> Most/least candies</h3>
+<p>Answer me this: Who got the most candies in their bag? Who got the least?</p>
+<p>I want a well-structured section (headline, text) with two chunks, one for most and one for least.</p>
+</div>
+<div id="average-total-candies-in-a-bag" class="section level3" number="9.9.2">
+<h3><span class="header-section-number">9.9.2</span> Average total candies in a bag</h3>
+<p>Answer me this: What is the average number of candy in a bag?</p>
+<p>Again, well-structured section and include the code.</p>
+<p>Hint: You need a total number of candies per person before you can get an average.</p>
 
+</div>
 </div>
 </div>
             </section>
@@ -923,8 +830,8 @@ Use the example above to build with your data
           </div>
         </div>
       </div>
-<a href="sums-import.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="ggplot-intro.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ggplot-more.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="how-to-tackle-a-new-dataset.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -956,7 +863,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/06-sums-analysis.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/09-tidy-data.Rmd",
 "text": "Edit"
 },
 "history": {
