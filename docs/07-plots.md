@@ -123,7 +123,7 @@ We'll now add onto this base layer a number of things:
 - **geometries** (or geoms as we call them) are the way we plot data on the base grid. There are [many geoms](https://github.com/rstudio/cheatsheets/blob/master/data-visualization.pdf), but here are a few common ones:
     - `geom_points()` adds dots onto the grid based on the data. Will will use these here to build a scatterplot graph.
     - `geom_line()` adds lines between data points on the grid. Basically a line chart.
-    - `geom_col()` and `goem_bars()` adds bars to the grid based on values in the data. A bar chart. We'll use `geom_col()` later in this lesson but you can read about the difference between the two in a later chapter.
+    - `geom_col()` and `geom_bars()` adds bars to the grid based on values in the data. A bar chart. We'll use `geom_col()` later in this lesson but you can read about the difference between the two in a later chapter.
     - `geom_text()` adds labels based on values in the data.
 - **labels** (or labs, since we use the `labs()` function for them) are a series of text-based items we can layer onto our plots like titles, bylines and axis names.
 - **themes** change the visual styles of the grids and axis. There are several available within ggplot and [many other from the R community](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/).
@@ -378,12 +378,6 @@ Some things to consider:
 - You need to build the chart
 
 It's essentially the same process we used for the princess chart, but using `ice_cream` variable.
-
-## Turn in this notebook
-
-> WILL I TURN IN HERE? OR WAIT UNTIL THE NEXT CHAPTER?
-
-Make sure this notebook runs all the way through (Restart R and Run All), knit, stuff, and turn into Canvas.
 
 ## What we've learned
 
