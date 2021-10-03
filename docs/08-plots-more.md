@@ -17,9 +17,9 @@ ggplot2 has a LOT to it and we'll cover only the basics. Here are some reference
 
 Some things we'll touch on concerning ggplot:
 
-- Layering multiple geoms
-- Adding/changing aesthetics in layers
+- Prepare and build a line chart
 - Using themes to change the look of our charts
+- Adding/changing aesthetics in layers
 - Facets (multiple charts from same data)
 - Saving files
 - Interactivity with Plotly
@@ -169,6 +169,94 @@ ggplot(tx_hied, aes(x = year, y = inf_adj_perchild)) + # we create our graph
 
 We have a pretty decent chart showing `year` on our x axis and `inf_adj_perchild` (or inflation-adjusted spending per child) on our y axis.
 
+### Saving plots as an object
+
+Sometimes it is helpful to push the results of a plot into an R object to "save" those configurations. You can continue to add layers after, but don't have to rebuild the basic chart each time. We'll do that here so we can explore themes next.
+
+1. Edit your Texas plot chunk you made earlier to save it into an R object, and then call `tx_plot` after it so you can see it.
+
+
+```r
+# the line below pushes the graph results into tx_plot
+tx_plot <- ggplot(tx_hied, aes(x = year, y = inf_adj_perchild)) +
+  geom_point() +
+  geom_line() +
+  labs(
+    title = "School spending slips", 
+    subtitle = "Texas spent less per child on higher education in 2016.",
+    x = "Year", y = "$ per child (Adjusted for Inflation)",
+    caption = "Source: tidykids"
+  )
+
+# Since we saved the plot into an R object above, we have to call it again to see it.
+# We save graphs like this so we can reuse them.
+tx_plot
+```
+
+<img src="08-plots-more_files/figure-html/tx-plot-create-1.png" width="672" />
+
+We can continue to build upon the `tx_plot` object like we do below with themes, but those changes won't be "saved" into the R environment unless you assign it to an R object.
+
+## Themes
+
+The _look_ of the graph is controlled by the theme. There are a number of preset themes you can use. Let's look at a couple.
+
+1. Create a new section saying we'll explore themes
+2. Add the chunk below and run it.
+
+
+```r
+tx_plot +
+  theme_minimal()
+```
+
+<img src="08-plots-more_files/figure-html/theme-minimal-1.png" width="672" />
+
+This takes our existing `tx_plot` and then applies the `theme_minimal()` look to it.
+
+There are a number of themes built into ggplot, most are pretty simplistic.
+
+1. Edit your existing chunk to try different themes. Some you might try are `theme_classic()`, `theme_dark()` and `theme_void()`. 
+
+### More with ggthemes
+
+There are a number of other packages that build upon `ggplot2`, including [`ggthemes`](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/).
+
+1. In your R console, install the ggthemes package: `install.packages("ggthemes")`
+2. Add the `library(ggthemes)` at the top of your current chunk.
+3. Update the theme line to view some of the others options noted below.
+
+
+```r
+library(ggthemes)
+tx_plot +
+  theme_economist()
+```
+
+<img src="08-plots-more_files/figure-html/theme-economist-1.png" width="672" />
+
+
+```r
+tx_plot +
+  theme_fivethirtyeight()
+```
+
+<img src="08-plots-more_files/figure-html/theme-538-1.png" width="672" />
+
+
+```r
+tx_plot +
+  theme_stata()
+```
+
+<img src="08-plots-more_files/figure-html/theme-stata-1.png" width="672" />
+
+### There is more to themes
+
+There is also a `theme()` function that allows you individually [adjust about every visual element](https://ggplot2.tidyverse.org/reference/theme.html) on your plot.
+
+We do a wee bit of that later.
+
 ## Adding more information
 
 OK, our Texas higher education spending is fine ... but how does that compare to neighboring states? Let's work through building a new chart that shows all those steps.
@@ -312,94 +400,6 @@ ggplot(five_hied, aes(x = year, y = inf_adj_perchild, linetype = state)) +
 
 The function `xlim()` and `ylim()` are shortcuts for `scale_x_continuous()` and `scale_y_continuous()` which [do more things](https://ggplot2.tidyverse.org/reference/scale_continuous.html#examples).
 
-## Saving plots as an object
-
-Sometimes it is helpful to push the results of a plot into an R object to "save" those configurations. You can continue to add layers after, but don't have to rebuild the basic chart each time. We'll do that here so we can explore themes next.
-
-1. Edit your Texas plot chunk you made earlier to save it into an R object, and then call `tx_plot` after it so you can see it.
-
-
-```r
-# the line below pushes the graph results into tx_plot
-tx_plot <- ggplot(tx_hied, aes(x = year, y = inf_adj_perchild)) +
-  geom_point() +
-  geom_line() +
-  labs(
-    title = "School spending slips", 
-    subtitle = "Texas spent less per child on higher education in 2016.",
-    x = "Year", y = "$ per child (Adjusted for Inflation)",
-    caption = "Source: tidykids"
-  )
-
-# Since we saved the plot into an R object above, we have to call it again to see it.
-# We save graphs like this so we can reuse them.
-tx_plot
-```
-
-<img src="08-plots-more_files/figure-html/tx-plot-create-1.png" width="672" />
-
-We can continue to build upon the `tx_plot` object like we do below with themes, but those changes won't be "saved" into the R environment unless you assign it to an R object.
-
-## Themes
-
-The _look_ of the graph is controlled by the theme. There are a number of preset themes you can use. Let's look at a couple.
-
-1. Create a new section saying we'll explore themes
-2. Add the chunk below and run it.
-
-
-```r
-tx_plot +
-  theme_minimal()
-```
-
-<img src="08-plots-more_files/figure-html/theme-minimal-1.png" width="672" />
-
-This takes our existing `tx_plot` and then applies the `theme_minimal()` look to it.
-
-There are a number of themes built into ggplot, most are pretty simplistic.
-
-1. Edit your existing chunk to try different themes. Some you might try are `theme_classic()`, `theme_dark()` and `theme_void()`. 
-
-### More with ggthemes
-
-There are a number of other packages that build upon `ggplot2`, including [`ggthemes`](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/).
-
-1. In your R console, install the ggthemes package: `install.packages("ggthemes")`
-2. Add the `library(ggthemes)` at the top of your current chunk.
-3. Update the theme line to view some of the others options noted below.
-
-
-```r
-library(ggthemes)
-tx_plot +
-  theme_economist()
-```
-
-<img src="08-plots-more_files/figure-html/theme-economist-1.png" width="672" />
-
-
-```r
-tx_plot +
-  theme_fivethirtyeight()
-```
-
-<img src="08-plots-more_files/figure-html/theme-538-1.png" width="672" />
-
-
-```r
-tx_plot +
-  theme_stata()
-```
-
-<img src="08-plots-more_files/figure-html/theme-stata-1.png" width="672" />
-
-### There is more to themes
-
-There is also a `theme()` function that allows you individually [adjust about every visual element](https://ggplot2.tidyverse.org/reference/theme.html) on your plot.
-
-We may introduce more about those later in the course.
-
 ## Facets
 
 Facets are a way to make multiple graphs based on a variable in the data. There are two types, the `facet_wrap()` and the `facet_grid()`. There is a good explanation of these in [R for Data Science](https://r4ds.had.co.nz/data-visualisation.html?q=facet#facets).
@@ -456,8 +456,8 @@ Explanations follow the chart.
 
 ```r
 ggplot(mpg) + 
-  geom_point(aes(x = displ, y = hwy)) + 
-  facet_grid(drv ~ cyl)
+  geom_point(aes(x = displ, y = hwy)) + # add points to the chart
+  facet_grid(drv ~ cyl) # splits into charts by drive train and cylinder
 ```
 
 <img src="08-plots-more_files/figure-html/facet-grid-1.png" width="672" />
@@ -481,7 +481,7 @@ This chart tells us that 4-cylinder, front-wheel drive cars with smaller engines
 
 ## Saving plots
 
-To save plots, you can right-click plots that you make in RNotebooks. Or, you can use the export button in the Plot pane. Or (and this is a preferred strategy), you can save them using `ggsave()`. ([Learn more here](https://ggplot2.tidyverse.org/reference/ggsave.html)).
+To save plots as images, you can right-click plots that you make in RNotebooks. Or, you can use the export button in the Plot pane. Or (and this is a preferred strategy), you can save them using `ggsave()`. ([Learn more here](https://ggplot2.tidyverse.org/reference/ggsave.html)).
 
 
 ```r
@@ -538,8 +538,8 @@ tx_plot %>%
 ```
 
 ```{=html}
-<div id="htmlwidget-3bdceee5dc8f203743e1" style="width:672px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3bdceee5dc8f203743e1">{"x":{"data":[{"x":[1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016],"y":[0.944177567958832,0.970313966274262,1.03338098526001,1.05074191093445,1.19839072227478,1.34375834465027,1.30693674087524,1.26580929756165,1.31571531295776,1.34132933616638,1.24839127063751,1.41976428031921,1.55474388599396,1.98632407188416,1.97387981414795,2.01493859291077,2.03846549987793,2.19447636604309,2.20571660995483,2.01676917076111],"text":["year: 1997<br />inf_adj_perchild: 0.9441776","year: 1998<br />inf_adj_perchild: 0.9703140","year: 1999<br />inf_adj_perchild: 1.0333810","year: 2000<br />inf_adj_perchild: 1.0507419","year: 2001<br />inf_adj_perchild: 1.1983907","year: 2002<br />inf_adj_perchild: 1.3437583","year: 2003<br />inf_adj_perchild: 1.3069367","year: 2004<br />inf_adj_perchild: 1.2658093","year: 2005<br />inf_adj_perchild: 1.3157153","year: 2006<br />inf_adj_perchild: 1.3413293","year: 2007<br />inf_adj_perchild: 1.2483913","year: 2008<br />inf_adj_perchild: 1.4197643","year: 2009<br />inf_adj_perchild: 1.5547439","year: 2010<br />inf_adj_perchild: 1.9863241","year: 2011<br />inf_adj_perchild: 1.9738798","year: 2012<br />inf_adj_perchild: 2.0149386","year: 2013<br />inf_adj_perchild: 2.0384655","year: 2014<br />inf_adj_perchild: 2.1944764","year: 2015<br />inf_adj_perchild: 2.2057166","year: 2016<br />inf_adj_perchild: 2.0167692"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)","dash":"solid"},"frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":40.1826484018265,"l":43.1050228310502},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"School spending slips","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1996.05,2016.95],"tickmode":"array","ticktext":["2000","2005","2010","2015"],"tickvals":[2000,2005,2010,2015],"categoryorder":"array","categoryarray":["2000","2005","2010","2015"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Year","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.881100615859032,2.26879356205463],"tickmode":"array","ticktext":["1.2","1.6","2.0"],"tickvals":[1.2,1.6,2],"categoryorder":"array","categoryarray":["1.2","1.6","2.0"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"$ per child (Adjusted for Inflation)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"39486f4c90f":{"x":{},"y":{},"type":"scatter"},"394830bbfb5a":{"x":{},"y":{}}},"cur_data":"39486f4c90f","visdat":{"39486f4c90f":["function (y) ","x"],"394830bbfb5a":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-b058d565ee350bbbad92" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b058d565ee350bbbad92">{"x":{"data":[{"x":[1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016],"y":[0.944177567958832,0.970313966274262,1.03338098526001,1.05074191093445,1.19839072227478,1.34375834465027,1.30693674087524,1.26580929756165,1.31571531295776,1.34132933616638,1.24839127063751,1.41976428031921,1.55474388599396,1.98632407188416,1.97387981414795,2.01493859291077,2.03846549987793,2.19447636604309,2.20571660995483,2.01676917076111],"text":["year: 1997<br />inf_adj_perchild: 0.9441776","year: 1998<br />inf_adj_perchild: 0.9703140","year: 1999<br />inf_adj_perchild: 1.0333810","year: 2000<br />inf_adj_perchild: 1.0507419","year: 2001<br />inf_adj_perchild: 1.1983907","year: 2002<br />inf_adj_perchild: 1.3437583","year: 2003<br />inf_adj_perchild: 1.3069367","year: 2004<br />inf_adj_perchild: 1.2658093","year: 2005<br />inf_adj_perchild: 1.3157153","year: 2006<br />inf_adj_perchild: 1.3413293","year: 2007<br />inf_adj_perchild: 1.2483913","year: 2008<br />inf_adj_perchild: 1.4197643","year: 2009<br />inf_adj_perchild: 1.5547439","year: 2010<br />inf_adj_perchild: 1.9863241","year: 2011<br />inf_adj_perchild: 1.9738798","year: 2012<br />inf_adj_perchild: 2.0149386","year: 2013<br />inf_adj_perchild: 2.0384655","year: 2014<br />inf_adj_perchild: 2.1944764","year: 2015<br />inf_adj_perchild: 2.2057166","year: 2016<br />inf_adj_perchild: 2.0167692"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)","dash":"solid"},"frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":40.1826484018265,"l":43.1050228310502},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"School spending slips","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1996.05,2016.95],"tickmode":"array","ticktext":["2000","2005","2010","2015"],"tickvals":[2000,2005,2010,2015],"categoryorder":"array","categoryarray":["2000","2005","2010","2015"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Year","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.881100615859032,2.26879356205463],"tickmode":"array","ticktext":["1.2","1.6","2.0"],"tickvals":[1.2,1.6,2],"categoryorder":"array","categoryarray":["1.2","1.6","2.0"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"$ per child (Adjusted for Inflation)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"579c5d4eb42a":{"x":{},"y":{},"type":"scatter"},"579c5a166141":{"x":{},"y":{}}},"cur_data":"579c5d4eb42a","visdat":{"579c5d4eb42a":["function (y) ","x"],"579c5a166141":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 ```
 
 Now you have tool tips on your points when you hover over them.
