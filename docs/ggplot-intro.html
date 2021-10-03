@@ -329,7 +329,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7" data-path="ggplot-intro.html"><a href="ggplot-intro.html"><i class="fa fa-check"></i><b>7</b> Intro to ggplot</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#goals-for-this-section"><i class="fa fa-check"></i><b>7.1</b> Goals for this section</a></li>
-<li class="chapter" data-level="7.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#introduction-ggplot"><i class="fa fa-check"></i><b>7.2</b> Introduction ggplot</a>
+<li class="chapter" data-level="7.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#introduction-to-ggplot"><i class="fa fa-check"></i><b>7.2</b> Introduction to ggplot</a>
 <ul>
 <li class="chapter" data-level="7.2.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#what-i-likedislike-about-ggplot"><i class="fa fa-check"></i><b>7.2.1</b> What I like/dislike about ggplot</a></li>
 <li class="chapter" data-level="7.2.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#the-grammar-of-graphics"><i class="fa fa-check"></i><b>7.2.2</b> The Grammar of Graphics</a></li>
@@ -512,8 +512,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>We’ll make charts!</li>
 </ul>
 </div>
-<div id="introduction-ggplot" class="section level2" number="7.2">
-<h2><span class="header-section-number">7.2</span> Introduction ggplot</h2>
+<div id="introduction-to-ggplot" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> Introduction to ggplot</h2>
 <p><a href="https://ggplot2.tidyverse.org/">ggplot2</a> is the data visualization library within Hadley Wickham’s <a href="https://www.tidyverse.org/">tidyverse</a>. It uses a concept called the <a href="https://byrneslab.net/classes/biol607/readings/wickham_layered-grammar.pdf">Grammar of Graphics</a>, the idea that you can build every graph from the same components: a data set, a coordinate system, and geoms – the visual marks that represent data points.</p>
 <p>Even though the package is called <code>ggplot2</code>, the function to make graphs is just <code>ggplot()</code>. I will often just call everything <code>ggplot</code>.</p>
 <div id="what-i-likedislike-about-ggplot" class="section level3" number="7.2.1">
@@ -750,8 +750,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="reorder-the-bars" class="section level3" number="7.5.5">
 <h3><span class="header-section-number">7.5.5</span> Reorder the bars</h3>
 <p>The bars on our chart are in alphabetical order of the x axis (and reversed thanks to our flip.) We want to order the values based on the <code>votes</code> in the data.</p>
-<p>We can do that by editing the <code>x</code> values in our <code>aes()</code> using the a function called <code>reorder()</code>.</p>
-<p>The <code>reorder()</code> takes two arguments: The column to reorder, and the column to base that reorder on. It can happen in two different ways, and I’ll be honest and say I don’t know which is easier to comprehend.</p>
+<blockquote>
+<p>Complication alert: Categorical data can have <a href="https://r4ds.had.co.nz/factors.html">factors</a>, which are like an internal ordering system. Some categories, like months in a year, have an “order” that is not alphabetical.</p>
+</blockquote>
+<p>We can reorder our categorical values in a plot by editing the <code>x</code> values in our <code>aes()</code> using <code>reorder()</code>. (There is a tidyverse function called <code>fct_reorder()</code> that works the same way.</p>
+<p><code>reorder()</code> takes two arguments: The column to reorder, and the column to base that reorder on. It can happen in two different ways, and I’ll be honest and say I don’t know which is easier to comprehend.</p>
 <ul>
 <li><code>x = reorder(princess, votes)</code> says "set the x axis as <code>princess</code>, but order as <code>votes</code>. OR …</li>
 <li><code>x = princess %&gt;% reorder(votes)</code> says "set the x axis as <code>princess</code> <em>and then</em> reorder by <code>votes</code>.</li>
