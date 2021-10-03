@@ -26,7 +26,7 @@ Some things we'll touch on concerning ggplot:
 
 ## Set up your notebook
 
-We'll use the same `yourname-plot` project we used in the last chapter, but start a new RNotebook.
+We'll use the same `yourname-ggplot` project we used in the last chapter, but start a new RNotebook.
 
 1. Open your plot project.
 2. Start a new RNotebook. Add the goals listed above.
@@ -40,7 +40,7 @@ We'll use the same `yourname-plot` project we used in the last chapter, but star
 
 Again, we won't download the data ... we'll just import it and save it to a tibble. We are using data from a weekly project called #tidytuesday that the community uses to practice R. Perhaps in the near future we'll have our own #tidytuesday sessions!
 
-1. Start a new section to indicatio you are importing the data
+1. Start a new section to indication you are importing the data
 2. Note in text it is from #tidytuesday
 3. Add the code chunk below, which will download a saved copy of the data.
 
@@ -248,6 +248,19 @@ ggplot(five_hied, aes(x = year, y = inf_adj_perchild)) +
 
 <img src="08-plots-more_files/figure-html/five-hied-pcolor-1.png" width="672" />
 
+## On your own: Line chart
+
+I want you to make a line chart of preschool-to-high-school spending (the "PK12ed" value in the `variable` column) showing the inflation adjusted per-child spending (the `inf_adj_perchild` column) for the six states that border the Gulf of Mexico. This is very similar to the chart you just made, but with different values.
+
+Some things to do/consider:
+
+1. Do this in a new section and explain it.
+1. You'll need to prepare the data just like we did above to get the right data points and the right states.
+2. I really suggest you build both chunks (the data prep and the chart) one line at a time so you can see what each step adds.
+1. Save the resulting plot into a new R object because we'll use it later.
+
+
+
 ## Tour of some other adjustments
 
 You don't have to add these examples below to your own notebook, but here are some examples of other things you can control.
@@ -283,7 +296,7 @@ ggplot(five_hied, aes(x = year, y = inf_adj_perchild, linetype = state)) +
 
 ### Adjust axis
 
-`ggplot()` typically makes assumptions about scale. Sometimes, you may want to change it though (e.g., make them a little larger). There are a couple different ways to do this. The most straightfoward may be `xlim()` and `ylim()`.
+`ggplot()` typically makes assumptions about scale. Sometimes, you may want to change it though (e.g., make them a little larger). There are a couple different ways to do this. The most straightforward may be `xlim()` and `ylim()`.
 
 
 ```r
@@ -426,7 +439,10 @@ five_plot +
 
 <img src="08-plots-more_files/figure-html/facet-wrap-1.png" width="672" />
 
-You can specify the number of rows or columns by adding to the facet_wrap() function: `facet_wrap(~ state, nrow = 2)` or `facet_wrap(~ state, ncol = 2)`. Try them!
+A couple of notes about the above code:
+
+- Note the comment in the code above where we used the `theme()` function to remove the legend.
+- You can specify the number of rows or columns of the grouping by adjusting the facet_wrap() function: `facet_wrap(~ state, nrow = 2)` or `facet_wrap(~ state, ncol = 2)`. Try them!
 
 ### Facet grids
 
@@ -452,7 +468,16 @@ This chart is kinda hard to read, but let's try:
 - The rows of charts are divided by drive train `drv`: four-wheel drive, front-wheel drive and rear-wheel drive.
 - The columns of charts are divided by cylinders: like a 4-cylinder car vs 8-cylinder car.
 
-This cahrt tells us that 4-cylinder, front-wheel drive cars with smaller engines get the best gas mileage. The blank charts mean that combination of values didn't exist in the data.
+This chart tells us that 4-cylinder, front-wheel drive cars with smaller engines get the best gas mileage. The blank charts mean that combination of values didn't exist in the data.
+
+## On your own: Facet wrap
+
+1. Create a section about doing a facet wrap on your own.
+1. Take the "On your own" plot that you made earlier (The school spending for Gulf states) and apply a `facet_wrap()` here. You were instructed to save the plot into an R object, so you should be able to use that.
+1. Remove the legend since each mini chart is labeled.
+
+
+
 
 ## Saving plots
 
@@ -513,11 +538,11 @@ tx_plot %>%
 ```
 
 ```{=html}
-<div id="htmlwidget-a8bd7c386155c28b63c3" style="width:672px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a8bd7c386155c28b63c3">{"x":{"data":[{"x":[1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016],"y":[0.944177567958832,0.970313966274262,1.03338098526001,1.05074191093445,1.19839072227478,1.34375834465027,1.30693674087524,1.26580929756165,1.31571531295776,1.34132933616638,1.24839127063751,1.41976428031921,1.55474388599396,1.98632407188416,1.97387981414795,2.01493859291077,2.03846549987793,2.19447636604309,2.20571660995483,2.01676917076111],"text":["year: 1997<br />inf_adj_perchild: 0.9441776","year: 1998<br />inf_adj_perchild: 0.9703140","year: 1999<br />inf_adj_perchild: 1.0333810","year: 2000<br />inf_adj_perchild: 1.0507419","year: 2001<br />inf_adj_perchild: 1.1983907","year: 2002<br />inf_adj_perchild: 1.3437583","year: 2003<br />inf_adj_perchild: 1.3069367","year: 2004<br />inf_adj_perchild: 1.2658093","year: 2005<br />inf_adj_perchild: 1.3157153","year: 2006<br />inf_adj_perchild: 1.3413293","year: 2007<br />inf_adj_perchild: 1.2483913","year: 2008<br />inf_adj_perchild: 1.4197643","year: 2009<br />inf_adj_perchild: 1.5547439","year: 2010<br />inf_adj_perchild: 1.9863241","year: 2011<br />inf_adj_perchild: 1.9738798","year: 2012<br />inf_adj_perchild: 2.0149386","year: 2013<br />inf_adj_perchild: 2.0384655","year: 2014<br />inf_adj_perchild: 2.1944764","year: 2015<br />inf_adj_perchild: 2.2057166","year: 2016<br />inf_adj_perchild: 2.0167692"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)","dash":"solid"},"frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":40.1826484018265,"l":43.1050228310502},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"School spending slips","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1996.05,2016.95],"tickmode":"array","ticktext":["2000","2005","2010","2015"],"tickvals":[2000,2005,2010,2015],"categoryorder":"array","categoryarray":["2000","2005","2010","2015"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Year","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.881100615859032,2.26879356205463],"tickmode":"array","ticktext":["1.2","1.6","2.0"],"tickvals":[1.2,1.6,2],"categoryorder":"array","categoryarray":["1.2","1.6","2.0"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"$ per child (Adjusted for Inflation)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"b6e6505df76":{"x":{},"y":{},"type":"scatter"},"b6e6491efca":{"x":{},"y":{}}},"cur_data":"b6e6505df76","visdat":{"b6e6505df76":["function (y) ","x"],"b6e6491efca":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-3bdceee5dc8f203743e1" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3bdceee5dc8f203743e1">{"x":{"data":[{"x":[1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016],"y":[0.944177567958832,0.970313966274262,1.03338098526001,1.05074191093445,1.19839072227478,1.34375834465027,1.30693674087524,1.26580929756165,1.31571531295776,1.34132933616638,1.24839127063751,1.41976428031921,1.55474388599396,1.98632407188416,1.97387981414795,2.01493859291077,2.03846549987793,2.19447636604309,2.20571660995483,2.01676917076111],"text":["year: 1997<br />inf_adj_perchild: 0.9441776","year: 1998<br />inf_adj_perchild: 0.9703140","year: 1999<br />inf_adj_perchild: 1.0333810","year: 2000<br />inf_adj_perchild: 1.0507419","year: 2001<br />inf_adj_perchild: 1.1983907","year: 2002<br />inf_adj_perchild: 1.3437583","year: 2003<br />inf_adj_perchild: 1.3069367","year: 2004<br />inf_adj_perchild: 1.2658093","year: 2005<br />inf_adj_perchild: 1.3157153","year: 2006<br />inf_adj_perchild: 1.3413293","year: 2007<br />inf_adj_perchild: 1.2483913","year: 2008<br />inf_adj_perchild: 1.4197643","year: 2009<br />inf_adj_perchild: 1.5547439","year: 2010<br />inf_adj_perchild: 1.9863241","year: 2011<br />inf_adj_perchild: 1.9738798","year: 2012<br />inf_adj_perchild: 2.0149386","year: 2013<br />inf_adj_perchild: 2.0384655","year: 2014<br />inf_adj_perchild: 2.1944764","year: 2015<br />inf_adj_perchild: 2.2057166","year: 2016<br />inf_adj_perchild: 2.0167692"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)","dash":"solid"},"frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":40.1826484018265,"l":43.1050228310502},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"School spending slips","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1996.05,2016.95],"tickmode":"array","ticktext":["2000","2005","2010","2015"],"tickvals":[2000,2005,2010,2015],"categoryorder":"array","categoryarray":["2000","2005","2010","2015"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Year","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.881100615859032,2.26879356205463],"tickmode":"array","ticktext":["1.2","1.6","2.0"],"tickvals":[1.2,1.6,2],"categoryorder":"array","categoryarray":["1.2","1.6","2.0"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"$ per child (Adjusted for Inflation)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"39486f4c90f":{"x":{},"y":{},"type":"scatter"},"394830bbfb5a":{"x":{},"y":{}}},"cur_data":"39486f4c90f","visdat":{"39486f4c90f":["function (y) ","x"],"394830bbfb5a":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 ```
 
-Now you have tooltips on your points when you hover over them.
+Now you have tool tips on your points when you hover over them.
 
 The `ggplotly()` function is not perfect. Alternatively, you can use plotly's own syntax to build some quite interesting charts, but it's a whole [new syntax to master](https://plotly.com/r/).
 
