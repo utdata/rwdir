@@ -5,7 +5,7 @@
 - An introduction to the Grammar of Graphics
 - We'll make charts!
 
-## Introduction ggplot
+## Introduction to ggplot
 
 [ggplot2](https://ggplot2.tidyverse.org/) is the data visualization library within Hadley Wickham's [tidyverse](https://www.tidyverse.org/). It uses a concept called the [Grammar of Graphics](https://byrneslab.net/classes/biol607/readings/wickham_layered-grammar.pdf), the idea that you can build every graph from the same components: a data set, a coordinate system, and geoms -- the visual marks that represent data points.
 
@@ -315,9 +315,11 @@ ggplot(princess_data, aes(x = princess, y = votes)) +
 
 The bars on our chart are in alphabetical order of the x axis (and reversed thanks to our flip.) We want to order the values based on the `votes` in the data.
 
-We can do that by editing the `x` values in our `aes()` using the a function called `reorder()`.
+> Complication alert: Categorical data can have [factors](https://r4ds.had.co.nz/factors.html), which are like an internal ordering system. Some categories, like months in a year, have an "order" that is not alphabetical.
 
-The `reorder()` takes two arguments: The column to reorder, and the column to base that reorder on. It can happen in two different ways, and I'll be honest and say I don't know which is easier to comprehend.
+We can reorder our categorical values in a plot by editing the `x` values in our `aes()` using `reorder()`. (There is a tidyverse function called `fct_reorder()` that works the same way.
+
+`reorder()` takes two arguments: The column to reorder, and the column to base that reorder on. It can happen in two different ways, and I'll be honest and say I don't know which is easier to comprehend.
 
 - `x = reorder(princess, votes)` says "set the x axis as `princess`, but order as `votes`. OR ...
 - `x = princess %>% reorder(votes)` says "set the x axis as `princess` _and then_ reorder by `votes`.
@@ -341,8 +343,6 @@ Now we'll add a **layer** of labels to our chart using the the `labs()` function
 
 - To add the labels to the bars, we use a `geom_text()` because we are actually plotting them on the graph. The example below also changes the color of the text and moves the labels to inside the bar with `hjust` (or horizontal justification. `vjust` would move it up and down).
 - The `labs()` function allows for labels "around" the chart. These are some standard values used.
-
-
 
 
 ```r
