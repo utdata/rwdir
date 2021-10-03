@@ -1,7 +1,5 @@
 # Tidy data {#tidy-data}
 
-> DRAFT
-
 Data "shape" can be important when you are trying to work with and visualize data. In this chapter we'll discuss "tidy" data and how this style of organization helps us.
 
 > Slides by Hadley Wickham are used with permission from the author.
@@ -15,8 +13,8 @@ Data "shape" can be important when you are trying to work with and visualize dat
 ## The questions we'll answer
 
 - Are candy colors evenly distributed within a package of Skittles? (The mean of candies by color over all packages)
-- Plot the average number of colored candies among all packages using ggplot,
-- Plot the same data in datawrapper.
+- Plot a column chart showing the average number of colored candies among all packages using ggplot
+- Plot the same data using Datawrapper.
 - Bonus 1: Who got the most candies in their bag?
 - Bonus 2: What is the average number of candy in a bag?
 
@@ -40,7 +38,7 @@ It's easiest to see the difference through examples. The data frame below is of 
 
 Table2 below isn't tidy. The **count** column contains two different type of values.
 
-![A tidy table](images/tidy-table-nottidy.png)
+![An untidy table](images/tidy-table-nottidy.png)
 
 When our data is tidy, it is easy to manipulate. We can use functions like `mutate()` to calculate new values for each case.
 
@@ -48,7 +46,7 @@ When our data is tidy, it is easy to manipulate. We can use functions like `muta
 
 ## Tidyr package
 
-When our data is tidy, we can use the [tidyr](https://tidyr.tidyverse.org/) package to reshape the layout of our data to suit our needs.
+When our data is tidy, we can use the [tidyr](https://tidyr.tidyverse.org/) package to reshape the layout of our data to suit our needs. It gets loaded with `library(tidyverse)`.
 
 In the figure below, the table on the left is "wide". There are are multiple year columns describing the same variable. It might be useful if we want to calculate the difference of the values for two different years. It's less useful if we want plot on a graphic because we don't have columns to map as X and Y values.
 
@@ -133,8 +131,8 @@ We cleaned the name on import. The `timestamp` is not a real date, so we need to
 
 We're going to convert the `timestamp` and then turn it into a regular date.
 
-1. Create a section that you are fixing dates.
-2. Add this chunk and run it.
+1. Create a section and note you are fixing dates.
+2. Add this chunk and run it. I'll explain it below.
 
 
 ```r
@@ -203,6 +201,9 @@ There are a number of ways we can describe which columns to pivot ... anything i
 
 We are using a range, naming the first "red" and the last column "purple" with `:` in between. This only works because those columns are all together. We could also use `cols = !c(name, date_entered)` to say everything but those two columns.
 
+1. Add a note that you are pivoting the data
+1. Add the chunk below and run it
+
 
 ```r
 skittles_long <- skittles %>% 
@@ -260,7 +261,7 @@ skittles_avg
 
 ### Round the averages
 
-Let's modify this chart to round the averages to tenths so they will plot nicely on our chart.'
+Let's modify this summary to round the averages to tenths so they will plot nicely on our chart.'
 
 The `round()` function needs the column to change, and then the number of digits past the decimal to include.
 
@@ -291,9 +292,11 @@ skittles_avg
 
 BONUS POINT OPPORTUNITY: Using a similar method to rounding above, you can also capitalize the names of the colors. You don't _have_ to do this, but I'll give you bonus points if you do:
 
-- In your mutate, add a rule that updates `color` column using `str_to_title()`.
+- In your mutate, add a rule that updates `color` column using `str_to_title(color)`.
 
-### Plot the averages
+You can read more about [converting the case of a string here](https://stringr.tidyverse.org/reference/case.html). It's part of the [stringr](https://stringr.tidyverse.org/index.html) package, which is loaded with tidyverse.
+
+### On your own: Plot the averages
 
 Now I want you to use ggplot to create a bar chart that shows the average number of candies in a bag. This is very similar to your plots of Disney Princesses and ice cream in Chapter 6.
 
@@ -305,6 +308,8 @@ Some things to consider:
 - I want a good title, subtitle and byline, along with good axis names.
 - Include the values on the bars
 - Change the theme to something other than the default
+
+Here is what it should look like, but with good text, etc. The numbers shownn here may vary depending on future updates to the data:
 
 <img src="09-tidy-data_files/figure-html/avg-plot-1.png" width="672" />
 
@@ -376,5 +381,18 @@ Answer me this: What is the average number of candy in a bag?
 Again, well-structured section and include the code.
 
 Hint: You need a total number of candies per person before you can get an average.
+
+## Turn in your work
+
+1. Make sure your notebook runs start-to-finish.
+1. Knit the notebook
+1. Stuff your project and turn it into the Skittles assignment in Canvas.
+
+## What we learned
+
+- We learned what "tidy data" means and why it is important. It is the best shape for data wrangling and plotting.
+- We learned about [`pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html) and [`pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.html) and we used `pivot_longer()` on our Skittles data.
+- Along the way we practiced a little [lubridate](https://lubridate.tidyverse.org/) conversion with `mdy_hms()` and extracted a date with `date()`.
+- We also used [`round()`]((http://www.cookbook-r.com/Numbers/Rounding_numbers/)) to round off some numbers, and you might have used `str_to_title()` to change the case of the color values.
 
 

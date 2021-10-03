@@ -17,9 +17,9 @@ ggplot2 has a LOT to it and we'll cover only the basics. Here are some reference
 
 Some things we'll touch on concerning ggplot:
 
-- Layering multiple geoms
-- Adding/changing aesthetics in layers
+- Prepare and build a line chart
 - Using themes to change the look of our charts
+- Adding/changing aesthetics in layers
 - Facets (multiple charts from same data)
 - Saving files
 - Interactivity with Plotly
@@ -106,6 +106,79 @@ ggplot(tx_hied, aes(x = year, y = inf_adj_perchild)) + # we create our graph
 ```
 
 We have a pretty decent chart showing `year` on our x axis and `inf_adj_perchild` (or inflation-adjusted spending per child) on our y axis.
+
+### Saving plots as an object
+
+Sometimes it is helpful to push the results of a plot into an R object to "save" those configurations. You can continue to add layers after, but don't have to rebuild the basic chart each time. We'll do that here so we can explore themes next.
+
+1. Edit your Texas plot chunk you made earlier to save it into an R object, and then call `tx_plot` after it so you can see it.
+
+```{r tx-plot-create}
+# the line below pushes the graph results into tx_plot
+tx_plot <- ggplot(tx_hied, aes(x = year, y = inf_adj_perchild)) +
+  geom_point() +
+  geom_line() +
+  labs(
+    title = "School spending slips", 
+    subtitle = "Texas spent less per child on higher education in 2016.",
+    x = "Year", y = "$ per child (Adjusted for Inflation)",
+    caption = "Source: tidykids"
+  )
+
+# Since we saved the plot into an R object above, we have to call it again to see it.
+# We save graphs like this so we can reuse them.
+tx_plot
+```
+
+We can continue to build upon the `tx_plot` object like we do below with themes, but those changes won't be "saved" into the R environment unless you assign it to an R object.
+
+## Themes
+
+The _look_ of the graph is controlled by the theme. There are a number of preset themes you can use. Let's look at a couple.
+
+1. Create a new section saying we'll explore themes
+2. Add the chunk below and run it.
+
+```{r theme-minimal}
+tx_plot +
+  theme_minimal()
+```
+
+This takes our existing `tx_plot` and then applies the `theme_minimal()` look to it.
+
+There are a number of themes built into ggplot, most are pretty simplistic.
+
+1. Edit your existing chunk to try different themes. Some you might try are `theme_classic()`, `theme_dark()` and `theme_void()`. 
+
+### More with ggthemes
+
+There are a number of other packages that build upon `ggplot2`, including [`ggthemes`](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/).
+
+1. In your R console, install the ggthemes package: `install.packages("ggthemes")`
+2. Add the `library(ggthemes)` at the top of your current chunk.
+3. Update the theme line to view some of the others options noted below.
+
+```{r theme-economist}
+library(ggthemes)
+tx_plot +
+  theme_economist()
+```
+
+```{r theme-538}
+tx_plot +
+  theme_fivethirtyeight()
+```
+
+```{r theme-stata}
+tx_plot +
+  theme_stata()
+```
+
+### There is more to themes
+
+There is also a `theme()` function that allows you individually [adjust about every visual element](https://ggplot2.tidyverse.org/reference/theme.html) on your plot.
+
+We do a wee bit of that later.
 
 ## Adding more information
 
@@ -231,79 +304,6 @@ ggplot(five_hied, aes(x = year, y = inf_adj_perchild, linetype = state)) +
 
 The function `xlim()` and `ylim()` are shortcuts for `scale_x_continuous()` and `scale_y_continuous()` which [do more things](https://ggplot2.tidyverse.org/reference/scale_continuous.html#examples).
 
-## Saving plots as an object
-
-Sometimes it is helpful to push the results of a plot into an R object to "save" those configurations. You can continue to add layers after, but don't have to rebuild the basic chart each time. We'll do that here so we can explore themes next.
-
-1. Edit your Texas plot chunk you made earlier to save it into an R object, and then call `tx_plot` after it so you can see it.
-
-```{r tx-plot-create}
-# the line below pushes the graph results into tx_plot
-tx_plot <- ggplot(tx_hied, aes(x = year, y = inf_adj_perchild)) +
-  geom_point() +
-  geom_line() +
-  labs(
-    title = "School spending slips", 
-    subtitle = "Texas spent less per child on higher education in 2016.",
-    x = "Year", y = "$ per child (Adjusted for Inflation)",
-    caption = "Source: tidykids"
-  )
-
-# Since we saved the plot into an R object above, we have to call it again to see it.
-# We save graphs like this so we can reuse them.
-tx_plot
-```
-
-We can continue to build upon the `tx_plot` object like we do below with themes, but those changes won't be "saved" into the R environment unless you assign it to an R object.
-
-## Themes
-
-The _look_ of the graph is controlled by the theme. There are a number of preset themes you can use. Let's look at a couple.
-
-1. Create a new section saying we'll explore themes
-2. Add the chunk below and run it.
-
-```{r theme-minimal}
-tx_plot +
-  theme_minimal()
-```
-
-This takes our existing `tx_plot` and then applies the `theme_minimal()` look to it.
-
-There are a number of themes built into ggplot, most are pretty simplistic.
-
-1. Edit your existing chunk to try different themes. Some you might try are `theme_classic()`, `theme_dark()` and `theme_void()`. 
-
-### More with ggthemes
-
-There are a number of other packages that build upon `ggplot2`, including [`ggthemes`](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/).
-
-1. In your R console, install the ggthemes package: `install.packages("ggthemes")`
-2. Add the `library(ggthemes)` at the top of your current chunk.
-3. Update the theme line to view some of the others options noted below.
-
-```{r theme-economist}
-library(ggthemes)
-tx_plot +
-  theme_economist()
-```
-
-```{r theme-538}
-tx_plot +
-  theme_fivethirtyeight()
-```
-
-```{r theme-stata}
-tx_plot +
-  theme_stata()
-```
-
-### There is more to themes
-
-There is also a `theme()` function that allows you individually [adjust about every visual element](https://ggplot2.tidyverse.org/reference/theme.html) on your plot.
-
-We may introduce more about those later in the course.
-
 ## Facets
 
 Facets are a way to make multiple graphs based on a variable in the data. There are two types, the `facet_wrap()` and the `facet_grid()`. There is a good explanation of these in [R for Data Science](https://r4ds.had.co.nz/data-visualisation.html?q=facet#facets).
@@ -353,8 +353,8 @@ Explanations follow the chart.
 
 ```{r facet-grid}
 ggplot(mpg) + 
-  geom_point(aes(x = displ, y = hwy)) + 
-  facet_grid(drv ~ cyl)
+  geom_point(aes(x = displ, y = hwy)) + # add points to the chart
+  facet_grid(drv ~ cyl) # splits into charts by drive train and cylinder
 ```
 
 This chart is kinda hard to read, but let's try:
@@ -382,7 +382,7 @@ ed_gulf_facet
 
 ## Saving plots
 
-To save plots, you can right-click plots that you make in RNotebooks. Or, you can use the export button in the Plot pane. Or (and this is a preferred strategy), you can save them using `ggsave()`. ([Learn more here](https://ggplot2.tidyverse.org/reference/ggsave.html)).
+To save plots as images, you can right-click plots that you make in RNotebooks. Or, you can use the export button in the Plot pane. Or (and this is a preferred strategy), you can save them using `ggsave()`. ([Learn more here](https://ggplot2.tidyverse.org/reference/ggsave.html)).
 
 ```{r ggsave}
 ggsave("images/txplot.png", plot = tx_plot)
