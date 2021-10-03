@@ -127,7 +127,7 @@ data %>% glimpse()
 
 We cleaned the name on import. The `timestamp` is not a real date, so we need to fix that.
 
-### Fix the data
+### Fix the date
 
 We're going to convert the `timestamp` and then turn it into a regular date.
 

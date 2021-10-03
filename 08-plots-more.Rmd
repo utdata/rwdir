@@ -281,8 +281,8 @@ ggplot(five_hied, aes(x = year, y = inf_adj_perchild)) +
 This example removes the points and adds a `linetype = state` to the ggplot aesthetic. This gives each state a different type of line. We also set the color in the `geom_line()`
 
 ```{r line-type}
-ggplot(five_hied, aes(x = year, y = inf_adj_perchild, linetype = state)) +
-  geom_line(aes(color = state), size = .75) +
+ggplot(five_hied, aes(x = year, y = inf_adj_perchild)) +
+  geom_line(aes(color = state, linetype = state), size = .75) +
   labs(title = "Spending on Higher Education in Texas, Bordering States", 
        x = "Year", y = "$ per child (Adjusted for Inflation)",
        caption = "Source: tidykids")
@@ -384,11 +384,17 @@ ed_gulf_facet
 
 To save plots as images, you can right-click plots that you make in RNotebooks. Or, you can use the export button in the Plot pane. Or (and this is a preferred strategy), you can save them using `ggsave()`. ([Learn more here](https://ggplot2.tidyverse.org/reference/ggsave.html)).
 
+1. Use your Files pane to create a new folder called "images" so we can save our chart there.
+2. Start a section on saving plots and add the following chunk.
+
 ```{r ggsave}
 ggsave("images/txplot.png", plot = tx_plot)
 ```
 
-Using `ggsave` creates a higher-res image than other methods.
+Using `ggsave` creates a higher-res image than other methods. It needs"
+
+- The path and name of the image, in quotes
+- the `plot =` variable to say which plot you are saving. (Your plot must already be saved into an R object for this method to work.)
 
 ## Interactive plots
 
