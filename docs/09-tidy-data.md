@@ -92,7 +92,7 @@ data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTxm9NxK67thlG
 ```
 
 ```
-## Rows: 123 Columns: 7
+## Rows: 124 Columns: 7
 ```
 
 ```
@@ -114,7 +114,7 @@ data %>% glimpse()
 ```
 
 ```
-## Rows: 123
+## Rows: 124
 ## Columns: 7
 ## $ timestamp <chr> "7/27/2020 18:21:19", "8/1/2020 16:04:56", "7/30/2020 14:56:…
 ## $ name      <chr> "Alora Jones", "Alyssa Hiarker", "Annie Patton", "Christian …
@@ -146,7 +146,7 @@ skittles %>% glimpse()
 ```
 
 ```
-## Rows: 123
+## Rows: 124
 ## Columns: 7
 ## $ name         <chr> "Alora Jones", "Alyssa Hiarker", "Annie Patton", "Christi…
 ## $ red          <dbl> 12, 13, 12, 9, 7, 10, 12, 11, 7, 18, 13, 11, 10, 14, 8, 8…
@@ -252,9 +252,9 @@ skittles_avg
 ##   color  avg_candies
 ##   <chr>        <dbl>
 ## 1 green         11.2
-## 2 orange        12.2
-## 3 purple        12  
-## 4 red           11.5
+## 2 orange        12.1
+## 3 purple        12.0
+## 4 red           11.6
 ## 5 yellow        11.5
 ```
 </details>
@@ -284,9 +284,9 @@ skittles_avg
 ##   color  avg_candies
 ##   <chr>        <dbl>
 ## 1 green         11.2
-## 2 orange        12.2
+## 2 orange        12.1
 ## 3 purple        12  
-## 4 red           11.5
+## 4 red           11.6
 ## 5 yellow        11.5
 ```
 
