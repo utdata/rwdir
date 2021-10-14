@@ -347,13 +347,20 @@ We need to install a package called clipr.
 1. Start a section that says you are going to get data for Datawrapper.
 3. Create a chunk with the following and run it.
 
+
 ```r
 library(clipr)
-
-skittles_avg %>% write_clip()
 ```
 
-You don't see anything happen, but all the data in `skittles_long` has been added to your clipboard.
+```
+## Welcome to clipr. See ?write_clip for advisories on writing to the clipboard in R.
+```
+
+```r
+skittles_avg %>% write_clip(allow_non_interactive = TRUE)
+```
+
+You don't see anything happen, but all the data in `skittles_long` has been added to your clipboard. You have to have the `allow_non_interactive = TRUE` part to allow your page to knit.
 
 ### Build the datawrapper graphic
 
