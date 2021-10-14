@@ -164,7 +164,7 @@ Let's talk just a minute about what we've done here:
 - We use mutate to create a new column `date_entered`, then fill it by first converting the text to an official timestamp datatype (which requires the lubridate function `mdy_hms()`), and then we extract just the date of that with `date()`.
 - We then use `select()` to remove the old timestamp column.
 
-### Peek at the untidy table
+### Peek at the wide table
 
 Let's look closer at this:
 
