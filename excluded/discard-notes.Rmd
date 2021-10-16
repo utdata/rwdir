@@ -5,6 +5,61 @@ output: html_notebook
 
 Notes from previous writings that may be useful in the future
 
+FROM CENSUS
+
+
+
+- Introduce three of the more popular Census data sets and discuss how they differ:
+    - [Decennial Census](https://www.census.gov/programs-surveys/decennial-census/decade.2020.html)
+    - [American Community Survey](https://www.census.gov/programs-surveys/acs)
+    - [Population Estimates Program](https://www.census.gov/programs-surveys/popest.html)
+
+
+
+# Census Bureau programs and platforms
+
+The Census Bureau has a series of different data "programs" and data sets, many with their own distribution platforms. They are currently in a development effort to combine distribution of all of them into a new, combined platform: [data.census.gov](https://data.census.gov/cedsci/). _It is a work in progress._ That said, the plan is to stop publishing new data to the much-bemoaned [American FactFinder](https://factfinder.census.gov/faces/nav/jsf/pages/index.xhtml), their "old" site, this summer of 2019. As such, I'll concentrate on [data.census.gov](https://data.census.gov/cedsci/).
+
+That's to say that while I'm outlining three different programs here, the data will eventually be found all int he same place, but it's in a state of flux currently. Your default should be to use [data.census.gov](https://data.census.gov/cedsci/) first, then go to [American FactFinder](https://factfinder.census.gov/faces/nav/jsf/pages/index.xhtml) if you can't find something. We'll also discuss some R packages that use the Census API, and the advantages of using them.
+
+### Decennial Census
+
+Every [ten years](https://www.census.gov/programs-surveys/decennial-census/decade.2010.html), the government tries to count everyone in every household in America. The results are used to redraw Congressional Districts, allocate tax dollars and a million other reasons. The number of questions asked each decade has been condensed to center around how many people live in a household, their age, race and ethnicity, their relationship to each other, and if they own or rent the home.
+
+> The decennial census data is the most accurate snapshot you can get for a single point in time. It's just limited in the scope of data.
+
+Most decennial data has been migrated to the data.census.gov data portal.
+
+April 1, 2020 is [Census Day](https://2020census.gov/en) for the [next count](https://www.census.gov/programs-surveys/decennial-census/2020-census.html).
+
+### American Community Survey
+
+The [American Community Survey](https://www.census.gov/programs-surveys/acs), or ACS, is the method the government uses to collect more detailed data than who lives where. It is quite extensive, with information relevant to almost any beat in Journalism.
+
+While the decennial count comes once every ten years, the ACS has been continuously collecting data since 2005. Each year about 1.7% of Americans answer the ACS survey, and those results are distributed at regular intervals each year.
+
+This is fine for large geographic areas with 65,000 people or more. But, when you want results for smaller geographic areas or very specific individuals, the bureau combines five years of survey results together so they have enough data to make estimates. This combination of 1-year and 5-year data sets is a trade off: New data each year for large areas, but fuzzier 5-year windows for small areas.
+
+Each estimate also comes with a "margin of error", which represents the upper and lower bounds of the estimate with a 90% confidence rate. You can read more about this in the [ACS media guide](https://www.census.gov/library/publications/2008/acs/media.html), but here is a brief example:
+
+If an estimate is 2,000 with an MOE of +/- 100, that means that you could take 10 new random samples in that area and the average of those samples would be between 1,900 and 2,100 for nine out of the 10 samples.
+
+As journalists, we don't typically report the margin of error each time we use an estimate, but we do make sure our readers understand the data are based on survey estimates. Most importantly we make sure the MOE is not more than 10% of our estimate if we are basing our story on that number. 
+
+> The ACS allows us to get the most detailed characteristics about our population, like how we travel to work or how much of our income we spend on rent. However, it comes with a degree of uncertainty, especially for smaller geographic areas. It is still very valuable.
+
+Most of these tables are available on data.census.gov, with the rest scheduled to be ported this year (2019). New releases will only be published to the data portal.
+
+### Population Estimates Program
+
+PEP uses current data on births, deaths, and migration to calculate population change since the most recent decennial census. Each year the Census Bureau publishes tables with estimates of population, demographics, and housing units for cities, counties and metro areas.
+
+> Populations estimates are a great way to see population and demographic changes for large areas. It does not have a margin of error like the ACS because it is based on actual data and not random surveys of a part of the population.
+
+These tables are currently only available in FactFinder, but should be ported to the new data.census.gov data portal this year (2019).
+
+
+
 ---
 
 From school ratings data in case we use it.
