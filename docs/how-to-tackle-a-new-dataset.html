@@ -4,34 +4,34 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 11 How to tackle a new dataset | Reporting with Data in R</title>
-  <meta name="description" content="Chapter 11 How to tackle a new dataset | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <title>Chapter 13 How to tackle a new dataset | Reporting with Data in R</title>
+  <meta name="description" content="Chapter 13 How to tackle a new dataset | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
   <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 11 How to tackle a new dataset | Reporting with Data in R" />
+  <meta property="og:title" content="Chapter 13 How to tackle a new dataset | Reporting with Data in R" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="Chapter 11 How to tackle a new dataset | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <meta property="og:description" content="Chapter 13 How to tackle a new dataset | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
   <meta name="github-repo" content="utdata/rwdir" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 11 How to tackle a new dataset | Reporting with Data in R" />
+  <meta name="twitter:title" content="Chapter 13 How to tackle a new dataset | Reporting with Data in R" />
   
-  <meta name="twitter:description" content="Chapter 11 How to tackle a new dataset | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <meta name="twitter:description" content="Chapter 13 How to tackle a new dataset | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
   
 
 <meta name="author" content="Christian McDonald" />
 
 
-<meta name="date" content="2021-10-10" />
+<meta name="date" content="2021-10-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="plot-aac.html"/>
+<link rel="prev" href="census-more.html"/>
 <link rel="next" href="verbs.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -61,10 +61,10 @@
 <script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
 <link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
 <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
-<script src="libs/plotly-binding-4.9.4.1/plotly.js"></script>
+<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
-<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
-<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
 <style type="text/css">
   p.caption {
     color: #777;
@@ -409,7 +409,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="9.6.1" data-path="tidy-data.html"><a href="tidy-data.html#get-the-data"><i class="fa fa-check"></i><b>9.6.1</b> Get the data</a></li>
 <li class="chapter" data-level="9.6.2" data-path="tidy-data.html"><a href="tidy-data.html#fix-the-date"><i class="fa fa-check"></i><b>9.6.2</b> Fix the date</a></li>
-<li class="chapter" data-level="9.6.3" data-path="tidy-data.html"><a href="tidy-data.html#peek-at-the-untidy-table"><i class="fa fa-check"></i><b>9.6.3</b> Peek at the untidy table</a></li>
+<li class="chapter" data-level="9.6.3" data-path="tidy-data.html"><a href="tidy-data.html#peek-at-the-wide-table"><i class="fa fa-check"></i><b>9.6.3</b> Peek at the wide table</a></li>
 </ul></li>
 <li class="chapter" data-level="9.7" data-path="tidy-data.html"><a href="tidy-data.html#pivot-longer"><i class="fa fa-check"></i><b>9.7</b> Pivot longer</a>
 <ul>
@@ -482,63 +482,135 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.17" data-path="plot-aac.html"><a href="plot-aac.html#turn-in-your-work-1"><i class="fa fa-check"></i><b>10.17</b> Turn in your work</a></li>
 <li class="chapter" data-level="10.18" data-path="plot-aac.html"><a href="plot-aac.html#whats-next-1"><i class="fa fa-check"></i><b>10.18</b> What’s next</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html"><i class="fa fa-check"></i><b>11</b> How to tackle a new dataset</a>
+<li class="chapter" data-level="11" data-path="census-intro.html"><a href="census-intro.html"><i class="fa fa-check"></i><b>11</b> Census introduction</a>
 <ul>
-<li class="chapter" data-level="11.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#start-by-listing-questions"><i class="fa fa-check"></i><b>11.1</b> Start by listing questions</a></li>
-<li class="chapter" data-level="11.2" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#understand-your-data"><i class="fa fa-check"></i><b>11.2</b> Understand your data</a></li>
-<li class="chapter" data-level="11.3" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#counting-and-aggregation"><i class="fa fa-check"></i><b>11.3</b> Counting and aggregation</a>
+<li class="chapter" data-level="11.1" data-path="census-intro.html"><a href="census-intro.html#goals-of-this-section"><i class="fa fa-check"></i><b>11.1</b> Goals of this section</a></li>
+<li class="chapter" data-level="11.2" data-path="census-intro.html"><a href="census-intro.html#start-a-tidycensus-project"><i class="fa fa-check"></i><b>11.2</b> Start a tidycensus project</a></li>
+<li class="chapter" data-level="11.3" data-path="census-intro.html"><a href="census-intro.html#census-data-portal-and-api"><i class="fa fa-check"></i><b>11.3</b> Census data portal and API</a>
 <ul>
-<li class="chapter" data-level="11.3.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#counting-rows-based-on-a-column"><i class="fa fa-check"></i><b>11.3.1</b> Counting rows based on a column</a></li>
-<li class="chapter" data-level="11.3.2" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#sum-mean-and-other-aggregations"><i class="fa fa-check"></i><b>11.3.2</b> Sum, mean and other aggregations</a></li>
-<li class="chapter" data-level="11.3.3" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#creating-columns-to-show-difference"><i class="fa fa-check"></i><b>11.3.3</b> Creating columns to show difference</a></li>
+<li class="chapter" data-level="11.3.1" data-path="census-intro.html"><a href="census-intro.html#request-a-key"><i class="fa fa-check"></i><b>11.3.1</b> Request a key</a></li>
+<li class="chapter" data-level="11.3.2" data-path="census-intro.html"><a href="census-intro.html#install-a-key"><i class="fa fa-check"></i><b>11.3.2</b> Install a key</a></li>
 </ul></li>
-<li class="chapter" data-level="11.4" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#cleaning-up-categorical-data"><i class="fa fa-check"></i><b>11.4</b> Cleaning up categorical data</a></li>
-<li class="chapter" data-level="11.5" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#time-as-a-variable"><i class="fa fa-check"></i><b>11.5</b> Time as a variable</a></li>
-<li class="chapter" data-level="11.6" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#explore-the-distributions-in-your-data"><i class="fa fa-check"></i><b>11.6</b> Explore the distributions in your data</a>
+<li class="chapter" data-level="11.4" data-path="census-intro.html"><a href="census-intro.html#about-the-tidycensus-package"><i class="fa fa-check"></i><b>11.4</b> About the tidycensus package</a>
 <ul>
-<li class="chapter" data-level="11.6.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#more-on-histograms"><i class="fa fa-check"></i><b>11.6.1</b> More on histograms</a></li>
+<li class="chapter" data-level="11.4.1" data-path="census-intro.html"><a href="census-intro.html#finding-the-data-you-want"><i class="fa fa-check"></i><b>11.4.1</b> Finding the data you want</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="census-intro.html"><a href="census-intro.html#broadband-access-by-county-in-texas"><i class="fa fa-check"></i><b>11.5</b> Broadband access by county in Texas</a></li>
+<li class="chapter" data-level="11.6" data-path="census-intro.html"><a href="census-intro.html#using-the-tidycensus-load_variable-function"><i class="fa fa-check"></i><b>11.6</b> Using the tidycensus load_variable() function</a></li>
+<li class="chapter" data-level="11.7" data-path="census-intro.html"><a href="census-intro.html#use-tidycensus-to-fetch-our-data"><i class="fa fa-check"></i><b>11.7</b> Use tidycensus to fetch our data</a>
+<ul>
+<li class="chapter" data-level="11.7.1" data-path="census-intro.html"><a href="census-intro.html#get-broadband-rates-by-county-in-texas"><i class="fa fa-check"></i><b>11.7.1</b> Get broadband rates by county in Texas</a></li>
+<li class="chapter" data-level="11.7.2" data-path="census-intro.html"><a href="census-intro.html#on-your-own-arrange-to-get-lowesthighest-values"><i class="fa fa-check"></i><b>11.7.2</b> On your own: Arrange to get lowest/highest values</a></li>
+<li class="chapter" data-level="11.7.3" data-path="census-intro.html"><a href="census-intro.html#what-you-have-here"><i class="fa fa-check"></i><b>11.7.3</b> What you have here</a></li>
+</ul></li>
+<li class="chapter" data-level="11.8" data-path="census-intro.html"><a href="census-intro.html#map-broadband-access-by-counties-in-texas"><i class="fa fa-check"></i><b>11.8</b> Map broadband access by counties in Texas</a>
+<ul>
+<li class="chapter" data-level="11.8.1" data-path="census-intro.html"><a href="census-intro.html#plot-the-broadband-map"><i class="fa fa-check"></i><b>11.8.1</b> Plot the broadband map</a></li>
+<li class="chapter" data-level="11.8.2" data-path="census-intro.html"><a href="census-intro.html#you-did-it"><i class="fa fa-check"></i><b>11.8.2</b> You did it!</a></li>
+</ul></li>
+<li class="chapter" data-level="11.9" data-path="census-intro.html"><a href="census-intro.html#keep-this-project"><i class="fa fa-check"></i><b>11.9</b> Keep this project</a></li>
+<li class="chapter" data-level="11.10" data-path="census-intro.html"><a href="census-intro.html#what-weve-learned-1"><i class="fa fa-check"></i><b>11.10</b> What we’ve learned</a></li>
+<li class="chapter" data-level="11.11" data-path="census-intro.html"><a href="census-intro.html#other-useful-census-related-packages"><i class="fa fa-check"></i><b>11.11</b> Other useful census-related packages</a>
+<ul>
+<li class="chapter" data-level="11.11.1" data-path="census-intro.html"><a href="census-intro.html#the-censusapi-package"><i class="fa fa-check"></i><b>11.11.1</b> The censusapi package</a></li>
+</ul></li>
+<li class="chapter" data-level="11.12" data-path="census-intro.html"><a href="census-intro.html#interactive-maps-with-leaflet"><i class="fa fa-check"></i><b>11.12</b> Interactive maps with leaflet</a></li>
+<li class="chapter" data-level="11.13" data-path="census-intro.html"><a href="census-intro.html#more-resources-and-examples"><i class="fa fa-check"></i><b>11.13</b> More resources and examples</a></li>
+<li class="chapter" data-level="11.14" data-path="census-intro.html"><a href="census-intro.html#using-the-data-portal-to-download-data"><i class="fa fa-check"></i><b>11.14</b> Using the data portal to download data</a>
+<ul>
+<li class="chapter" data-level="11.14.1" data-path="census-intro.html"><a href="census-intro.html#importing-downloaded-data"><i class="fa fa-check"></i><b>11.14.1</b> Importing downloaded data</a></li>
+<li class="chapter" data-level="11.14.2" data-path="census-intro.html"><a href="census-intro.html#fields-made-to-join-with-other-data"><i class="fa fa-check"></i><b>11.14.2</b> Fields made to join with other data</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="verbs.html"><a href="verbs.html"><i class="fa fa-check"></i><b>12</b> Verbs</a>
+<li class="chapter" data-level="12" data-path="census-more.html"><a href="census-more.html"><i class="fa fa-check"></i><b>12</b> Joining census data</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="verbs.html"><a href="verbs.html#importexport"><i class="fa fa-check"></i><b>12.1</b> Import/Export</a></li>
-<li class="chapter" data-level="12.2" data-path="verbs.html"><a href="verbs.html#data-manipulation"><i class="fa fa-check"></i><b>12.2</b> Data manipulation</a></li>
-<li class="chapter" data-level="12.3" data-path="verbs.html"><a href="verbs.html#aggregation"><i class="fa fa-check"></i><b>12.3</b> Aggregation</a></li>
-<li class="chapter" data-level="12.4" data-path="verbs.html"><a href="verbs.html#math"><i class="fa fa-check"></i><b>12.4</b> Math</a></li>
+<li class="chapter" data-level="12.1" data-path="census-more.html"><a href="census-more.html#goals-of-the-chapter"><i class="fa fa-check"></i><b>12.1</b> Goals of the chapter</a></li>
+<li class="chapter" data-level="12.2" data-path="census-more.html"><a href="census-more.html#questions-well-answer"><i class="fa fa-check"></i><b>12.2</b> Questions we’ll answer</a></li>
+<li class="chapter" data-level="12.3" data-path="census-more.html"><a href="census-more.html#set-up-your-notebook-1"><i class="fa fa-check"></i><b>12.3</b> Set up your notebook</a></li>
+<li class="chapter" data-level="12.4" data-path="census-more.html"><a href="census-more.html#new-york-times-covid-data"><i class="fa fa-check"></i><b>12.4</b> New York Times COVID data</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="census-more.html"><a href="census-more.html#on-your-own-import-the-nyt-data"><i class="fa fa-check"></i><b>12.4.1</b> On your own: Import the NYT data</a></li>
+<li class="chapter" data-level="12.4.2" data-path="census-more.html"><a href="census-more.html#slice-the-most-recent-data"><i class="fa fa-check"></i><b>12.4.2</b> Slice the most recent data</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="chart-examples.html"><a href="chart-examples.html"><i class="fa fa-check"></i><b>13</b> Chart examples</a>
+<li class="chapter" data-level="12.5" data-path="census-more.html"><a href="census-more.html#get-county-populations-using-tidycensus"><i class="fa fa-check"></i><b>12.5</b> Get county populations using tidycensus</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="chart-examples.html"><a href="chart-examples.html#bar-charts"><i class="fa fa-check"></i><b>13.1</b> Bar charts</a>
-<ul>
-<li class="chapter" data-level="13.1.1" data-path="chart-examples.html"><a href="chart-examples.html#explanaton"><i class="fa fa-check"></i><b>13.1.1</b> Explanaton</a></li>
+<li class="chapter" data-level="12.5.1" data-path="census-more.html"><a href="census-more.html#find-the-data-on-data.census.gov"><i class="fa fa-check"></i><b>12.5.1</b> Find the data on data.census.gov</a></li>
+<li class="chapter" data-level="12.5.2" data-path="census-more.html"><a href="census-more.html#find-the-variable-name"><i class="fa fa-check"></i><b>12.5.2</b> Find the variable name</a></li>
+<li class="chapter" data-level="12.5.3" data-path="census-more.html"><a href="census-more.html#fetch-the-population-data"><i class="fa fa-check"></i><b>12.5.3</b> Fetch the population data</a></li>
+<li class="chapter" data-level="12.5.4" data-path="census-more.html"><a href="census-more.html#get-data-for-texas-counties"><i class="fa fa-check"></i><b>12.5.4</b> Get data for Texas counties</a></li>
 </ul></li>
-<li class="chapter" data-level="13.2" data-path="chart-examples.html"><a href="chart-examples.html#column-chart"><i class="fa fa-check"></i><b>13.2</b> Column chart</a></li>
-<li class="chapter" data-level="13.3" data-path="chart-examples.html"><a href="chart-examples.html#a-line-chart"><i class="fa fa-check"></i><b>13.3</b> A line chart</a>
+<li class="chapter" data-level="12.6" data-path="census-more.html"><a href="census-more.html#about-joins"><i class="fa fa-check"></i><b>12.6</b> About joins</a>
 <ul>
-<li class="chapter" data-level="13.3.1" data-path="chart-examples.html"><a href="chart-examples.html#explanation"><i class="fa fa-check"></i><b>13.3.1</b> Explanation</a></li>
+<li class="chapter" data-level="12.6.1" data-path="census-more.html"><a href="census-more.html#join-our-data-together"><i class="fa fa-check"></i><b>12.6.1</b> Join our data together</a></li>
+<li class="chapter" data-level="12.6.2" data-path="census-more.html"><a href="census-more.html#clean-up-column-names-etc."><i class="fa fa-check"></i><b>12.6.2</b> Clean up column names, etc.</a></li>
 </ul></li>
-<li class="chapter" data-level="13.4" data-path="chart-examples.html"><a href="chart-examples.html#scatterplot"><i class="fa fa-check"></i><b>13.4</b> Scatterplot</a>
+<li class="chapter" data-level="12.7" data-path="census-more.html"><a href="census-more.html#create-our-rate-columns"><i class="fa fa-check"></i><b>12.7</b> Create our rate columns</a>
 <ul>
-<li class="chapter" data-level="13.4.1" data-path="chart-examples.html"><a href="chart-examples.html#explanation-1"><i class="fa fa-check"></i><b>13.4.1</b> Explanation</a></li>
+<li class="chapter" data-level="12.7.1" data-path="census-more.html"><a href="census-more.html#on-your-own-get-a-deaths-rate-per-1000"><i class="fa fa-check"></i><b>12.7.1</b> On your own: Get a deaths rate per 1,000</a></li>
+<li class="chapter" data-level="12.7.2" data-path="census-more.html"><a href="census-more.html#on-your-own-find-counties-with-highest-rates"><i class="fa fa-check"></i><b>12.7.2</b> On your own: Find counties with highest rates</a></li>
 </ul></li>
-<li class="chapter" data-level="13.5" data-path="chart-examples.html"><a href="chart-examples.html#histogram"><i class="fa fa-check"></i><b>13.5</b> Histogram</a></li>
-<li class="chapter" data-level="13.6" data-path="chart-examples.html"><a href="chart-examples.html#titles-labels-and-other-cleanup"><i class="fa fa-check"></i><b>13.6</b> Titles, labels and other cleanup</a>
+<li class="chapter" data-level="12.8" data-path="census-more.html"><a href="census-more.html#mapping-the-rates-for-texas-counties"><i class="fa fa-check"></i><b>12.8</b> Mapping the rates for Texas counties</a></li>
+<li class="chapter" data-level="12.9" data-path="census-more.html"><a href="census-more.html#on-your-own-map-the-deaths-per-1000"><i class="fa fa-check"></i><b>12.9</b> On your own: Map the deaths per 1,000</a></li>
+<li class="chapter" data-level="12.10" data-path="census-more.html"><a href="census-more.html#what-weve-learned-2"><i class="fa fa-check"></i><b>12.10</b> What we’ve learned</a></li>
+<li class="chapter" data-level="12.11" data-path="census-more.html"><a href="census-more.html#turn-in-your-work-2"><i class="fa fa-check"></i><b>12.11</b> Turn in your work</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html"><i class="fa fa-check"></i><b>13</b> How to tackle a new dataset</a>
 <ul>
-<li class="chapter" data-level="13.6.1" data-path="chart-examples.html"><a href="chart-examples.html#title-and-axis-labels"><i class="fa fa-check"></i><b>13.6.1</b> Title and axis labels</a></li>
-<li class="chapter" data-level="13.6.2" data-path="chart-examples.html"><a href="chart-examples.html#flip-the-graphic"><i class="fa fa-check"></i><b>13.6.2</b> Flip the graphic</a></li>
-<li class="chapter" data-level="13.6.3" data-path="chart-examples.html"><a href="chart-examples.html#fix-exponential-numbers-on-an-axis"><i class="fa fa-check"></i><b>13.6.3</b> Fix exponential numbers on an axis</a></li>
-</ul></li>
-<li class="chapter" data-level="13.7" data-path="chart-examples.html"><a href="chart-examples.html#interactivity-with-plotly"><i class="fa fa-check"></i><b>13.7</b> Interactivity with plotly</a></li>
-<li class="chapter" data-level="13.8" data-path="chart-examples.html"><a href="chart-examples.html#resources"><i class="fa fa-check"></i><b>13.8</b> Resources</a></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html"><i class="fa fa-check"></i><b>14</b> Publishing your findings</a>
+<li class="chapter" data-level="13.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#start-by-listing-questions"><i class="fa fa-check"></i><b>13.1</b> Start by listing questions</a></li>
+<li class="chapter" data-level="13.2" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#understand-your-data"><i class="fa fa-check"></i><b>13.2</b> Understand your data</a></li>
+<li class="chapter" data-level="13.3" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#counting-and-aggregation"><i class="fa fa-check"></i><b>13.3</b> Counting and aggregation</a>
 <ul>
-<li class="chapter" data-level="14.1" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#examples"><i class="fa fa-check"></i><b>14.1</b> Examples</a></li>
-<li class="chapter" data-level="14.2" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#how-to-publish-your-projects"><i class="fa fa-check"></i><b>14.2</b> How to publish your projects</a>
-<ul>
-<li class="chapter" data-level="14.2.1" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#using-github-pages"><i class="fa fa-check"></i><b>14.2.1</b> Using Github Pages</a></li>
+<li class="chapter" data-level="13.3.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#counting-rows-based-on-a-column"><i class="fa fa-check"></i><b>13.3.1</b> Counting rows based on a column</a></li>
+<li class="chapter" data-level="13.3.2" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#sum-mean-and-other-aggregations"><i class="fa fa-check"></i><b>13.3.2</b> Sum, mean and other aggregations</a></li>
+<li class="chapter" data-level="13.3.3" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#creating-columns-to-show-difference"><i class="fa fa-check"></i><b>13.3.3</b> Creating columns to show difference</a></li>
 </ul></li>
-<li class="chapter" data-level="14.3" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#making-branded-graphics"><i class="fa fa-check"></i><b>14.3</b> Making branded graphics</a></li>
+<li class="chapter" data-level="13.4" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#cleaning-up-categorical-data"><i class="fa fa-check"></i><b>13.4</b> Cleaning up categorical data</a></li>
+<li class="chapter" data-level="13.5" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#time-as-a-variable"><i class="fa fa-check"></i><b>13.5</b> Time as a variable</a></li>
+<li class="chapter" data-level="13.6" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#explore-the-distributions-in-your-data"><i class="fa fa-check"></i><b>13.6</b> Explore the distributions in your data</a>
+<ul>
+<li class="chapter" data-level="13.6.1" data-path="how-to-tackle-a-new-dataset.html"><a href="how-to-tackle-a-new-dataset.html#more-on-histograms"><i class="fa fa-check"></i><b>13.6.1</b> More on histograms</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="verbs.html"><a href="verbs.html"><i class="fa fa-check"></i><b>14</b> Verbs</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="verbs.html"><a href="verbs.html#importexport"><i class="fa fa-check"></i><b>14.1</b> Import/Export</a></li>
+<li class="chapter" data-level="14.2" data-path="verbs.html"><a href="verbs.html#data-manipulation"><i class="fa fa-check"></i><b>14.2</b> Data manipulation</a></li>
+<li class="chapter" data-level="14.3" data-path="verbs.html"><a href="verbs.html#aggregation"><i class="fa fa-check"></i><b>14.3</b> Aggregation</a></li>
+<li class="chapter" data-level="14.4" data-path="verbs.html"><a href="verbs.html#math"><i class="fa fa-check"></i><b>14.4</b> Math</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="chart-examples.html"><a href="chart-examples.html"><i class="fa fa-check"></i><b>15</b> Chart examples</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="chart-examples.html"><a href="chart-examples.html#bar-charts"><i class="fa fa-check"></i><b>15.1</b> Bar charts</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="chart-examples.html"><a href="chart-examples.html#explanaton"><i class="fa fa-check"></i><b>15.1.1</b> Explanaton</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="chart-examples.html"><a href="chart-examples.html#column-chart"><i class="fa fa-check"></i><b>15.2</b> Column chart</a></li>
+<li class="chapter" data-level="15.3" data-path="chart-examples.html"><a href="chart-examples.html#a-line-chart"><i class="fa fa-check"></i><b>15.3</b> A line chart</a>
+<ul>
+<li class="chapter" data-level="15.3.1" data-path="chart-examples.html"><a href="chart-examples.html#explanation"><i class="fa fa-check"></i><b>15.3.1</b> Explanation</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="chart-examples.html"><a href="chart-examples.html#scatterplot"><i class="fa fa-check"></i><b>15.4</b> Scatterplot</a>
+<ul>
+<li class="chapter" data-level="15.4.1" data-path="chart-examples.html"><a href="chart-examples.html#explanation-1"><i class="fa fa-check"></i><b>15.4.1</b> Explanation</a></li>
+</ul></li>
+<li class="chapter" data-level="15.5" data-path="chart-examples.html"><a href="chart-examples.html#histogram"><i class="fa fa-check"></i><b>15.5</b> Histogram</a></li>
+<li class="chapter" data-level="15.6" data-path="chart-examples.html"><a href="chart-examples.html#titles-labels-and-other-cleanup"><i class="fa fa-check"></i><b>15.6</b> Titles, labels and other cleanup</a>
+<ul>
+<li class="chapter" data-level="15.6.1" data-path="chart-examples.html"><a href="chart-examples.html#title-and-axis-labels"><i class="fa fa-check"></i><b>15.6.1</b> Title and axis labels</a></li>
+<li class="chapter" data-level="15.6.2" data-path="chart-examples.html"><a href="chart-examples.html#flip-the-graphic"><i class="fa fa-check"></i><b>15.6.2</b> Flip the graphic</a></li>
+<li class="chapter" data-level="15.6.3" data-path="chart-examples.html"><a href="chart-examples.html#fix-exponential-numbers-on-an-axis"><i class="fa fa-check"></i><b>15.6.3</b> Fix exponential numbers on an axis</a></li>
+</ul></li>
+<li class="chapter" data-level="15.7" data-path="chart-examples.html"><a href="chart-examples.html#interactivity-with-plotly"><i class="fa fa-check"></i><b>15.7</b> Interactivity with plotly</a></li>
+<li class="chapter" data-level="15.8" data-path="chart-examples.html"><a href="chart-examples.html#resources"><i class="fa fa-check"></i><b>15.8</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html"><i class="fa fa-check"></i><b>16</b> Publishing your findings</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#examples"><i class="fa fa-check"></i><b>16.1</b> Examples</a></li>
+<li class="chapter" data-level="16.2" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#how-to-publish-your-projects"><i class="fa fa-check"></i><b>16.2</b> How to publish your projects</a>
+<ul>
+<li class="chapter" data-level="16.2.1" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#using-github-pages"><i class="fa fa-check"></i><b>16.2.1</b> Using Github Pages</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="publishing-your-findings.html"><a href="publishing-your-findings.html#making-branded-graphics"><i class="fa fa-check"></i><b>16.3</b> Making branded graphics</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -560,8 +632,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="how-to-tackle-a-new-dataset" class="section level1" number="11">
-<h1><span class="header-section-number">Chapter 11</span> How to tackle a new dataset</h1>
+<div id="how-to-tackle-a-new-dataset" class="section level1" number="13">
+<h1><span class="header-section-number">Chapter 13</span> How to tackle a new dataset</h1>
 <blockquote>
 <p>NEEDS REVIEW</p>
 </blockquote>
@@ -569,12 +641,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>For those unfamiliar with exploring data, starting the process can be paralyzing.</p>
 <p>How do I explore when I don’t know what I’m looking for? Where do I start?</p>
 <p>Every situation is different, but there are some common techniques and some common sense that you can bring to every project.</p>
-<div id="start-by-listing-questions" class="section level2" number="11.1">
-<h2><span class="header-section-number">11.1</span> Start by listing questions</h2>
+<div id="start-by-listing-questions" class="section level2" number="13.1">
+<h2><span class="header-section-number">13.1</span> Start by listing questions</h2>
 <p>It’s likely you’ve acquired data because you needed it to add context to a story or situation. Spend a little time at the beginning brainstorming as list of questions you want to answer. (You might ask a colleague to participate: the act of describing the data set will reveal questions for both of you.) I like to start my RNotebook with this list.</p>
 </div>
-<div id="understand-your-data" class="section level2" number="11.2">
-<h2><span class="header-section-number">11.2</span> Understand your data</h2>
+<div id="understand-your-data" class="section level2" number="13.2">
+<h2><span class="header-section-number">13.2</span> Understand your data</h2>
 <p>Before you start working on your data, make sure you understand what all the columns and values mean. Look at your data dictionary, or talk to the data owner to make sure you understand what you are working with.</p>
 <p>To get a quick summary of all the values, you can use a function called <code>summary()</code> to give you some basic stats for all your data. Here is an example from the Top 100 Billboard data we used in a class assignment.</p>
 <div class="figure">
@@ -583,16 +655,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>A <code>summary()</code> will show you the data type for each column, and then for number values it will show you the min, max, median, mean and other stats.</p>
 </div>
-<div id="counting-and-aggregation" class="section level2" number="11.3">
-<h2><span class="header-section-number">11.3</span> Counting and aggregation</h2>
+<div id="counting-and-aggregation" class="section level2" number="13.3">
+<h2><span class="header-section-number">13.3</span> Counting and aggregation</h2>
 <p>A large part of data analysis is counting and sorting, or filtering and then counting and sorting. It’s possible you may need to reshape your data using <code>gather()</code> or <code>spread()</code> before you can do the mutating or grouping and summarizing you need. Review the <a href="tidy-data.html#tidy-data">Tidy data</a> chapter for more on that.</p>
-<div id="counting-rows-based-on-a-column" class="section level3" number="11.3.1">
-<h3><span class="header-section-number">11.3.1</span> Counting rows based on a column</h3>
+<div id="counting-rows-based-on-a-column" class="section level3" number="13.3.1">
+<h3><span class="header-section-number">13.3.1</span> Counting rows based on a column</h3>
 <p>If you are just counting the number of rows based on the values within a column (or columns), then <code>count()</code> is the key. When you use <code>count()</code> like this, a new column called <code>n</code> is created to hold the count of the rows. You can then use <code>arrange()</code> to sort the <code>n</code> column. (I’ll often rename <code>n</code> to something more useful. If you do, make sure you <code>arrange()</code> by the new name.)</p>
 <p>In this example, we are counting the number of rows for each princess in our survey data, the arranging by <code>'n</code> then in decending order.</p>
-<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="how-to-tackle-a-new-dataset.html#cb227-1" aria-hidden="true" tabindex="-1"></a>survey <span class="sc">%&gt;%</span> </span>
-<span id="cb227-2"><a href="how-to-tackle-a-new-dataset.html#cb227-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(princess) <span class="sc">%&gt;%</span> </span>
-<span id="cb227-3"><a href="how-to-tackle-a-new-dataset.html#cb227-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(n <span class="sc">%&gt;%</span> <span class="fu">desc</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="how-to-tackle-a-new-dataset.html#cb271-1" aria-hidden="true" tabindex="-1"></a>survey <span class="sc">%&gt;%</span> </span>
+<span id="cb271-2"><a href="how-to-tackle-a-new-dataset.html#cb271-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(princess) <span class="sc">%&gt;%</span> </span>
+<span id="cb271-3"><a href="how-to-tackle-a-new-dataset.html#cb271-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(n <span class="sc">%&gt;%</span> <span class="fu">desc</span>())</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -640,16 +712,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 </div>
-<div id="sum-mean-and-other-aggregations" class="section level3" number="11.3.2">
-<h3><span class="header-section-number">11.3.2</span> Sum, mean and other aggregations</h3>
+<div id="sum-mean-and-other-aggregations" class="section level3" number="13.3.2">
+<h3><span class="header-section-number">13.3.2</span> Sum, mean and other aggregations</h3>
 <p>If you want to aggregate values in a column, like adding together values, or to find a mean or median, then you will want to use <code>group_by()</code> on your columns of interest, then use <code>summarize()</code> to aggregate the data in the manner you choose, like <code>sum()</code>, <code>mean()</code> or the number of rows <code>n()</code>.</p>
 <p>Here is an example where we use <code>group_by</code> and <code>summarize()</code> to add together values in our mixed beverage data. In this case, we had multiple rows for each name/address group, but we wanted to add together <code>total_receipts()</code> for each group.</p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="how-to-tackle-a-new-dataset.html#cb228-1" aria-hidden="true" tabindex="-1"></a>receipts <span class="sc">%&gt;%</span> </span>
-<span id="cb228-2"><a href="how-to-tackle-a-new-dataset.html#cb228-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(location_name, location_address) <span class="sc">%&gt;%</span> </span>
-<span id="cb228-3"><a href="how-to-tackle-a-new-dataset.html#cb228-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb228-4"><a href="how-to-tackle-a-new-dataset.html#cb228-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_sales =</span> <span class="fu">sum</span>(total_receipts)</span>
-<span id="cb228-5"><a href="how-to-tackle-a-new-dataset.html#cb228-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb228-6"><a href="how-to-tackle-a-new-dataset.html#cb228-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total_sales))</span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="how-to-tackle-a-new-dataset.html#cb272-1" aria-hidden="true" tabindex="-1"></a>receipts <span class="sc">%&gt;%</span> </span>
+<span id="cb272-2"><a href="how-to-tackle-a-new-dataset.html#cb272-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(location_name, location_address) <span class="sc">%&gt;%</span> </span>
+<span id="cb272-3"><a href="how-to-tackle-a-new-dataset.html#cb272-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb272-4"><a href="how-to-tackle-a-new-dataset.html#cb272-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_sales =</span> <span class="fu">sum</span>(total_receipts)</span>
+<span id="cb272-5"><a href="how-to-tackle-a-new-dataset.html#cb272-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb272-6"><a href="how-to-tackle-a-new-dataset.html#cb272-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total_sales))</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -688,17 +760,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <p>The result will have all the columns you included in the group, plus the columns you create in your summarize statement. You can summarize more than one thing at a time, like the number of rows <code>numb_rows = n()</code> and average of the values <code>average = mean(column_name)</code>.</p>
 </div>
-<div id="creating-columns-to-show-difference" class="section level3" number="11.3.3">
-<h3><span class="header-section-number">11.3.3</span> Creating columns to show difference</h3>
+<div id="creating-columns-to-show-difference" class="section level3" number="13.3.3">
+<h3><span class="header-section-number">13.3.3</span> Creating columns to show difference</h3>
 <p>Sometimes you need to perform math on two columns to show the difference between them. Use <code>mutate()</code> to create the column and do the math. Here’s a pseudo-code example:</p>
-<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="how-to-tackle-a-new-dataset.html#cb229-1" aria-hidden="true" tabindex="-1"></a>new_or_reassigned_df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
-<span id="cb229-2"><a href="how-to-tackle-a-new-dataset.html#cb229-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb229-3"><a href="how-to-tackle-a-new-dataset.html#cb229-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_col_name =</span> (part_col <span class="sc">/</span> total_col) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb229-4"><a href="how-to-tackle-a-new-dataset.html#cb229-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="how-to-tackle-a-new-dataset.html#cb273-1" aria-hidden="true" tabindex="-1"></a>new_or_reassigned_df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb273-2"><a href="how-to-tackle-a-new-dataset.html#cb273-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb273-3"><a href="how-to-tackle-a-new-dataset.html#cb273-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_col_name =</span> (part_col <span class="sc">/</span> total_col) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb273-4"><a href="how-to-tackle-a-new-dataset.html#cb273-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 </div>
 </div>
-<div id="cleaning-up-categorical-data" class="section level2" number="11.4">
-<h2><span class="header-section-number">11.4</span> Cleaning up categorical data</h2>
+<div id="cleaning-up-categorical-data" class="section level2" number="13.4">
+<h2><span class="header-section-number">13.4</span> Cleaning up categorical data</h2>
 <p>If you are going to count our summarize rows based on categorical data, you might want to make sure the values in that column are clean and free of typos and values that might be better combined.</p>
 <p>In class we did this with the <code>proposed_use</code> column in our wells data in the [Cleaning] chapter. Review that chapter for examples.</p>
 <p>Some strategies you might use:</p>
@@ -708,8 +780,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>If you find you have hundreds of values to clean, then come see me. There are some other tools like <a href="http://openrefine.org/">OpenRefine</a> that you can learn farily quickly to help.</p>
 </div>
-<div id="time-as-a-variable" class="section level2" number="11.5">
-<h2><span class="header-section-number">11.5</span> Time as a variable</h2>
+<div id="time-as-a-variable" class="section level2" number="13.5">
+<h2><span class="header-section-number">13.5</span> Time as a variable</h2>
 <p>If you have dates in your data, then you almost always want to see change over time for different variables.</p>
 <ul>
 <li>Summarize records by year or month as appropriate and create a Bar or Column chart to show how the number of records for each time period.</li>
@@ -718,21 +790,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Do you need the mean (average), median or sum of a column, or certain values within columns? The the <code>group_by()</code> and <code>summarize()</code> functions are likely your tool to discover those values.</li>
 </ul>
 </div>
-<div id="explore-the-distributions-in-your-data" class="section level2" number="11.6">
-<h2><span class="header-section-number">11.6</span> Explore the distributions in your data</h2>
+<div id="explore-the-distributions-in-your-data" class="section level2" number="13.6">
+<h2><span class="header-section-number">13.6</span> Explore the distributions in your data</h2>
 <p>We didn’t talk about histograms in class, but sometimes you might want see the “distributon” of values in your data, i.e. how the values vary within the column. Are many of the values similar? A histogram can show this.</p>
 <p>Here is an example of a histogram from our wells data exploring the borehole_depth. Each bar represents the number of wells broken down in 100ft depth increments (set with <code>binwidth=100</code>). So the first bar shows that most of the wells (more than 7000) are less than 100 feet deep.</p>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="how-to-tackle-a-new-dataset.html#cb230-1" aria-hidden="true" tabindex="-1"></a>wells <span class="sc">%&gt;%</span> </span>
-<span id="cb230-2"><a href="how-to-tackle-a-new-dataset.html#cb230-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> borehole_depth)) <span class="sc">+</span></span>
-<span id="cb230-3"><a href="how-to-tackle-a-new-dataset.html#cb230-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">100</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="how-to-tackle-a-new-dataset.html#cb274-1" aria-hidden="true" tabindex="-1"></a>wells <span class="sc">%&gt;%</span> </span>
+<span id="cb274-2"><a href="how-to-tackle-a-new-dataset.html#cb274-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> borehole_depth)) <span class="sc">+</span></span>
+<span id="cb274-3"><a href="how-to-tackle-a-new-dataset.html#cb274-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">100</span>)</span></code></pre></div>
 <div class="figure">
 <img src="images/explore-histogram.png" alt="" />
 <p class="caption">Borehole depth histogram</p>
 </div>
 <p>While there are wells deeper than 1000 feet, they are so few they don’t even show on the graphic.</p>
 <p>You’ll rarely use a histogram as a graphic with a story because they are more difficult to explain to readers. But they do help you to understand how much values differ within a column.</p>
-<div id="more-on-histograms" class="section level3" number="11.6.1">
-<h3><span class="header-section-number">11.6.1</span> More on histograms</h3>
+<div id="more-on-histograms" class="section level3" number="13.6.1">
+<h3><span class="header-section-number">13.6.1</span> More on histograms</h3>
 <p>If you google around, you might see other ways to create a histogram, including <code>hist()</code> and <code>qplot()</code>. You might stick with the ggplot’s <code>geom_histogram()</code> since you already are familiar with the syntax.</p>
 <ul>
 <li><a href="https://www.datacamp.com/community/tutorials/make-histogram-ggplot2">Tutorial on histograms</a> using ggplot from DataCamp.</li>
@@ -747,7 +819,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="plot-aac.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="census-more.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="verbs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

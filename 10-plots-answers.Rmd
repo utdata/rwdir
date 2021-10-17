@@ -650,10 +650,10 @@ Now it is time for you to prep this data for our plot. Here is the logic: You ar
 You should end up with a summary with three columns: mo, animal_type and whatever you named the count column.
 
 ```{r type-prep, include=FALSE}
-intake_types_data <- intake_types %>% 
+intake_type_data <- intake_types %>% 
   count(mo, animal_type, name = "count_animals")
 
-intake_types_data %>% head()
+intake_type_data
 ```
 
 ### On your own: Plot animal types by month
@@ -666,14 +666,12 @@ Remember this is very similar to your plot above where you made a line chart of 
 One thing about describing this chart in your subtitle: You have to describe in your own words that this chart combines counts by each month over five years: 2016-2020. It's a nuance a reader needs to understand.
 
 ```{r type-plot, include=FALSE}
-intake_types_data %>% 
-  ggplot(aes(x = mo, y = count_animals, group = animal_type)) +
-  geom_line(aes(color = animal_type)) +
+ggplot(intake_type_data, aes(x = mo, y = count_animals)) +
+  geom_line(aes(group = animal_type, color = animal_type)) +
   labs(
-    title = "A good title, source and everything",
+    title = "This thing",
     color = "Animal type"
   )
-
 ```
 
 What did you learn about your plot? Is there a type of animal that drives that spring/summer surge? Tell me in text in your notebook how you might find out why that is so.
