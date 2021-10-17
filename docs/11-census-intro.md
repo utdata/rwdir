@@ -1,10 +1,4 @@
-# Census introduction {#census}
-
-> DRAFT
-
-- This is [where I found to add the margin back](https://stackoverflow.com/questions/40407498/how-to-remove-margins-in-ggplot2-chart)
-
-----
+# Census introduction {#census-intro}
 
 The U.S. [Census Bureau](https://census.gov/) has a wealth of data that can help journalists tell stories. This chapter is _not_ a comprehensive guide on how to use it, but instead an introduction on some ways you can.
 
@@ -145,17 +139,19 @@ Here we'll use the `load_variables()` function again, but we have to specify tha
 1. Add the code below and run it.
 
 
+
 ```r
 v19_subject <- load_variables(2019, "acs5/subject", cache = TRUE)
-
-# View(v19_subject)
 ```
 
-- The first argument of `load_variables()` is the year: `2019`.
-- The second is the profile type: `acs5/subject` for the subject tables.
-- The third saves this table to your computer so it doesn't download it each time you view it.
+- The first item `v19_subject` is the R object we are filling.
+- We start with `load_variables()` and the first argument is the year of data that we want. Fo us this is: `2019`.
+- The second argument is the profile type: `acs5/subject` for the subject tables.
+- The third argument `cache = TRUE` saves this table to your computer so it doesn't download it each time you view it.
 
-I have a commented line there `View(v19_subject)` that then opens that in a table view so you can browse it. Run it without the comment first, then comment it out. You can't knit with the `View` value there.
+Once you have saved the table into an object, you'll see it listed in your Environment pane. Click on the little table icon on the right side to open it as a table:
+
+![Open table](images/v19-subject-table-icon.png)
 
 Once you have the table open:
 
@@ -291,7 +287,7 @@ Walker's tidycensus package can also bring in [spatial files](https://walker-dat
 1. Make a new section and note that you are _mapping_ broadband access.
 2. Add the code chunk below and run it.
 
-I'm suppressing the output here.
+> I'm suppressing the output here because it doesn't show well in the book.
 
 
 ```r
@@ -327,10 +323,11 @@ ggplot(broadband_tx_geo) +
     palette = "Oranges",
     direction = 1,
     name = "% households\nwith broadband"
-  )
+  ) +
+  theme(plot.margin = unit(c(0,10,0,10), "pt"))
 ```
 
-<img src="11-census-intro_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+<img src="11-census-intro_files/figure-html/plot-broadband-1.png" width="672" />
 
 Let's go through it line by line:
 
@@ -342,7 +339,8 @@ Let's go through it line by line:
 - Then we add `scale_fill_distiller()` with a bunch of settings. I'll be honest, I only know of this scale because of a some tutorial that I have since lost. But let's walk through the options used here:
   - `palette = "Oranges"` changes the colors since I didn't like the default blue. You could [try some of these](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#rcolorbrewer-palette-chart)? I googled to find that.
   - `direction = 1` reverses the colors so higher numbers are darker instead of lighter. It makes more sense that way, at least to me.
-  - `name = "% households\nwith broadband"` update the name on the legend. Note the weird `\n` in the middle with creates a **new line** to the legend name isn't so long.
+  - `name = "% households\nwith broadband"` update the name on the legend. Note the weird `\n` in the middle with creates a **new line** with the legend so the name isn't so long.
+- The last `theme(plot.margin)` line adds some margins around the plot since `theme_void()` removes all of that. I [found that here](https://stackoverflow.com/a/40408281). The number order is clockwise: top, right, bottom, left.
 
 ### You did it!
 

@@ -43,8 +43,8 @@ Here is a sample of our main columns of interest, except for the date:
 
 
 ```{=html}
-<div id="htmlwidget-358a13f8c1429b6f7c1c" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-358a13f8c1429b6f7c1c">{"x":{"filter":"none","vertical":false,"data":[["KY","SC","CA","TX","OH"],["MEADE COUNTY SHERIFF DEPT","PROSPERITY POLICE DEPT","KERN COUNTY SHERIFF OFFICE","LEAGUE CITY POLICE DEPT","TRUMBULL COUNTY SHERIFF'S OFFICE"],["GENERATOR SET,DIESEL ENGINE","RIFLE,7.62 MILLIMETER","MARKER,TUBE TYPE","RIFLE,5.56 MILLIMETER","RIFLE,5.56 MILLIMETER"],[5,1,32,1,1],[4623.09,138,16.91,749,749]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>state<\/th>\n      <th>agency_name<\/th>\n      <th>item_name<\/th>\n      <th>quantity<\/th>\n      <th>acquisition_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[3,4]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-91ec31d797bf05adfb06" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-91ec31d797bf05adfb06">{"x":{"filter":"none","vertical":false,"data":[["KY","SC","CA","TX","OH"],["MEADE COUNTY SHERIFF DEPT","PROSPERITY POLICE DEPT","KERN COUNTY SHERIFF OFFICE","LEAGUE CITY POLICE DEPT","TRUMBULL COUNTY SHERIFF'S OFFICE"],["GENERATOR SET,DIESEL ENGINE","RIFLE,7.62 MILLIMETER","MARKER,TUBE TYPE","RIFLE,5.56 MILLIMETER","RIFLE,5.56 MILLIMETER"],[5,1,32,1,1],[4623.09,138,16.91,749,749]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>state<\/th>\n      <th>agency_name<\/th>\n      <th>item_name<\/th>\n      <th>quantity<\/th>\n      <th>acquisition_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[3,4]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ```
 <br>
 
