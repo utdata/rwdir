@@ -4,13 +4,12 @@ The U.S. [Census Bureau](https://census.gov/) has a wealth of data that can help
 
 There is a recorded lecture in Canvas that covers different data programs within the census, so you should watch that before embarking on this. You do need some basic knowledge of those programs for this to make sense.
 
-## Goals of this section
+## Goals of this chapter
 
 - Introduce the official U.S. Census Bureau site [data.census.gov](https://data.census.gov/cedsci/).
 - Explain API keys and set them up for census data.
 - Introduce and explore the [tidycensus](https://walker-data.com/tidycensus/) package to pull census data into R.
 - Introduce some mapping techniques using tidycensus.
-_ Introduce the concept of joining data together.
 - Note some other packages and methods to use census data.
 
 ## Start a tidycensus project
@@ -324,7 +323,7 @@ ggplot(broadband_tx_geo) +
     direction = 1,
     name = "% households\nwith broadband"
   ) +
-  theme(plot.margin = unit(c(0,10,0,10), "pt"))
+  theme(plot.margin = unit(c(10,0,10,0), "pt"))
 ```
 
 <img src="11-census-intro_files/figure-html/plot-broadband-1.png" width="672" />

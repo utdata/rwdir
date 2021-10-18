@@ -8,7 +8,7 @@ In this chapter we'll use tidycensus again, but we'll use it to pull data that c
 
 - Introduce the New York Times' collection of COVID-related data.
 - Along the way we'll learn how to use `slice()` to get a subset of data.
-- Use Tidyverse to pull 2020 Decennial Census population data.
+- Use tidycensus to pull 2020 Decennial Census population data.
 - Introduce the concept of "joining" data on a common key variable.
 - Create COVID cases and death rates using the combination of these two data sets.
 - Map the results.
@@ -23,7 +23,7 @@ In this chapter we'll use tidycensus again, but we'll use it to pull data that c
 We're going to use the same project from the last chapter, `yourname-census`, but start a new notebook.
 
 1. Open your census project
-2. Start a new R Notebook and name it "COVID rates".
+2. Start a new R Notebook and name it `covid-rates.Rmd`.
 3. Create a setup chunk with the following libraries
 
 
@@ -102,16 +102,16 @@ tx_covid
 ## # Groups:   county [254]
 ##    date       county    fips  cases deaths
 ##    <date>     <chr>     <chr> <dbl>  <dbl>
-##  1 2021-10-16 Anderson  48001  7947    194
-##  2 2021-10-16 Andrews   48003  2766     53
-##  3 2021-10-16 Angelina  48005 13624    389
-##  4 2021-10-16 Aransas   48007  2585     63
-##  5 2021-10-16 Archer    48009  1225     19
-##  6 2021-10-16 Armstrong 48011   279      7
-##  7 2021-10-16 Atascosa  48013  8474    199
-##  8 2021-10-16 Austin    48015  3437     51
-##  9 2021-10-16 Bailey    48017   999     23
-## 10 2021-10-16 Bandera   48019  2268     51
+##  1 2021-10-17 Anderson  48001  7947    195
+##  2 2021-10-17 Andrews   48003  2766     53
+##  3 2021-10-17 Angelina  48005 13624    389
+##  4 2021-10-17 Aransas   48007  2585     63
+##  5 2021-10-17 Archer    48009  1225     19
+##  6 2021-10-17 Armstrong 48011   279      7
+##  7 2021-10-17 Atascosa  48013  8474    199
+##  8 2021-10-17 Austin    48015  3446     51
+##  9 2021-10-17 Bailey    48017   999     23
+## 10 2021-10-17 Bandera   48019  2268     51
 ## # … with 244 more rows
 ```
 
@@ -272,11 +272,11 @@ tx_covid %>% glimpse()
 ## Rows: 254
 ## Columns: 5
 ## Groups: county [254]
-## $ date   <date> 2021-10-16, 2021-10-16, 2021-10-16, 2021-10-16, 2021-10-16, 20…
+## $ date   <date> 2021-10-17, 2021-10-17, 2021-10-17, 2021-10-17, 2021-10-17, 20…
 ## $ county <chr> "Anderson", "Andrews", "Angelina", "Aransas", "Archer", "Armstr…
 ## $ fips   <chr> "48001", "48003", "48005", "48007", "48009", "48011", "48013", …
-## $ cases  <dbl> 7947, 2766, 13624, 2585, 1225, 279, 8474, 3437, 999, 2268, 1420…
-## $ deaths <dbl> 194, 53, 389, 63, 19, 7, 199, 51, 23, 51, 164, 19, 123, 684, 49…
+## $ cases  <dbl> 7947, 2766, 13624, 2585, 1225, 279, 8474, 3446, 999, 2268, 1420…
+## $ deaths <dbl> 195, 53, 389, 63, 19, 7, 199, 51, 23, 51, 164, 19, 124, 684, 49…
 ```
 
 
@@ -319,8 +319,6 @@ For our purposes here we want to use an `inner_join()`. We have to **start with 
 1. Start a new section and note we are joining our data.
 2. Add the code below, run and review the results and the explanation below.
 
-, echo=T, results='hide', message=F, warning=F
-
 
 
 ```r
@@ -342,16 +340,16 @@ tx_joined
 ## # A tibble: 254 × 9
 ##    geoid name   variable value                  geometry date       county cases
 ##    <chr> <chr>  <chr>    <dbl>        <MULTIPOLYGON [°]> <date>     <chr>  <dbl>
-##  1 48001 Ander… P1_001N  57922 (((-96.0648 31.98066, -9… 2021-10-16 Ander…  7947
-##  2 48003 Andre… P1_001N  18610 (((-103.0647 32.52219, -… 2021-10-16 Andre…  2766
-##  3 48005 Angel… P1_001N  86395 (((-95.00488 31.42396, -… 2021-10-16 Angel… 13624
-##  4 48007 Arans… P1_001N  23830 (((-96.8229 28.16743, -9… 2021-10-16 Arans…  2585
-##  5 48009 Arche… P1_001N   8560 (((-98.95382 33.49637, -… 2021-10-16 Archer  1225
-##  6 48011 Armst… P1_001N   1848 (((-101.6294 34.75006, -… 2021-10-16 Armst…   279
-##  7 48013 Atasc… P1_001N  48981 (((-98.80488 29.10702, -… 2021-10-16 Atasc…  8474
-##  8 48015 Austi… P1_001N  30167 (((-96.62085 30.0452, -9… 2021-10-16 Austin  3437
-##  9 48017 Baile… P1_001N   6904 (((-103.0469 33.8503, -1… 2021-10-16 Bailey   999
-## 10 48019 Bande… P1_001N  20851 (((-99.60332 29.74026, -… 2021-10-16 Bande…  2268
+##  1 48001 Ander… P1_001N  57922 (((-96.0648 31.98066, -9… 2021-10-17 Ander…  7947
+##  2 48003 Andre… P1_001N  18610 (((-103.0647 32.52219, -… 2021-10-17 Andre…  2766
+##  3 48005 Angel… P1_001N  86395 (((-95.00488 31.42396, -… 2021-10-17 Angel… 13624
+##  4 48007 Arans… P1_001N  23830 (((-96.8229 28.16743, -9… 2021-10-17 Arans…  2585
+##  5 48009 Arche… P1_001N   8560 (((-98.95382 33.49637, -… 2021-10-17 Archer  1225
+##  6 48011 Armst… P1_001N   1848 (((-101.6294 34.75006, -… 2021-10-17 Armst…   279
+##  7 48013 Atasc… P1_001N  48981 (((-98.80488 29.10702, -… 2021-10-17 Atasc…  8474
+##  8 48015 Austi… P1_001N  30167 (((-96.62085 30.0452, -9… 2021-10-17 Austin  3446
+##  9 48017 Baile… P1_001N   6904 (((-103.0469 33.8503, -1… 2021-10-17 Bailey   999
+## 10 48019 Bande… P1_001N  20851 (((-99.60332 29.74026, -… 2021-10-17 Bande…  2268
 ## # … with 244 more rows, and 1 more variable: deaths <dbl>
 ```
 
@@ -378,10 +376,10 @@ tx_joined %>% glimpse()
 ## $ variable <chr> "P1_001N", "P1_001N", "P1_001N", "P1_001N", "P1_001N", "P1_00…
 ## $ value    <dbl> 57922, 18610, 86395, 23830, 8560, 1848, 48981, 30167, 6904, 2…
 ## $ geometry <MULTIPOLYGON [°]> MULTIPOLYGON (((-96.0648 31..., MULTIPOLYGON (((…
-## $ date     <date> 2021-10-16, 2021-10-16, 2021-10-16, 2021-10-16, 2021-10-16, …
+## $ date     <date> 2021-10-17, 2021-10-17, 2021-10-17, 2021-10-17, 2021-10-17, …
 ## $ county   <chr> "Anderson", "Andrews", "Angelina", "Aransas", "Archer", "Arms…
-## $ cases    <dbl> 7947, 2766, 13624, 2585, 1225, 279, 8474, 3437, 999, 2268, 14…
-## $ deaths   <dbl> 194, 53, 389, 63, 19, 7, 199, 51, 23, 51, 164, 19, 123, 684, …
+## $ cases    <dbl> 7947, 2766, 13624, 2585, 1225, 279, 8474, 3446, 999, 2268, 14…
+## $ deaths   <dbl> 195, 53, 389, 63, 19, 7, 199, 51, 23, 51, 164, 19, 124, 684, …
 ```
 
 Now that we have our `cases`, `deaths` and `value` (or population) columns in the same table so we can do some math to create case and death rates.
@@ -412,10 +410,10 @@ tx_renamed %>% glimpse()
 ## $ geoid     <chr> "48001", "48003", "48005", "48007", "48009", "48011", "48013…
 ## $ total_pop <dbl> 57922, 18610, 86395, 23830, 8560, 1848, 48981, 30167, 6904, …
 ## $ geometry  <MULTIPOLYGON [°]> MULTIPOLYGON (((-96.0648 31..., MULTIPOLYGON ((…
-## $ date      <date> 2021-10-16, 2021-10-16, 2021-10-16, 2021-10-16, 2021-10-16,…
+## $ date      <date> 2021-10-17, 2021-10-17, 2021-10-17, 2021-10-17, 2021-10-17,…
 ## $ county    <chr> "Anderson", "Andrews", "Angelina", "Aransas", "Archer", "Arm…
-## $ cases     <dbl> 7947, 2766, 13624, 2585, 1225, 279, 8474, 3437, 999, 2268, 1…
-## $ deaths    <dbl> 194, 53, 389, 63, 19, 7, 199, 51, 23, 51, 164, 19, 123, 684,…
+## $ cases     <dbl> 7947, 2766, 13624, 2585, 1225, 279, 8474, 3446, 999, 2268, 1…
+## $ deaths    <dbl> 195, 53, 389, 63, 19, 7, 199, 51, 23, 51, 164, 19, 124, 684,…
 ```
 
 ## Create our rate columns
