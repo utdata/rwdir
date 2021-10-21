@@ -14,7 +14,7 @@ It's likely you've acquired data because you needed it to add context to a story
 
 Before you start working on your data, make sure you understand what all the columns and values mean. Look at your data dictionary, or talk to the data owner to make sure you understand what you are working with.
 
-To get a quick summary of all the values, you can use a function called `summary()` to give you some basic stats for all your data. Here is an example from the Top 100 Billboard data we used in a class assignment.
+To get a quick summary of all the values, you can use a function called `summary()` to give you some basic stats for all your data. Here is an example from the Billboard Hot 100 data we used in a class assignment.
 
 ![Summary of billboard data](images/explore-summary.png)
 
@@ -50,9 +50,9 @@ A large part of data analysis is counting and sorting, or filtering and then cou
 
 ### Counting rows based on a column
 
-If you are just counting the number of rows based on the values within a column (or columns), then `count()` is the key. When you use `count()` like this, a new column called `n` is created to hold the count of the rows. You can rename `n` with the `name = "new_name"` argument) an you can change the sorting to descending order using the `sort = TRUE` argument.
+If you are just counting the number of rows based on the values within a column (or columns), then `count()` is the key. When you use `count()` like this, a new column called `n` is created to hold the count of the rows. You can rename `n` with the `name = "new_name"` argument, and you can change the sorting to descending order using the `sort = TRUE` argument.
 
-In this example, we are counting the number of rows for each princess in our survey data, the arranging by `'n` then in decending order.
+In this example, we are counting the number of rows for each princess in our survey data, the arranging them in descending order.
 
 ```r
 survey %>% 
@@ -109,7 +109,7 @@ new_or_reassigned_df <- df %>%
 
 ## Cleaning up categorical data
 
-If you are going to count our summarize rows based on categorical data, you might want to make sure the values in that column are clean and free of typos and values that might be better combined.
+If you are going to count our summarize rows based on categorical data, you should make sure the values in that column are clean and free of typos and values that might better be combined.
 
 Some strategies you might use:
 

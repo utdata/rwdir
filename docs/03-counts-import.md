@@ -188,8 +188,6 @@ In this class, we will primarily use data from CSVs (Comma Separated Value), Exc
 
 Don't get me wrong ... there are plenty of other data types and connections available through R, but those are the ones we'll deal with most in this book.
 
-
-
 ## Our project data
 
 Now that we've downloaded the data and talked about what data is, lets talk about our Billboard data specifically.
@@ -319,7 +317,6 @@ hot100 <- read_csv("data-raw/hot-stuff.csv")
 # peek at the data
 hot100 %>% glimpse()
 ```
-
 
 
 ```
