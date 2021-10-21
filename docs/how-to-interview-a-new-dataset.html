@@ -4,21 +4,21 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Reporting with Data in R</title>
-  <meta name="description" content="Page not found | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <title>Chapter 14 How to interview a new dataset | Reporting with Data in R</title>
+  <meta name="description" content="Chapter 14 How to interview a new dataset | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
   <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Reporting with Data in R" />
+  <meta property="og:title" content="Chapter 14 How to interview a new dataset | Reporting with Data in R" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="Page not found | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <meta property="og:description" content="Chapter 14 How to interview a new dataset | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
   <meta name="github-repo" content="utdata/rwdir" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Reporting with Data in R" />
+  <meta name="twitter:title" content="Chapter 14 How to interview a new dataset | Reporting with Data in R" />
   
-  <meta name="twitter:description" content="Page not found | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
+  <meta name="twitter:description" content="Chapter 14 How to interview a new dataset | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. It is taught by Christian McDonald, assistant professor of practice." />
   
 
 <meta name="author" content="Christian McDonald" />
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-
+<link rel="prev" href="mastery.html"/>
+<link rel="next" href="verbs.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -652,19 +652,252 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="how-to-interview-a-new-dataset" class="section level1" number="14">
+<h1><span class="header-section-number">Chapter 14</span> How to interview a new dataset</h1>
+<p>For those unfamiliar with exploring data, starting the process can be paralyzing.</p>
+<p>How do I explore when I don’t know what I’m looking for? Where do I start?</p>
+<p>Every situation is different, but there are some common techniques and some common sense that you can bring to every project.</p>
+<div id="start-by-listing-questions" class="section level2" number="14.1">
+<h2><span class="header-section-number">14.1</span> Start by listing questions</h2>
+<p>It’s likely you’ve acquired data because you needed it to add context to a story or situation. Spend a little time at the beginning brainstorming as list of questions you want to answer. (You might ask a colleague to participate: the act of describing the data set will reveal questions for both of you.) I like to start my RNotebook with this list.</p>
+</div>
+<div id="understand-your-data" class="section level2" number="14.2">
+<h2><span class="header-section-number">14.2</span> Understand your data</h2>
+<p>Before you start working on your data, make sure you understand what all the columns and values mean. Look at your data dictionary, or talk to the data owner to make sure you understand what you are working with.</p>
+<p>To get a quick summary of all the values, you can use a function called <code>summary()</code> to give you some basic stats for all your data. Here is an example from the Top 100 Billboard data we used in a class assignment.</p>
+<div class="figure">
+<img src="images/explore-summary.png" alt="" />
+<p class="caption">Summary of billboard data</p>
+</div>
+<p>A <code>summary()</code> will show you the data type for each column, and then for number values it will show you the min, max, median, mean and other stats.</p>
+</div>
+<div id="pay-attention-to-the-shape-of-your-data" class="section level2" number="14.3">
+<h2><span class="header-section-number">14.3</span> Pay attention to the shape of your data</h2>
+<p>Is your data long or wide?</p>
+<p>Wide data adds new observations as columns, with the headers describing the observation. Official reports and Excel files from agencies are often in this format:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Country</th>
+<th>2018</th>
+<th>2017</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>United States</td>
+<td>20,494,050</td>
+<td>19,390,604</td>
+</tr>
+<tr class="even">
+<td>China</td>
+<td>13,407,398</td>
+<td>12,237,700</td>
+</tr>
+</tbody>
+</table>
+<p>Long data is where each row in the data is a single observation, and each column is an attribute that describes that observation. Data-centric languages and applications like R and Tableau typically prefer this format.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Country</th>
+<th>Year</th>
+<th>GDP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>United States</td>
+<td>2018</td>
+<td>20,494,050</td>
+</tr>
+<tr class="even">
+<td>United States</td>
+<td>2017</td>
+<td>19,390,604</td>
+</tr>
+<tr class="odd">
+<td>China</td>
+<td>2018</td>
+<td>13,407,398</td>
+</tr>
+<tr class="even">
+<td>China</td>
+<td>2017</td>
+<td>12,237,700</td>
+</tr>
+</tbody>
+</table>
+<p>The shape of the data will determine how you go about analyzing it. They are both useful in different ways. Wide data allows you to calculate columns to show changes. Visualization programs will sometimes want a long format to more easily categorize values based on the attributes.</p>
+<p>You can <a href="https://tidyr.tidyverse.org/articles/pivot.html">pivot</a> your data with <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html"><code>pivot_longer()</code></a> and <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html"><code>pivot_wider</code></a> to change the shape of your data.</p>
+</div>
+<div id="counting-and-aggregation" class="section level2" number="14.4">
+<h2><span class="header-section-number">14.4</span> Counting and aggregation</h2>
+<p>A large part of data analysis is counting and sorting, or filtering and then counting and sorting. Depending on the program you are using you may approach it differently but think of these concepts:</p>
+<div id="counting-rows-based-on-a-column" class="section level3" number="14.4.1">
+<h3><span class="header-section-number">14.4.1</span> Counting rows based on a column</h3>
+<p>If you are just counting the number of rows based on the values within a column (or columns), then <code>count()</code> is the key. When you use <code>count()</code> like this, a new column called <code>n</code> is created to hold the count of the rows. You can rename <code>n</code> with the <code>name = "new_name"</code> argument) an you can change the sorting to descending order using the <code>sort = TRUE</code> argument.</p>
+<p>In this example, we are counting the number of rows for each princess in our survey data, the arranging by <code>'n</code> then in decending order.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="how-to-interview-a-new-dataset.html#cb1-1" aria-hidden="true" tabindex="-1"></a>survey <span class="sc">%&gt;%</span> </span>
+<span id="cb1-2"><a href="how-to-interview-a-new-dataset.html#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(princess, <span class="at">name =</span> <span class="st">&quot;votes&quot;</span>, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th>princess</th>
+<th align="right">votes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mulan</td>
+<td align="right">14</td>
+</tr>
+<tr class="even">
+<td>Rapunzel (Tangled)</td>
+<td align="right">7</td>
+</tr>
+<tr class="odd">
+<td>Jasmine (Aladdin)</td>
+<td align="right">6</td>
+</tr>
+<tr class="even">
+<td>Ariel (Little Mermaid)</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td>Tiana (Princess and the Frog)</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td>Aurora (Sleeping Beauty)</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td>Belle (Beauty and the Beast)</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td>Merida (Brave)</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td>Snow White</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="sum-mean-and-other-aggregations" class="section level3" number="14.4.2">
+<h3><span class="header-section-number">14.4.2</span> Sum, mean and other aggregations</h3>
+<p>If you want to aggregate values in a column, like adding together values, or to find a mean or median, then you will want to use the GSA combination: <code>group_by()</code> on your columns of interest, then use <code>summarize()</code> to aggregate the data in the manner you choose, like <code>sum()</code>, <code>mean()</code> or the number of rows <code>n()</code>. You can then use <code>arrange()</code> to order the result however you want.</p>
+<p>Here is an example where we use <code>group_by</code> and <code>summarize()</code> to add together values in our mixed beverage data. In this case, we had multiple rows for each name/address group, but we wanted to add together <code>total_receipts()</code> for each group.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="how-to-interview-a-new-dataset.html#cb2-1" aria-hidden="true" tabindex="-1"></a>receipts <span class="sc">%&gt;%</span> </span>
+<span id="cb2-2"><a href="how-to-interview-a-new-dataset.html#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(location_name, location_address) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-3"><a href="how-to-interview-a-new-dataset.html#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb2-4"><a href="how-to-interview-a-new-dataset.html#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_sales =</span> <span class="fu">sum</span>(total_receipts)</span>
+<span id="cb2-5"><a href="how-to-interview-a-new-dataset.html#cb2-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-6"><a href="how-to-interview-a-new-dataset.html#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total_sales))</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th>location_name</th>
+<th>location_address</th>
+<th align="right">total_sales</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>WLS BEVERAGE CO</td>
+<td>110 E 2ND ST</td>
+<td align="right">35878211</td>
+</tr>
+<tr class="even">
+<td>RYAN SANDERS SPORTS</td>
+<td>9201 CIRCUIT OF THE AMERICAS BLVD</td>
+<td align="right">20714630</td>
+</tr>
+<tr class="odd">
+<td>W HOTEL AUSTIN</td>
+<td>200 LAVACA ST</td>
+<td align="right">15435458</td>
+</tr>
+<tr class="even">
+<td>ROSE ROOM/ 77 DEGREE</td>
+<td>11500 ROCK ROSE AVE</td>
+<td align="right">14726420</td>
+</tr>
+<tr class="odd">
+<td>THE DOGWOOD DOMAIN</td>
+<td>11420 ROCK ROSE AVE STE 700</td>
+<td align="right">14231072</td>
+</tr>
+</tbody>
+</table>
+<p>The result will have all the columns you included in the group, plus the columns you create in your summarize statement. You can summarize more than one thing at a time, like the number of rows <code>numb_rows = n()</code> and average of the values <code>average = mean(column_name)</code>.</p>
+</div>
+<div id="creating-columns-to-show-difference" class="section level3" number="14.4.3">
+<h3><span class="header-section-number">14.4.3</span> Creating columns to show difference</h3>
+<p>Sometimes you need to perform math on two columns to show the difference between them. Use <code>mutate()</code> to create the column and do the math. Here’s a pseudo-code example:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="how-to-interview-a-new-dataset.html#cb3-1" aria-hidden="true" tabindex="-1"></a>new_or_reassigned_df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="how-to-interview-a-new-dataset.html#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-3"><a href="how-to-interview-a-new-dataset.html#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_col_name =</span> (part_col <span class="sc">/</span> total_col) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb3-4"><a href="how-to-interview-a-new-dataset.html#cb3-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+</div>
+<div id="cleaning-up-categorical-data" class="section level2" number="14.5">
+<h2><span class="header-section-number">14.5</span> Cleaning up categorical data</h2>
+<p>If you are going to count our summarize rows based on categorical data, you might want to make sure the values in that column are clean and free of typos and values that might be better combined.</p>
+<p>Some strategies you might use:</p>
+<ul>
+<li>Create a <code>count()</code> of the column to show all the different values and how often they show up.</li>
+<li>You might want to use <code>mutate()</code> to create a new column and then update the values there. Or you might use <code>recode()</code> the set specific values to new values.</li>
+</ul>
+<p>If you find you have hundreds of values to clean, then come see me. There are some other tools like <a href="http://openrefine.org/">OpenRefine</a> that you can learn fairly quickly to help.</p>
+</div>
+<div id="time-as-a-variable" class="section level2" number="14.6">
+<h2><span class="header-section-number">14.6</span> Time as a variable</h2>
+<p>If you have dates in your data, then you almost always want to see change over time for different variables.</p>
+<ul>
+<li>Summarize records by year or month as appropriate and create a Bar or Column chart to show how the number of records for each time period.</li>
+<li>Do you need to see how different categories of data have changed over time? Consider a line chart that shows those categories in different colors.</li>
+<li>If you have the same value for different time periods, do might want to see the change or percent change in those values. You can create a new column using <code>mutate()</code> to do the math and show the difference.</li>
+</ul>
+</div>
+<div id="explore-the-distributions-in-your-data" class="section level2" number="14.7">
+<h2><span class="header-section-number">14.7</span> Explore the distributions in your data</h2>
+<p>We didn’t talk about histograms in class, but sometimes you might want see the “distribution” of values in your data, i.e. how the values vary within the column. Are many of the values similar? A histogram can show this.</p>
+<p>Here is an example of a histogram use wells data exploring the borehole_depth (how deep the well is). Each bar represents the number of wells broken down in 100ft depth increments (set with <code>binwidth=100</code>). So the first bar shows that most of the wells (more than 7000) are less than 100 feet deep.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="how-to-interview-a-new-dataset.html#cb4-1" aria-hidden="true" tabindex="-1"></a>wells <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="how-to-interview-a-new-dataset.html#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> borehole_depth)) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="how-to-interview-a-new-dataset.html#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">100</span>)</span></code></pre></div>
+<div class="figure">
+<img src="images/explore-histogram.png" alt="" />
+<p class="caption">Borehole depth histogram</p>
+</div>
+<p>While there are wells deeper than 1000 feet, they are so few they don’t even show on the graphic.</p>
+<p>You’ll rarely use a histogram as a graphic with a story because they are more difficult to explain to readers. But they do help you to understand how much values differ within a column.</p>
+<div id="more-on-histograms" class="section level3" number="14.7.1">
+<h3><span class="header-section-number">14.7.1</span> More on histograms</h3>
+<p>If you google around, you might see other ways to create a histogram, including <code>hist()</code> and <code>qplot()</code>. You might stick with the ggplot’s <code>geom_histogram()</code> since you already are familiar with the syntax.</p>
+<ul>
+<li><a href="https://www.datacamp.com/community/tutorials/make-histogram-ggplot2">Tutorial on histograms</a> using ggplot from DataCamp.</li>
+<li><a href="http://www.cookbook-r.com/Graphs/Plotting_distributions_(ggplot2)/">R Cookbook</a> on histograms.</li>
+</ul>
+</div>
+</div>
+<div id="same-ideas-using-spreadsheets" class="section level2" number="14.8">
+<h2><span class="header-section-number">14.8</span> Same ideas using spreadsheets</h2>
+<p>Check out <a href="https://training.npr.org/2015/10/15/what-to-do-with-a-big-pile-of-data/">this resource by David Eads</a> on the same topic, with some more specifics about Google Sheets.</p>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-
+<a href="mastery.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="verbs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -696,7 +929,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/%s",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/90-explore.Rmd",
 "text": "Edit"
 },
 "history": {

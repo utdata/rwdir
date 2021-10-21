@@ -1,8 +1,4 @@
-# How to tackle a new dataset
-
-> NEEDS REVIEW
-
----
+# How to interview a new dataset
 
 For those unfamiliar with exploring data, starting the process can be paralyzing.
 
@@ -24,23 +20,46 @@ To get a quick summary of all the values, you can use a function called `summary
 
 A `summary()` will show you the data type for each column, and then for number values it will show you the min, max, median, mean and other stats.
 
+## Pay attention to the shape of your data
+
+Is your data long or wide?
+
+Wide data adds new observations as columns, with the headers describing the observation. Official reports and Excel files from agencies are often in this format:
+
+| Country       | 2018       | 2017       |
+|---------------|------------|------------|
+| United States | 20,494,050 | 19,390,604 |
+| China         | 13,407,398 | 12,237,700 |
+
+Long data is where each row in the data is a single observation, and each column is an attribute that describes that observation. Data-centric languages and applications like R and Tableau typically prefer this format.
+
+| Country       | Year | GDP        |
+|---------------|------|------------|
+| United States | 2018 | 20,494,050 |
+| United States | 2017 | 19,390,604 |
+| China         | 2018 | 13,407,398 |
+| China         | 2017 | 12,237,700 |
+
+The shape of the data will determine how you go about analyzing it. They are both useful in different ways. Wide data allows you to calculate columns to show changes. Visualization programs will sometimes want a long format to more easily categorize values based on the attributes.
+
+You can [pivot](https://tidyr.tidyverse.org/articles/pivot.html) your data with [`pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html) and [`pivot_wider`](https://tidyr.tidyverse.org/reference/pivot_wider.html) to change the shape of your data.
+
 ## Counting and aggregation
 
-A large part of data analysis is counting and sorting, or filtering and then counting and sorting. It's possible you may need to reshape your data using `gather()` or `spread()` before you can do the mutating or grouping and summarizing you need. Review the [Tidy data] chapter for more on that.
+A large part of data analysis is counting and sorting, or filtering and then counting and sorting. Depending on the program you are using you may approach it differently but think of these concepts:
 
 ### Counting rows based on a column
 
-If you are just counting the number of rows based on the values within a column (or columns), then `count()` is the key. When you use `count()` like this, a new column called `n` is created to hold the count of the rows. You can then use `arrange()` to sort the `n` column. (I'll often rename `n` to something more useful. If you do, make sure you `arrange()` by the new name.)
+If you are just counting the number of rows based on the values within a column (or columns), then `count()` is the key. When you use `count()` like this, a new column called `n` is created to hold the count of the rows. You can rename `n` with the `name = "new_name"` argument) an you can change the sorting to descending order using the `sort = TRUE` argument.
 
 In this example, we are counting the number of rows for each princess in our survey data, the arranging by `'n` then in decending order.
 
 ```r
 survey %>% 
-  count(princess) %>% 
-  arrange(n %>% desc())
+  count(princess, name = "votes", sort = TRUE)
 ```
 
-| princess                      |     n |
+| princess                      |  votes|
 |-------------------------------|------:|
 | Mulan                         |    14 |
 | Rapunzel (Tangled)            |     7 |
@@ -54,7 +73,7 @@ survey %>%
 
 ### Sum, mean and other aggregations
 
-If you want to aggregate values in a column, like adding together values, or to find a mean or median, then you will want to use `group_by()` on your columns of interest, then use `summarize()` to aggregate the data in the manner you choose, like `sum()`, `mean()` or the number of rows `n()`.
+If you want to aggregate values in a column, like adding together values, or to find a mean or median, then you will want to use the GSA combination: `group_by()` on your columns of interest, then use `summarize()` to aggregate the data in the manner you choose, like `sum()`, `mean()` or the number of rows `n()`. You can then use `arrange()` to order the result however you want.
 
 Here is an example where we use `group_by` and `summarize()` to add together values in our mixed beverage data. In this case, we had multiple rows for each name/address group, but we wanted to add together `total_receipts()` for each group.
 
@@ -92,14 +111,12 @@ new_or_reassigned_df <- df %>%
 
 If you are going to count our summarize rows based on categorical data, you might want to make sure the values in that column are clean and free of typos and values that might be better combined.
 
-In class we did this with the `proposed_use` column in our wells data in the [Cleaning] chapter. Review that chapter for examples.
-
 Some strategies you might use:
 
 - Create a `count()` of the column to show all the different values and how often they show up.
-- You might want to use `mutate()` to create a new column and then update the values there. Again, see the [Cleaning] chapter for examples.
+- You might want to use `mutate()` to create a new column and then update the values there. Or you might use `recode()` the set specific values to new values.
 
-If you find you have hundreds of values to clean, then come see me. There are some other tools like [OpenRefine](http://openrefine.org/) that you can learn farily quickly to help.
+If you find you have hundreds of values to clean, then come see me. There are some other tools like [OpenRefine](http://openrefine.org/) that you can learn fairly quickly to help.
 
 ## Time as a variable
 
@@ -108,13 +125,12 @@ If you have dates in your data, then you almost always want to see change over t
 - Summarize records by year or month as appropriate and create a Bar or Column chart to show how the number of records for each time period.
 - Do you need to see how different categories of data have changed over time? Consider a line chart that shows those categories in different colors.
 - If you have the same value for different time periods, do might want to see the change or percent change in those values. You can create a new column using `mutate()` to do the math and show the difference.
-- Do you need the mean (average), median or sum of a column, or certain values within columns? The the `group_by()` and `summarize()` functions are likely your tool to discover those values. 
 
 ## Explore the distributions in your data
 
-We didn't talk about histograms in class, but sometimes you might want see the "distributon" of values in your data, i.e. how the values vary within the column. Are many of the values similar? A histogram can show this.
+We didn't talk about histograms in class, but sometimes you might want see the "distribution" of values in your data, i.e. how the values vary within the column. Are many of the values similar? A histogram can show this.
 
-Here is an example of a histogram from our wells data exploring the borehole_depth. Each bar represents the number of wells broken down in 100ft depth increments (set with `binwidth=100`). So the first bar shows that most of the wells (more than 7000) are less than 100 feet deep.
+Here is an example of a histogram use wells data exploring the borehole_depth (how deep the well is). Each bar represents the number of wells broken down in 100ft depth increments (set with `binwidth=100`). So the first bar shows that most of the wells (more than 7000) are less than 100 feet deep.
 
 ```r
 wells %>% 
@@ -135,3 +151,6 @@ If you google around, you might see other ways to create a histogram, including 
 - [Tutorial on histograms](https://www.datacamp.com/community/tutorials/make-histogram-ggplot2) using ggplot from DataCamp.
 - [R Cookbook](http://www.cookbook-r.com/Graphs/Plotting_distributions_(ggplot2)/) on histograms.
 
+## Same ideas using spreadsheets
+
+Check out [this resource by David Eads](https://training.npr.org/2015/10/15/what-to-do-with-a-big-pile-of-data/) on the same topic, with some more specifics about Google Sheets.
