@@ -1,14 +1,12 @@
 # Mastery - Mixed Beverages {#mastery}
 
-> DRAFT
-
 With this assignment you will be given a dataset, recorded interviews and some story ideas and you will build a full story based on the collection.
 
 ## The assignment outline
 
 First, let's talk about the deliverables:
 
-- You'll produce an 500-word data drop based on the data. This should be written as a news story like most of our other data drops. You need three or four "facts" from the data to build a good case, and then support those with quotes. Don't pad your story with an expose on the drinking culture in Austin, just find more stories and quotes to build a better story. (100 points)
+- You'll produce an 500-word data drop based on the data. This should be written as a news story like most of our other data drops. You need three or four "facts" from the data to build a good case, and then support those with quotes. Don't pad your story with an exposé on the drinking culture in Austin, just find more data facts and quotes to build a better story. (100 points)
 - You'll turn in any analysis work you've done (your R project), regardless if it is used in the story. I want ALL of your work. (100 points)
 - You'll produce at least one publishable chart to go with your story using ggplot or Datawrapper. This chart needs to have a proper headline, description, legend, annotations and such so that the chart can be understood outside the context of the story. Include an image and/or link in your story. (100 points)
 - You will be assigned an editing partner from the class to work with. You will each do your own story (and must have different angles), but the idea is you have someone to regularly talk with about your analysis, edit your story and proof-read your charts. At the end of the first week you have an assignment where you tell me your editing partner and angle they are looking at, and then another later where you discuss how you helped each other.
@@ -17,7 +15,7 @@ First, let's talk about the deliverables:
 
 I have two recorded interviews for you to work from, and the **links are in Canvas** on the main assignment called "Mixed Beverage project". Both interviews include discussion of alcohol sales, including dealing with the pandemic. When these were recorded in spring 2021 we were also using TABC violations data, so the interviews also cover selling to minors and such. Those parts aren't really germane to this assignment, but there is plenty to draw from.
 
-- **Andy Kahn** is a bartender at The Mockingbird near campus. He was also a manager at The Hole in the Wall.
+- **Andy Kahn** is a bartender at The Mockingbird near campus. He worked previously as a manager at The Hole in the Wall.
 - **Chad Womack** is the owner of The Dogwood, which has locations on W. 6th and in The Domain (as well as other cities). He co-owns them with his brother Brad (yes, [that Brad Womack](https://en.wikipedia.org/wiki/The_Bachelor_(American_season_15))) and Jason Carrier through Carmack Concepts.
 
 It is worth going through the interviews early on so you can tailor your analysis around what they talk about.
@@ -55,7 +53,7 @@ Here is a list of questions you could ask that can lead to story ideas.
 - How much does March mean to sales of alcohol downtown during SXSW? (Like what percentage of their yearly sales?) What was the difference in 2020 and 2021 compared to 2019?
 - What owner/company has sold the most alcohol? (Taxpayer name). Or who owns the most locations in the city?
 
-There are certainly other ideas, but key are the fact you have date range, some geographic locations like addresses an ZIP codes and the beer/wine/liquor/total sales values to work from.
+There are certainly other ideas, but key are the fact you have date ranges, some geographic locations like addresses and ZIP codes and the beer/wine/liquor/total sales values to work from.
 
 ## Downloading and cleaning the data
 
@@ -66,12 +64,17 @@ We'll get our data directly from the [data.texas.gov](https://data.texas.gov/Gov
 1. You'll need the following libraries:
 
 
+```r
+library(tidyverse)
+library(janitor)
+library(RSocrata)
+```
 
 ### Set up the download url
 
-The key to using RSocrata and the Socrata API is to build a URL that will get us the data we want. I figured this out by reading through their [documentation](https://dev.socrata.com/docs/queries/) but that the _how_ is beyond the scope of this lesson. I will explain it, more or less, though.
+The key to using RSocrata and the Socrata API is to build a URL that will get us the data we want. I figured this out by reading through their [documentation](https://dev.socrata.com/docs/queries/) but that is beyond the scope of this lesson. But I will explain it, more or less.
 
-For this first part we are just building a flexible way to download and adjust parameters. I'll explain below.
+For this first part we are just building a flexible way to filter our data before downloading. I'll explain below.
 
 
 ```r
@@ -80,7 +83,7 @@ start_date = '2016-01-31'
 end_date = '2021-08-31'
 city = 'AUSTIN'
 
-download_url = paste(
+download_url <-  paste(
   mixbev_base_url,
   "$limit=100&", # comment out this line in your notebook
   "$where=obligation_end_date_yyyymmdd%20between%20",
@@ -99,13 +102,14 @@ download_url
 ## [1] "https://data.texas.gov/resource/fp9t-htqh.json?$limit=100&$where=obligation_end_date_yyyymmdd%20between%20'2016-01-31' and '2021-08-31'&location_city='AUSTIN'"
 ```
 
- The first several lines are creating variables for dates and the base URL of the data. If we wanted data from a different date range or city, we could change those. It just provides flexibility and ease for updates.
+- The first several lines are creating variables for the base URL and dates ranges for the data. If we wanted data from a different date range or city, we could change those. It just provides flexibility and ease for updates.
+- One thing about those dates: We are filtering the data to include five full years plus valid months in 2021. Since reporting lags on this by as much as two months, we don't have full reports for September or October 2021 so we are excluding them.
 - The `download_url` object pieces together the parts of the url that we need to download the data. This url is an "endpoint" for the Socrata API for this dataset. It uses [SoQL](https://dev.socrata.com/docs/queries/) queries to select only the data we want. The `paste()` function is just putting together the pieces of the URL endpoint based on our variables. I print it out at the end so you can see what the finished URL looks like. You could copy/paste that endpoint (between the "") into a browser to see what the data looks like.
 - I have a `limit` line in here for testing. I just pull 1000 lines of the data instead of all of them. **You need to comment out this line in your notebook to get all the data.**
 
-This example above could be repurposed to pull data from a different dataset on any agency's Socrata platform.
+> **REALLY, REALLY IMPORTANT NOTE**: Hey, did you see that note about the `"$limit=100&"` line? You **must** comment out the limit to get all the data you need.
 
-> IMPORTANT: One thing we did here is filter the data to include five full years plus valid months in 2021. Since reporting lags on this, we don't have full reports for September or October 2021 so we are excluding them.
+This example above could be repurposed to pull data from a different dataset on any agency's Socrata platform.
 
 ### Download the data
 
@@ -150,15 +154,14 @@ receipts_api %>% glimpse()
 
 ### Fix some values
 
-I'm going to give you one an assist here because I found a pretty cool way to do this that I want to share with you.
+If you look at the data types of these columns you'll find that the `_receipts` columns are `<chr>` (which means characters) instead of `<dbl>` (which is numbers). We can't do math with text, so we need to fix that.
 
-If you look at the data types of these columns you'll find that the **_receipts** columns are `<chr>` (which means characters) instead of `<dbl>` (which is numbers). We can't do math with text, so we need to fix that.
+I'm going to give you an assist here because I found a pretty cool way to do this that I want to share.
 
-Tidyverse has a cool function called [type_convert()](https://readr.tidyverse.org/reference/type_convert.html) that can help us here. It allows us to specify data types for specific columns.
+Tidyverse has a function called [type_convert()](https://readr.tidyverse.org/reference/type_convert.html) that helps change between text and number data types and it can help us here. It allows us to specify data types for specific columns.
 
 1. Start a new section and note you are fixing the receipts columns.
 2. Add this code block and run it.
-
 
 
 ```r
@@ -213,7 +216,7 @@ Let's break this down
 - The first line inside cols is `.default = col_character()` which tells type_convert to only change columns we specify after it. If we didn't include this then the `*_zip` and `*_county` columns would be converted to numbers and we don't want that. Especially the ZIP code, because that is NOT a number.
 - The rest of the lines set the receipts columns to `col_double()` to make them numbers.
 
-We could've done this all with `mutate()` instead using `as.numeric()` but I like this method and wanted to show it to you.
+We could've done this using `mutate()` with `as.numeric()` and overwriting the columns, but I like this method and wanted to show it to you.
 
 ## Export your data
 
@@ -221,5 +224,5 @@ This tibble `receipts_converted` is ready to be exported as an .rds file to use 
 
 ## How to tackle the analysis
 
-The specifics will depend on what you are trying to learn from the data, but check out the chapter "How to interview your data" for some general tips and concept reviews.
+The specifics will depend on what you are trying to learn from the data, but check out the next chapter "How to interview your data" for some general tips and concept reviews.
 
