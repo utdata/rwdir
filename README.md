@@ -6,6 +6,8 @@ It is written using [bookdown](https://bookdown.org/yihui/bookdown/).
 
 ## Published versions
 
-- Most current book is found at [https://utdata.github.io/rwdir/](https://utdata.github.io/rwdir/) 
-- The [v1.0 release](https://utdata.github.io/rwdir/v1/) is from Fall 2021.
+The book is currently under v2 development for Spring 2022.
+
+- Most current book is found at [https://utdata.github.io/rwdir/](https://utdata.github.io/rwdir/).
+- The [v1.0.0 release](https://utdata.github.io/rwdir/v1/) is from Fall 2021.
 - The beta version from Spring 2019 is lost in a commit history somewhere.
