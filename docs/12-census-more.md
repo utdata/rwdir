@@ -102,16 +102,16 @@ tx_covid
 ## # Groups:   county [254]
 ##    date       county    fips  cases deaths
 ##    <date>     <chr>     <chr> <dbl>  <dbl>
-##  1 2021-10-20 Anderson  48001  7968    197
-##  2 2021-10-20 Andrews   48003  2766     53
-##  3 2021-10-20 Angelina  48005 13665    394
-##  4 2021-10-20 Aransas   48007  2589     64
-##  5 2021-10-20 Archer    48009  1228     19
-##  6 2021-10-20 Armstrong 48011   281      7
-##  7 2021-10-20 Atascosa  48013  8513    201
-##  8 2021-10-20 Austin    48015  3457     51
-##  9 2021-10-20 Bailey    48017  1000     23
-## 10 2021-10-20 Bandera   48019  2294     51
+##  1 2021-12-11 Anderson  48001  8149    208
+##  2 2021-12-11 Andrews   48003  2963     65
+##  3 2021-12-11 Angelina  48005 13920    422
+##  4 2021-12-11 Aransas   48007  2655     67
+##  5 2021-12-11 Archer    48009  1337     24
+##  6 2021-12-11 Armstrong 48011   323      8
+##  7 2021-12-11 Atascosa  48013  8838    209
+##  8 2021-12-11 Austin    48015  3722     56
+##  9 2021-12-11 Bailey    48017  1041     28
+## 10 2021-12-11 Bandera   48019  2490     64
 ## # … with 244 more rows
 ```
 
@@ -272,11 +272,11 @@ tx_covid %>% glimpse()
 ## Rows: 254
 ## Columns: 5
 ## Groups: county [254]
-## $ date   <date> 2021-10-20, 2021-10-20, 2021-10-20, 2021-10-20, 2021-10-20, 20…
+## $ date   <date> 2021-12-11, 2021-12-11, 2021-12-11, 2021-12-11, 2021-12-11, 20…
 ## $ county <chr> "Anderson", "Andrews", "Angelina", "Aransas", "Archer", "Armstr…
 ## $ fips   <chr> "48001", "48003", "48005", "48007", "48009", "48011", "48013", …
-## $ cases  <dbl> 7968, 2766, 13665, 2589, 1228, 281, 8513, 3457, 1000, 2294, 142…
-## $ deaths <dbl> 197, 53, 394, 64, 19, 7, 201, 51, 23, 51, 165, 20, 124, 691, 50…
+## $ cases  <dbl> 8149, 2963, 13920, 2655, 1337, 323, 8838, 3722, 1041, 2490, 146…
+## $ deaths <dbl> 208, 65, 422, 67, 24, 8, 209, 56, 28, 64, 187, 24, 135, 745, 52…
 ```
 
 
@@ -340,16 +340,16 @@ tx_joined
 ## # A tibble: 254 × 9
 ##    geoid name   variable value                  geometry date       county cases
 ##    <chr> <chr>  <chr>    <dbl>        <MULTIPOLYGON [°]> <date>     <chr>  <dbl>
-##  1 48001 Ander… P1_001N  57922 (((-96.0648 31.98066, -9… 2021-10-20 Ander…  7968
-##  2 48003 Andre… P1_001N  18610 (((-103.0647 32.52219, -… 2021-10-20 Andre…  2766
-##  3 48005 Angel… P1_001N  86395 (((-95.00488 31.42396, -… 2021-10-20 Angel… 13665
-##  4 48007 Arans… P1_001N  23830 (((-96.8229 28.16743, -9… 2021-10-20 Arans…  2589
-##  5 48009 Arche… P1_001N   8560 (((-98.95382 33.49637, -… 2021-10-20 Archer  1228
-##  6 48011 Armst… P1_001N   1848 (((-101.6294 34.75006, -… 2021-10-20 Armst…   281
-##  7 48013 Atasc… P1_001N  48981 (((-98.80488 29.10702, -… 2021-10-20 Atasc…  8513
-##  8 48015 Austi… P1_001N  30167 (((-96.62085 30.0452, -9… 2021-10-20 Austin  3457
-##  9 48017 Baile… P1_001N   6904 (((-103.0469 33.8503, -1… 2021-10-20 Bailey  1000
-## 10 48019 Bande… P1_001N  20851 (((-99.60332 29.74026, -… 2021-10-20 Bande…  2294
+##  1 48001 Ander… P1_001N  57922 (((-96.0648 31.98066, -9… 2021-12-11 Ander…  8149
+##  2 48003 Andre… P1_001N  18610 (((-103.0647 32.52219, -… 2021-12-11 Andre…  2963
+##  3 48005 Angel… P1_001N  86395 (((-95.00488 31.42396, -… 2021-12-11 Angel… 13920
+##  4 48007 Arans… P1_001N  23830 (((-96.8229 28.16743, -9… 2021-12-11 Arans…  2655
+##  5 48009 Arche… P1_001N   8560 (((-98.95382 33.49637, -… 2021-12-11 Archer  1337
+##  6 48011 Armst… P1_001N   1848 (((-101.6294 34.75006, -… 2021-12-11 Armst…   323
+##  7 48013 Atasc… P1_001N  48981 (((-98.80488 29.10702, -… 2021-12-11 Atasc…  8838
+##  8 48015 Austi… P1_001N  30167 (((-96.62085 30.0452, -9… 2021-12-11 Austin  3722
+##  9 48017 Baile… P1_001N   6904 (((-103.0469 33.8503, -1… 2021-12-11 Bailey  1041
+## 10 48019 Bande… P1_001N  20851 (((-99.60332 29.74026, -… 2021-12-11 Bande…  2490
 ## # … with 244 more rows, and 1 more variable: deaths <dbl>
 ```
 
@@ -376,10 +376,10 @@ tx_joined %>% glimpse()
 ## $ variable <chr> "P1_001N", "P1_001N", "P1_001N", "P1_001N", "P1_001N", "P1_00…
 ## $ value    <dbl> 57922, 18610, 86395, 23830, 8560, 1848, 48981, 30167, 6904, 2…
 ## $ geometry <MULTIPOLYGON [°]> MULTIPOLYGON (((-96.0648 31..., MULTIPOLYGON (((…
-## $ date     <date> 2021-10-20, 2021-10-20, 2021-10-20, 2021-10-20, 2021-10-20, …
+## $ date     <date> 2021-12-11, 2021-12-11, 2021-12-11, 2021-12-11, 2021-12-11, …
 ## $ county   <chr> "Anderson", "Andrews", "Angelina", "Aransas", "Archer", "Arms…
-## $ cases    <dbl> 7968, 2766, 13665, 2589, 1228, 281, 8513, 3457, 1000, 2294, 1…
-## $ deaths   <dbl> 197, 53, 394, 64, 19, 7, 201, 51, 23, 51, 165, 20, 124, 691, …
+## $ cases    <dbl> 8149, 2963, 13920, 2655, 1337, 323, 8838, 3722, 1041, 2490, 1…
+## $ deaths   <dbl> 208, 65, 422, 67, 24, 8, 209, 56, 28, 64, 187, 24, 135, 745, …
 ```
 
 Now that we have our `cases`, `deaths` and `value` (or population) columns in the same table so we can do some math to create case and death rates.
@@ -410,10 +410,10 @@ tx_renamed %>% glimpse()
 ## $ geoid     <chr> "48001", "48003", "48005", "48007", "48009", "48011", "48013…
 ## $ total_pop <dbl> 57922, 18610, 86395, 23830, 8560, 1848, 48981, 30167, 6904, …
 ## $ geometry  <MULTIPOLYGON [°]> MULTIPOLYGON (((-96.0648 31..., MULTIPOLYGON ((…
-## $ date      <date> 2021-10-20, 2021-10-20, 2021-10-20, 2021-10-20, 2021-10-20,…
+## $ date      <date> 2021-12-11, 2021-12-11, 2021-12-11, 2021-12-11, 2021-12-11,…
 ## $ county    <chr> "Anderson", "Andrews", "Angelina", "Aransas", "Archer", "Arm…
-## $ cases     <dbl> 7968, 2766, 13665, 2589, 1228, 281, 8513, 3457, 1000, 2294, …
-## $ deaths    <dbl> 197, 53, 394, 64, 19, 7, 201, 51, 23, 51, 165, 20, 124, 691,…
+## $ cases     <dbl> 8149, 2963, 13920, 2655, 1337, 323, 8838, 3722, 1041, 2490, …
+## $ deaths    <dbl> 208, 65, 422, 67, 24, 8, 209, 56, 28, 64, 187, 24, 135, 745,…
 ```
 
 ## Create our rate columns
@@ -453,7 +453,7 @@ You should be able to comprehend the `mutate()` function by now.
 
 On your own, I want you to create **two** lists: One of the Top 10 counties with the highest cases-per-1,000 and another of the Top 10 counties with the highest deaths-per-1,000 cases. Don't overthink this ... it is a simple arrange, select and head combination. You **do not** need to save these into new object ... just print to the screen.
 
-Use `select()` to show just the county, total_pop, cases/deaths and the appropriate rate for each view. **Note that the `geometry` column will _always_ show**. You can't remove it ... that's just how it works `¯\_(ツ)_/¯`. 
+Use `select()` to show just the county, total_pop, cases/deaths and the appropriate rate for each view. **Note that the `geometry` column will _always_ show**. You can't remove it ... that's just how it works. 
 
 ## Mapping the rates for Texas counties
 

@@ -155,17 +155,17 @@ tx %>%
 
 ```
 ## # A tibble: 9 × 9
-##   state agency_name           item_name                    quantity ui    acquisition_val…
-##   <chr> <chr>                 <chr>                           <dbl> <chr>            <dbl>
-## 1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-## 2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-## 3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-## 4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-## 5 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-## 6 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIMETER               1 Each             749  
-## 7 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIMETER               1 Each             749  
-## 8 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX                        5 Each             333  
-## 9 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY                       1 Each           62627  
+##   state agency_name           item_name          quantity ui    acquisition_val…
+##   <chr> <chr>                 <chr>                 <dbl> <chr>            <dbl>
+## 1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
+## 2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
+## 3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
+## 4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
+## 5 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
+## 6 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIM…        1 Each             749  
+## 7 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIM…        1 Each             749  
+## 8 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX              5 Each             333  
+## 9 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY             1 Each           62627  
 ## # … with 3 more variables: ship_date <dttm>, station_type <chr>,
 ## #   total_value <dbl>
 ```
@@ -404,18 +404,18 @@ tx %>%
 
 ```
 ## # A tibble: 46 × 3
-##    item_name                                           summed_quantity summed_total_va…
-##    <chr>                                                         <dbl>            <dbl>
-##  1 HELICOPTER,FLIGHT TRAINER                                         1          833400 
-##  2 IMAGE INTENSIFIER,NIGHT VISION                                   85          467847.
-##  3 SIGHT,THERMAL                                                    29          442310 
-##  4 PACKBOT 510 WITH FASTAC REMOTELY CONTROLLED VEHICLE               4          308000 
-##  5 SIGHT,REFLEX                                                    420          144245.
-##  6 ILLUMINATOR,INTEGRATED,SMALL ARMS                               135          122302 
-##  7 RECON SCOUT XT                                                    8           92451.
-##  8 RECON SCOUT XT,SPEC                                               6           81900 
-##  9 TEST SET,NIGHT VISION VIEWER                                      2           56650 
-## 10 PICKUP                                                            1           26327 
+##    item_name                                   summed_quantity summed_total_val…
+##    <chr>                                                 <dbl>             <dbl>
+##  1 HELICOPTER,FLIGHT TRAINER                                 1           833400 
+##  2 IMAGE INTENSIFIER,NIGHT VISION                           85           467847.
+##  3 SIGHT,THERMAL                                            29           442310 
+##  4 PACKBOT 510 WITH FASTAC REMOTELY CONTROLLE…               4           308000 
+##  5 SIGHT,REFLEX                                            420           144245.
+##  6 ILLUMINATOR,INTEGRATED,SMALL ARMS                       135           122302 
+##  7 RECON SCOUT XT                                            8            92451.
+##  8 RECON SCOUT XT,SPEC                                       6            81900 
+##  9 TEST SET,NIGHT VISION VIEWER                              2            56650 
+## 10 PICKUP                                                    1            26327 
 ## # … with 36 more rows
 ```
 

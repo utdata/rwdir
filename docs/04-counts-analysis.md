@@ -527,18 +527,18 @@ hot100 %>%
 ```
 ## # A tibble: 1,124 × 3
 ## # Groups:   performer [744]
-##    performer                          song                             appearances
-##    <chr>                              <chr>                                  <int>
-##  1 ? (Question Mark) & The Mysterians 96 Tears                                   1
-##  2 'N Sync                            It's Gonna Be Me                           2
-##  3 24kGoldn Featuring iann dior       Mood                                       8
-##  4 2Pac Featuring K-Ci And JoJo       How Do U Want It/California Love           2
-##  5 50 Cent                            In Da Club                                 9
-##  6 50 Cent Featuring Nate Dogg        21 Questions                               4
-##  7 50 Cent Featuring Olivia           Candy Shop                                 9
-##  8 6ix9ine & Nicki Minaj              Trollz                                     1
-##  9 A Taste Of Honey                   Boogie Oogie Oogie                         3
-## 10 a-ha                               Take On Me                                 1
+##    performer                          song                           appearances
+##    <chr>                              <chr>                                <int>
+##  1 ? (Question Mark) & The Mysterians 96 Tears                                 1
+##  2 'N Sync                            It's Gonna Be Me                         2
+##  3 24kGoldn Featuring iann dior       Mood                                     8
+##  4 2Pac Featuring K-Ci And JoJo       How Do U Want It/California L…           2
+##  5 50 Cent                            In Da Club                               9
+##  6 50 Cent Featuring Nate Dogg        21 Questions                             4
+##  7 50 Cent Featuring Olivia           Candy Shop                               9
+##  8 6ix9ine & Nicki Minaj              Trollz                                   1
+##  9 A Taste Of Honey                   Boogie Oogie Oogie                       3
+## 10 a-ha                               Take On Me                               1
 ## # … with 1,114 more rows
 ```
 </detail>

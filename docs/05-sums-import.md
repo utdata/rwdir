@@ -37,16 +37,20 @@ There is no data dictionary or record layout included with the data but I have c
 - **ship_date**: The date the item(s) were sent to the agency.
 - station_type: What kind of law enforcement agency made the request.
 
-Here is a sample of our main columns of interest, except for the date:
+Here is a glimse of our main columns of interest, except for the date:
 
 
 
 
-```{=html}
-<div id="htmlwidget-00d8de75277f56a8d90b" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-00d8de75277f56a8d90b">{"x":{"filter":"none","vertical":false,"data":[["KY","SC","CA","TX","OH"],["MEADE COUNTY SHERIFF DEPT","PROSPERITY POLICE DEPT","KERN COUNTY SHERIFF OFFICE","LEAGUE CITY POLICE DEPT","TRUMBULL COUNTY SHERIFF'S OFFICE"],["GENERATOR SET,DIESEL ENGINE","RIFLE,7.62 MILLIMETER","MARKER,TUBE TYPE","RIFLE,5.56 MILLIMETER","RIFLE,5.56 MILLIMETER"],[5,1,32,1,1],[4623.09,138,16.91,749,749]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>state<\/th>\n      <th>agency_name<\/th>\n      <th>item_name<\/th>\n      <th>quantity<\/th>\n      <th>acquisition_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[3,4]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ```
-<br>
+## Rows: 10
+## Columns: 5
+## $ state             <chr> "KY", "SC", "CA", "TX", "OH", "NC", "CA", "MI", "AZ"…
+## $ agency_name       <chr> "MEADE COUNTY SHERIFF DEPT", "PROSPERITY POLICE DEPT…
+## $ item_name         <chr> "GENERATOR SET,DIESEL ENGINE", "RIFLE,7.62 MILLIMETE…
+## $ quantity          <dbl> 5, 1, 32, 1, 1, 1, 1, 1, 1, 1
+## $ acquisition_value <dbl> 4623.09, 138.00, 16.91, 749.00, 749.00, 138.00, 499.…
+```
 
 Each row of data is a transfer of a particular type of item from the U.S. Department of Defense to a local law enforcement agency. The row includes the name of the item, the quantity, and the value ($) of a single unit.
 
@@ -194,18 +198,18 @@ leso
 
 ```
 ## # A tibble: 129,348 × 12
-##    sheet state agency_name           nsn   item_name quantity ui    acquisition_val…
-##    <dbl> <chr> <chr>                 <chr> <chr>        <dbl> <chr>            <dbl>
-##  1     1 AL    ABBEVILLE POLICE DEPT 1005… MOUNT,RI…       10 Each             1626 
-##  2     1 AL    ABBEVILLE POLICE DEPT 1240… SIGHT,RE…        9 Each              333 
-##  3     1 AL    ABBEVILLE POLICE DEPT 1240… OPTICAL …        1 Each              246.
-##  4     1 AL    ABBEVILLE POLICE DEPT 1385… UNMANNED…        1 Each            10000 
-##  5     1 AL    ABBEVILLE POLICE DEPT 2320… TRUCK,UT…        1 Each            62627 
-##  6     1 AL    ABBEVILLE POLICE DEPT 2320… TRUCK,UT…        1 Each            62627 
-##  7     1 AL    ABBEVILLE POLICE DEPT 2355… MINE RES…        1 Each           658000 
-##  8     1 AL    ABBEVILLE POLICE DEPT 2540… BALLISTI…       10 Kit             15872.
-##  9     1 AL    ABBEVILLE POLICE DEPT 5855… ILLUMINA…       10 Each              926 
-## 10     1 AL    ABBEVILLE POLICE DEPT 6760… CAMERA R…        1 Each             1500 
+##    sheet state agency_name   nsn    item_name    quantity ui    acquisition_val…
+##    <dbl> <chr> <chr>         <chr>  <chr>           <dbl> <chr>            <dbl>
+##  1     1 AL    ABBEVILLE PO… 1005-… MOUNT,RIFLE        10 Each             1626 
+##  2     1 AL    ABBEVILLE PO… 1240-… SIGHT,REFLEX        9 Each              333 
+##  3     1 AL    ABBEVILLE PO… 1240-… OPTICAL SIG…        1 Each              246.
+##  4     1 AL    ABBEVILLE PO… 1385-… UNMANNED VE…        1 Each            10000 
+##  5     1 AL    ABBEVILLE PO… 2320-… TRUCK,UTILI…        1 Each            62627 
+##  6     1 AL    ABBEVILLE PO… 2320-… TRUCK,UTILI…        1 Each            62627 
+##  7     1 AL    ABBEVILLE PO… 2355-… MINE RESIST…        1 Each           658000 
+##  8     1 AL    ABBEVILLE PO… 2540-… BALLISTIC B…       10 Kit             15872.
+##  9     1 AL    ABBEVILLE PO… 5855-… ILLUMINATOR…       10 Each              926 
+## 10     1 AL    ABBEVILLE PO… 6760-… CAMERA ROBOT        1 Each             1500 
 ## # … with 129,338 more rows, and 4 more variables: demil_code <chr>,
 ## #   demil_ic <dbl>, ship_date <dttm>, station_type <chr>
 ```
@@ -385,18 +389,18 @@ leso_total %>%
 
 ```
 ## # A tibble: 8,684 × 9
-##    state agency_name           item_name                    quantity ui    acquisition_val…
-##    <chr> <chr>                 <chr>                           <dbl> <chr>            <dbl>
-##  1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-##  2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-##  3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-##  4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-##  5 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-##  6 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIMETER               1 Each             749  
-##  7 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIMETER               1 Each             749  
-##  8 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX                        5 Each             333  
-##  9 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY                       1 Each           62627  
-## 10 TX    ABILENE POLICE DEPT   RIFLE,5.56 MILLIMETER               1 Each             499  
+##    state agency_name           item_name         quantity ui    acquisition_val…
+##    <chr> <chr>                 <chr>                <dbl> <chr>            <dbl>
+##  1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
+##  2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
+##  3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
+##  4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
+##  5 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
+##  6 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
+##  7 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
+##  8 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX             5 Each             333  
+##  9 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY            1 Each           62627  
+## 10 TX    ABILENE POLICE DEPT   RIFLE,5.56 MILLI…        1 Each             499  
 ## # … with 8,674 more rows, and 3 more variables: ship_date <dttm>,
 ## #   station_type <chr>, total_value <dbl>
 ```
@@ -423,18 +427,18 @@ leso_total %>%
 
 ```
 ## # A tibble: 7,407 × 9
-##    state agency_name           item_name                    quantity ui    acquisition_val…
-##    <chr> <chr>                 <chr>                           <dbl> <chr>            <dbl>
-##  1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-##  2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-##  3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-##  4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-##  5 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .45,AUTOMATIC        1 Each              58.7
-##  6 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIMETER               1 Each             749  
-##  7 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIMETER               1 Each             749  
-##  8 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX                        5 Each             333  
-##  9 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY                       1 Each           62627  
-## 10 TX    ALLEN POLICE DEPT     SIGHT,REFLEX                        1 Each             333  
+##    state agency_name           item_name         quantity ui    acquisition_val…
+##    <chr> <chr>                 <chr>                <dbl> <chr>            <dbl>
+##  1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
+##  2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
+##  3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
+##  4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
+##  5 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
+##  6 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
+##  7 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
+##  8 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX             5 Each             333  
+##  9 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY            1 Each           62627  
+## 10 TX    ALLEN POLICE DEPT     SIGHT,REFLEX             1 Each             333  
 ## # … with 7,397 more rows, and 3 more variables: ship_date <dttm>,
 ## #   station_type <chr>, total_value <dbl>
 ```

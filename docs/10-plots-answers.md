@@ -74,18 +74,18 @@ raw_data
 
 ```
 ## # A tibble: 132,214 × 12
-##    animal_id name    date_time              month_year found_location intake_type
-##    <chr>     <chr>   <chr>                  <chr>      <chr>          <chr>      
-##  1 A786884   *Brock  01/03/2019 04:19:00 PM 01/03/201… 2501 Magin Me… Stray      
-##  2 A706918   Belle   07/05/2015 12:59:00 PM 07/05/201… 9409 Bluegras… Stray      
-##  3 A724273   Runster 04/14/2016 06:43:00 PM 04/14/201… 2818 Palomino… Stray      
-##  4 A665644   <NA>    10/21/2013 07:59:00 AM 10/21/201… Austin (TX)    Stray      
-##  5 A682524   Rio     06/29/2014 10:38:00 AM 06/29/201… 800 Grove Blv… Stray      
-##  6 A743852   Odin    02/18/2017 12:46:00 PM 02/18/201… Austin (TX)    Owner Surr…
-##  7 A635072   Beowulf 04/16/2019 09:53:00 AM 04/16/201… 415 East Mary… Public Ass…
-##  8 A708452   Mumble  07/30/2015 02:37:00 PM 07/30/201… Austin (TX)    Public Ass…
-##  9 A818975   <NA>    06/18/2020 02:53:00 PM 06/18/202… Braker Lane A… Stray      
-## 10 A774147   <NA>    06/11/2018 07:45:00 AM 06/11/201… 6600 Elm Cree… Stray      
+##    animal_id name    date_time    month_year    found_location       intake_type
+##    <chr>     <chr>   <chr>        <chr>         <chr>                <chr>      
+##  1 A786884   *Brock  01/03/2019 … 01/03/2019 0… 2501 Magin Meadow D… Stray      
+##  2 A706918   Belle   07/05/2015 … 07/05/2015 1… 9409 Bluegrass Dr i… Stray      
+##  3 A724273   Runster 04/14/2016 … 04/14/2016 0… 2818 Palomino Trail… Stray      
+##  4 A665644   <NA>    10/21/2013 … 10/21/2013 0… Austin (TX)          Stray      
+##  5 A682524   Rio     06/29/2014 … 06/29/2014 1… 800 Grove Blvd in A… Stray      
+##  6 A743852   Odin    02/18/2017 … 02/18/2017 1… Austin (TX)          Owner Surr…
+##  7 A635072   Beowulf 04/16/2019 … 04/16/2019 0… 415 East Mary Stree… Public Ass…
+##  8 A708452   Mumble  07/30/2015 … 07/30/2015 0… Austin (TX)          Public Ass…
+##  9 A818975   <NA>    06/18/2020 … 06/18/2020 0… Braker Lane And Met… Stray      
+## 10 A774147   <NA>    06/11/2018 … 06/11/2018 0… 6600 Elm Creek in A… Stray      
 ## # … with 132,204 more rows, and 6 more variables: intake_condition <chr>,
 ## #   animal_type <chr>, sex_upon_intake <chr>, age_upon_intake <chr>,
 ## #   breed <chr>, color <chr>
@@ -134,18 +134,18 @@ raw_data %>%
 
 ```
 ## # A tibble: 132,214 × 13
-##    animal_id name    date_time              month_year found_location intake_type
-##    <chr>     <chr>   <chr>                  <chr>      <chr>          <chr>      
-##  1 A786884   *Brock  01/03/2019 04:19:00 PM 01/03/201… 2501 Magin Me… Stray      
-##  2 A706918   Belle   07/05/2015 12:59:00 PM 07/05/201… 9409 Bluegras… Stray      
-##  3 A724273   Runster 04/14/2016 06:43:00 PM 04/14/201… 2818 Palomino… Stray      
-##  4 A665644   <NA>    10/21/2013 07:59:00 AM 10/21/201… Austin (TX)    Stray      
-##  5 A682524   Rio     06/29/2014 10:38:00 AM 06/29/201… 800 Grove Blv… Stray      
-##  6 A743852   Odin    02/18/2017 12:46:00 PM 02/18/201… Austin (TX)    Owner Surr…
-##  7 A635072   Beowulf 04/16/2019 09:53:00 AM 04/16/201… 415 East Mary… Public Ass…
-##  8 A708452   Mumble  07/30/2015 02:37:00 PM 07/30/201… Austin (TX)    Public Ass…
-##  9 A818975   <NA>    06/18/2020 02:53:00 PM 06/18/202… Braker Lane A… Stray      
-## 10 A774147   <NA>    06/11/2018 07:45:00 AM 06/11/201… 6600 Elm Cree… Stray      
+##    animal_id name    date_time    month_year    found_location       intake_type
+##    <chr>     <chr>   <chr>        <chr>         <chr>                <chr>      
+##  1 A786884   *Brock  01/03/2019 … 01/03/2019 0… 2501 Magin Meadow D… Stray      
+##  2 A706918   Belle   07/05/2015 … 07/05/2015 1… 9409 Bluegrass Dr i… Stray      
+##  3 A724273   Runster 04/14/2016 … 04/14/2016 0… 2818 Palomino Trail… Stray      
+##  4 A665644   <NA>    10/21/2013 … 10/21/2013 0… Austin (TX)          Stray      
+##  5 A682524   Rio     06/29/2014 … 06/29/2014 1… 800 Grove Blvd in A… Stray      
+##  6 A743852   Odin    02/18/2017 … 02/18/2017 1… Austin (TX)          Owner Surr…
+##  7 A635072   Beowulf 04/16/2019 … 04/16/2019 0… 415 East Mary Stree… Public Ass…
+##  8 A708452   Mumble  07/30/2015 … 07/30/2015 0… Austin (TX)          Public Ass…
+##  9 A818975   <NA>    06/18/2020 … 06/18/2020 0… Braker Lane And Met… Stray      
+## 10 A774147   <NA>    06/11/2018 … 06/11/2018 0… 6600 Elm Creek in A… Stray      
 ## # … with 132,204 more rows, and 7 more variables: intake_condition <chr>,
 ## #   animal_type <chr>, sex_upon_intake <chr>, age_upon_intake <chr>,
 ## #   breed <chr>, color <chr>, intake_date <chr>

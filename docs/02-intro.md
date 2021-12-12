@@ -197,9 +197,6 @@ The best way to turn in all of those files into Canvas is to compress them into 
 1. [Compress flies on Windows](https://www.laptopmag.com/articles/how-to-zip-files-windows-10).
 1. Upload the resulting `.zip` file to the assignment for this week in Canvas.
 
-Here is what the compression steps looks like on a Mac:
-
-![Compress file: Mac](images/intro-compress.gif)
 
 If you find you make changes to your R files after you've zipped your folder, you'll need to delete the `zip` file and compress it again.
 
