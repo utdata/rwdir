@@ -1,7 +1,7 @@
 --- 
 title: "Reporting with Data in R"
 author: "Christian McDonald and Jo Lukito"
-date: "2021-12-12"
+date: "2022-01-05"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
@@ -22,19 +22,17 @@ This means the book is morphing from the voice of a single author and that proce
 
 This work is written in [bookdown](https://bookdown.org/) and the source is available on [Github](https://github.com/utdata/rwdir).
 
-## A word from Christian
+## A word from Christian {-}
 
 I'm a strong proponent of what I call Scripted Journalism, a method of committing data-centric journalism in a programmatic, repeatable and transparent way. There are a myriad of programming languages that further this, including Python ([pandas](https://pandas.pydata.org/) using [Jupyter](https://jupyter.org/)) and JavaScript ([Observable](https://beta.observablehq.com/)), but we'll be using [R](https://www.r-project.org/), [RMarkdown](https://rmarkdown.rstudio.com/) and [RStudio](https://www.rstudio.com/).
 
 R is a super powerful, open-source programming language for data that is deep with features and an awesome community of users who build upon it. No matter the challenge before you in your data storytelling, there is probably a package available to help you solve that challenge. Probably more than one.
 
-### About my philosphy {-}
-
 There is always more than one way to do things in R. This book is a [Tidyverse](https://www.tidyverse.org/)-oriented, opinionated collection of lessons intended to teach students new to programming and R for the expressed act of committing journalism. As a beginner course, I strive to make it as simple as possible, which means I may not go into detail about alternative (and possibly better) ways to accomplish tasks in favor of staying in the Tidyverse and reducing options to simplify understanding.
 
 ## Tips on the book style {-}
 
-Will will try to be consistent in the way we write documentation and lessons. But we are human, so sometimes we break our own rules, but in general keep the following in mind.
+We will try to be consistent in the way we write documentation and lessons. But we are human, so sometimes we break our own rules, but in general keep the following in mind.
 
 ### Things to do {-}
 
@@ -52,13 +50,13 @@ Sometimes details will be explained in lists:
 
 ### Notes, some important {-}
 
-We will use the blockquote syntax to set off irrelevant background:
+We will use the blockquote syntax to set off a less important aside:
 
 > Markdown was developed by JOHN GRUBER, as outlined on his [Daring Fireball blog](https://daringfireball.net/projects/markdown/).
 
 But sometimes those asides are important. We usually indicate that:
 
-> IMPORTANT: You really should learn how to use [Rmarkdown](https://rmarkdown.rstudio.com/) as you will use it the whole semester, and hopefully for the rest of your life.
+> **IMPORTANT:** You really should learn how to use [Rmarkdown](https://rmarkdown.rstudio.com/) as you will use it the whole semester, and hopefully for the rest of your life.
 
 ### Copy code blocks {-}
 
@@ -73,7 +71,7 @@ That said, typing code yourself has many, many benefits. You learn better when y
 ## About the authors {-}
 
 
-### Christian McDonald
+### Christian McDonald {-}
 
 I'm a career journalist who most recently served as Data and Projects Editor at the Austin American-Statesman before joining the University of Texas at Austin faculty full-time in Fall 2018 as an assistant professor of practice. I've taught data-related course at UT since 2013. I also serve as the Innovation Director of the DMN Journalism Innovation Endowment.
 
@@ -81,9 +79,9 @@ I'm a career journalist who most recently served as Data and Projects Editor at 
 - Twitter: [crit](https://twitter.com/crit)
 - Email: <christian.mcdonald@utexas.edu>
 
-### Jo Lukito
+### Jo Lukito  {-}
 
-Jo will add her infor here.
+Jo will add her info and whatever else when she damn good and ready.
 
 ## License {-}
 
@@ -95,7 +93,6 @@ Let's just say this is free on the internet and we don't make any money from it 
 
 This text stands upon the shoulders of giants and by design does not cover all aspects of using R. Here are some other useful books, tutorials and sites dedicated to R. There are other task-specific tutorials and articles sprinkled throughout the book in the Resources section of select chapters. 
 
-- [R Journalism Examples](https://utdata.github.io/r-journalism-examples/), a companion piece of sorts to this book with example code to accomplish specific tasks. It is a work-in-progress, and quite nascent at that.
 - [R for Data Science](https://r4ds.had.co.nz/index.html) by Hadley Wickham and Garrett Grolemund.
 - The [Tidyverse](https://www.tidyverse.org/) site, which has tons of documentation and help.
 - The [RStudio Cheatsheets](https://www.rstudio.com/resources/cheatsheets/).
