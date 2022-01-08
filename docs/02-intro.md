@@ -1,5 +1,7 @@
 # Introduction to R {#intro}
 
+> This chapter was written by Prof. McDonald using macOS.
+
 ## RStudio tour
 
 When you launch RStudio, you'll get a screen that looks like this:
@@ -8,7 +10,7 @@ When you launch RStudio, you'll get a screen that looks like this:
 
 ## Updating preferences
 
-There is a preference in RStudio that I would like you to change. By default, the program wants to save a the state of your work (all the variables and such) when you close a project, but that is not good practice. We'll change that.
+There is a preference in RStudio that I would like you to change. By default, the program wants to save a the state of your work (all the variables and such) when you close a project, [but that is not good practice](https://www.r-bloggers.com/2017/04/using-r-dont-save-your-workspace/). We'll change that.
 
 1. Go to the **RStudio** menu and choose **Preferences**
 1. Under the **General** tab, uncheck the first four boxes.
@@ -126,16 +128,16 @@ The text after the chart describes how to insert a new code chunk. Let's do that
 
 
 ```r
-# update 54 to your age
-age <- 54
+# update 55 to your age
+age <- 55
 (age - 7) * 2
 ```
 
 ```
-## [1] 94
+## [1] 96
 ```
 
-1. Change for "54" to your real age.
+1. Change for "55" to your real age.
 1. With your cursor somewhere in the code block, use the key command *Cmd+Shift+Return*, which is the key command to RUN ALL LINES of code chunk.
 
 > NOTE: To run an individual line, use *Cmd+Return* while on that line.
@@ -144,10 +146,10 @@ Congratulations! The answer given at the bottom of that code chunk is the [socia
 
 Throwing aside whether the formula is sound, let's break down the code.
 
-- `# update 54 to your age` is a comment. It's a way to explain what is happening in the code without being considered part of the code. We create comments by starting with `#`. You can also add a comment at the end of a line.
-- `age <- 54` is assigning a number (`54`) to an R object/variable called (`age`). A variable is a placeholder. It can hold numbers, text or even groups of numbers. Variables are key to programming because they allow you to change a value as you go along.
+- `# update 55 to your age` is a comment. It's a way to explain what is happening in the code without being considered part of the code. We create comments by starting with `#`. You can also add a comment at the end of a line.
+- `age <- 55` is assigning a number (`55`) to an R object/variable called (`age`). A variable is a placeholder. It can hold numbers, text or even groups of numbers. Variables are key to programming because they allow you to change a value as you go along.
 - The next part is simple math: `(age - 7) * 2` takes the value of `age` and subtracts `7`, then multiplies by `2`.
-- When you run it, you get the result of the math equazion, `[1] 94` in my case. That means there was one observation, and the value was "94". For the record, my wife is _much_ younger than that.
+- When you run it, you get the result of the math equazion, `[1] 95` in my case. That means there was one observation, and the value was "96". For the record, my wife is _much_ younger than that.
 
 Now you can play with the number assigned to the age variable to test out different ages. Do that.
 
