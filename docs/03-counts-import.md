@@ -511,7 +511,11 @@ If your original text is in a different date order, then you look up what functi
 
 If you inspect our newish `week_id` in your glimpse return, you'll notice the first record starts in "1965-07-17" but our data goes back to 1958. We want to sort our data by the oldest records first using `arrange()`.
 
-We will use the `%>%` and then the arrange function, feeding it our data (implied with the pipe) and the columns we wish to sort by.
+Sorting data is not a particularly difficult concept to grasp, but it is one of the [Basic Data Journalism Functions](https://vimeo.com/showcase/7320305) ...
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Wl4IDvnzPcs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+We'll take our date-fixed data and then use the pipe`%>%` to push it into the the arrange function. Inside arrange we'll give it the columns we wish to sort by.
 
 1. Edit your chunk to the following to add the `arrange()` function:
 
@@ -685,7 +689,7 @@ How to name a chunk? Well, I can't show you in code because it is not rendered i
 
 See where I have `{r download}`? I named it that because that is what the chunk does.
 
-- Chunk names can't have spaces. Use a single word or `-` or `_` between words.
+- I suggest using a single word or `-` or `_` between words.
 - There are other configurations we can do here, but that is for later.
 
 1. Go back through your notebook and name all your chunks.
