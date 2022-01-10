@@ -102,16 +102,16 @@ tx_covid
 ## # Groups:   county [254]
 ##    date       county    fips  cases deaths
 ##    <date>     <chr>     <chr> <dbl>  <dbl>
-##  1 2022-01-07 Anderson  48001  8625    210
-##  2 2022-01-07 Andrews   48003  3226     67
-##  3 2022-01-07 Angelina  48005 14365    429
-##  4 2022-01-07 Aransas   48007  2846     68
-##  5 2022-01-07 Archer    48009  1524     24
-##  6 2022-01-07 Armstrong 48011   355      8
-##  7 2022-01-07 Atascosa  48013  9304    213
-##  8 2022-01-07 Austin    48015  4243     58
-##  9 2022-01-07 Bailey    48017  1140     31
-## 10 2022-01-07 Bandera   48019  2681     65
+##  1 2022-01-09 Anderson  48001  8711    210
+##  2 2022-01-09 Andrews   48003  3272     67
+##  3 2022-01-09 Angelina  48005 14469    431
+##  4 2022-01-09 Aransas   48007  2888     69
+##  5 2022-01-09 Archer    48009  1540     24
+##  6 2022-01-09 Armstrong 48011   361      8
+##  7 2022-01-09 Atascosa  48013  9412    213
+##  8 2022-01-09 Austin    48015  4291     58
+##  9 2022-01-09 Bailey    48017  1146     31
+## 10 2022-01-09 Bandera   48019  2708     65
 ## # … with 244 more rows
 ```
 
@@ -255,7 +255,9 @@ A couple of things to note here:
 
 ## About joins
 
-OK, before we go further we need to talk about joining data.
+OK, before we go further we need to talk about joining data. It's one of those [Basic Data Journalism Functions]() ...
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/T6PPd-ukFyk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 There are several types of [joins](https://dplyr.tidyverse.org/reference/mutate-joins.html). We describe these as left vs right based on which table we reference first (which is the left one).
 
@@ -272,11 +274,11 @@ tx_covid %>% glimpse()
 ## Rows: 254
 ## Columns: 5
 ## Groups: county [254]
-## $ date   <date> 2022-01-07, 2022-01-07, 2022-01-07, 2022-01-07, 2022-01-07, 20…
+## $ date   <date> 2022-01-09, 2022-01-09, 2022-01-09, 2022-01-09, 2022-01-09, 20…
 ## $ county <chr> "Anderson", "Andrews", "Angelina", "Aransas", "Archer", "Armstr…
 ## $ fips   <chr> "48001", "48003", "48005", "48007", "48009", "48011", "48013", …
-## $ cases  <dbl> 8625, 3226, 14365, 2846, 1524, 355, 9304, 4243, 1140, 2681, 161…
-## $ deaths <dbl> 210, 67, 429, 68, 24, 8, 213, 58, 31, 65, 194, 25, 137, 757, 53…
+## $ cases  <dbl> 8711, 3272, 14469, 2888, 1540, 361, 9412, 4291, 1146, 2708, 163…
+## $ deaths <dbl> 210, 67, 431, 69, 24, 8, 213, 58, 31, 65, 194, 25, 137, 757, 53…
 ```
 
 
@@ -320,7 +322,6 @@ For our purposes here we want to use an `inner_join()`. We have to **start with 
 2. Add the code below, run and review the results and the explanation below.
 
 
-
 ```r
 tx_joined <- inner_join(
   tx_pop, # first table
@@ -340,16 +341,16 @@ tx_joined
 ## # A tibble: 254 × 9
 ##    geoid name   variable value                  geometry date       county cases
 ##    <chr> <chr>  <chr>    <dbl>        <MULTIPOLYGON [°]> <date>     <chr>  <dbl>
-##  1 48001 Ander… P1_001N  57922 (((-96.0648 31.98066, -9… 2022-01-07 Ander…  8625
-##  2 48003 Andre… P1_001N  18610 (((-103.0647 32.52219, -… 2022-01-07 Andre…  3226
-##  3 48005 Angel… P1_001N  86395 (((-95.00488 31.42396, -… 2022-01-07 Angel… 14365
-##  4 48007 Arans… P1_001N  23830 (((-96.8229 28.16743, -9… 2022-01-07 Arans…  2846
-##  5 48009 Arche… P1_001N   8560 (((-98.95382 33.49637, -… 2022-01-07 Archer  1524
-##  6 48011 Armst… P1_001N   1848 (((-101.6294 34.75006, -… 2022-01-07 Armst…   355
-##  7 48013 Atasc… P1_001N  48981 (((-98.80488 29.10702, -… 2022-01-07 Atasc…  9304
-##  8 48015 Austi… P1_001N  30167 (((-96.62085 30.0452, -9… 2022-01-07 Austin  4243
-##  9 48017 Baile… P1_001N   6904 (((-103.0469 33.8503, -1… 2022-01-07 Bailey  1140
-## 10 48019 Bande… P1_001N  20851 (((-99.60332 29.74026, -… 2022-01-07 Bande…  2681
+##  1 48001 Ander… P1_001N  57922 (((-96.0648 31.98066, -9… 2022-01-09 Ander…  8711
+##  2 48003 Andre… P1_001N  18610 (((-103.0647 32.52219, -… 2022-01-09 Andre…  3272
+##  3 48005 Angel… P1_001N  86395 (((-95.00488 31.42396, -… 2022-01-09 Angel… 14469
+##  4 48007 Arans… P1_001N  23830 (((-96.8229 28.16743, -9… 2022-01-09 Arans…  2888
+##  5 48009 Arche… P1_001N   8560 (((-98.95382 33.49637, -… 2022-01-09 Archer  1540
+##  6 48011 Armst… P1_001N   1848 (((-101.6294 34.75006, -… 2022-01-09 Armst…   361
+##  7 48013 Atasc… P1_001N  48981 (((-98.80488 29.10702, -… 2022-01-09 Atasc…  9412
+##  8 48015 Austi… P1_001N  30167 (((-96.62085 30.0452, -9… 2022-01-09 Austin  4291
+##  9 48017 Baile… P1_001N   6904 (((-103.0469 33.8503, -1… 2022-01-09 Bailey  1146
+## 10 48019 Bande… P1_001N  20851 (((-99.60332 29.74026, -… 2022-01-09 Bande…  2708
 ## # … with 244 more rows, and 1 more variable: deaths <dbl>
 ```
 
@@ -376,10 +377,10 @@ tx_joined %>% glimpse()
 ## $ variable <chr> "P1_001N", "P1_001N", "P1_001N", "P1_001N", "P1_001N", "P1_00…
 ## $ value    <dbl> 57922, 18610, 86395, 23830, 8560, 1848, 48981, 30167, 6904, 2…
 ## $ geometry <MULTIPOLYGON [°]> MULTIPOLYGON (((-96.0648 31..., MULTIPOLYGON (((…
-## $ date     <date> 2022-01-07, 2022-01-07, 2022-01-07, 2022-01-07, 2022-01-07, …
+## $ date     <date> 2022-01-09, 2022-01-09, 2022-01-09, 2022-01-09, 2022-01-09, …
 ## $ county   <chr> "Anderson", "Andrews", "Angelina", "Aransas", "Archer", "Arms…
-## $ cases    <dbl> 8625, 3226, 14365, 2846, 1524, 355, 9304, 4243, 1140, 2681, 1…
-## $ deaths   <dbl> 210, 67, 429, 68, 24, 8, 213, 58, 31, 65, 194, 25, 137, 757, …
+## $ cases    <dbl> 8711, 3272, 14469, 2888, 1540, 361, 9412, 4291, 1146, 2708, 1…
+## $ deaths   <dbl> 210, 67, 431, 69, 24, 8, 213, 58, 31, 65, 194, 25, 137, 757, …
 ```
 
 Now that we have our `cases`, `deaths` and `value` (or population) columns in the same table so we can do some math to create case and death rates.
@@ -410,10 +411,10 @@ tx_renamed %>% glimpse()
 ## $ geoid     <chr> "48001", "48003", "48005", "48007", "48009", "48011", "48013…
 ## $ total_pop <dbl> 57922, 18610, 86395, 23830, 8560, 1848, 48981, 30167, 6904, …
 ## $ geometry  <MULTIPOLYGON [°]> MULTIPOLYGON (((-96.0648 31..., MULTIPOLYGON ((…
-## $ date      <date> 2022-01-07, 2022-01-07, 2022-01-07, 2022-01-07, 2022-01-07,…
+## $ date      <date> 2022-01-09, 2022-01-09, 2022-01-09, 2022-01-09, 2022-01-09,…
 ## $ county    <chr> "Anderson", "Andrews", "Angelina", "Aransas", "Archer", "Arm…
-## $ cases     <dbl> 8625, 3226, 14365, 2846, 1524, 355, 9304, 4243, 1140, 2681, …
-## $ deaths    <dbl> 210, 67, 429, 68, 24, 8, 213, 58, 31, 65, 194, 25, 137, 757,…
+## $ cases     <dbl> 8711, 3272, 14469, 2888, 1540, 361, 9412, 4291, 1146, 2708, …
+## $ deaths    <dbl> 210, 67, 431, 69, 24, 8, 213, 58, 31, 65, 194, 25, 137, 757,…
 ```
 
 ## Create our rate columns

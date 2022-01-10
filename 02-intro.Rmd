@@ -48,7 +48,7 @@ For this class, we will almost always use [RNotebooks](https://rmarkdown.rstudio
 1. Click on the button at the top-left of RStudio that has just the green `+` sign.
 1. Choose the item **R Notebook**.
 
-This will open a new file with some boilerplate R Markdown code.
+This will open a new file with some boilerplate R Markdown code. It serves as an example, explanation and template all in one.
 
 1. At the top between the `---` marks, is the **metadata**. This is written using YAML, and what is inside are commands for the R Notebook. Don't sweat the YAML syntax too much right now, as we won't be editing it often.
 1. Next, you'll see a couple of paragraphs of text that describes how to use an RNotebook. It is written in RMarkdown, and has some inline links and bold commands, which you will learn,
