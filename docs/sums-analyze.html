@@ -24,7 +24,7 @@
 <meta name="author" content="Christian McDonald and Jo Lukito" />
 
 
-<meta name="date" content="2022-01-12" />
+<meta name="date" content="2022-01-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -681,9 +681,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <summary>
 Remember your data is in data-processed
 </summary>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="sums-analyze.html#cb114-1" aria-hidden="true" tabindex="-1"></a>tx <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;data-processed/01-leso-tx.rds&quot;</span>)</span>
-<span id="cb114-2"><a href="sums-analyze.html#cb114-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb114-3"><a href="sums-analyze.html#cb114-3" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="sums-analyze.html#cb112-1" aria-hidden="true" tabindex="-1"></a>tx <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;data-processed/01-leso-tx.rds&quot;</span>)</span>
+<span id="cb112-2"><a href="sums-analyze.html#cb112-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-3"><a href="sums-analyze.html#cb112-3" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 7,407
 ## Columns: 9
 ## $ state             &lt;chr&gt; &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;…
@@ -750,11 +750,11 @@ Remember your data is in data-processed
 <li>Add a new section (headline, text and chunk) that describes the first quest: For each agency in Texas, find the summed <strong>quantity</strong> and summed <strong>total value</strong> of the equipment they received.</li>
 <li>Add the code below into the chunk and run it.</li>
 </ol>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="sums-analyze.html#cb116-1" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> </span>
-<span id="cb116-2"><a href="sums-analyze.html#cb116-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">%&gt;%</span> </span>
-<span id="cb116-3"><a href="sums-analyze.html#cb116-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb116-4"><a href="sums-analyze.html#cb116-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_quantity =</span> <span class="fu">sum</span>(quantity)</span>
-<span id="cb116-5"><a href="sums-analyze.html#cb116-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="sums-analyze.html#cb114-1" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> </span>
+<span id="cb114-2"><a href="sums-analyze.html#cb114-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb114-3"><a href="sums-analyze.html#cb114-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb114-4"><a href="sums-analyze.html#cb114-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_quantity =</span> <span class="fu">sum</span>(quantity)</span>
+<span id="cb114-5"><a href="sums-analyze.html#cb114-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 357 × 2
 ##    agency_name                     sum_quantity
 ##    &lt;chr&gt;                                  &lt;dbl&gt;
@@ -779,8 +779,8 @@ Remember your data is in data-processed
 </ul>
 <p>If you look at the first line of the return, it is taking all the rows for the “ABERNATHY POLICE DEPT” and then adding together all the values in the <code>quantity</code> field.</p>
 <p>If you wanted to test this (and it is a real good idea), you might look at the data from one of the values and check the math. Here are the Abernathy rows. I usually do these tests in a code chunk of their own, and sometimes I delete them after I’m sure it worked.</p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="sums-analyze.html#cb118-1" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> </span>
-<span id="cb118-2"><a href="sums-analyze.html#cb118-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">==</span> <span class="st">&quot;ABERNATHY POLICE DEPT&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="sums-analyze.html#cb116-1" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> </span>
+<span id="cb116-2"><a href="sums-analyze.html#cb116-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">==</span> <span class="st">&quot;ABERNATHY POLICE DEPT&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 9 × 9
 ##   state agency_name           item_name          quantity ui    acquisition_val…
 ##   &lt;chr&gt; &lt;chr&gt;                 &lt;chr&gt;                 &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt;
@@ -805,12 +805,12 @@ Remember your data is in data-processed
 <li>Add add a comma after the first summarize action.</li>
 <li>Add the new expression to give us the <code>sum_total_value</code> and run it.</li>
 </ol>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="sums-analyze.html#cb120-1" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> </span>
-<span id="cb120-2"><a href="sums-analyze.html#cb120-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">%&gt;%</span> </span>
-<span id="cb120-3"><a href="sums-analyze.html#cb120-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb120-4"><a href="sums-analyze.html#cb120-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_quantity =</span> <span class="fu">sum</span>(quantity),</span>
-<span id="cb120-5"><a href="sums-analyze.html#cb120-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_total_value =</span> <span class="fu">sum</span>(total_value)</span>
-<span id="cb120-6"><a href="sums-analyze.html#cb120-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="sums-analyze.html#cb118-1" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> </span>
+<span id="cb118-2"><a href="sums-analyze.html#cb118-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb118-3"><a href="sums-analyze.html#cb118-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb118-4"><a href="sums-analyze.html#cb118-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_quantity =</span> <span class="fu">sum</span>(quantity),</span>
+<span id="cb118-5"><a href="sums-analyze.html#cb118-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_total_value =</span> <span class="fu">sum</span>(total_value)</span>
+<span id="cb118-6"><a href="sums-analyze.html#cb118-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 357 × 3
 ##    agency_name                     sum_quantity sum_total_value
 ##    &lt;chr&gt;                                  &lt;dbl&gt;           &lt;dbl&gt;
@@ -832,13 +832,13 @@ Remember your data is in data-processed
 <ol style="list-style-type: decimal">
 <li>EDIT your block to add an <code>arrange()</code> function below</li>
 </ol>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="sums-analyze.html#cb122-1" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> </span>
-<span id="cb122-2"><a href="sums-analyze.html#cb122-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">%&gt;%</span> </span>
-<span id="cb122-3"><a href="sums-analyze.html#cb122-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb122-4"><a href="sums-analyze.html#cb122-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_quantity =</span> <span class="fu">sum</span>(quantity),</span>
-<span id="cb122-5"><a href="sums-analyze.html#cb122-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_total_value =</span> <span class="fu">sum</span>(total_value)</span>
-<span id="cb122-6"><a href="sums-analyze.html#cb122-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb122-7"><a href="sums-analyze.html#cb122-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(sum_total_value <span class="sc">%&gt;%</span> <span class="fu">desc</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="sums-analyze.html#cb120-1" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> </span>
+<span id="cb120-2"><a href="sums-analyze.html#cb120-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb120-3"><a href="sums-analyze.html#cb120-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb120-4"><a href="sums-analyze.html#cb120-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_quantity =</span> <span class="fu">sum</span>(quantity),</span>
+<span id="cb120-5"><a href="sums-analyze.html#cb120-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_total_value =</span> <span class="fu">sum</span>(total_value)</span>
+<span id="cb120-6"><a href="sums-analyze.html#cb120-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb120-7"><a href="sums-analyze.html#cb120-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(sum_total_value <span class="sc">%&gt;%</span> <span class="fu">desc</span>())</span></code></pre></div>
 <pre><code>## # A tibble: 357 × 3
 ##    agency_name                       sum_quantity sum_total_value
 ##    &lt;chr&gt;                                    &lt;dbl&gt;           &lt;dbl&gt;
@@ -873,17 +873,17 @@ Remember your data is in data-processed
 <li>EDIT your existing summary chunk to save it into a new tibble. Name it <code>tx_quants_totals</code> so we are all on the same page.</li>
 <li>Add a new line that prints the result to the screen so you can still see it.</li>
 </ol>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="sums-analyze.html#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adding the new tibble object in next line</span></span>
-<span id="cb124-2"><a href="sums-analyze.html#cb124-2" aria-hidden="true" tabindex="-1"></a>tx_quants_totals <span class="ot">&lt;-</span> tx <span class="sc">%&gt;%</span> </span>
-<span id="cb124-3"><a href="sums-analyze.html#cb124-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">%&gt;%</span> </span>
-<span id="cb124-4"><a href="sums-analyze.html#cb124-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb124-5"><a href="sums-analyze.html#cb124-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_quantity =</span> <span class="fu">sum</span>(quantity),</span>
-<span id="cb124-6"><a href="sums-analyze.html#cb124-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_total_value =</span> <span class="fu">sum</span>(total_value)</span>
-<span id="cb124-7"><a href="sums-analyze.html#cb124-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb124-8"><a href="sums-analyze.html#cb124-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(sum_total_value <span class="sc">%&gt;%</span> <span class="fu">desc</span>())</span>
-<span id="cb124-9"><a href="sums-analyze.html#cb124-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-10"><a href="sums-analyze.html#cb124-10" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
-<span id="cb124-11"><a href="sums-analyze.html#cb124-11" aria-hidden="true" tabindex="-1"></a>tx_quants_totals</span></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="sums-analyze.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adding the new tibble object in next line</span></span>
+<span id="cb122-2"><a href="sums-analyze.html#cb122-2" aria-hidden="true" tabindex="-1"></a>tx_quants_totals <span class="ot">&lt;-</span> tx <span class="sc">%&gt;%</span> </span>
+<span id="cb122-3"><a href="sums-analyze.html#cb122-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb122-4"><a href="sums-analyze.html#cb122-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb122-5"><a href="sums-analyze.html#cb122-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_quantity =</span> <span class="fu">sum</span>(quantity),</span>
+<span id="cb122-6"><a href="sums-analyze.html#cb122-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_total_value =</span> <span class="fu">sum</span>(total_value)</span>
+<span id="cb122-7"><a href="sums-analyze.html#cb122-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb122-8"><a href="sums-analyze.html#cb122-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(sum_total_value <span class="sc">%&gt;%</span> <span class="fu">desc</span>())</span>
+<span id="cb122-9"><a href="sums-analyze.html#cb122-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-10"><a href="sums-analyze.html#cb122-10" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
+<span id="cb122-11"><a href="sums-analyze.html#cb122-11" aria-hidden="true" tabindex="-1"></a>tx_quants_totals</span></code></pre></div>
 <pre><code>## # A tibble: 357 × 3
 ##    agency_name                       sum_quantity sum_total_value
 ##    &lt;chr&gt;                                    &lt;dbl&gt;           &lt;dbl&gt;
@@ -903,20 +903,20 @@ Remember your data is in data-processed
 <h3><span class="header-section-number">6.5.1</span> Filtering within a vector</h3>
 <p><strong>Let’s talk through the filter concepts before you try it with this data.</strong></p>
 <p>When we talked about filtering with the Billboard project, we discussed using the <code>|</code> operator as an “OR” function. If we were to apply that logic here, it would look like this:</p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="sums-analyze.html#cb126-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
-<span id="cb126-2"><a href="sums-analyze.html#cb126-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(column_name <span class="sc">==</span> <span class="st">&quot;Text to find&quot;</span> <span class="sc">|</span> column_name <span class="sc">==</span> <span class="st">&quot;More text to find&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="sums-analyze.html#cb124-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
+<span id="cb124-2"><a href="sums-analyze.html#cb124-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(column_name <span class="sc">==</span> <span class="st">&quot;Text to find&quot;</span> <span class="sc">|</span> column_name <span class="sc">==</span> <span class="st">&quot;More text to find&quot;</span>)</span></code></pre></div>
 <p>That can get pretty unwieldy if you have more than a couple of things to look for.</p>
 <p>There is another operator <code>%in%</code> where we can search for multiple items from a list. (This list of terms is officially called a vector, but whatever.) Think of it like this in plain English: <em>Filter</em> the <em>column</em> for things <em>in</em> this <em>list</em>.</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="sums-analyze.html#cb127-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
-<span id="cb127-2"><a href="sums-analyze.html#cb127-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;This string&quot;</span>, <span class="st">&quot;That string&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="sums-analyze.html#cb125-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
+<span id="cb125-2"><a href="sums-analyze.html#cb125-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;This string&quot;</span>, <span class="st">&quot;That string&quot;</span>))</span></code></pre></div>
 <p>We can take this a step further by saving the items in our list into an R object so we can reuse that list and not have to type out all the terms each time we use them.</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="sums-analyze.html#cb128-1" aria-hidden="true" tabindex="-1"></a>list_of_strings <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb128-2"><a href="sums-analyze.html#cb128-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;This string&quot;</span>,</span>
-<span id="cb128-3"><a href="sums-analyze.html#cb128-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;That string&quot;</span></span>
-<span id="cb128-4"><a href="sums-analyze.html#cb128-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb128-5"><a href="sums-analyze.html#cb128-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb128-6"><a href="sums-analyze.html#cb128-6" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
-<span id="cb128-7"><a href="sums-analyze.html#cb128-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_name <span class="sc">%in%</span> list_of_strings)</span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="sums-analyze.html#cb126-1" aria-hidden="true" tabindex="-1"></a>list_of_strings <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb126-2"><a href="sums-analyze.html#cb126-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;This string&quot;</span>,</span>
+<span id="cb126-3"><a href="sums-analyze.html#cb126-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;That string&quot;</span></span>
+<span id="cb126-4"><a href="sums-analyze.html#cb126-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb126-5"><a href="sums-analyze.html#cb126-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb126-6"><a href="sums-analyze.html#cb126-6" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
+<span id="cb126-7"><a href="sums-analyze.html#cb126-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_name <span class="sc">%in%</span> list_of_strings)</span></code></pre></div>
 </div>
 <div id="use-the-vector-to-build-this-filter" class="section level3" number="6.5.2">
 <h3><span class="header-section-number">6.5.2</span> Use the vector to build this filter</h3>
@@ -938,16 +938,16 @@ WILLIAMSON COUNTY SHERIFF&#39;S OFFICE</code></pre>
 <summary>
 Use the example above to build with your data
 </summary>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="sums-analyze.html#cb130-1" aria-hidden="true" tabindex="-1"></a>local_agencies <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb130-2"><a href="sums-analyze.html#cb130-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;AUSTIN POLICE DEPT&quot;</span>,</span>
-<span id="cb130-3"><a href="sums-analyze.html#cb130-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;SAN MARCOS POLICE DEPT&quot;</span>,</span>
-<span id="cb130-4"><a href="sums-analyze.html#cb130-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;TRAVIS COUNTY SHERIFFS OFFICE&quot;</span>,</span>
-<span id="cb130-5"><a href="sums-analyze.html#cb130-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;UNIV OF TEXAS SYSTEM POLICE HI_ED&quot;</span>,</span>
-<span id="cb130-6"><a href="sums-analyze.html#cb130-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;WILLIAMSON COUNTY SHERIFF&#39;S OFFICE&quot;</span></span>
-<span id="cb130-7"><a href="sums-analyze.html#cb130-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb130-8"><a href="sums-analyze.html#cb130-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb130-9"><a href="sums-analyze.html#cb130-9" aria-hidden="true" tabindex="-1"></a>tx_quants_totals <span class="sc">%&gt;%</span> </span>
-<span id="cb130-10"><a href="sums-analyze.html#cb130-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">%in%</span> local_agencies)</span></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="sums-analyze.html#cb128-1" aria-hidden="true" tabindex="-1"></a>local_agencies <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb128-2"><a href="sums-analyze.html#cb128-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;AUSTIN POLICE DEPT&quot;</span>,</span>
+<span id="cb128-3"><a href="sums-analyze.html#cb128-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;SAN MARCOS POLICE DEPT&quot;</span>,</span>
+<span id="cb128-4"><a href="sums-analyze.html#cb128-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;TRAVIS COUNTY SHERIFFS OFFICE&quot;</span>,</span>
+<span id="cb128-5"><a href="sums-analyze.html#cb128-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;UNIV OF TEXAS SYSTEM POLICE HI_ED&quot;</span>,</span>
+<span id="cb128-6"><a href="sums-analyze.html#cb128-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;WILLIAMSON COUNTY SHERIFF&#39;S OFFICE&quot;</span></span>
+<span id="cb128-7"><a href="sums-analyze.html#cb128-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb128-8"><a href="sums-analyze.html#cb128-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb128-9"><a href="sums-analyze.html#cb128-9" aria-hidden="true" tabindex="-1"></a>tx_quants_totals <span class="sc">%&gt;%</span> </span>
+<span id="cb128-10"><a href="sums-analyze.html#cb128-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">%in%</span> local_agencies)</span></code></pre></div>
 <pre><code>## # A tibble: 5 × 3
 ##   agency_name                        sum_quantity sum_total_value
 ##   &lt;chr&gt;                                     &lt;dbl&gt;           &lt;dbl&gt;
@@ -971,14 +971,14 @@ Use the example above to build with your data
 <li>Use summarize to build the <code>summed_quantity</code> and <code>summed_total_value</code> columns.</li>
 <li>Arrange the results so the most expensive items are at the top.</li>
 </ol>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="sums-analyze.html#cb132-1" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> </span>
-<span id="cb132-2"><a href="sums-analyze.html#cb132-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">==</span> <span class="st">&quot;AUSTIN POLICE DEPT&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb132-3"><a href="sums-analyze.html#cb132-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(item_name) <span class="sc">%&gt;%</span> </span>
-<span id="cb132-4"><a href="sums-analyze.html#cb132-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb132-5"><a href="sums-analyze.html#cb132-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity),</span>
-<span id="cb132-6"><a href="sums-analyze.html#cb132-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_total_value =</span> <span class="fu">sum</span>(total_value)</span>
-<span id="cb132-7"><a href="sums-analyze.html#cb132-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb132-8"><a href="sums-analyze.html#cb132-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(summed_total_value <span class="sc">%&gt;%</span> <span class="fu">desc</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="sums-analyze.html#cb130-1" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">%&gt;%</span> </span>
+<span id="cb130-2"><a href="sums-analyze.html#cb130-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">==</span> <span class="st">&quot;AUSTIN POLICE DEPT&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb130-3"><a href="sums-analyze.html#cb130-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(item_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb130-4"><a href="sums-analyze.html#cb130-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb130-5"><a href="sums-analyze.html#cb130-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity),</span>
+<span id="cb130-6"><a href="sums-analyze.html#cb130-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_total_value =</span> <span class="fu">sum</span>(total_value)</span>
+<span id="cb130-7"><a href="sums-analyze.html#cb130-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb130-8"><a href="sums-analyze.html#cb130-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(summed_total_value <span class="sc">%&gt;%</span> <span class="fu">desc</span>())</span></code></pre></div>
 <pre><code>## # A tibble: 46 × 3
 ##    item_name                                   summed_quantity summed_total_val…
 ##    &lt;chr&gt;                                                 &lt;dbl&gt;             &lt;dbl&gt;

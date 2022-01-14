@@ -136,26 +136,7 @@ Much like the `mutate()` function we used earlier, within `summarize()` we list 
 
 The example above is giving us two summaries: It is applying a function `mean()` (or average) on all the values in the `lifeExp` column, and then again with `min()`, the lowest life expectancy in the data.
 
-Let me show you a similar example with our data answer this question:
-
-Let's find the average number of weeks that songs spend on the chart through history: 
-
-
-```r
-hot100 %>% 
-  summarize(avg_wks = mean(wks_on_chart))
-```
-
-```
-## # A tibble: 1 × 1
-##   avg_wks
-##     <dbl>
-## 1    9.17
-```
-
-Meaning songs that make the Hot 100 spend an average of **nine** weeks on the chart.
-
-But in our case (we are working toward finding the performer with most appearances) we want to **count** the number of rows, and there is a function for that: `n()`. (Think "**n**umber of observations".) Every row in the data is an appearance ... we just need to count how many rows have each performer.
+In our case (we are working toward finding the performer with most appearances) we want to **count** the number of rows, and there is a function for that: `n()`. (Think "**n**umber of observations".) Every row in the data is an appearance ... we just need to count how many rows have each performer.
 
 But first, to show how this works, we'll count _all_ the rows in the data. Let's write the code and run it on our code, then I'll explain:
 
