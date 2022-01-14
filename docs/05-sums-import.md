@@ -1,8 +1,10 @@
 # Summarize with math - import {#sums-import}
 
-With our Billboard assignment, we went through some common data wrangling processes — importing data, cleaning it and querying it for answers. All of our answers involved counting numbers of rows and we did so with two methods: The summary trio: `group_by`, `summmarize` and `arrange` (which I dub GSA), and then the shortcut `count()` that allows us to do all of that in one line.
+This chapter is by Prof. McDonald, who uses macOS.
 
-For this data story we need to leave `count` behind and stick with the summary trio GSA because now we must do different kinds of math within our summarize functions, mainly `sum()`.
+With our Billboard assignment, we went through some common data wrangling processes — importing data, cleaning it and querying it for answers. All of our answers involved counting numbers of rows using `group_by`, `summmarize` and `arrange` (which I dub GSA).
+
+For this data story we need the summary trio GSA again but we must do different kinds of math within our summarize functions, mainly `sum()`.
 
 ## About the story: Military surplus transfers
 
@@ -37,7 +39,7 @@ There is no data dictionary or record layout included with the data but I have c
 - **ship_date**: The date the item(s) were sent to the agency.
 - station_type: What kind of law enforcement agency made the request.
 
-Here is a glimse of our main columns of interest, except for the date:
+Here is a glimpse of our main columns of interest, except for the date:
 
 
 
