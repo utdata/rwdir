@@ -2,6 +2,8 @@
 
 This chapter is by Prof. McDonald, who uses macOS.
 
+**Note: The data you end up using might be updated since the writing of this chapter, especially screenshot examples.**
+
 With our Billboard assignment, we went through some common data wrangling processes — importing data, cleaning it and querying it for answers. All of our answers involved counting numbers of rows using `group_by`, `summmarize` and `arrange` (which I dub GSA).
 
 For this data story we need the summary trio GSA again but we must do different kinds of math within our summarize functions, mainly `sum()`.
@@ -16,7 +18,7 @@ You will analyze the same dataset focusing on some local police agencies and wri
 
 The Defense Logistics Agency transfers surplus military equipment to local law enforcement through its [Law Enforcement Support Office](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/). You can find more information [about the program here](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/ProgramFAQs/).
 
-The agency updates the data quarterly and the data I've collected contains transfers through **June 30, 2021**. The original file is linked from the headline "ALASKA - WYOMING AND US TERRITORIES".
+The agency updates the data quarterly and the data I've collected contains transfers through **December 31, 2021** as of this writing. The original file is linked from the headline "ALASKA - WYOMING AND US TERRITORIES". **Note: Screenshots and Screencast walkthroughs might use older data.**
 
 The data there comes in an Excel spreadsheet that has a new sheet for each state. I used R to pull the data from each sheet and combine it into a single data set and I'll cover the process I used in class, but you won't have to do that part.
 
@@ -59,6 +61,8 @@ Each row of data is a transfer of a particular type of item from the U.S. Depart
 What the data doesn't have is the **total value** of the items in the shipment. If there are 5 generators as noted in the first row above and the cost of each one is $4623.09, we have to multiply the `quantity` times the `acquisition_value` to get the total value of that equipment. We will do that as part of the assignment.
 
 The local agencies really only pay the shipping costs for the item, _so you can't say they paid for the items_, so the **total value** you calculate is the "value" of the items, not their cost to the local agency.
+
+One last thing on this: If you read the [LESO Public Information page](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/) and the [FAQ](https://www.dla.mil/dispositionservices//Offers/Reutilization/LawEnforcement/ProgramFAQs/#q6) closely you'll see the most recent year of data includes "non-controlled" items like boots, blankets and cameras. These non-controlled items are removed from the data a year after the transfer, so the most recent year will have WAY MORE items listed.
 
 ## The questions we will answer
 
@@ -176,7 +180,7 @@ leso <- read_csv("data-raw/leso.csv")
 ```
 
 ```
-## Rows: 129348 Columns: 12
+## Rows: 124848 Columns: 12
 ```
 
 ```
@@ -199,20 +203,20 @@ leso
 ```
 
 ```
-## # A tibble: 129,348 × 12
+## # A tibble: 124,848 × 12
 ##    sheet state agency_name   nsn    item_name    quantity ui    acquisition_val…
 ##    <dbl> <chr> <chr>         <chr>  <chr>           <dbl> <chr>            <dbl>
-##  1     1 AL    ABBEVILLE PO… 1005-… MOUNT,RIFLE        10 Each             1626 
-##  2     1 AL    ABBEVILLE PO… 1240-… SIGHT,REFLEX        9 Each              333 
-##  3     1 AL    ABBEVILLE PO… 1240-… OPTICAL SIG…        1 Each              246.
-##  4     1 AL    ABBEVILLE PO… 1385-… UNMANNED VE…        1 Each            10000 
-##  5     1 AL    ABBEVILLE PO… 2320-… TRUCK,UTILI…        1 Each            62627 
-##  6     1 AL    ABBEVILLE PO… 2320-… TRUCK,UTILI…        1 Each            62627 
-##  7     1 AL    ABBEVILLE PO… 2355-… MINE RESIST…        1 Each           658000 
-##  8     1 AL    ABBEVILLE PO… 2540-… BALLISTIC B…       10 Kit             15872.
-##  9     1 AL    ABBEVILLE PO… 5855-… ILLUMINATOR…       10 Each              926 
-## 10     1 AL    ABBEVILLE PO… 6760-… CAMERA ROBOT        1 Each             1500 
-## # … with 129,338 more rows, and 4 more variables: demil_code <chr>,
+##  1     1 AL    ABBEVILLE PO… 2540-… BALLISTIC B…       10 Kit             15872.
+##  2     1 AL    ABBEVILLE PO… 1240-… OPTICAL SIG…        1 Each              246.
+##  3     1 AL    ABBEVILLE PO… 1005-… MOUNT,RIFLE        10 Each             1626 
+##  4     1 AL    ABBEVILLE PO… 1240-… SIGHT,REFLEX        9 Each              333 
+##  5     1 AL    ABBEVILLE PO… 5855-… ILLUMINATOR…       10 Each              926 
+##  6     1 AL    ABBEVILLE PO… 2355-… MINE RESIST…        1 Each           658000 
+##  7     1 AL    ABBEVILLE PO… 2320-… TRUCK,UTILI…        1 Each            62627 
+##  8     1 AL    ABBEVILLE PO… 1385-… UNMANNED VE…        1 Each            10000 
+##  9     1 AL    ABBEVILLE PO… 6760-… CAMERA ROBOT        1 Each             1500 
+## 10     1 AL    ABBEVILLE PO… 2320-… TRUCK,UTILI…        1 Each            62627 
+## # … with 124,838 more rows, and 4 more variables: demil_code <chr>,
 ## #   demil_ic <dbl>, ship_date <dttm>, station_type <chr>
 ```
 
@@ -228,19 +232,19 @@ leso %>% glimpse()
 ```
 
 ```
-## Rows: 129,348
+## Rows: 124,848
 ## Columns: 12
 ## $ sheet             <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
 ## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
 ## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
-## $ nsn               <chr> "1005-01-587-7175", "1240-01-411-1265", "1240-DS-OPT…
-## $ item_name         <chr> "MOUNT,RIFLE", "SIGHT,REFLEX", "OPTICAL SIGHTING AND…
-## $ quantity          <dbl> 10, 9, 1, 1, 1, 1, 1, 10, 10, 1, 5, 10, 11, 10, 1, 3…
-## $ ui                <chr> "Each", "Each", "Each", "Each", "Each", "Each", "Eac…
-## $ acquisition_value <dbl> 1626.00, 333.00, 245.88, 10000.00, 62627.00, 62627.0…
-## $ demil_code        <chr> "D", "D", "D", "Q", "C", "C", "C", "D", "D", "D", "D…
-## $ demil_ic          <dbl> 1, 1, NA, 3, 1, 1, 1, 1, 1, 7, 1, 1, 1, 1, 1, NA, 1,…
-## $ ship_date         <dttm> 2016-09-19, 2016-09-14, 2016-06-02, 2017-03-28, 201…
+## $ nsn               <chr> "2540-01-565-4700", "1240-DS-OPT-SIGH", "1005-01-587…
+## $ item_name         <chr> "BALLISTIC BLANKET KIT", "OPTICAL SIGHTING AND RANGI…
+## $ quantity          <dbl> 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, …
+## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each…
+## $ acquisition_value <dbl> 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00…
+## $ demil_code        <chr> "D", "D", "D", "D", "D", "C", "C", "Q", "D", "C", "C…
+## $ demil_ic          <dbl> 1, NA, 1, 1, 1, 1, 1, 3, 7, 1, 1, NA, 1, 1, 1, 1, 1,…
+## $ ship_date         <dttm> 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201…
 ## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
 ```
 
@@ -274,15 +278,15 @@ leso_tight %>% glimpse()
 ```
 
 ```
-## Rows: 129,348
+## Rows: 124,848
 ## Columns: 8
 ## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
 ## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
-## $ item_name         <chr> "MOUNT,RIFLE", "SIGHT,REFLEX", "OPTICAL SIGHTING AND…
-## $ quantity          <dbl> 10, 9, 1, 1, 1, 1, 1, 10, 10, 1, 5, 10, 11, 10, 1, 3…
-## $ ui                <chr> "Each", "Each", "Each", "Each", "Each", "Each", "Eac…
-## $ acquisition_value <dbl> 1626.00, 333.00, 245.88, 10000.00, 62627.00, 62627.0…
-## $ ship_date         <dttm> 2016-09-19, 2016-09-14, 2016-06-02, 2017-03-28, 201…
+## $ item_name         <chr> "BALLISTIC BLANKET KIT", "OPTICAL SIGHTING AND RANGI…
+## $ quantity          <dbl> 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, …
+## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each…
+## $ acquisition_value <dbl> 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00…
+## $ ship_date         <dttm> 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201…
 ## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
 ```
 
@@ -348,23 +352,23 @@ leso_total %>% glimpse()
 ```
 
 ```
-## Rows: 129,348
+## Rows: 124,848
 ## Columns: 9
 ## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
 ## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
-## $ item_name         <chr> "MOUNT,RIFLE", "SIGHT,REFLEX", "OPTICAL SIGHTING AND…
-## $ quantity          <dbl> 10, 9, 1, 1, 1, 1, 1, 10, 10, 1, 5, 10, 11, 10, 1, 3…
-## $ ui                <chr> "Each", "Each", "Each", "Each", "Each", "Each", "Eac…
-## $ acquisition_value <dbl> 1626.00, 333.00, 245.88, 10000.00, 62627.00, 62627.0…
-## $ ship_date         <dttm> 2016-09-19, 2016-09-14, 2016-06-02, 2017-03-28, 201…
+## $ item_name         <chr> "BALLISTIC BLANKET KIT", "OPTICAL SIGHTING AND RANGI…
+## $ quantity          <dbl> 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, …
+## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each…
+## $ acquisition_value <dbl> 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00…
+## $ ship_date         <dttm> 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201…
 ## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
-## $ total_value       <dbl> 16260.00, 2997.00, 245.88, 10000.00, 62627.00, 62627…
+## $ total_value       <dbl> 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 65800…
 ```
 
 </details>
 <br>
 
-**Check that it worked!!**. Use the glimpsed data to check the first item: For me, 10 * 1626.00 = 16260.00, which is correct!
+**Check that it worked!!**. Use the glimpsed data to check the first item: For me, 10 * 15871.59 = 158715.90, which is correct!
 
 Note that new columns are added at the end of the tibble. That is why I suggested you glimpse the data instead of printing the tibble so you can easily see results on one screen.
 
@@ -390,20 +394,20 @@ leso_total %>%
 ```
 
 ```
-## # A tibble: 8,684 × 9
+## # A tibble: 8,663 × 9
 ##    state agency_name           item_name         quantity ui    acquisition_val…
 ##    <chr> <chr>                 <chr>                <dbl> <chr>            <dbl>
 ##  1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
 ##  2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
 ##  3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
 ##  4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  5 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  6 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
-##  7 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
-##  8 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX             5 Each             333  
-##  9 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY            1 Each           62627  
+##  5 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
+##  6 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY            1 Each           62627  
+##  7 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX             5 Each             333  
+##  8 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
+##  9 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
 ## 10 TX    ABILENE POLICE DEPT   RIFLE,5.56 MILLI…        1 Each             499  
-## # … with 8,674 more rows, and 3 more variables: ship_date <dttm>,
+## # … with 8,653 more rows, and 3 more variables: ship_date <dttm>,
 ## #   station_type <chr>, total_value <dbl>
 ```
 
@@ -428,20 +432,20 @@ leso_total %>%
 ```
 
 ```
-## # A tibble: 7,407 × 9
+## # A tibble: 7,411 × 9
 ##    state agency_name           item_name         quantity ui    acquisition_val…
 ##    <chr> <chr>                 <chr>                <dbl> <chr>            <dbl>
 ##  1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
 ##  2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
 ##  3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
 ##  4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  5 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  6 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
-##  7 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
-##  8 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX             5 Each             333  
-##  9 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY            1 Each           62627  
+##  5 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
+##  6 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY            1 Each           62627  
+##  7 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX             5 Each             333  
+##  8 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
+##  9 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
 ## 10 TX    ALLEN POLICE DEPT     SIGHT,REFLEX             1 Each             333  
-## # … with 7,397 more rows, and 3 more variables: ship_date <dttm>,
+## # … with 7,401 more rows, and 3 more variables: ship_date <dttm>,
 ## #   station_type <chr>, total_value <dbl>
 ```
 
@@ -451,7 +455,7 @@ leso_total %>%
 
 How do you know this date filter worked? Well, we went from 8600+ rows to 7400+ rows, so we did something. You might look at the results table and click over to the `ship_date` columns so you can see some of the results, but you can't be sure the top row is the oldest. We could use an `arrange()` to test that, but I have another suggestion: `summary()`.
 
-Now, `summary()` is different than `summarize()`, which we'll do plenty of in a mintue. The `summary()` function will show you some results about each column in your data, and when it is a number or date, it will give you some basic stats like min, max and median values.
+Now, `summary()` is different than `summarize()`, which we'll do plenty of in a minute. The `summary()` function will show you some results about each column in your data, and when it is a number or date, it will give you some basic stats like min, max and median values.
 
 1. Use the image below to add a `summary()` function to your filtering data chunk.
 2. Once you've confirmed that the "Min." of `ship_date` is not older than 2010, then **REMOVE THE SUMMARY STATEMENT**.
@@ -482,17 +486,17 @@ leso_filtered %>% glimpse()
 ```
 
 ```
-## Rows: 7,407
+## Rows: 7,411
 ## Columns: 9
 ## $ state             <chr> "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX"…
 ## $ agency_name       <chr> "ABERNATHY POLICE DEPT", "ABERNATHY POLICE DEPT", "A…
 ## $ item_name         <chr> "PISTOL,CALIBER .45,AUTOMATIC", "PISTOL,CALIBER .45,…
-## $ quantity          <dbl> 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ quantity          <dbl> 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
 ## $ ui                <chr> "Each", "Each", "Each", "Each", "Each", "Each", "Eac…
-## $ acquisition_value <dbl> 58.71, 58.71, 58.71, 58.71, 58.71, 749.00, 749.00, 3…
+## $ acquisition_value <dbl> 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 333.00…
 ## $ ship_date         <dttm> 2011-11-03, 2011-11-03, 2011-11-03, 2011-11-03, 201…
 ## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
-## $ total_value       <dbl> 58.71, 58.71, 58.71, 58.71, 58.71, 749.00, 749.00, 1…
+## $ total_value       <dbl> 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 1665.0…
 ```
 
 </details>

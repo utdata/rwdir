@@ -2,6 +2,8 @@
 
 This chapter is by Prof. McDonald, who uses macOS.
 
+**Note: The data you end up using might be updated since the writing of this chapter, especially screenshot examples.**
+
 With our Billboard assignment, we went through some common data wrangling processes — importing data, cleaning it and querying it for answers. All of our answers involved counting numbers of rows using `group_by`, `summmarize` and `arrange` (which I dub GSA).
 
 For this data story we need the summary trio GSA again but we must do different kinds of math within our summarize functions, mainly `sum()`.
@@ -16,7 +18,7 @@ You will analyze the same dataset focusing on some local police agencies and wri
 
 The Defense Logistics Agency transfers surplus military equipment to local law enforcement through its [Law Enforcement Support Office](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/). You can find more information [about the program here](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/ProgramFAQs/).
 
-The agency updates the data quarterly and the data I've collected contains transfers through **June 30, 2021**. The original file is linked from the headline "ALASKA - WYOMING AND US TERRITORIES".
+The agency updates the data quarterly and the data I've collected contains transfers through **December 31, 2021** as of this writing. The original file is linked from the headline "ALASKA - WYOMING AND US TERRITORIES". **Note: Screenshots and Screencast walkthroughs might use older data.**
 
 The data there comes in an Excel spreadsheet that has a new sheet for each state. I used R to pull the data from each sheet and combine it into a single data set and I'll cover the process I used in class, but you won't have to do that part.
 
@@ -63,6 +65,8 @@ Each row of data is a transfer of a particular type of item from the U.S. Depart
 What the data doesn't have is the **total value** of the items in the shipment. If there are 5 generators as noted in the first row above and the cost of each one is $4623.09, we have to multiply the `quantity` times the `acquisition_value` to get the total value of that equipment. We will do that as part of the assignment.
 
 The local agencies really only pay the shipping costs for the item, _so you can't say they paid for the items_, so the **total value** you calculate is the "value" of the items, not their cost to the local agency.
+
+One last thing on this: If you read the [LESO Public Information page](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/) and the [FAQ](https://www.dla.mil/dispositionservices//Offers/Reutilization/LawEnforcement/ProgramFAQs/#q6) closely you'll see the most recent year of data includes "non-controlled" items like boots, blankets and cameras. These non-controlled items are removed from the data a year after the transfer, so the most recent year will have WAY MORE items listed.
 
 ## The questions we will answer
 
@@ -279,7 +283,7 @@ leso_total %>% glimpse()
 </details>
 <br>
 
-**Check that it worked!!**. Use the glimpsed data to check the first item: For me, 10 * 1626.00 = 16260.00, which is correct!
+**Check that it worked!!**. Use the glimpsed data to check the first item: For me, 10 * 15871.59 = 158715.90, which is correct!
 
 Note that new columns are added at the end of the tibble. That is why I suggested you glimpse the data instead of printing the tibble so you can easily see results on one screen.
 
@@ -328,7 +332,7 @@ leso_total %>%
 
 How do you know this date filter worked? Well, we went from 8600+ rows to 7400+ rows, so we did something. You might look at the results table and click over to the `ship_date` columns so you can see some of the results, but you can't be sure the top row is the oldest. We could use an `arrange()` to test that, but I have another suggestion: `summary()`.
 
-Now, `summary()` is different than `summarize()`, which we'll do plenty of in a mintue. The `summary()` function will show you some results about each column in your data, and when it is a number or date, it will give you some basic stats like min, max and median values.
+Now, `summary()` is different than `summarize()`, which we'll do plenty of in a minute. The `summary()` function will show you some results about each column in your data, and when it is a number or date, it will give you some basic stats like min, max and median values.
 
 1. Use the image below to add a `summary()` function to your filtering data chunk.
 2. Once you've confirmed that the "Min." of `ship_date` is not older than 2010, then **REMOVE THE SUMMARY STATEMENT**.
