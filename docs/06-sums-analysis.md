@@ -59,17 +59,17 @@ tx %>% glimpse()
 ```
 
 ```
-## Rows: 7,407
+## Rows: 7,411
 ## Columns: 9
 ## $ state             <chr> "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX"…
 ## $ agency_name       <chr> "ABERNATHY POLICE DEPT", "ABERNATHY POLICE DEPT", "A…
 ## $ item_name         <chr> "PISTOL,CALIBER .45,AUTOMATIC", "PISTOL,CALIBER .45,…
-## $ quantity          <dbl> 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ quantity          <dbl> 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
 ## $ ui                <chr> "Each", "Each", "Each", "Each", "Each", "Each", "Eac…
-## $ acquisition_value <dbl> 58.71, 58.71, 58.71, 58.71, 58.71, 749.00, 749.00, 3…
+## $ acquisition_value <dbl> 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 333.00…
 ## $ ship_date         <dttm> 2011-11-03, 2011-11-03, 2011-11-03, 2011-11-03, 201…
 ## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
-## $ total_value       <dbl> 58.71, 58.71, 58.71, 58.71, 58.71, 749.00, 749.00, 1…
+## $ total_value       <dbl> 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 1665.0…
 ```
 
 </details>
@@ -119,20 +119,20 @@ tx %>%
 ```
 
 ```
-## # A tibble: 357 × 2
+## # A tibble: 356 × 2
 ##    agency_name                     sum_quantity
 ##    <chr>                                  <dbl>
 ##  1 ABERNATHY POLICE DEPT                     13
 ##  2 ALLEN POLICE DEPT                         11
 ##  3 ALVARADO ISD PD                            4
-##  4 ALVIN POLICE DEPT                        539
-##  5 ANDERSON COUNTY SHERIFFS OFFICE            8
+##  4 ALVIN POLICE DEPT                        508
+##  5 ANDERSON COUNTY SHERIFFS OFFICE            7
 ##  6 ANDREWS COUNTY SHERIFF OFFICE             12
 ##  7 ANSON POLICE DEPT                          9
 ##  8 ANTHONY POLICE DEPT                       10
-##  9 ARANSAS PASS POLICE DEPARTMENT            38
-## 10 ARP POLICE DEPARTMENT                     18
-## # … with 347 more rows
+##  9 ARANSAS PASS POLICE DEPARTMENT            27
+## 10 ARCHER COUNTY SHERIFF OFFICE               3
+## # … with 346 more rows
 ```
 
 Let's break this down a little.
@@ -161,11 +161,11 @@ tx %>%
 ## 2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
 ## 3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
 ## 4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
-## 5 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
-## 6 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIM…        1 Each             749  
-## 7 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIM…        1 Each             749  
-## 8 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX              5 Each             333  
-## 9 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY             1 Each           62627  
+## 5 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIM…        1 Each             749  
+## 6 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY             1 Each           62627  
+## 7 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX              5 Each             333  
+## 8 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIM…        1 Each             749  
+## 9 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
 ## # … with 3 more variables: ship_date <dttm>, station_type <chr>,
 ## #   total_value <dbl>
 ```
@@ -192,20 +192,20 @@ tx %>%
 ```
 
 ```
-## # A tibble: 357 × 3
+## # A tibble: 356 × 3
 ##    agency_name                     sum_quantity sum_total_value
 ##    <chr>                                  <dbl>           <dbl>
 ##  1 ABERNATHY POLICE DEPT                     13          66084.
 ##  2 ALLEN POLICE DEPT                         11        1404024 
 ##  3 ALVARADO ISD PD                            4            480 
-##  4 ALVIN POLICE DEPT                        539        2545240.
-##  5 ANDERSON COUNTY SHERIFFS OFFICE            8         827891 
+##  4 ALVIN POLICE DEPT                        508        2504765.
+##  5 ANDERSON COUNTY SHERIFFS OFFICE            7         733720 
 ##  6 ANDREWS COUNTY SHERIFF OFFICE             12           1476 
 ##  7 ANSON POLICE DEPT                          9           5077 
 ##  8 ANTHONY POLICE DEPT                       10           7490 
-##  9 ARANSAS PASS POLICE DEPARTMENT            38         571738 
-## 10 ARP POLICE DEPARTMENT                     18           5789.
-## # … with 347 more rows
+##  9 ARANSAS PASS POLICE DEPARTMENT            27         503658 
+## 10 ARCHER COUNTY SHERIFF OFFICE               3        1101000 
+## # … with 346 more rows
 ```
 
 ### Arrange the results
@@ -226,20 +226,20 @@ tx %>%
 ```
 
 ```
-## # A tibble: 357 × 3
-##    agency_name                       sum_quantity sum_total_value
-##    <chr>                                    <dbl>           <dbl>
-##  1 HOUSTON POLICE DEPT                       6419       10825708.
-##  2 HARRIS COUNTY SHERIFF'S OFFICE             381        3776292.
-##  3 DPS SWAT- TEXAS RANGERS                   1730        3520630.
-##  4 JEFFERSON COUNTY SHERIFF'S OFFICE          270        3464741.
-##  5 SAN MARCOS POLICE DEPT                    1082        3100421.
-##  6 AUSTIN POLICE DEPT                        1458        2741021.
-##  7 MILAM COUNTY SHERIFF DEPT                  125        2723192.
-##  8 ALVIN POLICE DEPT                          539        2545240.
-##  9 HARRIS COUNTY CONSTABLE PCT 3              293        2376945.
-## 10 PARKS AND WILDLIFE DEPT                   5608        2325655.
-## # … with 347 more rows
+## # A tibble: 356 × 3
+##    agency_name                      sum_quantity sum_total_value
+##    <chr>                                   <dbl>           <dbl>
+##  1 HOUSTON POLICE DEPT                      5467        9140513.
+##  2 JEFFERSON COUNTY SHERIFFS OFFICE          270        3464365.
+##  3 DPS SWAT- TEXAS RANGERS                  1461        3317967.
+##  4 PARKS AND WILDLIFE DEPT                  9306        3236996.
+##  5 SAN MARCOS POLICE DEPT                   1050        3090552.
+##  6 HARRIS COUNTY SHERIFF'S OFFICE            835        2941507.
+##  7 AUSTIN POLICE DEPT                       1438        2732120.
+##  8 ALVIN POLICE DEPT                         508        2504765.
+##  9 MILAM COUNTY SHERIFF DEPT                  99        2469525.
+## 10 HARRIS COUNTY CONSTABLE PCT 3             292        2376779.
+## # … with 346 more rows
 ```
 
 ### Consider the results
@@ -278,20 +278,20 @@ tx_quants_totals
 ```
 
 ```
-## # A tibble: 357 × 3
-##    agency_name                       sum_quantity sum_total_value
-##    <chr>                                    <dbl>           <dbl>
-##  1 HOUSTON POLICE DEPT                       6419       10825708.
-##  2 HARRIS COUNTY SHERIFF'S OFFICE             381        3776292.
-##  3 DPS SWAT- TEXAS RANGERS                   1730        3520630.
-##  4 JEFFERSON COUNTY SHERIFF'S OFFICE          270        3464741.
-##  5 SAN MARCOS POLICE DEPT                    1082        3100421.
-##  6 AUSTIN POLICE DEPT                        1458        2741021.
-##  7 MILAM COUNTY SHERIFF DEPT                  125        2723192.
-##  8 ALVIN POLICE DEPT                          539        2545240.
-##  9 HARRIS COUNTY CONSTABLE PCT 3              293        2376945.
-## 10 PARKS AND WILDLIFE DEPT                   5608        2325655.
-## # … with 347 more rows
+## # A tibble: 356 × 3
+##    agency_name                      sum_quantity sum_total_value
+##    <chr>                                   <dbl>           <dbl>
+##  1 HOUSTON POLICE DEPT                      5467        9140513.
+##  2 JEFFERSON COUNTY SHERIFFS OFFICE          270        3464365.
+##  3 DPS SWAT- TEXAS RANGERS                  1461        3317967.
+##  4 PARKS AND WILDLIFE DEPT                  9306        3236996.
+##  5 SAN MARCOS POLICE DEPT                   1050        3090552.
+##  6 HARRIS COUNTY SHERIFF'S OFFICE            835        2941507.
+##  7 AUSTIN POLICE DEPT                       1438        2732120.
+##  8 ALVIN POLICE DEPT                         508        2504765.
+##  9 MILAM COUNTY SHERIFF DEPT                  99        2469525.
+## 10 HARRIS COUNTY CONSTABLE PCT 3             292        2376779.
+## # … with 346 more rows
 ```
 
 The result is the same, but we can reuse the `tx_quants_totals` tibble.
@@ -367,11 +367,11 @@ tx_quants_totals %>%
 ## # A tibble: 5 × 3
 ##   agency_name                        sum_quantity sum_total_value
 ##   <chr>                                     <dbl>           <dbl>
-## 1 SAN MARCOS POLICE DEPT                     1082        3100421.
-## 2 AUSTIN POLICE DEPT                         1458        2741021.
+## 1 SAN MARCOS POLICE DEPT                     1050        3090552.
+## 2 AUSTIN POLICE DEPT                         1438        2732120.
 ## 3 UNIV OF TEXAS SYSTEM POLICE HI_ED             3        1305000 
-## 4 TRAVIS COUNTY SHERIFFS OFFICE               151         935354.
-## 5 WILLIAMSON COUNTY SHERIFF'S OFFICE          210         431449.
+## 4 TRAVIS COUNTY SHERIFFS OFFICE               151         935774.
+## 5 WILLIAMSON COUNTY SHERIFF'S OFFICE          205         429784.
 ```
 
 </details>
@@ -403,7 +403,7 @@ tx %>%
 ```
 
 ```
-## # A tibble: 46 × 3
+## # A tibble: 41 × 3
 ##    item_name                                   summed_quantity summed_total_val…
 ##    <chr>                                                 <dbl>             <dbl>
 ##  1 HELICOPTER,FLIGHT TRAINER                                 1           833400 
@@ -414,9 +414,9 @@ tx %>%
 ##  6 ILLUMINATOR,INTEGRATED,SMALL ARMS                       135           122302 
 ##  7 RECON SCOUT XT                                            8            92451.
 ##  8 RECON SCOUT XT,SPEC                                       6            81900 
-##  9 TEST SET,NIGHT VISION VIEWER                              2            56650 
-## 10 PICKUP                                                    1            26327 
-## # … with 36 more rows
+##  9 TEST SET,NIGHT VISION VIEWER                              2            55610 
+## 10 PICKUP                                                    2            38075 
+## # … with 31 more rows
 ```
 
 **Please realize** that this combines items that may have been shipped on any date our time period. If you want to learn more about _when_ they got the items, you would have to build a new list of the data without grouping/summarizing.
