@@ -246,7 +246,7 @@ Inside the function we put in the path to our data, inside quotes. If you start 
 1. Add the following code into your chunk and run it.
 
 ```r
-read_csv("data-raw/hot100-archive.csv")
+read_csv("data-raw/hot100_archive.csv")
 ```
 
 > Note the path is in quotes.
