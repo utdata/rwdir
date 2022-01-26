@@ -1,6 +1,6 @@
 # Introduction to R {#intro}
 
-> This chapter was written by Prof. McDonald using macOS.
+> This chapter was written by Prof. McDonald using macOS, with edits by Prof. Lukito
 
 ## RStudio tour
 
@@ -66,7 +66,7 @@ Let's take a closer look at this:
 
 ### Save the .Rmd file
 
-1. Do *Cmd+S* or hit the floppy disk icon to save the file.
+1. Do *Cmd+S* (*ctrl+s* for a PC) or hit the floppy disk icon to save the file.
 1. It will ask you what you want to name this file. Call it `01-first-file.Rmd`.
 
 When you do this, you may see another new file created in your Files directory. It's the pretty version of the notebook which we'll see in a minute.
@@ -93,7 +93,7 @@ This is a "base R" plot. We'll be using the tidyverse ggplot methods later in th
 
 ### A note about RMarkdown
 
-We always want to annotate our code to explain what we are doing. To do that, we use a syntax called [RMarkdown](https://rmarkdown.rstudio.com/authoring_basics.html), which is an R-specific version of Markdown. We use this syntax because it both makes sense in text but also makes a very pretty version in HTML when we "knit" our project. You can see how it to [write RMarkdown here](https://rmarkdown.rstudio.com/authoring_basics.html).
+We always want to annotate our code to explain what we are doing. To do that, we use a syntax called [RMarkdown](https://rmarkdown.rstudio.com/authoring_basics.html), which is an R-specific version of Markdown. We use this syntax because it both makes sense when you're typing up your code **and** because it makes a very pretty version in HTML when we "knit" our project. You can see how it to [write RMarkdown here](https://rmarkdown.rstudio.com/authoring_basics.html). Interesting tidbit: you can create [slidedecks](https://rmarkdown.rstudio.com/lesson-11.html), [websites](https://rmarkdown.rstudio.com/lesson-13.html), and [handouts](https://bookdown.org/yihui/rmarkdown/tufte-handouts.html) using RMarkdown, so it is useful in a lot of different ways.
 
 This entire book is written in RMarkdown.
 
