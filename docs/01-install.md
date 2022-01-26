@@ -6,9 +6,9 @@ Let's get this party started.
 
 ## Mac vs PC
 
-I'm a big fan of using keyboard commands to do operations in any program, but I reference this from a Mac perspective. So if I say use *Cmd+S* or *Command+S* to save, that might be *Cntl+S* or *Control+S* on a PC. The letters may not be the same on a PC, but you can usually figure it out by look at menu items in RStudio to figure out the PC command.
+We're a big fan of using keyboard commands to do operations in any program, but Prof. McDonald references this from a Mac perspective and Prof. Lukito references this from a PC perspective. So if we say use *Cmd+S* or *Command+S* to save, that translates to *Cntl+S* or *Control+S* on a PC. Importantly, *Cmd* (for Mac) and *Cntl* (for PC) are fairly synonymous, but there may be other differences. Usually, it's easy to figure the translation out by looking at menu items in RStudio to figure out the Mac/PC command.
 
-Other chapters or sections of the book may be written or updated by Prof. Lukito, who uses a PC. She may use the PC shortcuts or screenshots. We'll try to note that at the top of the chapter.
+As we said, Prof. McDonald uses a Mac and Prof. Lukito uses a PC, so we'll be able to troubleshoot it regardless of the operating system that you use! **We will try to note that at the top of a chapter.**
 
 We will install R and RStudio. It might take some time depending on your Internet connection.
 
@@ -24,9 +24,9 @@ Our first task is to install the R programming language onto your computer.
     + For Macs, you want the "latest package" unless you have an "M1" Mac (Nov. 2020 or newer), in which case choose the **arm64.pkg** version.
     + For Windows, you want the "base" package. You'll need to decide whether you want the 32- or 64-bit version. (Unless you've got a pretty old system, chances are you'll want 64-bit.)
 
-Here's hoping it will be self explanatory after that.
+This should be pretty self explanatory: once you download the installation file, you should be able to run it on your respective computers to install R.
 
-You'll never "launch" R as a program in a traditional sense, but you need it on your computers. We'll use RStudio, which is next.
+You'll never "launch" R as a program in a traditional sense, but you need it on your computers (it's mostly so that the computer can recognize R as a "language"). In all situations (in this class, and beyond), we'll use RStudio, which is next.
 
 ## Installing RStudio
 
@@ -43,9 +43,9 @@ If later during package installation you get errors that mention "git" or "xcode
 
 ## Class project folder
 
-To keep things consistent and help with troubleshooting, I'd like you to save your work in the same location all the time.
+To keep things consistent and help with troubleshooting, We recommend that you save your work in the same location all the time.
 
-- On both Mac and Windows, every user has a "Documents" folder. Open that folder. (If you don't know where it is, ask me to help you find it.)
+- On both Mac and Windows, every user has a "Documents" folder. Open that folder. (If you don't know where it is, ask us to help you find it.)
 - Create a new folder called "rwd". Use all lowercase letters.
 
 When we create new "Projects", I want you to always save them in the `Documents/rwd` folder. This just keeps us all on the same page.

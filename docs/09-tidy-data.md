@@ -96,7 +96,7 @@ data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTxm9NxK67thlG
 ```
 
 ```
-## ── Column specification ────────────────────────────────────────────────────────
+## -- Column specification --------------------------------------------------------
 ## Delimiter: ","
 ## chr (2): Timestamp, Name
 ## dbl (5): Red, Green, Orange, Yellow, Purple
@@ -104,8 +104,8 @@ data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTxm9NxK67thlG
 
 ```
 ## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 ```r
@@ -116,13 +116,13 @@ data %>% glimpse()
 ```
 ## Rows: 124
 ## Columns: 7
-## $ timestamp <chr> "7/27/2020 18:21:19", "8/1/2020 16:04:56", "7/30/2020 14:56:…
-## $ name      <chr> "Alora Jones", "Alyssa Hiarker", "Annie Patton", "Christian …
-## $ red       <dbl> 12, 13, 12, 9, 7, 10, 12, 11, 7, 18, 13, 11, 10, 14, 8, 8, 1…
-## $ green     <dbl> 11, 15, 12, 10, 12, 14, 15, 5, 10, 9, 11, 13, 7, 12, 15, 10,…
-## $ orange    <dbl> 12, 10, 8, 17, 13, 9, 12, 17, 10, 13, 11, 7, 12, 10, 20, 13,…
-## $ yellow    <dbl> 9, 9, 10, 6, 11, 11, 10, 14, 21, 7, 11, 7, 15, 9, 4, 14, 10,…
-## $ purple    <dbl> 15, 15, 18, 18, 17, 16, 12, 13, 14, 13, 12, 21, 16, 14, 10, …
+## $ timestamp <chr> "7/27/2020 18:21:19", "8/1/2020 16:04:56", "7/30/2020 14:56:~
+## $ name      <chr> "Alora Jones", "Alyssa Hiarker", "Annie Patton", "Christian ~
+## $ red       <dbl> 12, 13, 12, 9, 7, 10, 12, 11, 7, 18, 13, 11, 10, 14, 8, 8, 1~
+## $ green     <dbl> 11, 15, 12, 10, 12, 14, 15, 5, 10, 9, 11, 13, 7, 12, 15, 10,~
+## $ orange    <dbl> 12, 10, 8, 17, 13, 9, 12, 17, 10, 13, 11, 7, 12, 10, 20, 13,~
+## $ yellow    <dbl> 9, 9, 10, 6, 11, 11, 10, 14, 21, 7, 11, 7, 15, 9, 4, 14, 10,~
+## $ purple    <dbl> 15, 15, 18, 18, 17, 16, 12, 13, 14, 13, 12, 21, 16, 14, 10, ~
 ```
 
 We cleaned the name on import. The `timestamp` is not a real date, so we need to fix that.
@@ -148,13 +148,13 @@ skittles %>% glimpse()
 ```
 ## Rows: 124
 ## Columns: 7
-## $ name         <chr> "Alora Jones", "Alyssa Hiarker", "Annie Patton", "Christi…
-## $ red          <dbl> 12, 13, 12, 9, 7, 10, 12, 11, 7, 18, 13, 11, 10, 14, 8, 8…
-## $ green        <dbl> 11, 15, 12, 10, 12, 14, 15, 5, 10, 9, 11, 13, 7, 12, 15, …
-## $ orange       <dbl> 12, 10, 8, 17, 13, 9, 12, 17, 10, 13, 11, 7, 12, 10, 20, …
-## $ yellow       <dbl> 9, 9, 10, 6, 11, 11, 10, 14, 21, 7, 11, 7, 15, 9, 4, 14, …
-## $ purple       <dbl> 15, 15, 18, 18, 17, 16, 12, 13, 14, 13, 12, 21, 16, 14, 1…
-## $ date_entered <date> 2020-07-27, 2020-08-01, 2020-07-30, 2020-06-23, 2020-07-…
+## $ name         <chr> "Alora Jones", "Alyssa Hiarker", "Annie Patton", "Christi~
+## $ red          <dbl> 12, 13, 12, 9, 7, 10, 12, 11, 7, 18, 13, 11, 10, 14, 8, 8~
+## $ green        <dbl> 11, 15, 12, 10, 12, 14, 15, 5, 10, 9, 11, 13, 7, 12, 15, ~
+## $ orange       <dbl> 12, 10, 8, 17, 13, 9, 12, 17, 10, 13, 11, 7, 12, 10, 20, ~
+## $ yellow       <dbl> 9, 9, 10, 6, 11, 11, 10, 14, 21, 7, 11, 7, 15, 9, 4, 14, ~
+## $ purple       <dbl> 15, 15, 18, 18, 17, 16, 12, 13, 14, 13, 12, 21, 16, 14, 1~
+## $ date_entered <date> 2020-07-27, 2020-08-01, 2020-07-30, 2020-06-23, 2020-07-~
 ```
 
 Let's talk just a minute about what we've done here:
@@ -174,7 +174,7 @@ skittles %>% head()
 ```
 
 ```
-## # A tibble: 6 × 7
+## # A tibble: 6 x 7
 ##   name                 red green orange yellow purple date_entered
 ##   <chr>              <dbl> <dbl>  <dbl>  <dbl>  <dbl> <date>      
 ## 1 Alora Jones           12    11     12      9     15 2020-07-27  
@@ -217,7 +217,7 @@ skittles_long %>% head()
 ```
 
 ```
-## # A tibble: 6 × 4
+## # A tibble: 6 x 4
 ##   name           date_entered color  candies
 ##   <chr>          <date>       <chr>    <dbl>
 ## 1 Alora Jones    2020-07-27   red         12
@@ -248,7 +248,7 @@ skittles_avg
 ```
 
 ```
-## # A tibble: 5 × 2
+## # A tibble: 5 x 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
 ## 1 green         11.2
@@ -280,7 +280,7 @@ skittles_avg
 ```
 
 ```
-## # A tibble: 5 × 2
+## # A tibble: 5 x 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
 ## 1 green         11.2

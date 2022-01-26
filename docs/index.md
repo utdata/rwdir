@@ -1,7 +1,7 @@
 --- 
 title: "Reporting with Data in R"
 author: "Christian McDonald and Jo Lukito"
-date: "2022-01-13"
+date: "2022-01-26"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
@@ -80,7 +80,12 @@ I'm a career journalist who most recently served as Data and Projects Editor at 
 
 ### Jo Lukito {-}
 
-Jo will add her info and whatever else when she's damn good and ready.
+I'm an aspiring-journalist-turned-academic who studies journalism and digital media. To make a long story short (tl;dr): I trained to be a journalist as an undergraduate student, but just fell in love with **researching and supporting** journalism. I completed my Ph.D in 2020, and my dissertation focused on international trade reporting (which relies on plenty o' data). I also do a ton of social media research (especially in politics and disinformation), so if you're interested in the social media beat, I'm your gal!
+
+- Prof. Jo Lukito's git: [jlukito](https://github.com/jlukito)
+- Twitter: [JosephineLukito](https://twitter.com/JosephineLukito)
+- Email: <jlukito@utexas.edu>
+- Website: [https://www.jlukito.com/](https://www.jlukito.com/)
 
 ## License {-}
 
