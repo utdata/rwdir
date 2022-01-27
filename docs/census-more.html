@@ -24,7 +24,7 @@
 <meta name="author" content="Christian McDonald and Jo Lukito" />
 
 
-<meta name="date" content="2022-01-26" />
+<meta name="date" content="2022-01-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -703,21 +703,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb251-6"><a href="census-more.html#cb251-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>state)</span>
 <span id="cb251-7"><a href="census-more.html#cb251-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb251-8"><a href="census-more.html#cb251-8" aria-hidden="true" tabindex="-1"></a>tx_covid</span></code></pre></div>
-<pre><code>## # A tibble: 255 × 5
-## # Groups:   county [255]
+<pre><code>## # A tibble: 254 × 5
+## # Groups:   county [254]
 ##    date       county    fips  cases deaths
 ##    &lt;date&gt;     &lt;chr&gt;     &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;
-##  1 2022-01-25 Anderson  48001  9134    217
-##  2 2022-01-25 Andrews   48003  3601     68
-##  3 2022-01-25 Angelina  48005 14477    437
-##  4 2022-01-25 Aransas   48007  3440     69
-##  5 2022-01-25 Archer    48009  1909     24
-##  6 2022-01-25 Armstrong 48011   466      8
-##  7 2022-01-25 Atascosa  48013 11955    215
-##  8 2022-01-25 Austin    48015  4980     60
-##  9 2022-01-25 Bailey    48017  1305     31
-## 10 2022-01-25 Bandera   48019  3178     67
-## # … with 245 more rows</code></pre>
+##  1 2022-01-26 Anderson  48001  9155    218
+##  2 2022-01-26 Andrews   48003  3633     69
+##  3 2022-01-26 Angelina  48005 14514    439
+##  4 2022-01-26 Aransas   48007  3465     70
+##  5 2022-01-26 Archer    48009  1925     24
+##  6 2022-01-26 Armstrong 48011   468      8
+##  7 2022-01-26 Atascosa  48013 12032    215
+##  8 2022-01-26 Austin    48015  4995     60
+##  9 2022-01-26 Bailey    48017  1322     31
+## 10 2022-01-26 Bandera   48019  3189     67
+## # … with 244 more rows</code></pre>
 <blockquote>
 <p>IMPORTANT NOTE: The <strong>date</strong> values in your data should be more recent than what is shown here since you are downloading at a later date.</p>
 </blockquote>
@@ -846,14 +846,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>What joins do is match rows from multiple data sets that have the same “key value” and then append the data along those rows. Our two data sets have the same value in both, they just happend to be named different things.</p>
 <p>Look at these two glimpses and note the <strong>fips</strong> and <strong>geoid</strong> fields between them.</p>
 <div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="census-more.html#cb260-1" aria-hidden="true" tabindex="-1"></a>tx_covid <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
-<pre><code>## Rows: 255
+<pre><code>## Rows: 254
 ## Columns: 5
-## Groups: county [255]
-## $ date   &lt;date&gt; 2022-01-25, 2022-01-25, 2022-01-25, 2022-01-25, 2022-01-25, 20…
+## Groups: county [254]
+## $ date   &lt;date&gt; 2022-01-26, 2022-01-26, 2022-01-26, 2022-01-26, 2022-01-26, 20…
 ## $ county &lt;chr&gt; &quot;Anderson&quot;, &quot;Andrews&quot;, &quot;Angelina&quot;, &quot;Aransas&quot;, &quot;Archer&quot;, &quot;Armstr…
 ## $ fips   &lt;chr&gt; &quot;48001&quot;, &quot;48003&quot;, &quot;48005&quot;, &quot;48007&quot;, &quot;48009&quot;, &quot;48011&quot;, &quot;48013&quot;, …
-## $ cases  &lt;dbl&gt; 9134, 3601, 14477, 3440, 1909, 466, 11955, 4980, 1305, 3178, 20…
-## $ deaths &lt;dbl&gt; 217, 68, 437, 69, 24, 8, 215, 60, 31, 67, 196, 27, 139, 770, 54…</code></pre>
+## $ cases  &lt;dbl&gt; 9155, 3633, 14514, 3465, 1925, 468, 12032, 4995, 1322, 3189, 20…
+## $ deaths &lt;dbl&gt; 218, 69, 439, 70, 24, 8, 215, 60, 31, 67, 198, 28, 139, 773, 54…</code></pre>
 <div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="census-more.html#cb262-1" aria-hidden="true" tabindex="-1"></a>tx_pop <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 254
 ## Columns: 5
@@ -895,16 +895,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## # A tibble: 254 × 9
 ##    geoid name   variable value                  geometry date       county cases
 ##    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;        &lt;MULTIPOLYGON [°]&gt; &lt;date&gt;     &lt;chr&gt;  &lt;dbl&gt;
-##  1 48001 Ander… P1_001N  57922 (((-96.0648 31.98066, -9… 2022-01-25 Ander…  9134
-##  2 48003 Andre… P1_001N  18610 (((-103.0647 32.52219, -… 2022-01-25 Andre…  3601
-##  3 48005 Angel… P1_001N  86395 (((-95.00488 31.42396, -… 2022-01-25 Angel… 14477
-##  4 48007 Arans… P1_001N  23830 (((-96.8229 28.16743, -9… 2022-01-25 Arans…  3440
-##  5 48009 Arche… P1_001N   8560 (((-98.95382 33.49637, -… 2022-01-25 Archer  1909
-##  6 48011 Armst… P1_001N   1848 (((-101.6294 34.75006, -… 2022-01-25 Armst…   466
-##  7 48013 Atasc… P1_001N  48981 (((-98.80488 29.10702, -… 2022-01-25 Atasc… 11955
-##  8 48015 Austi… P1_001N  30167 (((-96.62085 30.0452, -9… 2022-01-25 Austin  4980
-##  9 48017 Baile… P1_001N   6904 (((-103.0469 33.8503, -1… 2022-01-25 Bailey  1305
-## 10 48019 Bande… P1_001N  20851 (((-99.60332 29.74026, -… 2022-01-25 Bande…  3178
+##  1 48001 Ander… P1_001N  57922 (((-96.0648 31.98066, -9… 2022-01-26 Ander…  9155
+##  2 48003 Andre… P1_001N  18610 (((-103.0647 32.52219, -… 2022-01-26 Andre…  3633
+##  3 48005 Angel… P1_001N  86395 (((-95.00488 31.42396, -… 2022-01-26 Angel… 14514
+##  4 48007 Arans… P1_001N  23830 (((-96.8229 28.16743, -9… 2022-01-26 Arans…  3465
+##  5 48009 Arche… P1_001N   8560 (((-98.95382 33.49637, -… 2022-01-26 Archer  1925
+##  6 48011 Armst… P1_001N   1848 (((-101.6294 34.75006, -… 2022-01-26 Armst…   468
+##  7 48013 Atasc… P1_001N  48981 (((-98.80488 29.10702, -… 2022-01-26 Atasc… 12032
+##  8 48015 Austi… P1_001N  30167 (((-96.62085 30.0452, -9… 2022-01-26 Austin  4995
+##  9 48017 Baile… P1_001N   6904 (((-103.0469 33.8503, -1… 2022-01-26 Bailey  1322
+## 10 48019 Bande… P1_001N  20851 (((-99.60332 29.74026, -… 2022-01-26 Bande…  3189
 ## # … with 244 more rows, and 1 more variable: deaths &lt;dbl&gt;</code></pre>
 <p>So, to break this down:</p>
 <ul>
@@ -922,10 +922,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## $ variable &lt;chr&gt; &quot;P1_001N&quot;, &quot;P1_001N&quot;, &quot;P1_001N&quot;, &quot;P1_001N&quot;, &quot;P1_001N&quot;, &quot;P1_00…
 ## $ value    &lt;dbl&gt; 57922, 18610, 86395, 23830, 8560, 1848, 48981, 30167, 6904, 2…
 ## $ geometry &lt;MULTIPOLYGON [°]&gt; MULTIPOLYGON (((-96.0648 31..., MULTIPOLYGON (((…
-## $ date     &lt;date&gt; 2022-01-25, 2022-01-25, 2022-01-25, 2022-01-25, 2022-01-25, …
+## $ date     &lt;date&gt; 2022-01-26, 2022-01-26, 2022-01-26, 2022-01-26, 2022-01-26, …
 ## $ county   &lt;chr&gt; &quot;Anderson&quot;, &quot;Andrews&quot;, &quot;Angelina&quot;, &quot;Aransas&quot;, &quot;Archer&quot;, &quot;Arms…
-## $ cases    &lt;dbl&gt; 9134, 3601, 14477, 3440, 1909, 466, 11955, 4980, 1305, 3178, …
-## $ deaths   &lt;dbl&gt; 217, 68, 437, 69, 24, 8, 215, 60, 31, 67, 196, 27, 139, 770, …</code></pre>
+## $ cases    &lt;dbl&gt; 9155, 3633, 14514, 3465, 1925, 468, 12032, 4995, 1322, 3189, …
+## $ deaths   &lt;dbl&gt; 218, 69, 439, 70, 24, 8, 215, 60, 31, 67, 198, 28, 139, 773, …</code></pre>
 <p>Now that we have our <code>cases</code>, <code>deaths</code> and <code>value</code> (or population) columns in the same table so we can do some math to create case and death rates.</p>
 </div>
 <div id="clean-up-column-names-etc." class="section level3" number="12.6.2">
@@ -948,10 +948,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## $ geoid     &lt;chr&gt; &quot;48001&quot;, &quot;48003&quot;, &quot;48005&quot;, &quot;48007&quot;, &quot;48009&quot;, &quot;48011&quot;, &quot;48013…
 ## $ total_pop &lt;dbl&gt; 57922, 18610, 86395, 23830, 8560, 1848, 48981, 30167, 6904, …
 ## $ geometry  &lt;MULTIPOLYGON [°]&gt; MULTIPOLYGON (((-96.0648 31..., MULTIPOLYGON ((…
-## $ date      &lt;date&gt; 2022-01-25, 2022-01-25, 2022-01-25, 2022-01-25, 2022-01-25,…
+## $ date      &lt;date&gt; 2022-01-26, 2022-01-26, 2022-01-26, 2022-01-26, 2022-01-26,…
 ## $ county    &lt;chr&gt; &quot;Anderson&quot;, &quot;Andrews&quot;, &quot;Angelina&quot;, &quot;Aransas&quot;, &quot;Archer&quot;, &quot;Arm…
-## $ cases     &lt;dbl&gt; 9134, 3601, 14477, 3440, 1909, 466, 11955, 4980, 1305, 3178,…
-## $ deaths    &lt;dbl&gt; 217, 68, 437, 69, 24, 8, 215, 60, 31, 67, 196, 27, 139, 770,…</code></pre>
+## $ cases     &lt;dbl&gt; 9155, 3633, 14514, 3465, 1925, 468, 12032, 4995, 1322, 3189,…
+## $ deaths    &lt;dbl&gt; 218, 69, 439, 70, 24, 8, 215, 60, 31, 67, 198, 28, 139, 773,…</code></pre>
 </div>
 </div>
 <div id="create-our-rate-columns" class="section level2" number="12.7">
