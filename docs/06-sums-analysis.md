@@ -61,15 +61,15 @@ tx %>% glimpse()
 ```
 ## Rows: 7,411
 ## Columns: 9
-## $ state             <chr> "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX"…
-## $ agency_name       <chr> "ABERNATHY POLICE DEPT", "ABERNATHY POLICE DEPT", "A…
-## $ item_name         <chr> "PISTOL,CALIBER .45,AUTOMATIC", "PISTOL,CALIBER .45,…
-## $ quantity          <dbl> 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
-## $ ui                <chr> "Each", "Each", "Each", "Each", "Each", "Each", "Eac…
-## $ acquisition_value <dbl> 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 333.00…
-## $ ship_date         <dttm> 2011-11-03, 2011-11-03, 2011-11-03, 2011-11-03, 201…
-## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
-## $ total_value       <dbl> 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 1665.0…
+## $ state             <chr> "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX"~
+## $ agency_name       <chr> "ABERNATHY POLICE DEPT", "ABERNATHY POLICE DEPT", "A~
+## $ item_name         <chr> "PISTOL,CALIBER .45,AUTOMATIC", "PISTOL,CALIBER .45,~
+## $ quantity          <dbl> 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+## $ ui                <chr> "Each", "Each", "Each", "Each", "Each", "Each", "Eac~
+## $ acquisition_value <dbl> 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 333.00~
+## $ ship_date         <dttm> 2011-11-03, 2011-11-03, 2011-11-03, 2011-11-03, 201~
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
+## $ total_value       <dbl> 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 1665.0~
 ```
 
 </details>
@@ -119,7 +119,7 @@ tx %>%
 ```
 
 ```
-## # A tibble: 356 × 2
+## # A tibble: 356 x 2
 ##    agency_name                     sum_quantity
 ##    <chr>                                  <dbl>
 ##  1 ABERNATHY POLICE DEPT                     13
@@ -132,7 +132,7 @@ tx %>%
 ##  8 ANTHONY POLICE DEPT                       10
 ##  9 ARANSAS PASS POLICE DEPARTMENT            27
 ## 10 ARCHER COUNTY SHERIFF OFFICE               3
-## # … with 346 more rows
+## # ... with 346 more rows
 ```
 
 Let's break this down a little.
@@ -154,19 +154,19 @@ tx %>%
 ```
 
 ```
-## # A tibble: 9 × 9
-##   state agency_name           item_name          quantity ui    acquisition_val…
+## # A tibble: 9 x 9
+##   state agency_name           item_name          quantity ui    acquisition_val~
 ##   <chr> <chr>                 <chr>                 <dbl> <chr>            <dbl>
-## 1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
-## 2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
-## 3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
-## 4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
-## 5 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIM…        1 Each             749  
+## 1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4~        1 Each              58.7
+## 2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4~        1 Each              58.7
+## 3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4~        1 Each              58.7
+## 4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4~        1 Each              58.7
+## 5 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIM~        1 Each             749  
 ## 6 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY             1 Each           62627  
 ## 7 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX              5 Each             333  
-## 8 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIM…        1 Each             749  
-## 9 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
-## # … with 3 more variables: ship_date <dttm>, station_type <chr>,
+## 8 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIM~        1 Each             749  
+## 9 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4~        1 Each              58.7
+## # ... with 3 more variables: ship_date <dttm>, station_type <chr>,
 ## #   total_value <dbl>
 ```
 
@@ -192,7 +192,7 @@ tx %>%
 ```
 
 ```
-## # A tibble: 356 × 3
+## # A tibble: 356 x 3
 ##    agency_name                     sum_quantity sum_total_value
 ##    <chr>                                  <dbl>           <dbl>
 ##  1 ABERNATHY POLICE DEPT                     13          66084.
@@ -205,7 +205,7 @@ tx %>%
 ##  8 ANTHONY POLICE DEPT                       10           7490 
 ##  9 ARANSAS PASS POLICE DEPARTMENT            27         503658 
 ## 10 ARCHER COUNTY SHERIFF OFFICE               3        1101000 
-## # … with 346 more rows
+## # ... with 346 more rows
 ```
 
 ### Arrange the results
@@ -226,7 +226,7 @@ tx %>%
 ```
 
 ```
-## # A tibble: 356 × 3
+## # A tibble: 356 x 3
 ##    agency_name                      sum_quantity sum_total_value
 ##    <chr>                                   <dbl>           <dbl>
 ##  1 HOUSTON POLICE DEPT                      5467        9140513.
@@ -239,7 +239,7 @@ tx %>%
 ##  8 ALVIN POLICE DEPT                         508        2504765.
 ##  9 MILAM COUNTY SHERIFF DEPT                  99        2469525.
 ## 10 HARRIS COUNTY CONSTABLE PCT 3             292        2376779.
-## # … with 346 more rows
+## # ... with 346 more rows
 ```
 
 ### Consider the results
@@ -278,7 +278,7 @@ tx_quants_totals
 ```
 
 ```
-## # A tibble: 356 × 3
+## # A tibble: 356 x 3
 ##    agency_name                      sum_quantity sum_total_value
 ##    <chr>                                   <dbl>           <dbl>
 ##  1 HOUSTON POLICE DEPT                      5467        9140513.
@@ -291,7 +291,7 @@ tx_quants_totals
 ##  8 ALVIN POLICE DEPT                         508        2504765.
 ##  9 MILAM COUNTY SHERIFF DEPT                  99        2469525.
 ## 10 HARRIS COUNTY CONSTABLE PCT 3             292        2376779.
-## # … with 346 more rows
+## # ... with 346 more rows
 ```
 
 The result is the same, but we can reuse the `tx_quants_totals` tibble.
@@ -364,7 +364,7 @@ tx_quants_totals %>%
 ```
 
 ```
-## # A tibble: 5 × 3
+## # A tibble: 5 x 3
 ##   agency_name                        sum_quantity sum_total_value
 ##   <chr>                                     <dbl>           <dbl>
 ## 1 SAN MARCOS POLICE DEPT                     1050        3090552.
@@ -403,20 +403,20 @@ tx %>%
 ```
 
 ```
-## # A tibble: 41 × 3
-##    item_name                                   summed_quantity summed_total_val…
-##    <chr>                                                 <dbl>             <dbl>
-##  1 HELICOPTER,FLIGHT TRAINER                                 1           833400 
-##  2 IMAGE INTENSIFIER,NIGHT VISION                           85           467847.
-##  3 SIGHT,THERMAL                                            29           442310 
-##  4 PACKBOT 510 WITH FASTAC REMOTELY CONTROLLE…               4           308000 
-##  5 SIGHT,REFLEX                                            420           144245.
-##  6 ILLUMINATOR,INTEGRATED,SMALL ARMS                       135           122302 
-##  7 RECON SCOUT XT                                            8            92451.
-##  8 RECON SCOUT XT,SPEC                                       6            81900 
-##  9 TEST SET,NIGHT VISION VIEWER                              2            55610 
-## 10 PICKUP                                                    2            38075 
-## # … with 31 more rows
+## # A tibble: 41 x 3
+##    item_name                                    summed_quantity summed_total_va~
+##    <chr>                                                  <dbl>            <dbl>
+##  1 HELICOPTER,FLIGHT TRAINER                                  1          833400 
+##  2 IMAGE INTENSIFIER,NIGHT VISION                            85          467847.
+##  3 SIGHT,THERMAL                                             29          442310 
+##  4 PACKBOT 510 WITH FASTAC REMOTELY CONTROLLED~               4          308000 
+##  5 SIGHT,REFLEX                                             420          144245.
+##  6 ILLUMINATOR,INTEGRATED,SMALL ARMS                        135          122302 
+##  7 RECON SCOUT XT                                             8           92451.
+##  8 RECON SCOUT XT,SPEC                                        6           81900 
+##  9 TEST SET,NIGHT VISION VIEWER                               2           55610 
+## 10 PICKUP                                                     2           38075 
+## # ... with 31 more rows
 ```
 
 **Please realize** that this combines items that may have been shipped on any date our time period. If you want to learn more about _when_ they got the items, you would have to build a new list of the data without grouping/summarizing.

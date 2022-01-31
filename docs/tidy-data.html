@@ -24,7 +24,7 @@
 <meta name="author" content="Christian McDonald and Jo Lukito" />
 
 
-<meta name="date" content="2022-01-26" />
+<meta name="date" content="2022-01-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -716,24 +716,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="tidy-data.html#cb177-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://docs.google.com/spreadsheets/d/e/2PACX-1vTxm9NxK67thlGjYOQBo_0JRvx2d137xt0nZGffqR6P1vl8QrlTUduiOsDJ2FKF6yLgQAQphVZve76z/pub?output=csv&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>()</span></code></pre></div>
 <pre><code>## Rows: 124 Columns: 7</code></pre>
-<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+<pre><code>## -- Column specification --------------------------------------------------------
 ## Delimiter: &quot;,&quot;
 ## chr (2): Timestamp, Name
 ## dbl (5): Red, Green, Orange, Yellow, Purple</code></pre>
 <pre><code>## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="tidy-data.html#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
 <span id="cb181-2"><a href="tidy-data.html#cb181-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 124
 ## Columns: 7
-## $ timestamp &lt;chr&gt; &quot;7/27/2020 18:21:19&quot;, &quot;8/1/2020 16:04:56&quot;, &quot;7/30/2020 14:56:…
-## $ name      &lt;chr&gt; &quot;Alora Jones&quot;, &quot;Alyssa Hiarker&quot;, &quot;Annie Patton&quot;, &quot;Christian …
-## $ red       &lt;dbl&gt; 12, 13, 12, 9, 7, 10, 12, 11, 7, 18, 13, 11, 10, 14, 8, 8, 1…
-## $ green     &lt;dbl&gt; 11, 15, 12, 10, 12, 14, 15, 5, 10, 9, 11, 13, 7, 12, 15, 10,…
-## $ orange    &lt;dbl&gt; 12, 10, 8, 17, 13, 9, 12, 17, 10, 13, 11, 7, 12, 10, 20, 13,…
-## $ yellow    &lt;dbl&gt; 9, 9, 10, 6, 11, 11, 10, 14, 21, 7, 11, 7, 15, 9, 4, 14, 10,…
-## $ purple    &lt;dbl&gt; 15, 15, 18, 18, 17, 16, 12, 13, 14, 13, 12, 21, 16, 14, 10, …</code></pre>
+## $ timestamp &lt;chr&gt; &quot;7/27/2020 18:21:19&quot;, &quot;8/1/2020 16:04:56&quot;, &quot;7/30/2020 14:56:~
+## $ name      &lt;chr&gt; &quot;Alora Jones&quot;, &quot;Alyssa Hiarker&quot;, &quot;Annie Patton&quot;, &quot;Christian ~
+## $ red       &lt;dbl&gt; 12, 13, 12, 9, 7, 10, 12, 11, 7, 18, 13, 11, 10, 14, 8, 8, 1~
+## $ green     &lt;dbl&gt; 11, 15, 12, 10, 12, 14, 15, 5, 10, 9, 11, 13, 7, 12, 15, 10,~
+## $ orange    &lt;dbl&gt; 12, 10, 8, 17, 13, 9, 12, 17, 10, 13, 11, 7, 12, 10, 20, 13,~
+## $ yellow    &lt;dbl&gt; 9, 9, 10, 6, 11, 11, 10, 14, 21, 7, 11, 7, 15, 9, 4, 14, 10,~
+## $ purple    &lt;dbl&gt; 15, 15, 18, 18, 17, 16, 12, 13, 14, 13, 12, 21, 16, 14, 10, ~</code></pre>
 <p>We cleaned the name on import. The <code>timestamp</code> is not a real date, so we need to fix that.</p>
 </div>
 <div id="fix-the-date" class="section level3" number="9.6.2">
@@ -752,13 +752,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb183-7"><a href="tidy-data.html#cb183-7" aria-hidden="true" tabindex="-1"></a>skittles <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 124
 ## Columns: 7
-## $ name         &lt;chr&gt; &quot;Alora Jones&quot;, &quot;Alyssa Hiarker&quot;, &quot;Annie Patton&quot;, &quot;Christi…
-## $ red          &lt;dbl&gt; 12, 13, 12, 9, 7, 10, 12, 11, 7, 18, 13, 11, 10, 14, 8, 8…
-## $ green        &lt;dbl&gt; 11, 15, 12, 10, 12, 14, 15, 5, 10, 9, 11, 13, 7, 12, 15, …
-## $ orange       &lt;dbl&gt; 12, 10, 8, 17, 13, 9, 12, 17, 10, 13, 11, 7, 12, 10, 20, …
-## $ yellow       &lt;dbl&gt; 9, 9, 10, 6, 11, 11, 10, 14, 21, 7, 11, 7, 15, 9, 4, 14, …
-## $ purple       &lt;dbl&gt; 15, 15, 18, 18, 17, 16, 12, 13, 14, 13, 12, 21, 16, 14, 1…
-## $ date_entered &lt;date&gt; 2020-07-27, 2020-08-01, 2020-07-30, 2020-06-23, 2020-07-…</code></pre>
+## $ name         &lt;chr&gt; &quot;Alora Jones&quot;, &quot;Alyssa Hiarker&quot;, &quot;Annie Patton&quot;, &quot;Christi~
+## $ red          &lt;dbl&gt; 12, 13, 12, 9, 7, 10, 12, 11, 7, 18, 13, 11, 10, 14, 8, 8~
+## $ green        &lt;dbl&gt; 11, 15, 12, 10, 12, 14, 15, 5, 10, 9, 11, 13, 7, 12, 15, ~
+## $ orange       &lt;dbl&gt; 12, 10, 8, 17, 13, 9, 12, 17, 10, 13, 11, 7, 12, 10, 20, ~
+## $ yellow       &lt;dbl&gt; 9, 9, 10, 6, 11, 11, 10, 14, 21, 7, 11, 7, 15, 9, 4, 14, ~
+## $ purple       &lt;dbl&gt; 15, 15, 18, 18, 17, 16, 12, 13, 14, 13, 12, 21, 16, 14, 1~
+## $ date_entered &lt;date&gt; 2020-07-27, 2020-08-01, 2020-07-30, 2020-06-23, 2020-07-~</code></pre>
 <p>Let’s talk just a minute about what we’ve done here:</p>
 <ul>
 <li>We name our new tibble.</li>
@@ -771,7 +771,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">9.6.3</span> Peek at the wide table</h3>
 <p>Let’s look closer at this:</p>
 <div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="tidy-data.html#cb185-1" aria-hidden="true" tabindex="-1"></a>skittles <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 7
+<pre><code>## # A tibble: 6 x 7
 ##   name                 red green orange yellow purple date_entered
 ##   &lt;chr&gt;              &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;date&gt;      
 ## 1 Alora Jones           12    11     12      9     15 2020-07-27  
@@ -806,7 +806,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb187-6"><a href="tidy-data.html#cb187-6" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb187-7"><a href="tidy-data.html#cb187-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb187-8"><a href="tidy-data.html#cb187-8" aria-hidden="true" tabindex="-1"></a>skittles_long <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 4
+<pre><code>## # A tibble: 6 x 4
 ##   name           date_entered color  candies
 ##   &lt;chr&gt;          &lt;date&gt;       &lt;chr&gt;    &lt;dbl&gt;
 ## 1 Alora Jones    2020-07-27   red         12
@@ -829,7 +829,7 @@ Try it on your own
 <span id="cb189-3"><a href="tidy-data.html#cb189-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candies))</span>
 <span id="cb189-4"><a href="tidy-data.html#cb189-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb189-5"><a href="tidy-data.html#cb189-5" aria-hidden="true" tabindex="-1"></a>skittles_avg</span></code></pre></div>
-<pre><code>## # A tibble: 5 × 2
+<pre><code>## # A tibble: 5 x 2
 ##   color  avg_candies
 ##   &lt;chr&gt;        &lt;dbl&gt;
 ## 1 green         11.2
@@ -854,7 +854,7 @@ Try it on your own
 <span id="cb191-6"><a href="tidy-data.html#cb191-6" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb191-7"><a href="tidy-data.html#cb191-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb191-8"><a href="tidy-data.html#cb191-8" aria-hidden="true" tabindex="-1"></a>skittles_avg</span></code></pre></div>
-<pre><code>## # A tibble: 5 × 2
+<pre><code>## # A tibble: 5 x 2
 ##   color  avg_candies
 ##   &lt;chr&gt;        &lt;dbl&gt;
 ## 1 green         11.2

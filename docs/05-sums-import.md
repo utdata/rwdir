@@ -49,11 +49,11 @@ Here is a glimpse of our main columns of interest, except for the date:
 ```
 ## Rows: 10
 ## Columns: 5
-## $ state             <chr> "KY", "SC", "CA", "TX", "OH", "NC", "CA", "MI", "AZ"…
-## $ agency_name       <chr> "MEADE COUNTY SHERIFF DEPT", "PROSPERITY POLICE DEPT…
-## $ item_name         <chr> "GENERATOR SET,DIESEL ENGINE", "RIFLE,7.62 MILLIMETE…
+## $ state             <chr> "KY", "SC", "CA", "TX", "OH", "NC", "CA", "MI", "AZ"~
+## $ agency_name       <chr> "MEADE COUNTY SHERIFF DEPT", "PROSPERITY POLICE DEPT~
+## $ item_name         <chr> "GENERATOR SET,DIESEL ENGINE", "RIFLE,7.62 MILLIMETE~
 ## $ quantity          <dbl> 5, 1, 32, 1, 1, 1, 1, 1, 1, 1
-## $ acquisition_value <dbl> 4623.09, 138.00, 16.91, 749.00, 749.00, 138.00, 499.…
+## $ acquisition_value <dbl> 4623.09, 138.00, 16.91, 749.00, 749.00, 138.00, 499.~
 ```
 
 Each row of data is a transfer of a particular type of item from the U.S. Department of Defense to a local law enforcement agency. The row includes the name of the item, the quantity, and the value ($) of a single unit.
@@ -184,7 +184,7 @@ leso <- read_csv("data-raw/leso.csv")
 ```
 
 ```
-## ── Column specification ────────────────────────────────────────────────────────
+## -- Column specification --------------------------------------------------------
 ## Delimiter: ","
 ## chr  (7): state, agency_name, nsn, item_name, ui, demil_code, station_type
 ## dbl  (4): sheet, quantity, acquisition_value, demil_ic
@@ -193,8 +193,8 @@ leso <- read_csv("data-raw/leso.csv")
 
 ```
 ## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 ```r
@@ -203,20 +203,20 @@ leso
 ```
 
 ```
-## # A tibble: 124,848 × 12
-##    sheet state agency_name   nsn    item_name    quantity ui    acquisition_val…
-##    <dbl> <chr> <chr>         <chr>  <chr>           <dbl> <chr>            <dbl>
-##  1     1 AL    ABBEVILLE PO… 2540-… BALLISTIC B…       10 Kit             15872.
-##  2     1 AL    ABBEVILLE PO… 1240-… OPTICAL SIG…        1 Each              246.
-##  3     1 AL    ABBEVILLE PO… 1005-… MOUNT,RIFLE        10 Each             1626 
-##  4     1 AL    ABBEVILLE PO… 1240-… SIGHT,REFLEX        9 Each              333 
-##  5     1 AL    ABBEVILLE PO… 5855-… ILLUMINATOR…       10 Each              926 
-##  6     1 AL    ABBEVILLE PO… 2355-… MINE RESIST…        1 Each           658000 
-##  7     1 AL    ABBEVILLE PO… 2320-… TRUCK,UTILI…        1 Each            62627 
-##  8     1 AL    ABBEVILLE PO… 1385-… UNMANNED VE…        1 Each            10000 
-##  9     1 AL    ABBEVILLE PO… 6760-… CAMERA ROBOT        1 Each             1500 
-## 10     1 AL    ABBEVILLE PO… 2320-… TRUCK,UTILI…        1 Each            62627 
-## # … with 124,838 more rows, and 4 more variables: demil_code <chr>,
+## # A tibble: 124,848 x 12
+##    sheet state agency_name       nsn   item_name quantity ui    acquisition_val~
+##    <dbl> <chr> <chr>             <chr> <chr>        <dbl> <chr>            <dbl>
+##  1     1 AL    ABBEVILLE POLICE~ 2540~ BALLISTI~       10 Kit             15872.
+##  2     1 AL    ABBEVILLE POLICE~ 1240~ OPTICAL ~        1 Each              246.
+##  3     1 AL    ABBEVILLE POLICE~ 1005~ MOUNT,RI~       10 Each             1626 
+##  4     1 AL    ABBEVILLE POLICE~ 1240~ SIGHT,RE~        9 Each              333 
+##  5     1 AL    ABBEVILLE POLICE~ 5855~ ILLUMINA~       10 Each              926 
+##  6     1 AL    ABBEVILLE POLICE~ 2355~ MINE RES~        1 Each           658000 
+##  7     1 AL    ABBEVILLE POLICE~ 2320~ TRUCK,UT~        1 Each            62627 
+##  8     1 AL    ABBEVILLE POLICE~ 1385~ UNMANNED~        1 Each            10000 
+##  9     1 AL    ABBEVILLE POLICE~ 6760~ CAMERA R~        1 Each             1500 
+## 10     1 AL    ABBEVILLE POLICE~ 2320~ TRUCK,UT~        1 Each            62627 
+## # ... with 124,838 more rows, and 4 more variables: demil_code <chr>,
 ## #   demil_ic <dbl>, ship_date <dttm>, station_type <chr>
 ```
 
@@ -234,18 +234,18 @@ leso %>% glimpse()
 ```
 ## Rows: 124,848
 ## Columns: 12
-## $ sheet             <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
-## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
-## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
-## $ nsn               <chr> "2540-01-565-4700", "1240-DS-OPT-SIGH", "1005-01-587…
-## $ item_name         <chr> "BALLISTIC BLANKET KIT", "OPTICAL SIGHTING AND RANGI…
-## $ quantity          <dbl> 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, …
-## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each…
-## $ acquisition_value <dbl> 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00…
-## $ demil_code        <chr> "D", "D", "D", "D", "D", "C", "C", "Q", "D", "C", "C…
-## $ demil_ic          <dbl> 1, NA, 1, 1, 1, 1, 1, 3, 7, 1, 1, NA, 1, 1, 1, 1, 1,…
-## $ ship_date         <dttm> 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201…
-## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
+## $ sheet             <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"~
+## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A~
+## $ nsn               <chr> "2540-01-565-4700", "1240-DS-OPT-SIGH", "1005-01-587~
+## $ item_name         <chr> "BALLISTIC BLANKET KIT", "OPTICAL SIGHTING AND RANGI~
+## $ quantity          <dbl> 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, ~
+## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each~
+## $ acquisition_value <dbl> 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00~
+## $ demil_code        <chr> "D", "D", "D", "D", "D", "C", "C", "Q", "D", "C", "C~
+## $ demil_ic          <dbl> 1, NA, 1, 1, 1, 1, 1, 3, 7, 1, 1, NA, 1, 1, 1, 1, 1,~
+## $ ship_date         <dttm> 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201~
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
 ```
 
 #### Checking datatypes
@@ -280,14 +280,14 @@ leso_tight %>% glimpse()
 ```
 ## Rows: 124,848
 ## Columns: 8
-## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
-## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
-## $ item_name         <chr> "BALLISTIC BLANKET KIT", "OPTICAL SIGHTING AND RANGI…
-## $ quantity          <dbl> 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, …
-## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each…
-## $ acquisition_value <dbl> 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00…
-## $ ship_date         <dttm> 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201…
-## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
+## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"~
+## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A~
+## $ item_name         <chr> "BALLISTIC BLANKET KIT", "OPTICAL SIGHTING AND RANGI~
+## $ quantity          <dbl> 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, ~
+## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each~
+## $ acquisition_value <dbl> 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00~
+## $ ship_date         <dttm> 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201~
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
 ```
 
 We did a select like this with billboard, but note the third item within the `select()`:
@@ -354,15 +354,15 @@ leso_total %>% glimpse()
 ```
 ## Rows: 124,848
 ## Columns: 9
-## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
-## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
-## $ item_name         <chr> "BALLISTIC BLANKET KIT", "OPTICAL SIGHTING AND RANGI…
-## $ quantity          <dbl> 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, …
-## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each…
-## $ acquisition_value <dbl> 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00…
-## $ ship_date         <dttm> 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201…
-## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
-## $ total_value       <dbl> 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 65800…
+## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"~
+## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A~
+## $ item_name         <chr> "BALLISTIC BLANKET KIT", "OPTICAL SIGHTING AND RANGI~
+## $ quantity          <dbl> 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, ~
+## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each~
+## $ acquisition_value <dbl> 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00~
+## $ ship_date         <dttm> 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201~
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
+## $ total_value       <dbl> 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 65800~
 ```
 
 </details>
@@ -394,20 +394,20 @@ leso_total %>%
 ```
 
 ```
-## # A tibble: 8,663 × 9
-##    state agency_name           item_name         quantity ui    acquisition_val…
+## # A tibble: 8,663 x 9
+##    state agency_name           item_name         quantity ui    acquisition_val~
 ##    <chr> <chr>                 <chr>                <dbl> <chr>            <dbl>
-##  1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  5 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
+##  1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
+##  2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
+##  3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
+##  4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
+##  5 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI~        1 Each             749  
 ##  6 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY            1 Each           62627  
 ##  7 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX             5 Each             333  
-##  8 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
-##  9 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-## 10 TX    ABILENE POLICE DEPT   RIFLE,5.56 MILLI…        1 Each             499  
-## # … with 8,653 more rows, and 3 more variables: ship_date <dttm>,
+##  8 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI~        1 Each             749  
+##  9 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
+## 10 TX    ABILENE POLICE DEPT   RIFLE,5.56 MILLI~        1 Each             499  
+## # ... with 8,653 more rows, and 3 more variables: ship_date <dttm>,
 ## #   station_type <chr>, total_value <dbl>
 ```
 
@@ -432,20 +432,20 @@ leso_total %>%
 ```
 
 ```
-## # A tibble: 7,411 × 9
-##    state agency_name           item_name         quantity ui    acquisition_val…
+## # A tibble: 7,411 x 9
+##    state agency_name           item_name         quantity ui    acquisition_val~
 ##    <chr> <chr>                 <chr>                <dbl> <chr>            <dbl>
-##  1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  5 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
+##  1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
+##  2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
+##  3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
+##  4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
+##  5 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI~        1 Each             749  
 ##  6 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY            1 Each           62627  
 ##  7 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX             5 Each             333  
-##  8 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
-##  9 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
+##  8 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI~        1 Each             749  
+##  9 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
 ## 10 TX    ALLEN POLICE DEPT     SIGHT,REFLEX             1 Each             333  
-## # … with 7,401 more rows, and 3 more variables: ship_date <dttm>,
+## # ... with 7,401 more rows, and 3 more variables: ship_date <dttm>,
 ## #   station_type <chr>, total_value <dbl>
 ```
 
@@ -488,15 +488,15 @@ leso_filtered %>% glimpse()
 ```
 ## Rows: 7,411
 ## Columns: 9
-## $ state             <chr> "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX"…
-## $ agency_name       <chr> "ABERNATHY POLICE DEPT", "ABERNATHY POLICE DEPT", "A…
-## $ item_name         <chr> "PISTOL,CALIBER .45,AUTOMATIC", "PISTOL,CALIBER .45,…
-## $ quantity          <dbl> 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
-## $ ui                <chr> "Each", "Each", "Each", "Each", "Each", "Each", "Eac…
-## $ acquisition_value <dbl> 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 333.00…
-## $ ship_date         <dttm> 2011-11-03, 2011-11-03, 2011-11-03, 2011-11-03, 201…
-## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
-## $ total_value       <dbl> 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 1665.0…
+## $ state             <chr> "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX"~
+## $ agency_name       <chr> "ABERNATHY POLICE DEPT", "ABERNATHY POLICE DEPT", "A~
+## $ item_name         <chr> "PISTOL,CALIBER .45,AUTOMATIC", "PISTOL,CALIBER .45,~
+## $ quantity          <dbl> 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+## $ ui                <chr> "Each", "Each", "Each", "Each", "Each", "Each", "Eac~
+## $ acquisition_value <dbl> 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 333.00~
+## $ ship_date         <dttm> 2011-11-03, 2011-11-03, 2011-11-03, 2011-11-03, 201~
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
+## $ total_value       <dbl> 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 1665.0~
 ```
 
 </details>

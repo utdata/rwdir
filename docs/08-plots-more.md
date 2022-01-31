@@ -53,7 +53,7 @@ kids_data
 ```
 
 ```
-## # A tibble: 23,460 × 6
+## # A tibble: 23,460 x 6
 ##    state                variable  year      raw   inf_adj inf_adj_perchild
 ##    <chr>                <chr>    <dbl>    <dbl>     <dbl>            <dbl>
 ##  1 Alabama              PK12ed    1997  3271969  4665308.             3.93
@@ -66,7 +66,7 @@ kids_data
 ##  8 Delaware             PK12ed    1997   776825  1107629.             5.63
 ##  9 District of Columbia PK12ed    1997   544051   775730.             6.11
 ## 10 Florida              PK12ed    1997 11498394 16394885              4.45
-## # … with 23,450 more rows
+## # ... with 23,450 more rows
 ```
 
 ```r
@@ -77,12 +77,12 @@ kids_data %>% glimpse()
 ```
 ## Rows: 23,460
 ## Columns: 6
-## $ state            <chr> "Alabama", "Alaska", "Arizona", "Arkansas", "Californ…
-## $ variable         <chr> "PK12ed", "PK12ed", "PK12ed", "PK12ed", "PK12ed", "PK…
-## $ year             <dbl> 1997, 1997, 1997, 1997, 1997, 1997, 1997, 1997, 1997,…
-## $ raw              <dbl> 3271969, 1042311, 3388165, 1960613, 28708364, 3332994…
-## $ inf_adj          <dbl> 4665308.5, 1486170.0, 4830985.5, 2795523.0, 40933568.…
-## $ inf_adj_perchild <dbl> 3.929449, 7.548493, 3.706679, 3.891275, 4.282325, 4.3…
+## $ state            <chr> "Alabama", "Alaska", "Arizona", "Arkansas", "Californ~
+## $ variable         <chr> "PK12ed", "PK12ed", "PK12ed", "PK12ed", "PK12ed", "PK~
+## $ year             <dbl> 1997, 1997, 1997, 1997, 1997, 1997, 1997, 1997, 1997,~
+## $ raw              <dbl> 3271969, 1042311, 3388165, 1960613, 28708364, 3332994~
+## $ inf_adj          <dbl> 4665308.5, 1486170.0, 4830985.5, 2795523.0, 40933568.~
+## $ inf_adj_perchild <dbl> 3.929449, 7.548493, 3.706679, 3.891275, 4.282325, 4.3~
 ```
 
 If you want to learn more about this dataset you can find [information here](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-09-15/readme.md). In short: "This dataset provides a comprehensive accounting of public spending on children from 1997 through 2016." Included is spending for higher education (the `highered` values in the column `variable`.)
@@ -114,7 +114,7 @@ tx_hied
 ```
 
 ```
-## # A tibble: 20 × 6
+## # A tibble: 20 x 6
 ##    state variable  year       raw   inf_adj inf_adj_perchild
 ##    <chr> <chr>    <dbl>     <dbl>     <dbl>            <dbl>
 ##  1 Texas highered  1997  3940232   5618146.            0.944
@@ -280,7 +280,7 @@ five_hied
 ```
 
 ```
-## # A tibble: 100 × 6
+## # A tibble: 100 x 6
 ##    state      variable  year     raw  inf_adj inf_adj_perchild
 ##    <chr>      <chr>    <dbl>   <dbl>    <dbl>            <dbl>
 ##  1 Arkansas   highered  1997  457171  651853.            0.907
@@ -293,7 +293,7 @@ five_hied
 ##  8 New Mexico highered  1998  667738  940492.            1.74 
 ##  9 Oklahoma   highered  1998  690234  972177.            1.02 
 ## 10 Texas      highered  1998 4185619 5895340.            0.970
-## # … with 90 more rows
+## # ... with 90 more rows
 ```
 
 Note we used our `%in%` filter to get any state listed in `c()`.
