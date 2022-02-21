@@ -24,7 +24,7 @@
 <meta name="author" content="Christian McDonald and Jo Lukito" />
 
 
-<meta name="date" content="2022-01-31" />
+<meta name="date" content="2022-02-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -336,7 +336,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.7" data-path="sums-analyze.html"><a href="sums-analyze.html#write-a-data-drop"><i class="fa fa-check"></i><b>6.7</b> Write a data drop</a></li>
 <li class="chapter" data-level="6.8" data-path="sums-analyze.html"><a href="sums-analyze.html#what-we-learned-in-this-chapter"><i class="fa fa-check"></i><b>6.8</b> What we learned in this chapter</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="ggplot-intro.html"><a href="ggplot-intro.html"><i class="fa fa-check"></i><b>7</b> Intro to ggplot</a>
+<li class="chapter" data-level="7" data-path="ggplot-intro.html"><a href="ggplot-intro.html"><i class="fa fa-check"></i><b>7</b> Data Viz - Intro to ggplot</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#goals-for-this-section"><i class="fa fa-check"></i><b>7.1</b> Goals for this section</a></li>
 <li class="chapter" data-level="7.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#introduction-to-ggplot"><i class="fa fa-check"></i><b>7.2</b> Introduction to ggplot</a>
@@ -357,9 +357,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.5.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#prepare-the-data"><i class="fa fa-check"></i><b>7.5.1</b> Prepare the data</a></li>
 <li class="chapter" data-level="7.5.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#build-our-plot-with-geom_col"><i class="fa fa-check"></i><b>7.5.2</b> Build our plot with geom_col</a></li>
 <li class="chapter" data-level="7.5.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-the-geom_col-layer"><i class="fa fa-check"></i><b>7.5.3</b> Add the geom_col layer</a></li>
-<li class="chapter" data-level="7.5.4" data-path="ggplot-intro.html"><a href="ggplot-intro.html#flip-the-axis"><i class="fa fa-check"></i><b>7.5.4</b> Flip the axis</a></li>
+<li class="chapter" data-level="7.5.4" data-path="ggplot-intro.html"><a href="ggplot-intro.html#flip-the-axes"><i class="fa fa-check"></i><b>7.5.4</b> Flip the axes</a></li>
 <li class="chapter" data-level="7.5.5" data-path="ggplot-intro.html"><a href="ggplot-intro.html#reorder-the-bars"><i class="fa fa-check"></i><b>7.5.5</b> Reorder the bars</a></li>
-<li class="chapter" data-level="7.5.6" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-some-titles-labels"><i class="fa fa-check"></i><b>7.5.6</b> Add some titles, labels</a></li>
+<li class="chapter" data-level="7.5.6" data-path="ggplot-intro.html"><a href="ggplot-intro.html#adding-a-geom_text-layer"><i class="fa fa-check"></i><b>7.5.6</b> Adding a geom_text layer</a></li>
+<li class="chapter" data-level="7.5.7" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-some-titles-and-more-labels"><i class="fa fa-check"></i><b>7.5.7</b> Add some titles and more labels</a></li>
 </ul></li>
 <li class="chapter" data-level="7.6" data-path="ggplot-intro.html"><a href="ggplot-intro.html#on-your-own-ice-cream"><i class="fa fa-check"></i><b>7.6</b> On your own: Ice cream!</a></li>
 <li class="chapter" data-level="7.7" data-path="ggplot-intro.html"><a href="ggplot-intro.html#what-weve-learned"><i class="fa fa-check"></i><b>7.7</b> What we’ve learned</a></li>
@@ -670,10 +671,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Note in text it is from #tidytuesday</li>
 <li>Add the code chunk below, which will download a saved copy of the data.</li>
 </ol>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="ggplot-more.html#cb150-1" aria-hidden="true" tabindex="-1"></a>kids_data <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;https://github.com/utdata/rwdir/blob/main/data-raw/kids-data.rds?raw=true&quot;</span>)</span>
-<span id="cb150-2"><a href="ggplot-more.html#cb150-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb150-3"><a href="ggplot-more.html#cb150-3" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the table</span></span>
-<span id="cb150-4"><a href="ggplot-more.html#cb150-4" aria-hidden="true" tabindex="-1"></a>kids_data</span></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="ggplot-more.html#cb156-1" aria-hidden="true" tabindex="-1"></a>kids_data <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;https://github.com/utdata/rwdir/blob/main/data-raw/kids-data.rds?raw=true&quot;</span>)</span>
+<span id="cb156-2"><a href="ggplot-more.html#cb156-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-3"><a href="ggplot-more.html#cb156-3" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the table</span></span>
+<span id="cb156-4"><a href="ggplot-more.html#cb156-4" aria-hidden="true" tabindex="-1"></a>kids_data</span></code></pre></div>
 <pre><code>## # A tibble: 23,460 x 6
 ##    state                variable  year      raw   inf_adj inf_adj_perchild
 ##    &lt;chr&gt;                &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;
@@ -688,8 +689,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9 District of Columbia PK12ed    1997   544051   775730.             6.11
 ## 10 Florida              PK12ed    1997 11498394 16394885              4.45
 ## # ... with 23,450 more rows</code></pre>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="ggplot-more.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="co"># glimpse it</span></span>
-<span id="cb152-2"><a href="ggplot-more.html#cb152-2" aria-hidden="true" tabindex="-1"></a>kids_data <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="ggplot-more.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="co"># glimpse it</span></span>
+<span id="cb158-2"><a href="ggplot-more.html#cb158-2" aria-hidden="true" tabindex="-1"></a>kids_data <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 23,460
 ## Columns: 6
 ## $ state            &lt;chr&gt; &quot;Alabama&quot;, &quot;Alaska&quot;, &quot;Arizona&quot;, &quot;Arkansas&quot;, &quot;Californ~
@@ -713,14 +714,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Note that we are preparing the data.</li>
 <li>Add the chunk below and run it.</li>
 </ol>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="ggplot-more.html#cb154-1" aria-hidden="true" tabindex="-1"></a>tx_hied <span class="ot">&lt;-</span> kids_data <span class="sc">%&gt;%</span></span>
-<span id="cb154-2"><a href="ggplot-more.html#cb154-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb154-3"><a href="ggplot-more.html#cb154-3" aria-hidden="true" tabindex="-1"></a>    variable <span class="sc">==</span> <span class="st">&quot;highered&quot;</span>,</span>
-<span id="cb154-4"><a href="ggplot-more.html#cb154-4" aria-hidden="true" tabindex="-1"></a>    state <span class="sc">==</span> <span class="st">&quot;Texas&quot;</span></span>
-<span id="cb154-5"><a href="ggplot-more.html#cb154-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb154-6"><a href="ggplot-more.html#cb154-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb154-7"><a href="ggplot-more.html#cb154-7" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
-<span id="cb154-8"><a href="ggplot-more.html#cb154-8" aria-hidden="true" tabindex="-1"></a>tx_hied</span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="ggplot-more.html#cb160-1" aria-hidden="true" tabindex="-1"></a>tx_hied <span class="ot">&lt;-</span> kids_data <span class="sc">%&gt;%</span></span>
+<span id="cb160-2"><a href="ggplot-more.html#cb160-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb160-3"><a href="ggplot-more.html#cb160-3" aria-hidden="true" tabindex="-1"></a>    variable <span class="sc">==</span> <span class="st">&quot;highered&quot;</span>,</span>
+<span id="cb160-4"><a href="ggplot-more.html#cb160-4" aria-hidden="true" tabindex="-1"></a>    state <span class="sc">==</span> <span class="st">&quot;Texas&quot;</span></span>
+<span id="cb160-5"><a href="ggplot-more.html#cb160-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb160-6"><a href="ggplot-more.html#cb160-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb160-7"><a href="ggplot-more.html#cb160-7" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb160-8"><a href="ggplot-more.html#cb160-8" aria-hidden="true" tabindex="-1"></a>tx_hied</span></code></pre></div>
 <pre><code>## # A tibble: 20 x 6
 ##    state variable  year       raw   inf_adj inf_adj_perchild
 ##    &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;
@@ -754,17 +755,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Then add the <code>+</code> and <code>geom_line()</code> and run it.</li>
 <li>When you add the <code>labs()</code> add all the lines at once and run it.</li>
 </ol>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="ggplot-more.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tx_hied, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> inf_adj_perchild)) <span class="sc">+</span> <span class="co"># we create our graph</span></span>
-<span id="cb156-2"><a href="ggplot-more.html#cb156-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="co"># adding the points</span></span>
-<span id="cb156-3"><a href="ggplot-more.html#cb156-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span>  <span class="co"># adding the lines between points</span></span>
-<span id="cb156-4"><a href="ggplot-more.html#cb156-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb156-5"><a href="ggplot-more.html#cb156-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;School spending slips&quot;</span>, </span>
-<span id="cb156-6"><a href="ggplot-more.html#cb156-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Texas spent less per child on higher education in 2016.&quot;</span>,</span>
-<span id="cb156-7"><a href="ggplot-more.html#cb156-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;$ per child (Adjusted for Inflation)&quot;</span>,</span>
-<span id="cb156-8"><a href="ggplot-more.html#cb156-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Source: tidykids&quot;</span></span>
-<span id="cb156-9"><a href="ggplot-more.html#cb156-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="ggplot-more.html#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tx_hied, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> inf_adj_perchild)) <span class="sc">+</span> <span class="co"># we create our graph</span></span>
+<span id="cb162-2"><a href="ggplot-more.html#cb162-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="co"># adding the points</span></span>
+<span id="cb162-3"><a href="ggplot-more.html#cb162-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span>  <span class="co"># adding the lines between points</span></span>
+<span id="cb162-4"><a href="ggplot-more.html#cb162-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb162-5"><a href="ggplot-more.html#cb162-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;School spending slips&quot;</span>, </span>
+<span id="cb162-6"><a href="ggplot-more.html#cb162-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Texas spent less per child on higher education in 2016.&quot;</span>,</span>
+<span id="cb162-7"><a href="ggplot-more.html#cb162-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;$ per child (Adjusted for Inflation)&quot;</span>,</span>
+<span id="cb162-8"><a href="ggplot-more.html#cb162-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Source: tidykids&quot;</span></span>
+<span id="cb162-9"><a href="ggplot-more.html#cb162-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/tx-hied-chart-1.png" width="672" /></p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="ggplot-more.html#cb157-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># labs above add text layer on top of graph</span></span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="ggplot-more.html#cb163-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># labs above add text layer on top of graph</span></span></code></pre></div>
 <p>We have a pretty decent chart showing <code>year</code> on our x axis and <code>inf_adj_perchild</code> (or inflation-adjusted spending per child) on our y axis.</p>
 </div>
 <div id="saving-plots-as-an-object" class="section level3" number="8.4.3">
@@ -773,20 +774,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol style="list-style-type: decimal">
 <li>Edit your Texas plot chunk you made earlier to save it into an R object, and then call <code>tx_plot</code> after it so you can see it.</li>
 </ol>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="ggplot-more.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the line below pushes the graph results into tx_plot</span></span>
-<span id="cb158-2"><a href="ggplot-more.html#cb158-2" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(tx_hied, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> inf_adj_perchild)) <span class="sc">+</span></span>
-<span id="cb158-3"><a href="ggplot-more.html#cb158-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb158-4"><a href="ggplot-more.html#cb158-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb158-5"><a href="ggplot-more.html#cb158-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb158-6"><a href="ggplot-more.html#cb158-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;School spending slips&quot;</span>, </span>
-<span id="cb158-7"><a href="ggplot-more.html#cb158-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Texas spent less per child on higher education in 2016.&quot;</span>,</span>
-<span id="cb158-8"><a href="ggplot-more.html#cb158-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;$ per child (Adjusted for Inflation)&quot;</span>,</span>
-<span id="cb158-9"><a href="ggplot-more.html#cb158-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Source: tidykids&quot;</span></span>
-<span id="cb158-10"><a href="ggplot-more.html#cb158-10" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb158-11"><a href="ggplot-more.html#cb158-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb158-12"><a href="ggplot-more.html#cb158-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Since we saved the plot into an R object above, we have to call it again to see it.</span></span>
-<span id="cb158-13"><a href="ggplot-more.html#cb158-13" aria-hidden="true" tabindex="-1"></a><span class="co"># We save graphs like this so we can reuse them.</span></span>
-<span id="cb158-14"><a href="ggplot-more.html#cb158-14" aria-hidden="true" tabindex="-1"></a>tx_plot</span></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="ggplot-more.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the line below pushes the graph results into tx_plot</span></span>
+<span id="cb164-2"><a href="ggplot-more.html#cb164-2" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(tx_hied, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> inf_adj_perchild)) <span class="sc">+</span></span>
+<span id="cb164-3"><a href="ggplot-more.html#cb164-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb164-4"><a href="ggplot-more.html#cb164-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb164-5"><a href="ggplot-more.html#cb164-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb164-6"><a href="ggplot-more.html#cb164-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;School spending slips&quot;</span>, </span>
+<span id="cb164-7"><a href="ggplot-more.html#cb164-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Texas spent less per child on higher education in 2016.&quot;</span>,</span>
+<span id="cb164-8"><a href="ggplot-more.html#cb164-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;$ per child (Adjusted for Inflation)&quot;</span>,</span>
+<span id="cb164-9"><a href="ggplot-more.html#cb164-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Source: tidykids&quot;</span></span>
+<span id="cb164-10"><a href="ggplot-more.html#cb164-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb164-11"><a href="ggplot-more.html#cb164-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb164-12"><a href="ggplot-more.html#cb164-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Since we saved the plot into an R object above, we have to call it again to see it.</span></span>
+<span id="cb164-13"><a href="ggplot-more.html#cb164-13" aria-hidden="true" tabindex="-1"></a><span class="co"># We save graphs like this so we can reuse them.</span></span>
+<span id="cb164-14"><a href="ggplot-more.html#cb164-14" aria-hidden="true" tabindex="-1"></a>tx_plot</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/tx-plot-create-1.png" width="672" /></p>
 <p>We can continue to build upon the <code>tx_plot</code> object like we do below with themes, but those changes won’t be “saved” into the R environment unless you assign it to an R object.</p>
 </div>
@@ -798,8 +799,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Create a new section saying we’ll explore themes</li>
 <li>Add the chunk below and run it.</li>
 </ol>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="ggplot-more.html#cb159-1" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">+</span></span>
-<span id="cb159-2"><a href="ggplot-more.html#cb159-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="ggplot-more.html#cb165-1" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">+</span></span>
+<span id="cb165-2"><a href="ggplot-more.html#cb165-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/theme-minimal-1.png" width="672" /></p>
 <p>This takes our existing <code>tx_plot</code> and then applies the <code>theme_minimal()</code> look to it.</p>
 <p>There are a number of themes built into ggplot, most are pretty simplistic.</p>
@@ -814,15 +815,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Add the <code>library(ggthemes)</code> at the top of your current chunk.</li>
 <li>Update the theme line to view some of the others options noted below.</li>
 </ol>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="ggplot-more.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
-<span id="cb160-2"><a href="ggplot-more.html#cb160-2" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">+</span></span>
-<span id="cb160-3"><a href="ggplot-more.html#cb160-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="ggplot-more.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
+<span id="cb166-2"><a href="ggplot-more.html#cb166-2" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">+</span></span>
+<span id="cb166-3"><a href="ggplot-more.html#cb166-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>()</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/theme-economist-1.png" width="672" /></p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="ggplot-more.html#cb161-1" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">+</span></span>
-<span id="cb161-2"><a href="ggplot-more.html#cb161-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_fivethirtyeight</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="ggplot-more.html#cb167-1" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">+</span></span>
+<span id="cb167-2"><a href="ggplot-more.html#cb167-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_fivethirtyeight</span>()</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/theme-538-1.png" width="672" /></p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="ggplot-more.html#cb162-1" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">+</span></span>
-<span id="cb162-2"><a href="ggplot-more.html#cb162-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_stata</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="ggplot-more.html#cb168-1" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">+</span></span>
+<span id="cb168-2"><a href="ggplot-more.html#cb168-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_stata</span>()</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/theme-stata-1.png" width="672" /></p>
 </div>
 <div id="there-is-more-to-themes" class="section level3" number="8.5.2">
@@ -841,13 +842,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Start a new section that notes we are building a chart for five states.</li>
 <li>Note that we’ll first prepare the data.</li>
 </ol>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="ggplot-more.html#cb163-1" aria-hidden="true" tabindex="-1"></a>five_hied <span class="ot">&lt;-</span> kids_data <span class="sc">%&gt;%</span> </span>
-<span id="cb163-2"><a href="ggplot-more.html#cb163-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb163-3"><a href="ggplot-more.html#cb163-3" aria-hidden="true" tabindex="-1"></a>    variable <span class="sc">==</span> <span class="st">&quot;highered&quot;</span>,</span>
-<span id="cb163-4"><a href="ggplot-more.html#cb163-4" aria-hidden="true" tabindex="-1"></a>    state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Texas&quot;</span>, <span class="st">&quot;Oklahoma&quot;</span>, <span class="st">&quot;Arkansas&quot;</span>, <span class="st">&quot;New Mexico&quot;</span>, <span class="st">&quot;Louisiana&quot;</span>)</span>
-<span id="cb163-5"><a href="ggplot-more.html#cb163-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb163-6"><a href="ggplot-more.html#cb163-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb163-7"><a href="ggplot-more.html#cb163-7" aria-hidden="true" tabindex="-1"></a>five_hied</span></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="ggplot-more.html#cb169-1" aria-hidden="true" tabindex="-1"></a>five_hied <span class="ot">&lt;-</span> kids_data <span class="sc">%&gt;%</span> </span>
+<span id="cb169-2"><a href="ggplot-more.html#cb169-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb169-3"><a href="ggplot-more.html#cb169-3" aria-hidden="true" tabindex="-1"></a>    variable <span class="sc">==</span> <span class="st">&quot;highered&quot;</span>,</span>
+<span id="cb169-4"><a href="ggplot-more.html#cb169-4" aria-hidden="true" tabindex="-1"></a>    state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Texas&quot;</span>, <span class="st">&quot;Oklahoma&quot;</span>, <span class="st">&quot;Arkansas&quot;</span>, <span class="st">&quot;New Mexico&quot;</span>, <span class="st">&quot;Louisiana&quot;</span>)</span>
+<span id="cb169-5"><a href="ggplot-more.html#cb169-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb169-6"><a href="ggplot-more.html#cb169-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb169-7"><a href="ggplot-more.html#cb169-7" aria-hidden="true" tabindex="-1"></a>five_hied</span></code></pre></div>
 <pre><code>## # A tibble: 100 x 6
 ##    state      variable  year     raw  inf_adj inf_adj_perchild
 ##    &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;            &lt;dbl&gt;
@@ -871,26 +872,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Add a note that we’ll now build the chart.</li>
 <li>Add the code chunk below and run it. Look through the comments so you understand it.</li>
 </ol>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="ggplot-more.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(five_hied, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> inf_adj_perchild)) <span class="sc">+</span> </span>
-<span id="cb165-2"><a href="ggplot-more.html#cb165-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb165-3"><a href="ggplot-more.html#cb165-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span> <span class="co"># The aes selects a color for each state</span></span>
-<span id="cb165-4"><a href="ggplot-more.html#cb165-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb165-5"><a href="ggplot-more.html#cb165-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Spending on Higher Education in Texas, Bordering States&quot;</span>,</span>
-<span id="cb165-6"><a href="ggplot-more.html#cb165-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
-<span id="cb165-7"><a href="ggplot-more.html#cb165-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;$ per child (Adjusted for Inflation)&quot;</span>,</span>
-<span id="cb165-8"><a href="ggplot-more.html#cb165-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Source: tidykids&quot;</span></span>
-<span id="cb165-9"><a href="ggplot-more.html#cb165-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="ggplot-more.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(five_hied, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> inf_adj_perchild)) <span class="sc">+</span> </span>
+<span id="cb171-2"><a href="ggplot-more.html#cb171-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb171-3"><a href="ggplot-more.html#cb171-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span> <span class="co"># The aes selects a color for each state</span></span>
+<span id="cb171-4"><a href="ggplot-more.html#cb171-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb171-5"><a href="ggplot-more.html#cb171-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Spending on Higher Education in Texas, Bordering States&quot;</span>,</span>
+<span id="cb171-6"><a href="ggplot-more.html#cb171-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb171-7"><a href="ggplot-more.html#cb171-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;$ per child (Adjusted for Inflation)&quot;</span>,</span>
+<span id="cb171-8"><a href="ggplot-more.html#cb171-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Source: tidykids&quot;</span></span>
+<span id="cb171-9"><a href="ggplot-more.html#cb171-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/five-hied-lcolor-1.png" width="672" /></p>
 <p>Notice that R changes the color of the line, but not the point? This is because we only included the aesthetic in the <code>geom_line()</code> geom and not the <code>geom_point()</code> geom.</p>
 <ol style="list-style-type: decimal">
 <li>Edit your <code>geom_point()</code> to add <code>aes(color = state)</code>.</li>
 </ol>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="ggplot-more.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(five_hied, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> inf_adj_perchild)) <span class="sc">+</span></span>
-<span id="cb166-2"><a href="ggplot-more.html#cb166-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span> <span class="co"># add the aes here</span></span>
-<span id="cb166-3"><a href="ggplot-more.html#cb166-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span></span>
-<span id="cb166-4"><a href="ggplot-more.html#cb166-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Spending on Higher Education in Texas, Bordering States&quot;</span>, </span>
-<span id="cb166-5"><a href="ggplot-more.html#cb166-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;$ per child (Adjusted for Inflation)&quot;</span>,</span>
-<span id="cb166-6"><a href="ggplot-more.html#cb166-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: tidykids&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="ggplot-more.html#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(five_hied, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> inf_adj_perchild)) <span class="sc">+</span></span>
+<span id="cb172-2"><a href="ggplot-more.html#cb172-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span> <span class="co"># add the aes here</span></span>
+<span id="cb172-3"><a href="ggplot-more.html#cb172-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span></span>
+<span id="cb172-4"><a href="ggplot-more.html#cb172-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Spending on Higher Education in Texas, Bordering States&quot;</span>, </span>
+<span id="cb172-5"><a href="ggplot-more.html#cb172-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;$ per child (Adjusted for Inflation)&quot;</span>,</span>
+<span id="cb172-6"><a href="ggplot-more.html#cb172-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: tidykids&quot;</span>)</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/five-hied-pcolor-1.png" width="672" /></p>
 </div>
 </div>
@@ -910,33 +911,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>You don’t have to add these examples below to your own notebook, but here are some examples of other things you can control.</p>
 <div id="line-width" class="section level3" number="8.8.1">
 <h3><span class="header-section-number">8.8.1</span> Line width</h3>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="ggplot-more.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(five_hied, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> inf_adj_perchild)) <span class="sc">+</span></span>
-<span id="cb167-2"><a href="ggplot-more.html#cb167-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span></span>
-<span id="cb167-3"><a href="ggplot-more.html#cb167-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> state), <span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span> <span class="co"># added size here</span></span>
-<span id="cb167-4"><a href="ggplot-more.html#cb167-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Spending on Higher Education in Texas, Bordering States&quot;</span>, </span>
-<span id="cb167-5"><a href="ggplot-more.html#cb167-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;$ per child (Adjusted for Inflation)&quot;</span>,</span>
-<span id="cb167-6"><a href="ggplot-more.html#cb167-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: tidykids&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="ggplot-more.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(five_hied, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> inf_adj_perchild)) <span class="sc">+</span></span>
+<span id="cb173-2"><a href="ggplot-more.html#cb173-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span></span>
+<span id="cb173-3"><a href="ggplot-more.html#cb173-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> state), <span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span> <span class="co"># added size here</span></span>
+<span id="cb173-4"><a href="ggplot-more.html#cb173-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Spending on Higher Education in Texas, Bordering States&quot;</span>, </span>
+<span id="cb173-5"><a href="ggplot-more.html#cb173-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;$ per child (Adjusted for Inflation)&quot;</span>,</span>
+<span id="cb173-6"><a href="ggplot-more.html#cb173-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: tidykids&quot;</span>)</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/line-width-1.png" width="672" /></p>
 </div>
 <div id="line-type" class="section level3" number="8.8.2">
 <h3><span class="header-section-number">8.8.2</span> Line type</h3>
 <p>This example removes the points and adds a <code>linetype = state</code> to the ggplot aesthetic. This gives each state a different type of line. We also set the color in the <code>geom_line()</code></p>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="ggplot-more.html#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(five_hied, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> inf_adj_perchild)) <span class="sc">+</span></span>
-<span id="cb168-2"><a href="ggplot-more.html#cb168-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> state, <span class="at">linetype =</span> state), <span class="at">size =</span> .<span class="dv">75</span>) <span class="sc">+</span></span>
-<span id="cb168-3"><a href="ggplot-more.html#cb168-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Spending on Higher Education in Texas, Bordering States&quot;</span>, </span>
-<span id="cb168-4"><a href="ggplot-more.html#cb168-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;$ per child (Adjusted for Inflation)&quot;</span>,</span>
-<span id="cb168-5"><a href="ggplot-more.html#cb168-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: tidykids&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="ggplot-more.html#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(five_hied, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> inf_adj_perchild)) <span class="sc">+</span></span>
+<span id="cb174-2"><a href="ggplot-more.html#cb174-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> state, <span class="at">linetype =</span> state), <span class="at">size =</span> .<span class="dv">75</span>) <span class="sc">+</span></span>
+<span id="cb174-3"><a href="ggplot-more.html#cb174-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Spending on Higher Education in Texas, Bordering States&quot;</span>, </span>
+<span id="cb174-4"><a href="ggplot-more.html#cb174-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;$ per child (Adjusted for Inflation)&quot;</span>,</span>
+<span id="cb174-5"><a href="ggplot-more.html#cb174-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: tidykids&quot;</span>)</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/line-type-1.png" width="672" /></p>
 </div>
 <div id="adjust-axis" class="section level3" number="8.8.3">
 <h3><span class="header-section-number">8.8.3</span> Adjust axis</h3>
 <p><code>ggplot()</code> typically makes assumptions about scale. Sometimes, you may want to change it though (e.g., make them a little larger). There are a couple different ways to do this. The most straightforward may be <code>xlim()</code> and <code>ylim()</code>.</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="ggplot-more.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(five_hied, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> inf_adj_perchild, <span class="at">linetype =</span> state)) <span class="sc">+</span></span>
-<span id="cb169-2"><a href="ggplot-more.html#cb169-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> state), <span class="at">size =</span> .<span class="dv">75</span>) <span class="sc">+</span></span>
-<span id="cb169-3"><a href="ggplot-more.html#cb169-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">1995</span>, <span class="dv">2020</span>) <span class="sc">+</span> <span class="co"># sets minimum and maximum values on axis</span></span>
-<span id="cb169-4"><a href="ggplot-more.html#cb169-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Spending on Higher Education in Texas, Bordering States&quot;</span>, </span>
-<span id="cb169-5"><a href="ggplot-more.html#cb169-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;$ per child (Adjusted for Inflation)&quot;</span>,</span>
-<span id="cb169-6"><a href="ggplot-more.html#cb169-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: tidykids&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="ggplot-more.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(five_hied, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> inf_adj_perchild, <span class="at">linetype =</span> state)) <span class="sc">+</span></span>
+<span id="cb175-2"><a href="ggplot-more.html#cb175-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> state), <span class="at">size =</span> .<span class="dv">75</span>) <span class="sc">+</span></span>
+<span id="cb175-3"><a href="ggplot-more.html#cb175-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">1995</span>, <span class="dv">2020</span>) <span class="sc">+</span> <span class="co"># sets minimum and maximum values on axis</span></span>
+<span id="cb175-4"><a href="ggplot-more.html#cb175-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Spending on Higher Education in Texas, Bordering States&quot;</span>, </span>
+<span id="cb175-5"><a href="ggplot-more.html#cb175-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;$ per child (Adjusted for Inflation)&quot;</span>,</span>
+<span id="cb175-6"><a href="ggplot-more.html#cb175-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: tidykids&quot;</span>)</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/adjust-axis-1.png" width="672" /></p>
 <p>The function <code>xlim()</code> and <code>ylim()</code> are shortcuts for <code>scale_x_continuous()</code> and <code>scale_y_continuous()</code> which <a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html#examples">do more things</a>.</p>
 </div>
@@ -949,15 +950,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Start a new section about facets</li>
 <li>Add the code below to create your chart and view it.</li>
 </ol>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="ggplot-more.html#cb170-1" aria-hidden="true" tabindex="-1"></a>five_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(five_hied, <span class="fu">aes</span>(<span class="at">x =</span> year,</span>
-<span id="cb170-2"><a href="ggplot-more.html#cb170-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">y =</span> inf_adj_perchild)) <span class="sc">+</span></span>
-<span id="cb170-3"><a href="ggplot-more.html#cb170-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span></span>
-<span id="cb170-4"><a href="ggplot-more.html#cb170-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span></span>
-<span id="cb170-5"><a href="ggplot-more.html#cb170-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Spending on Higher Education in Texas, Bordering States&quot;</span>, </span>
-<span id="cb170-6"><a href="ggplot-more.html#cb170-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;$ per child (Adjusted for Inflation)&quot;</span>,</span>
-<span id="cb170-7"><a href="ggplot-more.html#cb170-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: tidykids&quot;</span>)</span>
-<span id="cb170-8"><a href="ggplot-more.html#cb170-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-9"><a href="ggplot-more.html#cb170-9" aria-hidden="true" tabindex="-1"></a>five_plot</span></code></pre></div>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="ggplot-more.html#cb176-1" aria-hidden="true" tabindex="-1"></a>five_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(five_hied, <span class="fu">aes</span>(<span class="at">x =</span> year,</span>
+<span id="cb176-2"><a href="ggplot-more.html#cb176-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">y =</span> inf_adj_perchild)) <span class="sc">+</span></span>
+<span id="cb176-3"><a href="ggplot-more.html#cb176-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span></span>
+<span id="cb176-4"><a href="ggplot-more.html#cb176-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span></span>
+<span id="cb176-5"><a href="ggplot-more.html#cb176-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Spending on Higher Education in Texas, Bordering States&quot;</span>, </span>
+<span id="cb176-6"><a href="ggplot-more.html#cb176-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;$ per child (Adjusted for Inflation)&quot;</span>,</span>
+<span id="cb176-7"><a href="ggplot-more.html#cb176-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: tidykids&quot;</span>)</span>
+<span id="cb176-8"><a href="ggplot-more.html#cb176-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb176-9"><a href="ggplot-more.html#cb176-9" aria-hidden="true" tabindex="-1"></a>five_plot</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/facet-data-1.png" width="672" /></p>
 <div id="facet-wrap" class="section level3" number="8.9.1">
 <h3><span class="header-section-number">8.9.1</span> Facet wrap</h3>
@@ -965,9 +966,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol style="list-style-type: decimal">
 <li>Add a new chunk and create the facet wrap shown here.</li>
 </ol>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="ggplot-more.html#cb171-1" aria-hidden="true" tabindex="-1"></a>five_plot <span class="sc">+</span></span>
-<span id="cb171-2"><a href="ggplot-more.html#cb171-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> state) <span class="sc">+</span></span>
-<span id="cb171-3"><a href="ggplot-more.html#cb171-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="co"># removes the legend. Try it without it!</span></span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="ggplot-more.html#cb177-1" aria-hidden="true" tabindex="-1"></a>five_plot <span class="sc">+</span></span>
+<span id="cb177-2"><a href="ggplot-more.html#cb177-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> state) <span class="sc">+</span></span>
+<span id="cb177-3"><a href="ggplot-more.html#cb177-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="co"># removes the legend. Try it without it!</span></span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/facet-wrap-1.png" width="672" /></p>
 <p>A couple of notes about the above code:</p>
 <ul>
@@ -983,9 +984,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Add the chunk below and run it.</li>
 </ol>
 <p>Explanations follow the chart.</p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="ggplot-more.html#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg) <span class="sc">+</span> </span>
-<span id="cb172-2"><a href="ggplot-more.html#cb172-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> displ, <span class="at">y =</span> hwy)) <span class="sc">+</span> <span class="co"># add points to the chart</span></span>
-<span id="cb172-3"><a href="ggplot-more.html#cb172-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(drv <span class="sc">~</span> cyl) <span class="co"># splits into charts by drive train and cylinder</span></span></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="ggplot-more.html#cb178-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg) <span class="sc">+</span> </span>
+<span id="cb178-2"><a href="ggplot-more.html#cb178-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> displ, <span class="at">y =</span> hwy)) <span class="sc">+</span> <span class="co"># add points to the chart</span></span>
+<span id="cb178-3"><a href="ggplot-more.html#cb178-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(drv <span class="sc">~</span> cyl) <span class="co"># splits into charts by drive train and cylinder</span></span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/facet-grid-1.png" width="672" /></p>
 <p>This chart is kinda hard to read, but let’s try:</p>
 <ul>
@@ -1011,7 +1012,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Use your Files pane to create a new folder called “images” so we can save our chart there.</li>
 <li>Start a section on saving plots and add the following chunk.</li>
 </ol>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="ggplot-more.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;images/txplot.png&quot;</span>, <span class="at">plot =</span> tx_plot)</span></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="ggplot-more.html#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;images/txplot.png&quot;</span>, <span class="at">plot =</span> tx_plot)</span></code></pre></div>
 <pre><code>## Saving 7 x 5 in image</code></pre>
 <p>Using <code>ggsave</code> creates a higher-res image than other methods. It needs”</p>
 <ul>
@@ -1028,10 +1029,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Add a new section to note you are creating an interactive chart.</li>
 <li>Add the code below and run it. Then play with the chart!</li>
 </ol>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="ggplot-more.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
-<span id="cb175-2"><a href="ggplot-more.html#cb175-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb175-3"><a href="ggplot-more.html#cb175-3" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">%&gt;%</span> </span>
-<span id="cb175-4"><a href="ggplot-more.html#cb175-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplotly</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="ggplot-more.html#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb181-2"><a href="ggplot-more.html#cb181-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb181-3"><a href="ggplot-more.html#cb181-3" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">%&gt;%</span> </span>
+<span id="cb181-4"><a href="ggplot-more.html#cb181-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplotly</span>()</span></code></pre></div>
 <p>(We can’t show the interactive version in this book.)</p>
 <p>Now you have tool tips on your points when you hover over them.</p>
 <p>The <code>ggplotly()</code> function is not perfect. Alternatively, you can use plotly’s own syntax to build some quite interesting charts, but it’s a whole <a href="https://plotly.com/r/">new syntax to master</a>.</p>
