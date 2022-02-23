@@ -1,0 +1,445 @@
+# Summarize with math - analysis {#sums-analyze}
+
+In the last chapter, we covered the overall story about the LESO data ... that local law enforcement agencies can get surplus military equipment from the U.S. Department of Defense. We downloaded a pre-processed version of the data and filtered it to just Texas records over a specific time period (2010 to present), and used `mutate()` to create a new column calculated fron other variables in the data.
+
+## Learning goals of this lesson
+
+In this chapter we will start querying the data using **summarize with math**, basically using summarize to add values in a column instead of counting rows, which we did with the Billboard assignment.
+
+Our learning goals are:
+
+- To use the combination of `group_by()`, `summarize()` and `arrange()` to add columns of data using `sum()`.
+- To use different `group_by()` groupings in specific ways to get desired results.
+- To practice using `filter()` on those summaries to better see certain results, including filtering with*in* a vector (or list of strings).
+- We'll research and write about some of the findings, practicing data-centric ledes and sentences describing data.
+
+## Questions to answer
+
+A reminder of what we are looking for: All answers are be based on data from **Jan. 1, 2010** to present for only consider **Texas** agencies. We did this filtering already. 
+
+- For each agency in Texas, find the summed **quantity** and summed **total value** of the equipment they received. (When I say "summed" that means we'll add together all the values in the column.)
+  - Once you have the list, we'll think about what stands out and why?
+- We'll take the list above, but filter that summary to show only the following local agencies:
+  - AUSTIN POLICE DEPT
+  - SAN MARCOS POLICE DEPT
+  - TRAVIS COUNTY SHERIFFS OFFICE
+  - UNIV OF TEXAS SYSTEM POLICE HI_ED
+  - WILLIAMSON COUNTY SHERIFF'S OFFICE
+- For each of the agencies above we'll use summarize to get the  _summed_ **quantity** and _summed_ **total_value** of each **item** shipped to the agency. We'll create a summarized list for each agency so we can write about each one.
+- You'll research some of the more interesting items the agencies received (i.e. Google the names) so you can include them in your data drop.
+
+## Set up the analysis notebook
+
+Before we get into how to do this, let's set up our analysis notebook.
+
+1. Make sure you have your military surplus project open in RStudio. If you have your import notebook open, close it and use Run > Restart R and Clear Output.
+1. Create a new RNotebook and edit the title as "Military surplus analysis".
+1. Remove the boilerplate text.
+1. Create a setup section (headline, text and code chunk) that loads the tidyverse library.
+1. Save the notebook at `02-analysis.Rmd`.
+
+We've started each notebook like this, so you should be able to do this on your own now.
+
+
+
+### Load the data into a tibble
+
+1. Next create an import section (headline, text and chunk) that loads the data from the previous notebook and save it into a tibble called `tx`.
+1. Add a `glimpse()` of the data for your reference.
+
+We did this in Billboard and you should be able to do it. You'll use `read_rds()` and find your data in your data-processed folder.
+
+<details>
+  <summary>Remember your data is in data-processed</summary>
+
+```r
+tx <- read_rds("data-processed/01-leso-tx.rds")
+
+tx %>% glimpse()
+```
+
+```
+## Rows: 7,411
+## Columns: 9
+## $ state             <chr> "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX"~
+## $ agency_name       <chr> "ABERNATHY POLICE DEPT", "ABERNATHY POLICE DEPT", "A~
+## $ item_name         <chr> "PISTOL,CALIBER .45,AUTOMATIC", "PISTOL,CALIBER .45,~
+## $ quantity          <dbl> 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+## $ ui                <chr> "Each", "Each", "Each", "Each", "Each", "Each", "Eac~
+## $ acquisition_value <dbl> 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 333.00~
+## $ ship_date         <dttm> 2011-11-03, 2011-11-03, 2011-11-03, 2011-11-03, 201~
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
+## $ total_value       <dbl> 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 1665.0~
+```
+
+</details>
+
+You should see the `tx` object in you Environment.
+
+## How to tackle summaries
+
+As we get into the first quest, let's talk about "how" we do summaries.
+
+When I am querying my data, I start by envisioning what the result should look like.
+
+Let's take the first question: For each agency in Texas, find the summed **quantity** and summed **total value** of the equipment they received.
+
+Let's break this down:
+
+- "For each agency in Texas". For all the questions, we only want Texas agencies. We took care of this in nthe import book so TX agencies should already filtered.
+- But the "For each agency" part tells me I need to **group_by** the `agency_name` so I can summarize totals within each agency.
+- "find the summed **quantity** and summed **total_value**": Because I'm looking for a total (or `sum()` of columns) I need `summarize()`.
+
+So I envision my result looking like this:
+
+| agency_name        | summed_quantity | summed_total_value |
+|--------------------|-----------:|------------:|
+| AFAKE POLICE DEPT      |       6419 |  10825707.5 |
+| BFAKE SHERIFF'S OFFICE |        381 |  3776291.52 |
+| CFAKE SHERIFF'S OFFICE |        270 |  3464741.36 |
+| DFAKE POLICE DEPT      |       1082 |  3100420.57 |
+
+The first columns in that summary will be our grouped values. This example is only grouping by one thing, `agency_name`. The other two columns are the summed values I'm looking to generate.
+
+### Summaries with math
+
+We'll start with the **total_quantity**.
+
+1. Add a new section (headline, text and chunk) that describes the first quest: For each agency in Texas, find the summed **quantity** and summed **total value** of the equipment they received.
+1. Add the code below into the chunk and run it.
+
+
+
+```r
+tx %>% 
+  group_by(agency_name) %>% 
+  summarize(
+    sum_quantity = sum(quantity)
+  )
+```
+
+```
+## # A tibble: 356 x 2
+##    agency_name                     sum_quantity
+##    <chr>                                  <dbl>
+##  1 ABERNATHY POLICE DEPT                     13
+##  2 ALLEN POLICE DEPT                         11
+##  3 ALVARADO ISD PD                            4
+##  4 ALVIN POLICE DEPT                        508
+##  5 ANDERSON COUNTY SHERIFFS OFFICE            7
+##  6 ANDREWS COUNTY SHERIFF OFFICE             12
+##  7 ANSON POLICE DEPT                          9
+##  8 ANTHONY POLICE DEPT                       10
+##  9 ARANSAS PASS POLICE DEPARTMENT            27
+## 10 ARCHER COUNTY SHERIFF OFFICE               3
+## # ... with 346 more rows
+```
+
+Let's break this down a little.
+
+- We start with the `tx` data, and then ...
+- We group by `agency_name`. This organizes our data (behind the scenes) so our summarize actions will happen _within each agency_. Now I normally say run your code one line at a time, but you would note be able to _see_ the groupings, so I usually write `group_by()` and `summarize()` together.
+- In `summarize()` we first name our new column: `sum_quantity`. We could call this whatever we want, but good practice is to name it what it is. We use good naming techniqes and split the words using `_`. I also use all lowercase characters.
+- We set that column to equal `=` the **sum of all values in the `quantity` column**. `sum()` is the function, and we feed it the column we want to add together: `quantity`.
+- I put the inside of the summarize function in its own line because we will add to it. I enhances readability. RStudio will help you with the indenting, etc.
+
+If you look at the first line of the return, it is taking all the rows for the "ABERNATHY POLICE DEPT" and then adding together all the values in the `quantity` field.
+
+If you wanted to test this (and it is a real good idea), you might look at the data from one of the values and check the math. Here are the Abernathy rows. I usually do these tests in a code chunk of their own, and sometimes I delete them after I'm sure it worked.
+
+
+```r
+tx %>% 
+  filter(agency_name == "ABERNATHY POLICE DEPT")
+```
+
+```
+## # A tibble: 9 x 9
+##   state agency_name           item_name          quantity ui    acquisition_val~
+##   <chr> <chr>                 <chr>                 <dbl> <chr>            <dbl>
+## 1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4~        1 Each              58.7
+## 2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4~        1 Each              58.7
+## 3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4~        1 Each              58.7
+## 4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4~        1 Each              58.7
+## 5 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIM~        1 Each             749  
+## 6 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY             1 Each           62627  
+## 7 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX              5 Each             333  
+## 8 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIM~        1 Each             749  
+## 9 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4~        1 Each              58.7
+## # ... with 3 more variables: ship_date <dttm>, station_type <chr>,
+## #   total_value <dbl>
+```
+
+If we look at the `quantity` column there and eyeball all the rows, we see there 8 rows with a value of "1", and one row with a value of "5". 8 + 5 = 13, which matches our `sum_quantity` answer in our summary table. We're good!
+
+### Add the total_value
+
+We don't have to stop at one summary. We can perform multiple summarize actions on the same or different columns within the same expression.
+
+**Edit your summary chunk** to:
+
+1. Add add a comma after the first summarize action.
+1. Add the new expression to give us the `sum_total_value` and run it.
+
+
+```r
+tx %>% 
+  group_by(agency_name) %>% 
+  summarize(
+    sum_quantity = sum(quantity),
+    sum_total_value = sum(total_value)
+  )
+```
+
+```
+## # A tibble: 356 x 3
+##    agency_name                     sum_quantity sum_total_value
+##    <chr>                                  <dbl>           <dbl>
+##  1 ABERNATHY POLICE DEPT                     13          66084.
+##  2 ALLEN POLICE DEPT                         11        1404024 
+##  3 ALVARADO ISD PD                            4            480 
+##  4 ALVIN POLICE DEPT                        508        2504765.
+##  5 ANDERSON COUNTY SHERIFFS OFFICE            7         733720 
+##  6 ANDREWS COUNTY SHERIFF OFFICE             12           1476 
+##  7 ANSON POLICE DEPT                          9           5077 
+##  8 ANTHONY POLICE DEPT                       10           7490 
+##  9 ARANSAS PASS POLICE DEPARTMENT            27         503658 
+## 10 ARCHER COUNTY SHERIFF OFFICE               3        1101000 
+## # ... with 346 more rows
+```
+
+### Arrange the results
+
+OK, this gives us our answers, but in alphabetical order. We want to arrange the data so it gives us the most `sum_total_value` in **desc**ending order.
+
+1. EDIT your block to add an `arrange()` function below
+
+
+```r
+tx %>% 
+  group_by(agency_name) %>% 
+  summarize(
+    sum_quantity = sum(quantity),
+    sum_total_value = sum(total_value)
+  ) %>% 
+  arrange(sum_total_value %>% desc())
+```
+
+```
+## # A tibble: 356 x 3
+##    agency_name                      sum_quantity sum_total_value
+##    <chr>                                   <dbl>           <dbl>
+##  1 HOUSTON POLICE DEPT                      5467        9140513.
+##  2 JEFFERSON COUNTY SHERIFFS OFFICE          270        3464365.
+##  3 DPS SWAT- TEXAS RANGERS                  1461        3317967.
+##  4 PARKS AND WILDLIFE DEPT                  9306        3236996.
+##  5 SAN MARCOS POLICE DEPT                   1050        3090552.
+##  6 HARRIS COUNTY SHERIFF'S OFFICE            835        2941507.
+##  7 AUSTIN POLICE DEPT                       1438        2732120.
+##  8 ALVIN POLICE DEPT                         508        2504765.
+##  9 MILAM COUNTY SHERIFF DEPT                  99        2469525.
+## 10 HARRIS COUNTY CONSTABLE PCT 3             292        2376779.
+## # ... with 346 more rows
+```
+
+### Consider the results
+
+Is there anything that sticks out in that list? It helps if you know a little bit about Texas cities and counties, but here are some thoughts to ponder:
+
+- Houston is the largest city in the state (4th largest in the country). It makes sense that it tops the list. Same for Harris County or even the state police force. Austin being up there is also not crazy, as it's almost a million people.
+- But what about San Marcos (63,220)? Or Milam County (24,770)? Those are way smaller cities and law enforcement agencies. They might be worth looking into.
+
+Perhaps we should look some at the police agencies closest to us.
+
+## Looking a local agencies
+
+Our next goal is this:
+
+We'll take the summary above, but filter it to show only some local agencies of interest.
+
+Since we are essentially taking an existing summary and adding more filtering to it, it makes sense to go back into that chunk and save it into a new object so we can reuse it.
+
+1. EDIT your existing summary chunk to save it into a new tibble. Name it `tx_quants_totals` so we are all on the same page.
+1. Add a new line that prints the result to the screen so you can still see it.
+
+
+```r
+# adding the new tibble object in next line
+tx_quants_totals <- tx %>% 
+  group_by(agency_name) %>% 
+  summarize(
+    sum_quantity = sum(quantity),
+    sum_total_value = sum(total_value)
+  ) %>% 
+  arrange(sum_total_value %>% desc())
+
+# peek at the result
+tx_quants_totals
+```
+
+```
+## # A tibble: 356 x 3
+##    agency_name                      sum_quantity sum_total_value
+##    <chr>                                   <dbl>           <dbl>
+##  1 HOUSTON POLICE DEPT                      5467        9140513.
+##  2 JEFFERSON COUNTY SHERIFFS OFFICE          270        3464365.
+##  3 DPS SWAT- TEXAS RANGERS                  1461        3317967.
+##  4 PARKS AND WILDLIFE DEPT                  9306        3236996.
+##  5 SAN MARCOS POLICE DEPT                   1050        3090552.
+##  6 HARRIS COUNTY SHERIFF'S OFFICE            835        2941507.
+##  7 AUSTIN POLICE DEPT                       1438        2732120.
+##  8 ALVIN POLICE DEPT                         508        2504765.
+##  9 MILAM COUNTY SHERIFF DEPT                  99        2469525.
+## 10 HARRIS COUNTY CONSTABLE PCT 3             292        2376779.
+## # ... with 346 more rows
+```
+
+The result is the same, but we can reuse the `tx_quants_totals` tibble.
+
+### Filtering within a vector
+
+**Let's talk through the filter concepts before you try it with this data.**
+
+When we talked about filtering with the Billboard project, we discussed using the `|` operator as an "OR" function. If we were to apply that logic here, it would look like this:
+
+```r
+data %>% 
+  filter(column_name == "Text to find" | column_name == "More text to find")
+```
+
+That can get pretty unwieldy if you have more than a couple of things to look for.
+
+There is another operator `%in%` where we can search for multiple items from a list. (This list of terms is officially called a vector, but whatever.) Think of it like this in plain English: *Filter* the *column* for things *in* this *list*.
+
+```r
+data %>% 
+  filter(col_name %in% c("This string", "That string"))
+```
+
+We can take this a step further by saving the items in our list into an R object so we can reuse that list and not have to type out all the terms each time we use them.
+
+```r
+list_of_strings <- c(
+  "This string",
+  "That string"
+)
+
+data %>% 
+  filter(col_name %in% list_of_strings)
+```
+
+### Use the vector to build this filter
+
+1. Create a new section (headline, text and chunk) and describe you are filtering the summed quantity/values for some select local agencies.
+1. Create a saved vector list (like the list_of_strings above) of the five agencies we want to focus on. Call it `local_agencies`.
+1. Start with the `tx_quants_totals` tibble you created for totals by agency and then use `filter()` and `%in%` to filter by your new `local_agencies` list.
+
+These are the agencies:
+
+```
+AUSTIN POLICE DEPT
+SAN MARCOS POLICE DEPT
+TRAVIS COUNTY SHERIFFS OFFICE
+UNIV OF TEXAS SYSTEM POLICE HI_ED
+WILLIAMSON COUNTY SHERIFF'S OFFICE
+```
+
+> To be clear, in the interest of time I've done considerable work beforehand to figure out the exact names of these agencies. It helps that I'm familiar with local cities and counties so I used some creative filtering to find their "official" names in the data. I just don't want to get into how right now.
+
+<details>
+  <summary>Use the example above to build with your data</summary>
+  
+
+```r
+local_agencies <- c(
+  "AUSTIN POLICE DEPT",
+  "SAN MARCOS POLICE DEPT",
+  "TRAVIS COUNTY SHERIFFS OFFICE",
+  "UNIV OF TEXAS SYSTEM POLICE HI_ED",
+  "WILLIAMSON COUNTY SHERIFF'S OFFICE"
+)
+
+tx_quants_totals %>% 
+  filter(agency_name %in% local_agencies)
+```
+
+```
+## # A tibble: 5 x 3
+##   agency_name                        sum_quantity sum_total_value
+##   <chr>                                     <dbl>           <dbl>
+## 1 SAN MARCOS POLICE DEPT                     1050        3090552.
+## 2 AUSTIN POLICE DEPT                         1438        2732120.
+## 3 UNIV OF TEXAS SYSTEM POLICE HI_ED             3        1305000 
+## 4 TRAVIS COUNTY SHERIFFS OFFICE               151         935774.
+## 5 WILLIAMSON COUNTY SHERIFF'S OFFICE          205         429784.
+```
+
+</details>
+
+## Item quantities, totals for local agencies
+
+Now that we have an overall idea of what local agencies are doing, let's dive a little deeper. It's time to figure out the specific items that they received.
+
+Here is the quest: For each of the agencies above we'll use summarize to get the  _summed_ **quantity** and _summed_ **total_value** of each **item** shipped to the agency. We'll create a summarized list for each agency so we can write about each one.
+
+In some cases an agency might get the same item shipped to them at different times. For instance, APD has multiple rows of a single "ILLUMINATOR,INTEGRATED,SMALL ARM" shipped to them on the same date, and at other times the quantity is combined as 30 items into a single row. We'll group our summarize by **item_name** so we can get the totals for both **quantity** and **total_value** for like items.
+
+1. Create a new section (headline, text and first code chunk) and describe that you are finding the sums of each different item the agency has received since 2010.
+2. Our first code chunk will start with the `tx` data, and then filter the results to just "AUSTIN POLICE DEPT".
+3. Use `group_by` to group by `item_name`.
+4. Use summarize to build the `summed_quantity` and `summed_total_value` columns.
+5. Arrange the results so the most expensive items are at the top.
+
+
+```r
+tx %>% 
+  filter(agency_name == "AUSTIN POLICE DEPT") %>% 
+  group_by(item_name) %>% 
+  summarize(
+    summed_quantity = sum(quantity),
+    summed_total_value = sum(total_value)
+  ) %>% 
+  arrange(summed_total_value %>% desc())
+```
+
+```
+## # A tibble: 41 x 3
+##    item_name                                    summed_quantity summed_total_va~
+##    <chr>                                                  <dbl>            <dbl>
+##  1 HELICOPTER,FLIGHT TRAINER                                  1          833400 
+##  2 IMAGE INTENSIFIER,NIGHT VISION                            85          467847.
+##  3 SIGHT,THERMAL                                             29          442310 
+##  4 PACKBOT 510 WITH FASTAC REMOTELY CONTROLLED~               4          308000 
+##  5 SIGHT,REFLEX                                             420          144245.
+##  6 ILLUMINATOR,INTEGRATED,SMALL ARMS                        135          122302 
+##  7 RECON SCOUT XT                                             8           92451.
+##  8 RECON SCOUT XT,SPEC                                        6           81900 
+##  9 TEST SET,NIGHT VISION VIEWER                               2           55610 
+## 10 PICKUP                                                     2           38075 
+## # ... with 31 more rows
+```
+
+**Please realize** that this combines items that may have been shipped on any date our time period. If you want to learn more about _when_ they got the items, you would have to build a new list of the data without grouping/summarizing.
+
+### Build the lists for other agencies
+
+On your own ...
+
+1. Build a similar list for all the other local agencies. Basically you are just changing the filtering. You should end up with five chunks, each summarizing a different agency.
+
+### Google some interesting items
+
+You'll want some more detail in your data drop about some of these specific items.
+
+1. Do some Googling on some of these items of interest to learn more about them. I realize (and you should, too) that for a "real" story we would need to reach out to sources for more information, but you can get a general idea from what you find online for the writing assignment below.
+
+## Write a data drop
+
+Once you've found answers to all the questions listed, you may be asked to use that information in a writing assignment. See Canvas for details.
+
+## What we learned in this chapter
+
+- We used `sum()` within a `group_by()`/`summarize()` function to add values within a column.
+- We used `summary()` to get descriptive statistics about our data, like the minimum and maximum values, or an average (mean).
+- We learned how to use `c()` to **combine** a list of like values into a _vector_, and then used that vector to filter a column for valus `%in%` that vector.
+

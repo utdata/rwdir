@@ -58,9 +58,7 @@ In addition to these three main layers, there are lots of helper layers we'll le
 4. Start a new RMarkdown notebook and save it as `01-intro-ggplot.Rmd`.
 5. Remove the boilerplate and create a setup section that loads `library(tidyverse)`, like we do with every notebook. The `ggplot` package is a part of `tidyverse`, so when you load `tidyverse`, you'll load `ggplot`.
 
-```{r setup, echo=F, message=F, warning=F}
-library(tidyverse)
-```
+
 
 ## The layers of ggplot
 
@@ -71,16 +69,34 @@ To explore how `ggplot` works, we're going to work with some data that already c
 1. Start a new section "First plot" and add a code chunk.
 2. Add the code below and run it to see what the `mpg` dataset looks like.
 
-```{r mpg-view}
+
+```r
 mpg
+```
+
+```
+## # A tibble: 234 x 11
+##    manufacturer model      displ  year   cyl trans drv     cty   hwy fl    class
+##    <chr>        <chr>      <dbl> <int> <int> <chr> <chr> <int> <int> <chr> <chr>
+##  1 audi         a4           1.8  1999     4 auto~ f        18    29 p     comp~
+##  2 audi         a4           1.8  1999     4 manu~ f        21    29 p     comp~
+##  3 audi         a4           2    2008     4 manu~ f        20    31 p     comp~
+##  4 audi         a4           2    2008     4 auto~ f        21    30 p     comp~
+##  5 audi         a4           2.8  1999     6 auto~ f        16    26 p     comp~
+##  6 audi         a4           2.8  1999     6 manu~ f        18    26 p     comp~
+##  7 audi         a4           3.1  2008     6 auto~ f        18    27 p     comp~
+##  8 audi         a4 quattro   1.8  1999     4 manu~ 4        18    26 p     comp~
+##  9 audi         a4 quattro   1.8  1999     4 auto~ 4        16    25 p     comp~
+## 10 audi         a4 quattro   2    2008     4 manu~ 4        20    28 p     comp~
+## # ... with 224 more rows
 ```
 
 The `mpg` data contains observations collected by the US Environmental Protection Agency on 38 models of cars. It's a data set embedded into the tidyverse for lessons like this one.
 
 For this lesson, we'll use (at least two) two specific variables in this data:
 
-- `displ`, a carâ€™s engine size, in liters.
-- `hwy`, a carâ€™s fuel efficiency on the highway, in miles per gallon (mpg).
+- `displ`, a car’s engine size, in liters.
+- `hwy`, a car’s fuel efficiency on the highway, in miles per gallon (mpg).
 
 With these two variables, we can test the theory that cars with smaller engines (`displ`) get better gas mileage (`hwy`). To do this, we'll make a plot.
 
@@ -95,9 +111,12 @@ Do this:
 1. In your first plot section, add some text that you are building the mpg chart.
 2. Make a new code chunk and add the code below.
 
-```{r mpg-prebase}
+
+```r
 ggplot(mpg)
 ```
+
+<img src="07-plots_files/figure-html/mpg-prebase-1.png" width="672" />
 
 This tells us... absolutely nothing! But that's not surprising: you haven't even told `ggplot` what variables you want to focus on or the way you want to visualize the data. To do that, you'll need a second argument (and the first official layer in your plot): the `aes()` (short for "aesthetic"). This is considered a `mapping` argument, because you use this argument to tell `ggplot` how you want to map your data (in our case, `mpg`).
 
@@ -109,9 +128,12 @@ Do this:
 
 1. In the code chunk you created above, add the following line of code.
 
-```{r mpg-base}
+
+```r
 ggplot(mpg, aes(x = displ, y = hwy))
 ```
+
+<img src="07-plots_files/figure-html/mpg-base-1.png" width="672" />
 
 Let's work through the code above:
 
@@ -141,7 +163,8 @@ Below are some of the layers we will work with:
 
 In addition to these layers, we'll use the `+` at the end of each line. Think of the `+` as the ` %>% ` of ggplot. So, your code will look something like this (don't run this code chunk!):
 
-```{r toyexample, eval = FALSE}
+
+```r
 ggplot(data, aes(x = some_variable, y = another_variable)) + #creates the base layer, with the + at the end
   geom_layer #adds a geom
 ```
@@ -156,10 +179,15 @@ Let's start with a straightforward `geom` layer, `geom_plot()`, which adds a lay
 
 1. EDIT your plot chunk to add the `+` and a new line for `geom_point()`
 
-```{r mpg-points}
+
+```r
 ggplot(mpg, aes(x = displ, y = hwy)) + # don't forget the + at the end of this line
   geom_point() # the geom_point layer
+```
 
+<img src="07-plots_files/figure-html/mpg-points-1.png" width="672" />
+
+```r
 #The geom_point() function will inherit the aes() values from the line above it.
 ```
 
@@ -171,11 +199,13 @@ As mentioned in the above section, there are aesthetics (`aes`) arguments that c
 
 1. Edit your `geom_point()` function to add a color mapping to the points with `aes(color = class)`. `color` is the type of aesthetic, and `class` is another variable (column) in the data.
 
-```{r mpg-color}
+
+```r
 ggplot(mpg, aes(x = displ, y = hwy)) +
   geom_point(aes(color = class)) # this is the line you are editing
-
 ```
+
+<img src="07-plots_files/figure-html/mpg-color-1.png" width="672" />
 
 As you can see, the dots were given colors based on the values in the `class` column, and ggplot also added a legend to the graphic. These colors are the default color settings in `ggplot`
 
@@ -196,12 +226,48 @@ For this lesson, we're not going to create a different notebook or download the 
 1. In the text, note that we are importing the princess chart data.
 1. Add the code below to get the data.
 
-```{r class-data}
+
+```r
 # read the data and create an tibble object called "class"
 class <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQfwR6DBW5Qv6O5aEBFJl4V8itnlDxFEc1e_-fOAtBMDxXx1GeEGb8o5VSgi33oTYqeFhVCevGGbG5y/pub?gid=0&single=true&output=csv")
+```
 
+```
+## Rows: 28 Columns: 3
+```
+
+```
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr (3): Name, Princess, Ice cream
+```
+
+```
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+```r
 # peek at the data
 class
+```
+
+```
+## # A tibble: 28 x 3
+##    Name    Princess                      `Ice cream`      
+##    <chr>   <chr>                         <chr>            
+##  1 Katy    Belle (Beauty and the Beast)  Cookies and Cream
+##  2 Ana     Belle (Beauty and the Beast)  Cookie Dough     
+##  3 Marissa Tiana (Princess and the Frog) Cookie Dough     
+##  4 Jessie  Pocahontas                    Strawberry       
+##  5 José    Ariel (Little Mermaid)        Cookies and Cream
+##  6 Claire  Ariel (Little Mermaid)        Coffee/Jamoca    
+##  7 Payne   Snow White                    Cookie Dough     
+##  8 Caro    Belle (Beauty and the Beast)  Cookie Dough     
+##  9 Vicente Rapunzel (Tangled)            Coffee/Jamoca    
+## 10 Bryan   Jasmine (Aladdin)             Cookie Dough     
+## # ... with 18 more rows
 ```
 
 So, now, you should have the data in your environment. 
@@ -218,177 +284,19 @@ For this lesson, I'm going to use the `count()` shortcut, since we haven't used 
 1. Add text that you are creating a data frame to plot.
 2. Add the code below to create that data.
 
-```{r princess-summarize}
-princess_data <- class %>% 
-  count(princess, name = "votes", sort = TRUE)
-  # this above line counts the princess rows, sets the name and sorts
-
-# peek at the data
-princess_data
-```
-
-At this point, y'all should be plenty familiar with these summary functions, and the output should be easy to interpret: we're just countin the number of rows for each princess.
-
-Now that we have our table data, let's actually plot it.
-
-### Build our plot with geom_col
-
-Like in the previous lesson, we'll start our plot by creating the first layer: the `ggplot()` function, which takes the data as its first argument and the `aes()` mapping layer as its second argument. 
-
-1. Add some text noting that you'll now plot.
-1. Add the following code chunk, which is the first layer
-
-```{r princess-base}
-ggplot(princess_data, aes(x = princess, y = votes)) # sets our x and y axes
-```
-
-You'll see the grid and x/y axis of the data, but no geometries are applied yet, so you won't see any data. But remember, we're adding these all in gradual layers.
-
-### Add the geom_col layer
-
-Now it is time to add our columns. To do this, we'll use `geom_col()`. Similar to `geom_point()`, `geom_col()` adds a geometric layer that tells R how to display the data (in this case, with columns as opposed to points). Let's write this code now.
-
-1. Edit the plot code to add the ggplot pipe `+` and on the next line add `geom_col()`.
-
-```{r princess-col}
-ggplot(princess_data, aes(x = princess, y = votes)) + # don't forget the + on this line
-  geom_col() # adds the bars
-```
-
-Our two-layer chart is getting somewhere now. We're able to see the data in the plot, but there are a couple issues:
-
-- We can't read the value names. We can fix this.
-- The order of the bars is alphabetical instead of in vote order. Again, we can fix it.
-
-### Flip the axes
-
-One way to fix the labels is to "flip" the axes, so the x axis becomes the y axis and vice versa. This is the equivalent of rotating the whole figure. When we do this, the axis will turn sideways, making it easier to read the labels. Worth noting: this can be a bit confusing later because the "x" axis is now going up/down (as opposed to left and right).
-
-Let's learn how to flip the axes now. We'll do this by adding a new layer, `coord_flip()`, which is a special layer that flips the axes. Just like we added the previous `geom_col()` layer using `+`, we'll do the same thing here. Let's do that now.
-
-1. Edit your plot chunk to add the ggplot pipe `+`and `coord_flip()` on the next line.
-
-```{r princess-flipped}
-ggplot(princess_data, aes(x = princess, y = votes)) +
-  geom_col() + # don't forget the +
-  coord_flip() # flips the axis
-```
-
-As you can see, rather than having vertical bars, we now have horizontal bars, and the names of each princess are fully displayed and read-able. Much better!
-
-But the bars are still in an alphabetical order, as opposed to a vote order, so let's fix that now.
-
-### Reorder the bars
-
-The bars on our chart are in alphabetical order of the x axis (and reversed thanks to our flip.) We want to order the values based on the `votes` in the data.
-
-> Complication alert: Categorical data can have [factors](https://r4ds.had.co.nz/factors.html), which are like an internal ordering system. Some categories, like months in a year, have an "order" that is not alphabetical.
-
-We can reorder our categorical values in a plot by editing the `x` values in our `aes()` using `reorder()`. (There is a tidyverse function called `fct_reorder()` that works the same way.
-
-`reorder()` takes two arguments: The column to reorder, and the column to base that reorder on. It can happen in two different ways, and I'll be honest and say I don't know which is easier to comprehend.
-
-- `x = reorder(princess, votes)` says "set the x axis as `princess`, but order as `votes`. OR ...
-- `x = princess %>% reorder(votes)` says "set the x axis as `princess` _and then_ reorder by `votes`.
-
-They both work. Even though I'm a fan of the tidyverse ` %>% ` construct, I'm going with the first version.
-
-1. Edit the first line of your chunk to reorder the bars.
-
-```{r princess-reorder}
-ggplot(princess_data, aes(x = reorder(princess, votes), y = votes)) + # this is the line you edit
-  geom_col() +
-  coord_flip()
-```
-So now, our princess names are read-able, and the bars are organized in vote size. But what if we wanted to be clearer in our figure, so that we knew the exact number of votes for each princess? Let's learn how to add this information.
-
-### Adding a geom_text layer
-
-Now, we're really starting to take advance of the grammar of graphics by including more than one geometric layer. Specifically, we'll be using `geom_text()` to add some information to our bar charts. 
-
-As we mentioned previously, `geom` layers can take individual aesthetics (that build on top of the global aesthetics you put in the first layer). When using `geom_text()`, we'll include some local aesthetics using the `aes()` argument, to tell `ggplot` the label we'd like to add to the plot.
-
-1. Edit your plot chunk to add the ggplot pipe `+`and `geom_text()` on the next line.
-2. Add the following line to the chunk `geom_text(aes(label = votes)`.
-
-```{r princess-text-ugly}
-ggplot(princess_data, aes(x = reorder(princess, votes), y = votes)) + 
-  geom_col() +
-  coord_flip() + # don't forget +
-  geom_text(aes(label = votes)) # plots votes text values on chart
-```
-Well that did... something. We've successfully added the numbers to this plot, but it's not very pretty. First, the number sits at the end of the bar, making it harder to read. So we'll want to **horizontally** adjust this by shifting the numbers a bit to the left. Second, black text is really hard to read against a dark grey background. So we'll change the text of the number to white.
 
 
 
 
-We can make both of these edits directly in the `geom_text` layer. 
 
-1. Edit the last line of your plot chunk to add two new arguments.
-2. The first argument you will add is `hjust`, which moves the text left. (`hjust` stands for horizontal justification. `vjust`, or vertical justification, would move it up and down).
-3. The second argument you will add is `color`, which tells `ggplot` what the color of your text should be.
 
-As a reminder, you should always separate your arguments within a function using commas (`,`).
 
-```{r princess-text-clean}
-ggplot(princess_data, aes(x = reorder(princess, votes), y = votes)) + 
-  geom_col() +
-  coord_flip() + # don't forget +
-  geom_text(aes(label = votes), hjust = 2, color = "white") # plots read-able votes text values on chart
-```
-Great! But we're still not done. Even though we've added labels to each bar chart, we still haven't added a title, and the titles of our x and y axes are not great. So let's work on those now.
 
-### Add some titles and more labels
 
-Now that we have a chart, with some information displayed in bars, flipped and arranged so we can see information, let's add to this by giving the chart some labels. We'll do this by adding a **layer** of labels to our chart using the the `labs()` function. We can add and change a number of things with `labs()`, including creating a title, and changing the x and y axis titles.
 
-1. Edit the last line of your plot chunk to add the ggplot pipe `+` and `labs()` in the next line.
-2. Add a title using the `title = ` argument
-3. Add a subtitle using the `subtitle = ` argument. This is a great place to put information about your data (like when it was collected).
-4. Add a caption using the `caption = ` argument. Put your byline here!
-5. Change the x and y axes titles using `x = ` and `y = `.
 
-```{r princess-labs}
-ggplot(princess_data, aes(x = reorder(princess, votes), y = votes)) + 
-  geom_col() +
-  coord_flip() + # don't forget +
-  geom_text(aes(label = votes), hjust = 2, color = "white") + # plots votes text values on chart
-  # labs below has several settings
-  labs(
-    title = "Favored princess", # adds a title
-    subtitle = "Disney Princess votes from Reporting with Data, Spring 2022.", # adds a subtitle
-    caption = "By Jo Lukito", # adds the byline, replace this name with your own
-    x = "Princess choices", # renames the x axis label (which is really y since it is flipped)
-    y = "Number of votes" # renames the y axis label (which is really x since it is flipped)
-  )
-```
 
-There you go! You've made a chart showing how our classes rated Disney Princesses.
 
-## On your own: Ice cream!
 
-Now it is time for you to put these skills to work:
 
-1. Build a chart about the favorite ice creams from RWD classes.
 
-Some things to consider:
-
-- You need a new section, etc.
-- You're starting with the same `class` data
-- You need to prepare the data based on `ice_cream` (which is the name of a variable in your `class` data frame)
-- You need to build the chart
-
-It's essentially the same process we used for the princess chart, but using `ice_cream` variable.
-
-## What we've learned
-
-There is a ton, really.
-
-- ggplot2 (which is really the `ggplot()` function) is the charting library for the tidyverse. This whole lesson was about it.
-
-Here are some more references for ggplot:
-
-- [The ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html) and [ggplot2 cheatsheets](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf).
-- [R for Data Science, Chap 3.](https://r4ds.had.co.nz/data-visualisation.html) Hadley Wickam dives right into plots in his book.
-- [R Graphics Cookbook](https://r-graphics.org/) has lots of example plots. Good to harvest code and see how to do things.
-- [The R Graph Gallery](https://www.r-graph-gallery.com/) another place to see examples.

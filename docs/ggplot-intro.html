@@ -660,12 +660,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>geometries</strong> (“geom”): this is where you tell R the shape of your visualization, whether it’s lines, bars, points, or something else.</li>
 <li><strong>themes</strong> (“theme”): this is where you tell R the font you’d like to use, the background color, and other things you want to “pretty up” the data viz.</li>
 </ul>
-<p>In addition to these three main layers, there are lots of helper layers we’ll learn about along the way, including:
-- <strong>coord_flip</strong>: a special layer for flipping the chart
-- <strong>scales</strong>: transforming the data to make the plot more read-able
-- <strong>labels</strong> (“labs”): for making titles and labels
-- <strong>facets</strong>: For graphing many elements of the same data set in the same space (one dataset, multiple figures)</p>
-<p>This all may seem complicated now, but it’ll make sense once we start putting together these layers together, one at a time. After all, the best way to learn any R package is to <strong>do it</strong></p>
+<p>In addition to these three main layers, there are lots of helper layers we’ll learn about along the way, including:</p>
+<ul>
+<li><p><strong>coord_flip</strong>: a special layer for flipping the chart<br />
+</p></li>
+<li><p><strong>scales</strong>: transforming the data to make the plot more read-able<br />
+</p></li>
+<li><p><strong>labels</strong> (“labs”): for making titles and labels<br />
+</p></li>
+<li><p><strong>facets</strong>: For graphing many elements of the same data set in the same space (one dataset, multiple figures)</p>
+<p>This all may seem complicated now, but it’ll make sense once we start putting together these layers together, one at a time. After all, the best way to learn any R package is to <strong>do it</strong></p></li>
+</ul>
 </div>
 </div>
 <div id="start-a-new-project" class="section level2" number="7.3">
@@ -825,24 +830,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9 Chandle  Jasmine (Aladdin)             Cookie Dough       
 ## 10 Chris    Cinderella                    Cookie Dough       
 ## # ... with 24 more rows</code></pre>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="ggplot-intro.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="co">#you can also use glimpse(class)</span></span></code></pre></div>
 <p>So, now, you should have the data in your environment.</p>
 <div id="prepare-the-data" class="section level3" number="7.5.1">
 <h3><span class="header-section-number">7.5.1</span> Prepare the data</h3>
 <p>While there are ways for ggplot to calculate values from your data on the fly, I prefer to first build a table of the values I want, and then I will plot it on a chart. It’s helpful to think of these steps as separate so you have a good workflow (clean the data, prepare the data in a table form, and then plot the data).</p>
-<p>Today, our goal will be to make a bar chart, sometimes known as a column chart or histogram. This bar chart will show the number of votes for each princess from the data. So, we need to count the number of rows for each value … our typical <code>group_by</code>/<code>summarize</code>/<code>arrange</code> process.</p>
+<p>Today, our goal will be to make a bar chart, sometimes known as a column chart or histogram. This bar chart will show the number of votes for each princess from the data. So, we need to count the number of rows for each value … our typical <code>group_by</code>/<code>summarize</code>/<code>arrange</code> (GSA) process.</p>
 <p>For this lesson, I’m going to use the <code>count()</code> shortcut, since we haven’t used it much lately. Next, I’ll save the summarized data into a new dataframe called <code>princess_data</code>. Follow along in your notebook:</p>
 <ol style="list-style-type: decimal">
 <li>Add a section: Princess chart.</li>
 <li>Add text that you are creating a data frame to plot.</li>
 <li>Add the code below to create that data.</li>
 </ol>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="ggplot-intro.html#cb147-1" aria-hidden="true" tabindex="-1"></a>princess_data <span class="ot">&lt;-</span> class <span class="sc">%&gt;%</span> </span>
-<span id="cb147-2"><a href="ggplot-intro.html#cb147-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(princess, <span class="at">name =</span> <span class="st">&quot;votes&quot;</span>, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb147-3"><a href="ggplot-intro.html#cb147-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this above line counts the princess rows, sets the name and sorts</span></span>
-<span id="cb147-4"><a href="ggplot-intro.html#cb147-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-5"><a href="ggplot-intro.html#cb147-5" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
-<span id="cb147-6"><a href="ggplot-intro.html#cb147-6" aria-hidden="true" tabindex="-1"></a>princess_data</span></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="ggplot-intro.html#cb146-1" aria-hidden="true" tabindex="-1"></a>princess_data <span class="ot">&lt;-</span> class <span class="sc">%&gt;%</span> </span>
+<span id="cb146-2"><a href="ggplot-intro.html#cb146-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(princess, <span class="at">name =</span> <span class="st">&quot;votes&quot;</span>, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb146-3"><a href="ggplot-intro.html#cb146-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this above line counts the princess rows, sets the name and sorts</span></span>
+<span id="cb146-4"><a href="ggplot-intro.html#cb146-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb146-5"><a href="ggplot-intro.html#cb146-5" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb146-6"><a href="ggplot-intro.html#cb146-6" aria-hidden="true" tabindex="-1"></a>princess_data</span></code></pre></div>
 <pre><code>## # A tibble: 10 x 2
 ##    princess                      votes
 ##    &lt;chr&gt;                         &lt;int&gt;
@@ -866,7 +870,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Add some text noting that you’ll now plot.</li>
 <li>Add the following code chunk, which is the first layer</li>
 </ol>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="ggplot-intro.html#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)) <span class="co"># sets our x and y axes</span></span></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="ggplot-intro.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)) <span class="co"># sets our x and y axes</span></span></code></pre></div>
 <p><img src="07-plots_files/figure-html/princess-base-1.png" width="672" /></p>
 <p>You’ll see the grid and x/y axis of the data, but no geometries are applied yet, so you won’t see any data. But remember, we’re adding these all in gradual layers.</p>
 </div>
@@ -876,8 +880,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol style="list-style-type: decimal">
 <li>Edit the plot code to add the ggplot pipe <code>+</code> and on the next line add <code>geom_col()</code>.</li>
 </ol>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="ggplot-intro.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)) <span class="sc">+</span> <span class="co"># don&#39;t forget the + on this line</span></span>
-<span id="cb150-2"><a href="ggplot-intro.html#cb150-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="co"># adds the bars</span></span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="ggplot-intro.html#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)) <span class="sc">+</span> <span class="co"># don&#39;t forget the + on this line</span></span>
+<span id="cb149-2"><a href="ggplot-intro.html#cb149-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="co"># adds the bars</span></span></code></pre></div>
 <p><img src="07-plots_files/figure-html/princess-col-1.png" width="672" /></p>
 <p>Our two-layer chart is getting somewhere now. We’re able to see the data in the plot, but there are a couple issues:</p>
 <ul>
@@ -892,9 +896,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol style="list-style-type: decimal">
 <li>Edit your plot chunk to add the ggplot pipe <code>+</code>and <code>coord_flip()</code> on the next line.</li>
 </ol>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="ggplot-intro.html#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)) <span class="sc">+</span></span>
-<span id="cb151-2"><a href="ggplot-intro.html#cb151-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span> <span class="co"># don&#39;t forget the +</span></span>
-<span id="cb151-3"><a href="ggplot-intro.html#cb151-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="co"># flips the axis</span></span></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="ggplot-intro.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)) <span class="sc">+</span></span>
+<span id="cb150-2"><a href="ggplot-intro.html#cb150-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span> <span class="co"># don&#39;t forget the +</span></span>
+<span id="cb150-3"><a href="ggplot-intro.html#cb150-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="co"># flips the axis</span></span></code></pre></div>
 <p><img src="07-plots_files/figure-html/princess-flipped-1.png" width="672" /></p>
 <p>As you can see, rather than having vertical bars, we now have horizontal bars, and the names of each princess are fully displayed and read-able. Much better!</p>
 <p>But the bars are still in an alphabetical order, as opposed to a vote order, so let’s fix that now.</p>
@@ -915,9 +919,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol style="list-style-type: decimal">
 <li>Edit the first line of your chunk to reorder the bars.</li>
 </ol>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="ggplot-intro.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> <span class="co"># this is the line you edit</span></span>
-<span id="cb152-2"><a href="ggplot-intro.html#cb152-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb152-3"><a href="ggplot-intro.html#cb152-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="ggplot-intro.html#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> <span class="co"># this is the line you edit</span></span>
+<span id="cb151-2"><a href="ggplot-intro.html#cb151-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb151-3"><a href="ggplot-intro.html#cb151-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div>
 <p><img src="07-plots_files/figure-html/princess-reorder-1.png" width="672" />
 So now, our princess names are read-able, and the bars are organized in vote size. But what if we wanted to be clearer in our figure, so that we knew the exact number of votes for each princess? Let’s learn how to add this information.</p>
 </div>
@@ -929,10 +933,10 @@ So now, our princess names are read-able, and the bars are organized in vote siz
 <li>Edit your plot chunk to add the ggplot pipe <code>+</code>and <code>geom_text()</code> on the next line.</li>
 <li>Add the following line to the chunk <code>geom_text(aes(label = votes)</code>.</li>
 </ol>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="ggplot-intro.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> </span>
-<span id="cb153-2"><a href="ggplot-intro.html#cb153-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb153-3"><a href="ggplot-intro.html#cb153-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="co"># don&#39;t forget +</span></span>
-<span id="cb153-4"><a href="ggplot-intro.html#cb153-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> votes)) <span class="co"># plots votes text values on chart</span></span></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="ggplot-intro.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> </span>
+<span id="cb152-2"><a href="ggplot-intro.html#cb152-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb152-3"><a href="ggplot-intro.html#cb152-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="co"># don&#39;t forget +</span></span>
+<span id="cb152-4"><a href="ggplot-intro.html#cb152-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> votes)) <span class="co"># plots votes text values on chart</span></span></code></pre></div>
 <p><img src="07-plots_files/figure-html/princess-text-ugly-1.png" width="672" />
 Well that did… something. We’ve successfully added the numbers to this plot, but it’s not very pretty. First, the number sits at the end of the bar, making it harder to read. So we’ll want to <strong>horizontally</strong> adjust this by shifting the numbers a bit to the left. Second, black text is really hard to read against a dark grey background. So we’ll change the text of the number to white.</p>
 <p>We can make both of these edits directly in the <code>geom_text</code> layer.</p>
@@ -942,10 +946,10 @@ Well that did… something. We’ve successfully added the numbers to this plot,
 <li>The second argument you will add is <code>color</code>, which tells <code>ggplot</code> what the color of your text should be.</li>
 </ol>
 <p>As a reminder, you should always separate your arguments within a function using commas (<code>,</code>).</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="ggplot-intro.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> </span>
-<span id="cb154-2"><a href="ggplot-intro.html#cb154-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb154-3"><a href="ggplot-intro.html#cb154-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="co"># don&#39;t forget +</span></span>
-<span id="cb154-4"><a href="ggplot-intro.html#cb154-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> votes), <span class="at">hjust =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="co"># plots read-able votes text values on chart</span></span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="ggplot-intro.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> </span>
+<span id="cb153-2"><a href="ggplot-intro.html#cb153-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb153-3"><a href="ggplot-intro.html#cb153-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="co"># don&#39;t forget +</span></span>
+<span id="cb153-4"><a href="ggplot-intro.html#cb153-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> votes), <span class="at">hjust =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="co"># plots read-able votes text values on chart</span></span></code></pre></div>
 <p><img src="07-plots_files/figure-html/princess-text-clean-1.png" width="672" />
 Great! But we’re still not done. Even though we’ve added labels to each bar chart, we still haven’t added a title, and the titles of our x and y axes are not great. So let’s work on those now.</p>
 </div>
@@ -959,18 +963,18 @@ Great! But we’re still not done. Even though we’ve added labels to each bar 
 <li>Add a caption using the <code>caption =</code> argument. Put your byline here!</li>
 <li>Change the x and y axes titles using <code>x =</code> and <code>y =</code>.</li>
 </ol>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="ggplot-intro.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> </span>
-<span id="cb155-2"><a href="ggplot-intro.html#cb155-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb155-3"><a href="ggplot-intro.html#cb155-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="co"># don&#39;t forget +</span></span>
-<span id="cb155-4"><a href="ggplot-intro.html#cb155-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> votes), <span class="at">hjust =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span> <span class="co"># plots votes text values on chart</span></span>
-<span id="cb155-5"><a href="ggplot-intro.html#cb155-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># labs below has several settings</span></span>
-<span id="cb155-6"><a href="ggplot-intro.html#cb155-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb155-7"><a href="ggplot-intro.html#cb155-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Favored princess&quot;</span>, <span class="co"># adds a title</span></span>
-<span id="cb155-8"><a href="ggplot-intro.html#cb155-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Disney Princess votes from Reporting with Data, Spring 2022.&quot;</span>, <span class="co"># adds a subtitle</span></span>
-<span id="cb155-9"><a href="ggplot-intro.html#cb155-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;By Jo Lukito&quot;</span>, <span class="co"># adds the byline, replace this name with your own</span></span>
-<span id="cb155-10"><a href="ggplot-intro.html#cb155-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Princess choices&quot;</span>, <span class="co"># renames the x axis label (which is really y since it is flipped)</span></span>
-<span id="cb155-11"><a href="ggplot-intro.html#cb155-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Number of votes&quot;</span> <span class="co"># renames the y axis label (which is really x since it is flipped)</span></span>
-<span id="cb155-12"><a href="ggplot-intro.html#cb155-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="ggplot-intro.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> </span>
+<span id="cb154-2"><a href="ggplot-intro.html#cb154-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb154-3"><a href="ggplot-intro.html#cb154-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="co"># don&#39;t forget +</span></span>
+<span id="cb154-4"><a href="ggplot-intro.html#cb154-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> votes), <span class="at">hjust =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span> <span class="co"># plots votes text values on chart</span></span>
+<span id="cb154-5"><a href="ggplot-intro.html#cb154-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># labs below has several settings</span></span>
+<span id="cb154-6"><a href="ggplot-intro.html#cb154-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb154-7"><a href="ggplot-intro.html#cb154-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Favored princess&quot;</span>, <span class="co"># adds a title</span></span>
+<span id="cb154-8"><a href="ggplot-intro.html#cb154-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Disney Princess votes from Reporting with Data, Spring 2022.&quot;</span>, <span class="co"># adds a subtitle</span></span>
+<span id="cb154-9"><a href="ggplot-intro.html#cb154-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;By Jo Lukito&quot;</span>, <span class="co"># adds the byline, replace this name with your own</span></span>
+<span id="cb154-10"><a href="ggplot-intro.html#cb154-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Princess choices&quot;</span>, <span class="co"># renames the x axis label (which is really y since it is flipped)</span></span>
+<span id="cb154-11"><a href="ggplot-intro.html#cb154-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Number of votes&quot;</span> <span class="co"># renames the y axis label (which is really x since it is flipped)</span></span>
+<span id="cb154-12"><a href="ggplot-intro.html#cb154-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <p><img src="07-plots_files/figure-html/princess-labs-1.png" width="672" /></p>
 <p>There you go! You’ve made a chart showing how our classes rated Disney Princesses.</p>
 </div>
