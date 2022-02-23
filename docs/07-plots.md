@@ -40,13 +40,14 @@ As I said above, the `gg` in `ggplot` stands for "Grammar of Graphics," which is
 - **geometries** ("geom"): this is where you tell R the shape of your visualization, whether it's lines, bars, points, or something else.
 - **themes** ("theme"): this is where you tell R the font you'd like to use, the background color, and other things you want to "pretty up" the data viz.
 
-In addition to these three main layers, there are lots of helper layers we'll learn about along the way, including:
-- **coord_flip**: a special layer for flipping the chart
-- **scales**: transforming the data to make the plot more read-able
-- **labels** ("labs"): for making titles and labels
-- **facets**: For graphing many elements of the same data set in the same space (one dataset, multiple figures)
+In addition to these three main layers, there are lots of helper layers we'll learn about along the way, including:  
 
-This all may seem complicated now, but it'll make sense once we start putting together these layers together, one at a time. After all, the best way to learn any R package is to **do it**
+- **coord_flip**: a special layer for flipping the chart  
+- **scales**: transforming the data to make the plot more read-able  
+- **labels** ("labs"): for making titles and labels   
+- **facets**: For graphing many elements of the same data set in the same space (one dataset, multiple figures)  
+
+  This all may seem complicated now, but it'll make sense once we start putting together these layers together, one at a time. After all, the best way to learn any R package is to **do it**
 
 
 ## Start a new project
@@ -269,17 +270,13 @@ class
 ## # ... with 24 more rows
 ```
 
-```r
-#you can also use glimpse(class)
-```
-
 So, now, you should have the data in your environment. 
 
 ### Prepare the data
 
 While there are ways for ggplot to calculate values from your data on the fly, I prefer to first build a table of the values I want, and then I will plot it on a chart. It's helpful to think of these steps as separate so you have a good workflow (clean the data, prepare the data in a table form, and then plot the data).
 
-Today, our goal will be to make a bar chart, sometimes known as a column chart or histogram. This bar chart will show the number of votes for each princess from the data. So, we need to count the number of rows for each value ... our typical `group_by`/`summarize`/`arrange` process. 
+Today, our goal will be to make a bar chart, sometimes known as a column chart or histogram. This bar chart will show the number of votes for each princess from the data. So, we need to count the number of rows for each value ... our typical `group_by`/`summarize`/`arrange` (GSA) process. 
 
 For this lesson, I'm going to use the `count()` shortcut, since we haven't used it much lately. Next, I'll save the summarized data into a new dataframe called `princess_data`. Follow along in your notebook:
 
