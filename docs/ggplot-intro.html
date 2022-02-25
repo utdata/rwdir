@@ -24,7 +24,7 @@
 <meta name="author" content="Christian McDonald and Jo Lukito" />
 
 
-<meta name="date" content="2022-02-21" />
+<meta name="date" content="2022-02-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -680,7 +680,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Create a new project, name it <code>yourname-ggplot</code> and save it in your rwd folder.</li>
 <li>(No need for a folder structure, we’ll do this all in one file.)</li>
 <li>Start a new RMarkdown notebook and save it as <code>01-intro-ggplot.Rmd</code>.</li>
-<li>Remove the boilerplate and create a setup section that loads <code>library(tidyverse)</code>, like we do with every notebook. The <code>ggplot</code> package is a part of <code>tidyverse</code>, so when you load <code>tidyverse</code>, you’ll load <code>ggplot</code>.</li>
+<li>Remove the boilerplate and create a setup section that loads <code>library(tidyverse)</code> and <code>library(janitor)</code>, like we do with every notebook. The <code>ggplot</code> package is a part of <code>tidyverse</code>, so when you load <code>tidyverse</code>, you’ll load <code>ggplot</code>.</li>
 </ol>
 </div>
 <div id="the-layers-of-ggplot" class="section level2" number="7.4">
@@ -806,30 +806,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Add the code below to get the data.</li>
 </ol>
 <div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="ggplot-intro.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read the data and create an tibble object called &quot;class&quot;</span></span>
-<span id="cb140-2"><a href="ggplot-intro.html#cb140-2" aria-hidden="true" tabindex="-1"></a>class <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://docs.google.com/spreadsheets/d/e/2PACX-1vRnSAx9eBoOGdZ3pMLZ2XhrBlgl56BeycxJwdTofmgfTBTZ7A1-LMuBxAI094aAZnCmeThPNXaU-xro/pub?gid=1648328850&amp;single=true&amp;output=csv&quot;</span>)</span></code></pre></div>
-<pre><code>## Rows: 34 Columns: 3</code></pre>
+<span id="cb140-2"><a href="ggplot-intro.html#cb140-2" aria-hidden="true" tabindex="-1"></a>class <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://docs.google.com/spreadsheets/d/e/2PACX-1vQfwR6DBW5Qv6O5aEBFJl4V8itnlDxFEc1e_-fOAtBMDxXx1GeEGb8o5VSgi33oTYqeFhVCevGGbG5y/pub?gid=0&amp;single=true&amp;output=csv&quot;</span>)</span></code></pre></div>
+<pre><code>## Rows: 28 Columns: 3</code></pre>
 <pre><code>## -- Column specification --------------------------------------------------------
 ## Delimiter: &quot;,&quot;
-## chr (3): name, princess, ice_cream</code></pre>
+## chr (3): Name, Princess, Ice cream</code></pre>
 <pre><code>## 
 ## i Use `spec()` to retrieve the full column specification for this data.
 ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="ggplot-intro.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
 <span id="cb144-2"><a href="ggplot-intro.html#cb144-2" aria-hidden="true" tabindex="-1"></a>class</span></code></pre></div>
-<pre><code>## # A tibble: 34 x 3
-##    name     princess                      ice_cream          
-##    &lt;chr&gt;    &lt;chr&gt;                         &lt;chr&gt;              
-##  1 Addie    Rapunzel (Tangled)            Cookie Dough       
-##  2 Aisling  Pocahontas                    Mint Chocolate Chip
-##  3 Alexis   Jasmine (Aladdin)             Cookie Dough       
-##  4 Ana      Belle (Beauty and the Beast)  Cookies and Cream  
-##  5 Andreana Mulan                         Strawberry         
-##  6 Angelica Tiana (Princess and the Frog) Strawberry         
-##  7 Ariana   Merida (Brave)                Coffee/Jamoca      
-##  8 Cecilia  Cinderella                    Mint Chocolate Chip
-##  9 Chandle  Jasmine (Aladdin)             Cookie Dough       
-## 10 Chris    Cinderella                    Cookie Dough       
-## # ... with 24 more rows</code></pre>
+<pre><code>## # A tibble: 28 x 3
+##    Name    Princess                      `Ice cream`      
+##    &lt;chr&gt;   &lt;chr&gt;                         &lt;chr&gt;            
+##  1 Katy    Belle (Beauty and the Beast)  Cookies and Cream
+##  2 Ana     Belle (Beauty and the Beast)  Cookie Dough     
+##  3 Marissa Tiana (Princess and the Frog) Cookie Dough     
+##  4 Jessie  Pocahontas                    Strawberry       
+##  5 José    Ariel (Little Mermaid)        Cookies and Cream
+##  6 Claire  Ariel (Little Mermaid)        Coffee/Jamoca    
+##  7 Payne   Snow White                    Cookie Dough     
+##  8 Caro    Belle (Beauty and the Beast)  Cookie Dough     
+##  9 Vicente Rapunzel (Tangled)            Coffee/Jamoca    
+## 10 Bryan   Jasmine (Aladdin)             Cookie Dough     
+## # ... with 18 more rows</code></pre>
 <p>So, now, you should have the data in your environment.</p>
 <div id="prepare-the-data" class="section level3" number="7.5.1">
 <h3><span class="header-section-number">7.5.1</span> Prepare the data</h3>
@@ -842,24 +842,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Add the code below to create that data.</li>
 </ol>
 <div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="ggplot-intro.html#cb146-1" aria-hidden="true" tabindex="-1"></a>princess_data <span class="ot">&lt;-</span> class <span class="sc">%&gt;%</span> </span>
-<span id="cb146-2"><a href="ggplot-intro.html#cb146-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(princess, <span class="at">name =</span> <span class="st">&quot;votes&quot;</span>, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb146-3"><a href="ggplot-intro.html#cb146-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this above line counts the princess rows, sets the name and sorts</span></span>
-<span id="cb146-4"><a href="ggplot-intro.html#cb146-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb146-5"><a href="ggplot-intro.html#cb146-5" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
-<span id="cb146-6"><a href="ggplot-intro.html#cb146-6" aria-hidden="true" tabindex="-1"></a>princess_data</span></code></pre></div>
-<pre><code>## # A tibble: 10 x 2
+<span id="cb146-2"><a href="ggplot-intro.html#cb146-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb146-3"><a href="ggplot-intro.html#cb146-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(princess, <span class="at">name =</span> <span class="st">&quot;votes&quot;</span>, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb146-4"><a href="ggplot-intro.html#cb146-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this above line counts the princess rows, sets the name and sorts</span></span>
+<span id="cb146-5"><a href="ggplot-intro.html#cb146-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb146-6"><a href="ggplot-intro.html#cb146-6" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb146-7"><a href="ggplot-intro.html#cb146-7" aria-hidden="true" tabindex="-1"></a>princess_data</span></code></pre></div>
+<pre><code>## # A tibble: 11 x 2
 ##    princess                      votes
 ##    &lt;chr&gt;                         &lt;int&gt;
-##  1 Mulan                             8
-##  2 Jasmine (Aladdin)                 4
-##  3 Pocahontas                        4
-##  4 Aurora (Sleeping Beauty)          3
-##  5 Belle (Beauty and the Beast)      3
-##  6 Cinderella                        3
-##  7 Rapunzel (Tangled)                3
-##  8 Tiana (Princess and the Frog)     3
-##  9 Merida (Brave)                    2
-## 10 Ariel (Little Mermaid)            1</code></pre>
+##  1 Ariel (Little Mermaid)            5
+##  2 Belle (Beauty and the Beast)      4
+##  3 Tiana (Princess and the Frog)     4
+##  4 Mulan                             3
+##  5 Rapunzel (Tangled)                3
+##  6 Cinderella                        2
+##  7 Jasmine (Aladdin)                 2
+##  8 Snow White                        2
+##  9 Aurora (Sleeping Beauty)          1
+## 10 Merida (Brave)                    1
+## 11 Pocahontas                        1</code></pre>
 <p>At this point, y’all should be plenty familiar with these summary functions, and the output should be easy to interpret: we’re just countin the number of rows for each princess.</p>
 <p>Now that we have our table data, let’s actually plot it.</p>
 </div>
