@@ -56,10 +56,11 @@ In addition to these three main layers, there are lots of helper layers we'll le
 2. Create a new project, name it `yourname-ggplot` and save it in your rwd folder.
 3. (No need for a folder structure, we'll do this all in one file.)
 4. Start a new RMarkdown notebook and save it as `01-intro-ggplot.Rmd`.
-5. Remove the boilerplate and create a setup section that loads `library(tidyverse)`, like we do with every notebook. The `ggplot` package is a part of `tidyverse`, so when you load `tidyverse`, you'll load `ggplot`.
+5. Remove the boilerplate and create a setup section that loads `library(tidyverse)` and `library(janitor)`, like we do with every notebook. The `ggplot` package is a part of `tidyverse`, so when you load `tidyverse`, you'll load `ggplot`.
 
 ```{r setup, echo=F, message=F, warning=F}
 library(tidyverse)
+library(janitor)
 ```
 
 ## The layers of ggplot
@@ -220,6 +221,7 @@ For this lesson, I'm going to use the `count()` shortcut, since we haven't used 
 
 ```{r princess-summarize}
 princess_data <- class %>% 
+  clean_names() %>%
   count(princess, name = "votes", sort = TRUE)
   # this above line counts the princess rows, sets the name and sorts
 

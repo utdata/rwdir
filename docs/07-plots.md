@@ -56,7 +56,7 @@ In addition to these three main layers, there are lots of helper layers we'll le
 2. Create a new project, name it `yourname-ggplot` and save it in your rwd folder.
 3. (No need for a folder structure, we'll do this all in one file.)
 4. Start a new RMarkdown notebook and save it as `01-intro-ggplot.Rmd`.
-5. Remove the boilerplate and create a setup section that loads `library(tidyverse)`, like we do with every notebook. The `ggplot` package is a part of `tidyverse`, so when you load `tidyverse`, you'll load `ggplot`.
+5. Remove the boilerplate and create a setup section that loads `library(tidyverse)` and `library(janitor)`, like we do with every notebook. The `ggplot` package is a part of `tidyverse`, so when you load `tidyverse`, you'll load `ggplot`.
 
 
 
@@ -229,17 +229,17 @@ For this lesson, we're not going to create a different notebook or download the 
 
 ```r
 # read the data and create an tibble object called "class"
-class <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vRnSAx9eBoOGdZ3pMLZ2XhrBlgl56BeycxJwdTofmgfTBTZ7A1-LMuBxAI094aAZnCmeThPNXaU-xro/pub?gid=1648328850&single=true&output=csv")
+class <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQfwR6DBW5Qv6O5aEBFJl4V8itnlDxFEc1e_-fOAtBMDxXx1GeEGb8o5VSgi33oTYqeFhVCevGGbG5y/pub?gid=0&single=true&output=csv")
 ```
 
 ```
-## Rows: 34 Columns: 3
+## Rows: 28 Columns: 3
 ```
 
 ```
 ## -- Column specification --------------------------------------------------------
 ## Delimiter: ","
-## chr (3): name, princess, ice_cream
+## chr (3): Name, Princess, Ice cream
 ```
 
 ```
@@ -254,20 +254,20 @@ class
 ```
 
 ```
-## # A tibble: 34 x 3
-##    name     princess                      ice_cream          
-##    <chr>    <chr>                         <chr>              
-##  1 Addie    Rapunzel (Tangled)            Cookie Dough       
-##  2 Aisling  Pocahontas                    Mint Chocolate Chip
-##  3 Alexis   Jasmine (Aladdin)             Cookie Dough       
-##  4 Ana      Belle (Beauty and the Beast)  Cookies and Cream  
-##  5 Andreana Mulan                         Strawberry         
-##  6 Angelica Tiana (Princess and the Frog) Strawberry         
-##  7 Ariana   Merida (Brave)                Coffee/Jamoca      
-##  8 Cecilia  Cinderella                    Mint Chocolate Chip
-##  9 Chandle  Jasmine (Aladdin)             Cookie Dough       
-## 10 Chris    Cinderella                    Cookie Dough       
-## # ... with 24 more rows
+## # A tibble: 28 x 3
+##    Name    Princess                      `Ice cream`      
+##    <chr>   <chr>                         <chr>            
+##  1 Katy    Belle (Beauty and the Beast)  Cookies and Cream
+##  2 Ana     Belle (Beauty and the Beast)  Cookie Dough     
+##  3 Marissa Tiana (Princess and the Frog) Cookie Dough     
+##  4 Jessie  Pocahontas                    Strawberry       
+##  5 José    Ariel (Little Mermaid)        Cookies and Cream
+##  6 Claire  Ariel (Little Mermaid)        Coffee/Jamoca    
+##  7 Payne   Snow White                    Cookie Dough     
+##  8 Caro    Belle (Beauty and the Beast)  Cookie Dough     
+##  9 Vicente Rapunzel (Tangled)            Coffee/Jamoca    
+## 10 Bryan   Jasmine (Aladdin)             Cookie Dough     
+## # ... with 18 more rows
 ```
 
 So, now, you should have the data in your environment. 
@@ -287,6 +287,7 @@ For this lesson, I'm going to use the `count()` shortcut, since we haven't used 
 
 ```r
 princess_data <- class %>% 
+  clean_names() %>%
   count(princess, name = "votes", sort = TRUE)
   # this above line counts the princess rows, sets the name and sorts
 
@@ -295,19 +296,20 @@ princess_data
 ```
 
 ```
-## # A tibble: 10 x 2
+## # A tibble: 11 x 2
 ##    princess                      votes
 ##    <chr>                         <int>
-##  1 Mulan                             8
-##  2 Jasmine (Aladdin)                 4
-##  3 Pocahontas                        4
-##  4 Aurora (Sleeping Beauty)          3
-##  5 Belle (Beauty and the Beast)      3
-##  6 Cinderella                        3
-##  7 Rapunzel (Tangled)                3
-##  8 Tiana (Princess and the Frog)     3
-##  9 Merida (Brave)                    2
-## 10 Ariel (Little Mermaid)            1
+##  1 Ariel (Little Mermaid)            5
+##  2 Belle (Beauty and the Beast)      4
+##  3 Tiana (Princess and the Frog)     4
+##  4 Mulan                             3
+##  5 Rapunzel (Tangled)                3
+##  6 Cinderella                        2
+##  7 Jasmine (Aladdin)                 2
+##  8 Snow White                        2
+##  9 Aurora (Sleeping Beauty)          1
+## 10 Merida (Brave)                    1
+## 11 Pocahontas                        1
 ```
 
 At this point, y'all should be plenty familiar with these summary functions, and the output should be easy to interpret: we're just countin the number of rows for each princess.
