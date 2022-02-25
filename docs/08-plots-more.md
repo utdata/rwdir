@@ -1,10 +1,12 @@
 # Deeper into ggplot {#ggplot-more}
 
-In the last chapter you were introduced to [ggplot2](https://ggplot2.tidyverse.org/index.html), the graphic function that is part of the tidyverse. With this chapter we'll walk through more ways to use ggplot. This will also serve as a reference for you. A huge hat tip to [Jo Lukito](https://www.jlukito.com/). One of her lessons inspired most of this.
+The chapter is by Prof. Lukito, who uses a PC.
+
+In the last chapter, you were introduced to [ggplot2](https://ggplot2.tidyverse.org/index.html), the `tidyverse` package that helps you build graphics, charts, and figures. In this chapter, we'll take your `ggplot` knowledge to the next level. We encourage you to treat this chapter as a reference.
 
 ## References
 
-ggplot2 has a LOT to it and we'll cover only the basics. Here are some references you might use:
+`ggplot2` has a LOT to it and we'll cover only the basics. Here are some references you might use:
 
 - [ggplot cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf)
 - [R for Data Science](https://r4ds.had.co.nz/index.html)
@@ -15,178 +17,297 @@ ggplot2 has a LOT to it and we'll cover only the basics. Here are some reference
 
 ## Learning goals for this chapter
 
-Some things we'll touch on concerning ggplot:
+In this chapter, we will cover the following topics:
 
-- Prepare and build a line chart
-- Using themes to change the look of our charts
-- Adding/changing aesthetics in layers
-- Facets (multiple charts from same data)
-- Saving files
-- Interactivity with Plotly
+- How to prepare and build a line chart
+- How to use themes to change the looks of al chart
+- More about aesthetics in layers!
+- Faceting, or making multiple charts from the same data
+- How to save files
+- How to make interactive plots with `Plotly`
 
 ## Set up your notebook
 
-We'll use the same `yourname-ggplot` project we used in the last chapter, but start a new RNotebook.
+This week, we'll return to our `leso` data, but start a new RNotebook. Let's open our “yourname-military-surplus” R project first, and then create a new Rmarkdown. Do this:
 
-1. Open your plot project.
-2. Start a new RNotebook. Add the goals listed above.
-3. Load the tidyverse package.
+1. Create your RNotebook.
+2. Rename the title "Military Surplus figures"
+3. Remove the rest of the boilerplate template.
+4. Save the file and name it `03-ggplot.Rmd`.
+5. Load the `tidyverse` library.
+
+
+
+We'll also load the `lubridate` package, which we used previously.
 
 
 
 ### Let's get the data
 
-> I hope to demonstrate in class the creation of this first plot. Otherwise you should be able to follow along in the screencast.
+> We'll demonstrate this in class, but you can also follow along in the screencast.
 
-Again, we won't download the data ... we'll just import it and save it to a tibble. We are using data from a weekly project called #tidytuesday that the community uses to practice R. Perhaps in the near future we'll have our own #tidytuesday sessions!
+Next, let's read in the `leso.csv` dataset, which we imported in [5.4.4](https://utdata.github.io/rwdir/sums-import.html#import-the-data-1). We'll do this using `read_csv()`.
 
-1. Start a new section to indication you are importing the data
-2. Note in text it is from #tidytuesday
-3. Add the code chunk below, which will download a saved copy of the data.
+<details>
+  <summary>You should be able to do this on your own. Really!</summary>
 
 
 ```r
-kids_data <- read_rds("https://github.com/utdata/rwdir/blob/main/data-raw/kids-data.rds?raw=true")
-
-# peek at the table
-kids_data
+leso <- read_csv("data-raw/leso.csv") #read the data in
 ```
 
 ```
-## # A tibble: 23,460 x 6
-##    state                variable  year      raw   inf_adj inf_adj_perchild
-##    <chr>                <chr>    <dbl>    <dbl>     <dbl>            <dbl>
-##  1 Alabama              PK12ed    1997  3271969  4665308.             3.93
-##  2 Alaska               PK12ed    1997  1042311  1486170              7.55
-##  3 Arizona              PK12ed    1997  3388165  4830986.             3.71
-##  4 Arkansas             PK12ed    1997  1960613  2795523              3.89
-##  5 California           PK12ed    1997 28708364 40933568              4.28
-##  6 Colorado             PK12ed    1997  3332994  4752320.             4.38
-##  7 Connecticut          PK12ed    1997  4014870  5724568.             6.70
-##  8 Delaware             PK12ed    1997   776825  1107629.             5.63
-##  9 District of Columbia PK12ed    1997   544051   775730.             6.11
-## 10 Florida              PK12ed    1997 11498394 16394885              4.45
-## # ... with 23,450 more rows
+## Rows: 124848 Columns: 12
+```
+
+```
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr  (7): state, agency_name, nsn, item_name, ui, demil_code, station_type
+## dbl  (4): sheet, quantity, acquisition_value, demil_ic
+## dttm (1): ship_date
+```
+
+```
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 ```r
-# glimpse it
-kids_data %>% glimpse()
+glimpse(leso) #peek at the data
 ```
 
 ```
-## Rows: 23,460
-## Columns: 6
-## $ state            <chr> "Alabama", "Alaska", "Arizona", "Arkansas", "Californ~
-## $ variable         <chr> "PK12ed", "PK12ed", "PK12ed", "PK12ed", "PK12ed", "PK~
-## $ year             <dbl> 1997, 1997, 1997, 1997, 1997, 1997, 1997, 1997, 1997,~
-## $ raw              <dbl> 3271969, 1042311, 3388165, 1960613, 28708364, 3332994~
-## $ inf_adj          <dbl> 4665308.5, 1486170.0, 4830985.5, 2795523.0, 40933568.~
-## $ inf_adj_perchild <dbl> 3.929449, 7.548493, 3.706679, 3.891275, 4.282325, 4.3~
+## Rows: 124,848
+## Columns: 12
+## $ sheet             <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"~
+## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A~
+## $ nsn               <chr> "2540-01-565-4700", "1240-DS-OPT-SIGH", "1005-01-587~
+## $ item_name         <chr> "BALLISTIC BLANKET KIT", "OPTICAL SIGHTING AND RANGI~
+## $ quantity          <dbl> 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, ~
+## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each~
+## $ acquisition_value <dbl> 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00~
+## $ demil_code        <chr> "D", "D", "D", "D", "D", "C", "C", "Q", "D", "C", "C~
+## $ demil_ic          <dbl> 1, NA, 1, 1, 1, 1, 1, 3, 7, 1, 1, NA, 1, 1, 1, 1, 1,~
+## $ ship_date         <dttm> 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201~
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
 ```
 
-If you want to learn more about this dataset you can find [information here](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-09-15/readme.md). In short: "This dataset provides a comprehensive accounting of public spending on children from 1997 through 2016." Included is spending for higher education (the `highered` values in the column `variable`.)
+</details>
 
-We'll filter this data to get to our data of interest: How much does Texas (and some neighboring states) spend on higher education.
+Don't forget to also do the other processing steps we did in [Chapter 5](https://utdata.github.io/rwdir/sums-import.html#create-a-total_value-column).
+
+<details>
+  <summary>Again, you should be able to do this on your own</summary>
+
+Buuuut, if you needed a refresher, check out section [5.4.6](https://utdata.github.io/rwdir/sums-import.html#remove-unnecessary-columns) to [5.4.7](https://utdata.github.io/rwdir/sums-import.html#create-a-total_value-column). There are 2 steps to this:
+
+- Removing unnecessary columns using `select()`  
+- Creating a `total_value` column using `mutate()`  
+
+
+```r
+leso_tight <- leso %>% 
+  select(
+    -sheet,
+    -nsn,
+    -starts_with("demil")
+  ) #this chunk removes unnecessary columns
+
+leso_total <- leso_tight %>% 
+  mutate(total_value = quantity * acquisition_value) #this chunk creates a total_value column
+```
+
+</details>
+
+Alrighty! Let's look at the data
+
+```r
+leso_total %>% glimpse()
+```
+
+```
+## Rows: 124,848
+## Columns: 9
+## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"~
+## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A~
+## $ item_name         <chr> "BALLISTIC BLANKET KIT", "OPTICAL SIGHTING AND RANGI~
+## $ quantity          <dbl> 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, ~
+## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each~
+## $ acquisition_value <dbl> 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00~
+## $ ship_date         <dttm> 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201~
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
+## $ total_value       <dbl> 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 65800~
+```
+
+## Wrangle the data
+
+To prepare the data for visualizing, we need to do a couple more new things. This is going to take several steps, which we will pipe together.
+
+1. `filter` the data to focus on more recent data. Let's specifically consider military surplus in 2010 and after.
+2. And then, create a `month` variable using the `floor_date()` function. `floor_date()` is a function in `lubridate` that allows us to aggregate  
+3. And then, `select` a few variables to study (specifically, `month`, `total_value`, `state`, and `agency_name`)
+
+In this chunk of code, we'll use a new function we haven't learned about before: `floor_date()`. This is the date-equivalent of rounding: we use `floor_date()` to "round down" a date, so "2022-01-25" (January 25, 2022) becomes "2022-01-01". This can be useful when we want to aggregate information from the day-level to the week, month, or year level. `floor_date()` takes two arguments: the date-time object (in our case, the `date` variable in the `tx` data frame) *and* the unit that you want to round to (in our case, `"month"`, but you can also do week, bi-month, quarter, year, and so on).
+
+
+```r
+leso_total <- leso_total %>%
+  filter(ship_date >= as.Date("2010-01-01")) %>%
+  mutate(month = floor_date(ship_date, "month")) %>% 
+  select(month, total_value, state)
+
+glimpse(leso_total)
+```
+
+```
+## Rows: 84,605
+## Columns: 3
+## $ month       <dttm> 2018-01-01, 2016-06-01, 2016-09-01, 2016-09-01, 2017-03-0~
+## $ total_value <dbl> 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 658000.00, ~
+## $ state       <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"~
+```
+
+There's a lot of information in this data, so let's focus our data visualizing on Texas, like we did in our previous chapters. We'll do this by `filter`ing the rows where `state == "TX"`.
+
+
+```r
+leso_texas <- leso_total %>% 
+  filter(state == "TX")
+```
+
+Now that we have our data in a nice structure, with some monthly information, let's use our GSA process (`group_by() %>% summarize() %>% arrange()`). In this process, we'll `group by` month (the variable we have just created), `summarize` a the total value of the military surplus (by month) and arrange that information chronologically. 
+
+
+```r
+leso_texas_gsa <- leso_texas %>%
+  group_by(month) %>%
+  summarize(monthly_cost = sum(total_value)) %>%
+  arrange(month)
+
+head(leso_texas_gsa) #use head() to view the first 6 rows of this new data frame
+```
+
+```
+## # A tibble: 6 x 2
+##   month               monthly_cost
+##   <dttm>                     <dbl>
+## 1 2010-01-01 00:00:00       92290 
+## 2 2010-02-01 00:00:00        5447 
+## 3 2010-03-01 00:00:00     5399589.
+## 4 2010-04-01 00:00:00      267113.
+## 5 2010-05-01 00:00:00      181700.
+## 6 2010-06-01 00:00:00       16983
+```
+
+We may come back to the data to fix some stuff but for now, we're ready to plot!
+
+> If any of these steps are confusing to you, we encourage you to go back to [Chapter 5 and 6](https://utdata.github.io/rwdir/sums-import.html#about-the-story-military-surplus-transfers).
 
 ## Make a line chart of the Texas data
 
-Our first goal here is to plot the "inflation adjusted spending per child" for higher education in Texas.
-
-### Prepare the data
-
-We need to filter our data to include just the `highered` values for Texas. We're going to save that filtered data into a new tibble.
-
-1. Add a new section indicating we are building a chart to show higher education spending in Texas.
-2. Note that we are preparing the data.
-3. Add the chunk below and run it.
-
-
-```r
-tx_hied <- kids_data %>%
-  filter(
-    variable == "highered",
-    state == "Texas"
-  )
-
-# peek at the data
-tx_hied
-```
-
-```
-## # A tibble: 20 x 6
-##    state variable  year       raw   inf_adj inf_adj_perchild
-##    <chr> <chr>    <dbl>     <dbl>     <dbl>            <dbl>
-##  1 Texas highered  1997  3940232   5618146.            0.944
-##  2 Texas highered  1998  4185619   5895340.            0.970
-##  3 Texas highered  1999  4578617   6368075             1.03 
-##  4 Texas highered  2000  4810358   6554888.            1.05 
-##  5 Texas highered  2001  5684406.  7564852             1.20 
-##  6 Texas highered  2002  6558453   8589044             1.34 
-##  7 Texas highered  2003  6584970.  8462055             1.31 
-##  8 Texas highered  2004  6611486   8290757             1.27 
-##  9 Texas highered  2005  7180804   8730524             1.32 
-## 10 Texas highered  2006  7744386   9119121             1.34 
-## 11 Texas highered  2007  7540724   8644579             1.25 
-## 12 Texas highered  2008  8914255  10011380             1.42 
-## 13 Texas highered  2009 10039289  11145217             1.55 
-## 14 Texas highered  2010 13097474  14413453             1.99 
-## 15 Texas highered  2011 13366868  14416946             1.97 
-## 16 Texas highered  2012 13999386  14828316             2.01 
-## 17 Texas highered  2013 14520493  15124855             2.04 
-## 18 Texas highered  2014 16101982  16470816             2.19 
-## 19 Texas highered  2015 16591235  16773450             2.21 
-## 20 Texas highered  2016 15507047  15507047             2.02
-```
+Data visualization is an iterative process: you may prepare the data, do the visualization, and then realize you want to prepare the data a different way. Remember that the process of coding can involve trial and error: you're often testing different thing to see what works.
 
 ### Plot the chart
 
-I want you to create the plot here one step at a time so you can review how the layers are added.
+Alright, so now let's get ready to use the `ggplot()` function. I want you to create the plot here one step at a time so you can review how the layers are added.
+
+In this new plot, we'll learn about a new `geom` layer: `geom_line()` (recall that in [Chapter 7](https://utdata.github.io/rwdir/ggplot-intro.html), we learned about `geom_point()` and `geom_col()`).
 
 1. Add and run the ggplot() line first (but without the `+`)
 2. Then add the `+` and the `geom_point()` and run it.
 3. Then add the `+` and `geom_line()` and run it.
-4. When you add the `labs()` add all the lines at once and run it.
+4. Then add the `+` and `labs()`, and run everything.
 
 
 ```r
-ggplot(tx_hied, aes(x = year, y = inf_adj_perchild)) + # we create our graph
-  geom_point() + # adding the points
-  geom_line() +  # adding the lines between points
-  labs(
-    title = "School spending slips", 
-    subtitle = "Texas spent less per child on higher education in 2016.",
-    x = "Year", y = "$ per child (Adjusted for Inflation)",
-    caption = "Source: tidykids"
-  )
+ggplot(leso_texas_gsa, aes(x = month, y = monthly_cost)) + #we create the graph
+  geom_point() + #adding the points
+  geom_line() + #adding the lines between the points
+  labs(title = "Law Enforcement Support Office Data, Texas", 
+       x = "Months", y = "Cost of acquisitions")
 ```
 
-<img src="08-plots-more_files/figure-html/tx-hied-chart-1.png" width="672" />
+<img src="08-plots-more_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+
+### Cleaning Up
+
+Alright, so we have a working plot! But there's a couple things that are a bit ugly about this plot. First, I'm not digging the weird numbers on the side (what the heck does `0.0e+00` even mean?!). To fix this, let's go back to our data and do a bit more preparing. If we use `head()` to look at our data, we'll notice that there are a few numbers that are just really, really big.
+
 
 ```r
-  # labs above add text layer on top of graph
+head(leso_texas_gsa) #use head() to view the first 6 rows of this new data frame
 ```
 
-We have a pretty decent chart showing `year` on our x axis and `inf_adj_perchild` (or inflation-adjusted spending per child) on our y axis.
+```
+## # A tibble: 6 x 2
+##   month               monthly_cost
+##   <dttm>                     <dbl>
+## 1 2010-01-01 00:00:00       92290 
+## 2 2010-02-01 00:00:00        5447 
+## 3 2010-03-01 00:00:00     5399589.
+## 4 2010-04-01 00:00:00      267113.
+## 5 2010-05-01 00:00:00      181700.
+## 6 2010-06-01 00:00:00       16983
+```
+
+These large numbers are causing R to read our numbers as "scientific notation" (a math-y way of reading large numbers). For example, the total cost of supplies in February 2010 was `5,399,589.0` (that's the first spike in our figure, around the `5.0e + 06` mark). But what a pain to read!
+
+To get around this, let's divide our `monthly_cost` variable (in the `leso_tx_gsa` data frame) by 1 million. Just like we round our numbers when we write about data, so too do we often round numbers when we visualize it. In the line below, we use `mutate()` to divide `monthly_cost` by 1,000,000.
+
+
+```r
+leso_texas_gsa <- leso_texas_gsa %>%
+  mutate(monthly_cost = monthly_cost/1000000) #divide by 1 million
+
+head(leso_texas_gsa)
+```
+
+```
+## # A tibble: 6 x 2
+##   month               monthly_cost
+##   <dttm>                     <dbl>
+## 1 2010-01-01 00:00:00      0.0923 
+## 2 2010-02-01 00:00:00      0.00545
+## 3 2010-03-01 00:00:00      5.40   
+## 4 2010-04-01 00:00:00      0.267  
+## 5 2010-05-01 00:00:00      0.182  
+## 6 2010-06-01 00:00:00      0.0170
+```
+
+Now, let's re-visualize our data. Notice that in the `labs` layer below, we add some new information to the `y-axis`, so people know that the `5` here refers to `5 million`.
+
+
+```r
+ggplot(leso_texas_gsa, aes(x = month, y = monthly_cost)) + #we create the graph
+  geom_point() + #adding the points
+  geom_line() + #adding the lines between the points
+  labs(title = "Monthly Value of Military Surplus Acquisitions in Texas", 
+       x = "Months", y = "Cost of acquisitions (in millions)",
+       caption = "Source: Law Enforcement Support Office")
+```
+
+<img src="08-plots-more_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+
+Our chart is looking much better!
 
 ### Saving plots as an object
 
-Sometimes it is helpful to push the results of a plot into an R object to "save" those configurations. You can continue to add layers after, but don't have to rebuild the basic chart each time. We'll do that here so we can explore themes next.
+Sometimes it is helpful to push the results of a plot into an R object to "save" those configurations. You can continue to add layers to this object, but you won't need to rebuild the main portions of the chart each time. We'll do that here so we can explore themes next.
 
 1. Edit your Texas plot chunk you made earlier to save it into an R object, and then call `tx_plot` after it so you can see it.
 
 
 ```r
-# the line below pushes the graph results into tx_plot
-tx_plot <- ggplot(tx_hied, aes(x = year, y = inf_adj_perchild)) +
-  geom_point() +
+# the line below saves the graph results into tx_plot
+tx_plot <- ggplot(leso_texas_gsa, aes(x = month, y = monthly_cost)) + 
+  geom_point() + 
   geom_line() +
-  labs(
-    title = "School spending slips", 
-    subtitle = "Texas spent less per child on higher education in 2016.",
-    x = "Year", y = "$ per child (Adjusted for Inflation)",
-    caption = "Source: tidykids"
-  )
+  labs(title = "Monthly Value of Military Surplus Acquisitions in Texas", 
+       x = "Months", y = "Cost of acquisitions (in millions)",
+       caption = "Source: Law Enforcement Support Office")
 
 # Since we saved the plot into an R object above, we have to call it again to see it.
 # We save graphs like this so we can reuse them.
@@ -201,7 +322,7 @@ We can continue to build upon the `tx_plot` object like we do below with themes,
 
 The _look_ of the graph is controlled by the theme. There are a number of preset themes you can use. Let's look at a couple.
 
-1. Create a new section saying we'll explore themes
+1. Create a new section saying we'll explore themes.
 2. Add the chunk below and run it.
 
 
@@ -263,59 +384,85 @@ OK, our Texas higher education spending is fine ... but how does that compare to
 
 ### Prepare the data
 
-We need to go back to our original `kids_data` to get the additional states.
+We need to go back to our original `leso_total` to get the additional states.
 
-1. Start a new section that notes we are building a chart for five states.
-2. Note that we'll first prepare the data.
+1. Start a new section that notes we are building a chart for five states (Texas, Oklahoma, Arkansas, New Mexico, and Louisiana)
+2. Prepare the data using the `%in%` filter that we learned about in [Chapter 6](https://utdata.github.io/rwdir/sums-analyze.html#looking-a-local-agencies). Rather than creating a separate list, we're going to write the list right into the `filter()` function using `c()`.
 
 
 ```r
-five_hied <- kids_data %>% 
+leso_five <- leso_total %>% 
   filter(
-    variable == "highered",
-    state %in% c("Texas", "Oklahoma", "Arkansas", "New Mexico", "Louisiana")
+    state %in% c("TX", "OK", "AR", "NM", "LA")
   )
 
-five_hied
+leso_five
 ```
 
 ```
-## # A tibble: 100 x 6
-##    state      variable  year     raw  inf_adj inf_adj_perchild
-##    <chr>      <chr>    <dbl>   <dbl>    <dbl>            <dbl>
-##  1 Arkansas   highered  1997  457171  651853.            0.907
-##  2 Louisiana  highered  1997  672364  958684.            0.731
-##  3 New Mexico highered  1997  639409  911696.            1.68 
-##  4 Oklahoma   highered  1997  624053  889800.            0.942
-##  5 Texas      highered  1997 3940232 5618146.            0.944
-##  6 Arkansas   highered  1998  477757  672909.            0.930
-##  7 Louisiana  highered  1998  747739 1053172.            0.805
-##  8 New Mexico highered  1998  667738  940492.            1.74 
-##  9 Oklahoma   highered  1998  690234  972177.            1.02 
-## 10 Texas      highered  1998 4185619 5895340.            0.970
-## # ... with 90 more rows
+## # A tibble: 11,546 x 3
+##    month               total_value state
+##    <dttm>                    <dbl> <chr>
+##  1 2021-12-01 00:00:00        421. AR   
+##  2 2021-11-01 00:00:00      44478  AR   
+##  3 2021-12-01 00:00:00       4977. AR   
+##  4 2021-11-01 00:00:00        168  AR   
+##  5 2021-12-01 00:00:00        232. AR   
+##  6 2018-08-01 00:00:00       1918  AR   
+##  7 2021-12-01 00:00:00          0  AR   
+##  8 2015-04-01 00:00:00       3861  AR   
+##  9 2013-05-01 00:00:00      89900  AR   
+## 10 2014-09-01 00:00:00      89900  AR   
+## # ... with 11,536 more rows
 ```
 
-Note we used our `%in%` filter to get any state listed in `c()`.
+Now that we have our five states, let's GSA this information, like we did earlier (but for all 5 states and not just Texas).
+
+<details>
+  <summary>Again, this should be a refresher!</summary>
+
+
+```r
+leso_five_gsa <- leso_five %>%
+  group_by(state, month) %>% #groups by state AND month
+  summarize(monthly_cost = sum(total_value)) %>% 
+  mutate(monthly_cost = monthly_cost/1000000) #divide by 1 million
+```
+
+```
+## `summarise()` has grouped output by 'state'. You can override using the `.groups` argument.
+```
+
+```r
+leso_five_gsa %>% glimpse()
+```
+
+```
+## Rows: 452
+## Columns: 3
+## Groups: state [5]
+## $ state        <chr> "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR~
+## $ month        <dttm> 2010-12-01, 2011-01-01, 2011-03-01, 2011-04-01, 2011-05-~
+## $ monthly_cost <dbl> 0.00207600, 0.05097442, 0.00301800, 0.05546326, 0.0571645~
+```
+
+</details>
 
 ### Plot multiple line chart
 
-Let's add a different line for each state. To do this you would use the color aesthetic `aes()` in the `geom_line()` geom. Recall that geoms can have their own `aes()` variable information. This is especially useful for working with a third variable (like when making a stacked bar chart or line plot with multiple lines). Notice that the color aesthetic (meaning that it is in aes) takes a variable, not a color. You can learn how to change these colors [here](http://www.sthda.com/english/wiki/ggplot2-colors-how-to-change-colors-automatically-and-manually).
+For our next plot, we'll add a different line for each state. To do this you would use the color aesthetic `aes()` in the `geom_line()` geom. Recall that geoms can have their own `aes()` variable information. This is especially useful for working with a third variable (like when making a stacked bar chart or line plot with multiple lines). Notice that the color aesthetic (meaning that it is in `aes`) takes a variable, not a color. You can learn how to change these colors [here](http://www.sthda.com/english/wiki/ggplot2-colors-how-to-change-colors-automatically-and-manually). For now, though, we'll use the `ggplot` default colors.
 
 1. Add a note that we'll now build the chart.
 2. Add the code chunk below and run it. Look through the comments so you understand it.
 
 
 ```r
-ggplot(five_hied, aes(x = year, y = inf_adj_perchild)) + 
+ggplot(leso_five_gsa, aes(x = month, y = monthly_cost)) + 
   geom_point() +
   geom_line(aes(color = state)) + # The aes selects a color for each state
-  labs(
-    title = "Spending on Higher Education in Texas, Bordering States",
-    x = "Year",
-    y = "$ per child (Adjusted for Inflation)",
-    caption = "Source: tidykids"
-  )
+  labs(title = "Monthly Value of Military Surplus Acquisitions in Texas and Boardering States", 
+       x = "Month", y = "Cost of acquisitions (in millions)",
+       caption = "Source: Law Enforcement Support Office")
 ```
 
 <img src="08-plots-more_files/figure-html/five-hied-lcolor-1.png" width="672" />
@@ -326,26 +473,25 @@ Notice that R changes the color of the line, but not the point? This is because 
 
 
 ```r
-ggplot(five_hied, aes(x = year, y = inf_adj_perchild)) +
-  geom_point(aes(color = state)) + # add the aes here
-  geom_line(aes(color = state)) +
-  labs(title = "Spending on Higher Education in Texas, Bordering States", 
-       x = "Year", y = "$ per child (Adjusted for Inflation)",
-       caption = "Source: tidykids")
+ggplot(leso_five_gsa, aes(x = month, y = monthly_cost)) + 
+  geom_point(aes(color = state)) +
+  geom_line(aes(color = state)) + # The aes selects a color for each state
+  labs(title = "Monthly Value of Military Surplus Acquisitions in Texas and Boardering States", 
+       x = "Month", y = "Cost of acquisitions (in millions)",
+       caption = "Source: Law Enforcement Support Office")
 ```
 
 <img src="08-plots-more_files/figure-html/five-hied-pcolor-1.png" width="672" />
 
 ## On your own: Line chart
 
-I want you to make a line chart of preschool-to-high-school spending (the "PK12ed" value in the `variable` column) showing the inflation adjusted per-child spending (the `inf_adj_perchild` column) for the five states that border the Gulf of Mexico. This is very similar to the chart you just made, but with different values.
+I want you to make a line chart of military surplus acquisitions in three states that are **different** from the five we used above. This is very similar to the chart you just made, but with different values.
 
 Some things to do/consider:
 
 1. Do this in a new section and explain it.
-1. You'll need to prepare the data just like we did above to get the right data points and the right states.
-2. I really suggest you build both chunks (the data prep and the chart) one line at a time so you can see what each step adds.
-1. Save the resulting plot into a new R object because we'll use it later.
+2. You'll need to prepare the data just like we did above to get the right data points and the right states.
+3. I really suggest you build both chunks (the data prep and the chart) one line at a time so you can see what each step adds.
 
 
 
@@ -357,12 +503,12 @@ You don't have to add these examples below to your own notebook, but here are so
 
 
 ```r
-ggplot(five_hied, aes(x = year, y = inf_adj_perchild)) +
+ggplot(leso_five_gsa, aes(x = month, y = monthly_cost)) + 
   geom_point(aes(color = state)) +
-  geom_line(aes(color = state), size = 1.5) + # added size here
-  labs(title = "Spending on Higher Education in Texas, Bordering States", 
-       x = "Year", y = "$ per child (Adjusted for Inflation)",
-       caption = "Source: tidykids")
+  geom_line(aes(color = state), size = 1.5) + #make the lines thicker here
+  labs(title = "Monthly Value of Military Surplus Acquisitions in Texas and Boardering States", 
+       x = "Month", y = "Cost of acquisitions (in millions)",
+       caption = "Source: Law Enforcement Support Office")
 ```
 
 <img src="08-plots-more_files/figure-html/line-width-1.png" width="672" />
@@ -373,14 +519,17 @@ This example removes the points and adds a `linetype = state` to the ggplot aest
 
 
 ```r
-ggplot(five_hied, aes(x = year, y = inf_adj_perchild)) +
-  geom_line(aes(color = state, linetype = state), size = .75) +
-  labs(title = "Spending on Higher Education in Texas, Bordering States", 
-       x = "Year", y = "$ per child (Adjusted for Inflation)",
-       caption = "Source: tidykids")
+ggplot(leso_five_gsa, aes(x = month, y = monthly_cost)) + 
+  geom_point(aes(color = state)) +
+  geom_line(aes(color = state, linetype = state), size = 0.75) + #changes the line type
+  labs(title = "Monthly Value of Military Surplus Acquisitions in Texas and Boardering States", 
+       x = "Month", y = "Cost of acquisitions (in millions)",
+       caption = "Source: Law Enforcement Support Office")
 ```
 
 <img src="08-plots-more_files/figure-html/line-type-1.png" width="672" />
+
+Notice that when you put the information `geom_line(aes())` (like with `color` and `linetype`), this varies the color and linetype of the lines, whereas `size` is consistent for all the lines.
 
 ### Adjust axis
 
@@ -388,16 +537,16 @@ ggplot(five_hied, aes(x = year, y = inf_adj_perchild)) +
 
 
 ```r
-ggplot(five_hied, aes(x = year, y = inf_adj_perchild, linetype = state)) +
-  geom_line(aes(color = state), size = .75) +
-  xlim(1995, 2020) + # sets minimum and maximum values on axis
-  labs(title = "Spending on Higher Education in Texas, Bordering States", 
-       x = "Year", y = "$ per child (Adjusted for Inflation)",
-       caption = "Source: tidykids")
+ggplot(leso_five_gsa, aes(x = month, y = monthly_cost)) + 
+  geom_point(aes(color = state)) +
+  geom_line(aes(color = state, linetype = state), size = 0.75) + #changes the line type
+  xlim(as.POSIXct("2009-07-01"), as.POSIXct("2022-02-01")) + # sets minimum and maximum values on axis
+  labs(title = "Monthly Value of Military Surplus Acquisitions in Texas and Boardering States", 
+       x = "Month", y = "Cost of acquisitions (in millions)",
+       caption = "Source: Law Enforcement Support Office")
 ```
 
 <img src="08-plots-more_files/figure-html/adjust-axis-1.png" width="672" />
-
 The function `xlim()` and `ylim()` are shortcuts for `scale_x_continuous()` and `scale_y_continuous()` which [do more things](https://ggplot2.tidyverse.org/reference/scale_continuous.html#examples).
 
 ## Facets
@@ -407,17 +556,17 @@ Facets are a way to make multiple graphs based on a variable in the data. There 
 We'll start by creating a base graph and then apply the facet. 
 
 1. Start a new section about facets
-2. Add the code below to create your chart and view it.
+2. Add the code below to create your chart and view it. This is the same plot we've already created
 
 
 ```r
-five_plot <- ggplot(five_hied, aes(x = year,
-                                   y = inf_adj_perchild)) +
-  geom_line(aes(color = state)) +
+five_plot <- ggplot(leso_five_gsa, aes(x = month, 
+                          y = monthly_cost)) + 
   geom_point(aes(color = state)) +
-  labs(title = "Spending on Higher Education in Texas, Bordering States", 
-       x = "Year", y = "$ per child (Adjusted for Inflation)",
-       caption = "Source: tidykids")
+  geom_line(aes(color = state)) + 
+  labs(title = "Monthly Value of Military Surplus Acquisitions in Texas and Boardering States", 
+       x = "Month", y = "Cost of acquisitions (in millions)",
+       caption = "Source: Law Enforcement Support Office")
 
 five_plot
 ```
@@ -473,7 +622,7 @@ This chart tells us that 4-cylinder, front-wheel drive cars with smaller engines
 ## On your own: Facet wrap
 
 1. Create a section about doing a facet wrap on your own.
-1. Take the "On your own" plot that you made earlier (The school spending for Gulf states) and apply a `facet_wrap()` here. You were instructed to save the plot into an R object, so you should be able to use that.
+1. Take the "On your own" plot that you made earlier (The other states that you chose) and apply a `facet_wrap()` here. You were instructed to save the plot into an R object, so you should be able to use that.
 1. Remove the legend since each mini chart is labeled.
 
 
@@ -495,7 +644,7 @@ ggsave("images/txplot.png", plot = tx_plot)
 ## Saving 7 x 5 in image
 ```
 
-Using `ggsave` creates a higher-res image than other methods. It needs"
+Using `ggsave` creates a higher-res image than other methods. It needs:
 
 - The path and name of the image, in quotes
 - the `plot =` variable to say which plot you are saving. (Your plot must already be saved into an R object for this method to work.)
