@@ -61,7 +61,7 @@ covid %>% head()
 ```
 
 ```
-## # A tibble: 6 x 6
+## # A tibble: 6 × 6
 ##   date       county    state      fips  cases deaths
 ##   <date>     <chr>     <chr>      <chr> <dbl>  <dbl>
 ## 1 2020-01-21 Snohomish Washington 53061     1      0
@@ -98,21 +98,21 @@ tx_covid
 ```
 
 ```
-## # A tibble: 255 x 5
+## # A tibble: 255 × 5
 ## # Groups:   county [255]
 ##    date       county    fips  cases deaths
 ##    <date>     <chr>     <chr> <dbl>  <dbl>
-##  1 2022-02-24 Anderson  48001  9475    228
-##  2 2022-02-24 Andrews   48003  3783     70
-##  3 2022-02-24 Angelina  48005 15217    464
-##  4 2022-02-24 Aransas   48007  3974     77
-##  5 2022-02-24 Archer    48009  2084     28
-##  6 2022-02-24 Armstrong 48011   496      8
-##  7 2022-02-24 Atascosa  48013 13142    226
-##  8 2022-02-24 Austin    48015  5484     71
-##  9 2022-02-24 Bailey    48017  1370     38
-## 10 2022-02-24 Bandera   48019  3503     73
-## # ... with 245 more rows
+##  1 2022-02-25 Anderson  48001  9477    229
+##  2 2022-02-25 Andrews   48003  3785     70
+##  3 2022-02-25 Angelina  48005 15224    464
+##  4 2022-02-25 Aransas   48007  3977     77
+##  5 2022-02-25 Archer    48009  2085     28
+##  6 2022-02-25 Armstrong 48011   498      8
+##  7 2022-02-25 Atascosa  48013 13191    226
+##  8 2022-02-25 Austin    48015  5508     71
+##  9 2022-02-25 Bailey    48017  1370     38
+## 10 2022-02-25 Bandera   48019  3504     73
+## # … with 245 more rows
 ```
 
 > IMPORTANT NOTE: The **date** values in your data should be more recent than what is shown here since you are downloading at a later date.
@@ -200,13 +200,13 @@ get_decennial(
 ```
 ## Note: 2020 decennial Census data use differential privacy, a technique that
 ## introduces errors into data to preserve respondent confidentiality.
-## i Small counts should be interpreted with caution.
-## i See https://www.census.gov/library/fact-sheets/2021/protecting-the-confidentiality-of-the-2020-census-redistricting-data.html for additional guidance.
+## ℹ Small counts should be interpreted with caution.
+## ℹ See https://www.census.gov/library/fact-sheets/2021/protecting-the-confidentiality-of-the-2020-census-redistricting-data.html for additional guidance.
 ## This message is displayed once per session.
 ```
 
 ```
-## # A tibble: 52 x 4
+## # A tibble: 52 × 4
 ##    GEOID NAME                 variable    value
 ##    <chr> <chr>                <chr>       <dbl>
 ##  1 01    Alabama              P1_001N   5024279
@@ -219,7 +219,7 @@ get_decennial(
 ##  8 10    Delaware             P1_001N    989948
 ##  9 11    District of Columbia P1_001N    689545
 ## 10 16    Idaho                P1_001N   1839106
-## # ... with 42 more rows
+## # … with 42 more rows
 ```
 
 Our return shows a value of 5024279	for Alabama, which matches the data portal, so we have the correct variable. Let's keep this here just for reference.
@@ -274,11 +274,11 @@ tx_covid %>% glimpse()
 ## Rows: 255
 ## Columns: 5
 ## Groups: county [255]
-## $ date   <date> 2022-02-24, 2022-02-24, 2022-02-24, 2022-02-24, 2022-02-24, 20~
-## $ county <chr> "Anderson", "Andrews", "Angelina", "Aransas", "Archer", "Armstr~
-## $ fips   <chr> "48001", "48003", "48005", "48007", "48009", "48011", "48013", ~
-## $ cases  <dbl> 9475, 3783, 15217, 3974, 2084, 496, 13142, 5484, 1370, 3503, 21~
-## $ deaths <dbl> 228, 70, 464, 77, 28, 8, 226, 71, 38, 73, 224, 32, 149, 851, 58~
+## $ date   <date> 2022-02-25, 2022-02-25, 2022-02-25, 2022-02-25, 2022-02-25, 20…
+## $ county <chr> "Anderson", "Andrews", "Angelina", "Aransas", "Archer", "Armstr…
+## $ fips   <chr> "48001", "48003", "48005", "48007", "48009", "48011", "48013", …
+## $ cases  <dbl> 9477, 3785, 15224, 3977, 2085, 498, 13191, 5508, 1370, 3504, 21…
+## $ deaths <dbl> 229, 70, 464, 77, 28, 8, 226, 71, 38, 73, 225, 32, 149, 852, 58…
 ```
 
 
@@ -289,11 +289,11 @@ tx_pop %>% glimpse()
 ```
 ## Rows: 254
 ## Columns: 5
-## $ geoid    <chr> "48001", "48003", "48005", "48007", "48009", "48011", "48013"~
-## $ name     <chr> "Anderson County, Texas", "Andrews County, Texas", "Angelina ~
-## $ variable <chr> "P1_001N", "P1_001N", "P1_001N", "P1_001N", "P1_001N", "P1_00~
-## $ value    <dbl> 57922, 18610, 86395, 23830, 8560, 1848, 48981, 30167, 6904, 2~
-## $ geometry <MULTIPOLYGON [°]> MULTIPOLYGON (((-96.0648 31..., MULTIPOLYGON (((~
+## $ geoid    <chr> "48001", "48003", "48005", "48007", "48009", "48011", "48013"…
+## $ name     <chr> "Anderson County, Texas", "Andrews County, Texas", "Angelina …
+## $ variable <chr> "P1_001N", "P1_001N", "P1_001N", "P1_001N", "P1_001N", "P1_00…
+## $ value    <dbl> 57922, 18610, 86395, 23830, 8560, 1848, 48981, 30167, 6904, 2…
+## $ geometry <MULTIPOLYGON [°]> MULTIPOLYGON (((-96.0648 31..., MULTIPOLYGON (((…
 ```
 
 The `fips` and `geoid` columns are the same value under different names. This is the FIPS code for counties used in all kinds of government data. It's actually a combination of the **state** FIPS (48 for Texas) and the **county** designation (the last three numbers). This creates a unique combination for every county in the U.S.
@@ -338,20 +338,20 @@ tx_joined
 ## Dimension:     XY
 ## Bounding box:  xmin: -106.6456 ymin: 25.83738 xmax: -93.50829 ymax: 36.5007
 ## Geodetic CRS:  NAD83
-## # A tibble: 254 x 9
+## # A tibble: 254 × 9
 ##    geoid name   variable value                  geometry date       county cases
 ##    <chr> <chr>  <chr>    <dbl>        <MULTIPOLYGON [°]> <date>     <chr>  <dbl>
-##  1 48001 Ander~ P1_001N  57922 (((-96.0648 31.98066, -9~ 2022-02-24 Ander~  9475
-##  2 48003 Andre~ P1_001N  18610 (((-103.0647 32.52219, -~ 2022-02-24 Andre~  3783
-##  3 48005 Angel~ P1_001N  86395 (((-95.00488 31.42396, -~ 2022-02-24 Angel~ 15217
-##  4 48007 Arans~ P1_001N  23830 (((-96.8229 28.16743, -9~ 2022-02-24 Arans~  3974
-##  5 48009 Arche~ P1_001N   8560 (((-98.95383 33.48959, -~ 2022-02-24 Archer  2084
-##  6 48011 Armst~ P1_001N   1848 (((-101.6294 34.75006, -~ 2022-02-24 Armst~   496
-##  7 48013 Atasc~ P1_001N  48981 (((-98.80488 29.10702, -~ 2022-02-24 Atasc~ 13142
-##  8 48015 Austi~ P1_001N  30167 (((-96.62085 30.0452, -9~ 2022-02-24 Austin  5484
-##  9 48017 Baile~ P1_001N   6904 (((-103.0469 33.8503, -1~ 2022-02-24 Bailey  1370
-## 10 48019 Bande~ P1_001N  20851 (((-99.60332 29.74026, -~ 2022-02-24 Bande~  3503
-## # ... with 244 more rows, and 1 more variable: deaths <dbl>
+##  1 48001 Ander… P1_001N  57922 (((-96.0648 31.98066, -9… 2022-02-25 Ander…  9477
+##  2 48003 Andre… P1_001N  18610 (((-103.0647 32.52219, -… 2022-02-25 Andre…  3785
+##  3 48005 Angel… P1_001N  86395 (((-95.00488 31.42396, -… 2022-02-25 Angel… 15224
+##  4 48007 Arans… P1_001N  23830 (((-96.8229 28.16743, -9… 2022-02-25 Arans…  3977
+##  5 48009 Arche… P1_001N   8560 (((-98.95383 33.48959, -… 2022-02-25 Archer  2085
+##  6 48011 Armst… P1_001N   1848 (((-101.6294 34.75006, -… 2022-02-25 Armst…   498
+##  7 48013 Atasc… P1_001N  48981 (((-98.80488 29.10702, -… 2022-02-25 Atasc… 13191
+##  8 48015 Austi… P1_001N  30167 (((-96.62085 30.0452, -9… 2022-02-25 Austin  5508
+##  9 48017 Baile… P1_001N   6904 (((-103.0469 33.8503, -1… 2022-02-25 Bailey  1370
+## 10 48019 Bande… P1_001N  20851 (((-99.60332 29.74026, -… 2022-02-25 Bande…  3504
+## # … with 244 more rows, and 1 more variable: deaths <dbl>
 ```
 
 So, to break this down:
@@ -372,15 +372,15 @@ tx_joined %>% glimpse()
 ```
 ## Rows: 254
 ## Columns: 9
-## $ geoid    <chr> "48001", "48003", "48005", "48007", "48009", "48011", "48013"~
-## $ name     <chr> "Anderson County, Texas", "Andrews County, Texas", "Angelina ~
-## $ variable <chr> "P1_001N", "P1_001N", "P1_001N", "P1_001N", "P1_001N", "P1_00~
-## $ value    <dbl> 57922, 18610, 86395, 23830, 8560, 1848, 48981, 30167, 6904, 2~
-## $ geometry <MULTIPOLYGON [°]> MULTIPOLYGON (((-96.0648 31..., MULTIPOLYGON (((~
-## $ date     <date> 2022-02-24, 2022-02-24, 2022-02-24, 2022-02-24, 2022-02-24, ~
-## $ county   <chr> "Anderson", "Andrews", "Angelina", "Aransas", "Archer", "Arms~
-## $ cases    <dbl> 9475, 3783, 15217, 3974, 2084, 496, 13142, 5484, 1370, 3503, ~
-## $ deaths   <dbl> 228, 70, 464, 77, 28, 8, 226, 71, 38, 73, 224, 32, 149, 851, ~
+## $ geoid    <chr> "48001", "48003", "48005", "48007", "48009", "48011", "48013"…
+## $ name     <chr> "Anderson County, Texas", "Andrews County, Texas", "Angelina …
+## $ variable <chr> "P1_001N", "P1_001N", "P1_001N", "P1_001N", "P1_001N", "P1_00…
+## $ value    <dbl> 57922, 18610, 86395, 23830, 8560, 1848, 48981, 30167, 6904, 2…
+## $ geometry <MULTIPOLYGON [°]> MULTIPOLYGON (((-96.0648 31..., MULTIPOLYGON (((…
+## $ date     <date> 2022-02-25, 2022-02-25, 2022-02-25, 2022-02-25, 2022-02-25, …
+## $ county   <chr> "Anderson", "Andrews", "Angelina", "Aransas", "Archer", "Arms…
+## $ cases    <dbl> 9477, 3785, 15224, 3977, 2085, 498, 13191, 5508, 1370, 3504, …
+## $ deaths   <dbl> 229, 70, 464, 77, 28, 8, 226, 71, 38, 73, 225, 32, 149, 852, …
 ```
 
 Now that we have our `cases`, `deaths` and `value` (or population) columns in the same table so we can do some math to create case and death rates.
@@ -408,13 +408,13 @@ tx_renamed %>% glimpse()
 ```
 ## Rows: 254
 ## Columns: 7
-## $ geoid     <chr> "48001", "48003", "48005", "48007", "48009", "48011", "48013~
-## $ total_pop <dbl> 57922, 18610, 86395, 23830, 8560, 1848, 48981, 30167, 6904, ~
-## $ geometry  <MULTIPOLYGON [°]> MULTIPOLYGON (((-96.0648 31..., MULTIPOLYGON ((~
-## $ date      <date> 2022-02-24, 2022-02-24, 2022-02-24, 2022-02-24, 2022-02-24,~
-## $ county    <chr> "Anderson", "Andrews", "Angelina", "Aransas", "Archer", "Arm~
-## $ cases     <dbl> 9475, 3783, 15217, 3974, 2084, 496, 13142, 5484, 1370, 3503,~
-## $ deaths    <dbl> 228, 70, 464, 77, 28, 8, 226, 71, 38, 73, 224, 32, 149, 851,~
+## $ geoid     <chr> "48001", "48003", "48005", "48007", "48009", "48011", "48013…
+## $ total_pop <dbl> 57922, 18610, 86395, 23830, 8560, 1848, 48981, 30167, 6904, …
+## $ geometry  <MULTIPOLYGON [°]> MULTIPOLYGON (((-96.0648 31..., MULTIPOLYGON ((…
+## $ date      <date> 2022-02-25, 2022-02-25, 2022-02-25, 2022-02-25, 2022-02-25,…
+## $ county    <chr> "Anderson", "Andrews", "Angelina", "Aransas", "Archer", "Arm…
+## $ cases     <dbl> 9477, 3785, 15224, 3977, 2085, 498, 13191, 5508, 1370, 3504,…
+## $ deaths    <dbl> 229, 70, 464, 77, 28, 8, 226, 71, 38, 73, 225, 32, 149, 852,…
 ```
 
 ## Create our rate columns

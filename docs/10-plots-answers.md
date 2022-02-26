@@ -73,20 +73,20 @@ raw_data
 ```
 
 ```
-## # A tibble: 132,214 x 12
-##    animal_id name    date_time             month_year found_location intake_type
-##    <chr>     <chr>   <chr>                 <chr>      <chr>          <chr>      
-##  1 A786884   *Brock  01/03/2019 04:19:00 ~ 01/03/201~ 2501 Magin Me~ Stray      
-##  2 A706918   Belle   07/05/2015 12:59:00 ~ 07/05/201~ 9409 Bluegras~ Stray      
-##  3 A724273   Runster 04/14/2016 06:43:00 ~ 04/14/201~ 2818 Palomino~ Stray      
-##  4 A665644   <NA>    10/21/2013 07:59:00 ~ 10/21/201~ Austin (TX)    Stray      
-##  5 A682524   Rio     06/29/2014 10:38:00 ~ 06/29/201~ 800 Grove Blv~ Stray      
-##  6 A743852   Odin    02/18/2017 12:46:00 ~ 02/18/201~ Austin (TX)    Owner Surr~
-##  7 A635072   Beowulf 04/16/2019 09:53:00 ~ 04/16/201~ 415 East Mary~ Public Ass~
-##  8 A708452   Mumble  07/30/2015 02:37:00 ~ 07/30/201~ Austin (TX)    Public Ass~
-##  9 A818975   <NA>    06/18/2020 02:53:00 ~ 06/18/202~ Braker Lane A~ Stray      
-## 10 A774147   <NA>    06/11/2018 07:45:00 ~ 06/11/201~ 6600 Elm Cree~ Stray      
-## # ... with 132,204 more rows, and 6 more variables: intake_condition <chr>,
+## # A tibble: 132,214 × 12
+##    animal_id name    date_time    month_year    found_location       intake_type
+##    <chr>     <chr>   <chr>        <chr>         <chr>                <chr>      
+##  1 A786884   *Brock  01/03/2019 … 01/03/2019 0… 2501 Magin Meadow D… Stray      
+##  2 A706918   Belle   07/05/2015 … 07/05/2015 1… 9409 Bluegrass Dr i… Stray      
+##  3 A724273   Runster 04/14/2016 … 04/14/2016 0… 2818 Palomino Trail… Stray      
+##  4 A665644   <NA>    10/21/2013 … 10/21/2013 0… Austin (TX)          Stray      
+##  5 A682524   Rio     06/29/2014 … 06/29/2014 1… 800 Grove Blvd in A… Stray      
+##  6 A743852   Odin    02/18/2017 … 02/18/2017 1… Austin (TX)          Owner Surr…
+##  7 A635072   Beowulf 04/16/2019 … 04/16/2019 0… 415 East Mary Stree… Public Ass…
+##  8 A708452   Mumble  07/30/2015 … 07/30/2015 0… Austin (TX)          Public Ass…
+##  9 A818975   <NA>    06/18/2020 … 06/18/2020 0… Braker Lane And Met… Stray      
+## 10 A774147   <NA>    06/11/2018 … 06/11/2018 0… 6600 Elm Creek in A… Stray      
+## # … with 132,204 more rows, and 6 more variables: intake_condition <chr>,
 ## #   animal_type <chr>, sex_upon_intake <chr>, age_upon_intake <chr>,
 ## #   breed <chr>, color <chr>
 ```
@@ -133,20 +133,20 @@ raw_data %>%
 ```
 
 ```
-## # A tibble: 132,214 x 13
-##    animal_id name    date_time             month_year found_location intake_type
-##    <chr>     <chr>   <chr>                 <chr>      <chr>          <chr>      
-##  1 A786884   *Brock  01/03/2019 04:19:00 ~ 01/03/201~ 2501 Magin Me~ Stray      
-##  2 A706918   Belle   07/05/2015 12:59:00 ~ 07/05/201~ 9409 Bluegras~ Stray      
-##  3 A724273   Runster 04/14/2016 06:43:00 ~ 04/14/201~ 2818 Palomino~ Stray      
-##  4 A665644   <NA>    10/21/2013 07:59:00 ~ 10/21/201~ Austin (TX)    Stray      
-##  5 A682524   Rio     06/29/2014 10:38:00 ~ 06/29/201~ 800 Grove Blv~ Stray      
-##  6 A743852   Odin    02/18/2017 12:46:00 ~ 02/18/201~ Austin (TX)    Owner Surr~
-##  7 A635072   Beowulf 04/16/2019 09:53:00 ~ 04/16/201~ 415 East Mary~ Public Ass~
-##  8 A708452   Mumble  07/30/2015 02:37:00 ~ 07/30/201~ Austin (TX)    Public Ass~
-##  9 A818975   <NA>    06/18/2020 02:53:00 ~ 06/18/202~ Braker Lane A~ Stray      
-## 10 A774147   <NA>    06/11/2018 07:45:00 ~ 06/11/201~ 6600 Elm Cree~ Stray      
-## # ... with 132,204 more rows, and 7 more variables: intake_condition <chr>,
+## # A tibble: 132,214 × 13
+##    animal_id name    date_time    month_year    found_location       intake_type
+##    <chr>     <chr>   <chr>        <chr>         <chr>                <chr>      
+##  1 A786884   *Brock  01/03/2019 … 01/03/2019 0… 2501 Magin Meadow D… Stray      
+##  2 A706918   Belle   07/05/2015 … 07/05/2015 1… 9409 Bluegrass Dr i… Stray      
+##  3 A724273   Runster 04/14/2016 … 04/14/2016 0… 2818 Palomino Trail… Stray      
+##  4 A665644   <NA>    10/21/2013 … 10/21/2013 0… Austin (TX)          Stray      
+##  5 A682524   Rio     06/29/2014 … 06/29/2014 1… 800 Grove Blvd in A… Stray      
+##  6 A743852   Odin    02/18/2017 … 02/18/2017 1… Austin (TX)          Owner Surr…
+##  7 A635072   Beowulf 04/16/2019 … 04/16/2019 0… 415 East Mary Stree… Public Ass…
+##  8 A708452   Mumble  07/30/2015 … 07/30/2015 0… Austin (TX)          Public Ass…
+##  9 A818975   <NA>    06/18/2020 … 06/18/2020 0… Braker Lane And Met… Stray      
+## 10 A774147   <NA>    06/11/2018 … 06/11/2018 0… 6600 Elm Creek in A… Stray      
+## # … with 132,204 more rows, and 7 more variables: intake_condition <chr>,
 ## #   animal_type <chr>, sex_upon_intake <chr>, age_upon_intake <chr>,
 ## #   breed <chr>, color <chr>, intake_date <chr>
 ```
@@ -178,19 +178,19 @@ date_fix %>% glimpse()
 ```
 ## Rows: 132,214
 ## Columns: 13
-## $ animal_id        <chr> "A786884", "A706918", "A724273", "A665644", "A682524"~
-## $ name             <chr> "*Brock", "Belle", "Runster", NA, "Rio", "Odin", "Beo~
-## $ date_time        <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "~
-## $ month_year       <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "~
-## $ found_location   <chr> "2501 Magin Meadow Dr in Austin (TX)", "9409 Bluegras~
-## $ intake_type      <chr> "Stray", "Stray", "Stray", "Stray", "Stray", "Owner S~
-## $ intake_condition <chr> "Normal", "Normal", "Normal", "Sick", "Normal", "Norm~
-## $ animal_type      <chr> "Dog", "Dog", "Dog", "Cat", "Dog", "Dog", "Dog", "Dog~
-## $ sex_upon_intake  <chr> "Neutered Male", "Spayed Female", "Intact Male", "Int~
-## $ age_upon_intake  <chr> "2 years", "8 years", "11 months", "4 weeks", "4 year~
-## $ breed            <chr> "Beagle Mix", "English Springer Spaniel", "Basenji Mi~
-## $ color            <chr> "Tricolor", "White/Liver", "Sable/White", "Calico", "~
-## $ intake_date      <date> 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014~
+## $ animal_id        <chr> "A786884", "A706918", "A724273", "A665644", "A682524"…
+## $ name             <chr> "*Brock", "Belle", "Runster", NA, "Rio", "Odin", "Beo…
+## $ date_time        <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "…
+## $ month_year       <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "…
+## $ found_location   <chr> "2501 Magin Meadow Dr in Austin (TX)", "9409 Bluegras…
+## $ intake_type      <chr> "Stray", "Stray", "Stray", "Stray", "Stray", "Owner S…
+## $ intake_condition <chr> "Normal", "Normal", "Normal", "Sick", "Normal", "Norm…
+## $ animal_type      <chr> "Dog", "Dog", "Dog", "Cat", "Dog", "Dog", "Dog", "Dog…
+## $ sex_upon_intake  <chr> "Neutered Male", "Spayed Female", "Intact Male", "Int…
+## $ age_upon_intake  <chr> "2 years", "8 years", "11 months", "4 weeks", "4 year…
+## $ breed            <chr> "Beagle Mix", "English Springer Spaniel", "Basenji Mi…
+## $ color            <chr> "Tricolor", "White/Liver", "Sable/White", "Calico", "…
+## $ intake_date      <date> 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014…
 ```
 </details>
 
@@ -233,20 +233,20 @@ date_parts %>% glimpse()
 ```
 ## Rows: 132,214
 ## Columns: 14
-## $ animal_id        <chr> "A786884", "A706918", "A724273", "A665644", "A682524"~
-## $ name             <chr> "*Brock", "Belle", "Runster", NA, "Rio", "Odin", "Beo~
-## $ date_time        <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "~
-## $ month_year       <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "~
-## $ found_location   <chr> "2501 Magin Meadow Dr in Austin (TX)", "9409 Bluegras~
-## $ intake_type      <chr> "Stray", "Stray", "Stray", "Stray", "Stray", "Owner S~
-## $ intake_condition <chr> "Normal", "Normal", "Normal", "Sick", "Normal", "Norm~
-## $ animal_type      <chr> "Dog", "Dog", "Dog", "Cat", "Dog", "Dog", "Dog", "Dog~
-## $ sex_upon_intake  <chr> "Neutered Male", "Spayed Female", "Intact Male", "Int~
-## $ age_upon_intake  <chr> "2 years", "8 years", "11 months", "4 weeks", "4 year~
-## $ breed            <chr> "Beagle Mix", "English Springer Spaniel", "Basenji Mi~
-## $ color            <chr> "Tricolor", "White/Liver", "Sable/White", "Calico", "~
-## $ intake_date      <date> 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014~
-## $ yr               <dbl> 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,~
+## $ animal_id        <chr> "A786884", "A706918", "A724273", "A665644", "A682524"…
+## $ name             <chr> "*Brock", "Belle", "Runster", NA, "Rio", "Odin", "Beo…
+## $ date_time        <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "…
+## $ month_year       <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "…
+## $ found_location   <chr> "2501 Magin Meadow Dr in Austin (TX)", "9409 Bluegras…
+## $ intake_type      <chr> "Stray", "Stray", "Stray", "Stray", "Stray", "Owner S…
+## $ intake_condition <chr> "Normal", "Normal", "Normal", "Sick", "Normal", "Norm…
+## $ animal_type      <chr> "Dog", "Dog", "Dog", "Cat", "Dog", "Dog", "Dog", "Dog…
+## $ sex_upon_intake  <chr> "Neutered Male", "Spayed Female", "Intact Male", "Int…
+## $ age_upon_intake  <chr> "2 years", "8 years", "11 months", "4 weeks", "4 year…
+## $ breed            <chr> "Beagle Mix", "English Springer Spaniel", "Basenji Mi…
+## $ color            <chr> "Tricolor", "White/Liver", "Sable/White", "Calico", "…
+## $ intake_date      <date> 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014…
+## $ yr               <dbl> 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,…
 ```
 
 Look how I set up this chunk to work with it. I know that I'm going to be adding columns and checking values and it is a pain click to the end of the tibble each time to see the results. So what I've done is set this up to go into a new tibble called `date_parts` and then I glimpse that at the end so I can peek at the results. This allows me to look at the first couple of values in the glimpse to make sure I've done the work right. **I'll still be working one line at a time** as I edit the chunk further, but at least I can _see_ what I'm doing.
@@ -280,21 +280,21 @@ date_parts %>% glimpse()
 ```
 ## Rows: 132,214
 ## Columns: 15
-## $ animal_id        <chr> "A786884", "A706918", "A724273", "A665644", "A682524"~
-## $ name             <chr> "*Brock", "Belle", "Runster", NA, "Rio", "Odin", "Beo~
-## $ date_time        <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "~
-## $ month_year       <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "~
-## $ found_location   <chr> "2501 Magin Meadow Dr in Austin (TX)", "9409 Bluegras~
-## $ intake_type      <chr> "Stray", "Stray", "Stray", "Stray", "Stray", "Owner S~
-## $ intake_condition <chr> "Normal", "Normal", "Normal", "Sick", "Normal", "Norm~
-## $ animal_type      <chr> "Dog", "Dog", "Dog", "Cat", "Dog", "Dog", "Dog", "Dog~
-## $ sex_upon_intake  <chr> "Neutered Male", "Spayed Female", "Intact Male", "Int~
-## $ age_upon_intake  <chr> "2 years", "8 years", "11 months", "4 weeks", "4 year~
-## $ breed            <chr> "Beagle Mix", "English Springer Spaniel", "Basenji Mi~
-## $ color            <chr> "Tricolor", "White/Liver", "Sable/White", "Calico", "~
-## $ intake_date      <date> 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014~
-## $ yr               <dbl> 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,~
-## $ mo               <dbl> 1, 7, 4, 10, 6, 2, 4, 7, 6, 6, 8, 10, 7, 2, 3, 2, 11,~
+## $ animal_id        <chr> "A786884", "A706918", "A724273", "A665644", "A682524"…
+## $ name             <chr> "*Brock", "Belle", "Runster", NA, "Rio", "Odin", "Beo…
+## $ date_time        <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "…
+## $ month_year       <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "…
+## $ found_location   <chr> "2501 Magin Meadow Dr in Austin (TX)", "9409 Bluegras…
+## $ intake_type      <chr> "Stray", "Stray", "Stray", "Stray", "Stray", "Owner S…
+## $ intake_condition <chr> "Normal", "Normal", "Normal", "Sick", "Normal", "Norm…
+## $ animal_type      <chr> "Dog", "Dog", "Dog", "Cat", "Dog", "Dog", "Dog", "Dog…
+## $ sex_upon_intake  <chr> "Neutered Male", "Spayed Female", "Intact Male", "Int…
+## $ age_upon_intake  <chr> "2 years", "8 years", "11 months", "4 weeks", "4 year…
+## $ breed            <chr> "Beagle Mix", "English Springer Spaniel", "Basenji Mi…
+## $ color            <chr> "Tricolor", "White/Liver", "Sable/White", "Calico", "…
+## $ intake_date      <date> 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014…
+## $ yr               <dbl> 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,…
+## $ mo               <dbl> 1, 7, 4, 10, 6, 2, 4, 7, 6, 6, 8, 10, 7, 2, 3, 2, 11,…
 ```
 
 What we get in return here is the _number_ of the month: A "1" for January; a "7" for July, etc. What we really want is the _names_ of the month to help us with plotting later.
@@ -316,21 +316,21 @@ date_parts %>% glimpse()
 ```
 ## Rows: 132,214
 ## Columns: 15
-## $ animal_id        <chr> "A786884", "A706918", "A724273", "A665644", "A682524"~
-## $ name             <chr> "*Brock", "Belle", "Runster", NA, "Rio", "Odin", "Beo~
-## $ date_time        <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "~
-## $ month_year       <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "~
-## $ found_location   <chr> "2501 Magin Meadow Dr in Austin (TX)", "9409 Bluegras~
-## $ intake_type      <chr> "Stray", "Stray", "Stray", "Stray", "Stray", "Owner S~
-## $ intake_condition <chr> "Normal", "Normal", "Normal", "Sick", "Normal", "Norm~
-## $ animal_type      <chr> "Dog", "Dog", "Dog", "Cat", "Dog", "Dog", "Dog", "Dog~
-## $ sex_upon_intake  <chr> "Neutered Male", "Spayed Female", "Intact Male", "Int~
-## $ age_upon_intake  <chr> "2 years", "8 years", "11 months", "4 weeks", "4 year~
-## $ breed            <chr> "Beagle Mix", "English Springer Spaniel", "Basenji Mi~
-## $ color            <chr> "Tricolor", "White/Liver", "Sable/White", "Calico", "~
-## $ intake_date      <date> 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014~
-## $ yr               <dbl> 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,~
-## $ mo               <ord> Jan, Jul, Apr, Oct, Jun, Feb, Apr, Jul, Jun, Jun, Aug~
+## $ animal_id        <chr> "A786884", "A706918", "A724273", "A665644", "A682524"…
+## $ name             <chr> "*Brock", "Belle", "Runster", NA, "Rio", "Odin", "Beo…
+## $ date_time        <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "…
+## $ month_year       <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "…
+## $ found_location   <chr> "2501 Magin Meadow Dr in Austin (TX)", "9409 Bluegras…
+## $ intake_type      <chr> "Stray", "Stray", "Stray", "Stray", "Stray", "Owner S…
+## $ intake_condition <chr> "Normal", "Normal", "Normal", "Sick", "Normal", "Norm…
+## $ animal_type      <chr> "Dog", "Dog", "Dog", "Cat", "Dog", "Dog", "Dog", "Dog…
+## $ sex_upon_intake  <chr> "Neutered Male", "Spayed Female", "Intact Male", "Int…
+## $ age_upon_intake  <chr> "2 years", "8 years", "11 months", "4 weeks", "4 year…
+## $ breed            <chr> "Beagle Mix", "English Springer Spaniel", "Basenji Mi…
+## $ color            <chr> "Tricolor", "White/Liver", "Sable/White", "Calico", "…
+## $ intake_date      <date> 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014…
+## $ yr               <dbl> 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,…
+## $ mo               <ord> Jan, Jul, Apr, Oct, Jun, Feb, Apr, Jul, Jun, Jun, Aug…
 ```
 
 How did I know to do that? I Googled [get month name in lubridate](https://www.google.com/search?q=get+month+name+in+lubridate). The first result took me to a [lubridate.tidyverse.org page](https://lubridate.tidyverse.org/reference/month.html) that explained how to do it. TBH, I was lucky to find the answer in the first result, but I do usually try official tidyverse pages first. I'm also used to reading their documentation.
@@ -366,22 +366,22 @@ date_parts %>% glimpse()
 ```
 ## Rows: 132,214
 ## Columns: 16
-## $ animal_id        <chr> "A786884", "A706918", "A724273", "A665644", "A682524"~
-## $ name             <chr> "*Brock", "Belle", "Runster", NA, "Rio", "Odin", "Beo~
-## $ date_time        <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "~
-## $ month_year       <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "~
-## $ found_location   <chr> "2501 Magin Meadow Dr in Austin (TX)", "9409 Bluegras~
-## $ intake_type      <chr> "Stray", "Stray", "Stray", "Stray", "Stray", "Owner S~
-## $ intake_condition <chr> "Normal", "Normal", "Normal", "Sick", "Normal", "Norm~
-## $ animal_type      <chr> "Dog", "Dog", "Dog", "Cat", "Dog", "Dog", "Dog", "Dog~
-## $ sex_upon_intake  <chr> "Neutered Male", "Spayed Female", "Intact Male", "Int~
-## $ age_upon_intake  <chr> "2 years", "8 years", "11 months", "4 weeks", "4 year~
-## $ breed            <chr> "Beagle Mix", "English Springer Spaniel", "Basenji Mi~
-## $ color            <chr> "Tricolor", "White/Liver", "Sable/White", "Calico", "~
-## $ intake_date      <date> 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014~
-## $ yr               <dbl> 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,~
-## $ mo               <ord> Jan, Jul, Apr, Oct, Jun, Feb, Apr, Jul, Jun, Jun, Aug~
-## $ yr_mo            <chr> "2019-01", "2015-07", "2016-04", "2013-10", "2014-06"~
+## $ animal_id        <chr> "A786884", "A706918", "A724273", "A665644", "A682524"…
+## $ name             <chr> "*Brock", "Belle", "Runster", NA, "Rio", "Odin", "Beo…
+## $ date_time        <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "…
+## $ month_year       <chr> "01/03/2019 04:19:00 PM", "07/05/2015 12:59:00 PM", "…
+## $ found_location   <chr> "2501 Magin Meadow Dr in Austin (TX)", "9409 Bluegras…
+## $ intake_type      <chr> "Stray", "Stray", "Stray", "Stray", "Stray", "Owner S…
+## $ intake_condition <chr> "Normal", "Normal", "Normal", "Sick", "Normal", "Norm…
+## $ animal_type      <chr> "Dog", "Dog", "Dog", "Cat", "Dog", "Dog", "Dog", "Dog…
+## $ sex_upon_intake  <chr> "Neutered Male", "Spayed Female", "Intact Male", "Int…
+## $ age_upon_intake  <chr> "2 years", "8 years", "11 months", "4 weeks", "4 year…
+## $ breed            <chr> "Beagle Mix", "English Springer Spaniel", "Basenji Mi…
+## $ color            <chr> "Tricolor", "White/Liver", "Sable/White", "Calico", "…
+## $ intake_date      <date> 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014…
+## $ yr               <dbl> 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,…
+## $ mo               <ord> Jan, Jul, Apr, Oct, Jun, Feb, Apr, Jul, Jun, Jun, Aug…
+## $ yr_mo            <chr> "2019-01", "2015-07", "2016-04", "2013-10", "2014-06"…
 ```
 
 OK, for this mutate we used the `format()` function, which takes two arguments:
@@ -429,20 +429,20 @@ date_parts %>% glimpse()
 ```
 ## Rows: 132,214
 ## Columns: 14
-## $ intake_date      <date> 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014~
-## $ yr               <dbl> 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,~
-## $ mo               <ord> Jan, Jul, Apr, Oct, Jun, Feb, Apr, Jul, Jun, Jun, Aug~
-## $ yr_mo            <chr> "2019-01", "2015-07", "2016-04", "2013-10", "2014-06"~
-## $ animal_id        <chr> "A786884", "A706918", "A724273", "A665644", "A682524"~
-## $ name             <chr> "*Brock", "Belle", "Runster", NA, "Rio", "Odin", "Beo~
-## $ found_location   <chr> "2501 Magin Meadow Dr in Austin (TX)", "9409 Bluegras~
-## $ intake_type      <chr> "Stray", "Stray", "Stray", "Stray", "Stray", "Owner S~
-## $ intake_condition <chr> "Normal", "Normal", "Normal", "Sick", "Normal", "Norm~
-## $ animal_type      <chr> "Dog", "Dog", "Dog", "Cat", "Dog", "Dog", "Dog", "Dog~
-## $ sex_upon_intake  <chr> "Neutered Male", "Spayed Female", "Intact Male", "Int~
-## $ age_upon_intake  <chr> "2 years", "8 years", "11 months", "4 weeks", "4 year~
-## $ breed            <chr> "Beagle Mix", "English Springer Spaniel", "Basenji Mi~
-## $ color            <chr> "Tricolor", "White/Liver", "Sable/White", "Calico", "~
+## $ intake_date      <date> 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014…
+## $ yr               <dbl> 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,…
+## $ mo               <ord> Jan, Jul, Apr, Oct, Jun, Feb, Apr, Jul, Jun, Jun, Aug…
+## $ yr_mo            <chr> "2019-01", "2015-07", "2016-04", "2013-10", "2014-06"…
+## $ animal_id        <chr> "A786884", "A706918", "A724273", "A665644", "A682524"…
+## $ name             <chr> "*Brock", "Belle", "Runster", NA, "Rio", "Odin", "Beo…
+## $ found_location   <chr> "2501 Magin Meadow Dr in Austin (TX)", "9409 Bluegras…
+## $ intake_type      <chr> "Stray", "Stray", "Stray", "Stray", "Stray", "Owner S…
+## $ intake_condition <chr> "Normal", "Normal", "Normal", "Sick", "Normal", "Norm…
+## $ animal_type      <chr> "Dog", "Dog", "Dog", "Cat", "Dog", "Dog", "Dog", "Dog…
+## $ sex_upon_intake  <chr> "Neutered Male", "Spayed Female", "Intact Male", "Int…
+## $ age_upon_intake  <chr> "2 years", "8 years", "11 months", "4 weeks", "4 year…
+## $ breed            <chr> "Beagle Mix", "English Springer Spaniel", "Basenji Mi…
+## $ color            <chr> "Tricolor", "White/Liver", "Sable/White", "Calico", "…
 ```
 
 Alright, that is a helluva a [select](https://dplyr.tidyverse.org/reference/select.html) statement. The only _new_ thing there is `everything()`, which selects (you guessed it) everything not already named. The selects come in order, so it works like this:
@@ -533,7 +533,7 @@ intakes_yr_data
 ```
 
 ```
-## # A tibble: 5 x 2
+## # A tibble: 5 × 2
 ##      yr count_animals
 ##   <dbl>         <int>
 ## 1  2016         17675
@@ -594,7 +594,7 @@ intakes_yrmo
 ```
 
 ```
-## # A tibble: 69 x 2
+## # A tibble: 69 × 2
 ##    yr_mo   count_animals
 ##    <chr>           <int>
 ##  1 2016-01          1216
@@ -607,7 +607,7 @@ intakes_yrmo
 ##  8 2016-08          1653
 ##  9 2016-09          1539
 ## 10 2016-10          1387
-## # ... with 59 more rows
+## # … with 59 more rows
 ```
 
 </details>
@@ -713,7 +713,7 @@ mo_yr_data
 ```
 
 ```
-## # A tibble: 69 x 3
+## # A tibble: 69 × 3
 ##    mo       yr count_animals
 ##    <ord> <dbl>         <int>
 ##  1 Jan    2016          1216
@@ -726,7 +726,7 @@ mo_yr_data
 ##  8 Feb    2017          1202
 ##  9 Feb    2018          1044
 ## 10 Feb    2019          1131
-## # ... with 59 more rows
+## # … with 59 more rows
 ```
 
 ### Plot by month, split by year
@@ -805,7 +805,7 @@ You need to do the code in your notebook, but here is the output:
 
 
 ```
-## # A tibble: 5 x 2
+## # A tibble: 5 × 2
 ##   animal_type     n
 ##   <chr>       <int>
 ## 1 Bird          513
@@ -843,7 +843,7 @@ intake_types %>%
 ```
 
 ```
-## # A tibble: 3 x 2
+## # A tibble: 3 × 2
 ##   animal_type     n
 ##   <chr>       <int>
 ## 1 Cat         30474
