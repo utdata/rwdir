@@ -7,7 +7,7 @@ This chapter was written by Prof. McDonald, who uses a Mac.
 ## Goals for this section
 
 - Explore what it means to have "tidy" data.
-- Learn about and use `pivot_longer()`, `pivot_wider()` to make our data tidy.
+- Learn about and use `pivot_longer()`, `pivot_wider()` to shape our data for different purposes.
 - Use candy data to practice shaping data.
 
 ## The questions we'll answer
@@ -21,27 +21,27 @@ This chapter was written by Prof. McDonald, who uses a Mac.
 
 "Tidy" data is well formatted so each variable is in a column, each observation is in a row and each value is a cell. Our first step in working with any data is to make sure we are "tidy".
 
-![Tidy data definition](images/tidy-example.png)
+![](images/tidy-example.png)
 
 It's easiest to see the difference through examples. The data frame below is of tuberculosis reports from the World Health Organization.
 
 - Each row is a set of observations (or case) from a single country for a single year.
 - Each column describes a unique variable. The year, the number of cases and the population of the country at that time.
 
-![A tidy table](images/tidy-table-tidy.png)
+![](images/tidy-table-tidy.png)
 
 
 Table2 below isn't tidy. The **count** column contains two different type of values.
 
-![An untidy table](images/tidy-table-nottidy.png)
+![](images/tidy-table-nottidy.png)
 
 When our data is tidy, it is easy to manipulate. We can use functions like `mutate()` to calculate new values for each case.
 
-![Manipulate a tidy table](images/tidy-table-manipulate.png)
+![](images/tidy-table-manipulate.png)
 
 When our data is tidy, we can use the [tidyr](https://tidyr.tidyverse.org/) package to reshape the layout of our data to suit our needs. It gets loaded with `library(tidyverse)` so we won't need to load it separately.
 
-## Wide vs long data
+### Wide vs long data
 
 In the figure below, the table on the left is "wide". There are are multiple year columns describing the same variable. It might be useful if we want to calculate the difference of the values for two different years. It's less useful if we want plot on a graphic because we don't have a single "year" column to map as an x or y axes.
 
@@ -51,14 +51,11 @@ The table on the right is "long", in that each column describes a single variabl
 
 **Neither shape is wrong**, they are just useful for different purposes. In fact, you'll find yourself pivoting the same data in different ways depending on your needs.
 
-## The tidyr verbs
+### Why we might want different shaped data
 
-The two functions we'll use to reshape are data are:
+There are a myriad of reasons why you might need to reshape your data. Performing calculations on row-level data might be easier if it is wide. Grouping and summarizing calculations might be easier when it is long. ggplot graphics like long data, while Datawrapper sometimes wants wide data to make the same chart.
 
-- [pivot_longer()](https://tidyr.tidyverse.org/reference/pivot_longer.html) which "lengthens" data, increasing the number of rows and decreasing the number of columns.
-- [pivot_wider()](https://tidyr.tidyverse.org/reference/pivot_wider.html) which "widens" data, increasing the number of columns and decreasing the number of rows.
-
-Again, the best way to learn this is to present a problem and then solve it with explanation.
+I find myself shaping data back and forth depending on my needs.
 
 ## Prepare our candy project
 
@@ -103,21 +100,21 @@ raw_data
 ##    timestamp     first_name last_name candy_type   red green orange yellow  blue
 ##    <chr>         <chr>      <chr>     <chr>      <dbl> <dbl>  <dbl>  <dbl> <dbl>
 ##  1 2/21/2022 19… Christian  McDonald  Plain          2    17     11      4    16
-##  2 2/21/2022 19… First1     Last1     Plain         15     1     17      5    20
-##  3 2/21/2022 19… First2     Last2     Plain         14    15      4     13    12
-##  4 2/21/2022 19… First3     Last3     Plain          7     1      7      4     6
-##  5 2/21/2022 19… First4     Last4     Plain          6     2      8      6    13
-##  6 2/21/2022 19… First5     Last5     Plain         13     7     20      5     7
-##  7 2/21/2022 19… First6     Last6     Plain         14     2      3      8     2
-##  8 2/21/2022 19… First7     Last7     Plain         20    15     17     19     1
-##  9 2/21/2022 19… First8     Last8     Plain          8    13     14     10    12
-## 10 2/21/2022 19… First9     Last9     Plain         20     8      4     18    14
+##  2 2/21/2022 19… First1     Last1     Plain         10     7      4     11    13
+##  3 2/21/2022 19… First2     Last2     Plain          8    18     11      8     7
+##  4 2/21/2022 19… First3     Last3     Plain         18    17     20     20    14
+##  5 2/21/2022 19… First4     Last4     Plain          5    17     11     10     7
+##  6 2/21/2022 19… First5     Last5     Plain          1     8      6      3     7
+##  7 2/21/2022 19… First6     Last6     Plain          1    12      6      4    20
+##  8 2/21/2022 19… First7     Last7     Plain         13    15      5      1     3
+##  9 2/21/2022 19… First8     Last8     Plain         17     9      8      6    15
+## 10 2/21/2022 19… First9     Last9     Plain         20     2      7     14    20
 ## # … with 21 more rows, and 1 more variable: brown <dbl>
 ```
 
 This data comes from a Google Sheets document fed by a form that students have filled out, counting the colors of candies in a standard size bag of plain M&Ms.
 
-## Drop unneeded columns
+### Drop unneeded columns
 
 For this exercise we don't need the `timestamp` and `candy_type` columns. We'll drop them so we can keep things simple.
 
@@ -152,14 +149,62 @@ candy %>% head()
 ##   first_name last_name   red green orange yellow  blue brown
 ##   <chr>      <chr>     <dbl> <dbl>  <dbl>  <dbl> <dbl> <dbl>
 ## 1 Christian  McDonald      2    17     11      4    16     4
-## 2 First1     Last1        15     1     17      5    20     8
-## 3 First2     Last2        14    15      4     13    12     5
-## 4 First3     Last3         7     1      7      4     6     9
-## 5 First4     Last4         6     2      8      6    13    16
-## 6 First5     Last5        13     7     20      5     7    13
+## 2 First1     Last1        10     7      4     11    13    20
+## 3 First2     Last2         8    18     11      8     7     1
+## 4 First3     Last3        18    17     20     20    14     1
+## 5 First4     Last4         5    17     11     10     7    20
+## 6 First5     Last5         1     8      6      3     7    19
 ```
 
 This is pretty well-formed data. This format would be useful to create a "total" column for each bag, but there are better ways to do this with **long** data. Same with getting our averages for each color.
+
+### Where are we going with this data
+
+We have two goals here:
+
+- Find the average distribution of candy by color, i.e., the average of each color column.
+- We want to chart the results as a bar chart simliar to the one below (which uses Skittles data).
+
+![](images/skittles-chart-example.png)
+
+To plot a chart like that in Datawrapper or ggplot, the data needs to be the same shape, like this:
+
+| Color  | Average |
+|:-------|--------:|
+| Green  |    10.9 |
+| Orange |    12.0 |
+| Purple |    12.4 |
+| Red    |    11.4 |
+| Yellow |      12 |
+
+It will be easier to accomplish both of these tasks if our data were in the **long** format.
+
+So, instead of this:
+
+| first_name | last_name | red | green | orange | yellow | blue | brown |
+|:-----------|:----------|----:|------:|-------:|-------:|-----:|------:|
+| Christian  | McDonald  |   2 |    17 |     11 |      4 |   16 |     4 |
+
+We want this:
+
+| first_name | last_name | color  | candies |
+|:-----------|:----------|:-------|--------:|
+| Christian  | McDonald  | red    |       2 |
+| Christian  | McDonald  | green  |      17 |
+| Christian  | McDonald  | orange |      11 |
+| Christian  | McDonald  | yellow |       4 |
+| Christian  | McDonald  | blue   |      16 |
+| Christian  | McDonald  | brown  |       4 |
+
+## The tidyr verbs
+
+The two functions we'll use to reshape are data are:
+
+- [pivot_longer()](https://tidyr.tidyverse.org/reference/pivot_longer.html) which "lengthens" data, increasing the number of rows and decreasing the number of columns.
+- [pivot_wider()](https://tidyr.tidyverse.org/reference/pivot_wider.html) which "widens" data, increasing the number of columns and decreasing the number of rows.
+
+Again, the best way to learn this is to present a problem and then solve it with explanation.
+
 
 ## Pivot longer
 
@@ -181,7 +226,7 @@ There are a number of ways we can describe the `cols=` argument ... anything in 
 
 ### Pivot our candy data longer
 
-What we want here is five rows for each person's entry, with a column for "color" and a column for "candies".
+What we want here is six rows for each person's entry, with a column for "color" and a column for "candies".
 
 We are using a range, naming the first "red" and the last column "brown" with `:` in between. This only works because those columns are all together. We could also use `cols = !c(first_name, last_name)` to say everything but those two columns.
 
@@ -197,26 +242,22 @@ candy_long <- candy %>%
     values_to = "candies" # sets column name for candies
   )
 
-candy_long %>% head(10)
+candy_long %>% head()
 ```
 
 ```
-## # A tibble: 10 × 4
-##    first_name last_name color  candies
-##    <chr>      <chr>     <chr>    <dbl>
-##  1 Christian  McDonald  red          2
-##  2 Christian  McDonald  green       17
-##  3 Christian  McDonald  orange      11
-##  4 Christian  McDonald  yellow       4
-##  5 Christian  McDonald  blue        16
-##  6 Christian  McDonald  brown        4
-##  7 First1     Last1     red         15
-##  8 First1     Last1     green        1
-##  9 First1     Last1     orange      17
-## 10 First1     Last1     yellow       5
+## # A tibble: 6 × 4
+##   first_name last_name color  candies
+##   <chr>      <chr>     <chr>    <dbl>
+## 1 Christian  McDonald  red          2
+## 2 Christian  McDonald  green       17
+## 3 Christian  McDonald  orange      11
+## 4 Christian  McDonald  yellow       4
+## 5 Christian  McDonald  blue        16
+## 6 Christian  McDonald  brown        4
 ```
 
-## Get average candies per color
+### Get average candies per color
 
 To get the average number of candies per each color, we can use our `candy_long` data and `group_by` color (which will consider all the **red** rows together, etc.) and use `summarize()` to get the mean.
 
@@ -239,12 +280,12 @@ candy_avg
 ## # A tibble: 6 × 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
-## 1 blue          10.7
-## 2 brown         10.9
-## 3 green         11.3
-## 4 orange        10.5
-## 5 red           10.2
-## 6 yellow        10.4
+## 1 blue         10.2 
+## 2 brown        10.6 
+## 3 green        11.5 
+## 4 orange        9.74
+## 5 red           8.97
+## 6 yellow       13.0
 ```
 </details>
 
@@ -272,12 +313,12 @@ candy_avg
 ## # A tibble: 6 × 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
-## 1 blue          10.7
-## 2 brown         10.9
-## 3 green         11.3
-## 4 orange        10.5
-## 5 red           10.2
-## 6 yellow        10.4
+## 1 blue          10.2
+## 2 brown         10.6
+## 3 green         11.5
+## 4 orange         9.7
+## 5 red            9  
+## 6 yellow        13
 ```
 
 BONUS POINT OPPORTUNITY: Using a similar method to rounding above, you can also capitalize the names of the colors. You don't _have_ to do this, but I'll give you bonus points if you do:
@@ -288,22 +329,22 @@ You can read more about [converting the case of a string here](https://stringr.t
 
 ### On your own: Plot the averages
 
-Now I want you to use ggplot to create a bar chart that shows the average number of candies in a bag. This is very similar to your plots of Disney Princesses and ice cream in Chapter 6.
+Now I want you to use ggplot to create a bar chart that shows the average number of candies in a bag. This is very similar to the [Disney Princesses bar chart in Chapter 7](https://utdata.github.io/rwdir/ggplot-intro.html#lets-build-a-bar-chart).
 
-1. Build a bar chart of averge color using ggplot.
+1. Build a bar chart of average color using ggplot.
 
 Some things to consider:
 
 - I want the bars to be ordered by the highest average on top.
-- I want a good title, subtitle and byline, along with good axes names.
+- I want you to have a good title, subtitle and byline, along with good axes names. Make sure a reader has all the information they need to understand what you are communicating with the chart.
 - Include the values on the bars
 - Change the theme to something other than the default
 
-Here is what it should look like, but with good text, etc: 
+Here is what it should more or less look like, but with good text, etc: 
 
 <img src="09-tidy-data_files/figure-html/avg-plot-1.png" width="672" />
 
-**The numbers above may not be up to date**, so don't let that throw you.
+**The numbers in the example above may not be up to date**, so don't let that throw you.
 
 ## Introducing Datawrapper
 
@@ -382,12 +423,12 @@ candy_long %>%
 ## # A tibble: 6 × 32
 ##   color  Christian_McDonald First1_Last1 First2_Last2 First3_Last3 First4_Last4
 ##   <chr>               <dbl>        <dbl>        <dbl>        <dbl>        <dbl>
-## 1 red                     2           15           14            7            6
-## 2 green                  17            1           15            1            2
-## 3 orange                 11           17            4            7            8
-## 4 yellow                  4            5           13            4            6
-## 5 blue                   16           20           12            6           13
-## 6 brown                   4            8            5            9           16
+## 1 red                     2           10            8           18            5
+## 2 green                  17            7           18           17           17
+## 3 orange                 11            4           11           20           11
+## 4 yellow                  4           11            8           20           10
+## 5 blue                   16           13            7           14            7
+## 6 brown                   4           20            1            1           20
 ## # … with 26 more variables: First5_Last5 <dbl>, First6_Last6 <dbl>,
 ## #   First7_Last7 <dbl>, First8_Last8 <dbl>, First9_Last9 <dbl>,
 ## #   First10_Last10 <dbl>, First11_Last11 <dbl>, First12_Last12 <dbl>,
@@ -397,8 +438,19 @@ candy_long %>%
 ## #   First22_Last22 <dbl>, First23_Last23 <dbl>, First24_Last24 <dbl>, …
 ```
 
+### Pivot wider on your own
+
+Now I want you do apply the same `pivot_wider()` function to that same `candy_long` data, but to have the rows be people and the column be each color, basically like how our data started. (But, of course, I want to acdtually use `pivot_wider()` to do it!)
+
+1. Start a new section and note this is pivot_wider on your own.
+1. Start with the `candy_long` data, and then ...
+1. Use `pivot_wider()` to make the data shaped like this
 
 
+
+| first_name | last_name | red | green | orange | yellow | blue | brown |
+|:-----------|:----------|----:|------:|-------:|-------:|-----:|------:|
+| Christian  | McDonald  |   2 |    17 |     11 |      4 |   16 |     4 |
 
 
 ## Bonus questions
