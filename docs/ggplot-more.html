@@ -24,7 +24,7 @@
 <meta name="author" content="Christian McDonald and Jo Lukito" />
 
 
-<meta name="date" content="2022-02-25" />
+<meta name="date" content="2022-02-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -349,7 +349,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="7.4.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#build-the-base-layer"><i class="fa fa-check"></i><b>7.4.1</b> Build the base layer</a></li>
 <li class="chapter" data-level="7.4.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#layers-can-we-add-to-our-plots"><i class="fa fa-check"></i><b>7.4.2</b> Layers can we add to our plots</a></li>
-<li class="chapter" data-level="7.4.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-geom_points"><i class="fa fa-check"></i><b>7.4.3</b> Add geom_points</a></li>
+<li class="chapter" data-level="7.4.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-geom_point"><i class="fa fa-check"></i><b>7.4.3</b> Add geom_point</a></li>
 <li class="chapter" data-level="7.4.4" data-path="ggplot-intro.html"><a href="ggplot-intro.html#adding-other-mappings"><i class="fa fa-check"></i><b>7.4.4</b> Adding other mappings</a></li>
 </ul></li>
 <li class="chapter" data-level="7.5" data-path="ggplot-intro.html"><a href="ggplot-intro.html#lets-build-a-bar-chart"><i class="fa fa-check"></i><b>7.5</b> Let’s build a bar chart</a>
@@ -646,11 +646,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">8.2</span> Learning goals for this chapter</h2>
 <p>In this chapter, we will cover the following topics:</p>
 <ul>
-<li>How to prepare and build a line chart</li>
-<li>How to use themes to change the looks of al chart</li>
-<li>More about aesthetics in layers!</li>
-<li>Faceting, or making multiple charts from the same data</li>
-<li>How to save files</li>
+<li>How to prepare and build a line chart<br />
+</li>
+<li>How to use themes to change the looks of a chart<br />
+</li>
+<li>More about aesthetics in layers!<br />
+</li>
+<li>Faceting, or making multiple charts from the same data<br />
+</li>
+<li>How to save files<br />
+</li>
 <li>How to make interactive plots with <code>Plotly</code></li>
 </ul>
 </div>
@@ -735,6 +740,7 @@ Again, you should be able to do this on your own
 ## $ ship_date         &lt;dttm&gt; 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201~
 ## $ station_type      &lt;chr&gt; &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;~
 ## $ total_value       &lt;dbl&gt; 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 65800~</code></pre>
+<p>Lookin’ good!</p>
 </div>
 </div>
 <div id="wrangle-the-data" class="section level2" number="8.4">
@@ -742,41 +748,40 @@ Again, you should be able to do this on your own
 <p>To prepare the data for visualizing, we need to do a couple more new things. This is going to take several steps, which we will pipe together.</p>
 <ol style="list-style-type: decimal">
 <li><code>filter</code> the data to focus on more recent data. Let’s specifically consider military surplus in 2010 and after.</li>
-<li>And then, create a <code>month</code> variable using the <code>floor_date()</code> function. <code>floor_date()</code> is a function in <code>lubridate</code> that allows us to aggregate<br />
+<li>And then, create a <code>year</code> variable using the <code>year()</code> function. <code>year()</code> is a function in <code>lubridate</code> that allows us to aggregate<br />
 </li>
-<li>And then, <code>select</code> a few variables to study (specifically, <code>month</code>, <code>total_value</code>, <code>state</code>, and <code>agency_name</code>)</li>
+<li>And then, <code>select</code> a few variables to study (specifically, <code>year</code>, <code>total_value</code>, <code>state</code>, and <code>agency_name</code>)</li>
 </ol>
-<p>In this chunk of code, we’ll use a new function we haven’t learned about before: <code>floor_date()</code>. This is the date-equivalent of rounding: we use <code>floor_date()</code> to “round down” a date, so “2022-01-25” (January 25, 2022) becomes “2022-01-01.” This can be useful when we want to aggregate information from the day-level to the week, month, or year level. <code>floor_date()</code> takes two arguments: the date-time object (in our case, the <code>date</code> variable in the <code>tx</code> data frame) <em>and</em> the unit that you want to round to (in our case, <code>"month"</code>, but you can also do week, bi-month, quarter, year, and so on).</p>
 <div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="ggplot-more.html#cb164-1" aria-hidden="true" tabindex="-1"></a>leso_total <span class="ot">&lt;-</span> leso_total <span class="sc">%&gt;%</span></span>
 <span id="cb164-2"><a href="ggplot-more.html#cb164-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ship_date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">&quot;2010-01-01&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb164-3"><a href="ggplot-more.html#cb164-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">floor_date</span>(ship_date, <span class="st">&quot;month&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb164-4"><a href="ggplot-more.html#cb164-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(month, total_value, state)</span>
+<span id="cb164-3"><a href="ggplot-more.html#cb164-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">year</span>(ship_date)) <span class="sc">%&gt;%</span> </span>
+<span id="cb164-4"><a href="ggplot-more.html#cb164-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, total_value, state)</span>
 <span id="cb164-5"><a href="ggplot-more.html#cb164-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb164-6"><a href="ggplot-more.html#cb164-6" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(leso_total)</span></code></pre></div>
 <pre><code>## Rows: 84,605
 ## Columns: 3
-## $ month       &lt;dttm&gt; 2018-01-01, 2016-06-01, 2016-09-01, 2016-09-01, 2017-03-0~
+## $ year        &lt;dbl&gt; 2018, 2016, 2016, 2016, 2017, 2016, 2016, 2017, 2017, 2016~
 ## $ total_value &lt;dbl&gt; 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 658000.00, ~
 ## $ state       &lt;chr&gt; &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;~</code></pre>
-<p>There’s a lot of information in this data, so let’s focus our data visualizing on Texas, like we did in our previous chapters. We’ll do this by <code>filter</code>ing the rows where <code>state == "TX"</code>.</p>
+<p>There’s a lot of information in this data, so let’s focus our visualizing on Texas, like we did in our previous chapters. We’ll do this by <code>filter</code>ing the rows where <code>state == "TX"</code>.</p>
 <div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="ggplot-more.html#cb166-1" aria-hidden="true" tabindex="-1"></a>leso_texas <span class="ot">&lt;-</span> leso_total <span class="sc">%&gt;%</span> </span>
 <span id="cb166-2"><a href="ggplot-more.html#cb166-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">&quot;TX&quot;</span>)</span></code></pre></div>
-<p>Now that we have our data in a nice structure, with some monthly information, let’s use our GSA process (<code>group_by() %&gt;% summarize() %&gt;% arrange()</code>). In this process, we’ll <code>group by</code> month (the variable we have just created), <code>summarize</code> a the total value of the military surplus (by month) and arrange that information chronologically.</p>
+<p>Now that we have our data in a nice structure, with some yearly information, let’s use our GSA process (<code>group_by() %&gt;% summarize() %&gt;% arrange()</code>). In this process, we’ll <code>group by</code> year (the variable we have just created), <code>summarize</code> a the total value of the military surplus (by year) and arrange that information chronologically.</p>
 <div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="ggplot-more.html#cb167-1" aria-hidden="true" tabindex="-1"></a>leso_texas_gsa <span class="ot">&lt;-</span> leso_texas <span class="sc">%&gt;%</span></span>
-<span id="cb167-2"><a href="ggplot-more.html#cb167-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span></span>
-<span id="cb167-3"><a href="ggplot-more.html#cb167-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">monthly_cost =</span> <span class="fu">sum</span>(total_value)) <span class="sc">%&gt;%</span></span>
-<span id="cb167-4"><a href="ggplot-more.html#cb167-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(month)</span>
+<span id="cb167-2"><a href="ggplot-more.html#cb167-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span></span>
+<span id="cb167-3"><a href="ggplot-more.html#cb167-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">yearly_cost =</span> <span class="fu">sum</span>(total_value)) <span class="sc">%&gt;%</span></span>
+<span id="cb167-4"><a href="ggplot-more.html#cb167-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year)</span>
 <span id="cb167-5"><a href="ggplot-more.html#cb167-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb167-6"><a href="ggplot-more.html#cb167-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(leso_texas_gsa) <span class="co">#use head() to view the first 6 rows of this new data frame</span></span></code></pre></div>
 <pre><code>## # A tibble: 6 x 2
-##   month               monthly_cost
-##   &lt;dttm&gt;                     &lt;dbl&gt;
-## 1 2010-01-01 00:00:00       92290 
-## 2 2010-02-01 00:00:00        5447 
-## 3 2010-03-01 00:00:00     5399589.
-## 4 2010-04-01 00:00:00      267113.
-## 5 2010-05-01 00:00:00      181700.
-## 6 2010-06-01 00:00:00       16983</code></pre>
+##    year yearly_cost
+##   &lt;dbl&gt;       &lt;dbl&gt;
+## 1  2010    7018530.
+## 2  2011    2707371.
+## 3  2012    4938685.
+## 4  2013   11573720.
+## 5  2014   45836900.
+## 6  2015    3456193.</code></pre>
 <p>We may come back to the data to fix some stuff but for now, we’re ready to plot!</p>
 <blockquote>
 <p>If any of these steps are confusing to you, we encourage you to go back to <a href="https://utdata.github.io/rwdir/sums-import.html#about-the-story-military-surplus-transfers">Chapter 5 and 6</a>.</p>
@@ -795,11 +800,11 @@ Again, you should be able to do this on your own
 <li>Then add the <code>+</code> and <code>geom_line()</code> and run it.</li>
 <li>Then add the <code>+</code> and <code>labs()</code>, and run everything.</li>
 </ol>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="ggplot-more.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(leso_texas_gsa, <span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> monthly_cost)) <span class="sc">+</span> <span class="co">#we create the graph</span></span>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="ggplot-more.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(leso_texas_gsa, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> yearly_cost)) <span class="sc">+</span> <span class="co">#we create the graph</span></span>
 <span id="cb169-2"><a href="ggplot-more.html#cb169-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="co">#adding the points</span></span>
 <span id="cb169-3"><a href="ggplot-more.html#cb169-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="co">#adding the lines between the points</span></span>
-<span id="cb169-4"><a href="ggplot-more.html#cb169-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Law Enforcement Support Office Data, Texas&quot;</span>, </span>
-<span id="cb169-5"><a href="ggplot-more.html#cb169-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Months&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cost of acquisitions&quot;</span>)</span></code></pre></div>
+<span id="cb169-4"><a href="ggplot-more.html#cb169-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Yearly Law Enforcement Support Office Data, Texas&quot;</span>, </span>
+<span id="cb169-5"><a href="ggplot-more.html#cb169-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cost of acquisitions&quot;</span>)</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 <div id="cleaning-up" class="section level3" number="8.5.2">
@@ -807,35 +812,35 @@ Again, you should be able to do this on your own
 <p>Alright, so we have a working plot! But there’s a couple things that are a bit ugly about this plot. First, I’m not digging the weird numbers on the side (what the heck does <code>0.0e+00</code> even mean?!). To fix this, let’s go back to our data and do a bit more preparing. If we use <code>head()</code> to look at our data, we’ll notice that there are a few numbers that are just really, really big.</p>
 <div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="ggplot-more.html#cb170-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(leso_texas_gsa) <span class="co">#use head() to view the first 6 rows of this new data frame</span></span></code></pre></div>
 <pre><code>## # A tibble: 6 x 2
-##   month               monthly_cost
-##   &lt;dttm&gt;                     &lt;dbl&gt;
-## 1 2010-01-01 00:00:00       92290 
-## 2 2010-02-01 00:00:00        5447 
-## 3 2010-03-01 00:00:00     5399589.
-## 4 2010-04-01 00:00:00      267113.
-## 5 2010-05-01 00:00:00      181700.
-## 6 2010-06-01 00:00:00       16983</code></pre>
+##    year yearly_cost
+##   &lt;dbl&gt;       &lt;dbl&gt;
+## 1  2010    7018530.
+## 2  2011    2707371.
+## 3  2012    4938685.
+## 4  2013   11573720.
+## 5  2014   45836900.
+## 6  2015    3456193.</code></pre>
 <p>These large numbers are causing R to read our numbers as “scientific notation” (a math-y way of reading large numbers). For example, the total cost of supplies in February 2010 was <code>5,399,589.0</code> (that’s the first spike in our figure, around the <code>5.0e + 06</code> mark). But what a pain to read!</p>
-<p>To get around this, let’s divide our <code>monthly_cost</code> variable (in the <code>leso_tx_gsa</code> data frame) by 1 million. Just like we round our numbers when we write about data, so too do we often round numbers when we visualize it. In the line below, we use <code>mutate()</code> to divide <code>monthly_cost</code> by 1,000,000.</p>
+<p>To get around this, let’s divide our <code>yearly_cost</code> variable (in the <code>leso_tx_gsa</code> data frame) by 1 million. Just like we round our numbers when we write about data, so too do we often round numbers when we visualize it. In the line below, we use <code>mutate()</code> to divide <code>yearly_cost</code> by 1,000,000.</p>
 <div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="ggplot-more.html#cb172-1" aria-hidden="true" tabindex="-1"></a>leso_texas_gsa <span class="ot">&lt;-</span> leso_texas_gsa <span class="sc">%&gt;%</span></span>
-<span id="cb172-2"><a href="ggplot-more.html#cb172-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">monthly_cost =</span> monthly_cost<span class="sc">/</span><span class="dv">1000000</span>) <span class="co">#divide by 1 million</span></span>
+<span id="cb172-2"><a href="ggplot-more.html#cb172-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yearly_cost =</span> yearly_cost<span class="sc">/</span><span class="dv">1000000</span>) <span class="co">#divide by 1 million</span></span>
 <span id="cb172-3"><a href="ggplot-more.html#cb172-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb172-4"><a href="ggplot-more.html#cb172-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(leso_texas_gsa)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 2
-##   month               monthly_cost
-##   &lt;dttm&gt;                     &lt;dbl&gt;
-## 1 2010-01-01 00:00:00      0.0923 
-## 2 2010-02-01 00:00:00      0.00545
-## 3 2010-03-01 00:00:00      5.40   
-## 4 2010-04-01 00:00:00      0.267  
-## 5 2010-05-01 00:00:00      0.182  
-## 6 2010-06-01 00:00:00      0.0170</code></pre>
+##    year yearly_cost
+##   &lt;dbl&gt;       &lt;dbl&gt;
+## 1  2010        7.02
+## 2  2011        2.71
+## 3  2012        4.94
+## 4  2013       11.6 
+## 5  2014       45.8 
+## 6  2015        3.46</code></pre>
 <p>Now, let’s re-visualize our data. Notice that in the <code>labs</code> layer below, we add some new information to the <code>y-axis</code>, so people know that the <code>5</code> here refers to <code>5 million</code>.</p>
-<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="ggplot-more.html#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(leso_texas_gsa, <span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> monthly_cost)) <span class="sc">+</span> <span class="co">#we create the graph</span></span>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="ggplot-more.html#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(leso_texas_gsa, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> yearly_cost)) <span class="sc">+</span> <span class="co">#we create the graph</span></span>
 <span id="cb174-2"><a href="ggplot-more.html#cb174-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="co">#adding the points</span></span>
 <span id="cb174-3"><a href="ggplot-more.html#cb174-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="co">#adding the lines between the points</span></span>
-<span id="cb174-4"><a href="ggplot-more.html#cb174-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Monthly Value of Military Surplus Acquisitions in Texas&quot;</span>, </span>
-<span id="cb174-5"><a href="ggplot-more.html#cb174-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Months&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cost of acquisitions (in millions)&quot;</span>,</span>
+<span id="cb174-4"><a href="ggplot-more.html#cb174-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Yearly Value of Military Surplus Acquisitions in Texas&quot;</span>, </span>
+<span id="cb174-5"><a href="ggplot-more.html#cb174-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cost of acquisitions (in millions)&quot;</span>,</span>
 <span id="cb174-6"><a href="ggplot-more.html#cb174-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: Law Enforcement Support Office&quot;</span>)</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>Our chart is looking much better!</p>
@@ -847,11 +852,11 @@ Again, you should be able to do this on your own
 <li>Edit your Texas plot chunk you made earlier to save it into an R object, and then call <code>tx_plot</code> after it so you can see it.</li>
 </ol>
 <div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="ggplot-more.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the line below saves the graph results into tx_plot</span></span>
-<span id="cb175-2"><a href="ggplot-more.html#cb175-2" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(leso_texas_gsa, <span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> monthly_cost)) <span class="sc">+</span> </span>
+<span id="cb175-2"><a href="ggplot-more.html#cb175-2" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(leso_texas_gsa, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> yearly_cost)) <span class="sc">+</span> </span>
 <span id="cb175-3"><a href="ggplot-more.html#cb175-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
 <span id="cb175-4"><a href="ggplot-more.html#cb175-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb175-5"><a href="ggplot-more.html#cb175-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Monthly Value of Military Surplus Acquisitions in Texas&quot;</span>, </span>
-<span id="cb175-6"><a href="ggplot-more.html#cb175-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Months&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cost of acquisitions (in millions)&quot;</span>,</span>
+<span id="cb175-5"><a href="ggplot-more.html#cb175-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Yearly Value of Military Surplus Acquisitions in Texas&quot;</span>, </span>
+<span id="cb175-6"><a href="ggplot-more.html#cb175-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cost of acquisitions (in millions)&quot;</span>,</span>
 <span id="cb175-7"><a href="ggplot-more.html#cb175-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: Law Enforcement Support Office&quot;</span>)</span>
 <span id="cb175-8"><a href="ggplot-more.html#cb175-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb175-9"><a href="ggplot-more.html#cb175-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Since we saved the plot into an R object above, we have to call it again to see it.</span></span>
@@ -880,7 +885,7 @@ Again, you should be able to do this on your own
 <h3><span class="header-section-number">8.6.1</span> More with ggthemes</h3>
 <p>There are a number of other packages that build upon <code>ggplot2</code>, including <a href="https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/"><code>ggthemes</code></a>.</p>
 <ol style="list-style-type: decimal">
-<li>In your R console, install the ggthemes package: <code>install.packages("ggthemes")</code></li>
+<li>In your R console, install the <code>ggthemes</code> package using the <code>install.packages()</code> function: <code>install.packages("ggthemes")</code></li>
 <li>Add the <code>library(ggthemes)</code> at the top of your current chunk.</li>
 <li>Update the theme line to view some of the others options noted below.</li>
 </ol>
@@ -918,18 +923,18 @@ Again, you should be able to do this on your own
 <span id="cb180-5"><a href="ggplot-more.html#cb180-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-6"><a href="ggplot-more.html#cb180-6" aria-hidden="true" tabindex="-1"></a>leso_five</span></code></pre></div>
 <pre><code>## # A tibble: 11,546 x 3
-##    month               total_value state
-##    &lt;dttm&gt;                    &lt;dbl&gt; &lt;chr&gt;
-##  1 2021-12-01 00:00:00        421. AR   
-##  2 2021-11-01 00:00:00      44478  AR   
-##  3 2021-12-01 00:00:00       4977. AR   
-##  4 2021-11-01 00:00:00        168  AR   
-##  5 2021-12-01 00:00:00        232. AR   
-##  6 2018-08-01 00:00:00       1918  AR   
-##  7 2021-12-01 00:00:00          0  AR   
-##  8 2015-04-01 00:00:00       3861  AR   
-##  9 2013-05-01 00:00:00      89900  AR   
-## 10 2014-09-01 00:00:00      89900  AR   
+##     year total_value state
+##    &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;
+##  1  2021        421. AR   
+##  2  2021      44478  AR   
+##  3  2021       4977. AR   
+##  4  2021        168  AR   
+##  5  2021        232. AR   
+##  6  2018       1918  AR   
+##  7  2021          0  AR   
+##  8  2015       3861  AR   
+##  9  2013      89900  AR   
+## 10  2014      89900  AR   
 ## # ... with 11,536 more rows</code></pre>
 <p>Now that we have our five states, let’s GSA this information, like we did earlier (but for all 5 states and not just Texas).</p>
 <details>
@@ -937,17 +942,17 @@ Again, you should be able to do this on your own
 Again, this should be a refresher!
 </summary>
 <div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="ggplot-more.html#cb182-1" aria-hidden="true" tabindex="-1"></a>leso_five_gsa <span class="ot">&lt;-</span> leso_five <span class="sc">%&gt;%</span></span>
-<span id="cb182-2"><a href="ggplot-more.html#cb182-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state, month) <span class="sc">%&gt;%</span> <span class="co">#groups by state AND month</span></span>
-<span id="cb182-3"><a href="ggplot-more.html#cb182-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">monthly_cost =</span> <span class="fu">sum</span>(total_value)) <span class="sc">%&gt;%</span> </span>
-<span id="cb182-4"><a href="ggplot-more.html#cb182-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">monthly_cost =</span> monthly_cost<span class="sc">/</span><span class="dv">1000000</span>) <span class="co">#divide by 1 million</span></span></code></pre></div>
+<span id="cb182-2"><a href="ggplot-more.html#cb182-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state, year) <span class="sc">%&gt;%</span> <span class="co">#groups by state AND year</span></span>
+<span id="cb182-3"><a href="ggplot-more.html#cb182-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">yearly_cost =</span> <span class="fu">sum</span>(total_value)) <span class="sc">%&gt;%</span> </span>
+<span id="cb182-4"><a href="ggplot-more.html#cb182-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yearly_cost =</span> yearly_cost<span class="sc">/</span><span class="dv">1000000</span>) <span class="co">#divide by 1 million</span></span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;state&#39;. You can override using the `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="ggplot-more.html#cb184-1" aria-hidden="true" tabindex="-1"></a>leso_five_gsa <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
-<pre><code>## Rows: 452
+<pre><code>## Rows: 55
 ## Columns: 3
 ## Groups: state [5]
-## $ state        &lt;chr&gt; &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR~
-## $ month        &lt;dttm&gt; 2010-12-01, 2011-01-01, 2011-03-01, 2011-04-01, 2011-05-~
-## $ monthly_cost &lt;dbl&gt; 0.00207600, 0.05097442, 0.00301800, 0.05546326, 0.0571645~</code></pre>
+## $ state       &lt;chr&gt; &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;~
+## $ year        &lt;dbl&gt; 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019~
+## $ yearly_cost &lt;dbl&gt; 0.00207600, 0.70035335, 0.67255778, 2.77192930, 12.0723892~</code></pre>
 </details>
 </div>
 <div id="plot-multiple-line-chart" class="section level3" number="8.7.2">
@@ -957,22 +962,22 @@ Again, this should be a refresher!
 <li>Add a note that we’ll now build the chart.</li>
 <li>Add the code chunk below and run it. Look through the comments so you understand it.</li>
 </ol>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="ggplot-more.html#cb186-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(leso_five_gsa, <span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> monthly_cost)) <span class="sc">+</span> </span>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="ggplot-more.html#cb186-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(leso_five_gsa, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> yearly_cost)) <span class="sc">+</span> </span>
 <span id="cb186-2"><a href="ggplot-more.html#cb186-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb186-3"><a href="ggplot-more.html#cb186-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span> <span class="co"># The aes selects a color for each state</span></span>
-<span id="cb186-4"><a href="ggplot-more.html#cb186-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Monthly Value of Military Surplus Acquisitions in Texas and Boardering States&quot;</span>, </span>
-<span id="cb186-5"><a href="ggplot-more.html#cb186-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Month&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cost of acquisitions (in millions)&quot;</span>,</span>
+<span id="cb186-4"><a href="ggplot-more.html#cb186-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Yearly Value of Military Surplus Acquisitions in Texas and Boardering States&quot;</span>, </span>
+<span id="cb186-5"><a href="ggplot-more.html#cb186-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Yearly&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cost of acquisitions (in millions)&quot;</span>,</span>
 <span id="cb186-6"><a href="ggplot-more.html#cb186-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: Law Enforcement Support Office&quot;</span>)</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/five-hied-lcolor-1.png" width="672" /></p>
 <p>Notice that R changes the color of the line, but not the point? This is because we only included the aesthetic in the <code>geom_line()</code> geom and not the <code>geom_point()</code> geom.</p>
 <ol style="list-style-type: decimal">
 <li>Edit your <code>geom_point()</code> to add <code>aes(color = state)</code>.</li>
 </ol>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="ggplot-more.html#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(leso_five_gsa, <span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> monthly_cost)) <span class="sc">+</span> </span>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="ggplot-more.html#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(leso_five_gsa, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> yearly_cost)) <span class="sc">+</span> </span>
 <span id="cb187-2"><a href="ggplot-more.html#cb187-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span></span>
 <span id="cb187-3"><a href="ggplot-more.html#cb187-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span> <span class="co"># The aes selects a color for each state</span></span>
-<span id="cb187-4"><a href="ggplot-more.html#cb187-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Monthly Value of Military Surplus Acquisitions in Texas and Boardering States&quot;</span>, </span>
-<span id="cb187-5"><a href="ggplot-more.html#cb187-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Month&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cost of acquisitions (in millions)&quot;</span>,</span>
+<span id="cb187-4"><a href="ggplot-more.html#cb187-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Yearly Value of Military Surplus Acquisitions in Texas and Boardering States&quot;</span>, </span>
+<span id="cb187-5"><a href="ggplot-more.html#cb187-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cost of acquisitions (in millions)&quot;</span>,</span>
 <span id="cb187-6"><a href="ggplot-more.html#cb187-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: Law Enforcement Support Office&quot;</span>)</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/five-hied-pcolor-1.png" width="672" /></p>
 </div>
@@ -992,22 +997,22 @@ Again, this should be a refresher!
 <p>You don’t have to add these examples below to your own notebook, but here are some examples of other things you can control.</p>
 <div id="line-width" class="section level3" number="8.9.1">
 <h3><span class="header-section-number">8.9.1</span> Line width</h3>
-<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="ggplot-more.html#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(leso_five_gsa, <span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> monthly_cost)) <span class="sc">+</span> </span>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="ggplot-more.html#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(leso_five_gsa, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> yearly_cost)) <span class="sc">+</span> </span>
 <span id="cb188-2"><a href="ggplot-more.html#cb188-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span></span>
 <span id="cb188-3"><a href="ggplot-more.html#cb188-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> state), <span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span> <span class="co">#make the lines thicker here</span></span>
-<span id="cb188-4"><a href="ggplot-more.html#cb188-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Monthly Value of Military Surplus Acquisitions in Texas and Boardering States&quot;</span>, </span>
-<span id="cb188-5"><a href="ggplot-more.html#cb188-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Month&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cost of acquisitions (in millions)&quot;</span>,</span>
+<span id="cb188-4"><a href="ggplot-more.html#cb188-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Yearly Value of Military Surplus Acquisitions in Texas and Boardering States&quot;</span>, </span>
+<span id="cb188-5"><a href="ggplot-more.html#cb188-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cost of acquisitions (in millions)&quot;</span>,</span>
 <span id="cb188-6"><a href="ggplot-more.html#cb188-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: Law Enforcement Support Office&quot;</span>)</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/line-width-1.png" width="672" /></p>
 </div>
 <div id="line-type" class="section level3" number="8.9.2">
 <h3><span class="header-section-number">8.9.2</span> Line type</h3>
 <p>This example removes the points and adds a <code>linetype = state</code> to the ggplot aesthetic. This gives each state a different type of line. We also set the color in the <code>geom_line()</code></p>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="ggplot-more.html#cb189-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(leso_five_gsa, <span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> monthly_cost)) <span class="sc">+</span> </span>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="ggplot-more.html#cb189-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(leso_five_gsa, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> yearly_cost)) <span class="sc">+</span> </span>
 <span id="cb189-2"><a href="ggplot-more.html#cb189-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span></span>
 <span id="cb189-3"><a href="ggplot-more.html#cb189-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> state, <span class="at">linetype =</span> state), <span class="at">size =</span> <span class="fl">0.75</span>) <span class="sc">+</span> <span class="co">#changes the line type</span></span>
-<span id="cb189-4"><a href="ggplot-more.html#cb189-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Monthly Value of Military Surplus Acquisitions in Texas and Boardering States&quot;</span>, </span>
-<span id="cb189-5"><a href="ggplot-more.html#cb189-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Month&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cost of acquisitions (in millions)&quot;</span>,</span>
+<span id="cb189-4"><a href="ggplot-more.html#cb189-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Yearly Value of Military Surplus Acquisitions in Texas and Boardering States&quot;</span>, </span>
+<span id="cb189-5"><a href="ggplot-more.html#cb189-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cost of acquisitions (in millions)&quot;</span>,</span>
 <span id="cb189-6"><a href="ggplot-more.html#cb189-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: Law Enforcement Support Office&quot;</span>)</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/line-type-1.png" width="672" /></p>
 <p>Notice that when you put the information <code>geom_line(aes())</code> (like with <code>color</code> and <code>linetype</code>), this varies the color and linetype of the lines, whereas <code>size</code> is consistent for all the lines.</p>
@@ -1015,12 +1020,12 @@ Again, this should be a refresher!
 <div id="adjust-axis" class="section level3" number="8.9.3">
 <h3><span class="header-section-number">8.9.3</span> Adjust axis</h3>
 <p><code>ggplot()</code> typically makes assumptions about scale. Sometimes, you may want to change it though (e.g., make them a little larger). There are a couple different ways to do this. The most straightforward may be <code>xlim()</code> and <code>ylim()</code>.</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="ggplot-more.html#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(leso_five_gsa, <span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> monthly_cost)) <span class="sc">+</span> </span>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="ggplot-more.html#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(leso_five_gsa, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> yearly_cost)) <span class="sc">+</span> </span>
 <span id="cb190-2"><a href="ggplot-more.html#cb190-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span></span>
 <span id="cb190-3"><a href="ggplot-more.html#cb190-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> state, <span class="at">linetype =</span> state), <span class="at">size =</span> <span class="fl">0.75</span>) <span class="sc">+</span> <span class="co">#changes the line type</span></span>
-<span id="cb190-4"><a href="ggplot-more.html#cb190-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">as.POSIXct</span>(<span class="st">&quot;2009-07-01&quot;</span>), <span class="fu">as.POSIXct</span>(<span class="st">&quot;2022-02-01&quot;</span>)) <span class="sc">+</span> <span class="co"># sets minimum and maximum values on axis</span></span>
-<span id="cb190-5"><a href="ggplot-more.html#cb190-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Monthly Value of Military Surplus Acquisitions in Texas and Boardering States&quot;</span>, </span>
-<span id="cb190-6"><a href="ggplot-more.html#cb190-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Month&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cost of acquisitions (in millions)&quot;</span>,</span>
+<span id="cb190-4"><a href="ggplot-more.html#cb190-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">2009</span>, <span class="dv">2022</span>) <span class="sc">+</span> <span class="co"># sets minimum and maximum values on axis</span></span>
+<span id="cb190-5"><a href="ggplot-more.html#cb190-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Yearly Value of Military Surplus Acquisitions in Texas and Boardering States&quot;</span>, </span>
+<span id="cb190-6"><a href="ggplot-more.html#cb190-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cost of acquisitions (in millions)&quot;</span>,</span>
 <span id="cb190-7"><a href="ggplot-more.html#cb190-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: Law Enforcement Support Office&quot;</span>)</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/adjust-axis-1.png" width="672" />
 The function <code>xlim()</code> and <code>ylim()</code> are shortcuts for <code>scale_x_continuous()</code> and <code>scale_y_continuous()</code> which <a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html#examples">do more things</a>.</p>
@@ -1034,25 +1039,28 @@ The function <code>xlim()</code> and <code>ylim()</code> are shortcuts for <code
 <li>Start a new section about facets</li>
 <li>Add the code below to create your chart and view it. This is the same plot we’ve already created</li>
 </ol>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="ggplot-more.html#cb191-1" aria-hidden="true" tabindex="-1"></a>five_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(leso_five_gsa, <span class="fu">aes</span>(<span class="at">x =</span> month, </span>
-<span id="cb191-2"><a href="ggplot-more.html#cb191-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">y =</span> monthly_cost)) <span class="sc">+</span> </span>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="ggplot-more.html#cb191-1" aria-hidden="true" tabindex="-1"></a>five_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(leso_five_gsa, <span class="fu">aes</span>(<span class="at">x =</span> year, </span>
+<span id="cb191-2"><a href="ggplot-more.html#cb191-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">y =</span> yearly_cost)) <span class="sc">+</span> </span>
 <span id="cb191-3"><a href="ggplot-more.html#cb191-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span></span>
 <span id="cb191-4"><a href="ggplot-more.html#cb191-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> state)) <span class="sc">+</span> </span>
-<span id="cb191-5"><a href="ggplot-more.html#cb191-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Monthly Value of Military Surplus Acquisitions in Texas and Boardering States&quot;</span>, </span>
-<span id="cb191-6"><a href="ggplot-more.html#cb191-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Month&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cost of acquisitions (in millions)&quot;</span>,</span>
+<span id="cb191-5"><a href="ggplot-more.html#cb191-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Yearly Value of Military Surplus Acquisitions in Texas and Boardering States&quot;</span>, </span>
+<span id="cb191-6"><a href="ggplot-more.html#cb191-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cost of acquisitions (in millions)&quot;</span>,</span>
 <span id="cb191-7"><a href="ggplot-more.html#cb191-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: Law Enforcement Support Office&quot;</span>)</span>
 <span id="cb191-8"><a href="ggplot-more.html#cb191-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb191-9"><a href="ggplot-more.html#cb191-9" aria-hidden="true" tabindex="-1"></a>five_plot</span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/facet-data-1.png" width="672" /></p>
 <div id="facet-wrap" class="section level3" number="8.10.1">
 <h3><span class="header-section-number">8.10.1</span> Facet wrap</h3>
-<p>The facet_wrap() splits your chart based on a single variable. You define which variable to split upon with <code>~</code> followed by the variable name.</p>
+<p>The <code>facet_wrap()</code> function splits your chart based on a single variable. To use the <code>facet_wrap()</code> function, you need one argument: a <code>~</code> followed by a space and the variable you want to split by (in the chart below, this will be the <code>state</code> variable).</p>
+<p>Like with our themed plots, we’ll use a <code>+</code> to add this <code>facet_wrap()</code> layer to our previously created line graph.</p>
 <ol style="list-style-type: decimal">
-<li>Add a new chunk and create the facet wrap shown here.</li>
+<li>Add a new chunk and include our previously created plot</li>
+<li>Use the <code>+</code> in the next line to “pipe” in a <code>facet_wrap()</code> layer.</li>
+<li>(We also use a <code>theme</code> layer to remove the legend. See what happens when you comment this out!)</li>
 </ol>
 <div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="ggplot-more.html#cb192-1" aria-hidden="true" tabindex="-1"></a>five_plot <span class="sc">+</span></span>
 <span id="cb192-2"><a href="ggplot-more.html#cb192-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> state) <span class="sc">+</span></span>
-<span id="cb192-3"><a href="ggplot-more.html#cb192-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="co"># removes the legend. Try it without it!</span></span></code></pre></div>
+<span id="cb192-3"><a href="ggplot-more.html#cb192-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="co"># this line removes the legend. Try it without it!</span></span></code></pre></div>
 <p><img src="08-plots-more_files/figure-html/facet-wrap-1.png" width="672" /></p>
 <p>A couple of notes about the above code:</p>
 <ul>
@@ -1123,7 +1131,7 @@ The function <code>xlim()</code> and <code>ylim()</code> are shortcuts for <code
 </div>
 <div id="what-we-learned" class="section level2" number="8.14">
 <h2><span class="header-section-number">8.14</span> What we learned</h2>
-<p>There is so much more to ggplot2 than what we’ve shown here, but these are the basics that should get you through the class. At the top of this chapter are a list of other resources to learn more.</p>
+<p>There is so much more to <code>ggplot2</code> than what we’ve shown here, but these are the basics that should get you through the class. At the top of this chapter are a list of other resources to learn more.</p>
 
 </div>
 </div>

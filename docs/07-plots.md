@@ -137,9 +137,9 @@ ggplot(mpg, aes(x = displ, y = hwy))
 
 Let's work through the code above:
 
-- `ggplot()` is the function we use to make a chart.
-- The first argument `ggplot()` needs is the data. It could be specified as `data = mpg` but we don't need the `data = ` part as it is always the first item specified inside of (or piped into) `ggplot()`
-- Next is the **aesthetics** or `aes()`. This is where tell ggplot what data to plot on the `x` and `y` axis. You might see this as `mapping = aes(<VALUES>)` but we can often get by without the `mapping =` part.
+- `ggplot()` is the function we use to make a chart.  
+- The first argument `ggplot()` needs is the data. It could be specified as `data = mpg` but we don't need the `data = ` part as it is always the first item specified inside of (or piped into) `ggplot()`  
+- Next is the **aesthetics** or `aes()`. This is where tell ggplot what data to plot on the `x` and `y` axis. You might see this as `mapping = aes(<VALUES>)` but we can often get by without the `mapping =` part.  
 
 This code tells us just a little bit more than nothing: instead of a blank box, we can now see the grid for the x and y axis. But we'll need another layer to add data to this grid!
 
@@ -154,7 +154,7 @@ Our base layer is the starting point for every `ggplot` chart, but it's certainl
 Below are some of the layers we will work with:
 
 - **geometries** (or "geoms" as we call them) are the way we plot data on the base grid. There are [many geoms](https://github.com/rstudio/cheatsheets/blob/master/data-visualization.pdf), but here are a few common ones:
-    - `geom_points()` adds dots onto the grid based on the data. Will will use these here to build a scatterplot graph.
+    - `geom_point()` adds dots onto the grid based on the data. Will will use these here to build a scatterplot graph.
     - `geom_line()` adds lines between data points on the grid. Basically a line chart.
     - `geom_col()` and `geom_bars()` adds bars to the grid based on values in the data. A bar chart. We'll use `geom_col()` later in this lesson but you can read about the difference between the two in a later chapter.
     - `geom_text()` adds labels based on values in the data.
@@ -171,7 +171,7 @@ ggplot(data, aes(x = some_variable, y = another_variable)) + #creates the base l
 
 Okay, now that we know what the code looks like, let's proceed with the first `geom`.
 
-### Add geom_points
+### Add geom_point
 
 The second layer we'll add to our figure is a `geom` layer. "Geom" is short for geometries: these layers provide a lot of different ways to shape and visualize the data. Simply put, `geom` layers tell R what kind of chart you'd like to make.
 
@@ -211,7 +211,7 @@ As you can see, the dots were given colors based on the values in the `class` co
 
 There are other aesthetics you can use.
 
-1. Change the `color` aesthetic to one of these values and run it to see how it affects the chart: `alpha`, `size` and `shape`. (i.e., `alpha = class`.)
+1. Change the `color` aesthetic to one of these values and run it to see how it affects the chart: `alpha`, `size` and `shape`. (i.e., `alpha = class`.)  
 2. Once you've tried them, change it back to `color`.
 
 OK, enough of the basics ... let's build a chart you _might_ care about.
@@ -419,9 +419,6 @@ ggplot(princess_data, aes(x = reorder(princess, votes), y = votes)) +
 <img src="07-plots_files/figure-html/princess-text-ugly-1.png" width="672" />
 Well that did... something. We've successfully added the numbers to this plot, but it's not very pretty. First, the number sits at the end of the bar, making it harder to read. So we'll want to **horizontally** adjust this by shifting the numbers a bit to the left. Second, black text is really hard to read against a dark grey background. So we'll change the text of the number to white.
 
-
-
-
 We can make both of these edits directly in the `geom_text` layer. 
 
 1. Edit the last line of your plot chunk to add two new arguments.
@@ -439,6 +436,7 @@ ggplot(princess_data, aes(x = reorder(princess, votes), y = votes)) +
 ```
 
 <img src="07-plots_files/figure-html/princess-text-clean-1.png" width="672" />
+
 Great! But we're still not done. Even though we've added labels to each bar chart, we still haven't added a title, and the titles of our x and y axes are not great. So let's work on those now.
 
 ### Add some titles and more labels
