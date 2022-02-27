@@ -75,20 +75,20 @@ mpg
 ```
 
 ```
-## # A tibble: 234 × 11
+## # A tibble: 234 x 11
 ##    manufacturer model      displ  year   cyl trans drv     cty   hwy fl    class
 ##    <chr>        <chr>      <dbl> <int> <int> <chr> <chr> <int> <int> <chr> <chr>
-##  1 audi         a4           1.8  1999     4 auto… f        18    29 p     comp…
-##  2 audi         a4           1.8  1999     4 manu… f        21    29 p     comp…
-##  3 audi         a4           2    2008     4 manu… f        20    31 p     comp…
-##  4 audi         a4           2    2008     4 auto… f        21    30 p     comp…
-##  5 audi         a4           2.8  1999     6 auto… f        16    26 p     comp…
-##  6 audi         a4           2.8  1999     6 manu… f        18    26 p     comp…
-##  7 audi         a4           3.1  2008     6 auto… f        18    27 p     comp…
-##  8 audi         a4 quattro   1.8  1999     4 manu… 4        18    26 p     comp…
-##  9 audi         a4 quattro   1.8  1999     4 auto… 4        16    25 p     comp…
-## 10 audi         a4 quattro   2    2008     4 manu… 4        20    28 p     comp…
-## # … with 224 more rows
+##  1 audi         a4           1.8  1999     4 auto~ f        18    29 p     comp~
+##  2 audi         a4           1.8  1999     4 manu~ f        21    29 p     comp~
+##  3 audi         a4           2    2008     4 manu~ f        20    31 p     comp~
+##  4 audi         a4           2    2008     4 auto~ f        21    30 p     comp~
+##  5 audi         a4           2.8  1999     6 auto~ f        16    26 p     comp~
+##  6 audi         a4           2.8  1999     6 manu~ f        18    26 p     comp~
+##  7 audi         a4           3.1  2008     6 auto~ f        18    27 p     comp~
+##  8 audi         a4 quattro   1.8  1999     4 manu~ 4        18    26 p     comp~
+##  9 audi         a4 quattro   1.8  1999     4 auto~ 4        16    25 p     comp~
+## 10 audi         a4 quattro   2    2008     4 manu~ 4        20    28 p     comp~
+## # ... with 224 more rows
 ```
 
 The `mpg` data contains observations collected by the US Environmental Protection Agency on 38 models of cars. It's a data set embedded into the tidyverse for lessons like this one.
@@ -137,9 +137,9 @@ ggplot(mpg, aes(x = displ, y = hwy))
 
 Let's work through the code above:
 
-- `ggplot()` is the function we use to make a chart.
-- The first argument `ggplot()` needs is the data. It could be specified as `data = mpg` but we don't need the `data = ` part as it is always the first item specified inside of (or piped into) `ggplot()`
-- Next is the **aesthetics** or `aes()`. This is where tell ggplot what data to plot on the `x` and `y` axis. You might see this as `mapping = aes(<VALUES>)` but we can often get by without the `mapping =` part.
+- `ggplot()` is the function we use to make a chart.  
+- The first argument `ggplot()` needs is the data. It could be specified as `data = mpg` but we don't need the `data = ` part as it is always the first item specified inside of (or piped into) `ggplot()`  
+- Next is the **aesthetics** or `aes()`. This is where tell ggplot what data to plot on the `x` and `y` axis. You might see this as `mapping = aes(<VALUES>)` but we can often get by without the `mapping =` part.  
 
 This code tells us just a little bit more than nothing: instead of a blank box, we can now see the grid for the x and y axis. But we'll need another layer to add data to this grid!
 
@@ -154,7 +154,7 @@ Our base layer is the starting point for every `ggplot` chart, but it's certainl
 Below are some of the layers we will work with:
 
 - **geometries** (or "geoms" as we call them) are the way we plot data on the base grid. There are [many geoms](https://github.com/rstudio/cheatsheets/blob/master/data-visualization.pdf), but here are a few common ones:
-    - `geom_points()` adds dots onto the grid based on the data. Will will use these here to build a scatterplot graph.
+    - `geom_point()` adds dots onto the grid based on the data. Will will use these here to build a scatterplot graph.
     - `geom_line()` adds lines between data points on the grid. Basically a line chart.
     - `geom_col()` and `geom_bars()` adds bars to the grid based on values in the data. A bar chart. We'll use `geom_col()` later in this lesson but you can read about the difference between the two in a later chapter.
     - `geom_text()` adds labels based on values in the data.
@@ -171,7 +171,7 @@ ggplot(data, aes(x = some_variable, y = another_variable)) + #creates the base l
 
 Okay, now that we know what the code looks like, let's proceed with the first `geom`.
 
-### Add geom_points
+### Add geom_point
 
 The second layer we'll add to our figure is a `geom` layer. "Geom" is short for geometries: these layers provide a lot of different ways to shape and visualize the data. Simply put, `geom` layers tell R what kind of chart you'd like to make.
 
@@ -211,7 +211,7 @@ As you can see, the dots were given colors based on the values in the `class` co
 
 There are other aesthetics you can use.
 
-1. Change the `color` aesthetic to one of these values and run it to see how it affects the chart: `alpha`, `size` and `shape`. (i.e., `alpha = class`.)
+1. Change the `color` aesthetic to one of these values and run it to see how it affects the chart: `alpha`, `size` and `shape`. (i.e., `alpha = class`.)  
 2. Once you've tried them, change it back to `color`.
 
 OK, enough of the basics ... let's build a chart you _might_ care about.
@@ -237,15 +237,15 @@ class <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQfwR6DBW5Qv6
 ```
 
 ```
-## ── Column specification ────────────────────────────────────────────────────────
+## -- Column specification --------------------------------------------------------
 ## Delimiter: ","
 ## chr (3): Name, Princess, Ice cream
 ```
 
 ```
 ## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 ```r
@@ -254,7 +254,7 @@ class
 ```
 
 ```
-## # A tibble: 28 × 3
+## # A tibble: 28 x 3
 ##    Name    Princess                      `Ice cream`      
 ##    <chr>   <chr>                         <chr>            
 ##  1 Katy    Belle (Beauty and the Beast)  Cookies and Cream
@@ -267,7 +267,7 @@ class
 ##  8 Caro    Belle (Beauty and the Beast)  Cookie Dough     
 ##  9 Vicente Rapunzel (Tangled)            Coffee/Jamoca    
 ## 10 Bryan   Jasmine (Aladdin)             Cookie Dough     
-## # … with 18 more rows
+## # ... with 18 more rows
 ```
 
 So, now, you should have the data in your environment. 
@@ -296,7 +296,7 @@ princess_data
 ```
 
 ```
-## # A tibble: 11 × 2
+## # A tibble: 11 x 2
 ##    princess                      votes
 ##    <chr>                         <int>
 ##  1 Ariel (Little Mermaid)            5
@@ -419,9 +419,6 @@ ggplot(princess_data, aes(x = reorder(princess, votes), y = votes)) +
 <img src="07-plots_files/figure-html/princess-text-ugly-1.png" width="672" />
 Well that did... something. We've successfully added the numbers to this plot, but it's not very pretty. First, the number sits at the end of the bar, making it harder to read. So we'll want to **horizontally** adjust this by shifting the numbers a bit to the left. Second, black text is really hard to read against a dark grey background. So we'll change the text of the number to white.
 
-
-
-
 We can make both of these edits directly in the `geom_text` layer. 
 
 1. Edit the last line of your plot chunk to add two new arguments.
@@ -439,6 +436,7 @@ ggplot(princess_data, aes(x = reorder(princess, votes), y = votes)) +
 ```
 
 <img src="07-plots_files/figure-html/princess-text-clean-1.png" width="672" />
+
 Great! But we're still not done. Even though we've added labels to each bar chart, we still haven't added a title, and the titles of our x and y axes are not great. So let's work on those now.
 
 ### Add some titles and more labels

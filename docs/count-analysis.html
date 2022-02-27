@@ -349,7 +349,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="7.4.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#build-the-base-layer"><i class="fa fa-check"></i><b>7.4.1</b> Build the base layer</a></li>
 <li class="chapter" data-level="7.4.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#layers-can-we-add-to-our-plots"><i class="fa fa-check"></i><b>7.4.2</b> Layers can we add to our plots</a></li>
-<li class="chapter" data-level="7.4.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-geom_points"><i class="fa fa-check"></i><b>7.4.3</b> Add geom_points</a></li>
+<li class="chapter" data-level="7.4.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-geom_point"><i class="fa fa-check"></i><b>7.4.3</b> Add geom_point</a></li>
 <li class="chapter" data-level="7.4.4" data-path="ggplot-intro.html"><a href="ggplot-intro.html#adding-other-mappings"><i class="fa fa-check"></i><b>7.4.4</b> Adding other mappings</a></li>
 </ul></li>
 <li class="chapter" data-level="7.5" data-path="ggplot-intro.html"><a href="ggplot-intro.html#lets-build-a-bar-chart"><i class="fa fa-check"></i><b>7.5</b> Let’s build a bar chart</a>
@@ -710,13 +710,13 @@ Try real hard first before clicking here for the answer and result
 <span id="cb33-4"><a href="count-analysis.html#cb33-4" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 330,787
 ## Columns: 7
-## $ chart_date    &lt;date&gt; 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08…
-## $ current_rank  &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
-## $ song          &lt;chr&gt; &quot;Poor Little Fool&quot;, &quot;Patricia&quot;, &quot;Splish Splash&quot;, &quot;Hard H…
-## $ performer     &lt;chr&gt; &quot;Ricky Nelson&quot;, &quot;Perez Prado And His Orchestra&quot;, &quot;Bobby …
-## $ previous_rank &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ peak_rank     &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
-## $ wks_on_chart  &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…</code></pre>
+## $ chart_date    &lt;date&gt; 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08~
+## $ current_rank  &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1~
+## $ song          &lt;chr&gt; &quot;Poor Little Fool&quot;, &quot;Patricia&quot;, &quot;Splish Splash&quot;, &quot;Hard H~
+## $ performer     &lt;chr&gt; &quot;Ricky Nelson&quot;, &quot;Perez Prado And His Orchestra&quot;, &quot;Bobby ~
+## $ previous_rank &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, ~
+## $ peak_rank     &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1~
+## $ wks_on_chart  &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,~</code></pre>
 </details>
 </div>
 </div>
@@ -773,7 +773,7 @@ Try real hard first before clicking here for the answer and result
 <span id="cb35-2"><a href="count-analysis.html#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
 <span id="cb35-3"><a href="count-analysis.html#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">appearances =</span> <span class="fu">n</span>()</span>
 <span id="cb35-4"><a href="count-analysis.html#cb35-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code>## # A tibble: 1 × 1
+<pre><code>## # A tibble: 1 x 1
 ##   appearances
 ##         &lt;int&gt;
 ## 1      330787</code></pre>
@@ -802,20 +802,20 @@ Try real hard first before clicking here for the answer and result
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="count-analysis.html#cb37-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">%&gt;%</span></span>
 <span id="cb37-2"><a href="count-analysis.html#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(performer) <span class="sc">%&gt;%</span> </span>
 <span id="cb37-3"><a href="count-analysis.html#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">appearances =</span> <span class="fu">n</span>())</span></code></pre></div>
-<pre><code>## # A tibble: 10,235 × 2
-##    performer                            appearances
-##    &lt;chr&gt;                                      &lt;int&gt;
-##  1 &quot;? (Question Mark) &amp; The Mysterians&quot;          33
-##  2 &quot;&#39;N Sync&quot;                                    172
-##  3 &quot;&#39;N Sync &amp; Gloria Estefan&quot;                    20
-##  4 &quot;&#39;N Sync Featuring Nelly&quot;                     20
-##  5 &quot;&#39;Til Tuesday&quot;                                53
-##  6 &quot;\&quot;Groove\&quot; Holmes&quot;                           14
-##  7 &quot;\&quot;Little\&quot; Jimmy Dickens&quot;                    10
-##  8 &quot;\&quot;Pookie\&quot; Hudson&quot;                            1
-##  9 &quot;\&quot;Weird Al\&quot; Yankovic&quot;                       91
-## 10 &quot;(+44)&quot;                                        1
-## # … with 10,225 more rows</code></pre>
+<pre><code>## # A tibble: 10,235 x 2
+##    performer                     appearances
+##    &lt;chr&gt;                               &lt;int&gt;
+##  1 &quot;&#39;N Sync&quot;                             172
+##  2 &quot;&#39;N Sync &amp; Gloria Estefan&quot;             20
+##  3 &quot;&#39;N Sync Featuring Nelly&quot;              20
+##  4 &quot;&#39;Til Tuesday&quot;                         53
+##  5 &quot;\&quot;Groove\&quot; Holmes&quot;                    14
+##  6 &quot;\&quot;Little\&quot; Jimmy Dickens&quot;             10
+##  7 &quot;\&quot;Pookie\&quot; Hudson&quot;                     1
+##  8 &quot;\&quot;Weird Al\&quot; Yankovic&quot;                91
+##  9 &quot;(+44)&quot;                                 1
+## 10 &quot;(The Preacher) Bobby Womack&quot;           9
+## # ... with 10,225 more rows</code></pre>
 <p>What we get in return is a <strong>summarize</strong>d table that shows all 10,000+ different performers that have been on the charts, and the <strong>n</strong>umber of rows in which they appear in the data.</p>
 <p>That’s great, but who had the most?</p>
 </div>
@@ -829,7 +829,7 @@ Try real hard first before clicking here for the answer and result
 <span id="cb39-2"><a href="count-analysis.html#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(performer) <span class="sc">%&gt;%</span> </span>
 <span id="cb39-3"><a href="count-analysis.html#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">appearances =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
 <span id="cb39-4"><a href="count-analysis.html#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(appearances))</span></code></pre></div>
-<pre><code>## # A tibble: 10,235 × 2
+<pre><code>## # A tibble: 10,235 x 2
 ##    performer     appearances
 ##    &lt;chr&gt;               &lt;int&gt;
 ##  1 Taylor Swift         1057
@@ -842,7 +842,7 @@ Try real hard first before clicking here for the answer and result
 ##  8 Stevie Wonder         659
 ##  9 Rod Stewart           657
 ## 10 Mariah Carey          626
-## # … with 10,225 more rows</code></pre>
+## # ... with 10,225 more rows</code></pre>
 <ul>
 <li>We added the <code>arrange()</code> function and fed it the column of “appearances.” If we left it with just that, then it would list the smallest values first.</li>
 <li><em>Within the arrange function</em> we wrapped our column in another function: <code>desc()</code> to change the order to “descending,” or the most on the top.</li>
@@ -861,7 +861,7 @@ Try real hard first before clicking here for the answer and result
 <span id="cb41-3"><a href="count-analysis.html#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">appearances =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
 <span id="cb41-4"><a href="count-analysis.html#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(appearances <span class="sc">%&gt;%</span> <span class="fu">desc</span>()) <span class="sc">%&gt;%</span> </span>
 <span id="cb41-5"><a href="count-analysis.html#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 10 × 2
+<pre><code>## # A tibble: 10 x 2
 ##    performer     appearances
 ##    &lt;chr&gt;               &lt;int&gt;
 ##  1 Taylor Swift         1057
@@ -902,7 +902,7 @@ Try real hard first before clicking here for the answer and result
 <span id="cb43-3"><a href="count-analysis.html#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">appearances =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span> <span class="co"># count the rows with n(), and then ...</span></span>
 <span id="cb43-4"><a href="count-analysis.html#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(appearances)) <span class="co"># arrange by appearances in descending order</span></span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;performer&#39;. You can override using the `.groups` argument.</code></pre>
-<pre><code>## # A tibble: 29,789 × 3
+<pre><code>## # A tibble: 29,789 x 3
 ## # Groups:   performer [10,235]
 ##    performer                                 song                    appearances
 ##    &lt;chr&gt;                                     &lt;chr&gt;                         &lt;int&gt;
@@ -914,9 +914,9 @@ Try real hard first before clicking here for the answer and result
 ##  6 LMFAO Featuring Lauren Bennett &amp; GoonRock Party Rock Anthem                68
 ##  7 OneRepublic                               Counting Stars                   68
 ##  8 Adele                                     Rolling In The Deep              65
-##  9 Jewel                                     Foolish Games/You Were…          65
+##  9 Jewel                                     Foolish Games/You Were~          65
 ## 10 Carrie Underwood                          Before He Cheats                 64
-## # … with 29,779 more rows</code></pre>
+## # ... with 29,779 more rows</code></pre>
 <p>The logic is actually straightforward:</p>
 <ul>
 <li>We want to count combinations over two columns: <code>song, performer</code>. When you group_by more then one column, it will group rows where the values are the same in all columns. i.e. all rows with both “Rush” as a performer and <em>Tom Sawyer</em> as a song. Rows with “Rush” and <em>Red Barchetta</em> will be considered in a different group.</li>
@@ -1011,7 +1011,7 @@ The dplyr function <code>filter()</code> reduces the number of rows in our data 
 <span id="cb47-4"><a href="count-analysis.html#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(appearances <span class="sc">%&gt;%</span> <span class="fu">desc</span>()) <span class="sc">%&gt;%</span> </span>
 <span id="cb47-5"><a href="count-analysis.html#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(appearances <span class="sc">&gt;=</span> <span class="dv">65</span>) <span class="co"># this is the new line</span></span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;performer&#39;. You can override using the `.groups` argument.</code></pre>
-<pre><code>## # A tibble: 9 × 3
+<pre><code>## # A tibble: 9 x 3
 ## # Groups:   performer [9]
 ##   performer                                 song                     appearances
 ##   &lt;chr&gt;                                     &lt;chr&gt;                          &lt;int&gt;
@@ -1023,7 +1023,7 @@ The dplyr function <code>filter()</code> reduces the number of rows in our data 
 ## 6 LMFAO Featuring Lauren Bennett &amp; GoonRock Party Rock Anthem                 68
 ## 7 OneRepublic                               Counting Stars                    68
 ## 8 Adele                                     Rolling In The Deep               65
-## 9 Jewel                                     Foolish Games/You Were …          65</code></pre>
+## 9 Jewel                                     Foolish Games/You Were ~          65</code></pre>
 <p>Let’s break down that last line:</p>
 <ul>
 <li><code>filter()</code> is the function.</li>
@@ -1055,20 +1055,20 @@ The dplyr function <code>filter()</code> reduces the number of rows in our data 
 </ol>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="count-analysis.html#cb50-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">%&gt;%</span> </span>
 <span id="cb50-2"><a href="count-analysis.html#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(current_rank <span class="sc">==</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 3,308 × 7
+<pre><code>## # A tibble: 3,308 x 7
 ##    chart_date current_rank song   performer previous_rank peak_rank wks_on_chart
 ##    &lt;date&gt;            &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;
-##  1 1958-08-04            1 Poor … Ricky Ne…            NA         1            1
-##  2 1958-08-11            1 Poor … Ricky Ne…             1         1            2
-##  3 1958-08-18            1 Nel B… Domenico…             2         1            3
-##  4 1958-08-25            1 Littl… The Eleg…             2         1            4
-##  5 1958-09-01            1 Nel B… Domenico…             2         1            5
-##  6 1958-09-08            1 Nel B… Domenico…             1         1            6
-##  7 1958-09-15            1 Nel B… Domenico…             1         1            7
-##  8 1958-09-22            1 Nel B… Domenico…             1         1            8
-##  9 1958-09-29            1 It&#39;s … Tommy Ed…             3         1            7
-## 10 1958-10-06            1 It&#39;s … Tommy Ed…             1         1            8
-## # … with 3,298 more rows</code></pre>
+##  1 1958-08-04            1 Poor ~ Ricky Ne~            NA         1            1
+##  2 1958-08-11            1 Poor ~ Ricky Ne~             1         1            2
+##  3 1958-08-18            1 Nel B~ Domenico~             2         1            3
+##  4 1958-08-25            1 Littl~ The Eleg~             2         1            4
+##  5 1958-09-01            1 Nel B~ Domenico~             2         1            5
+##  6 1958-09-08            1 Nel B~ Domenico~             1         1            6
+##  7 1958-09-15            1 Nel B~ Domenico~             1         1            7
+##  8 1958-09-22            1 Nel B~ Domenico~             1         1            8
+##  9 1958-09-29            1 It&#39;s ~ Tommy Ed~             3         1            7
+## 10 1958-10-06            1 It&#39;s ~ Tommy Ed~             1         1            8
+## # ... with 3,298 more rows</code></pre>
 <p>The result should show <em>only</em> songs with a <code>1</code> for <code>current_rank</code>.</p>
 <p>The rest of our logic is just like our last quest. We need to group by the <code>song</code> and <code>performer</code> and then <code>summarize</code> using <code>n()</code> to count the rows.</p>
 <ol style="list-style-type: decimal">
@@ -1086,21 +1086,21 @@ Try this on your own before you peek
 <span id="cb52-3"><a href="count-analysis.html#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(performer, song) <span class="sc">%&gt;%</span></span>
 <span id="cb52-4"><a href="count-analysis.html#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">appearances =</span> <span class="fu">n</span>())</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;performer&#39;. You can override using the `.groups` argument.</code></pre>
-<pre><code>## # A tibble: 1,132 × 3
+<pre><code>## # A tibble: 1,132 x 3
 ## # Groups:   performer [749]
 ##    performer                          song                           appearances
 ##    &lt;chr&gt;                              &lt;chr&gt;                                &lt;int&gt;
-##  1 ? (Question Mark) &amp; The Mysterians 96 Tears                                 1
-##  2 &#39;N Sync                            It&#39;s Gonna Be Me                         2
+##  1 &#39;N Sync                            It&#39;s Gonna Be Me                         2
+##  2 ? (Question Mark) &amp; The Mysterians 96 Tears                                 1
 ##  3 24kGoldn Featuring iann dior       Mood                                     8
-##  4 2Pac Featuring K-Ci And JoJo       How Do U Want It/California L…           2
+##  4 2Pac Featuring K-Ci And JoJo       How Do U Want It/California L~           2
 ##  5 50 Cent                            In Da Club                               9
 ##  6 50 Cent Featuring Nate Dogg        21 Questions                             4
 ##  7 50 Cent Featuring Olivia           Candy Shop                               9
 ##  8 6ix9ine &amp; Nicki Minaj              Trollz                                   1
-##  9 A Taste Of Honey                   Boogie Oogie Oogie                       3
-## 10 a-ha                               Take On Me                               1
-## # … with 1,122 more rows</code></pre>
+##  9 a-ha                               Take On Me                               1
+## 10 A Taste Of Honey                   Boogie Oogie Oogie                       3
+## # ... with 1,122 more rows</code></pre>
 </details>
 <p>Look at your results to make sure you have the three columns you expect: performer, song and appearances.</p>
 <p>This doesn’t quite get us where we want because it lists the results alphabetically by the performer. You need to <strong>arrange</strong> the data to show us the most appearances at the top.</p>
@@ -1117,21 +1117,21 @@ Maybe check your last chunk on how you did this
 <span id="cb55-4"><a href="count-analysis.html#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">appearances =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
 <span id="cb55-5"><a href="count-analysis.html#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(appearances <span class="sc">%&gt;%</span> <span class="fu">desc</span>())</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;performer&#39;. You can override using the `.groups` argument.</code></pre>
-<pre><code>## # A tibble: 1,132 × 3
+<pre><code>## # A tibble: 1,132 x 3
 ## # Groups:   performer [749]
 ##    performer                                         song            appearances
 ##    &lt;chr&gt;                                             &lt;chr&gt;                 &lt;int&gt;
 ##  1 Lil Nas X Featuring Billy Ray Cyrus               Old Town Road            19
 ##  2 Luis Fonsi &amp; Daddy Yankee Featuring Justin Bieber Despacito                16
 ##  3 Mariah Carey &amp; Boyz II Men                        One Sweet Day            16
-##  4 Boyz II Men                                       I&#39;ll Make Love…          14
-##  5 Elton John                                        Candle In The …          14
-##  6 Los Del Rio                                       Macarena (Bays…          14
-##  7 Mariah Carey                                      We Belong Toge…          14
+##  4 Boyz II Men                                       I&#39;ll Make Love~          14
+##  5 Elton John                                        Candle In The ~          14
+##  6 Los Del Rio                                       Macarena (Bays~          14
+##  7 Mariah Carey                                      We Belong Toge~          14
 ##  8 Mark Ronson Featuring Bruno Mars                  Uptown Funk!             14
 ##  9 The Black Eyed Peas                               I Gotta Feeling          14
-## 10 Whitney Houston                                   I Will Always …          14
-## # … with 1,122 more rows</code></pre>
+## 10 Whitney Houston                                   I Will Always ~          14
+## # ... with 1,122 more rows</code></pre>
 </details>
 <p>You have your answer now (you go, Lil Nas) but we are listing more than 1,000 rows. Let’s cut this off at a logical place like we did in our last quest.</p>
 <ol style="list-style-type: decimal">
@@ -1148,20 +1148,20 @@ You’ve done this before … try it on your own!
 <span id="cb58-5"><a href="count-analysis.html#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(appearances <span class="sc">%&gt;%</span> <span class="fu">desc</span>()) <span class="sc">%&gt;%</span> </span>
 <span id="cb58-6"><a href="count-analysis.html#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(appearances <span class="sc">&gt;=</span> <span class="dv">14</span>)</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;performer&#39;. You can override using the `.groups` argument.</code></pre>
-<pre><code>## # A tibble: 10 × 3
+<pre><code>## # A tibble: 10 x 3
 ## # Groups:   performer [10]
 ##    performer                                         song            appearances
 ##    &lt;chr&gt;                                             &lt;chr&gt;                 &lt;int&gt;
 ##  1 Lil Nas X Featuring Billy Ray Cyrus               Old Town Road            19
 ##  2 Luis Fonsi &amp; Daddy Yankee Featuring Justin Bieber Despacito                16
 ##  3 Mariah Carey &amp; Boyz II Men                        One Sweet Day            16
-##  4 Boyz II Men                                       I&#39;ll Make Love…          14
-##  5 Elton John                                        Candle In The …          14
-##  6 Los Del Rio                                       Macarena (Bays…          14
-##  7 Mariah Carey                                      We Belong Toge…          14
+##  4 Boyz II Men                                       I&#39;ll Make Love~          14
+##  5 Elton John                                        Candle In The ~          14
+##  6 Los Del Rio                                       Macarena (Bays~          14
+##  7 Mariah Carey                                      We Belong Toge~          14
 ##  8 Mark Ronson Featuring Bruno Mars                  Uptown Funk!             14
 ##  9 The Black Eyed Peas                               I Gotta Feeling          14
-## 10 Whitney Houston                                   I Will Always …          14</code></pre>
+## 10 Whitney Houston                                   I Will Always ~          14</code></pre>
 </details>
 <p>Now you have the answers to the performer/song with the most weeks at No. 1 with a logical cutoff. If you add to the data, that logic will still hold and not cut off arbitrarily at a certain number of records.</p>
 </div>
@@ -1186,20 +1186,20 @@ Try on your own. You got this!
 </summary>
 <div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="count-analysis.html#cb61-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">%&gt;%</span> </span>
 <span id="cb61-2"><a href="count-analysis.html#cb61-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(current_rank <span class="sc">==</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 3,308 × 7
+<pre><code>## # A tibble: 3,308 x 7
 ##    chart_date current_rank song   performer previous_rank peak_rank wks_on_chart
 ##    &lt;date&gt;            &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;
-##  1 1958-08-04            1 Poor … Ricky Ne…            NA         1            1
-##  2 1958-08-11            1 Poor … Ricky Ne…             1         1            2
-##  3 1958-08-18            1 Nel B… Domenico…             2         1            3
-##  4 1958-08-25            1 Littl… The Eleg…             2         1            4
-##  5 1958-09-01            1 Nel B… Domenico…             2         1            5
-##  6 1958-09-08            1 Nel B… Domenico…             1         1            6
-##  7 1958-09-15            1 Nel B… Domenico…             1         1            7
-##  8 1958-09-22            1 Nel B… Domenico…             1         1            8
-##  9 1958-09-29            1 It&#39;s … Tommy Ed…             3         1            7
-## 10 1958-10-06            1 It&#39;s … Tommy Ed…             1         1            8
-## # … with 3,298 more rows</code></pre>
+##  1 1958-08-04            1 Poor ~ Ricky Ne~            NA         1            1
+##  2 1958-08-11            1 Poor ~ Ricky Ne~             1         1            2
+##  3 1958-08-18            1 Nel B~ Domenico~             2         1            3
+##  4 1958-08-25            1 Littl~ The Eleg~             2         1            4
+##  5 1958-09-01            1 Nel B~ Domenico~             2         1            5
+##  6 1958-09-08            1 Nel B~ Domenico~             1         1            6
+##  7 1958-09-15            1 Nel B~ Domenico~             1         1            7
+##  8 1958-09-22            1 Nel B~ Domenico~             1         1            8
+##  9 1958-09-29            1 It&#39;s ~ Tommy Ed~             3         1            7
+## 10 1958-10-06            1 It&#39;s ~ Tommy Ed~             1         1            8
+## # ... with 3,298 more rows</code></pre>
 </details>
 <p>Now look at the result. Note how “Poor Little Fool” shows up more than once? Other songs do as well. If we counted rows by <code>performer</code> now, that would tell us the number of weeks they’ve had No. 1 songs, not how many different songs have made No. 1.</p>
 <div id="using-distinct" class="section level3" number="4.8.1">
@@ -1212,7 +1212,7 @@ Try on your own. You got this!
 <div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="count-analysis.html#cb63-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">%&gt;%</span> </span>
 <span id="cb63-2"><a href="count-analysis.html#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(current_rank <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb63-3"><a href="count-analysis.html#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(song, performer)</span></code></pre></div>
-<pre><code>## # A tibble: 1,132 × 2
+<pre><code>## # A tibble: 1,132 x 2
 ##    song                            performer                       
 ##    &lt;chr&gt;                           &lt;chr&gt;                           
 ##  1 Poor Little Fool                Ricky Nelson                    
@@ -1225,7 +1225,7 @@ Try on your own. You got this!
 ##  8 The Chipmunk Song               The Chipmunks With David Seville
 ##  9 Smoke Gets In Your Eyes         The Platters                    
 ## 10 Stagger Lee                     Lloyd Price                     
-## # … with 1,122 more rows</code></pre>
+## # ... with 1,122 more rows</code></pre>
 <p>Now we have a list of just No. 1 songs!</p>
 </div>
 <div id="summarize-the-performers" class="section level3" number="4.8.2">
@@ -1246,7 +1246,7 @@ You’ve done this. Give it ago!
 <span id="cb65-4"><a href="count-analysis.html#cb65-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(performer) <span class="sc">%&gt;%</span></span>
 <span id="cb65-5"><a href="count-analysis.html#cb65-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">no1_hits =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
 <span id="cb65-6"><a href="count-analysis.html#cb65-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(no1_hits <span class="sc">%&gt;%</span> <span class="fu">desc</span>())</span></code></pre></div>
-<pre><code>## # A tibble: 749 × 2
+<pre><code>## # A tibble: 749 x 2
 ##    performer          no1_hits
 ##    &lt;chr&gt;                 &lt;int&gt;
 ##  1 The Beatles              19
@@ -1259,7 +1259,7 @@ You’ve done this. Give it ago!
 ##  8 The Rolling Stones        8
 ##  9 Janet Jackson             7
 ## 10 Stevie Wonder             7
-## # … with 739 more rows</code></pre>
+## # ... with 739 more rows</code></pre>
 </details>
 </div>
 <div id="filter-for-a-good-cutoff" class="section level3" number="4.8.3">
@@ -1279,7 +1279,7 @@ You can do this. Really
 <span id="cb67-5"><a href="count-analysis.html#cb67-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">no1_hits =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
 <span id="cb67-6"><a href="count-analysis.html#cb67-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(no1_hits <span class="sc">%&gt;%</span> <span class="fu">desc</span>()) <span class="sc">%&gt;%</span> </span>
 <span id="cb67-7"><a href="count-analysis.html#cb67-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(no1_hits <span class="sc">&gt;=</span> <span class="dv">8</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 8 × 2
+<pre><code>## # A tibble: 8 x 2
 ##   performer          no1_hits
 ##   &lt;chr&gt;                 &lt;int&gt;
 ## 1 The Beatles              19
@@ -1325,7 +1325,7 @@ No, really. Try it on your own first.
 <span id="cb70-8"><a href="count-analysis.html#cb70-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">top_hits =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
 <span id="cb70-9"><a href="count-analysis.html#cb70-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(top_hits <span class="sc">%&gt;%</span> <span class="fu">desc</span>()) <span class="sc">%&gt;%</span> </span>
 <span id="cb70-10"><a href="count-analysis.html#cb70-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(top_hits <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 9 × 2
+<pre><code>## # A tibble: 9 x 2
 ##   performer      top_hits
 ##   &lt;chr&gt;             &lt;int&gt;
 ## 1 Drake                 5
@@ -1358,20 +1358,20 @@ No, really. Try it on your own first.
 <p>The <a href="https://dplyr.tidyverse.org/reference/count.html"><code>count()</code></a> function takes the columns you want to group and then does the summarize on <code>n()</code> for you:</p>
 <div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="count-analysis.html#cb72-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">%&gt;%</span> </span>
 <span id="cb72-2"><a href="count-analysis.html#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(performer)</span></code></pre></div>
-<pre><code>## # A tibble: 10,235 × 2
-##    performer                                n
-##    &lt;chr&gt;                                &lt;int&gt;
-##  1 &quot;? (Question Mark) &amp; The Mysterians&quot;    33
-##  2 &quot;&#39;N Sync&quot;                              172
-##  3 &quot;&#39;N Sync &amp; Gloria Estefan&quot;              20
-##  4 &quot;&#39;N Sync Featuring Nelly&quot;               20
-##  5 &quot;&#39;Til Tuesday&quot;                          53
-##  6 &quot;\&quot;Groove\&quot; Holmes&quot;                     14
-##  7 &quot;\&quot;Little\&quot; Jimmy Dickens&quot;              10
-##  8 &quot;\&quot;Pookie\&quot; Hudson&quot;                      1
-##  9 &quot;\&quot;Weird Al\&quot; Yankovic&quot;                 91
-## 10 &quot;(+44)&quot;                                  1
-## # … with 10,225 more rows</code></pre>
+<pre><code>## # A tibble: 10,235 x 2
+##    performer                         n
+##    &lt;chr&gt;                         &lt;int&gt;
+##  1 &quot;&#39;N Sync&quot;                       172
+##  2 &quot;&#39;N Sync &amp; Gloria Estefan&quot;       20
+##  3 &quot;&#39;N Sync Featuring Nelly&quot;        20
+##  4 &quot;&#39;Til Tuesday&quot;                   53
+##  5 &quot;\&quot;Groove\&quot; Holmes&quot;              14
+##  6 &quot;\&quot;Little\&quot; Jimmy Dickens&quot;       10
+##  7 &quot;\&quot;Pookie\&quot; Hudson&quot;               1
+##  8 &quot;\&quot;Weird Al\&quot; Yankovic&quot;          91
+##  9 &quot;(+44)&quot;                           1
+## 10 &quot;(The Preacher) Bobby Womack&quot;     9
+## # ... with 10,225 more rows</code></pre>
 <p>To get the same pretty table you still have to rename the new column and reverse the sort, you just do it differently as arguments within the <code>count()</code> function. You can view the <a href="https://dplyr.tidyverse.org/reference/count.html"><code>count()</code> options here.</a></p>
 <ul>
 <li>Add this chunk to your notebook (with a note you are trying <code>count()</code>) so you have it to refer to.</li>
@@ -1379,7 +1379,7 @@ No, really. Try it on your own first.
 <div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="count-analysis.html#cb74-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">%&gt;%</span> </span>
 <span id="cb74-2"><a href="count-analysis.html#cb74-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(performer, <span class="at">name =</span> <span class="st">&quot;appearances&quot;</span>, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb74-3"><a href="count-analysis.html#cb74-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(appearances <span class="sc">&gt;</span> <span class="dv">600</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 13 × 2
+<pre><code>## # A tibble: 13 x 2
 ##    performer       appearances
 ##    &lt;chr&gt;                 &lt;int&gt;
 ##  1 Taylor Swift           1057
@@ -1413,7 +1413,7 @@ No, really. Try it on your own first.
 <span id="cb76-2"><a href="count-analysis.html#cb76-2" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">%&gt;%</span> </span>
 <span id="cb76-3"><a href="count-analysis.html#cb76-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(song <span class="sc">==</span> <span class="st">&quot;Poor Little Fool&quot;</span> <span class="sc">&amp;</span> current_rank <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb76-4"><a href="count-analysis.html#cb76-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(chart_date<span class="sc">:</span>performer)</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 4
+<pre><code>## # A tibble: 2 x 4
 ##   chart_date current_rank song             performer   
 ##   &lt;date&gt;            &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;       
 ## 1 1958-08-04            1 Poor Little Fool Ricky Nelson
@@ -1426,7 +1426,7 @@ No, really. Try it on your own first.
 <span id="cb78-2"><a href="count-analysis.html#cb78-2" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">%&gt;%</span> </span>
 <span id="cb78-3"><a href="count-analysis.html#cb78-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(performer <span class="sc">==</span> <span class="st">&quot;Adam Sandler&quot;</span> <span class="sc">|</span> performer <span class="sc">==</span> <span class="st">&quot;Alabama Shakes&quot;</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb78-4"><a href="count-analysis.html#cb78-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(chart_date<span class="sc">:</span>performer)</span></code></pre></div>
-<pre><code>## # A tibble: 4 × 4
+<pre><code>## # A tibble: 4 x 4
 ##   chart_date current_rank song              performer     
 ##   &lt;date&gt;            &lt;dbl&gt; &lt;chr&gt;             &lt;chr&gt;         
 ## 1 1999-01-02           80 The Chanukah Song Adam Sandler  
@@ -1448,7 +1448,7 @@ No, really. Try it on your own first.
 <span id="cb80-6"><a href="count-analysis.html#cb80-6" aria-hidden="true" tabindex="-1"></a>    current_rank <span class="sc">==</span> <span class="dv">1</span></span>
 <span id="cb80-7"><a href="count-analysis.html#cb80-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
 <span id="cb80-8"><a href="count-analysis.html#cb80-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(current_rank, song, performer)</span></code></pre></div>
-<pre><code>## # A tibble: 12 × 3
+<pre><code>## # A tibble: 12 x 3
 ##    current_rank song                                    performer   
 ##           &lt;dbl&gt; &lt;chr&gt;                                   &lt;chr&gt;       
 ##  1            1 We Are Never Ever Getting Back Together Taylor Swift
@@ -1471,7 +1471,7 @@ No, really. Try it on your own first.
 <span id="cb82-2"><a href="count-analysis.html#cb82-2" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">%&gt;%</span> </span>
 <span id="cb82-3"><a href="count-analysis.html#cb82-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(performer, <span class="st">&quot;2 Chainz&quot;</span>)) <span class="sc">%&gt;%</span> </span>
 <span id="cb82-4"><a href="count-analysis.html#cb82-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(song, performer)</span></code></pre></div>
-<pre><code>## # A tibble: 40 × 2
+<pre><code>## # A tibble: 40 x 2
 ##    song                   performer                                            
 ##    &lt;chr&gt;                  &lt;chr&gt;                                                
 ##  1 Mercy                  Kanye West, Big Sean, Pusha T, 2 Chainz              
@@ -1484,7 +1484,7 @@ No, really. Try it on your own first.
 ##  8 F**kin Problems        A$AP Rocky Featuring Drake, 2 Chainz &amp; Kendrick Lamar
 ##  9 I&#39;m Different          2 Chainz                                             
 ## 10 R.I.P.                 Young Jeezy Featuring 2 Chainz                       
-## # … with 30 more rows</code></pre>
+## # ... with 30 more rows</code></pre>
 <p>Of course there is much, much more.</p>
 </div>
 </div>
@@ -1522,8 +1522,8 @@ No, really. Try it on your own first.
 <p>This lesson was constructed with the vibes of <a href="https://www.thebrightlightsocialhour.com/home">The Bright Light Social Hour</a>. They’ve never had a song on the Hot 100 (at least not through 2021).</p>
 <div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="count-analysis.html#cb84-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">%&gt;%</span> </span>
 <span id="cb84-2"><a href="count-analysis.html#cb84-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(performer, <span class="st">&quot;Bright Light&quot;</span>))</span></code></pre></div>
-<pre><code>## # A tibble: 0 × 7
-## # … with 7 variables: chart_date &lt;date&gt;, current_rank &lt;dbl&gt;, song &lt;chr&gt;,
+<pre><code>## # A tibble: 0 x 7
+## # ... with 7 variables: chart_date &lt;date&gt;, current_rank &lt;dbl&gt;, song &lt;chr&gt;,
 ## #   performer &lt;chr&gt;, previous_rank &lt;dbl&gt;, peak_rank &lt;dbl&gt;, wks_on_chart &lt;dbl&gt;</code></pre>
 
 </div>

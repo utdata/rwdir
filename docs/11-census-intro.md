@@ -196,7 +196,7 @@ get_acs(
 ```
 
 ```
-## # A tibble: 1 × 5
+## # A tibble: 1 x 5
 ##   GEOID NAME          variable  estimate   moe
 ##   <chr> <chr>         <chr>        <dbl> <dbl>
 ## 1 1     United States broadband     82.7   0.1
@@ -236,7 +236,7 @@ get_acs(
 ```
 
 ```
-## # A tibble: 254 × 5
+## # A tibble: 254 x 5
 ##    GEOID NAME                    variable  estimate   moe
 ##    <chr> <chr>                   <chr>        <dbl> <dbl>
 ##  1 48001 Anderson County, Texas  broadband     67.9   3  
@@ -249,7 +249,7 @@ get_acs(
 ##  8 48015 Austin County, Texas    broadband     74.3   2.8
 ##  9 48017 Bailey County, Texas    broadband     70.5   5.8
 ## 10 48019 Bandera County, Texas   broadband     81.8   3.1
-## # … with 244 more rows
+## # ... with 244 more rows
 ```
 
 Here is what we've done here:

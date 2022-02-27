@@ -349,7 +349,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="7.4.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#build-the-base-layer"><i class="fa fa-check"></i><b>7.4.1</b> Build the base layer</a></li>
 <li class="chapter" data-level="7.4.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#layers-can-we-add-to-our-plots"><i class="fa fa-check"></i><b>7.4.2</b> Layers can we add to our plots</a></li>
-<li class="chapter" data-level="7.4.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-geom_points"><i class="fa fa-check"></i><b>7.4.3</b> Add geom_points</a></li>
+<li class="chapter" data-level="7.4.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-geom_point"><i class="fa fa-check"></i><b>7.4.3</b> Add geom_point</a></li>
 <li class="chapter" data-level="7.4.4" data-path="ggplot-intro.html"><a href="ggplot-intro.html#adding-other-mappings"><i class="fa fa-check"></i><b>7.4.4</b> Adding other mappings</a></li>
 </ul></li>
 <li class="chapter" data-level="7.5" data-path="ggplot-intro.html"><a href="ggplot-intro.html#lets-build-a-bar-chart"><i class="fa fa-check"></i><b>7.5</b> Let’s build a bar chart</a>
@@ -717,20 +717,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb198-6"><a href="tidy-data.html#cb198-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb198-7"><a href="tidy-data.html#cb198-7" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
 <span id="cb198-8"><a href="tidy-data.html#cb198-8" aria-hidden="true" tabindex="-1"></a>raw_data</span></code></pre></div>
-<pre><code>## # A tibble: 31 × 10
+<pre><code>## # A tibble: 31 x 10
 ##    timestamp     first_name last_name candy_type   red green orange yellow  blue
 ##    &lt;chr&gt;         &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
-##  1 2/21/2022 19… Christian  McDonald  Plain          2    17     11      4    16
-##  2 2/21/2022 19… First1     Last1     Plain         10     7      4     11    13
-##  3 2/21/2022 19… First2     Last2     Plain          8    18     11      8     7
-##  4 2/21/2022 19… First3     Last3     Plain         18    17     20     20    14
-##  5 2/21/2022 19… First4     Last4     Plain          5    17     11     10     7
-##  6 2/21/2022 19… First5     Last5     Plain          1     8      6      3     7
-##  7 2/21/2022 19… First6     Last6     Plain          1    12      6      4    20
-##  8 2/21/2022 19… First7     Last7     Plain         13    15      5      1     3
-##  9 2/21/2022 19… First8     Last8     Plain         17     9      8      6    15
-## 10 2/21/2022 19… First9     Last9     Plain         20     2      7     14    20
-## # … with 21 more rows, and 1 more variable: brown &lt;dbl&gt;</code></pre>
+##  1 2/21/2022 19~ Christian  McDonald  Plain          2    17     11      4    16
+##  2 2/21/2022 19~ First1     Last1     Plain          2    16      1     11    18
+##  3 2/21/2022 19~ First2     Last2     Plain         16    16      4      9    13
+##  4 2/21/2022 19~ First3     Last3     Plain          5    17     13      2     4
+##  5 2/21/2022 19~ First4     Last4     Plain          2     1     16      5     3
+##  6 2/21/2022 19~ First5     Last5     Plain         20     1      6     14    14
+##  7 2/21/2022 19~ First6     Last6     Plain          9     8      5      4    12
+##  8 2/21/2022 19~ First7     Last7     Plain         14     5     18      7     2
+##  9 2/21/2022 19~ First8     Last8     Plain         12     4      4      4     1
+## 10 2/21/2022 19~ First9     Last9     Plain          5     9      6     16     5
+## # ... with 21 more rows, and 1 more variable: brown &lt;dbl&gt;</code></pre>
 <p>This data comes from a Google Sheets document fed by a form that students have filled out, counting the colors of candies in a standard size bag of plain M&amp;Ms.</p>
 </div>
 <div id="drop-unneeded-columns" class="section level3" number="9.4.2">
@@ -756,15 +756,15 @@ You got this! (But, just in case …)
 <h3><span class="header-section-number">9.4.3</span> Peek at the wide table</h3>
 <p>Let’s look closer at this data:</p>
 <div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="tidy-data.html#cb201-1" aria-hidden="true" tabindex="-1"></a>candy <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 8
+<pre><code>## # A tibble: 6 x 8
 ##   first_name last_name   red green orange yellow  blue brown
 ##   &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1 Christian  McDonald      2    17     11      4    16     4
-## 2 First1     Last1        10     7      4     11    13    20
-## 3 First2     Last2         8    18     11      8     7     1
-## 4 First3     Last3        18    17     20     20    14     1
-## 5 First4     Last4         5    17     11     10     7    20
-## 6 First5     Last5         1     8      6      3     7    19</code></pre>
+## 2 First1     Last1         2    16      1     11    18     4
+## 3 First2     Last2        16    16      4      9    13    15
+## 4 First3     Last3         5    17     13      2     4     5
+## 5 First4     Last4         2     1     16      5     3    10
+## 6 First5     Last5        20     1      6     14    14    16</code></pre>
 <p>This is pretty well-formed data. This format would be useful to create a “total” column for each bag, but there are better ways to do this with <strong>long</strong> data. Same with getting our averages for each color.</p>
 </div>
 <div id="where-are-we-going-with-this-data" class="section level3" number="9.4.4">
@@ -929,7 +929,7 @@ You got this! (But, just in case …)
 <span id="cb203-6"><a href="tidy-data.html#cb203-6" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb203-7"><a href="tidy-data.html#cb203-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb203-8"><a href="tidy-data.html#cb203-8" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 4
+<pre><code>## # A tibble: 6 x 4
 ##   first_name last_name color  candies
 ##   &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt;
 ## 1 Christian  McDonald  red          2
@@ -953,15 +953,15 @@ Try it on your own
 <span id="cb205-3"><a href="tidy-data.html#cb205-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candies))</span>
 <span id="cb205-4"><a href="tidy-data.html#cb205-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb205-5"><a href="tidy-data.html#cb205-5" aria-hidden="true" tabindex="-1"></a>candy_avg</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 2
+<pre><code>## # A tibble: 6 x 2
 ##   color  avg_candies
 ##   &lt;chr&gt;        &lt;dbl&gt;
-## 1 blue         10.2 
-## 2 brown        10.6 
-## 3 green        11.5 
-## 4 orange        9.74
-## 5 red           8.97
-## 6 yellow       13.0</code></pre>
+## 1 blue          9.35
+## 2 brown        11.9 
+## 3 green        11.6 
+## 4 orange        9.61
+## 5 red           8.48
+## 6 yellow       10.0</code></pre>
 </details>
 </div>
 <div id="round-the-averages" class="section level3" number="9.6.3">
@@ -979,15 +979,15 @@ Try it on your own
 <span id="cb207-6"><a href="tidy-data.html#cb207-6" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb207-7"><a href="tidy-data.html#cb207-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb207-8"><a href="tidy-data.html#cb207-8" aria-hidden="true" tabindex="-1"></a>candy_avg</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 2
+<pre><code>## # A tibble: 6 x 2
 ##   color  avg_candies
 ##   &lt;chr&gt;        &lt;dbl&gt;
-## 1 blue          10.2
-## 2 brown         10.6
-## 3 green         11.5
-## 4 orange         9.7
-## 5 red            9  
-## 6 yellow        13</code></pre>
+## 1 blue           9.4
+## 2 brown         11.9
+## 3 green         11.6
+## 4 orange         9.6
+## 5 red            8.5
+## 6 yellow        10</code></pre>
 <p>BONUS POINT OPPORTUNITY: Using a similar method to rounding above, you can also capitalize the names of the colors. You don’t <em>have</em> to do this, but I’ll give you bonus points if you do:</p>
 <ul>
 <li>In your mutate, add a rule that updates <code>color</code> column using <code>str_to_title(color)</code>.</li>
@@ -1075,22 +1075,22 @@ Try it on your own
 </ul>
 <div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="tidy-data.html#cb210-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">%&gt;%</span> </span>
 <span id="cb210-2"><a href="tidy-data.html#cb210-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="fu">c</span>(first_name, last_name), <span class="at">values_from =</span> candies)</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 32
+<pre><code>## # A tibble: 6 x 32
 ##   color  Christian_McDonald First1_Last1 First2_Last2 First3_Last3 First4_Last4
 ##   &lt;chr&gt;               &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;
-## 1 red                     2           10            8           18            5
-## 2 green                  17            7           18           17           17
-## 3 orange                 11            4           11           20           11
-## 4 yellow                  4           11            8           20           10
-## 5 blue                   16           13            7           14            7
-## 6 brown                   4           20            1            1           20
-## # … with 26 more variables: First5_Last5 &lt;dbl&gt;, First6_Last6 &lt;dbl&gt;,
+## 1 red                     2            2           16            5            2
+## 2 green                  17           16           16           17            1
+## 3 orange                 11            1            4           13           16
+## 4 yellow                  4           11            9            2            5
+## 5 blue                   16           18           13            4            3
+## 6 brown                   4            4           15            5           10
+## # ... with 26 more variables: First5_Last5 &lt;dbl&gt;, First6_Last6 &lt;dbl&gt;,
 ## #   First7_Last7 &lt;dbl&gt;, First8_Last8 &lt;dbl&gt;, First9_Last9 &lt;dbl&gt;,
 ## #   First10_Last10 &lt;dbl&gt;, First11_Last11 &lt;dbl&gt;, First12_Last12 &lt;dbl&gt;,
 ## #   First13_Last13 &lt;dbl&gt;, First14_Last14 &lt;dbl&gt;, First15_Last15 &lt;dbl&gt;,
 ## #   First16_Last16 &lt;dbl&gt;, First17_Last17 &lt;dbl&gt;, First18_Last18 &lt;dbl&gt;,
 ## #   First19_Last19 &lt;dbl&gt;, First20_Last20 &lt;dbl&gt;, First21_Last21 &lt;dbl&gt;,
-## #   First22_Last22 &lt;dbl&gt;, First23_Last23 &lt;dbl&gt;, First24_Last24 &lt;dbl&gt;, …</code></pre>
+## #   First22_Last22 &lt;dbl&gt;, First23_Last23 &lt;dbl&gt;, First24_Last24 &lt;dbl&gt;, ...</code></pre>
 <div id="pivot-wider-on-your-own" class="section level3" number="9.8.1">
 <h3><span class="header-section-number">9.8.1</span> Pivot wider on your own</h3>
 <p>Now I want you do apply the same <code>pivot_wider()</code> function to that same <code>candy_long</code> data, but to have the rows be people and the column be each color, basically like how our data started. (But, of course, I want to acdtually use <code>pivot_wider()</code> to do it!)</p>

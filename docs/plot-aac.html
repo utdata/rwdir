@@ -349,7 +349,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="7.4.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#build-the-base-layer"><i class="fa fa-check"></i><b>7.4.1</b> Build the base layer</a></li>
 <li class="chapter" data-level="7.4.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#layers-can-we-add-to-our-plots"><i class="fa fa-check"></i><b>7.4.2</b> Layers can we add to our plots</a></li>
-<li class="chapter" data-level="7.4.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-geom_points"><i class="fa fa-check"></i><b>7.4.3</b> Add geom_points</a></li>
+<li class="chapter" data-level="7.4.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-geom_point"><i class="fa fa-check"></i><b>7.4.3</b> Add geom_point</a></li>
 <li class="chapter" data-level="7.4.4" data-path="ggplot-intro.html"><a href="ggplot-intro.html#adding-other-mappings"><i class="fa fa-check"></i><b>7.4.4</b> Adding other mappings</a></li>
 </ul></li>
 <li class="chapter" data-level="7.5" data-path="ggplot-intro.html"><a href="ggplot-intro.html#lets-build-a-bar-chart"><i class="fa fa-check"></i><b>7.5</b> Let’s build a bar chart</a>
@@ -704,20 +704,20 @@ You shouldn’t need this.
 <span id="cb213-2"><a href="plot-aac.html#cb213-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb213-3"><a href="plot-aac.html#cb213-3" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
 <span id="cb213-4"><a href="plot-aac.html#cb213-4" aria-hidden="true" tabindex="-1"></a>raw_data</span></code></pre></div>
-<pre><code>## # A tibble: 132,214 × 12
-##    animal_id name    date_time    month_year    found_location       intake_type
-##    &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;         &lt;chr&gt;                &lt;chr&gt;      
-##  1 A786884   *Brock  01/03/2019 … 01/03/2019 0… 2501 Magin Meadow D… Stray      
-##  2 A706918   Belle   07/05/2015 … 07/05/2015 1… 9409 Bluegrass Dr i… Stray      
-##  3 A724273   Runster 04/14/2016 … 04/14/2016 0… 2818 Palomino Trail… Stray      
-##  4 A665644   &lt;NA&gt;    10/21/2013 … 10/21/2013 0… Austin (TX)          Stray      
-##  5 A682524   Rio     06/29/2014 … 06/29/2014 1… 800 Grove Blvd in A… Stray      
-##  6 A743852   Odin    02/18/2017 … 02/18/2017 1… Austin (TX)          Owner Surr…
-##  7 A635072   Beowulf 04/16/2019 … 04/16/2019 0… 415 East Mary Stree… Public Ass…
-##  8 A708452   Mumble  07/30/2015 … 07/30/2015 0… Austin (TX)          Public Ass…
-##  9 A818975   &lt;NA&gt;    06/18/2020 … 06/18/2020 0… Braker Lane And Met… Stray      
-## 10 A774147   &lt;NA&gt;    06/11/2018 … 06/11/2018 0… 6600 Elm Creek in A… Stray      
-## # … with 132,204 more rows, and 6 more variables: intake_condition &lt;chr&gt;,
+<pre><code>## # A tibble: 132,214 x 12
+##    animal_id name    date_time             month_year found_location intake_type
+##    &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;                 &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;      
+##  1 A786884   *Brock  01/03/2019 04:19:00 ~ 01/03/201~ 2501 Magin Me~ Stray      
+##  2 A706918   Belle   07/05/2015 12:59:00 ~ 07/05/201~ 9409 Bluegras~ Stray      
+##  3 A724273   Runster 04/14/2016 06:43:00 ~ 04/14/201~ 2818 Palomino~ Stray      
+##  4 A665644   &lt;NA&gt;    10/21/2013 07:59:00 ~ 10/21/201~ Austin (TX)    Stray      
+##  5 A682524   Rio     06/29/2014 10:38:00 ~ 06/29/201~ 800 Grove Blv~ Stray      
+##  6 A743852   Odin    02/18/2017 12:46:00 ~ 02/18/201~ Austin (TX)    Owner Surr~
+##  7 A635072   Beowulf 04/16/2019 09:53:00 ~ 04/16/201~ 415 East Mary~ Public Ass~
+##  8 A708452   Mumble  07/30/2015 02:37:00 ~ 07/30/201~ Austin (TX)    Public Ass~
+##  9 A818975   &lt;NA&gt;    06/18/2020 02:53:00 ~ 06/18/202~ Braker Lane A~ Stray      
+## 10 A774147   &lt;NA&gt;    06/11/2018 07:45:00 ~ 06/11/201~ 6600 Elm Cree~ Stray      
+## # ... with 132,204 more rows, and 6 more variables: intake_condition &lt;chr&gt;,
 ## #   animal_type &lt;chr&gt;, sex_upon_intake &lt;chr&gt;, age_upon_intake &lt;chr&gt;,
 ## #   breed &lt;chr&gt;, color &lt;chr&gt;</code></pre>
 </details>
@@ -751,20 +751,20 @@ Part of the answer
 <span id="cb216-2"><a href="plot-aac.html#cb216-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb216-3"><a href="plot-aac.html#cb216-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">intake_date =</span> <span class="fu">str_sub</span>(date_time, <span class="dv">1</span>, <span class="dv">10</span>)</span>
 <span id="cb216-4"><a href="plot-aac.html#cb216-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code>## # A tibble: 132,214 × 13
-##    animal_id name    date_time    month_year    found_location       intake_type
-##    &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;         &lt;chr&gt;                &lt;chr&gt;      
-##  1 A786884   *Brock  01/03/2019 … 01/03/2019 0… 2501 Magin Meadow D… Stray      
-##  2 A706918   Belle   07/05/2015 … 07/05/2015 1… 9409 Bluegrass Dr i… Stray      
-##  3 A724273   Runster 04/14/2016 … 04/14/2016 0… 2818 Palomino Trail… Stray      
-##  4 A665644   &lt;NA&gt;    10/21/2013 … 10/21/2013 0… Austin (TX)          Stray      
-##  5 A682524   Rio     06/29/2014 … 06/29/2014 1… 800 Grove Blvd in A… Stray      
-##  6 A743852   Odin    02/18/2017 … 02/18/2017 1… Austin (TX)          Owner Surr…
-##  7 A635072   Beowulf 04/16/2019 … 04/16/2019 0… 415 East Mary Stree… Public Ass…
-##  8 A708452   Mumble  07/30/2015 … 07/30/2015 0… Austin (TX)          Public Ass…
-##  9 A818975   &lt;NA&gt;    06/18/2020 … 06/18/2020 0… Braker Lane And Met… Stray      
-## 10 A774147   &lt;NA&gt;    06/11/2018 … 06/11/2018 0… 6600 Elm Creek in A… Stray      
-## # … with 132,204 more rows, and 7 more variables: intake_condition &lt;chr&gt;,
+<pre><code>## # A tibble: 132,214 x 13
+##    animal_id name    date_time             month_year found_location intake_type
+##    &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;                 &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;      
+##  1 A786884   *Brock  01/03/2019 04:19:00 ~ 01/03/201~ 2501 Magin Me~ Stray      
+##  2 A706918   Belle   07/05/2015 12:59:00 ~ 07/05/201~ 9409 Bluegras~ Stray      
+##  3 A724273   Runster 04/14/2016 06:43:00 ~ 04/14/201~ 2818 Palomino~ Stray      
+##  4 A665644   &lt;NA&gt;    10/21/2013 07:59:00 ~ 10/21/201~ Austin (TX)    Stray      
+##  5 A682524   Rio     06/29/2014 10:38:00 ~ 06/29/201~ 800 Grove Blv~ Stray      
+##  6 A743852   Odin    02/18/2017 12:46:00 ~ 02/18/201~ Austin (TX)    Owner Surr~
+##  7 A635072   Beowulf 04/16/2019 09:53:00 ~ 04/16/201~ 415 East Mary~ Public Ass~
+##  8 A708452   Mumble  07/30/2015 02:37:00 ~ 07/30/201~ Austin (TX)    Public Ass~
+##  9 A818975   &lt;NA&gt;    06/18/2020 02:53:00 ~ 06/18/202~ Braker Lane A~ Stray      
+## 10 A774147   &lt;NA&gt;    06/11/2018 07:45:00 ~ 06/11/201~ 6600 Elm Cree~ Stray      
+## # ... with 132,204 more rows, and 7 more variables: intake_condition &lt;chr&gt;,
 ## #   animal_type &lt;chr&gt;, sex_upon_intake &lt;chr&gt;, age_upon_intake &lt;chr&gt;,
 ## #   breed &lt;chr&gt;, color &lt;chr&gt;, intake_date &lt;chr&gt;</code></pre>
 </details>
@@ -791,19 +791,19 @@ this was simlar to converting the date in billboard
 <span id="cb218-7"><a href="plot-aac.html#cb218-7" aria-hidden="true" tabindex="-1"></a>date_fix <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 132,214
 ## Columns: 13
-## $ animal_id        &lt;chr&gt; &quot;A786884&quot;, &quot;A706918&quot;, &quot;A724273&quot;, &quot;A665644&quot;, &quot;A682524&quot;…
-## $ name             &lt;chr&gt; &quot;*Brock&quot;, &quot;Belle&quot;, &quot;Runster&quot;, NA, &quot;Rio&quot;, &quot;Odin&quot;, &quot;Beo…
-## $ date_time        &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;…
-## $ month_year       &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;…
-## $ found_location   &lt;chr&gt; &quot;2501 Magin Meadow Dr in Austin (TX)&quot;, &quot;9409 Bluegras…
-## $ intake_type      &lt;chr&gt; &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Owner S…
-## $ intake_condition &lt;chr&gt; &quot;Normal&quot;, &quot;Normal&quot;, &quot;Normal&quot;, &quot;Sick&quot;, &quot;Normal&quot;, &quot;Norm…
-## $ animal_type      &lt;chr&gt; &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Cat&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog…
-## $ sex_upon_intake  &lt;chr&gt; &quot;Neutered Male&quot;, &quot;Spayed Female&quot;, &quot;Intact Male&quot;, &quot;Int…
-## $ age_upon_intake  &lt;chr&gt; &quot;2 years&quot;, &quot;8 years&quot;, &quot;11 months&quot;, &quot;4 weeks&quot;, &quot;4 year…
-## $ breed            &lt;chr&gt; &quot;Beagle Mix&quot;, &quot;English Springer Spaniel&quot;, &quot;Basenji Mi…
-## $ color            &lt;chr&gt; &quot;Tricolor&quot;, &quot;White/Liver&quot;, &quot;Sable/White&quot;, &quot;Calico&quot;, &quot;…
-## $ intake_date      &lt;date&gt; 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014…</code></pre>
+## $ animal_id        &lt;chr&gt; &quot;A786884&quot;, &quot;A706918&quot;, &quot;A724273&quot;, &quot;A665644&quot;, &quot;A682524&quot;~
+## $ name             &lt;chr&gt; &quot;*Brock&quot;, &quot;Belle&quot;, &quot;Runster&quot;, NA, &quot;Rio&quot;, &quot;Odin&quot;, &quot;Beo~
+## $ date_time        &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;~
+## $ month_year       &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;~
+## $ found_location   &lt;chr&gt; &quot;2501 Magin Meadow Dr in Austin (TX)&quot;, &quot;9409 Bluegras~
+## $ intake_type      &lt;chr&gt; &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Owner S~
+## $ intake_condition &lt;chr&gt; &quot;Normal&quot;, &quot;Normal&quot;, &quot;Normal&quot;, &quot;Sick&quot;, &quot;Normal&quot;, &quot;Norm~
+## $ animal_type      &lt;chr&gt; &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Cat&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog~
+## $ sex_upon_intake  &lt;chr&gt; &quot;Neutered Male&quot;, &quot;Spayed Female&quot;, &quot;Intact Male&quot;, &quot;Int~
+## $ age_upon_intake  &lt;chr&gt; &quot;2 years&quot;, &quot;8 years&quot;, &quot;11 months&quot;, &quot;4 weeks&quot;, &quot;4 year~
+## $ breed            &lt;chr&gt; &quot;Beagle Mix&quot;, &quot;English Springer Spaniel&quot;, &quot;Basenji Mi~
+## $ color            &lt;chr&gt; &quot;Tricolor&quot;, &quot;White/Liver&quot;, &quot;Sable/White&quot;, &quot;Calico&quot;, &quot;~
+## $ intake_date      &lt;date&gt; 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014~</code></pre>
 </details>
 <p>Now that you can see the <code>date_time</code> and <code>intake_date</code> columns at once, check to make sure they converted correctly and you don’t have any problems. Doublecheck the datatype for <code>intake_date</code>, which should be <code>&lt;date&gt;</code>.</p>
 </div>
@@ -838,20 +838,20 @@ this was simlar to converting the date in billboard
 <span id="cb220-7"><a href="plot-aac.html#cb220-7" aria-hidden="true" tabindex="-1"></a>date_parts <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 132,214
 ## Columns: 14
-## $ animal_id        &lt;chr&gt; &quot;A786884&quot;, &quot;A706918&quot;, &quot;A724273&quot;, &quot;A665644&quot;, &quot;A682524&quot;…
-## $ name             &lt;chr&gt; &quot;*Brock&quot;, &quot;Belle&quot;, &quot;Runster&quot;, NA, &quot;Rio&quot;, &quot;Odin&quot;, &quot;Beo…
-## $ date_time        &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;…
-## $ month_year       &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;…
-## $ found_location   &lt;chr&gt; &quot;2501 Magin Meadow Dr in Austin (TX)&quot;, &quot;9409 Bluegras…
-## $ intake_type      &lt;chr&gt; &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Owner S…
-## $ intake_condition &lt;chr&gt; &quot;Normal&quot;, &quot;Normal&quot;, &quot;Normal&quot;, &quot;Sick&quot;, &quot;Normal&quot;, &quot;Norm…
-## $ animal_type      &lt;chr&gt; &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Cat&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog…
-## $ sex_upon_intake  &lt;chr&gt; &quot;Neutered Male&quot;, &quot;Spayed Female&quot;, &quot;Intact Male&quot;, &quot;Int…
-## $ age_upon_intake  &lt;chr&gt; &quot;2 years&quot;, &quot;8 years&quot;, &quot;11 months&quot;, &quot;4 weeks&quot;, &quot;4 year…
-## $ breed            &lt;chr&gt; &quot;Beagle Mix&quot;, &quot;English Springer Spaniel&quot;, &quot;Basenji Mi…
-## $ color            &lt;chr&gt; &quot;Tricolor&quot;, &quot;White/Liver&quot;, &quot;Sable/White&quot;, &quot;Calico&quot;, &quot;…
-## $ intake_date      &lt;date&gt; 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014…
-## $ yr               &lt;dbl&gt; 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,…</code></pre>
+## $ animal_id        &lt;chr&gt; &quot;A786884&quot;, &quot;A706918&quot;, &quot;A724273&quot;, &quot;A665644&quot;, &quot;A682524&quot;~
+## $ name             &lt;chr&gt; &quot;*Brock&quot;, &quot;Belle&quot;, &quot;Runster&quot;, NA, &quot;Rio&quot;, &quot;Odin&quot;, &quot;Beo~
+## $ date_time        &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;~
+## $ month_year       &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;~
+## $ found_location   &lt;chr&gt; &quot;2501 Magin Meadow Dr in Austin (TX)&quot;, &quot;9409 Bluegras~
+## $ intake_type      &lt;chr&gt; &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Owner S~
+## $ intake_condition &lt;chr&gt; &quot;Normal&quot;, &quot;Normal&quot;, &quot;Normal&quot;, &quot;Sick&quot;, &quot;Normal&quot;, &quot;Norm~
+## $ animal_type      &lt;chr&gt; &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Cat&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog~
+## $ sex_upon_intake  &lt;chr&gt; &quot;Neutered Male&quot;, &quot;Spayed Female&quot;, &quot;Intact Male&quot;, &quot;Int~
+## $ age_upon_intake  &lt;chr&gt; &quot;2 years&quot;, &quot;8 years&quot;, &quot;11 months&quot;, &quot;4 weeks&quot;, &quot;4 year~
+## $ breed            &lt;chr&gt; &quot;Beagle Mix&quot;, &quot;English Springer Spaniel&quot;, &quot;Basenji Mi~
+## $ color            &lt;chr&gt; &quot;Tricolor&quot;, &quot;White/Liver&quot;, &quot;Sable/White&quot;, &quot;Calico&quot;, &quot;~
+## $ intake_date      &lt;date&gt; 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014~
+## $ yr               &lt;dbl&gt; 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,~</code></pre>
 <p>Look how I set up this chunk to work with it. I know that I’m going to be adding columns and checking values and it is a pain click to the end of the tibble each time to see the results. So what I’ve done is set this up to go into a new tibble called <code>date_parts</code> and then I glimpse that at the end so I can peek at the results. This allows me to look at the first couple of values in the glimpse to make sure I’ve done the work right. <strong>I’ll still be working one line at a time</strong> as I edit the chunk further, but at least I can <em>see</em> what I’m doing.</p>
 <p>Now, note we have a new column <code>yr</code> at that starts with “2019,” which matches what is in <code>intake_date</code> (and even <code>date_time</code>). This is good.</p>
 <p>Can you see how our mutate created the new <code>yr</code> column?</p>
@@ -877,21 +877,21 @@ this was simlar to converting the date in billboard
 <span id="cb222-8"><a href="plot-aac.html#cb222-8" aria-hidden="true" tabindex="-1"></a>date_parts <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 132,214
 ## Columns: 15
-## $ animal_id        &lt;chr&gt; &quot;A786884&quot;, &quot;A706918&quot;, &quot;A724273&quot;, &quot;A665644&quot;, &quot;A682524&quot;…
-## $ name             &lt;chr&gt; &quot;*Brock&quot;, &quot;Belle&quot;, &quot;Runster&quot;, NA, &quot;Rio&quot;, &quot;Odin&quot;, &quot;Beo…
-## $ date_time        &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;…
-## $ month_year       &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;…
-## $ found_location   &lt;chr&gt; &quot;2501 Magin Meadow Dr in Austin (TX)&quot;, &quot;9409 Bluegras…
-## $ intake_type      &lt;chr&gt; &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Owner S…
-## $ intake_condition &lt;chr&gt; &quot;Normal&quot;, &quot;Normal&quot;, &quot;Normal&quot;, &quot;Sick&quot;, &quot;Normal&quot;, &quot;Norm…
-## $ animal_type      &lt;chr&gt; &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Cat&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog…
-## $ sex_upon_intake  &lt;chr&gt; &quot;Neutered Male&quot;, &quot;Spayed Female&quot;, &quot;Intact Male&quot;, &quot;Int…
-## $ age_upon_intake  &lt;chr&gt; &quot;2 years&quot;, &quot;8 years&quot;, &quot;11 months&quot;, &quot;4 weeks&quot;, &quot;4 year…
-## $ breed            &lt;chr&gt; &quot;Beagle Mix&quot;, &quot;English Springer Spaniel&quot;, &quot;Basenji Mi…
-## $ color            &lt;chr&gt; &quot;Tricolor&quot;, &quot;White/Liver&quot;, &quot;Sable/White&quot;, &quot;Calico&quot;, &quot;…
-## $ intake_date      &lt;date&gt; 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014…
-## $ yr               &lt;dbl&gt; 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,…
-## $ mo               &lt;dbl&gt; 1, 7, 4, 10, 6, 2, 4, 7, 6, 6, 8, 10, 7, 2, 3, 2, 11,…</code></pre>
+## $ animal_id        &lt;chr&gt; &quot;A786884&quot;, &quot;A706918&quot;, &quot;A724273&quot;, &quot;A665644&quot;, &quot;A682524&quot;~
+## $ name             &lt;chr&gt; &quot;*Brock&quot;, &quot;Belle&quot;, &quot;Runster&quot;, NA, &quot;Rio&quot;, &quot;Odin&quot;, &quot;Beo~
+## $ date_time        &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;~
+## $ month_year       &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;~
+## $ found_location   &lt;chr&gt; &quot;2501 Magin Meadow Dr in Austin (TX)&quot;, &quot;9409 Bluegras~
+## $ intake_type      &lt;chr&gt; &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Owner S~
+## $ intake_condition &lt;chr&gt; &quot;Normal&quot;, &quot;Normal&quot;, &quot;Normal&quot;, &quot;Sick&quot;, &quot;Normal&quot;, &quot;Norm~
+## $ animal_type      &lt;chr&gt; &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Cat&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog~
+## $ sex_upon_intake  &lt;chr&gt; &quot;Neutered Male&quot;, &quot;Spayed Female&quot;, &quot;Intact Male&quot;, &quot;Int~
+## $ age_upon_intake  &lt;chr&gt; &quot;2 years&quot;, &quot;8 years&quot;, &quot;11 months&quot;, &quot;4 weeks&quot;, &quot;4 year~
+## $ breed            &lt;chr&gt; &quot;Beagle Mix&quot;, &quot;English Springer Spaniel&quot;, &quot;Basenji Mi~
+## $ color            &lt;chr&gt; &quot;Tricolor&quot;, &quot;White/Liver&quot;, &quot;Sable/White&quot;, &quot;Calico&quot;, &quot;~
+## $ intake_date      &lt;date&gt; 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014~
+## $ yr               &lt;dbl&gt; 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,~
+## $ mo               &lt;dbl&gt; 1, 7, 4, 10, 6, 2, 4, 7, 6, 6, 8, 10, 7, 2, 3, 2, 11,~</code></pre>
 <p>What we get in return here is the <em>number</em> of the month: A “1” for January; a “7” for July, etc. What we really want is the <em>names</em> of the month to help us with plotting later.</p>
 <ol style="list-style-type: decimal">
 <li>Edit the mutate to add <code>, label = TRUE</code> within the <code>month()</code>.</li>
@@ -906,21 +906,21 @@ this was simlar to converting the date in billboard
 <span id="cb224-8"><a href="plot-aac.html#cb224-8" aria-hidden="true" tabindex="-1"></a>date_parts <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 132,214
 ## Columns: 15
-## $ animal_id        &lt;chr&gt; &quot;A786884&quot;, &quot;A706918&quot;, &quot;A724273&quot;, &quot;A665644&quot;, &quot;A682524&quot;…
-## $ name             &lt;chr&gt; &quot;*Brock&quot;, &quot;Belle&quot;, &quot;Runster&quot;, NA, &quot;Rio&quot;, &quot;Odin&quot;, &quot;Beo…
-## $ date_time        &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;…
-## $ month_year       &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;…
-## $ found_location   &lt;chr&gt; &quot;2501 Magin Meadow Dr in Austin (TX)&quot;, &quot;9409 Bluegras…
-## $ intake_type      &lt;chr&gt; &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Owner S…
-## $ intake_condition &lt;chr&gt; &quot;Normal&quot;, &quot;Normal&quot;, &quot;Normal&quot;, &quot;Sick&quot;, &quot;Normal&quot;, &quot;Norm…
-## $ animal_type      &lt;chr&gt; &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Cat&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog…
-## $ sex_upon_intake  &lt;chr&gt; &quot;Neutered Male&quot;, &quot;Spayed Female&quot;, &quot;Intact Male&quot;, &quot;Int…
-## $ age_upon_intake  &lt;chr&gt; &quot;2 years&quot;, &quot;8 years&quot;, &quot;11 months&quot;, &quot;4 weeks&quot;, &quot;4 year…
-## $ breed            &lt;chr&gt; &quot;Beagle Mix&quot;, &quot;English Springer Spaniel&quot;, &quot;Basenji Mi…
-## $ color            &lt;chr&gt; &quot;Tricolor&quot;, &quot;White/Liver&quot;, &quot;Sable/White&quot;, &quot;Calico&quot;, &quot;…
-## $ intake_date      &lt;date&gt; 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014…
-## $ yr               &lt;dbl&gt; 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,…
-## $ mo               &lt;ord&gt; Jan, Jul, Apr, Oct, Jun, Feb, Apr, Jul, Jun, Jun, Aug…</code></pre>
+## $ animal_id        &lt;chr&gt; &quot;A786884&quot;, &quot;A706918&quot;, &quot;A724273&quot;, &quot;A665644&quot;, &quot;A682524&quot;~
+## $ name             &lt;chr&gt; &quot;*Brock&quot;, &quot;Belle&quot;, &quot;Runster&quot;, NA, &quot;Rio&quot;, &quot;Odin&quot;, &quot;Beo~
+## $ date_time        &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;~
+## $ month_year       &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;~
+## $ found_location   &lt;chr&gt; &quot;2501 Magin Meadow Dr in Austin (TX)&quot;, &quot;9409 Bluegras~
+## $ intake_type      &lt;chr&gt; &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Owner S~
+## $ intake_condition &lt;chr&gt; &quot;Normal&quot;, &quot;Normal&quot;, &quot;Normal&quot;, &quot;Sick&quot;, &quot;Normal&quot;, &quot;Norm~
+## $ animal_type      &lt;chr&gt; &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Cat&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog~
+## $ sex_upon_intake  &lt;chr&gt; &quot;Neutered Male&quot;, &quot;Spayed Female&quot;, &quot;Intact Male&quot;, &quot;Int~
+## $ age_upon_intake  &lt;chr&gt; &quot;2 years&quot;, &quot;8 years&quot;, &quot;11 months&quot;, &quot;4 weeks&quot;, &quot;4 year~
+## $ breed            &lt;chr&gt; &quot;Beagle Mix&quot;, &quot;English Springer Spaniel&quot;, &quot;Basenji Mi~
+## $ color            &lt;chr&gt; &quot;Tricolor&quot;, &quot;White/Liver&quot;, &quot;Sable/White&quot;, &quot;Calico&quot;, &quot;~
+## $ intake_date      &lt;date&gt; 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014~
+## $ yr               &lt;dbl&gt; 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,~
+## $ mo               &lt;ord&gt; Jan, Jul, Apr, Oct, Jun, Feb, Apr, Jul, Jun, Jun, Aug~</code></pre>
 <p>How did I know to do that? I Googled <a href="https://www.google.com/search?q=get+month+name+in+lubridate">get month name in lubridate</a>. The first result took me to a <a href="https://lubridate.tidyverse.org/reference/month.html">lubridate.tidyverse.org page</a> that explained how to do it. TBH, I was lucky to find the answer in the first result, but I do usually try official tidyverse pages first. I’m also used to reading their documentation.</p>
 <p>You’ll see there the default label for months is to abbreviate the month. If you wanted the long names you would also add and argument <code>abbr = FALSE</code>. You still need the <code>label</code> argument, too. We’ll stick with the short names.</p>
 </div>
@@ -945,22 +945,22 @@ this was simlar to converting the date in billboard
 <span id="cb226-9"><a href="plot-aac.html#cb226-9" aria-hidden="true" tabindex="-1"></a>date_parts <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 132,214
 ## Columns: 16
-## $ animal_id        &lt;chr&gt; &quot;A786884&quot;, &quot;A706918&quot;, &quot;A724273&quot;, &quot;A665644&quot;, &quot;A682524&quot;…
-## $ name             &lt;chr&gt; &quot;*Brock&quot;, &quot;Belle&quot;, &quot;Runster&quot;, NA, &quot;Rio&quot;, &quot;Odin&quot;, &quot;Beo…
-## $ date_time        &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;…
-## $ month_year       &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;…
-## $ found_location   &lt;chr&gt; &quot;2501 Magin Meadow Dr in Austin (TX)&quot;, &quot;9409 Bluegras…
-## $ intake_type      &lt;chr&gt; &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Owner S…
-## $ intake_condition &lt;chr&gt; &quot;Normal&quot;, &quot;Normal&quot;, &quot;Normal&quot;, &quot;Sick&quot;, &quot;Normal&quot;, &quot;Norm…
-## $ animal_type      &lt;chr&gt; &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Cat&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog…
-## $ sex_upon_intake  &lt;chr&gt; &quot;Neutered Male&quot;, &quot;Spayed Female&quot;, &quot;Intact Male&quot;, &quot;Int…
-## $ age_upon_intake  &lt;chr&gt; &quot;2 years&quot;, &quot;8 years&quot;, &quot;11 months&quot;, &quot;4 weeks&quot;, &quot;4 year…
-## $ breed            &lt;chr&gt; &quot;Beagle Mix&quot;, &quot;English Springer Spaniel&quot;, &quot;Basenji Mi…
-## $ color            &lt;chr&gt; &quot;Tricolor&quot;, &quot;White/Liver&quot;, &quot;Sable/White&quot;, &quot;Calico&quot;, &quot;…
-## $ intake_date      &lt;date&gt; 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014…
-## $ yr               &lt;dbl&gt; 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,…
-## $ mo               &lt;ord&gt; Jan, Jul, Apr, Oct, Jun, Feb, Apr, Jul, Jun, Jun, Aug…
-## $ yr_mo            &lt;chr&gt; &quot;2019-01&quot;, &quot;2015-07&quot;, &quot;2016-04&quot;, &quot;2013-10&quot;, &quot;2014-06&quot;…</code></pre>
+## $ animal_id        &lt;chr&gt; &quot;A786884&quot;, &quot;A706918&quot;, &quot;A724273&quot;, &quot;A665644&quot;, &quot;A682524&quot;~
+## $ name             &lt;chr&gt; &quot;*Brock&quot;, &quot;Belle&quot;, &quot;Runster&quot;, NA, &quot;Rio&quot;, &quot;Odin&quot;, &quot;Beo~
+## $ date_time        &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;~
+## $ month_year       &lt;chr&gt; &quot;01/03/2019 04:19:00 PM&quot;, &quot;07/05/2015 12:59:00 PM&quot;, &quot;~
+## $ found_location   &lt;chr&gt; &quot;2501 Magin Meadow Dr in Austin (TX)&quot;, &quot;9409 Bluegras~
+## $ intake_type      &lt;chr&gt; &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Owner S~
+## $ intake_condition &lt;chr&gt; &quot;Normal&quot;, &quot;Normal&quot;, &quot;Normal&quot;, &quot;Sick&quot;, &quot;Normal&quot;, &quot;Norm~
+## $ animal_type      &lt;chr&gt; &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Cat&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog~
+## $ sex_upon_intake  &lt;chr&gt; &quot;Neutered Male&quot;, &quot;Spayed Female&quot;, &quot;Intact Male&quot;, &quot;Int~
+## $ age_upon_intake  &lt;chr&gt; &quot;2 years&quot;, &quot;8 years&quot;, &quot;11 months&quot;, &quot;4 weeks&quot;, &quot;4 year~
+## $ breed            &lt;chr&gt; &quot;Beagle Mix&quot;, &quot;English Springer Spaniel&quot;, &quot;Basenji Mi~
+## $ color            &lt;chr&gt; &quot;Tricolor&quot;, &quot;White/Liver&quot;, &quot;Sable/White&quot;, &quot;Calico&quot;, &quot;~
+## $ intake_date      &lt;date&gt; 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014~
+## $ yr               &lt;dbl&gt; 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,~
+## $ mo               &lt;ord&gt; Jan, Jul, Apr, Oct, Jun, Feb, Apr, Jul, Jun, Jun, Aug~
+## $ yr_mo            &lt;chr&gt; &quot;2019-01&quot;, &quot;2015-07&quot;, &quot;2016-04&quot;, &quot;2013-10&quot;, &quot;2014-06&quot;~</code></pre>
 <p>OK, for this mutate we used the <code>format()</code> function, which takes two arguments:</p>
 <ul>
 <li>The column we are pulling from: <code>intake_date</code> in our case.</li>
@@ -1039,20 +1039,20 @@ this was simlar to converting the date in billboard
 <span id="cb228-10"><a href="plot-aac.html#cb228-10" aria-hidden="true" tabindex="-1"></a>date_parts <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 132,214
 ## Columns: 14
-## $ intake_date      &lt;date&gt; 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014…
-## $ yr               &lt;dbl&gt; 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,…
-## $ mo               &lt;ord&gt; Jan, Jul, Apr, Oct, Jun, Feb, Apr, Jul, Jun, Jun, Aug…
-## $ yr_mo            &lt;chr&gt; &quot;2019-01&quot;, &quot;2015-07&quot;, &quot;2016-04&quot;, &quot;2013-10&quot;, &quot;2014-06&quot;…
-## $ animal_id        &lt;chr&gt; &quot;A786884&quot;, &quot;A706918&quot;, &quot;A724273&quot;, &quot;A665644&quot;, &quot;A682524&quot;…
-## $ name             &lt;chr&gt; &quot;*Brock&quot;, &quot;Belle&quot;, &quot;Runster&quot;, NA, &quot;Rio&quot;, &quot;Odin&quot;, &quot;Beo…
-## $ found_location   &lt;chr&gt; &quot;2501 Magin Meadow Dr in Austin (TX)&quot;, &quot;9409 Bluegras…
-## $ intake_type      &lt;chr&gt; &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Owner S…
-## $ intake_condition &lt;chr&gt; &quot;Normal&quot;, &quot;Normal&quot;, &quot;Normal&quot;, &quot;Sick&quot;, &quot;Normal&quot;, &quot;Norm…
-## $ animal_type      &lt;chr&gt; &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Cat&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog…
-## $ sex_upon_intake  &lt;chr&gt; &quot;Neutered Male&quot;, &quot;Spayed Female&quot;, &quot;Intact Male&quot;, &quot;Int…
-## $ age_upon_intake  &lt;chr&gt; &quot;2 years&quot;, &quot;8 years&quot;, &quot;11 months&quot;, &quot;4 weeks&quot;, &quot;4 year…
-## $ breed            &lt;chr&gt; &quot;Beagle Mix&quot;, &quot;English Springer Spaniel&quot;, &quot;Basenji Mi…
-## $ color            &lt;chr&gt; &quot;Tricolor&quot;, &quot;White/Liver&quot;, &quot;Sable/White&quot;, &quot;Calico&quot;, &quot;…</code></pre>
+## $ intake_date      &lt;date&gt; 2019-01-03, 2015-07-05, 2016-04-14, 2013-10-21, 2014~
+## $ yr               &lt;dbl&gt; 2019, 2015, 2016, 2013, 2014, 2017, 2019, 2015, 2020,~
+## $ mo               &lt;ord&gt; Jan, Jul, Apr, Oct, Jun, Feb, Apr, Jul, Jun, Jun, Aug~
+## $ yr_mo            &lt;chr&gt; &quot;2019-01&quot;, &quot;2015-07&quot;, &quot;2016-04&quot;, &quot;2013-10&quot;, &quot;2014-06&quot;~
+## $ animal_id        &lt;chr&gt; &quot;A786884&quot;, &quot;A706918&quot;, &quot;A724273&quot;, &quot;A665644&quot;, &quot;A682524&quot;~
+## $ name             &lt;chr&gt; &quot;*Brock&quot;, &quot;Belle&quot;, &quot;Runster&quot;, NA, &quot;Rio&quot;, &quot;Odin&quot;, &quot;Beo~
+## $ found_location   &lt;chr&gt; &quot;2501 Magin Meadow Dr in Austin (TX)&quot;, &quot;9409 Bluegras~
+## $ intake_type      &lt;chr&gt; &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Stray&quot;, &quot;Owner S~
+## $ intake_condition &lt;chr&gt; &quot;Normal&quot;, &quot;Normal&quot;, &quot;Normal&quot;, &quot;Sick&quot;, &quot;Normal&quot;, &quot;Norm~
+## $ animal_type      &lt;chr&gt; &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Cat&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog&quot;, &quot;Dog~
+## $ sex_upon_intake  &lt;chr&gt; &quot;Neutered Male&quot;, &quot;Spayed Female&quot;, &quot;Intact Male&quot;, &quot;Int~
+## $ age_upon_intake  &lt;chr&gt; &quot;2 years&quot;, &quot;8 years&quot;, &quot;11 months&quot;, &quot;4 weeks&quot;, &quot;4 year~
+## $ breed            &lt;chr&gt; &quot;Beagle Mix&quot;, &quot;English Springer Spaniel&quot;, &quot;Basenji Mi~
+## $ color            &lt;chr&gt; &quot;Tricolor&quot;, &quot;White/Liver&quot;, &quot;Sable/White&quot;, &quot;Calico&quot;, &quot;~</code></pre>
 <p>Alright, that is a helluva a <a href="https://dplyr.tidyverse.org/reference/select.html">select</a> statement. The only <em>new</em> thing there is <code>everything()</code>, which selects (you guessed it) everything not already named. The selects come in order, so it works like this:</p>
 <ul>
 <li>select the intake_date, yr, mo, yr_mo</li>
@@ -1128,7 +1128,7 @@ Don’t overthink it
 <span id="cb231-4"><a href="plot-aac.html#cb231-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb231-5"><a href="plot-aac.html#cb231-5" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at it</span></span>
 <span id="cb231-6"><a href="plot-aac.html#cb231-6" aria-hidden="true" tabindex="-1"></a>intakes_yr_data</span></code></pre></div>
-<pre><code>## # A tibble: 5 × 2
+<pre><code>## # A tibble: 5 x 2
 ##      yr count_animals
 ##   &lt;dbl&gt;         &lt;int&gt;
 ## 1  2016         17675
@@ -1182,7 +1182,7 @@ I’m too nice
 <span id="cb233-3"><a href="plot-aac.html#cb233-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb233-4"><a href="plot-aac.html#cb233-4" aria-hidden="true" tabindex="-1"></a><span class="co"># peek</span></span>
 <span id="cb233-5"><a href="plot-aac.html#cb233-5" aria-hidden="true" tabindex="-1"></a>intakes_yrmo</span></code></pre></div>
-<pre><code>## # A tibble: 69 × 2
+<pre><code>## # A tibble: 69 x 2
 ##    yr_mo   count_animals
 ##    &lt;chr&gt;           &lt;int&gt;
 ##  1 2016-01          1216
@@ -1195,7 +1195,7 @@ I’m too nice
 ##  8 2016-08          1653
 ##  9 2016-09          1539
 ## 10 2016-10          1387
-## # … with 59 more rows</code></pre>
+## # ... with 59 more rows</code></pre>
 </details>
 <p>Now that you have the data, we’ll try to plot this as a line. You might end up with this error:</p>
 <p>“geom_path: Each group consists of only one observation. Do you need to adjust the group aesthetic?”</p>
@@ -1267,7 +1267,7 @@ I’m too nice
 <span id="cb239-3"><a href="plot-aac.html#cb239-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb239-4"><a href="plot-aac.html#cb239-4" aria-hidden="true" tabindex="-1"></a><span class="co"># peek</span></span>
 <span id="cb239-5"><a href="plot-aac.html#cb239-5" aria-hidden="true" tabindex="-1"></a>mo_yr_data</span></code></pre></div>
-<pre><code>## # A tibble: 69 × 3
+<pre><code>## # A tibble: 69 x 3
 ##    mo       yr count_animals
 ##    &lt;ord&gt; &lt;dbl&gt;         &lt;int&gt;
 ##  1 Jan    2016          1216
@@ -1280,7 +1280,7 @@ I’m too nice
 ##  8 Feb    2017          1202
 ##  9 Feb    2018          1044
 ## 10 Feb    2019          1131
-## # … with 59 more rows</code></pre>
+## # ... with 59 more rows</code></pre>
 </div>
 <div id="plot-by-month-split-by-year" class="section level3" number="10.14.2">
 <h3><span class="header-section-number">10.14.2</span> Plot by month, split by year</h3>
@@ -1341,7 +1341,7 @@ I’m too nice
 <li>Create a quick <code>count()</code> on the column <code>animal_type</code>. I’ll wait.</li>
 </ol>
 <p>You need to do the code in your notebook, but here is the output:</p>
-<pre><code>## # A tibble: 5 × 2
+<pre><code>## # A tibble: 5 x 2
 ##   animal_type     n
 ##   &lt;chr&gt;       &lt;int&gt;
 ## 1 Bird          513
@@ -1371,7 +1371,7 @@ I’m too nice
 <span id="cb245-9"><a href="plot-aac.html#cb245-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb245-10"><a href="plot-aac.html#cb245-10" aria-hidden="true" tabindex="-1"></a>intake_types <span class="sc">%&gt;%</span> </span>
 <span id="cb245-11"><a href="plot-aac.html#cb245-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(animal_type)</span></code></pre></div>
-<pre><code>## # A tibble: 3 × 2
+<pre><code>## # A tibble: 3 x 2
 ##   animal_type     n
 ##   &lt;chr&gt;       &lt;int&gt;
 ## 1 Cat         30474

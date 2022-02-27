@@ -96,20 +96,20 @@ raw_data
 ```
 
 ```
-## # A tibble: 31 × 10
+## # A tibble: 31 x 10
 ##    timestamp     first_name last_name candy_type   red green orange yellow  blue
 ##    <chr>         <chr>      <chr>     <chr>      <dbl> <dbl>  <dbl>  <dbl> <dbl>
-##  1 2/21/2022 19… Christian  McDonald  Plain          2    17     11      4    16
-##  2 2/21/2022 19… First1     Last1     Plain         10     7      4     11    13
-##  3 2/21/2022 19… First2     Last2     Plain          8    18     11      8     7
-##  4 2/21/2022 19… First3     Last3     Plain         18    17     20     20    14
-##  5 2/21/2022 19… First4     Last4     Plain          5    17     11     10     7
-##  6 2/21/2022 19… First5     Last5     Plain          1     8      6      3     7
-##  7 2/21/2022 19… First6     Last6     Plain          1    12      6      4    20
-##  8 2/21/2022 19… First7     Last7     Plain         13    15      5      1     3
-##  9 2/21/2022 19… First8     Last8     Plain         17     9      8      6    15
-## 10 2/21/2022 19… First9     Last9     Plain         20     2      7     14    20
-## # … with 21 more rows, and 1 more variable: brown <dbl>
+##  1 2/21/2022 19~ Christian  McDonald  Plain          2    17     11      4    16
+##  2 2/21/2022 19~ First1     Last1     Plain          2    16      1     11    18
+##  3 2/21/2022 19~ First2     Last2     Plain         16    16      4      9    13
+##  4 2/21/2022 19~ First3     Last3     Plain          5    17     13      2     4
+##  5 2/21/2022 19~ First4     Last4     Plain          2     1     16      5     3
+##  6 2/21/2022 19~ First5     Last5     Plain         20     1      6     14    14
+##  7 2/21/2022 19~ First6     Last6     Plain          9     8      5      4    12
+##  8 2/21/2022 19~ First7     Last7     Plain         14     5     18      7     2
+##  9 2/21/2022 19~ First8     Last8     Plain         12     4      4      4     1
+## 10 2/21/2022 19~ First9     Last9     Plain          5     9      6     16     5
+## # ... with 21 more rows, and 1 more variable: brown <dbl>
 ```
 
 This data comes from a Google Sheets document fed by a form that students have filled out, counting the colors of candies in a standard size bag of plain M&Ms.
@@ -145,15 +145,15 @@ candy %>% head()
 ```
 
 ```
-## # A tibble: 6 × 8
+## # A tibble: 6 x 8
 ##   first_name last_name   red green orange yellow  blue brown
 ##   <chr>      <chr>     <dbl> <dbl>  <dbl>  <dbl> <dbl> <dbl>
 ## 1 Christian  McDonald      2    17     11      4    16     4
-## 2 First1     Last1        10     7      4     11    13    20
-## 3 First2     Last2         8    18     11      8     7     1
-## 4 First3     Last3        18    17     20     20    14     1
-## 5 First4     Last4         5    17     11     10     7    20
-## 6 First5     Last5         1     8      6      3     7    19
+## 2 First1     Last1         2    16      1     11    18     4
+## 3 First2     Last2        16    16      4      9    13    15
+## 4 First3     Last3         5    17     13      2     4     5
+## 5 First4     Last4         2     1     16      5     3    10
+## 6 First5     Last5        20     1      6     14    14    16
 ```
 
 This is pretty well-formed data. This format would be useful to create a "total" column for each bag, but there are better ways to do this with **long** data. Same with getting our averages for each color.
@@ -246,7 +246,7 @@ candy_long %>% head()
 ```
 
 ```
-## # A tibble: 6 × 4
+## # A tibble: 6 x 4
 ##   first_name last_name color  candies
 ##   <chr>      <chr>     <chr>    <dbl>
 ## 1 Christian  McDonald  red          2
@@ -277,15 +277,15 @@ candy_avg
 ```
 
 ```
-## # A tibble: 6 × 2
+## # A tibble: 6 x 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
-## 1 blue         10.2 
-## 2 brown        10.6 
-## 3 green        11.5 
-## 4 orange        9.74
-## 5 red           8.97
-## 6 yellow       13.0
+## 1 blue          9.35
+## 2 brown        11.9 
+## 3 green        11.6 
+## 4 orange        9.61
+## 5 red           8.48
+## 6 yellow       10.0
 ```
 </details>
 
@@ -310,15 +310,15 @@ candy_avg
 ```
 
 ```
-## # A tibble: 6 × 2
+## # A tibble: 6 x 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
-## 1 blue          10.2
-## 2 brown         10.6
-## 3 green         11.5
-## 4 orange         9.7
-## 5 red            9  
-## 6 yellow        13
+## 1 blue           9.4
+## 2 brown         11.9
+## 3 green         11.6
+## 4 orange         9.6
+## 5 red            8.5
+## 6 yellow        10
 ```
 
 BONUS POINT OPPORTUNITY: Using a similar method to rounding above, you can also capitalize the names of the colors. You don't _have_ to do this, but I'll give you bonus points if you do:
@@ -420,22 +420,22 @@ candy_long %>%
 ```
 
 ```
-## # A tibble: 6 × 32
+## # A tibble: 6 x 32
 ##   color  Christian_McDonald First1_Last1 First2_Last2 First3_Last3 First4_Last4
 ##   <chr>               <dbl>        <dbl>        <dbl>        <dbl>        <dbl>
-## 1 red                     2           10            8           18            5
-## 2 green                  17            7           18           17           17
-## 3 orange                 11            4           11           20           11
-## 4 yellow                  4           11            8           20           10
-## 5 blue                   16           13            7           14            7
-## 6 brown                   4           20            1            1           20
-## # … with 26 more variables: First5_Last5 <dbl>, First6_Last6 <dbl>,
+## 1 red                     2            2           16            5            2
+## 2 green                  17           16           16           17            1
+## 3 orange                 11            1            4           13           16
+## 4 yellow                  4           11            9            2            5
+## 5 blue                   16           18           13            4            3
+## 6 brown                   4            4           15            5           10
+## # ... with 26 more variables: First5_Last5 <dbl>, First6_Last6 <dbl>,
 ## #   First7_Last7 <dbl>, First8_Last8 <dbl>, First9_Last9 <dbl>,
 ## #   First10_Last10 <dbl>, First11_Last11 <dbl>, First12_Last12 <dbl>,
 ## #   First13_Last13 <dbl>, First14_Last14 <dbl>, First15_Last15 <dbl>,
 ## #   First16_Last16 <dbl>, First17_Last17 <dbl>, First18_Last18 <dbl>,
 ## #   First19_Last19 <dbl>, First20_Last20 <dbl>, First21_Last21 <dbl>,
-## #   First22_Last22 <dbl>, First23_Last23 <dbl>, First24_Last24 <dbl>, …
+## #   First22_Last22 <dbl>, First23_Last23 <dbl>, First24_Last24 <dbl>, ...
 ```
 
 ### Pivot wider on your own

@@ -349,7 +349,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="7.4.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#build-the-base-layer"><i class="fa fa-check"></i><b>7.4.1</b> Build the base layer</a></li>
 <li class="chapter" data-level="7.4.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#layers-can-we-add-to-our-plots"><i class="fa fa-check"></i><b>7.4.2</b> Layers can we add to our plots</a></li>
-<li class="chapter" data-level="7.4.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-geom_points"><i class="fa fa-check"></i><b>7.4.3</b> Add geom_points</a></li>
+<li class="chapter" data-level="7.4.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-geom_point"><i class="fa fa-check"></i><b>7.4.3</b> Add geom_point</a></li>
 <li class="chapter" data-level="7.4.4" data-path="ggplot-intro.html"><a href="ggplot-intro.html#adding-other-mappings"><i class="fa fa-check"></i><b>7.4.4</b> Adding other mappings</a></li>
 </ul></li>
 <li class="chapter" data-level="7.5" data-path="ggplot-intro.html"><a href="ggplot-intro.html#lets-build-a-bar-chart"><i class="fa fa-check"></i><b>7.5</b> Let’s build a bar chart</a>
@@ -673,11 +673,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Here is a glimpse of our main columns of interest, except for the date:</p>
 <pre><code>## Rows: 10
 ## Columns: 5
-## $ state             &lt;chr&gt; &quot;KY&quot;, &quot;SC&quot;, &quot;CA&quot;, &quot;TX&quot;, &quot;OH&quot;, &quot;NC&quot;, &quot;CA&quot;, &quot;MI&quot;, &quot;AZ&quot;…
-## $ agency_name       &lt;chr&gt; &quot;MEADE COUNTY SHERIFF DEPT&quot;, &quot;PROSPERITY POLICE DEPT…
-## $ item_name         &lt;chr&gt; &quot;GENERATOR SET,DIESEL ENGINE&quot;, &quot;RIFLE,7.62 MILLIMETE…
+## $ state             &lt;chr&gt; &quot;KY&quot;, &quot;SC&quot;, &quot;CA&quot;, &quot;TX&quot;, &quot;OH&quot;, &quot;NC&quot;, &quot;CA&quot;, &quot;MI&quot;, &quot;AZ&quot;~
+## $ agency_name       &lt;chr&gt; &quot;MEADE COUNTY SHERIFF DEPT&quot;, &quot;PROSPERITY POLICE DEPT~
+## $ item_name         &lt;chr&gt; &quot;GENERATOR SET,DIESEL ENGINE&quot;, &quot;RIFLE,7.62 MILLIMETE~
 ## $ quantity          &lt;dbl&gt; 5, 1, 32, 1, 1, 1, 1, 1, 1, 1
-## $ acquisition_value &lt;dbl&gt; 4623.09, 138.00, 16.91, 749.00, 749.00, 138.00, 499.…</code></pre>
+## $ acquisition_value &lt;dbl&gt; 4623.09, 138.00, 16.91, 749.00, 749.00, 138.00, 499.~</code></pre>
 <p>Each row of data is a transfer of a particular type of item from the U.S. Department of Defense to a local law enforcement agency. The row includes the name of the item, the quantity, and the value ($) of a single unit.</p>
 <p>What the data doesn’t have is the <strong>total value</strong> of the items in the shipment. If there are 5 generators as noted in the first row above and the cost of each one is $4623.09, we have to multiply the <code>quantity</code> times the <code>acquisition_value</code> to get the total value of that equipment. We will do that as part of the assignment.</p>
 <p>The local agencies really only pay the shipping costs for the item, <em>so you can’t say they paid for the items</em>, so the <strong>total value</strong> you calculate is the “value” of the items, not their cost to the local agency.</p>
@@ -792,30 +792,30 @@ Try real hard first before clicking here for the answer. Note the book will also
 <div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="sums-import.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co"># assigning the tibble</span></span>
 <span id="cb92-2"><a href="sums-import.html#cb92-2" aria-hidden="true" tabindex="-1"></a>leso <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/leso.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## Rows: 124848 Columns: 12</code></pre>
-<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+<pre><code>## -- Column specification --------------------------------------------------------
 ## Delimiter: &quot;,&quot;
 ## chr  (7): state, agency_name, nsn, item_name, ui, demil_code, station_type
 ## dbl  (4): sheet, quantity, acquisition_value, demil_ic
 ## dttm (1): ship_date</code></pre>
 <pre><code>## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="sums-import.html#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="co"># printing the tibble</span></span>
 <span id="cb96-2"><a href="sums-import.html#cb96-2" aria-hidden="true" tabindex="-1"></a>leso</span></code></pre></div>
-<pre><code>## # A tibble: 124,848 × 12
-##    sheet state agency_name   nsn    item_name    quantity ui    acquisition_val…
-##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;         &lt;chr&gt;  &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt;
-##  1     1 AL    ABBEVILLE PO… 2540-… BALLISTIC B…       10 Kit             15872.
-##  2     1 AL    ABBEVILLE PO… 1240-… OPTICAL SIG…        1 Each              246.
-##  3     1 AL    ABBEVILLE PO… 1005-… MOUNT,RIFLE        10 Each             1626 
-##  4     1 AL    ABBEVILLE PO… 1240-… SIGHT,REFLEX        9 Each              333 
-##  5     1 AL    ABBEVILLE PO… 5855-… ILLUMINATOR…       10 Each              926 
-##  6     1 AL    ABBEVILLE PO… 2355-… MINE RESIST…        1 Each           658000 
-##  7     1 AL    ABBEVILLE PO… 2320-… TRUCK,UTILI…        1 Each            62627 
-##  8     1 AL    ABBEVILLE PO… 1385-… UNMANNED VE…        1 Each            10000 
-##  9     1 AL    ABBEVILLE PO… 6760-… CAMERA ROBOT        1 Each             1500 
-## 10     1 AL    ABBEVILLE PO… 2320-… TRUCK,UTILI…        1 Each            62627 
-## # … with 124,838 more rows, and 4 more variables: demil_code &lt;chr&gt;,
+<pre><code>## # A tibble: 124,848 x 12
+##    sheet state agency_name       nsn   item_name quantity ui    acquisition_val~
+##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt;
+##  1     1 AL    ABBEVILLE POLICE~ 2540~ BALLISTI~       10 Kit             15872.
+##  2     1 AL    ABBEVILLE POLICE~ 1240~ OPTICAL ~        1 Each              246.
+##  3     1 AL    ABBEVILLE POLICE~ 1005~ MOUNT,RI~       10 Each             1626 
+##  4     1 AL    ABBEVILLE POLICE~ 1240~ SIGHT,RE~        9 Each              333 
+##  5     1 AL    ABBEVILLE POLICE~ 5855~ ILLUMINA~       10 Each              926 
+##  6     1 AL    ABBEVILLE POLICE~ 2355~ MINE RES~        1 Each           658000 
+##  7     1 AL    ABBEVILLE POLICE~ 2320~ TRUCK,UT~        1 Each            62627 
+##  8     1 AL    ABBEVILLE POLICE~ 1385~ UNMANNED~        1 Each            10000 
+##  9     1 AL    ABBEVILLE POLICE~ 6760~ CAMERA R~        1 Each             1500 
+## 10     1 AL    ABBEVILLE POLICE~ 2320~ TRUCK,UT~        1 Each            62627 
+## # ... with 124,838 more rows, and 4 more variables: demil_code &lt;chr&gt;,
 ## #   demil_ic &lt;dbl&gt;, ship_date &lt;dttm&gt;, station_type &lt;chr&gt;</code></pre>
 </details>
 </div>
@@ -827,18 +827,18 @@ Try real hard first before clicking here for the answer. Note the book will also
 <div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="sums-import.html#cb98-1" aria-hidden="true" tabindex="-1"></a>leso <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 124,848
 ## Columns: 12
-## $ sheet             &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
-## $ state             &lt;chr&gt; &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;…
-## $ agency_name       &lt;chr&gt; &quot;ABBEVILLE POLICE DEPT&quot;, &quot;ABBEVILLE POLICE DEPT&quot;, &quot;A…
-## $ nsn               &lt;chr&gt; &quot;2540-01-565-4700&quot;, &quot;1240-DS-OPT-SIGH&quot;, &quot;1005-01-587…
-## $ item_name         &lt;chr&gt; &quot;BALLISTIC BLANKET KIT&quot;, &quot;OPTICAL SIGHTING AND RANGI…
-## $ quantity          &lt;dbl&gt; 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, …
-## $ ui                &lt;chr&gt; &quot;Kit&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each…
-## $ acquisition_value &lt;dbl&gt; 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00…
-## $ demil_code        &lt;chr&gt; &quot;D&quot;, &quot;D&quot;, &quot;D&quot;, &quot;D&quot;, &quot;D&quot;, &quot;C&quot;, &quot;C&quot;, &quot;Q&quot;, &quot;D&quot;, &quot;C&quot;, &quot;C…
-## $ demil_ic          &lt;dbl&gt; 1, NA, 1, 1, 1, 1, 1, 3, 7, 1, 1, NA, 1, 1, 1, 1, 1,…
-## $ ship_date         &lt;dttm&gt; 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201…
-## $ station_type      &lt;chr&gt; &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;…</code></pre>
+## $ sheet             &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+## $ state             &lt;chr&gt; &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;~
+## $ agency_name       &lt;chr&gt; &quot;ABBEVILLE POLICE DEPT&quot;, &quot;ABBEVILLE POLICE DEPT&quot;, &quot;A~
+## $ nsn               &lt;chr&gt; &quot;2540-01-565-4700&quot;, &quot;1240-DS-OPT-SIGH&quot;, &quot;1005-01-587~
+## $ item_name         &lt;chr&gt; &quot;BALLISTIC BLANKET KIT&quot;, &quot;OPTICAL SIGHTING AND RANGI~
+## $ quantity          &lt;dbl&gt; 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, ~
+## $ ui                &lt;chr&gt; &quot;Kit&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each~
+## $ acquisition_value &lt;dbl&gt; 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00~
+## $ demil_code        &lt;chr&gt; &quot;D&quot;, &quot;D&quot;, &quot;D&quot;, &quot;D&quot;, &quot;D&quot;, &quot;C&quot;, &quot;C&quot;, &quot;Q&quot;, &quot;D&quot;, &quot;C&quot;, &quot;C~
+## $ demil_ic          &lt;dbl&gt; 1, NA, 1, 1, 1, 1, 1, 3, 7, 1, 1, NA, 1, 1, 1, 1, 1,~
+## $ ship_date         &lt;dttm&gt; 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201~
+## $ station_type      &lt;chr&gt; &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;~</code></pre>
 <div id="checking-datatypes" class="section level4" number="5.4.5.1">
 <h4><span class="header-section-number">5.4.5.1</span> Checking datatypes</h4>
 <p>Take a look at your glimpse returns. These are the things to watch for:</p>
@@ -867,14 +867,14 @@ Try real hard first before clicking here for the answer. Note the book will also
 <span id="cb100-8"><a href="sums-import.html#cb100-8" aria-hidden="true" tabindex="-1"></a>leso_tight <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 124,848
 ## Columns: 8
-## $ state             &lt;chr&gt; &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;…
-## $ agency_name       &lt;chr&gt; &quot;ABBEVILLE POLICE DEPT&quot;, &quot;ABBEVILLE POLICE DEPT&quot;, &quot;A…
-## $ item_name         &lt;chr&gt; &quot;BALLISTIC BLANKET KIT&quot;, &quot;OPTICAL SIGHTING AND RANGI…
-## $ quantity          &lt;dbl&gt; 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, …
-## $ ui                &lt;chr&gt; &quot;Kit&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each…
-## $ acquisition_value &lt;dbl&gt; 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00…
-## $ ship_date         &lt;dttm&gt; 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201…
-## $ station_type      &lt;chr&gt; &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;…</code></pre>
+## $ state             &lt;chr&gt; &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;~
+## $ agency_name       &lt;chr&gt; &quot;ABBEVILLE POLICE DEPT&quot;, &quot;ABBEVILLE POLICE DEPT&quot;, &quot;A~
+## $ item_name         &lt;chr&gt; &quot;BALLISTIC BLANKET KIT&quot;, &quot;OPTICAL SIGHTING AND RANGI~
+## $ quantity          &lt;dbl&gt; 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, ~
+## $ ui                &lt;chr&gt; &quot;Kit&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each~
+## $ acquisition_value &lt;dbl&gt; 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00~
+## $ ship_date         &lt;dttm&gt; 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201~
+## $ station_type      &lt;chr&gt; &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;~</code></pre>
 <p>We did a select like this with billboard, but note the third item within the <code>select()</code>:</p>
 <p><code>-starts_with("demil")</code>.</p>
 <p>This removes both the <code>demil_code</code> and <code>demil_ic</code> columns in one move by finding all the columns that “start with ‘demil’.” The <code>-</code> before it negates (or removes) the columns.</p>
@@ -966,15 +966,15 @@ Try it on your own. You can figure it out!
 <span id="cb103-6"><a href="sums-import.html#cb103-6" aria-hidden="true" tabindex="-1"></a>leso_total <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 124,848
 ## Columns: 9
-## $ state             &lt;chr&gt; &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;…
-## $ agency_name       &lt;chr&gt; &quot;ABBEVILLE POLICE DEPT&quot;, &quot;ABBEVILLE POLICE DEPT&quot;, &quot;A…
-## $ item_name         &lt;chr&gt; &quot;BALLISTIC BLANKET KIT&quot;, &quot;OPTICAL SIGHTING AND RANGI…
-## $ quantity          &lt;dbl&gt; 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, …
-## $ ui                &lt;chr&gt; &quot;Kit&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each…
-## $ acquisition_value &lt;dbl&gt; 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00…
-## $ ship_date         &lt;dttm&gt; 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201…
-## $ station_type      &lt;chr&gt; &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;…
-## $ total_value       &lt;dbl&gt; 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 65800…</code></pre>
+## $ state             &lt;chr&gt; &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;~
+## $ agency_name       &lt;chr&gt; &quot;ABBEVILLE POLICE DEPT&quot;, &quot;ABBEVILLE POLICE DEPT&quot;, &quot;A~
+## $ item_name         &lt;chr&gt; &quot;BALLISTIC BLANKET KIT&quot;, &quot;OPTICAL SIGHTING AND RANGI~
+## $ quantity          &lt;dbl&gt; 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, ~
+## $ ui                &lt;chr&gt; &quot;Kit&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each~
+## $ acquisition_value &lt;dbl&gt; 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00~
+## $ ship_date         &lt;dttm&gt; 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201~
+## $ station_type      &lt;chr&gt; &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;~
+## $ total_value       &lt;dbl&gt; 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 65800~</code></pre>
 </details>
 <p><br></p>
 <p><strong>Check that it worked!!</strong>. Use the glimpsed data to check the first item: For me, 10 * 15871.59 = 158715.90, which is correct!</p>
@@ -998,20 +998,20 @@ Really, you got this.
 <span id="cb105-2"><a href="sums-import.html#cb105-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
 <span id="cb105-3"><a href="sums-import.html#cb105-3" aria-hidden="true" tabindex="-1"></a>    state <span class="sc">==</span> <span class="st">&quot;TX&quot;</span></span>
 <span id="cb105-4"><a href="sums-import.html#cb105-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code>## # A tibble: 8,663 × 9
-##    state agency_name           item_name         quantity ui    acquisition_val…
+<pre><code>## # A tibble: 8,663 x 9
+##    state agency_name           item_name         quantity ui    acquisition_val~
 ##    &lt;chr&gt; &lt;chr&gt;                 &lt;chr&gt;                &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt;
-##  1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  5 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
+##  1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
+##  2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
+##  3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
+##  4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
+##  5 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI~        1 Each             749  
 ##  6 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY            1 Each           62627  
 ##  7 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX             5 Each             333  
-##  8 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
-##  9 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-## 10 TX    ABILENE POLICE DEPT   RIFLE,5.56 MILLI…        1 Each             499  
-## # … with 8,653 more rows, and 3 more variables: ship_date &lt;dttm&gt;,
+##  8 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI~        1 Each             749  
+##  9 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
+## 10 TX    ABILENE POLICE DEPT   RIFLE,5.56 MILLI~        1 Each             499  
+## # ... with 8,653 more rows, and 3 more variables: ship_date &lt;dttm&gt;,
 ## #   station_type &lt;chr&gt;, total_value &lt;dbl&gt;</code></pre>
 </details>
 <p>How do you know if it worked? Well the first column in the data is the <code>state</code> column, so they should all start with “TX.” Also note you started with nearly 130k observations (rows), and there are only 8,600+ in Texas.</p>
@@ -1030,20 +1030,20 @@ If you do this on your own, treat yourself to a cookie
 <span id="cb107-3"><a href="sums-import.html#cb107-3" aria-hidden="true" tabindex="-1"></a>    state <span class="sc">==</span> <span class="st">&quot;TX&quot;</span>,</span>
 <span id="cb107-4"><a href="sums-import.html#cb107-4" aria-hidden="true" tabindex="-1"></a>    ship_date <span class="sc">&gt;=</span> <span class="st">&quot;2010-01-01&quot;</span></span>
 <span id="cb107-5"><a href="sums-import.html#cb107-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code>## # A tibble: 7,411 × 9
-##    state agency_name           item_name         quantity ui    acquisition_val…
+<pre><code>## # A tibble: 7,411 x 9
+##    state agency_name           item_name         quantity ui    acquisition_val~
 ##    &lt;chr&gt; &lt;chr&gt;                 &lt;chr&gt;                &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt;
-##  1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
-##  5 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
+##  1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
+##  2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
+##  3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
+##  4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
+##  5 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI~        1 Each             749  
 ##  6 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY            1 Each           62627  
 ##  7 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX             5 Each             333  
-##  8 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI…        1 Each             749  
-##  9 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .…        1 Each              58.7
+##  8 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLI~        1 Each             749  
+##  9 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .~        1 Each              58.7
 ## 10 TX    ALLEN POLICE DEPT     SIGHT,REFLEX             1 Each             333  
-## # … with 7,401 more rows, and 3 more variables: ship_date &lt;dttm&gt;,
+## # ... with 7,401 more rows, and 3 more variables: ship_date &lt;dttm&gt;,
 ## #   station_type &lt;chr&gt;, total_value &lt;dbl&gt;</code></pre>
 </details>
 </div>
@@ -1080,15 +1080,15 @@ Seriously? You were going to look?
 <span id="cb109-7"><a href="sums-import.html#cb109-7" aria-hidden="true" tabindex="-1"></a>leso_filtered <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 7,411
 ## Columns: 9
-## $ state             &lt;chr&gt; &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;…
-## $ agency_name       &lt;chr&gt; &quot;ABERNATHY POLICE DEPT&quot;, &quot;ABERNATHY POLICE DEPT&quot;, &quot;A…
-## $ item_name         &lt;chr&gt; &quot;PISTOL,CALIBER .45,AUTOMATIC&quot;, &quot;PISTOL,CALIBER .45,…
-## $ quantity          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
-## $ ui                &lt;chr&gt; &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Eac…
-## $ acquisition_value &lt;dbl&gt; 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 333.00…
-## $ ship_date         &lt;dttm&gt; 2011-11-03, 2011-11-03, 2011-11-03, 2011-11-03, 201…
-## $ station_type      &lt;chr&gt; &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;…
-## $ total_value       &lt;dbl&gt; 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 1665.0…</code></pre>
+## $ state             &lt;chr&gt; &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;~
+## $ agency_name       &lt;chr&gt; &quot;ABERNATHY POLICE DEPT&quot;, &quot;ABERNATHY POLICE DEPT&quot;, &quot;A~
+## $ item_name         &lt;chr&gt; &quot;PISTOL,CALIBER .45,AUTOMATIC&quot;, &quot;PISTOL,CALIBER .45,~
+## $ quantity          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+## $ ui                &lt;chr&gt; &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Eac~
+## $ acquisition_value &lt;dbl&gt; 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 333.00~
+## $ ship_date         &lt;dttm&gt; 2011-11-03, 2011-11-03, 2011-11-03, 2011-11-03, 201~
+## $ station_type      &lt;chr&gt; &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;~
+## $ total_value       &lt;dbl&gt; 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 1665.0~</code></pre>
 </details>
 </div>
 </div>

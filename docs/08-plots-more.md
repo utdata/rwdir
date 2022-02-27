@@ -19,12 +19,12 @@ In the last chapter, you were introduced to [ggplot2](https://ggplot2.tidyverse.
 
 In this chapter, we will cover the following topics:
 
-- How to prepare and build a line chart
-- How to use themes to change the looks of al chart
-- More about aesthetics in layers!
-- Faceting, or making multiple charts from the same data
-- How to save files
-- How to make interactive plots with `Plotly`
+- How to prepare and build a line chart  
+- How to use themes to change the looks of a chart  
+- More about aesthetics in layers!  
+- Faceting, or making multiple charts from the same data  
+- How to save files  
+- How to make interactive plots with `Plotly`  
 
 ## Set up your notebook
 
@@ -61,7 +61,7 @@ leso <- read_csv("data-raw/leso.csv") #read the data in
 ```
 
 ```
-## ── Column specification ────────────────────────────────────────────────────────
+## -- Column specification --------------------------------------------------------
 ## Delimiter: ","
 ## chr  (7): state, agency_name, nsn, item_name, ui, demil_code, station_type
 ## dbl  (4): sheet, quantity, acquisition_value, demil_ic
@@ -70,8 +70,8 @@ leso <- read_csv("data-raw/leso.csv") #read the data in
 
 ```
 ## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 ```r
@@ -81,18 +81,18 @@ glimpse(leso) #peek at the data
 ```
 ## Rows: 124,848
 ## Columns: 12
-## $ sheet             <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
-## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
-## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
-## $ nsn               <chr> "2540-01-565-4700", "1240-DS-OPT-SIGH", "1005-01-587…
-## $ item_name         <chr> "BALLISTIC BLANKET KIT", "OPTICAL SIGHTING AND RANGI…
-## $ quantity          <dbl> 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, …
-## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each…
-## $ acquisition_value <dbl> 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00…
-## $ demil_code        <chr> "D", "D", "D", "D", "D", "C", "C", "Q", "D", "C", "C…
-## $ demil_ic          <dbl> 1, NA, 1, 1, 1, 1, 1, 3, 7, 1, 1, NA, 1, 1, 1, 1, 1,…
-## $ ship_date         <dttm> 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201…
-## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
+## $ sheet             <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"~
+## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A~
+## $ nsn               <chr> "2540-01-565-4700", "1240-DS-OPT-SIGH", "1005-01-587~
+## $ item_name         <chr> "BALLISTIC BLANKET KIT", "OPTICAL SIGHTING AND RANGI~
+## $ quantity          <dbl> 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, ~
+## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each~
+## $ acquisition_value <dbl> 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00~
+## $ demil_code        <chr> "D", "D", "D", "D", "D", "C", "C", "Q", "D", "C", "C~
+## $ demil_ic          <dbl> 1, NA, 1, 1, 1, 1, 1, 3, 7, 1, 1, NA, 1, 1, 1, 1, 1,~
+## $ ship_date         <dttm> 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201~
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
 ```
 
 </details>
@@ -124,6 +124,7 @@ leso_total <- leso_tight %>%
 
 Alrighty! Let's look at the data
 
+
 ```r
 leso_total %>% glimpse()
 ```
@@ -131,33 +132,33 @@ leso_total %>% glimpse()
 ```
 ## Rows: 124,848
 ## Columns: 9
-## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
-## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
-## $ item_name         <chr> "BALLISTIC BLANKET KIT", "OPTICAL SIGHTING AND RANGI…
-## $ quantity          <dbl> 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, …
-## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each…
-## $ acquisition_value <dbl> 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00…
-## $ ship_date         <dttm> 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201…
-## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
-## $ total_value       <dbl> 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 65800…
+## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"~
+## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A~
+## $ item_name         <chr> "BALLISTIC BLANKET KIT", "OPTICAL SIGHTING AND RANGI~
+## $ quantity          <dbl> 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, ~
+## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each~
+## $ acquisition_value <dbl> 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00~
+## $ ship_date         <dttm> 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201~
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
+## $ total_value       <dbl> 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 65800~
 ```
+
+Lookin' good!
 
 ## Wrangle the data
 
 To prepare the data for visualizing, we need to do a couple more new things. This is going to take several steps, which we will pipe together.
 
 1. `filter` the data to focus on more recent data. Let's specifically consider military surplus in 2010 and after.
-2. And then, create a `month` variable using the `floor_date()` function. `floor_date()` is a function in `lubridate` that allows us to aggregate  
-3. And then, `select` a few variables to study (specifically, `month`, `total_value`, `state`, and `agency_name`)
-
-In this chunk of code, we'll use a new function we haven't learned about before: `floor_date()`. This is the date-equivalent of rounding: we use `floor_date()` to "round down" a date, so "2022-01-25" (January 25, 2022) becomes "2022-01-01". This can be useful when we want to aggregate information from the day-level to the week, month, or year level. `floor_date()` takes two arguments: the date-time object (in our case, the `date` variable in the `tx` data frame) *and* the unit that you want to round to (in our case, `"month"`, but you can also do week, bi-month, quarter, year, and so on).
+2. And then, create a `year` variable using the `year()` function. `year()` is a function in `lubridate` that allows us to aggregate  
+3. And then, `select` a few variables to study (specifically, `year`, `total_value`, `state`, and `agency_name`)
 
 
 ```r
 leso_total <- leso_total %>%
   filter(ship_date >= as.Date("2010-01-01")) %>%
-  mutate(month = floor_date(ship_date, "month")) %>% 
-  select(month, total_value, state)
+  mutate(year = year(ship_date)) %>% 
+  select(year, total_value, state)
 
 glimpse(leso_total)
 ```
@@ -165,12 +166,12 @@ glimpse(leso_total)
 ```
 ## Rows: 84,605
 ## Columns: 3
-## $ month       <dttm> 2018-01-01, 2016-06-01, 2016-09-01, 2016-09-01, 2017-03-0…
-## $ total_value <dbl> 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 658000.00, …
-## $ state       <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
+## $ year        <dbl> 2018, 2016, 2016, 2016, 2017, 2016, 2016, 2017, 2017, 2016~
+## $ total_value <dbl> 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 658000.00, ~
+## $ state       <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"~
 ```
 
-There's a lot of information in this data, so let's focus our data visualizing on Texas, like we did in our previous chapters. We'll do this by `filter`ing the rows where `state == "TX"`.
+There's a lot of information in this data, so let's focus our visualizing on Texas, like we did in our previous chapters. We'll do this by `filter`ing the rows where `state == "TX"`.
 
 
 ```r
@@ -178,28 +179,28 @@ leso_texas <- leso_total %>%
   filter(state == "TX")
 ```
 
-Now that we have our data in a nice structure, with some monthly information, let's use our GSA process (`group_by() %>% summarize() %>% arrange()`). In this process, we'll `group by` month (the variable we have just created), `summarize` a the total value of the military surplus (by month) and arrange that information chronologically. 
+Now that we have our data in a nice structure, with some yearly information, let's use our GSA process (`group_by() %>% summarize() %>% arrange()`). In this process, we'll `group by` year (the variable we have just created), `summarize` a the total value of the military surplus (by year) and arrange that information chronologically. 
 
 
 ```r
 leso_texas_gsa <- leso_texas %>%
-  group_by(month) %>%
-  summarize(monthly_cost = sum(total_value)) %>%
-  arrange(month)
+  group_by(year) %>%
+  summarize(yearly_cost = sum(total_value)) %>%
+  arrange(year)
 
 head(leso_texas_gsa) #use head() to view the first 6 rows of this new data frame
 ```
 
 ```
-## # A tibble: 6 × 2
-##   month               monthly_cost
-##   <dttm>                     <dbl>
-## 1 2010-01-01 00:00:00       92290 
-## 2 2010-02-01 00:00:00        5447 
-## 3 2010-03-01 00:00:00     5399589.
-## 4 2010-04-01 00:00:00      267113.
-## 5 2010-05-01 00:00:00      181700.
-## 6 2010-06-01 00:00:00       16983
+## # A tibble: 6 x 2
+##    year yearly_cost
+##   <dbl>       <dbl>
+## 1  2010    7018530.
+## 2  2011    2707371.
+## 3  2012    4938685.
+## 4  2013   11573720.
+## 5  2014   45836900.
+## 6  2015    3456193.
 ```
 
 We may come back to the data to fix some stuff but for now, we're ready to plot!
@@ -223,11 +224,11 @@ In this new plot, we'll learn about a new `geom` layer: `geom_line()` (recall th
 
 
 ```r
-ggplot(leso_texas_gsa, aes(x = month, y = monthly_cost)) + #we create the graph
+ggplot(leso_texas_gsa, aes(x = year, y = yearly_cost)) + #we create the graph
   geom_point() + #adding the points
   geom_line() + #adding the lines between the points
-  labs(title = "Law Enforcement Support Office Data, Texas", 
-       x = "Months", y = "Cost of acquisitions")
+  labs(title = "Yearly Law Enforcement Support Office Data, Texas", 
+       x = "Year", y = "Cost of acquisitions")
 ```
 
 <img src="08-plots-more_files/figure-html/unnamed-chunk-4-1.png" width="672" />
@@ -242,50 +243,50 @@ head(leso_texas_gsa) #use head() to view the first 6 rows of this new data frame
 ```
 
 ```
-## # A tibble: 6 × 2
-##   month               monthly_cost
-##   <dttm>                     <dbl>
-## 1 2010-01-01 00:00:00       92290 
-## 2 2010-02-01 00:00:00        5447 
-## 3 2010-03-01 00:00:00     5399589.
-## 4 2010-04-01 00:00:00      267113.
-## 5 2010-05-01 00:00:00      181700.
-## 6 2010-06-01 00:00:00       16983
+## # A tibble: 6 x 2
+##    year yearly_cost
+##   <dbl>       <dbl>
+## 1  2010    7018530.
+## 2  2011    2707371.
+## 3  2012    4938685.
+## 4  2013   11573720.
+## 5  2014   45836900.
+## 6  2015    3456193.
 ```
 
 These large numbers are causing R to read our numbers as "scientific notation" (a math-y way of reading large numbers). For example, the total cost of supplies in February 2010 was `5,399,589.0` (that's the first spike in our figure, around the `5.0e + 06` mark). But what a pain to read!
 
-To get around this, let's divide our `monthly_cost` variable (in the `leso_tx_gsa` data frame) by 1 million. Just like we round our numbers when we write about data, so too do we often round numbers when we visualize it. In the line below, we use `mutate()` to divide `monthly_cost` by 1,000,000.
+To get around this, let's divide our `yearly_cost` variable (in the `leso_tx_gsa` data frame) by 1 million. Just like we round our numbers when we write about data, so too do we often round numbers when we visualize it. In the line below, we use `mutate()` to divide `yearly_cost` by 1,000,000.
 
 
 ```r
 leso_texas_gsa <- leso_texas_gsa %>%
-  mutate(monthly_cost = monthly_cost/1000000) #divide by 1 million
+  mutate(yearly_cost = yearly_cost/1000000) #divide by 1 million
 
 head(leso_texas_gsa)
 ```
 
 ```
-## # A tibble: 6 × 2
-##   month               monthly_cost
-##   <dttm>                     <dbl>
-## 1 2010-01-01 00:00:00      0.0923 
-## 2 2010-02-01 00:00:00      0.00545
-## 3 2010-03-01 00:00:00      5.40   
-## 4 2010-04-01 00:00:00      0.267  
-## 5 2010-05-01 00:00:00      0.182  
-## 6 2010-06-01 00:00:00      0.0170
+## # A tibble: 6 x 2
+##    year yearly_cost
+##   <dbl>       <dbl>
+## 1  2010        7.02
+## 2  2011        2.71
+## 3  2012        4.94
+## 4  2013       11.6 
+## 5  2014       45.8 
+## 6  2015        3.46
 ```
 
 Now, let's re-visualize our data. Notice that in the `labs` layer below, we add some new information to the `y-axis`, so people know that the `5` here refers to `5 million`.
 
 
 ```r
-ggplot(leso_texas_gsa, aes(x = month, y = monthly_cost)) + #we create the graph
+ggplot(leso_texas_gsa, aes(x = year, y = yearly_cost)) + #we create the graph
   geom_point() + #adding the points
   geom_line() + #adding the lines between the points
-  labs(title = "Monthly Value of Military Surplus Acquisitions in Texas", 
-       x = "Months", y = "Cost of acquisitions (in millions)",
+  labs(title = "Yearly Value of Military Surplus Acquisitions in Texas", 
+       x = "Year", y = "Cost of acquisitions (in millions)",
        caption = "Source: Law Enforcement Support Office")
 ```
 
@@ -302,11 +303,11 @@ Sometimes it is helpful to push the results of a plot into an R object to "save"
 
 ```r
 # the line below saves the graph results into tx_plot
-tx_plot <- ggplot(leso_texas_gsa, aes(x = month, y = monthly_cost)) + 
+tx_plot <- ggplot(leso_texas_gsa, aes(x = year, y = yearly_cost)) + 
   geom_point() + 
   geom_line() +
-  labs(title = "Monthly Value of Military Surplus Acquisitions in Texas", 
-       x = "Months", y = "Cost of acquisitions (in millions)",
+  labs(title = "Yearly Value of Military Surplus Acquisitions in Texas", 
+       x = "Year", y = "Cost of acquisitions (in millions)",
        caption = "Source: Law Enforcement Support Office")
 
 # Since we saved the plot into an R object above, we have to call it again to see it.
@@ -343,7 +344,7 @@ There are a number of themes built into ggplot, most are pretty simplistic.
 
 There are a number of other packages that build upon `ggplot2`, including [`ggthemes`](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/).
 
-1. In your R console, install the ggthemes package: `install.packages("ggthemes")`
+1. In your R console, install the `ggthemes` package using the `install.packages()` function: `install.packages("ggthemes")`
 2. Add the `library(ggthemes)` at the top of your current chunk.
 3. Update the theme line to view some of the others options noted below.
 
@@ -400,20 +401,20 @@ leso_five
 ```
 
 ```
-## # A tibble: 11,546 × 3
-##    month               total_value state
-##    <dttm>                    <dbl> <chr>
-##  1 2021-12-01 00:00:00        421. AR   
-##  2 2021-11-01 00:00:00      44478  AR   
-##  3 2021-12-01 00:00:00       4977. AR   
-##  4 2021-11-01 00:00:00        168  AR   
-##  5 2021-12-01 00:00:00        232. AR   
-##  6 2018-08-01 00:00:00       1918  AR   
-##  7 2021-12-01 00:00:00          0  AR   
-##  8 2015-04-01 00:00:00       3861  AR   
-##  9 2013-05-01 00:00:00      89900  AR   
-## 10 2014-09-01 00:00:00      89900  AR   
-## # … with 11,536 more rows
+## # A tibble: 11,546 x 3
+##     year total_value state
+##    <dbl>       <dbl> <chr>
+##  1  2021        421. AR   
+##  2  2021      44478  AR   
+##  3  2021       4977. AR   
+##  4  2021        168  AR   
+##  5  2021        232. AR   
+##  6  2018       1918  AR   
+##  7  2021          0  AR   
+##  8  2015       3861  AR   
+##  9  2013      89900  AR   
+## 10  2014      89900  AR   
+## # ... with 11,536 more rows
 ```
 
 Now that we have our five states, let's GSA this information, like we did earlier (but for all 5 states and not just Texas).
@@ -424,9 +425,9 @@ Now that we have our five states, let's GSA this information, like we did earlie
 
 ```r
 leso_five_gsa <- leso_five %>%
-  group_by(state, month) %>% #groups by state AND month
-  summarize(monthly_cost = sum(total_value)) %>% 
-  mutate(monthly_cost = monthly_cost/1000000) #divide by 1 million
+  group_by(state, year) %>% #groups by state AND year
+  summarize(yearly_cost = sum(total_value)) %>% 
+  mutate(yearly_cost = yearly_cost/1000000) #divide by 1 million
 ```
 
 ```
@@ -438,12 +439,12 @@ leso_five_gsa %>% glimpse()
 ```
 
 ```
-## Rows: 452
+## Rows: 55
 ## Columns: 3
 ## Groups: state [5]
-## $ state        <chr> "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR…
-## $ month        <dttm> 2010-12-01, 2011-01-01, 2011-03-01, 2011-04-01, 2011-05-…
-## $ monthly_cost <dbl> 0.00207600, 0.05097442, 0.00301800, 0.05546326, 0.0571645…
+## $ state       <chr> "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR"~
+## $ year        <dbl> 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019~
+## $ yearly_cost <dbl> 0.00207600, 0.70035335, 0.67255778, 2.77192930, 12.0723892~
 ```
 
 </details>
@@ -457,11 +458,11 @@ For our next plot, we'll add a different line for each state. To do this you wou
 
 
 ```r
-ggplot(leso_five_gsa, aes(x = month, y = monthly_cost)) + 
+ggplot(leso_five_gsa, aes(x = year, y = yearly_cost)) + 
   geom_point() +
   geom_line(aes(color = state)) + # The aes selects a color for each state
-  labs(title = "Monthly Value of Military Surplus Acquisitions in Texas and Boardering States", 
-       x = "Month", y = "Cost of acquisitions (in millions)",
+  labs(title = "Yearly Value of Military Surplus Acquisitions in Texas and Boardering States", 
+       x = "Yearly", y = "Cost of acquisitions (in millions)",
        caption = "Source: Law Enforcement Support Office")
 ```
 
@@ -473,11 +474,11 @@ Notice that R changes the color of the line, but not the point? This is because 
 
 
 ```r
-ggplot(leso_five_gsa, aes(x = month, y = monthly_cost)) + 
+ggplot(leso_five_gsa, aes(x = year, y = yearly_cost)) + 
   geom_point(aes(color = state)) +
   geom_line(aes(color = state)) + # The aes selects a color for each state
-  labs(title = "Monthly Value of Military Surplus Acquisitions in Texas and Boardering States", 
-       x = "Month", y = "Cost of acquisitions (in millions)",
+  labs(title = "Yearly Value of Military Surplus Acquisitions in Texas and Boardering States", 
+       x = "Year", y = "Cost of acquisitions (in millions)",
        caption = "Source: Law Enforcement Support Office")
 ```
 
@@ -493,8 +494,6 @@ Some things to do/consider:
 2. You'll need to prepare the data just like we did above to get the right data points and the right states.
 3. I really suggest you build both chunks (the data prep and the chart) one line at a time so you can see what each step adds.
 
-
-
 ## Tour of some other adjustments
 
 You don't have to add these examples below to your own notebook, but here are some examples of other things you can control.
@@ -503,11 +502,11 @@ You don't have to add these examples below to your own notebook, but here are so
 
 
 ```r
-ggplot(leso_five_gsa, aes(x = month, y = monthly_cost)) + 
+ggplot(leso_five_gsa, aes(x = year, y = yearly_cost)) + 
   geom_point(aes(color = state)) +
   geom_line(aes(color = state), size = 1.5) + #make the lines thicker here
-  labs(title = "Monthly Value of Military Surplus Acquisitions in Texas and Boardering States", 
-       x = "Month", y = "Cost of acquisitions (in millions)",
+  labs(title = "Yearly Value of Military Surplus Acquisitions in Texas and Boardering States", 
+       x = "Year", y = "Cost of acquisitions (in millions)",
        caption = "Source: Law Enforcement Support Office")
 ```
 
@@ -519,11 +518,11 @@ This example removes the points and adds a `linetype = state` to the ggplot aest
 
 
 ```r
-ggplot(leso_five_gsa, aes(x = month, y = monthly_cost)) + 
+ggplot(leso_five_gsa, aes(x = year, y = yearly_cost)) + 
   geom_point(aes(color = state)) +
   geom_line(aes(color = state, linetype = state), size = 0.75) + #changes the line type
-  labs(title = "Monthly Value of Military Surplus Acquisitions in Texas and Boardering States", 
-       x = "Month", y = "Cost of acquisitions (in millions)",
+  labs(title = "Yearly Value of Military Surplus Acquisitions in Texas and Boardering States", 
+       x = "Year", y = "Cost of acquisitions (in millions)",
        caption = "Source: Law Enforcement Support Office")
 ```
 
@@ -537,12 +536,12 @@ Notice that when you put the information `geom_line(aes())` (like with `color` a
 
 
 ```r
-ggplot(leso_five_gsa, aes(x = month, y = monthly_cost)) + 
+ggplot(leso_five_gsa, aes(x = year, y = yearly_cost)) + 
   geom_point(aes(color = state)) +
   geom_line(aes(color = state, linetype = state), size = 0.75) + #changes the line type
-  xlim(as.POSIXct("2009-07-01"), as.POSIXct("2022-02-01")) + # sets minimum and maximum values on axis
-  labs(title = "Monthly Value of Military Surplus Acquisitions in Texas and Boardering States", 
-       x = "Month", y = "Cost of acquisitions (in millions)",
+  xlim(2009, 2022) + # sets minimum and maximum values on axis
+  labs(title = "Yearly Value of Military Surplus Acquisitions in Texas and Boardering States", 
+       x = "Year", y = "Cost of acquisitions (in millions)",
        caption = "Source: Law Enforcement Support Office")
 ```
 
@@ -560,12 +559,12 @@ We'll start by creating a base graph and then apply the facet.
 
 
 ```r
-five_plot <- ggplot(leso_five_gsa, aes(x = month, 
-                          y = monthly_cost)) + 
+five_plot <- ggplot(leso_five_gsa, aes(x = year, 
+                          y = yearly_cost)) + 
   geom_point(aes(color = state)) +
   geom_line(aes(color = state)) + 
-  labs(title = "Monthly Value of Military Surplus Acquisitions in Texas and Boardering States", 
-       x = "Month", y = "Cost of acquisitions (in millions)",
+  labs(title = "Yearly Value of Military Surplus Acquisitions in Texas and Boardering States", 
+       x = "Year", y = "Cost of acquisitions (in millions)",
        caption = "Source: Law Enforcement Support Office")
 
 five_plot
@@ -575,15 +574,19 @@ five_plot
 
 ### Facet wrap
 
-The facet_wrap() splits your chart based on a single variable. You define which variable to split upon with `~` followed by the variable name.
+The `facet_wrap()` function splits your chart based on a single variable. To use the `facet_wrap()` function, you need one argument: a `~` followed by a space and the variable you want to split by (in the chart below, this will be the `state` variable).
 
-1. Add a new chunk and create the facet wrap shown here.
+Like with our themed plots, we'll use a `+` to add this `facet_wrap()` layer to our previously created line graph.
+
+1. Add a new chunk and include our previously created plot
+2. Use the `+` in the next line to "pipe" in a `facet_wrap()` layer.
+3. (We also use a `theme` layer to remove the legend. See what happens when you comment this out!)
 
 
 ```r
 five_plot +
   facet_wrap(~ state) +
-  theme(legend.position = "none") # removes the legend. Try it without it!
+  theme(legend.position = "none") # this line removes the legend. Try it without it!
 ```
 
 <img src="08-plots-more_files/figure-html/facet-wrap-1.png" width="672" />
@@ -624,9 +627,6 @@ This chart tells us that 4-cylinder, front-wheel drive cars with smaller engines
 1. Create a section about doing a facet wrap on your own.
 1. Take the "On your own" plot that you made earlier (The other states that you chose) and apply a `facet_wrap()` here. You were instructed to save the plot into an R object, so you should be able to use that.
 1. Remove the legend since each mini chart is labeled.
-
-
-
 
 ## Saving plots
 
@@ -674,5 +674,5 @@ The `ggplotly()` function is not perfect. Alternatively, you can use plotly's ow
 
 ## What we learned
 
-There is so much more to ggplot2 than what we've shown here, but these are the basics that should get you through the class. At the top of this chapter are a list of other resources to learn more.
+There is so much more to `ggplot2` than what we've shown here, but these are the basics that should get you through the class. At the top of this chapter are a list of other resources to learn more.
 
