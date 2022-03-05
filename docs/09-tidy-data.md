@@ -1,20 +1,19 @@
 # Tidy data {#tidy-data}
 
-Data "shape" can be important when you are trying to work with and visualize data. In this chapter we'll discuss "tidy" data and how this style of organization helps us.
+Data "shape" can be important when you are trying to work with and visualize data. In this chapter we'll discuss "tidy data" and how it helps us with both ggplot and other charting tools like [Datawrapper](https://www.datawrapper.de/).
 
-> Slides by Hadley Wickham are used with permission from the author.
+This chapter was written by Prof. McDonald, who uses a Mac.
 
 ## Goals for this section
 
 - Explore what it means to have "tidy" data.
-- Learn about and use `pivot_longer()`, `pivot_wider()` to make our data tidy.
-- Use Skittles to explore shaping data.
+- Learn about and use `pivot_longer()`, `pivot_wider()` to shape our data for different purposes.
+- Use candy data to practice shaping data.
 
 ## The questions we'll answer
 
-- Are candy colors evenly distributed within a package of Skittles? (The mean of candies by color over all packages)
-- Plot a column chart showing the average number of colored candies among all packages using ggplot
-- Plot the same data using Datawrapper.
+- Are candy colors evenly distributed within a standard package of M&M's? (We'll get the mean of candies by color over a collection of packages.)
+    - We'll plot the result as a column chart to show the average number of colored candies. We'll do it first in ggplot, then Datawrapper.
 - Bonus 1: Who got the most candies in their bag?
 - Bonus 2: What is the average number of candy in a bag?
 
@@ -22,246 +21,277 @@ Data "shape" can be important when you are trying to work with and visualize dat
 
 "Tidy" data is well formatted so each variable is in a column, each observation is in a row and each value is a cell. Our first step in working with any data is to make sure we are "tidy".
 
-![Tidy data definition](images/tidy-example.png)
-
-
-
-
+![](images/tidy-example.png)
 
 It's easiest to see the difference through examples. The data frame below is of tuberculosis reports from the World Health Organization.
 
 - Each row is a set of observations (or case) from a single country for a single year.
 - Each column describes a unique variable. The year, the number of cases and the population of the country at that time.
 
-![A tidy table](images/tidy-table-tidy.png)
+![](images/tidy-table-tidy.png)
 
 
 Table2 below isn't tidy. The **count** column contains two different type of values.
 
-![An untidy table](images/tidy-table-nottidy.png)
+![](images/tidy-table-nottidy.png)
 
 When our data is tidy, it is easy to manipulate. We can use functions like `mutate()` to calculate new values for each case.
 
-![Manipulate a tidy table](images/tidy-table-manipulate.png)
+![](images/tidy-table-manipulate.png)
 
-## Tidyr package
+When our data is tidy, we can use the [tidyr](https://tidyr.tidyverse.org/) package to reshape the layout of our data to suit our needs. It gets loaded with `library(tidyverse)` so we won't need to load it separately.
 
-When our data is tidy, we can use the [tidyr](https://tidyr.tidyverse.org/) package to reshape the layout of our data to suit our needs. It gets loaded with `library(tidyverse)`.
+### Wide vs long data
 
-In the figure below, the table on the left is "wide". There are are multiple year columns describing the same variable. It might be useful if we want to calculate the difference of the values for two different years. It's less useful if we want plot on a graphic because we don't have columns to map as X and Y values.
+In the figure below, the table on the left is "wide". There are are multiple year columns describing the same variable. It might be useful if we want to calculate the difference of the values for two different years. It's less useful if we want plot on a graphic because we don't have a single "year" column to map as an x or y axes.
 
-The table on the right is "long", in that each column describes a single variable. It is this shape we need when we want to plot values on a chart. We can then set our "Year" column as an X axis, our "n" column on our Y axis, and group by the "Country". 
+The table on the right is "long", in that each column describes a single variable. It is this shape we need when we want to plot values on a chart in ggplot. We can then set our "Year" column as an x-axis, our "n" column on our y-axis, and group by the "Country". 
 
 ![Wide vs long](images/tidy-wide-vs-long.png)
 
-## The tidyr verbs
+**Neither shape is wrong**, they are just useful for different purposes. In fact, you'll find yourself pivoting the same data in different ways depending on your needs.
 
-The two functions we'll use most to reshape are data are:
+### Why we might want different shaped data
 
-- [pivot_longer()](https://tidyr.tidyverse.org/reference/pivot_longer.html) "lengthens" data, increasing the number of rows and decreasing the number of columns.
-- [pivot_wider()](https://tidyr.tidyverse.org/reference/pivot_wider.html) "widens" data, increasing the number of columns and decreasing the number of rows.
+There are a myriad of reasons why you might need to reshape your data. Performing calculations on row-level data might be easier if it is wide. Grouping and summarizing calculations might be easier when it is long. ggplot graphics like long data, while Datawrapper sometimes wants wide data to make the same chart.
 
-Again, the best way to learn this is to present the problem and solve it with explanation.
+I find myself shaping data back and forth depending on my needs.
 
-## Prepare our Skittles project
+## Prepare our candy project
 
-Start a new project to explore this subject.
+We will use candy count data we've been collected in Reporting wth Data classes to explore this subject.
 
-1. Create a new project and call it: `yourname-skittles`
-1. No need to create folders. We'll just load data directly into the notebook.
-2. Start a new RNotebook and edit the headline
-3. Create your setup block and load the libraries below.
+Start a new project.
+
+1. Create a new project and call it: `yourname-candy`
+1. No need to create data folders as we'll just load data directly into the notebook.
+1. Start a new R Notebook and edit the headline. Name it **01-candy**.
+1. Create your setup block and load the libraries below.
 
 
 ```r
 library(tidyverse)
 library(janitor)
-library(lubridate)
 ```
+
+
 
 ### Get the data
 
-We'll just load this data directly from Google Sheets into this notebook.
+We'll just load this data directly from Google Sheets into this notebook. We're doing something a little different here in we save the URL to our data into an object, then use that object in our `read_csv()` function. This is just a convenience for me, really, so I can swap that url out as needed.
 
-1. Add a section that you are importing data.
-1. Add this import chunk.
+1. Add a Markdown section noting that you are importing data.
+1. Add this import chunk and run it.
 
-
-```r
-data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTxm9NxK67thlGjYOQBo_0JRvx2d137xt0nZGffqR6P1vl8QrlTUduiOsDJ2FKF6yLgQAQphVZve76z/pub?output=csv") %>% clean_names()
-```
-
-```
-## Rows: 124 Columns: 7
-```
-
-```
-## -- Column specification --------------------------------------------------------
-## Delimiter: ","
-## chr (2): Timestamp, Name
-## dbl (5): Red, Green, Orange, Yellow, Purple
-```
-
-```
-## 
-## i Use `spec()` to retrieve the full column specification for this data.
-## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
-```
 
 ```r
+# save the url
+class_data <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&single=true&output=csv"
+
+# read the data, clean names and save into the object "raw_data"
+raw_data <- read_csv(test_data) %>% clean_names()
+
 # peek at the data
-data %>% glimpse()
+raw_data
 ```
 
 ```
-## Rows: 124
-## Columns: 7
-## $ timestamp <chr> "7/27/2020 18:21:19", "8/1/2020 16:04:56", "7/30/2020 14:56:~
-## $ name      <chr> "Alora Jones", "Alyssa Hiarker", "Annie Patton", "Christian ~
-## $ red       <dbl> 12, 13, 12, 9, 7, 10, 12, 11, 7, 18, 13, 11, 10, 14, 8, 8, 1~
-## $ green     <dbl> 11, 15, 12, 10, 12, 14, 15, 5, 10, 9, 11, 13, 7, 12, 15, 10,~
-## $ orange    <dbl> 12, 10, 8, 17, 13, 9, 12, 17, 10, 13, 11, 7, 12, 10, 20, 13,~
-## $ yellow    <dbl> 9, 9, 10, 6, 11, 11, 10, 14, 21, 7, 11, 7, 15, 9, 4, 14, 10,~
-## $ purple    <dbl> 15, 15, 18, 18, 17, 16, 12, 13, 14, 13, 12, 21, 16, 14, 10, ~
+## # A tibble: 31 x 10
+##    timestamp     first_name last_name candy_type   red green orange yellow  blue
+##    <chr>         <chr>      <chr>     <chr>      <dbl> <dbl>  <dbl>  <dbl> <dbl>
+##  1 2/21/2022 19~ Christian  McDonald  Plain          2    17     11      4    16
+##  2 2/21/2022 19~ First1     Last1     Plain          5    16     20      7     9
+##  3 2/21/2022 19~ First2     Last2     Plain         10     1     11     17    18
+##  4 2/21/2022 19~ First3     Last3     Plain          5    16      6      7    10
+##  5 2/21/2022 19~ First4     Last4     Plain         14    14      6     20    15
+##  6 2/21/2022 19~ First5     Last5     Plain         17    11      7     12    14
+##  7 2/21/2022 19~ First6     Last6     Plain          1    14     10      3    17
+##  8 2/21/2022 19~ First7     Last7     Plain         12     7     14      7    14
+##  9 2/21/2022 19~ First8     Last8     Plain         20    14      9     19     3
+## 10 2/21/2022 19~ First9     Last9     Plain          2    10     20      7    11
+## # ... with 21 more rows, and 1 more variable: brown <dbl>
 ```
 
-We cleaned the name on import. The `timestamp` is not a real date, so we need to fix that.
+This data comes from a Google Sheets document fed by a form that students have filled out, counting the colors of candies in a standard size bag of plain M&Ms.
 
-### Fix the date
+### Drop unneeded columns
 
-We're going to convert the `timestamp` and then turn it into a regular date.
+For this exercise we don't need the `timestamp` and `candy_type` columns. We'll drop them so we can keep things simple.
 
-1. Create a section and note you are fixing dates.
-2. Add this chunk and run it. I'll explain it below.
+1. Create a Markdown section noting you'll drop unneeded columns.
+1. Create an R chunk and use `select()` to remove the columns noted above and save the result into a new data frame called `candy`.
 
+You've done this in the past, so you should be able to do it on your own.
+
+<details>
+  <summary>You got this! (But, just in case ...)</summary>
 
 ```r
-skittles <- data %>% 
-  mutate(
-    date_entered = mdy_hms(timestamp) %>% date()
-  ) %>% 
-  select(-timestamp)
-
-skittles %>% glimpse()
+candy <- raw_data %>% 
+  select(
+    -timestamp,
+    -candy_type
+  )
 ```
-
-```
-## Rows: 124
-## Columns: 7
-## $ name         <chr> "Alora Jones", "Alyssa Hiarker", "Annie Patton", "Christi~
-## $ red          <dbl> 12, 13, 12, 9, 7, 10, 12, 11, 7, 18, 13, 11, 10, 14, 8, 8~
-## $ green        <dbl> 11, 15, 12, 10, 12, 14, 15, 5, 10, 9, 11, 13, 7, 12, 15, ~
-## $ orange       <dbl> 12, 10, 8, 17, 13, 9, 12, 17, 10, 13, 11, 7, 12, 10, 20, ~
-## $ yellow       <dbl> 9, 9, 10, 6, 11, 11, 10, 14, 21, 7, 11, 7, 15, 9, 4, 14, ~
-## $ purple       <dbl> 15, 15, 18, 18, 17, 16, 12, 13, 14, 13, 12, 21, 16, 14, 1~
-## $ date_entered <date> 2020-07-27, 2020-08-01, 2020-07-30, 2020-06-23, 2020-07-~
-```
-
-Let's talk just a minute about what we've done here:
-
-- We name our new tibble.
-- We are filling that tibble starting with our imported data called `data`.
-- We use mutate to create a new column `date_entered`, then fill it by first converting the text to an official timestamp datatype (which requires the lubridate function `mdy_hms()`), and then we extract just the date of that with `date()`.
-- We then use `select()` to remove the old timestamp column.
+</details>
 
 ### Peek at the wide table
 
-Let's look closer at this:
+Let's look closer at this data:
 
 
 ```r
-skittles %>% head()
+candy %>% head()
 ```
 
 ```
-## # A tibble: 6 x 7
-##   name                 red green orange yellow purple date_entered
-##   <chr>              <dbl> <dbl>  <dbl>  <dbl>  <dbl> <date>      
-## 1 Alora Jones           12    11     12      9     15 2020-07-27  
-## 2 Alyssa Hiarker        13    15     10      9     15 2020-08-01  
-## 3 Annie Patton          12    12      8     10     18 2020-07-30  
-## 4 Christian McDonald     9    10     17      6     18 2020-06-23  
-## 5 Claudia Ng             7    12     13     11     17 2020-07-30  
-## 6 Cristina Pop          10    14      9     11     16 2020-07-22
+## # A tibble: 6 x 8
+##   first_name last_name   red green orange yellow  blue brown
+##   <chr>      <chr>     <dbl> <dbl>  <dbl>  <dbl> <dbl> <dbl>
+## 1 Christian  McDonald      2    17     11      4    16     4
+## 2 First1     Last1         5    16     20      7     9     6
+## 3 First2     Last2        10     1     11     17    18    16
+## 4 First3     Last3         5    16      6      7    10    11
+## 5 First4     Last4        14    14      6     20    15    11
+## 6 First5     Last5        17    11      7     12    14    12
 ```
 
-This is not the worst example of data. It could be useful to create a "total" column, but there are better ways to do this with **long** data.
+This is pretty well-formed data. This format would be useful to create a "total" column for each bag, but there are better ways to do this with **long** data. Same with getting our averages for each color.
+
+### Where are we going with this data
+
+We have two goals here:
+
+- Find the average distribution of candy by color, i.e., the average of each color column.
+- We want to chart the results as a bar chart simliar to the one below (which uses Skittles data).
+
+![](images/skittles-chart-example.png)
+
+To plot a chart like that in Datawrapper or ggplot, the data needs to be the same shape, like this:
+
+| Color  | Average |
+|:-------|--------:|
+| Green  |    10.9 |
+| Orange |    12.0 |
+| Purple |    12.4 |
+| Red    |    11.4 |
+| Yellow |      12 |
+
+It will be easier to accomplish both of these tasks if our data were in the **long** format.
+
+So, instead of this:
+
+| first_name | last_name | red | green | orange | yellow | blue | brown |
+|:-----------|:----------|----:|------:|-------:|-------:|-----:|------:|
+| Christian  | McDonald  |   2 |    17 |     11 |      4 |   16 |     4 |
+
+We want this:
+
+| first_name | last_name | color  | candies |
+|:-----------|:----------|:-------|--------:|
+| Christian  | McDonald  | red    |       2 |
+| Christian  | McDonald  | green  |      17 |
+| Christian  | McDonald  | orange |      11 |
+| Christian  | McDonald  | yellow |       4 |
+| Christian  | McDonald  | blue   |      16 |
+| Christian  | McDonald  | brown  |       4 |
+
+## The tidyr verbs
+
+The two functions we'll use to reshape are data are:
+
+- [pivot_longer()](https://tidyr.tidyverse.org/reference/pivot_longer.html) which "lengthens" data, increasing the number of rows and decreasing the number of columns.
+- [pivot_wider()](https://tidyr.tidyverse.org/reference/pivot_wider.html) which "widens" data, increasing the number of columns and decreasing the number of rows.
+
+Again, the best way to learn this is to present a problem and then solve it with explanation.
+
 
 ## Pivot longer
 
-What we want here is five rows for Alora Jones, with a column for "color" and a column for "candies".
+This visualization gives you an idea how `pivot_longer()` works.
 
-The `pivot_longer()` function needs several arguments:
+![Pivot longer](images/pivot_longer_chart.png)
 
-- Which columns do you want to pivot? For us, these are the color columns.
-- What do you want to name the new column to describe the column names? For us we want to name this "color" since that's what those columns described.
-- What do you want to name the new column to describe the values that were in the cells? For us we want to call this "candies" since these are the number of candies in each bag.
+Each column of data chosen (the colored ones) is turned into it's own row of data. Supporting data (the grey columns) are duplicated.
 
-There are a number of ways we can describe which columns to pivot ... anything in [tidy-select](https://tidyr.tidyverse.org/reference/tidyr_tidy_select.html) works. You can see a bunch of [examples here](https://tidyr.tidyverse.org/reference/pivot_longer.html#examples).
+The `pivot_longer()` function needs several arguments: **cols=**, **names_to=** and **values_to**. Below are two examples to pivot the example data shown above.
 
-We are using a range, naming the first "red" and the last column "purple" with `:` in between. This only works because those columns are all together. We could also use `cols = !c(name, date_entered)` to say everything but those two columns.
+![pivot_longer code](images/pivot_longer_diagram.png)
+
+- **`cols=`** is where you define a range of columns you want to pivot. _For our candy data we want the range `red:brown`_.
+- **`names_to=`** allows you to name the new column filled by the column names. _For our candy data we want to name this "color" since that's what those columns described._
+- **`values_to=** allows you to name the new column filled with the cell data. _For us we want to call this "candies" since these are the number of candies in each bag._
+
+There are a number of ways we can describe the `cols=` argument ... anything in [tidy-select](https://tidyr.tidyverse.org/reference/tidyr_tidy_select.html) works. You can see a bunch of [examples here](https://tidyr.tidyverse.org/reference/pivot_longer.html#ref-examples).
+
+### Pivot our candy data longer
+
+What we want here is six rows for each person's entry, with a column for "color" and a column for "candies".
+
+We are using a range, naming the first "red" and the last column "brown" with `:` in between. This only works because those columns are all together. We could also use `cols = !c(first_name, last_name)` to say everything but those two columns.
 
 1. Add a note that you are pivoting the data
 1. Add the chunk below and run it
 
 
 ```r
-skittles_long <- skittles %>% 
+candy_long <- candy %>% 
   pivot_longer(
-    cols = red:purple, # sets which columns to pivot based on their names
+    cols = red:brown, # sets which columns to pivot based on their names
     names_to = "color", # sets column name for color
     values_to = "candies" # sets column name for candies
   )
 
-skittles_long %>% head()
+candy_long %>% head()
 ```
 
 ```
 ## # A tibble: 6 x 4
-##   name           date_entered color  candies
-##   <chr>          <date>       <chr>    <dbl>
-## 1 Alora Jones    2020-07-27   red         12
-## 2 Alora Jones    2020-07-27   green       11
-## 3 Alora Jones    2020-07-27   orange      12
-## 4 Alora Jones    2020-07-27   yellow       9
-## 5 Alora Jones    2020-07-27   purple      15
-## 6 Alyssa Hiarker 2020-08-01   red         13
+##   first_name last_name color  candies
+##   <chr>      <chr>     <chr>    <dbl>
+## 1 Christian  McDonald  red          2
+## 2 Christian  McDonald  green       17
+## 3 Christian  McDonald  orange      11
+## 4 Christian  McDonald  yellow       4
+## 5 Christian  McDonald  blue        16
+## 6 Christian  McDonald  brown        4
 ```
 
-### Average candies per color
+### Get average candies per color
 
-To get the average number of candies per each color, we can use our `skittles_long` data and `group_by` color (which will consider all the **red** rows together, etc.) and use `summarize()` to get the mean.
+To get the average number of candies per each color, we can use our `candy_long` data and `group_by` color (which will consider all the **red** rows together, etc.) and use `summarize()` to get the mean.
 
 This is something you should be able to do on your own, as it is very similar to the `sum()`s we did with military surplus, but you use `mean()` instead.
 
-Save the resulting summary table into a new tibble called `skittles_avg`.
+Save the resulting summary table into a new tibble called `candy_avg`.
 
 <details>
   <summary>Try it on your own</summary>
 
 ```r
-skittles_avg <- skittles_long %>% 
+candy_avg <- candy_long %>% 
   group_by(color) %>% 
   summarize(avg_candies = mean(candies))
 
-skittles_avg
+candy_avg
 ```
 
 ```
-## # A tibble: 5 x 2
+## # A tibble: 6 x 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
-## 1 green         11.2
-## 2 orange        12.1
-## 3 purple        12.0
-## 4 red           11.6
-## 5 yellow        11.5
+## 1 blue         12.6 
+## 2 brown        10.8 
+## 3 green         9.13
+## 4 orange       11.5 
+## 5 red           9.68
+## 6 yellow       10.4
 ```
 </details>
 
 ### Round the averages
 
-Let's modify this summary to round the averages to tenths so they will plot nicely on our chart.'
+Let's **modify this summary** to round the averages to tenths so they will plot nicely on our chart.'
 
 The `round()` function needs the column to change, and then the number of digits past the decimal to include.
 
@@ -269,25 +299,26 @@ The `round()` function needs the column to change, and then the number of digits
 
 
 ```r
-skittles_avg <- skittles_long %>% 
+candy_avg <- candy_long %>% 
   group_by(color) %>% 
   summarize(avg_candies = mean(candies)) %>% 
   mutate(
     avg_candies = round(avg_candies, 1)
   )
 
-skittles_avg
+candy_avg
 ```
 
 ```
-## # A tibble: 5 x 2
+## # A tibble: 6 x 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
-## 1 green         11.2
-## 2 orange        12.1
-## 3 purple        12  
-## 4 red           11.6
-## 5 yellow        11.5
+## 1 blue          12.6
+## 2 brown         10.8
+## 3 green          9.1
+## 4 orange        11.5
+## 5 red            9.7
+## 6 yellow        10.4
 ```
 
 BONUS POINT OPPORTUNITY: Using a similar method to rounding above, you can also capitalize the names of the colors. You don't _have_ to do this, but I'll give you bonus points if you do:
@@ -298,28 +329,30 @@ You can read more about [converting the case of a string here](https://stringr.t
 
 ### On your own: Plot the averages
 
-Now I want you to use ggplot to create a bar chart that shows the average number of candies in a bag. This is very similar to your plots of Disney Princesses and ice cream in Chapter 6.
+Now I want you to use ggplot to create a bar chart that shows the average number of candies in a bag. This is very similar to the [Disney Princesses bar chart in Chapter 7](https://utdata.github.io/rwdir/ggplot-intro.html#lets-build-a-bar-chart).
 
-1. Build a bar chart of averge color using ggplot.
+1. Build a bar chart of average color using ggplot.
 
 Some things to consider:
 
 - I want the bars to be ordered by the highest average on top.
-- I want a good title, subtitle and byline, along with good axis names.
+- I want you to have a good title, subtitle and byline, along with good axes names. Make sure a reader has all the information they need to understand what you are communicating with the chart.
 - Include the values on the bars
 - Change the theme to something other than the default
 
-Here is what it should look like, but with good text, etc. The numbers shownn here may vary depending on future updates to the data:
+Here is what it should more or less look like, but with good text, etc: 
 
 <img src="09-tidy-data_files/figure-html/avg-plot-1.png" width="672" />
 
-## Using Datawrapper
+**The numbers in the example above may not be up to date**, so don't let that throw you.
+
+## Introducing Datawrapper
 
 There are some other great charting tools that journalists use. My favorite is [Datawrapper](https://www.datawrapper.de/) and is free for the level you need it.
 
 Datawrapper is so easy I don't even have to teach you how to use it. They have [excellent tutorials](https://academy.datawrapper.de/).
 
-What you do need is the data to plot, but you've already "shaped" it the way you need it. Your `skittles_avg` tibble is what you need.
+What you do need is the data to plot, but you've already "shaped" it the way you need it. Your `candy_avg` tibble is what you need.
 
 Here are the steps I want you to follow:
 
@@ -329,7 +362,7 @@ Here are the steps I want you to follow:
 1. Click on **Bar charts**
 1. Choose **[How to create a bar chart](https://academy.datawrapper.de/article/7-bar-chart)**
 
-The first thing to note there is they show you what they expect the data to look like. Your `skittles_avg` tibble is just like this, but with Color and Candies.
+The first thing to note there is they show you what they expect the data to look like. Your `candy_avg` tibble is just like this, but with Color and Candies.
 
 You'll use these directions to create your charts so you might keep this open in its own tab.
 
@@ -343,43 +376,92 @@ You'll use these directions to create your charts so you might keep this open in
 
 We need to install a package called clipr.
 
-1. In your R project in the R Console install clipr: `install.packages("clipr")`.
+1. In your R project **in the R Console** install the package clipr: `install.packages("clipr")`.
 1. Start a section that says you are going to get data for Datawrapper.
 3. Create a chunk with the following and run it.
 
 
 ```r
 library(clipr)
+
+candy_avg %>% write_clip(allow_non_interactive = TRUE)
 ```
 
-```
-## Welcome to clipr. See ?write_clip for advisories on writing to the clipboard in R.
-```
-
-```r
-skittles_avg %>% write_clip(allow_non_interactive = TRUE)
-```
-
-You don't see anything happen, but all the data in `skittles_long` has been added to your clipboard. You have to have the `allow_non_interactive = TRUE` part to allow your page to knit.
+You won't see anything happen, but all the data in `candy_avg` has been added to your clipboard as if you highlighted it and did **Copy**. You must have the `allow_non_interactive = TRUE` argument to allow your RMarkdown document to knit.
 
 ### Build the datawrapper graphic
 
-1. Return to the browser where you are making the chart, but your cursor into the "Paste your copied data here ..." window and paste.
+1. Return to your browser where you are making the chart, put your cursor into the "Paste your copied data here ..." window and paste. (Like *Cmd-V* or use the menu Edit > Paste.)
 1. Click **Proceed**.
 
 You can now follow the Datawrapper Academy directions to finish your chart.
 
-When you get to the Publish & Embed window, I want you to add that link to your R Notebook so I can find it for grading.
+When you get to the Publish & Embed window, I want you to click the **Publish Now** button and then add the resulting *Link to your visualization:* URL to your R Notebook so I can find it for grading.
+
+## Pivot wider
+
+In this case we don't have a real need to pivot our data wider, but I'd like to show you how it is done.
+
+As you can imagine, `pivot_wider()` does the opposite of `pivot_longer()`. When we pivot wider we move our data from a "long" format to a "wide" format. We create a new column based categories and values in the data.
+
+![Long to wide](images/long_to_wide.png)
+
+We'll practice this by taking our long candy data and pivot it so there is a column for each person in the data.
+
+`pivot_wider()` needs two arguments:
+
+- `names_from =` lets us define from which column (or columns) we are pulling values from to create the new column names. _In our case, we need two columns to combine the first and last names. We can do that with `c(first_name, last_name)`_.
+- `values_from =` lets us say which column will be the values in the new arrangement. _In our case, we want the `candies` column_.
+
+
+```r
+candy_long %>% 
+  pivot_wider(names_from = c(first_name, last_name), values_from = candies)
+```
+
+```
+## # A tibble: 6 x 32
+##   color  Christian_McDonald First1_Last1 First2_Last2 First3_Last3 First4_Last4
+##   <chr>               <dbl>        <dbl>        <dbl>        <dbl>        <dbl>
+## 1 red                     2            5           10            5           14
+## 2 green                  17           16            1           16           14
+## 3 orange                 11           20           11            6            6
+## 4 yellow                  4            7           17            7           20
+## 5 blue                   16            9           18           10           15
+## 6 brown                   4            6           16           11           11
+## # ... with 26 more variables: First5_Last5 <dbl>, First6_Last6 <dbl>,
+## #   First7_Last7 <dbl>, First8_Last8 <dbl>, First9_Last9 <dbl>,
+## #   First10_Last10 <dbl>, First11_Last11 <dbl>, First12_Last12 <dbl>,
+## #   First13_Last13 <dbl>, First14_Last14 <dbl>, First15_Last15 <dbl>,
+## #   First16_Last16 <dbl>, First17_Last17 <dbl>, First18_Last18 <dbl>,
+## #   First19_Last19 <dbl>, First20_Last20 <dbl>, First21_Last21 <dbl>,
+## #   First22_Last22 <dbl>, First23_Last23 <dbl>, First24_Last24 <dbl>, ...
+```
+
+### Pivot wider on your own
+
+Now I want you do apply the same `pivot_wider()` function to that same `candy_long` data, but to have the rows be people and the column be each color, basically like how our data started. (But, of course, I want to acdtually use `pivot_wider()` to do it!)
+
+1. Start a new section and note this is pivot_wider on your own.
+1. Start with the `candy_long` data, and then ...
+1. Use `pivot_wider()` to make the data shaped like this
+
+
+
+| first_name | last_name | red | green | orange | yellow | blue | brown |
+|:-----------|:----------|----:|------:|-------:|-------:|-----:|------:|
+| Christian  | McDonald  |   2 |    17 |     11 |      4 |   16 |     4 |
+
 
 ## Bonus questions
 
-More opportunities for bonus points on this assignment. These aren't plots, just data wrangling.
+More opportunities for bonus points on this assignment. These aren't plots, just data wrangling to find answers.
 
 ### Most/least candies 
 
 Answer me this: Who got the most candies in their bag? Who got the least?
 
-I want a well-structured section (headline, text) with two chunks, one for most and one for least.
+I want a well-structured section (headline, text) with two chunks, one for the most and one for the least.
 
 ### Average total candies in a bag
 
@@ -393,13 +475,12 @@ Hint: You need a total number of candies per person before you can get an averag
 
 1. Make sure your notebook runs start-to-finish.
 1. Knit the notebook
-1. Stuff your project and turn it into the Skittles assignment in Canvas.
+1. Stuff your project and turn it into the Candy assignment in Canvas.
 
 ## What we learned
 
 - We learned what "tidy data" means and why it is important. It is the best shape for data wrangling and plotting.
-- We learned about [`pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html) and [`pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.html) and we used `pivot_longer()` on our Skittles data.
-- Along the way we practiced a little [lubridate](https://lubridate.tidyverse.org/) conversion with `mdy_hms()` and extracted a date with `date()`.
+- We learned about [`pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html) and [`pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.html) and we used `pivot_longer()` on our candy data.
 - We also used [`round()`]((http://www.cookbook-r.com/Numbers/Rounding_numbers/)) to round off some numbers, and you might have used `str_to_title()` to change the case of the color values.
 
 

@@ -157,7 +157,7 @@ To prepare the data for visualizing, we need to do a couple more new things. Thi
 ```r
 leso_total <- leso_total %>%
   filter(ship_date >= as.Date("2010-01-01")) %>%
-  mutate(year = year(ship_date)) %>% 
+  mutate(year = year(ship_date)) %>% #if you get an error, make sure you've loaded the lubridate library!
   select(year, total_value, state)
 
 glimpse(leso_total)
@@ -381,7 +381,7 @@ We do a wee bit of that later.
 
 ## Adding more information
 
-OK, our Texas higher education spending is fine ... but how does that compare to neighboring states? Let's work through building a new chart that shows all those steps.
+OK, our Texas military surplus information is fine ... but how does that compare to neighboring states? Let's work through building a new chart that shows all those steps.
 
 ### Prepare the data
 
@@ -601,7 +601,7 @@ A couple of notes about the above code:
 A `facet_grid()` allows you to plot on a combination of variables. We don't really have two numbers to compare in our higher education data so we'll show this with the `mpg` data we've used before.
 
 1. Start a new section noting you'll try facet grid.
-2. Add the chunk below and run it.
+2. Add the chunk below and run it. Notice here that we are putting our `aes()` layer in `geom_point()`. 
 
 Explanations follow the chart.
 
