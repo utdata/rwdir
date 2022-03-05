@@ -24,7 +24,7 @@
 <meta name="author" content="Christian McDonald and Jo Lukito" />
 
 
-<meta name="date" content="2022-02-27" />
+<meta name="date" content="2022-03-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -690,7 +690,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Create a new project, name it <code>yourname-ggplot</code> and save it in your rwd folder.</li>
 <li>(No need for a folder structure, we’ll do this all in one file.)</li>
 <li>Start a new RMarkdown notebook and save it as <code>01-intro-ggplot.Rmd</code>.</li>
-<li>Remove the boilerplate and create a setup section that loads <code>library(tidyverse)</code>, like we do with every notebook. The <code>ggplot</code> package is a part of <code>tidyverse</code>, so when you load <code>tidyverse</code>, you’ll load <code>ggplot</code>.</li>
+<li>Remove the boilerplate and create a setup section that loads <code>library(tidyverse)</code>, like we do with every notebook. The <code>ggplot</code> package is a part of <code>tidyverse</code>, so when you load <code>tidyverse</code>, you’ll load <code>ggplot</code>. We will also load <code>janitor</code>, which we will load to use the <code>clean_names()</code> function.</li>
 </ol>
 </div>
 <div id="the-layers-of-ggplot" class="section level2" number="7.4">
@@ -854,13 +854,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Add text that you are creating a data frame to plot.</li>
 <li>Add the code below to create that data.</li>
 </ol>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="ggplot-intro.html#cb146-1" aria-hidden="true" tabindex="-1"></a>princess_data <span class="ot">&lt;-</span> class <span class="sc">%&gt;%</span> </span>
-<span id="cb146-2"><a href="ggplot-intro.html#cb146-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> <span class="co">#remember, this is from the janitor packae!</span></span>
-<span id="cb146-3"><a href="ggplot-intro.html#cb146-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(princess, <span class="at">name =</span> <span class="st">&quot;votes&quot;</span>, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb146-4"><a href="ggplot-intro.html#cb146-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this above line counts the princess rows, sets the name and sorts</span></span>
-<span id="cb146-5"><a href="ggplot-intro.html#cb146-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb146-6"><a href="ggplot-intro.html#cb146-6" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
-<span id="cb146-7"><a href="ggplot-intro.html#cb146-7" aria-hidden="true" tabindex="-1"></a>princess_data</span></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="ggplot-intro.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="co">#library(janitor) #run this if you have not loaded the janitor package!</span></span>
+<span id="cb146-2"><a href="ggplot-intro.html#cb146-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb146-3"><a href="ggplot-intro.html#cb146-3" aria-hidden="true" tabindex="-1"></a>princess_data <span class="ot">&lt;-</span> class <span class="sc">%&gt;%</span> </span>
+<span id="cb146-4"><a href="ggplot-intro.html#cb146-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> <span class="co">#remember, this is from the janitor packae!</span></span>
+<span id="cb146-5"><a href="ggplot-intro.html#cb146-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(princess, <span class="at">name =</span> <span class="st">&quot;votes&quot;</span>, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb146-6"><a href="ggplot-intro.html#cb146-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this above line counts the princess rows, sets the name and sorts</span></span>
+<span id="cb146-7"><a href="ggplot-intro.html#cb146-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb146-8"><a href="ggplot-intro.html#cb146-8" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb146-9"><a href="ggplot-intro.html#cb146-9" aria-hidden="true" tabindex="-1"></a>princess_data</span></code></pre></div>
 <pre><code>## # A tibble: 11 x 2
 ##    princess                      votes
 ##    &lt;chr&gt;                         &lt;int&gt;

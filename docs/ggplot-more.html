@@ -24,7 +24,7 @@
 <meta name="author" content="Christian McDonald and Jo Lukito" />
 
 
-<meta name="date" content="2022-02-27" />
+<meta name="date" content="2022-03-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -763,7 +763,7 @@ Again, you should be able to do this on your own
 </ol>
 <div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="ggplot-more.html#cb164-1" aria-hidden="true" tabindex="-1"></a>leso_total <span class="ot">&lt;-</span> leso_total <span class="sc">%&gt;%</span></span>
 <span id="cb164-2"><a href="ggplot-more.html#cb164-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ship_date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">&quot;2010-01-01&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb164-3"><a href="ggplot-more.html#cb164-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">year</span>(ship_date)) <span class="sc">%&gt;%</span> </span>
+<span id="cb164-3"><a href="ggplot-more.html#cb164-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">year</span>(ship_date)) <span class="sc">%&gt;%</span> <span class="co">#if you get an error, make sure you&#39;ve loaded the lubridate library!</span></span>
 <span id="cb164-4"><a href="ggplot-more.html#cb164-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, total_value, state)</span>
 <span id="cb164-5"><a href="ggplot-more.html#cb164-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb164-6"><a href="ggplot-more.html#cb164-6" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(leso_total)</span></code></pre></div>
@@ -917,7 +917,7 @@ Again, you should be able to do this on your own
 </div>
 <div id="adding-more-information" class="section level2" number="8.7">
 <h2><span class="header-section-number">8.7</span> Adding more information</h2>
-<p>OK, our Texas higher education spending is fine … but how does that compare to neighboring states? Let’s work through building a new chart that shows all those steps.</p>
+<p>OK, our Texas military surplus information is fine … but how does that compare to neighboring states? Let’s work through building a new chart that shows all those steps.</p>
 <div id="prepare-the-data-1" class="section level3" number="8.7.1">
 <h3><span class="header-section-number">8.7.1</span> Prepare the data</h3>
 <p>We need to go back to our original <code>leso_total</code> to get the additional states.</p>
@@ -1082,7 +1082,7 @@ The function <code>xlim()</code> and <code>ylim()</code> are shortcuts for <code
 <p>A <code>facet_grid()</code> allows you to plot on a combination of variables. We don’t really have two numbers to compare in our higher education data so we’ll show this with the <code>mpg</code> data we’ve used before.</p>
 <ol style="list-style-type: decimal">
 <li>Start a new section noting you’ll try facet grid.</li>
-<li>Add the chunk below and run it.</li>
+<li>Add the chunk below and run it. Notice here that we are putting our <code>aes()</code> layer in <code>geom_point()</code>.</li>
 </ol>
 <p>Explanations follow the chart.</p>
 <div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="ggplot-more.html#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg) <span class="sc">+</span> </span>
