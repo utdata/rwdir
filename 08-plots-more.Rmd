@@ -28,7 +28,7 @@ In this chapter, we will cover the following topics:
 
 ## Set up your notebook
 
-This week, we'll return to our `leso` data, but start a new RNotebook. Let's open our “yourname-military-surplus” R project first, and then create a new Rmarkdown. Do this:
+This week, we'll return to our `leso` data, but start a new RNotebook. Let's open our “yourname-military-surplus” R project first, and then create a new RNotebook. Do this:
 
 1. Create your RNotebook.
 2. Rename the title "Military Surplus figures"
