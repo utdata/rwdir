@@ -100,15 +100,15 @@ raw_data
 ##    timestamp     first_name last_name candy_type   red green orange yellow  blue
 ##    <chr>         <chr>      <chr>     <chr>      <dbl> <dbl>  <dbl>  <dbl> <dbl>
 ##  1 2/21/2022 19~ Christian  McDonald  Plain          2    17     11      4    16
-##  2 2/21/2022 19~ First1     Last1     Plain         19    19     11      4    15
-##  3 2/21/2022 19~ First2     Last2     Plain         20     6      2      5     9
-##  4 2/21/2022 19~ First3     Last3     Plain         12    12     15      5     4
-##  5 2/21/2022 19~ First4     Last4     Plain         16     9     16      6     2
-##  6 2/21/2022 19~ First5     Last5     Plain         19    17     17     11    13
-##  7 2/21/2022 19~ First6     Last6     Plain         19    15      2     20     4
-##  8 2/21/2022 19~ First7     Last7     Plain          2     1     12     15    16
-##  9 2/21/2022 19~ First8     Last8     Plain         14     5      6      3     2
-## 10 2/21/2022 19~ First9     Last9     Plain         14    15     14     16    20
+##  2 2/21/2022 19~ First1     Last1     Plain         18     2     10     12    18
+##  3 2/21/2022 19~ First2     Last2     Plain          5     8      7     19     5
+##  4 2/21/2022 19~ First3     Last3     Plain          5     4     13     14     7
+##  5 2/21/2022 19~ First4     Last4     Plain         17    17      8      7     3
+##  6 2/21/2022 19~ First5     Last5     Plain         10    11     16     15    13
+##  7 2/21/2022 19~ First6     Last6     Plain          3     2      5      7    16
+##  8 2/21/2022 19~ First7     Last7     Plain         14     8      1     18    17
+##  9 2/21/2022 19~ First8     Last8     Plain         18    15      9     18    19
+## 10 2/21/2022 19~ First9     Last9     Plain          9    16      4     13     6
 ## # ... with 21 more rows, and 1 more variable: brown <dbl>
 ```
 
@@ -149,11 +149,11 @@ candy %>% head()
 ##   first_name last_name   red green orange yellow  blue brown
 ##   <chr>      <chr>     <dbl> <dbl>  <dbl>  <dbl> <dbl> <dbl>
 ## 1 Christian  McDonald      2    17     11      4    16     4
-## 2 First1     Last1        19    19     11      4    15    10
-## 3 First2     Last2        20     6      2      5     9    15
-## 4 First3     Last3        12    12     15      5     4     4
-## 5 First4     Last4        16     9     16      6     2     8
-## 6 First5     Last5        19    17     17     11    13     6
+## 2 First1     Last1        18     2     10     12    18     5
+## 3 First2     Last2         5     8      7     19     5     2
+## 4 First3     Last3         5     4     13     14     7    20
+## 5 First4     Last4        17    17      8      7     3    10
+## 6 First5     Last5        10    11     16     15    13    15
 ```
 
 This is pretty well-formed data. This format would be useful to create a "total" column for each bag, but there are better ways to do this with **long** data. Same with getting our averages for each color.
@@ -280,12 +280,12 @@ candy_avg
 ## # A tibble: 6 x 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
-## 1 blue         10.5 
-## 2 brown        10.0 
-## 3 green        10.6 
-## 4 orange        9.81
-## 5 red          11.2 
-## 6 yellow        8.39
+## 1 blue         11.5 
+## 2 brown         8.35
+## 3 green        10.7 
+## 4 orange       11.2 
+## 5 red          10.6 
+## 6 yellow       10.9
 ```
 </details>
 
@@ -313,12 +313,12 @@ candy_avg
 ## # A tibble: 6 x 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
-## 1 blue          10.5
-## 2 brown         10  
-## 3 green         10.6
-## 4 orange         9.8
-## 5 red           11.2
-## 6 yellow         8.4
+## 1 blue          11.5
+## 2 brown          8.4
+## 3 green         10.7
+## 4 orange        11.2
+## 5 red           10.6
+## 6 yellow        10.9
 ```
 
 BONUS POINT OPPORTUNITY: Using a similar method to rounding above, you can also capitalize the names of the colors. You don't _have_ to do this, but I'll give you bonus points if you do:
@@ -423,12 +423,12 @@ candy_long %>%
 ## # A tibble: 6 x 32
 ##   color  Christian_McDonald First1_Last1 First2_Last2 First3_Last3 First4_Last4
 ##   <chr>               <dbl>        <dbl>        <dbl>        <dbl>        <dbl>
-## 1 red                     2           19           20           12           16
-## 2 green                  17           19            6           12            9
-## 3 orange                 11           11            2           15           16
-## 4 yellow                  4            4            5            5            6
-## 5 blue                   16           15            9            4            2
-## 6 brown                   4           10           15            4            8
+## 1 red                     2           18            5            5           17
+## 2 green                  17            2            8            4           17
+## 3 orange                 11           10            7           13            8
+## 4 yellow                  4           12           19           14            7
+## 5 blue                   16           18            5            7            3
+## 6 brown                   4            5            2           20           10
 ## # ... with 26 more variables: First5_Last5 <dbl>, First6_Last6 <dbl>,
 ## #   First7_Last7 <dbl>, First8_Last8 <dbl>, First9_Last9 <dbl>,
 ## #   First10_Last10 <dbl>, First11_Last11 <dbl>, First12_Last12 <dbl>,

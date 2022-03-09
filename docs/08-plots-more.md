@@ -231,7 +231,7 @@ ggplot(leso_texas_gsa, aes(x = year, y = yearly_cost)) + #we create the graph
        x = "Year", y = "Cost of acquisitions")
 ```
 
-<img src="08-plots-more_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+<img src="08-plots-more_files/figure-html/leso-texas-ggplot-1.png" width="672" />
 
 ### Cleaning Up
 
@@ -290,7 +290,7 @@ ggplot(leso_texas_gsa, aes(x = year, y = yearly_cost)) + #we create the graph
        caption = "Source: Law Enforcement Support Office")
 ```
 
-<img src="08-plots-more_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+<img src="08-plots-more_files/figure-html/leso-texas-mil-ggplot-1.png" width="672" />
 
 Our chart is looking much better!
 
