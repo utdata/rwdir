@@ -91,7 +91,7 @@ We'll just load this data directly from Google Sheets into this notebook. We're 
 class_data <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&single=true&output=csv"
 
 # read the data, clean names and save into the object "raw_data"
-raw_data <- read_csv(test_data) %>% clean_names()
+raw_data <- read_csv(class_data) %>% clean_names()
 
 # peek at the data
 raw_data
@@ -219,20 +219,17 @@ candy_long %>% head()
 
 To get the average number of candies per each color, we can use our `candy_long` data and `group_by` color (which will consider all the **red** rows together, etc.) and use `summarize()` to get the mean.
 
-This is something you should be able to do on your own, as it is very similar to the `sum()`s we did with military surplus, but you use `mean()` instead.
+This is very similar to the `sum()`s we did with military surplus, but you use `mean()` instead. There is one trick with `mean()`, though, in that sometimes you have to add an argument `na.rm = TRUE` if there are missing or zero values, since you can't divide by zero. We have that case here in some bags don't have ANY red at all!
 
 Save the resulting summary table into a new tibble called `candy_avg`.
 
-<details>
-  <summary>Try it on your own</summary>
 ```{r avg-bag}
 candy_avg <- candy_long %>% 
   group_by(color) %>% 
-  summarize(avg_candies = mean(candies))
-
+  summarize(avg_candies = mean(candies, na.rm = TRUE))
+  # the na.rm bit takes into account some records where there are zero or blank values.
 candy_avg
 ```
-</details>
 
 ### Round the averages
 
@@ -245,7 +242,7 @@ The `round()` function needs the column to change, and then the number of digits
 ```{r summary-mutate}
 candy_avg <- candy_long %>% 
   group_by(color) %>% 
-  summarize(avg_candies = mean(candies)) %>% 
+  summarize(avg_candies = mean(candies, na.rm = TRUE)) %>% 
   mutate(
     avg_candies = round(avg_candies, 1)
   )

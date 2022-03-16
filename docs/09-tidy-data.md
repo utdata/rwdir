@@ -89,27 +89,27 @@ We'll just load this data directly from Google Sheets into this notebook. We're 
 class_data <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&single=true&output=csv"
 
 # read the data, clean names and save into the object "raw_data"
-raw_data <- read_csv(test_data) %>% clean_names()
+raw_data <- read_csv(class_data) %>% clean_names()
 
 # peek at the data
 raw_data
 ```
 
 ```
-## # A tibble: 31 x 10
-##    timestamp     first_name last_name candy_type   red green orange yellow  blue
-##    <chr>         <chr>      <chr>     <chr>      <dbl> <dbl>  <dbl>  <dbl> <dbl>
-##  1 2/21/2022 19~ Christian  McDonald  Plain          2    17     11      4    16
-##  2 2/21/2022 19~ First1     Last1     Plain         19    19     11      4    15
-##  3 2/21/2022 19~ First2     Last2     Plain         20     6      2      5     9
-##  4 2/21/2022 19~ First3     Last3     Plain         12    12     15      5     4
-##  5 2/21/2022 19~ First4     Last4     Plain         16     9     16      6     2
-##  6 2/21/2022 19~ First5     Last5     Plain         19    17     17     11    13
-##  7 2/21/2022 19~ First6     Last6     Plain         19    15      2     20     4
-##  8 2/21/2022 19~ First7     Last7     Plain          2     1     12     15    16
-##  9 2/21/2022 19~ First8     Last8     Plain         14     5      6      3     2
-## 10 2/21/2022 19~ First9     Last9     Plain         14    15     14     16    20
-## # ... with 21 more rows, and 1 more variable: brown <dbl>
+## # A tibble: 29 × 10
+##    timestamp    first_name  last_name candy_type   red green orange yellow  blue
+##    <chr>        <chr>       <chr>     <chr>      <dbl> <dbl>  <dbl>  <dbl> <dbl>
+##  1 2/21/2022 1… Christian   McDonald  Plain          2    17     11      4    16
+##  2 2/23/2022 1… Andrew Pea… Logan     Peanut         4     3      3      4     2
+##  3 2/28/2022 1… Andrew      Logan     Plain          2     9     14      4    17
+##  4 2/28/2022 1… Gabby       Ybarra    Plain          4    11     14      0    19
+##  5 2/28/2022 1… Veronica    Apodaca   Plain          1    17     16      2    13
+##  6 2/28/2022 1… Cristela    Jones     Plain          3    19     14      3    13
+##  7 2/28/2022 1… Marina      Garcia    Plain          7    11     13      1    14
+##  8 2/28/2022 1… Samuel      Stark     Plain          3     9     10      5    18
+##  9 2/28/2022 1… Kevin       Malcolm … Plain          4    15     13      6    14
+## 10 2/28/2022 1… Alexa       Haverlah  Plain          5    15      6      2    21
+## # … with 19 more rows, and 1 more variable: brown <dbl>
 ```
 
 This data comes from a Google Sheets document fed by a form that students have filled out, counting the colors of candies in a standard size bag of plain M&Ms.
@@ -145,15 +145,15 @@ candy %>% head()
 ```
 
 ```
-## # A tibble: 6 x 8
-##   first_name last_name   red green orange yellow  blue brown
-##   <chr>      <chr>     <dbl> <dbl>  <dbl>  <dbl> <dbl> <dbl>
-## 1 Christian  McDonald      2    17     11      4    16     4
-## 2 First1     Last1        19    19     11      4    15    10
-## 3 First2     Last2        20     6      2      5     9    15
-## 4 First3     Last3        12    12     15      5     4     4
-## 5 First4     Last4        16     9     16      6     2     8
-## 6 First5     Last5        19    17     17     11    13     6
+## # A tibble: 6 × 8
+##   first_name    last_name   red green orange yellow  blue brown
+##   <chr>         <chr>     <dbl> <dbl>  <dbl>  <dbl> <dbl> <dbl>
+## 1 Christian     McDonald      2    17     11      4    16     4
+## 2 Andrew Peanut Logan         4     3      3      4     2     6
+## 3 Andrew        Logan         2     9     14      4    17     9
+## 4 Gabby         Ybarra        4    11     14      0    19     7
+## 5 Veronica      Apodaca       1    17     16      2    13     8
+## 6 Cristela      Jones         3    19     14      3    13     3
 ```
 
 This is pretty well-formed data. This format would be useful to create a "total" column for each bag, but there are better ways to do this with **long** data. Same with getting our averages for each color.
@@ -246,7 +246,7 @@ candy_long %>% head()
 ```
 
 ```
-## # A tibble: 6 x 4
+## # A tibble: 6 × 4
 ##   first_name last_name color  candies
 ##   <chr>      <chr>     <chr>    <dbl>
 ## 1 Christian  McDonald  red          2
@@ -261,33 +261,30 @@ candy_long %>% head()
 
 To get the average number of candies per each color, we can use our `candy_long` data and `group_by` color (which will consider all the **red** rows together, etc.) and use `summarize()` to get the mean.
 
-This is something you should be able to do on your own, as it is very similar to the `sum()`s we did with military surplus, but you use `mean()` instead.
+This is very similar to the `sum()`s we did with military surplus, but you use `mean()` instead. There is one trick with `mean()`, though, in that sometimes you have to add an argument `na.rm = TRUE` if there are missing or zero values, since you can't divide by zero. We have that case here in some bags don't have ANY red at all!
 
 Save the resulting summary table into a new tibble called `candy_avg`.
 
-<details>
-  <summary>Try it on your own</summary>
 
 ```r
 candy_avg <- candy_long %>% 
   group_by(color) %>% 
-  summarize(avg_candies = mean(candies))
-
+  summarize(avg_candies = mean(candies, na.rm = TRUE))
+  # the na.rm bit takes into account some records where there are zero or blank values.
 candy_avg
 ```
 
 ```
-## # A tibble: 6 x 2
+## # A tibble: 6 × 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
-## 1 blue         10.5 
-## 2 brown        10.0 
-## 3 green        10.6 
-## 4 orange        9.81
-## 5 red          11.2 
-## 6 yellow        8.39
+## 1 blue         15.0 
+## 2 brown         5.83
+## 3 green        13.2 
+## 4 orange       12.9 
+## 5 red           3.21
+## 6 yellow        3.17
 ```
-</details>
 
 ### Round the averages
 
@@ -301,7 +298,7 @@ The `round()` function needs the column to change, and then the number of digits
 ```r
 candy_avg <- candy_long %>% 
   group_by(color) %>% 
-  summarize(avg_candies = mean(candies)) %>% 
+  summarize(avg_candies = mean(candies, na.rm = TRUE)) %>% 
   mutate(
     avg_candies = round(avg_candies, 1)
   )
@@ -310,15 +307,15 @@ candy_avg
 ```
 
 ```
-## # A tibble: 6 x 2
+## # A tibble: 6 × 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
-## 1 blue          10.5
-## 2 brown         10  
-## 3 green         10.6
-## 4 orange         9.8
-## 5 red           11.2
-## 6 yellow         8.4
+## 1 blue          15  
+## 2 brown          5.8
+## 3 green         13.2
+## 4 orange        12.9
+## 5 red            3.2
+## 6 yellow         3.2
 ```
 
 BONUS POINT OPPORTUNITY: Using a similar method to rounding above, you can also capitalize the names of the colors. You don't _have_ to do this, but I'll give you bonus points if you do:
@@ -420,22 +417,22 @@ candy_long %>%
 ```
 
 ```
-## # A tibble: 6 x 32
-##   color  Christian_McDonald First1_Last1 First2_Last2 First3_Last3 First4_Last4
-##   <chr>               <dbl>        <dbl>        <dbl>        <dbl>        <dbl>
-## 1 red                     2           19           20           12           16
-## 2 green                  17           19            6           12            9
-## 3 orange                 11           11            2           15           16
-## 4 yellow                  4            4            5            5            6
-## 5 blue                   16           15            9            4            2
-## 6 brown                   4           10           15            4            8
-## # ... with 26 more variables: First5_Last5 <dbl>, First6_Last6 <dbl>,
-## #   First7_Last7 <dbl>, First8_Last8 <dbl>, First9_Last9 <dbl>,
-## #   First10_Last10 <dbl>, First11_Last11 <dbl>, First12_Last12 <dbl>,
-## #   First13_Last13 <dbl>, First14_Last14 <dbl>, First15_Last15 <dbl>,
-## #   First16_Last16 <dbl>, First17_Last17 <dbl>, First18_Last18 <dbl>,
-## #   First19_Last19 <dbl>, First20_Last20 <dbl>, First21_Last21 <dbl>,
-## #   First22_Last22 <dbl>, First23_Last23 <dbl>, First24_Last24 <dbl>, ...
+## # A tibble: 6 × 30
+##   color  Christian_McDonald `Andrew Peanut_Logan` Andrew_Logan Gabby_Ybarra
+##   <chr>               <dbl>                 <dbl>        <dbl>        <dbl>
+## 1 red                     2                     4            2            4
+## 2 green                  17                     3            9           11
+## 3 orange                 11                     3           14           14
+## 4 yellow                  4                     4            4            0
+## 5 blue                   16                     2           17           19
+## 6 brown                   4                     6            9            7
+## # … with 25 more variables: Veronica_Apodaca <dbl>, Cristela_Jones <dbl>,
+## #   Marina_Garcia <dbl>, Samuel_Stark <dbl>, Kevin_Malcolm Jr <dbl>,
+## #   Alexa_Haverlah <dbl>, Zacharia_Washington <dbl>, Jose_Martinez <dbl>,
+## #   Ana_Garza <dbl>, Carolina_Cruz <dbl>, Anissa_Reyes <dbl>,
+## #   Alaina_Bookman <dbl>, Bryan_Baker <dbl>, Mckenna_Lucas <dbl>,
+## #   Marissa_DeLeon <dbl>, Claire_Stevens <dbl>, Katy_Vanatsky <dbl>,
+## #   Vicente_Montalvo <dbl>, Eric_Seow <dbl>, Brandon_Jenkins <dbl>, …
 ```
 
 ### Pivot wider on your own

@@ -24,7 +24,7 @@
 <meta name="author" content="Christian McDonald and Jo Lukito" />
 
 
-<meta name="date" content="2022-03-07" />
+<meta name="date" content="2022-03-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -691,29 +691,29 @@ You should be able to do this on your own. Really!
 </summary>
 <div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="ggplot-more.html#cb155-1" aria-hidden="true" tabindex="-1"></a>leso <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/leso.csv&quot;</span>) <span class="co">#read the data in</span></span></code></pre></div>
 <pre><code>## Rows: 124848 Columns: 12</code></pre>
-<pre><code>## -- Column specification --------------------------------------------------------
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr  (7): state, agency_name, nsn, item_name, ui, demil_code, station_type
 ## dbl  (4): sheet, quantity, acquisition_value, demil_ic
 ## dttm (1): ship_date</code></pre>
 <pre><code>## 
-## i Use `spec()` to retrieve the full column specification for this data.
-## i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="ggplot-more.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(leso) <span class="co">#peek at the data</span></span></code></pre></div>
 <pre><code>## Rows: 124,848
 ## Columns: 12
-## $ sheet             &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
-## $ state             &lt;chr&gt; &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;~
-## $ agency_name       &lt;chr&gt; &quot;ABBEVILLE POLICE DEPT&quot;, &quot;ABBEVILLE POLICE DEPT&quot;, &quot;A~
-## $ nsn               &lt;chr&gt; &quot;2540-01-565-4700&quot;, &quot;1240-DS-OPT-SIGH&quot;, &quot;1005-01-587~
-## $ item_name         &lt;chr&gt; &quot;BALLISTIC BLANKET KIT&quot;, &quot;OPTICAL SIGHTING AND RANGI~
-## $ quantity          &lt;dbl&gt; 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, ~
-## $ ui                &lt;chr&gt; &quot;Kit&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each~
-## $ acquisition_value &lt;dbl&gt; 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00~
-## $ demil_code        &lt;chr&gt; &quot;D&quot;, &quot;D&quot;, &quot;D&quot;, &quot;D&quot;, &quot;D&quot;, &quot;C&quot;, &quot;C&quot;, &quot;Q&quot;, &quot;D&quot;, &quot;C&quot;, &quot;C~
-## $ demil_ic          &lt;dbl&gt; 1, NA, 1, 1, 1, 1, 1, 3, 7, 1, 1, NA, 1, 1, 1, 1, 1,~
-## $ ship_date         &lt;dttm&gt; 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201~
-## $ station_type      &lt;chr&gt; &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;~</code></pre>
+## $ sheet             &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ state             &lt;chr&gt; &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;…
+## $ agency_name       &lt;chr&gt; &quot;ABBEVILLE POLICE DEPT&quot;, &quot;ABBEVILLE POLICE DEPT&quot;, &quot;A…
+## $ nsn               &lt;chr&gt; &quot;2540-01-565-4700&quot;, &quot;1240-DS-OPT-SIGH&quot;, &quot;1005-01-587…
+## $ item_name         &lt;chr&gt; &quot;BALLISTIC BLANKET KIT&quot;, &quot;OPTICAL SIGHTING AND RANGI…
+## $ quantity          &lt;dbl&gt; 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, …
+## $ ui                &lt;chr&gt; &quot;Kit&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each…
+## $ acquisition_value &lt;dbl&gt; 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00…
+## $ demil_code        &lt;chr&gt; &quot;D&quot;, &quot;D&quot;, &quot;D&quot;, &quot;D&quot;, &quot;D&quot;, &quot;C&quot;, &quot;C&quot;, &quot;Q&quot;, &quot;D&quot;, &quot;C&quot;, &quot;C…
+## $ demil_ic          &lt;dbl&gt; 1, NA, 1, 1, 1, 1, 1, 3, 7, 1, 1, NA, 1, 1, 1, 1, 1,…
+## $ ship_date         &lt;dttm&gt; 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201…
+## $ station_type      &lt;chr&gt; &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;…</code></pre>
 </details>
 <p>Don’t forget to also do the other processing steps we did in <a href="https://utdata.github.io/rwdir/sums-import.html#create-a-total_value-column">Chapter 5</a>.</p>
 <details>
@@ -740,15 +740,15 @@ Again, you should be able to do this on your own
 <div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="ggplot-more.html#cb162-1" aria-hidden="true" tabindex="-1"></a>leso_total <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 124,848
 ## Columns: 9
-## $ state             &lt;chr&gt; &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;~
-## $ agency_name       &lt;chr&gt; &quot;ABBEVILLE POLICE DEPT&quot;, &quot;ABBEVILLE POLICE DEPT&quot;, &quot;A~
-## $ item_name         &lt;chr&gt; &quot;BALLISTIC BLANKET KIT&quot;, &quot;OPTICAL SIGHTING AND RANGI~
-## $ quantity          &lt;dbl&gt; 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, ~
-## $ ui                &lt;chr&gt; &quot;Kit&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each~
-## $ acquisition_value &lt;dbl&gt; 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00~
-## $ ship_date         &lt;dttm&gt; 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201~
-## $ station_type      &lt;chr&gt; &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;~
-## $ total_value       &lt;dbl&gt; 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 65800~</code></pre>
+## $ state             &lt;chr&gt; &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;…
+## $ agency_name       &lt;chr&gt; &quot;ABBEVILLE POLICE DEPT&quot;, &quot;ABBEVILLE POLICE DEPT&quot;, &quot;A…
+## $ item_name         &lt;chr&gt; &quot;BALLISTIC BLANKET KIT&quot;, &quot;OPTICAL SIGHTING AND RANGI…
+## $ quantity          &lt;dbl&gt; 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, …
+## $ ui                &lt;chr&gt; &quot;Kit&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each…
+## $ acquisition_value &lt;dbl&gt; 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00…
+## $ ship_date         &lt;dttm&gt; 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201…
+## $ station_type      &lt;chr&gt; &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;…
+## $ total_value       &lt;dbl&gt; 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 65800…</code></pre>
 <p>Lookin’ good!</p>
 </div>
 </div>
@@ -769,9 +769,9 @@ Again, you should be able to do this on your own
 <span id="cb164-6"><a href="ggplot-more.html#cb164-6" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(leso_total)</span></code></pre></div>
 <pre><code>## Rows: 84,605
 ## Columns: 3
-## $ year        &lt;dbl&gt; 2018, 2016, 2016, 2016, 2017, 2016, 2016, 2017, 2017, 2016~
-## $ total_value &lt;dbl&gt; 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 658000.00, ~
-## $ state       &lt;chr&gt; &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;~</code></pre>
+## $ year        &lt;dbl&gt; 2018, 2016, 2016, 2016, 2017, 2016, 2016, 2017, 2017, 2016…
+## $ total_value &lt;dbl&gt; 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 658000.00, …
+## $ state       &lt;chr&gt; &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;…</code></pre>
 <p>There’s a lot of information in this data, so let’s focus our visualizing on Texas, like we did in our previous chapters. We’ll do this by <code>filter</code>ing the rows where <code>state == "TX"</code>.</p>
 <div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="ggplot-more.html#cb166-1" aria-hidden="true" tabindex="-1"></a>leso_texas <span class="ot">&lt;-</span> leso_total <span class="sc">%&gt;%</span> </span>
 <span id="cb166-2"><a href="ggplot-more.html#cb166-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">&quot;TX&quot;</span>)</span></code></pre></div>
@@ -782,7 +782,7 @@ Again, you should be able to do this on your own
 <span id="cb167-4"><a href="ggplot-more.html#cb167-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year)</span>
 <span id="cb167-5"><a href="ggplot-more.html#cb167-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb167-6"><a href="ggplot-more.html#cb167-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(leso_texas_gsa) <span class="co">#use head() to view the first 6 rows of this new data frame</span></span></code></pre></div>
-<pre><code>## # A tibble: 6 x 2
+<pre><code>## # A tibble: 6 × 2
 ##    year yearly_cost
 ##   &lt;dbl&gt;       &lt;dbl&gt;
 ## 1  2010    7018530.
@@ -820,7 +820,7 @@ Again, you should be able to do this on your own
 <h3><span class="header-section-number">8.5.2</span> Cleaning Up</h3>
 <p>Alright, so we have a working plot! But there’s a couple things that are a bit ugly about this plot. First, I’m not digging the weird numbers on the side (what the heck does <code>0.0e+00</code> even mean?!). To fix this, let’s go back to our data and do a bit more preparing. If we use <code>head()</code> to look at our data, we’ll notice that there are a few numbers that are just really, really big.</p>
 <div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="ggplot-more.html#cb170-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(leso_texas_gsa) <span class="co">#use head() to view the first 6 rows of this new data frame</span></span></code></pre></div>
-<pre><code>## # A tibble: 6 x 2
+<pre><code>## # A tibble: 6 × 2
 ##    year yearly_cost
 ##   &lt;dbl&gt;       &lt;dbl&gt;
 ## 1  2010    7018530.
@@ -835,7 +835,7 @@ Again, you should be able to do this on your own
 <span id="cb172-2"><a href="ggplot-more.html#cb172-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yearly_cost =</span> yearly_cost<span class="sc">/</span><span class="dv">1000000</span>) <span class="co">#divide by 1 million</span></span>
 <span id="cb172-3"><a href="ggplot-more.html#cb172-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb172-4"><a href="ggplot-more.html#cb172-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(leso_texas_gsa)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 2
+<pre><code>## # A tibble: 6 × 2
 ##    year yearly_cost
 ##   &lt;dbl&gt;       &lt;dbl&gt;
 ## 1  2010        7.02
@@ -931,7 +931,7 @@ Again, you should be able to do this on your own
 <span id="cb180-4"><a href="ggplot-more.html#cb180-4" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb180-5"><a href="ggplot-more.html#cb180-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-6"><a href="ggplot-more.html#cb180-6" aria-hidden="true" tabindex="-1"></a>leso_five</span></code></pre></div>
-<pre><code>## # A tibble: 11,546 x 3
+<pre><code>## # A tibble: 11,546 × 3
 ##     year total_value state
 ##    &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;
 ##  1  2021        421. AR   
@@ -944,7 +944,7 @@ Again, you should be able to do this on your own
 ##  8  2015       3861  AR   
 ##  9  2013      89900  AR   
 ## 10  2014      89900  AR   
-## # ... with 11,536 more rows</code></pre>
+## # … with 11,536 more rows</code></pre>
 <p>Now that we have our five states, let’s GSA this information, like we did earlier (but for all 5 states and not just Texas).</p>
 <details>
 <summary>
@@ -959,9 +959,9 @@ Again, this should be a refresher!
 <pre><code>## Rows: 55
 ## Columns: 3
 ## Groups: state [5]
-## $ state       &lt;chr&gt; &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;~
-## $ year        &lt;dbl&gt; 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019~
-## $ yearly_cost &lt;dbl&gt; 0.00207600, 0.70035335, 0.67255778, 2.77192930, 12.0723892~</code></pre>
+## $ state       &lt;chr&gt; &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;…
+## $ year        &lt;dbl&gt; 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019…
+## $ yearly_cost &lt;dbl&gt; 0.00207600, 0.70035335, 0.67255778, 2.77192930, 12.0723892…</code></pre>
 </details>
 </div>
 <div id="plot-multiple-line-chart" class="section level3" number="8.7.2">

@@ -61,7 +61,7 @@ leso <- read_csv("data-raw/leso.csv") #read the data in
 ```
 
 ```
-## -- Column specification --------------------------------------------------------
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr  (7): state, agency_name, nsn, item_name, ui, demil_code, station_type
 ## dbl  (4): sheet, quantity, acquisition_value, demil_ic
@@ -70,8 +70,8 @@ leso <- read_csv("data-raw/leso.csv") #read the data in
 
 ```
 ## 
-## i Use `spec()` to retrieve the full column specification for this data.
-## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 ```r
@@ -81,18 +81,18 @@ glimpse(leso) #peek at the data
 ```
 ## Rows: 124,848
 ## Columns: 12
-## $ sheet             <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
-## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"~
-## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A~
-## $ nsn               <chr> "2540-01-565-4700", "1240-DS-OPT-SIGH", "1005-01-587~
-## $ item_name         <chr> "BALLISTIC BLANKET KIT", "OPTICAL SIGHTING AND RANGI~
-## $ quantity          <dbl> 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, ~
-## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each~
-## $ acquisition_value <dbl> 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00~
-## $ demil_code        <chr> "D", "D", "D", "D", "D", "C", "C", "Q", "D", "C", "C~
-## $ demil_ic          <dbl> 1, NA, 1, 1, 1, 1, 1, 3, 7, 1, 1, NA, 1, 1, 1, 1, 1,~
-## $ ship_date         <dttm> 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201~
-## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
+## $ sheet             <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
+## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
+## $ nsn               <chr> "2540-01-565-4700", "1240-DS-OPT-SIGH", "1005-01-587…
+## $ item_name         <chr> "BALLISTIC BLANKET KIT", "OPTICAL SIGHTING AND RANGI…
+## $ quantity          <dbl> 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, …
+## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each…
+## $ acquisition_value <dbl> 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00…
+## $ demil_code        <chr> "D", "D", "D", "D", "D", "C", "C", "Q", "D", "C", "C…
+## $ demil_ic          <dbl> 1, NA, 1, 1, 1, 1, 1, 3, 7, 1, 1, NA, 1, 1, 1, 1, 1,…
+## $ ship_date         <dttm> 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201…
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
 ```
 
 </details>
@@ -132,15 +132,15 @@ leso_total %>% glimpse()
 ```
 ## Rows: 124,848
 ## Columns: 9
-## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"~
-## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A~
-## $ item_name         <chr> "BALLISTIC BLANKET KIT", "OPTICAL SIGHTING AND RANGI~
-## $ quantity          <dbl> 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, ~
-## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each~
-## $ acquisition_value <dbl> 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00~
-## $ ship_date         <dttm> 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201~
-## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
-## $ total_value       <dbl> 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 65800~
+## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
+## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
+## $ item_name         <chr> "BALLISTIC BLANKET KIT", "OPTICAL SIGHTING AND RANGI…
+## $ quantity          <dbl> 10, 1, 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 3, 12, 1, 5, …
+## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each…
+## $ acquisition_value <dbl> 15871.59, 245.88, 1626.00, 333.00, 926.00, 658000.00…
+## $ ship_date         <dttm> 2018-01-30, 2016-06-02, 2016-09-19, 2016-09-14, 201…
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
+## $ total_value       <dbl> 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 65800…
 ```
 
 Lookin' good!
@@ -166,9 +166,9 @@ glimpse(leso_total)
 ```
 ## Rows: 84,605
 ## Columns: 3
-## $ year        <dbl> 2018, 2016, 2016, 2016, 2017, 2016, 2016, 2017, 2017, 2016~
-## $ total_value <dbl> 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 658000.00, ~
-## $ state       <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"~
+## $ year        <dbl> 2018, 2016, 2016, 2016, 2017, 2016, 2016, 2017, 2017, 2016…
+## $ total_value <dbl> 158715.90, 245.88, 16260.00, 2997.00, 9260.00, 658000.00, …
+## $ state       <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
 ```
 
 There's a lot of information in this data, so let's focus our visualizing on Texas, like we did in our previous chapters. We'll do this by `filter`ing the rows where `state == "TX"`.
@@ -192,7 +192,7 @@ head(leso_texas_gsa) #use head() to view the first 6 rows of this new data frame
 ```
 
 ```
-## # A tibble: 6 x 2
+## # A tibble: 6 × 2
 ##    year yearly_cost
 ##   <dbl>       <dbl>
 ## 1  2010    7018530.
@@ -243,7 +243,7 @@ head(leso_texas_gsa) #use head() to view the first 6 rows of this new data frame
 ```
 
 ```
-## # A tibble: 6 x 2
+## # A tibble: 6 × 2
 ##    year yearly_cost
 ##   <dbl>       <dbl>
 ## 1  2010    7018530.
@@ -267,7 +267,7 @@ head(leso_texas_gsa)
 ```
 
 ```
-## # A tibble: 6 x 2
+## # A tibble: 6 × 2
 ##    year yearly_cost
 ##   <dbl>       <dbl>
 ## 1  2010        7.02
@@ -401,7 +401,7 @@ leso_five
 ```
 
 ```
-## # A tibble: 11,546 x 3
+## # A tibble: 11,546 × 3
 ##     year total_value state
 ##    <dbl>       <dbl> <chr>
 ##  1  2021        421. AR   
@@ -414,7 +414,7 @@ leso_five
 ##  8  2015       3861  AR   
 ##  9  2013      89900  AR   
 ## 10  2014      89900  AR   
-## # ... with 11,536 more rows
+## # … with 11,536 more rows
 ```
 
 Now that we have our five states, let's GSA this information, like we did earlier (but for all 5 states and not just Texas).
@@ -442,9 +442,9 @@ leso_five_gsa %>% glimpse()
 ## Rows: 55
 ## Columns: 3
 ## Groups: state [5]
-## $ state       <chr> "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR"~
-## $ year        <dbl> 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019~
-## $ yearly_cost <dbl> 0.00207600, 0.70035335, 0.67255778, 2.77192930, 12.0723892~
+## $ state       <chr> "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR"…
+## $ year        <dbl> 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019…
+## $ yearly_cost <dbl> 0.00207600, 0.70035335, 0.67255778, 2.77192930, 12.0723892…
 ```
 
 </details>
