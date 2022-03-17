@@ -48,7 +48,7 @@ I will save you the hassle of going through the TAPR database to find and downlo
 
 ### Set up your project
 
-1. Go to this page (Link To Come)
+1. Go to [this page](https://github.com/utdata/rwdir/blob/chap10/resources/rwdir-sped-template.zip).
 1. Look for the **Download** button and download the zip file.
 1. Find that on your computer and uncompress it.
 1. Rename the folder to `yourname-sped` **but use your name**.
@@ -332,16 +332,16 @@ sped_flag %>% sample_n(10)
 ## # A tibble: 10 × 7
 ##    district distname          year  all_count sped_count sped_percent audit_flag
 ##    <chr>    <chr>             <chr>     <dbl>      <dbl>        <dbl> <chr>     
-##  1 124901   JIM HOGG COUNTY … 2020       1150        107          9.3 ABOVE     
-##  2 107904   CROSS ROADS ISD   2018        545         54          9.9 ABOVE     
-##  3 112907   MILLER GROVE ISD  2016        286         36         12.6 ABOVE     
-##  4 205904   MATHIS ISD        2013       1653        152          9.2 ABOVE     
-##  5 205906   SINTON ISD        2018       2199        237         10.8 ABOVE     
-##  6 243905   WICHITA FALLS ISD 2013      14639       1814         12.4 ABOVE     
-##  7 121906   EVADALE ISD       2015        481         38          7.9 BELOW     
-##  8 183904   GARY ISD          2020        489         51         10.4 ABOVE     
-##  9 102906   ELYSIAN FIELDS I… 2018        884        114         12.9 ABOVE     
-## 10 181907   VIDOR ISD         2016       4862        589         12.1 ABOVE
+##  1 229906   CHESTER ISD       2014        178         24         13.5 ABOVE     
+##  2 112909   SALTILLO ISD      2018        246         28         11.4 ABOVE     
+##  3 108912   LA JOYA ISD       2017      29464       2121          7.2 BELOW     
+##  4 080901   MOUNT VERNON ISD  2021       1475        162         11   ABOVE     
+##  5 116908   QUINLAN ISD       2021       2585        368         14.2 ABOVE     
+##  6 074917   SAM RAYBURN ISD   2017        524         53         10.1 ABOVE     
+##  7 121903   BUNA ISD          2019       1483        167         11.3 ABOVE     
+##  8 182903   MINERAL WELLS ISD 2021       3110        361         11.6 ABOVE     
+##  9 073904   WESTPHALIA ISD    2018        156         15          9.6 ABOVE     
+## 10 184902   SPRINGTOWN ISD    2017       3470        262          7.6 BELOW
 ```
 
 Let's walk through the code above:
