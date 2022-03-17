@@ -101,7 +101,7 @@ This data comes from a Google Sheets document fed by a form that students have f
 
 ### Drop unneeded columns
 
-For this exercise we don't need the `timestamp` and `candy_type` columns. We'll drop them so we can keep things simple.
+For this exercise we don't need the `timestamp`, `candy_type` or `box_code` columns for this exercise. We'll drop them so we can keep things simple.
 
 1. Create a Markdown section noting you'll drop unneeded columns.
 1. Create an R chunk and use `select()` to remove the columns noted above and save the result into a new data frame called `candy`.
@@ -114,7 +114,8 @@ You've done this in the past, so you should be able to do it on your own.
 candy <- raw_data %>% 
   select(
     -timestamp,
-    -candy_type
+    -candy_type,
+    -box_code
   )
 ```
 </details>
@@ -226,7 +227,7 @@ Save the resulting summary table into a new tibble called `candy_avg`.
 ```{r avg-bag}
 candy_avg <- candy_long %>% 
   group_by(color) %>% 
-  summarize(avg_candies = mean(candies, na.rm = TRUE))
+  summarize(avg_candies = mean(candies))
   # the na.rm bit takes into account some records where there are zero or blank values.
 candy_avg
 ```

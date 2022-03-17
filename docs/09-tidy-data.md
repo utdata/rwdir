@@ -96,27 +96,27 @@ raw_data
 ```
 
 ```
-## # A tibble: 29 × 10
-##    timestamp    first_name  last_name candy_type   red green orange yellow  blue
-##    <chr>        <chr>       <chr>     <chr>      <dbl> <dbl>  <dbl>  <dbl> <dbl>
-##  1 2/21/2022 1… Christian   McDonald  Plain          2    17     11      4    16
-##  2 2/23/2022 1… Andrew Pea… Logan     Peanut         4     3      3      4     2
-##  3 2/28/2022 1… Andrew      Logan     Plain          2     9     14      4    17
-##  4 2/28/2022 1… Gabby       Ybarra    Plain          4    11     14      0    19
-##  5 2/28/2022 1… Veronica    Apodaca   Plain          1    17     16      2    13
-##  6 2/28/2022 1… Cristela    Jones     Plain          3    19     14      3    13
-##  7 2/28/2022 1… Marina      Garcia    Plain          7    11     13      1    14
-##  8 2/28/2022 1… Samuel      Stark     Plain          3     9     10      5    18
-##  9 2/28/2022 1… Kevin       Malcolm … Plain          4    15     13      6    14
-## 10 2/28/2022 1… Alexa       Haverlah  Plain          5    15      6      2    21
-## # … with 19 more rows, and 1 more variable: brown <dbl>
+## # A tibble: 28 × 11
+##    timestamp  first_name last_name candy_type box_code   red green orange yellow
+##    <chr>      <chr>      <chr>     <chr>      <chr>    <dbl> <dbl>  <dbl>  <dbl>
+##  1 2/21/2022… Christian  McDonald  Plain      140BSCL…     2    17     11      4
+##  2 2/28/2022… Andrew     Logan     Plain      140BSCL…     2     9     14      4
+##  3 2/28/2022… Gabby      Ybarra    Plain      140BSCL…     4    11     14      0
+##  4 2/28/2022… Veronica   Apodaca   Plain      140BSCL…     1    17     16      2
+##  5 2/28/2022… Cristela   Jones     Plain      140BSCL…     3    19     14      3
+##  6 2/28/2022… Marina     Garcia    Plain      140BSCL…     7    11     13      1
+##  7 2/28/2022… Samuel     Stark     Plain      140BSCL…     3     9     10      5
+##  8 2/28/2022… Kevin      Malcolm … Plain      140BSCL…     4    15     13      6
+##  9 2/28/2022… Alexa      Haverlah  Plain      140BSCL…     5    15      6      2
+## 10 2/28/2022… Zacharia   Washingt… Plain      140BSCL…     1    15     14      1
+## # … with 18 more rows, and 2 more variables: blue <dbl>, brown <dbl>
 ```
 
 This data comes from a Google Sheets document fed by a form that students have filled out, counting the colors of candies in a standard size bag of plain M&Ms.
 
 ### Drop unneeded columns
 
-For this exercise we don't need the `timestamp` and `candy_type` columns. We'll drop them so we can keep things simple.
+For this exercise we don't need the `timestamp`, `candy_type` or `box_code` columns for this exercise. We'll drop them so we can keep things simple.
 
 1. Create a Markdown section noting you'll drop unneeded columns.
 1. Create an R chunk and use `select()` to remove the columns noted above and save the result into a new data frame called `candy`.
@@ -130,7 +130,8 @@ You've done this in the past, so you should be able to do it on your own.
 candy <- raw_data %>% 
   select(
     -timestamp,
-    -candy_type
+    -candy_type,
+    -box_code
   )
 ```
 </details>
@@ -146,14 +147,14 @@ candy %>% head()
 
 ```
 ## # A tibble: 6 × 8
-##   first_name    last_name   red green orange yellow  blue brown
-##   <chr>         <chr>     <dbl> <dbl>  <dbl>  <dbl> <dbl> <dbl>
-## 1 Christian     McDonald      2    17     11      4    16     4
-## 2 Andrew Peanut Logan         4     3      3      4     2     6
-## 3 Andrew        Logan         2     9     14      4    17     9
-## 4 Gabby         Ybarra        4    11     14      0    19     7
-## 5 Veronica      Apodaca       1    17     16      2    13     8
-## 6 Cristela      Jones         3    19     14      3    13     3
+##   first_name last_name   red green orange yellow  blue brown
+##   <chr>      <chr>     <dbl> <dbl>  <dbl>  <dbl> <dbl> <dbl>
+## 1 Christian  McDonald      2    17     11      4    16     4
+## 2 Andrew     Logan         2     9     14      4    17     9
+## 3 Gabby      Ybarra        4    11     14      0    19     7
+## 4 Veronica   Apodaca       1    17     16      2    13     8
+## 5 Cristela   Jones         3    19     14      3    13     3
+## 6 Marina     Garcia        7    11     13      1    14     6
 ```
 
 This is pretty well-formed data. This format would be useful to create a "total" column for each bag, but there are better ways to do this with **long** data. Same with getting our averages for each color.
@@ -269,7 +270,7 @@ Save the resulting summary table into a new tibble called `candy_avg`.
 ```r
 candy_avg <- candy_long %>% 
   group_by(color) %>% 
-  summarize(avg_candies = mean(candies, na.rm = TRUE))
+  summarize(avg_candies = mean(candies))
   # the na.rm bit takes into account some records where there are zero or blank values.
 candy_avg
 ```
@@ -278,12 +279,12 @@ candy_avg
 ## # A tibble: 6 × 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
-## 1 blue         15.0 
-## 2 brown         5.83
-## 3 green        13.2 
-## 4 orange       12.9 
-## 5 red           3.21
-## 6 yellow        3.17
+## 1 blue         15.5 
+## 2 brown         5.82
+## 3 green        13.6 
+## 4 orange       13.2 
+## 5 red           3.07
+## 6 yellow        3.14
 ```
 
 ### Round the averages
@@ -310,12 +311,12 @@ candy_avg
 ## # A tibble: 6 × 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
-## 1 blue          15  
+## 1 blue          15.5
 ## 2 brown          5.8
-## 3 green         13.2
-## 4 orange        12.9
-## 5 red            3.2
-## 6 yellow         3.2
+## 3 green         13.6
+## 4 orange        13.2
+## 5 red            3.1
+## 6 yellow         3.1
 ```
 
 BONUS POINT OPPORTUNITY: Using a similar method to rounding above, you can also capitalize the names of the colors. You don't _have_ to do this, but I'll give you bonus points if you do:
@@ -417,22 +418,22 @@ candy_long %>%
 ```
 
 ```
-## # A tibble: 6 × 30
-##   color  Christian_McDonald `Andrew Peanut_Logan` Andrew_Logan Gabby_Ybarra
-##   <chr>               <dbl>                 <dbl>        <dbl>        <dbl>
-## 1 red                     2                     4            2            4
-## 2 green                  17                     3            9           11
-## 3 orange                 11                     3           14           14
-## 4 yellow                  4                     4            4            0
-## 5 blue                   16                     2           17           19
-## 6 brown                   4                     6            9            7
-## # … with 25 more variables: Veronica_Apodaca <dbl>, Cristela_Jones <dbl>,
-## #   Marina_Garcia <dbl>, Samuel_Stark <dbl>, Kevin_Malcolm Jr <dbl>,
-## #   Alexa_Haverlah <dbl>, Zacharia_Washington <dbl>, Jose_Martinez <dbl>,
-## #   Ana_Garza <dbl>, Carolina_Cruz <dbl>, Anissa_Reyes <dbl>,
-## #   Alaina_Bookman <dbl>, Bryan_Baker <dbl>, Mckenna_Lucas <dbl>,
-## #   Marissa_DeLeon <dbl>, Claire_Stevens <dbl>, Katy_Vanatsky <dbl>,
-## #   Vicente_Montalvo <dbl>, Eric_Seow <dbl>, Brandon_Jenkins <dbl>, …
+## # A tibble: 6 × 29
+##   color  Christian_McDonald Andrew_Logan Gabby_Ybarra Veronica_Apodaca
+##   <chr>               <dbl>        <dbl>        <dbl>            <dbl>
+## 1 red                     2            2            4                1
+## 2 green                  17            9           11               17
+## 3 orange                 11           14           14               16
+## 4 yellow                  4            4            0                2
+## 5 blue                   16           17           19               13
+## 6 brown                   4            9            7                8
+## # … with 24 more variables: Cristela_Jones <dbl>, Marina_Garcia <dbl>,
+## #   Samuel_Stark <dbl>, Kevin_Malcolm Jr <dbl>, Alexa_Haverlah <dbl>,
+## #   Zacharia_Washington <dbl>, Jose_Martinez <dbl>, Ana_Garza <dbl>,
+## #   Carolina_Cruz <dbl>, Anissa_Reyes <dbl>, Alaina_Bookman <dbl>,
+## #   Bryan_Baker <dbl>, Mckenna_Lucas <dbl>, Marissa_DeLeon <dbl>,
+## #   Claire_Stevens <dbl>, Katy_Vanatsky <dbl>, Vicente_Montalvo <dbl>,
+## #   Eric_Seow <dbl>, Brandon_Jenkins <dbl>, Luke_Skywalker <dbl>, …
 ```
 
 ### Pivot wider on your own
