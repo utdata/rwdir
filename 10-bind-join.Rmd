@@ -1,19 +1,15 @@
 # Bind and join {#bind-join}
 
-So far all of our lessons have come from a single data source, but that's not always the case in the real world. With this lesson we'll learn how to "bind" and "join" data, which are different ways to bring multiple data frames together into a single object.
+So far all of our lessons have come from a single data source, but that's not always the case in the real world. With this lesson we'll learn how to "bind" and "join" data, which are different ways to bring multiple data frames together into a single object. 
 
-This chapter is by Prof. McDonald, using a Mac.
+This is the first of a two-chapter project. It is by Prof. McDonald, using a Mac.
 
 ## Goals of the chapter
 
-- Introduce `bind_rows()`
-- Introduce joins
+- Merge multiple data files with `bind_rows()`
+- Join data frames with `inner_join()`
 - Use `str_remove()` to clean data
 - Introduce `if_else()` for categorization
-- Introduce `datatables()` from the [DT package](https://rstudio.github.io/DT/)
-- Practice pivots
-- Practice plots
-- There is a writing assignment
 
 ## The story: An update to Denied
 
@@ -27,7 +23,7 @@ In 2016, the Houston Chronicle published a multi-part series called [Denied](htt
 
 Following the Chronicle's reporting (along with other news orgs), the Texas Legislature in 2017 [unanimously banned](https://www.chron.com/news/houston-texas/houston/article/Legislature-unanimously-approves-bill-designed-to-11134046.php) using a target or benchmark on how many students a district or charter school enrolls in special education.
 
-**We want to know if there has been a change in the percentage of special education students in each school district since the law was passed and the policy was dropped. We want to compare how many districts were above that arbitrary 8.5% benchmark before and after the changes.**
+**Has the percentage of special education students in each school district changed since the benchmarking policy was dropped? How many districts were above that arbitrary 8.5% benchmark before and after the changes? And lastly, how have local districts changed?**
 
 To prepare for this:
 
@@ -236,7 +232,7 @@ In our case we are going to start with our `dref` data and then use an **inner_j
 sped_joined <- dref %>% 
   inner_join(sped_merged, by = "district")
 
-sped_joined %>% head()
+# sped_joined %>% head()
 sped_joined %>% glimpse()
 ```
 
@@ -282,6 +278,7 @@ sped_cleaned <- sped_joined %>%
   select(
     district,
     distname,
+    cntyname,
     year,
     all_count = dpetallc,
     sped_count = dpetspec,
@@ -289,7 +286,7 @@ sped_cleaned <- sped_joined %>%
   )
 ```
 
-You should end up with **9,182** rows and **6** variables.
+You should end up with **9,182** rows and **7** variables.
 
 ## Create a threshold columns
 
@@ -331,3 +328,8 @@ This is something you've done a number of times as well, so I leave you to you:
 2. Export your `sped_flag` data using `write_rds()` and save it in your `data-processed` folder.
 
 In the next chapter we'll build an analysis notebook to find our answers!
+
+```{r export, include=FALSE}
+sped_flag %>% write_rds("data-processed/01-sped-districts.rds")
+```
+
