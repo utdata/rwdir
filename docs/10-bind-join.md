@@ -1,19 +1,17 @@
 # Bind and join {#bind-join}
 
-So far all of our lessons have come from a single data source, but that's not always the case in the real world. With this lesson we'll learn how to "bind" and "join" data, which are different ways to bring multiple data frames together into a single object.
+So far all of our lessons have come from a single data source, but that's not always the case in the real world. With this lesson we'll learn how to "bind" and "join" data, which are different ways to bring multiple data frames together into a single object. 
 
-This chapter is by Prof. McDonald, using a Mac.
+This is the first of a two-chapter project. It is by Prof. McDonald, using a Mac.
 
 ## Goals of the chapter
 
-- Introduce `bind_rows()`
-- Introduce joins
+- Merge multiple data files with `bind_rows()`
+- Join data frames with `inner_join()`
 - Use `str_remove()` to clean data
 - Introduce `if_else()` for categorization
-- Introduce `datatables()` from the [DT package](https://rstudio.github.io/DT/)
-- Practice pivots
-- Practice plots
-- There is a writing assignment
+
+We'll use the results of this chapter in our next one.
 
 ## The story: An update to Denied
 
@@ -27,12 +25,17 @@ In 2016, the Houston Chronicle published a multi-part series called [Denied](htt
 
 Following the Chronicle's reporting (along with other news orgs), the Texas Legislature in 2017 [unanimously banned](https://www.chron.com/news/houston-texas/houston/article/Legislature-unanimously-approves-bill-designed-to-11134046.php) using a target or benchmark on how many students a district or charter school enrolls in special education.
 
-**We want to know if there has been a change in the percentage of special education students in each school district since the law was passed and the policy was dropped. We want to compare how many districts were above that arbitrary 8.5% benchmark before and after the changes.**
+We want to look into the result of this reporting based on three things:
+
+- Has the percentage of special education students in each school district changed since the benchmarking policy was dropped?
+- How many districts were above that arbitrary 8.5% benchmark before and after the changes? 
+- How have local districts changed?
 
 To prepare for this:
 
 1. Read [Part 1](https://www.houstonchronicle.com/denied/1/) of the original Denied series.
 1. Read [About this series](https://www.houstonchronicle.com/denied/about/)
+1. Read [this followup](https://www.chron.com/news/houston-texas/houston/article/Legislature-unanimously-approves-bill-designed-to-11134046.php) about the legislative changes.
 
 ## About the data
 
@@ -40,7 +43,7 @@ Each year, the Texas Education Agency publishes the percentage of students in sp
 
 There are some challenges, though:
 
-- We have to download each year individually. There is nine years of data.
+- We have to download each year individually. There are nine years of data.
 - The are no district names in the files, only a district ID. We can get a reference file, though.
 - There are some differences is formatting for some files.
 
@@ -72,7 +75,7 @@ Go ahead. I'll wait.
 
 <div style="width:100%;height:0;padding-bottom:56%;position:relative;"><iframe src="https://giphy.com/embed/ExSXXwQmCSMWKor0qb" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/snl-saturday-night-live-season-47-ExSXXwQmCSMWKor0qb">via GIPHY</a></p>
 
-There is a lot there to take in there about where the data came from and how we dealth with it. Here is where you end up:
+There is a lot to take in there about where the data came from and how we dealth with it. Here is where you end up:
 
 - **You have nine data files for each year and one reference file imported.**
 
@@ -144,11 +147,11 @@ dstud13 %>%
 
 This shows we now have **2,455** rows and **5** variables. This is good ... we've addded the rows of `dstud14` but we don't have any new columns because the column names were identical.
 
-Now **edit the chunk** to save the result and do all these things:
+Now **edit the chunk** to do all these things:
 
 1. Save the result of the merge into a new data frame called `sped_merged`.
 1. Tack on another `bind_rows()` for the `dstud15` data so you can see you are adding more on.
-1. At the bottom of the chunk print out the `sped_merged` datafram and pipe it into `count(year)` so you can make sure you continue to add rows correctly.
+1. At the bottom of the chunk print out the `sped_merged` tibble and pipe it into `count(year)` so you can make sure you continue to add rows correctly.
 
 It should look like this:
 
@@ -171,6 +174,8 @@ sped_merged %>% count(year)
 ## 3 2015   1219
 ```
 
+We are NOT saving the `count()` result here, we are just printing it to our screen to make sure we get all the years.
+
 Now that we know this is working, you'll finish this out on your own.
 
 1. **Edit your chunk** to add `bind_rows()` for the rest of the files `dstud16` through `dstud21`. You just keep tacking them on like we did with `dstud15`.
@@ -190,26 +195,26 @@ What joins do is match rows from two data sets that have a column of common valu
 
 There are several types of [joins](https://dplyr.tidyverse.org/reference/mutate-joins.html). We describe these as left vs right based on which table we reference first (which is the left one). How much data you end up with depends on the "direction" of the join.
 
-- An **inner_join** puts together columns fron both tables where there are matching rows. If there are records in either table where the IDs don't match, they are dropped.
+- An **inner_join** puts together columns from both tables where there are matching rows. If there are records in either table where the IDs don't match, they are dropped.
 - A **left_join** will keep ALL the rows of your first table, then bring over columns from the second table where the IDs match. If there isn't a match in the second table, then new values will be blank in the new columns.
 - A **right_join** is the opposite of that: You keep ALL the rows of the second table, but bring over only matching rows from the first.
 - A **full_join** keeps all rows and columns from both tables, joining rows when they match.
 
-Here's two common ways to think of this visually.
+Here are two common ways to think of this visually.
 
-In the image below, The orange represents data that remains after the join.
+In the image below, The orange represents the data that remains after the join.
 
 ![](images/joins-description.png)
 
-This image below shows this as tables where only two rows "match" so you can see that non-matches are blank. The functions listed there are the tidyverse versions of each join type.
+This next visual shows this as tables where only two rows "match" so you can see how non-matches are handled (the lighter color represents blank values). The functions listed there are the tidyverse versions of each join type.
 
 ![](images/join_types.png)
 
 ### Joining our reference table
 
-In our case we are going to start with our `dref` data and then use an **inner_join** to add all the yearly data values. We're doing it in this order so the `dref` values are listed first in our resulting table.
+In our case we start with the `dref` data and then use an **inner_join** to add all the yearly data values. We're doing it in this order so the `dref` values are listed first in our resulting table.
 
-1. Start a new Markdown section an note we are joining the reference data
+1. Start a new Markdown section and note we are joining the reference data
 2. Add the chunk below and run it
 
 
@@ -250,7 +255,7 @@ sped_joined %>% glimpse()
 ## $ dpetspep <dbl> 12.3, 13.7, 13.2, 13.7, 14.2, 14.4, 14.9, 14.7, 14.6, 9.1, 8.…
 ```
 
-I'm show both a `head()` and `glimpse()` here so you can see all the columns have been added.
+I'm showing both a `head()` and `glimpse()` here so you can see all the columns have been added.
 
 Let's explain what is going on here:
 
@@ -259,15 +264,15 @@ Let's explain what is going on here:
 - We then pipe into `inner_join()` to `sped_merged`, which will attach our `dref` data to our merged data when the ID matches in the `district` variable.
 - The `by = "district"` argument ensures that we are matching based on the `district` column in both data sets.
 
-We could've left out the `by =` argument and R would match columns of the same name, but it is best practice to specify how you joining so it is clear what is happening. You wouldn't want to be surprised by other columns of the same name that you didn't want to join on. If you wanted to specify join columns of different names it would look like this: `df1 %>% inner_join(df2, by = c("df1_id" = "df2_id))`
+We could've left out the `by =` argument and R would match columns of the same name, but it is best practice to specify your joining columns so it is clear what is happening. You wouldn't want to be surprised by other columns of the same name that you didn't want to join on. If you wanted to specify join columns of different names it would look like this: `df1 %>% inner_join(df2, by = c("df1_id" = "df2_id))`
 
-There are now **10,684** rows in our joined data, fewer than what was in the original merged file because some districts (mostly charters) have closed and we don't want to include those. We are comparing only districts that have been open during this time period. For that matter, we don't want charter or alternative education districts at all, so we'll drop those next.
+There are now **10,684** rows in our joined data, fewer than what was in the original merged file because some districts (mostly charters) have closed and were not in our reference file. We are comparing only districts that have been open during this time period. For that matter, we don't want charter or alternative education districts at all, so we'll drop those next.
 
 ## Some cleanup: filter and select
 
 Filtering and selecting data is something we've done time and again, so you should be able to do this on your own.
 
-You are going remove charter and alternative education schools. This is a judgement call on our part to focus on just traditional public schools. We can always come back later and change if needed.
+You will next remove the charter and alternative education districts. This is a judgement call on our part to focus on just traditional public schools. We can always come back later and change if needed.
 
 You'll also remove and rename columns to make the more descriptive.
 
@@ -286,11 +291,28 @@ You'll also remove and rename columns to make the more descriptive.
 
 I really, really suggest you don't try to write that all at once. Build it one line at a time so you can see the result as you build your code.
 
+<details>
+  <summary>I'm being too nice here</summary>
 
+```r
+sped_cleaned <- sped_joined %>% 
+  filter(dflalted == "N" & dflchart == "N") %>% 
+  select(
+    district,
+    distname,
+    cntyname,
+    year,
+    all_count = dpetallc,
+    sped_count = dpetspec,
+    sped_percent = dpetspep
+  )
+```
+</details>
+<br>
 
-You should end up with **9,182** rows and **6** variables.
+You should end up with **9,182** rows and **7** variables.
 
-## Create a threshold columns
+## Create an audit benchmark column
 
 Part of this story is to note when a district is above the "8.5%" benchmark that the TEA was using for their audit calculations. It would be useful to have a column that noted if a district was above or below that threshold so we could plot districts based on that flag. We'll create this new column and introduce the logic of [`if_else()`](https://dplyr.tidyverse.org/reference/if_else.html).
 
@@ -302,21 +324,20 @@ sped_cleaned %>% head()
 ```
 
 ```
-## # A tibble: 6 × 6
-##   district distname   year  all_count sped_count sped_percent
-##   <chr>    <chr>      <chr>     <dbl>      <dbl>        <dbl>
-## 1 001902   CAYUGA ISD 2013        595         73         12.3
-## 2 001902   CAYUGA ISD 2014        553         76         13.7
-## 3 001902   CAYUGA ISD 2015        577         76         13.2
-## 4 001902   CAYUGA ISD 2016        568         78         13.7
-## 5 001902   CAYUGA ISD 2017        576         82         14.2
-## 6 001902   CAYUGA ISD 2018        575         83         14.4
+## # A tibble: 6 × 7
+##   district distname   cntyname year  all_count sped_count sped_percent
+##   <chr>    <chr>      <chr>    <chr>     <dbl>      <dbl>        <dbl>
+## 1 001902   CAYUGA ISD ANDERSON 2013        595         73         12.3
+## 2 001902   CAYUGA ISD ANDERSON 2014        553         76         13.7
+## 3 001902   CAYUGA ISD ANDERSON 2015        577         76         13.2
+## 4 001902   CAYUGA ISD ANDERSON 2016        568         78         13.7
+## 5 001902   CAYUGA ISD ANDERSON 2017        576         82         14.2
+## 6 001902   CAYUGA ISD ANDERSON 2018        575         83         14.4
 ```
-
 
 We want to add a column called `audit_flag` that says **ABOVE** if the `sped_percent` is above "8.5", and says **BELOW** if it isn't. This is a simple true/false condition that is perfect for the `if_else()` function.
 
-1. Add a new Markdown section and add you are adding an audit flag column
+1. Add a new Markdown section and note that you are adding an audit flag column
 2. Create an r chunk that and run it and I'll explain after.
 
 
@@ -329,19 +350,19 @@ sped_flag %>% sample_n(10)
 ```
 
 ```
-## # A tibble: 10 × 7
-##    district distname          year  all_count sped_count sped_percent audit_flag
-##    <chr>    <chr>             <chr>     <dbl>      <dbl>        <dbl> <chr>     
-##  1 229906   CHESTER ISD       2014        178         24         13.5 ABOVE     
-##  2 112909   SALTILLO ISD      2018        246         28         11.4 ABOVE     
-##  3 108912   LA JOYA ISD       2017      29464       2121          7.2 BELOW     
-##  4 080901   MOUNT VERNON ISD  2021       1475        162         11   ABOVE     
-##  5 116908   QUINLAN ISD       2021       2585        368         14.2 ABOVE     
-##  6 074917   SAM RAYBURN ISD   2017        524         53         10.1 ABOVE     
-##  7 121903   BUNA ISD          2019       1483        167         11.3 ABOVE     
-##  8 182903   MINERAL WELLS ISD 2021       3110        361         11.6 ABOVE     
-##  9 073904   WESTPHALIA ISD    2018        156         15          9.6 ABOVE     
-## 10 184902   SPRINGTOWN ISD    2017       3470        262          7.6 BELOW
+## # A tibble: 10 × 8
+##    district distname cntyname year  all_count sped_count sped_percent audit_flag
+##    <chr>    <chr>    <chr>    <chr>     <dbl>      <dbl>        <dbl> <chr>     
+##  1 019913   HUBBARD… BOWIE    2020        117         24         20.5 ABOVE     
+##  2 225907   HARTS B… TITUS    2015        544         26          4.8 BELOW     
+##  3 143904   VYSEHRA… LAVACA   2021        107          9          8.4 BELOW     
+##  4 158902   TIDEHAV… MATAGOR… 2014        800         50          6.3 BELOW     
+##  5 114904   FORSAN … HOWARD   2014        709         41          5.8 BELOW     
+##  6 093901   ANDERSO… GRIMES   2019        879         81          9.2 ABOVE     
+##  7 200906   OLFEN I… RUNNELS  2018        102          8          7.8 BELOW     
+##  8 201914   WEST RU… RUSK     2019       1087        119         10.9 ABOVE     
+##  9 054902   LORENZO… CROSBY   2018        259         38         14.7 ABOVE     
+## 10 194902   AVERY I… RED RIV… 2016        361         58         16.1 ABOVE
 ```
 
 Let's walk through the code above:
@@ -360,3 +381,6 @@ This is something you've done a number of times as well, so I leave you to you:
 2. Export your `sped_flag` data using `write_rds()` and save it in your `data-processed` folder.
 
 In the next chapter we'll build an analysis notebook to find our answers!
+
+
+
