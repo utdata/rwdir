@@ -27,7 +27,7 @@ Following the Chronicle's reporting (along with other news orgs), the Texas Legi
 
 We want to look into the result of this reporting based on three things:
 
-- Has the percentage of special education students in each school district changed since the benchmarking policy was dropped?
+- Has the percentage of special education students in Texas changed since the benchmarking policy was dropped?
 - How many districts were above that arbitrary 8.5% benchmark before and after the changes? 
 - How have local districts changed?
 
@@ -353,16 +353,16 @@ sped_flag %>% sample_n(10)
 ## # A tibble: 10 × 8
 ##    district distname cntyname year  all_count sped_count sped_percent audit_flag
 ##    <chr>    <chr>    <chr>    <chr>     <dbl>      <dbl>        <dbl> <chr>     
-##  1 019913   HUBBARD… BOWIE    2020        117         24         20.5 ABOVE     
-##  2 225907   HARTS B… TITUS    2015        544         26          4.8 BELOW     
-##  3 143904   VYSEHRA… LAVACA   2021        107          9          8.4 BELOW     
-##  4 158902   TIDEHAV… MATAGOR… 2014        800         50          6.3 BELOW     
-##  5 114904   FORSAN … HOWARD   2014        709         41          5.8 BELOW     
-##  6 093901   ANDERSO… GRIMES   2019        879         81          9.2 ABOVE     
-##  7 200906   OLFEN I… RUNNELS  2018        102          8          7.8 BELOW     
-##  8 201914   WEST RU… RUSK     2019       1087        119         10.9 ABOVE     
-##  9 054902   LORENZO… CROSBY   2018        259         38         14.7 ABOVE     
-## 10 194902   AVERY I… RED RIV… 2016        361         58         16.1 ABOVE
+##  1 018907   KOPPERL… BOSQUE   2020        183         32         17.5 ABOVE     
+##  2 020908   PEARLAN… BRAZORIA 2018      21559       1915          8.9 ABOVE     
+##  3 140908   SUDAN I… LAMB     2021        479         52         10.9 ABOVE     
+##  4 221901   ABILENE… TAYLOR   2016      16875       1814         10.7 ABOVE     
+##  5 014907   ROGERS … BELL     2016        879         62          7.1 BELOW     
+##  6 018901   CLIFTON… BOSQUE   2014       1039        108         10.4 ABOVE     
+##  7 168903   WESTBRO… MITCHELL 2015        296         33         11.1 ABOVE     
+##  8 031901   BROWNSV… CAMERON  2016      47669       4998         10.5 ABOVE     
+##  9 140907   SPRINGL… LAMB     2018        366         53         14.5 ABOVE     
+## 10 212901   ARP ISD  SMITH    2014        879         66          7.5 BELOW
 ```
 
 Let's walk through the code above:
