@@ -353,16 +353,16 @@ sped_flag %>% sample_n(10)
 ## # A tibble: 10 × 8
 ##    district distname cntyname year  all_count sped_count sped_percent audit_flag
 ##    <chr>    <chr>    <chr>    <chr>     <dbl>      <dbl>        <dbl> <chr>     
-##  1 022902   MARATHO… BREWSTER 2017         70          4          5.7 BELOW     
-##  2 093901   ANDERSO… GRIMES   2015        823         62          7.5 BELOW     
-##  3 252901   GRAHAM … YOUNG    2016       2440        239          9.8 ABOVE     
-##  4 223904   WELLMAN… TERRY    2017        279         22          7.9 BELOW     
-##  5 183902   CARTHAG… PANOLA   2019       2707        303         11.2 ABOVE     
-##  6 174901   CHIRENO… NACOGDO… 2015        373         28          7.5 BELOW     
-##  7 244901   HARROLD… WILBARG… 2016        101         11         10.9 ABOVE     
-##  8 108909   PHARR-S… HIDALGO  2015      32272       1931          6   BELOW     
-##  9 169901   BOWIE I… MONTAGUE 2019       1711        193         11.3 ABOVE     
-## 10 084909   SANTA F… GALVEST… 2013       4657        443          9.5 ABOVE
+##  1 210902   JOAQUIN… SHELBY   2021        667        144         21.6 ABOVE     
+##  2 075902   LA GRAN… FAYETTE  2020       1925        206         10.7 ABOVE     
+##  3 245903   RAYMOND… WILLACY  2021       2079        292         14   ABOVE     
+##  4 127901   ANSON I… JONES    2016        690         69         10   ABOVE     
+##  5 139909   PARIS I… LAMAR    2018       3815        468         12.3 ABOVE     
+##  6 184907   ALEDO I… PARKER   2017       5426        378          7   BELOW     
+##  7 212910   WINONA … SMITH    2018       1073        123         11.5 ABOVE     
+##  8 032902   PITTSBU… CAMP     2015       2433        250         10.3 ABOVE     
+##  9 152902   NEW DEA… LUBBOCK  2021        754         55          7.3 BELOW     
+## 10 237902   HEMPSTE… WALLER   2016       1666        116          7   BELOW
 ```
 
 Let's walk through the code above:

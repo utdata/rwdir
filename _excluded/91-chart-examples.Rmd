@@ -1,41 +1,115 @@
-# Chart examples
+# ggplot chart examples
 
-> NEEDS REVIEW AND UPDATES
+With this we'll use the `[starwars]()` dataset to show some super basic examples of chart types, with some annotations about the code.
 
---- 
-
-This will be a annotated list of chart code and examples from this book. It does not include the construction of the data frame used in the plot. (I'll try to go back and add links.)
-
-## Bar charts
-
-```r
-ggplot(wells_by_county, aes(x = county, y = wells_count)) +
-  geom_bar(stat = "identity") +
-  geom_text(aes(label=wells_count), vjust=-0.45) +
-  labs(title = "Wells by county", x = "", y = "Number of wells drilled")
+```{r setup include=FALSE}
+library(tidyverse)
+library(janitor)
 ```
 
-![Wells by county with title](images/visualize-county-by-year-done.png)
 
-### Explanaton
 
-- This is a `geom_bar()` using `stat="identity"`. See below for a similar one using `geom_col()` which assumes the identity of the category.
-- The `geom_text()` line adds the numbers to the top of the bars. `vjust` moves those number up vertically.
-- The `labs()` add the title and modifies the `x` and `y` labels. The `x` value is set to blank because the county labels on the bar is enough.
+The starwars data is structured like this:
+
+```{r sw-glimpse} 
+starwars %>% glimpse()
+```
+
+
+```{r}
+candy <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&single=true&output=csv") %>% clean_names()
+```
+
+The candy data looks like this:
+
+```{r}
+candy %>% glimpse()
+```
+
+Special education
+
+```{r}
+sped <- read_rds("data-processed/01-sped-districts.rds")
+
+sped %>% glimpse()
+```
+
+
 
 ## Column chart
 
-This is the same as above, but using `geom_col` which inheriently understands the `stat="identity"` problem.
+Basic column chart to plot a number based on differen categories.
 
-```r
-ggplot(wells_by_county, aes(x = county, y = wells_count)) +
+```{r col-chart}
+starwars %>%
+  head(10) %>% 
+  ggplot(aes(x = mass, y = name )) +
   geom_col() +
-  geom_text(aes(label=wells_count), vjust=-0.45) +
-  labs(title = "Wells by county", x = "", y = "Number of wells drilled")
+  geom_text(aes(label = mass, hjust = 1.5), color = "white") +
+  labs(
+    title = "Heaviest Star Wars characters",
+    subtitle = str_wrap("More here and this can get long because we have put it inside an str_wrap function which keeps it from writing off the chart."),
+    x = "Weight in kilograms",
+    y = "Character",
+    caption = "Could be a source or byline or both",
+    alt = "Alternative text for screen readers"
+  )
 ```
 
-It looks the same as above, and is probably the better choice.
+### Column with sped
 
+
+```{r}
+
+
+sped_line_data <- sped %>% 
+  filter(cntyname == "TRAVIS",
+         distname != "UNIVERSITY OF TEXAS AT AUSTIN H S") %>% 
+  group_by(year, distname) %>% 
+  summarise(
+    total_count = sum(all_count),
+    sped_count = sum(sped_count),
+  ) %>% 
+  mutate(sped_rate = ((sped_count / total_count) * 100) %>% round(1)) %>% 
+  select(1,2,5)
+```
+
+
+```{r}
+sped_line_data %>% 
+  ggplot(aes(x = year, y = sped_rate, group = distname)) +
+  geom_line(aes(color = distname)) +
+  geom_point() +
+  ylim(0,16)
+```
+
+
+
+### Column chart explanation
+
+- We are starting with `starwars` data.
+- `head(10)` just cuts our data to 10 rows so we don't have so many bars. You'll likely start your chart with specific data for your own purposes.
+- `ggplot()` is our charting function.
+  - ggplot needs "global aesthetics" (the `aes()` function) to know the data to use, and which variables to consider on the X and Y axes. Here we have set `x = mass` which will plot that value from left to right. We've set `y = name`.
+- `geom_col()` plots the bars the length of the value in `mass`.
+- `goem_text()` plots type on the chart based on the `mass`, which means it puts the center of the text at the position of the value (right at the end of the bar.)
+  - We are applying a local aesthetic here as an argument in `geom_text()`. We are saying with `label = mass` that for our text label, use the value in the `mass` field for that row. The `hjust = 1` moves that text label from the exact location of mass, toward the left by a value. A `-1` would move it the other way.
+  - `color = "white"` is another argument for `geom_text())`. It's not really an aesthetic, so it is not inside the `aes()` function.
+- `labs()` are labels, and this is a selection of them. Most 
+  
+### Column chart ordered
+
+Here is the same chart as above, but we've reordered the Y data (`name`) based on the vales in `mass`.
+
+```{r col-reordered}
+starwars %>%
+  head(10) %>% 
+  ggplot(aes(x = mass, y = reorder(name, mass) )) + # the reorder is in this line
+  geom_col() +
+  geom_text(aes(label = mass, hjust = 1.5), color = "white")
+```
+
+There is a `geom_bar()`, but it doesn't plot raw values from your dataset. By default it counts the number of observations based on a variable. There are other plot types that calculate "stats" from your data through [statistical transformations](https://r4ds.had.co.nz/data-visualisation.html?q=geom_bar#statistical-transformations), like histograms.
 
 ## A line chart
 
@@ -46,6 +120,22 @@ ggplot(wells_county_year, aes(x=year_drilled, y=wells_drilled)) +
 ```
 
 ![Wells drilled by county by year](images/visualize-county-year-line.png){width=500px}
+
+```{r}
+starwars %>% 
+  group_by(factor(birth_year)) %>% 
+  summarise(n()) %>% 
+  arrange()
+  
+
+USAccDeaths
+
+starwars %>% 
+  count(factor(birth_year), name = "Count", sort = T)
+  head() %>% 
+  ggplot(aes(x = ))
+```
+
 
 ### Explanation
 

@@ -4,21 +4,21 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 10 Bind and join | Reporting with Data in R</title>
-  <meta name="description" content="Chapter 10 Bind and join | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The course is taught by Christian McDonald and Jo Lukito." />
+  <title>Chapter 13 Chart production tips | Reporting with Data in R</title>
+  <meta name="description" content="Chapter 13 Chart production tips | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The course is taught by Christian McDonald and Jo Lukito." />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 10 Bind and join | Reporting with Data in R" />
+  <meta property="og:title" content="Chapter 13 Chart production tips | Reporting with Data in R" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="Chapter 10 Bind and join | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The course is taught by Christian McDonald and Jo Lukito." />
+  <meta property="og:description" content="Chapter 13 Chart production tips | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The course is taught by Christian McDonald and Jo Lukito." />
   <meta name="github-repo" content="utdata/rwdir" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 10 Bind and join | Reporting with Data in R" />
+  <meta name="twitter:title" content="Chapter 13 Chart production tips | Reporting with Data in R" />
   
-  <meta name="twitter:description" content="Chapter 10 Bind and join | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The course is taught by Christian McDonald and Jo Lukito." />
+  <meta name="twitter:description" content="Chapter 13 Chart production tips | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The course is taught by Christian McDonald and Jo Lukito." />
   
 
 <meta name="author" content="Christian McDonald and Jo Lukito" />
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="tidy-data.html"/>
-<link rel="next" href="answers.html"/>
+<link rel="prev" href="explore.html"/>
+<link rel="next" href="verbs.html"/>
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -552,326 +552,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="bind-join" class="section level1" number="10">
-<h1><span class="header-section-number">Chapter 10</span> Bind and join</h1>
-<p>So far all of our lessons have come from a single data source, but that’s not always the case in the real world. With this lesson we’ll learn how to “bind” and “join” data, which are different ways to bring multiple data frames together into a single object.</p>
-<p>This is the first of a two-chapter project. It is by Prof. McDonald, using a Mac.</p>
-<div id="goals-of-the-chapter" class="section level2" number="10.1">
-<h2><span class="header-section-number">10.1</span> Goals of the chapter</h2>
+<div id="charts" class="section level1" number="13">
+<h1><span class="header-section-number">Chapter 13</span> Chart production tips</h1>
+<p>By Christian McDonald</p>
+<p>Building charts is a part of the data exploration process, and often the only audience is ourselves or our editors. We’re just trying to learn something about our data. At title might help us quickly understand what we plotted, but we might not sweat every axis name and every detail.</p>
+<p>But we can also build charts for others, like our readers or an audience that hasn’t been mired in the data. It may run with a story or be part of a report. With these you are specifically trying to communicate a finding from your data in far more detail to someone who has far less context to begin with. Whether you are building this in ggplot, Datawrapper or some other tool, you must take more care to be thorough, accurate and communicative.</p>
+<div id="titles-descriptions-and-annotations" class="section level2" number="13.1">
+<h2><span class="header-section-number">13.1</span> Titles, descriptions and annotations</h2>
+<p>Chart titles and descriptions can be some of the most difficult writing you can do as a journalist. You don’t want to describe the steps of your analysis nor say the obvious, but you do need to give the reader all the relevant detail needed to understand the chart. <strong>Write titles, descriptions an annotations as if the chart stands alone, and a reader knows nothing before viewing it.</strong></p>
+<p>Some tips paraphrased from Nathan Yau’s <em>Data Points</em> book …</p>
 <ul>
-<li>Merge multiple data files with <code>bind_rows()</code></li>
-<li>Join data frames with <code>inner_join()</code></li>
-<li>Use <code>str_remove()</code> to clean data</li>
-<li>Introduce <code>if_else()</code> for categorization</li>
-</ul>
-<p>We’ll use the results of this chapter in our next one.</p>
-</div>
-<div id="the-story-an-update-to-denied" class="section level2" number="10.2">
-<h2><span class="header-section-number">10.2</span> The story: An update to Denied</h2>
-<p>In 2016, the Houston Chronicle published a multi-part series called <a href="https://www.houstonchronicle.com/denied/1/">Denied</a> that outlined how a Texas Education Agency policy started in 2004 could force an audit of schools that have more than 8.5% of their students in special education programs. The story was a Pulitzer Prize finalist. Here’s an excerpt:</p>
-<blockquote>
-<p>Over a decade ago, the officials arbitrarily decided what percentage of students should get special education services — 8.5% — and since then they have forced school districts to comply by strictly auditing those serving too many kids.</p>
-</blockquote>
-<blockquote>
-<p>Their efforts, which started in 2004 but have never been publicly announced or explained, have saved the Texas Education Agency billions of dollars but denied vital supports to children with autism, attention deficit hyperactivity disorder, dyslexia, epilepsy, mental illnesses, speech impediments, traumatic brain injuries, even blindness and deafness, a Houston Chronicle investigation has found.</p>
-</blockquote>
-<blockquote>
-<p>More than a dozen teachers and administrators from across the state told the Chronicle they have delayed or denied special education to disabled students in order to stay below the 8.5 percent benchmark. They revealed a variety of methods, from putting kids into a cheaper alternative program known as “Section 504” to persuading parents to pull their children out of public school altogether.</p>
-</blockquote>
-<p>Following the Chronicle’s reporting (along with other news orgs), the Texas Legislature in 2017 <a href="https://www.chron.com/news/houston-texas/houston/article/Legislature-unanimously-approves-bill-designed-to-11134046.php">unanimously banned</a> using a target or benchmark on how many students a district or charter school enrolls in special education.</p>
-<p>We want to look into the result of this reporting based on three things:</p>
-<ul>
-<li>Has the percentage of special education students in Texas changed since the benchmarking policy was dropped?</li>
-<li>How many districts were above that arbitrary 8.5% benchmark before and after the changes?</li>
-<li>How have local districts changed?</li>
-</ul>
-<p>To prepare for this:</p>
-<ol style="list-style-type: decimal">
-<li>Read <a href="https://www.houstonchronicle.com/denied/1/">Part 1</a> of the original Denied series.</li>
-<li>Read <a href="https://www.houstonchronicle.com/denied/about/">About this series</a></li>
-<li>Read <a href="https://www.chron.com/news/houston-texas/houston/article/Legislature-unanimously-approves-bill-designed-to-11134046.php">this followup</a> about the legislative changes.</li>
-</ol>
-</div>
-<div id="about-the-data-1" class="section level2" number="10.3">
-<h2><span class="header-section-number">10.3</span> About the data</h2>
-<p>Each year, the Texas Education Agency publishes the percentage of students in special education as part of their <a href="https://tea.texas.gov/texas-schools/accountability/academic-accountability/performance-reporting/texas-academic-performance-reports">Texas Academic Performance Reports</a>. We can download a file that has the percentages for each district in the state.</p>
-<p>There are some challenges, though:</p>
-<ul>
-<li>We have to download each year individually. There are nine years of data.</li>
-<li>The are no district names in the files, only a district ID. We can get a reference file, though.</li>
-<li>There are some differences is formatting for some files.</li>
-</ul>
-<p>I will save you the hassle of going through the TAPR database to find and download the individual files, and I will also supply code to clean the files to make them consistent. I’ll try not to get lost in the weeds along the way.</p>
-<div id="set-up-your-project" class="section level3" number="10.3.1">
-<h3><span class="header-section-number">10.3.1</span> Set up your project</h3>
-<ol style="list-style-type: decimal">
-<li>Go to <a href="https://github.com/utdata/rwdir/blob/chap10/resources/rwdir-sped-template.zip">this page</a>.</li>
-<li>Look for the <strong>Download</strong> button and download the zip file.</li>
-<li>Find that on your computer and uncompress it.</li>
-<li>Rename the folder to <code>yourname-sped</code> <strong>but use your name</strong>.</li>
-<li>Move the folder to your <code>rwd</code> folder or wherever you’ve been saving your class projects.</li>
-<li>In RStudio, choose File &gt; New Project. <strong>Choose Next Directory</strong> at the next step and then find the folder you just moved. Use that to create your project.</li>
-</ol>
-<p>You should now have your own project that already has a head start on this project. It has the data in a <code>data-raw</code> folder, and your first notebook <code>01-import</code> that already has some code in it.</p>
-</div>
-<div id="open-read-and-run" class="section level3" number="10.3.2">
-<h3><span class="header-section-number">10.3.2</span> Open, read and run</h3>
-<p>Once you have your project set up …</p>
-<ol style="list-style-type: decimal">
-<li>Open up the <code>01-import</code> notebook.</li>
-<li>Read every line</li>
-<li>Run each chunk as you do.</li>
-</ol>
-<p>Go ahead. I’ll wait.</p>
-<div style="width:100%;height:0;padding-bottom:56%;position:relative;">
-<iframe src="https://giphy.com/embed/ExSXXwQmCSMWKor0qb" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen>
-</iframe>
-</div>
-<p>
-<a href="https://giphy.com/gifs/snl-saturday-night-live-season-47-ExSXXwQmCSMWKor0qb">via GIPHY</a>
-</p>
-<p>There is a lot to take in there about where the data came from and how we dealth with it. Here is where you end up:</p>
-<ul>
-<li><strong>You have nine data files for each year and one reference file imported.</strong></li>
+<li>The title – typically larger and bolder fonts — sets the stage or describes what people should see or look for in the data. A descriptive title also helps. For example, “Rising Gas Prices” says more about the chart than just “Gas Prices.” By including “Rising,” it presents the conclusion immediately, and readers will look to the chart to verify and see the details. Saying just “Gas Prices” leaves the data interpretation to the readers and places them in the exploration phase.</li>
+<li>The description or lead-in text is used to prepare readers for what a chart shows, but in further detail. The text expands on what the title declares, where the data is from, how it was derived, <strong>or what it means</strong> (best charts do this, says <span class="citation">(<a href="#ref-crit" role="doc-biblioref"><strong>crit?</strong></a>)</span>). Basically, it’s information that might help others understand the data better but often doesn’t directly point to the specific elements.</li>
+<li>To explain specifics points or areas, you can use lines and arrows as an annotation layer on top of a chart. This places descriptions directly in the context of the data so tha a readers doesn’t have to look outside a graph for additional information to fully understand what you show.</li>
 </ul>
 </div>
-</div>
-<div id="merging-data-together" class="section level2" number="10.4">
-<h2><span class="header-section-number">10.4</span> Merging data together</h2>
-<p>OK, so we have nine different yearly files. Wouldn’t it be a lot easier if these were ONE thing? Indeed, we can <strong>merge</strong> these files together by stacking them on top of each other. Let’s review the concept using Starburst data:</p>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/9WA8YxMjpnI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-</iframe>
-<p>Here’s an image representation of the concept. You have two data sets and you stack them on top of each other where the column names match. (Note here that identical rows in both data sets remain).</p>
-<p><img src="images/bind_rows.png" /></p>
-<p>Since all nine of our data files have the same column names, we can easily merge them with function <strong><code>bind_rows()</code></strong>.</p>
-<p>Let’s demonstrate through building it.</p>
-<ol style="list-style-type: decimal">
-<li>Start a new section on your R Markdown document and note you are merging data</li>
-<li>Add a chunk with just the <code>dstud13</code> data and run it.</li>
-</ol>
-<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="bind-join.html#cb212-1" aria-hidden="true" tabindex="-1"></a>dstud13</span></code></pre></div>
-<pre><code>## # A tibble: 1,228 × 5
-##    district year  dpetallc dpetspec dpetspep
-##    &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
-##  1 001902   2013       595       73     12.3
-##  2 001903   2013      1236      113      9.1
-##  3 001904   2013       751       81     10.8
-##  4 001906   2013       406       45     11.1
-##  5 001907   2013      3288      252      7.7
-##  6 001908   2013      1619      151      9.3
-##  7 001909   2013       439       48     10.9
-##  8 002901   2013      3617      250      6.9
-##  9 003801   2013       635       45      7.1
-## 10 003902   2013      2726      196      7.2
-## # … with 1,218 more rows</code></pre>
-<p>The result shows there are <strong>1,228</strong> rows and <strong>5</strong> variables in the data, which should match what shows for <code>dstud13</code> in your Environment tab.</p>
-<ol style="list-style-type: decimal">
-<li>Now <strong>edit</strong> that chunk to use <code>bind_rows()</code> with <code>dstud14</code>.</li>
-</ol>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="bind-join.html#cb214-1" aria-hidden="true" tabindex="-1"></a>dstud13 <span class="sc">%&gt;%</span> </span>
-<span id="cb214-2"><a href="bind-join.html#cb214-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(dstud14)</span></code></pre></div>
-<pre><code>## # A tibble: 2,455 × 5
-##    district year  dpetallc dpetspec dpetspep
-##    &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
-##  1 001902   2013       595       73     12.3
-##  2 001903   2013      1236      113      9.1
-##  3 001904   2013       751       81     10.8
-##  4 001906   2013       406       45     11.1
-##  5 001907   2013      3288      252      7.7
-##  6 001908   2013      1619      151      9.3
-##  7 001909   2013       439       48     10.9
-##  8 002901   2013      3617      250      6.9
-##  9 003801   2013       635       45      7.1
-## 10 003902   2013      2726      196      7.2
-## # … with 2,445 more rows</code></pre>
-<p>This shows we now have <strong>2,455</strong> rows and <strong>5</strong> variables. This is good … we’ve addded the rows of <code>dstud14</code> but we don’t have any new columns because the column names were identical.</p>
-<p>Now <strong>edit the chunk</strong> to do all these things:</p>
-<ol style="list-style-type: decimal">
-<li>Save the result of the merge into a new data frame called <code>sped_merged</code>.</li>
-<li>Tack on another <code>bind_rows()</code> for the <code>dstud15</code> data so you can see you are adding more on.</li>
-<li>At the bottom of the chunk print out the <code>sped_merged</code> tibble and pipe it into <code>count(year)</code> so you can make sure you continue to add rows correctly.</li>
-</ol>
-<p>It should look like this:</p>
-<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="bind-join.html#cb216-1" aria-hidden="true" tabindex="-1"></a>sped_merged <span class="ot">&lt;-</span> dstud13 <span class="sc">%&gt;%</span> </span>
-<span id="cb216-2"><a href="bind-join.html#cb216-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(dstud14) <span class="sc">%&gt;%</span> </span>
-<span id="cb216-3"><a href="bind-join.html#cb216-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(dstud15)</span>
-<span id="cb216-4"><a href="bind-join.html#cb216-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb216-5"><a href="bind-join.html#cb216-5" aria-hidden="true" tabindex="-1"></a><span class="co"># we use this to ensure we bind correctly when we add new years</span></span>
-<span id="cb216-6"><a href="bind-join.html#cb216-6" aria-hidden="true" tabindex="-1"></a>sped_merged <span class="sc">%&gt;%</span> <span class="fu">count</span>(year)</span></code></pre></div>
-<pre><code>## # A tibble: 3 × 2
-##   year      n
-##   &lt;chr&gt; &lt;int&gt;
-## 1 2013   1228
-## 2 2014   1227
-## 3 2015   1219</code></pre>
-<p>We are NOT saving the <code>count()</code> result here, we are just printing it to our screen to make sure we get all the years.</p>
-<p>Now that we know this is working, you’ll finish this out on your own.</p>
-<ol style="list-style-type: decimal">
-<li><strong>Edit your chunk</strong> to add <code>bind_rows()</code> for the rest of the files <code>dstud16</code> through <code>dstud21</code>. You just keep tacking them on like we did with <code>dstud15</code>.</li>
-<li>After you are done, make sure you look at the <code>sped_merged</code> listing in your environment to make sure you end up with <strong>10,891</strong> rows of data and <strong>5</strong> variables.</li>
-</ol>
-<p>OK, we have all our data in one file, but we still don’t know the district names. It’s time to <strong>Join</strong> our data with our reference file.</p>
-</div>
-<div id="about-joins" class="section level2" number="10.5">
-<h2><span class="header-section-number">10.5</span> About joins</h2>
-<p>OK, before we go further we need to talk about joining data. It’s one of those <a href="https://vimeo.com/showcase/7320305">Basic Data Journalism Functions</a> …</p>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/T6PPd-ukFyk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-</iframe>
-<p>What joins do is match rows from two data sets that have a column of common values, like an ID or county name. (The <code>district</code> ID column in our case). Columns from the second data set will be added based on where the ID’s match.</p>
-<p>There are several types of <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">joins</a>. We describe these as left vs right based on which table we reference first (which is the left one). How much data you end up with depends on the “direction” of the join.</p>
+<div id="other-considerations" class="section level2" number="13.2">
+<h2><span class="header-section-number">13.2</span> Other considerations</h2>
 <ul>
-<li>An <strong>inner_join</strong> puts together columns from both tables where there are matching rows. If there are records in either table where the IDs don’t match, they are dropped.</li>
-<li>A <strong>left_join</strong> will keep ALL the rows of your first table, then bring over columns from the second table where the IDs match. If there isn’t a match in the second table, then new values will be blank in the new columns.</li>
-<li>A <strong>right_join</strong> is the opposite of that: You keep ALL the rows of the second table, but bring over only matching rows from the first.</li>
-<li>A <strong>full_join</strong> keeps all rows and columns from both tables, joining rows when they match.</li>
+<li>Proper data encodings and visual cues: Think about what you are trying to convey with the graphic and plot your data in a fashion that furthers that understanding. (See Nathan Yau’s <em>Data Points</em>, Chap. 3.)</li>
+<li>Legends for encodings: If your plots include labels for categories on the chart, you may not need a separate legend, but be sure readers can distinguish items.</li>
+<li>Labels for axis: They help describe the value being plotted. In some obvious cases where the meaning in clear, like years, they may be dropped.</li>
+<li>Include unit values to further understanding: Sometimes the value can be added to the plot itself, other times grid lines may be enough.</li>
+<li>Annotations: Add explanations to the plot if they help readers understand nuance of what you area trying to convey.</li>
+<li>Source of the data: This is the course of the data, not the delivery method. (i.e., The Comptroller of Public accounts, not data.texas.gov.)</li>
+<li>Your byline: Credit yourself and your publications.</li>
 </ul>
-<p>Here are two common ways to think of this visually.</p>
-<p>In the image below, The orange represents the data that remains after the join.</p>
-<p><img src="images/joins-description.png" /></p>
-<p>This next visual shows this as tables where only two rows “match” so you can see how non-matches are handled (the lighter color represents blank values). The functions listed there are the tidyverse versions of each join type.</p>
-<p><img src="images/join_types.png" /></p>
-<div id="joining-our-reference-table" class="section level3" number="10.5.1">
-<h3><span class="header-section-number">10.5.1</span> Joining our reference table</h3>
-<p>In our case we start with the <code>dref</code> data and then use an <strong>inner_join</strong> to add all the yearly data values. We’re doing it in this order so the <code>dref</code> values are listed first in our resulting table.</p>
-<ol style="list-style-type: decimal">
-<li>Start a new Markdown section and note we are joining the reference data</li>
-<li>Add the chunk below and run it</li>
-</ol>
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="bind-join.html#cb218-1" aria-hidden="true" tabindex="-1"></a>sped_joined <span class="ot">&lt;-</span> dref <span class="sc">%&gt;%</span> </span>
-<span id="cb218-2"><a href="bind-join.html#cb218-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(sped_merged, <span class="at">by =</span> <span class="st">&quot;district&quot;</span>)</span>
-<span id="cb218-3"><a href="bind-join.html#cb218-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb218-4"><a href="bind-join.html#cb218-4" aria-hidden="true" tabindex="-1"></a>sped_joined <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 9
-##   district distname  cntyname dflalted dflchart year  dpetallc dpetspec dpetspep
-##   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
-## 1 001902   CAYUGA I… ANDERSON N        N        2013       595       73     12.3
-## 2 001902   CAYUGA I… ANDERSON N        N        2014       553       76     13.7
-## 3 001902   CAYUGA I… ANDERSON N        N        2015       577       76     13.2
-## 4 001902   CAYUGA I… ANDERSON N        N        2016       568       78     13.7
-## 5 001902   CAYUGA I… ANDERSON N        N        2017       576       82     14.2
-## 6 001902   CAYUGA I… ANDERSON N        N        2018       575       83     14.4</code></pre>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="bind-join.html#cb220-1" aria-hidden="true" tabindex="-1"></a>sped_joined <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
-<pre><code>## Rows: 10,684
-## Columns: 9
-## $ district &lt;chr&gt; &quot;001902&quot;, &quot;001902&quot;, &quot;001902&quot;, &quot;001902&quot;, &quot;001902&quot;, &quot;001902&quot;, &quot;…
-## $ distname &lt;chr&gt; &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;CAYU…
-## $ cntyname &lt;chr&gt; &quot;ANDERSON&quot;, &quot;ANDERSON&quot;, &quot;ANDERSON&quot;, &quot;ANDERSON&quot;, &quot;ANDERSON&quot;, &quot;…
-## $ dflalted &lt;chr&gt; &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;…
-## $ dflchart &lt;chr&gt; &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;…
-## $ year     &lt;chr&gt; &quot;2013&quot;, &quot;2014&quot;, &quot;2015&quot;, &quot;2016&quot;, &quot;2017&quot;, &quot;2018&quot;, &quot;2019&quot;, &quot;2020…
-## $ dpetallc &lt;dbl&gt; 595, 553, 577, 568, 576, 575, 564, 557, 535, 1236, 1207, 1217…
-## $ dpetspec &lt;dbl&gt; 73, 76, 76, 78, 82, 83, 84, 82, 78, 113, 107, 126, 144, 139, …
-## $ dpetspep &lt;dbl&gt; 12.3, 13.7, 13.2, 13.7, 14.2, 14.4, 14.9, 14.7, 14.6, 9.1, 8.…</code></pre>
-<p>I’m showing both a <code>head()</code> and <code>glimpse()</code> here so you can see all the columns have been added.</p>
-<p>Let’s explain what is going on here:</p>
-<ul>
-<li>We are creating a new bucket <code>sped_joined</code> to save our data.</li>
-<li>We start with <code>dref</code> so those fields will be listed first in our result.</li>
-<li>We then pipe into <code>inner_join()</code> to <code>sped_merged</code>, which will attach our <code>dref</code> data to our merged data when the ID matches in the <code>district</code> variable.</li>
-<li>The <code>by = "district"</code> argument ensures that we are matching based on the <code>district</code> column in both data sets.</li>
-</ul>
-<p>We could’ve left out the <code>by =</code> argument and R would match columns of the same name, but it is best practice to specify your joining columns so it is clear what is happening. You wouldn’t want to be surprised by other columns of the same name that you didn’t want to join on. If you wanted to specify join columns of different names it would look like this: <code>df1 %&gt;% inner_join(df2, by = c("df1_id" = "df2_id))</code></p>
-<p>There are now <strong>10,684</strong> rows in our joined data, fewer than what was in the original merged file because some districts (mostly charters) have closed and were not in our reference file. We are comparing only districts that have been open during this time period. For that matter, we don’t want charter or alternative education districts at all, so we’ll drop those next.</p>
-</div>
-</div>
-<div id="some-cleanup-filter-and-select" class="section level2" number="10.6">
-<h2><span class="header-section-number">10.6</span> Some cleanup: filter and select</h2>
-<p>Filtering and selecting data is something we’ve done time and again, so you should be able to do this on your own.</p>
-<p>You will next remove the charter and alternative education districts. This is a judgement call on our part to focus on just traditional public schools. We can always come back later and change if needed.</p>
-<p>You’ll also remove and rename columns to make the more descriptive.</p>
-<ol style="list-style-type: decimal">
-<li>Start a new markdown section and note you are cleaning up your data.</li>
-<li>Create an R chunk and start with the <code>sped_joined</code> and then do all these things …</li>
-<li>Use <code>filter()</code> to keep rows where:
-<ul>
-<li>the <code>dflalted</code> field is “N”</li>
-<li>AND the <code>dflchart</code> field is “N”</li>
-</ul></li>
-<li>Use <code>select()</code> to:
-<ul>
-<li>remove (or not include) the <code>dflalted</code> and <code>dflchart</code> columns. (You can only do this AFTER you filter with them!)</li>
-</ul></li>
-<li>Use <code>select()</code> or <code>rename()</code> to rename the following columns:
-<ul>
-<li>change <code>dpetallc</code> to <code>all_count</code></li>
-<li>change <code>dpetspec</code> to <code>sped_count</code></li>
-<li>change <code>dpetspep</code> to <code>sped_percent</code></li>
-</ul></li>
-<li>Make sure all your changes are saved into a new data frame called <code>sped_cleaned</code>.</li>
-</ol>
-<p>I really, really suggest you don’t try to write that all at once. Build it one line at a time so you can see the result as you build your code.</p>
-<details>
-<summary>
-I’m being too nice here
-</summary>
-<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="bind-join.html#cb222-1" aria-hidden="true" tabindex="-1"></a>sped_cleaned <span class="ot">&lt;-</span> sped_joined <span class="sc">%&gt;%</span> </span>
-<span id="cb222-2"><a href="bind-join.html#cb222-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dflalted <span class="sc">==</span> <span class="st">&quot;N&quot;</span> <span class="sc">&amp;</span> dflchart <span class="sc">==</span> <span class="st">&quot;N&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb222-3"><a href="bind-join.html#cb222-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb222-4"><a href="bind-join.html#cb222-4" aria-hidden="true" tabindex="-1"></a>    district,</span>
-<span id="cb222-5"><a href="bind-join.html#cb222-5" aria-hidden="true" tabindex="-1"></a>    distname,</span>
-<span id="cb222-6"><a href="bind-join.html#cb222-6" aria-hidden="true" tabindex="-1"></a>    cntyname,</span>
-<span id="cb222-7"><a href="bind-join.html#cb222-7" aria-hidden="true" tabindex="-1"></a>    year,</span>
-<span id="cb222-8"><a href="bind-join.html#cb222-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">all_count =</span> dpetallc,</span>
-<span id="cb222-9"><a href="bind-join.html#cb222-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_count =</span> dpetspec,</span>
-<span id="cb222-10"><a href="bind-join.html#cb222-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_percent =</span> dpetspep</span>
-<span id="cb222-11"><a href="bind-join.html#cb222-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-</details>
-<p><br></p>
-<p>You should end up with <strong>9,182</strong> rows and <strong>7</strong> variables.</p>
-</div>
-<div id="create-an-audit-benchmark-column" class="section level2" number="10.7">
-<h2><span class="header-section-number">10.7</span> Create an audit benchmark column</h2>
-<p>Part of this story is to note when a district is above the “8.5%” benchmark that the TEA was using for their audit calculations. It would be useful to have a column that noted if a district was above or below that threshold so we could plot districts based on that flag. We’ll create this new column and introduce the logic of <a href="https://dplyr.tidyverse.org/reference/if_else.html"><code>if_else()</code></a>.</p>
-<p>OK, our data looks like this:</p>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="bind-join.html#cb223-1" aria-hidden="true" tabindex="-1"></a>sped_cleaned <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 7
-##   district distname   cntyname year  all_count sped_count sped_percent
-##   &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;
-## 1 001902   CAYUGA ISD ANDERSON 2013        595         73         12.3
-## 2 001902   CAYUGA ISD ANDERSON 2014        553         76         13.7
-## 3 001902   CAYUGA ISD ANDERSON 2015        577         76         13.2
-## 4 001902   CAYUGA ISD ANDERSON 2016        568         78         13.7
-## 5 001902   CAYUGA ISD ANDERSON 2017        576         82         14.2
-## 6 001902   CAYUGA ISD ANDERSON 2018        575         83         14.4</code></pre>
-<p>We want to add a column called <code>audit_flag</code> that says <strong>ABOVE</strong> if the <code>sped_percent</code> is above “8.5,” and says <strong>BELOW</strong> if it isn’t. This is a simple true/false condition that is perfect for the <code>if_else()</code> function.</p>
-<ol style="list-style-type: decimal">
-<li>Add a new Markdown section and note that you are adding an audit flag column</li>
-<li>Create an r chunk that and run it and I’ll explain after.</li>
-</ol>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="bind-join.html#cb225-1" aria-hidden="true" tabindex="-1"></a>sped_flag <span class="ot">&lt;-</span> sped_cleaned <span class="sc">%&gt;%</span> </span>
-<span id="cb225-2"><a href="bind-join.html#cb225-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">audit_flag =</span> <span class="fu">if_else</span>(sped_percent <span class="sc">&gt;</span> <span class="fl">8.5</span>, <span class="st">&quot;ABOVE&quot;</span>, <span class="st">&quot;BELOW&quot;</span>))</span>
-<span id="cb225-3"><a href="bind-join.html#cb225-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb225-4"><a href="bind-join.html#cb225-4" aria-hidden="true" tabindex="-1"></a><span class="co"># this pulls 30 random rows so I can check results</span></span>
-<span id="cb225-5"><a href="bind-join.html#cb225-5" aria-hidden="true" tabindex="-1"></a>sped_flag <span class="sc">%&gt;%</span> <span class="fu">sample_n</span>(<span class="dv">10</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 10 × 8
-##    district distname cntyname year  all_count sped_count sped_percent audit_flag
-##    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;     
-##  1 210902   JOAQUIN… SHELBY   2021        667        144         21.6 ABOVE     
-##  2 075902   LA GRAN… FAYETTE  2020       1925        206         10.7 ABOVE     
-##  3 245903   RAYMOND… WILLACY  2021       2079        292         14   ABOVE     
-##  4 127901   ANSON I… JONES    2016        690         69         10   ABOVE     
-##  5 139909   PARIS I… LAMAR    2018       3815        468         12.3 ABOVE     
-##  6 184907   ALEDO I… PARKER   2017       5426        378          7   BELOW     
-##  7 212910   WINONA … SMITH    2018       1073        123         11.5 ABOVE     
-##  8 032902   PITTSBU… CAMP     2015       2433        250         10.3 ABOVE     
-##  9 152902   NEW DEA… LUBBOCK  2021        754         55          7.3 BELOW     
-## 10 237902   HEMPSTE… WALLER   2016       1666        116          7   BELOW</code></pre>
-<p>Let’s walk through the code above:</p>
-<ul>
-<li>We’re making a new data frame called <code>sped_flag</code> and then starting with <code>sped_cleaned</code>.</li>
-<li>We use <code>mutate()</code> to create a new column and we name it <code>audit_flag</code>.</li>
-<li>We set the value of <code>audit_flag</code> to be the result of this <code>if_else()</code> function. That function takes three arguments: A condition test (<code>sped_percent &gt; 8.5</code> in our case), what is the result if the condition is true (“ABOVE” in our case), and what is the result if the condition is NOT true (“BELOW”) in our case.</li>
-<li>Lastly we print out the new data <code>sped_cleaned</code> and pipe it into <code>sample_n()</code> which gives us a number of random rows from the data. I do this because the top of the data was all TRUE so I couldn’t see if the mutate worked properly or not. (Always check your calculations!!)</li>
-</ul>
-</div>
-<div id="export-the-data" class="section level2" number="10.8">
-<h2><span class="header-section-number">10.8</span> Export the data</h2>
-<p>This is something you’ve done a number of times as well, so I leave you to you:</p>
-<ol style="list-style-type: decimal">
-<li>Make a new section and note you are exporting the data</li>
-<li>Export your <code>sped_flag</code> data using <code>write_rds()</code> and save it in your <code>data-processed</code> folder.</li>
-</ol>
-<p>In the next chapter we’ll build an analysis notebook to find our answers!</p>
 
 </div>
 </div>
@@ -880,8 +586,8 @@ I’m being too nice here
           </div>
         </div>
       </div>
-<a href="tidy-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="answers.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="explore.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="verbs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -912,7 +618,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/10-bind-join.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/81-charts-tips.Rmd",
 "text": "Edit"
 },
 "history": {
