@@ -51,7 +51,7 @@ I will save you the hassle of going through the TAPR database to find and downlo
 
 ### Set up your project
 
-1. Go to [this page](https://github.com/utdata/rwdir/blob/chap10/resources/rwdir-sped-template.zip).
+1. Go to [this page](https://github.com/utdata/rwdir/blob/main/resources/rwdir-sped-template.zip).
 1. Look for the **Download** button and download the zip file.
 1. Find that on your computer and uncompress it.
 1. Rename the folder to `yourname-sped` **but use your name**.
@@ -353,16 +353,16 @@ sped_flag %>% sample_n(10)
 ## # A tibble: 10 × 8
 ##    district distname cntyname year  all_count sped_count sped_percent audit_flag
 ##    <chr>    <chr>    <chr>    <chr>     <dbl>      <dbl>        <dbl> <chr>     
-##  1 210902   JOAQUIN… SHELBY   2021        667        144         21.6 ABOVE     
-##  2 075902   LA GRAN… FAYETTE  2020       1925        206         10.7 ABOVE     
-##  3 245903   RAYMOND… WILLACY  2021       2079        292         14   ABOVE     
-##  4 127901   ANSON I… JONES    2016        690         69         10   ABOVE     
-##  5 139909   PARIS I… LAMAR    2018       3815        468         12.3 ABOVE     
-##  6 184907   ALEDO I… PARKER   2017       5426        378          7   BELOW     
-##  7 212910   WINONA … SMITH    2018       1073        123         11.5 ABOVE     
-##  8 032902   PITTSBU… CAMP     2015       2433        250         10.3 ABOVE     
-##  9 152902   NEW DEA… LUBBOCK  2021        754         55          7.3 BELOW     
-## 10 237902   HEMPSTE… WALLER   2016       1666        116          7   BELOW
+##  1 180904   WILDORA… OLDHAM   2020        183         16          8.7 ABOVE     
+##  2 091918   TOM BEA… GRAYSON  2015        684         89         13   ABOVE     
+##  3 234905   MARTINS… VAN ZAN… 2013        483         58         12   ABOVE     
+##  4 084901   DICKINS… GALVEST… 2013       9728        846          8.7 ABOVE     
+##  5 082902   DILLEY … FRIO     2014       1006         72          7.2 BELOW     
+##  6 108914   LA VILL… HIDALGO  2017        596         40          6.7 BELOW     
+##  7 116901   CADDO M… HUNT     2015       1591        135          8.5 BELOW     
+##  8 018908   CRANFIL… BOSQUE   2018        138         15         10.9 ABOVE     
+##  9 212905   TYLER I… SMITH    2014      17993       1333          7.4 BELOW     
+## 10 161916   WEST ISD MCLENNAN 2013       1440         93          6.5 BELOW
 ```
 
 Let's walk through the code above:
