@@ -8,16 +8,16 @@ library(janitor)
 ```
 
 
+```{r data-sources}
+starwars <- starwars
+candy <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&single=true&output=csv") %>% clean_names()
+sped <- read_rds("data-processed/01-sped-districts.rds")
+```
 
 The starwars data is structured like this:
 
 ```{r sw-glimpse} 
 starwars %>% glimpse()
-```
-
-
-```{r}
-candy <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&single=true&output=csv") %>% clean_names()
 ```
 
 The candy data looks like this:
@@ -26,15 +26,12 @@ The candy data looks like this:
 candy %>% glimpse()
 ```
 
-Special education
+Special education data
 
 ```{r}
-sped <- read_rds("data-processed/01-sped-districts.rds")
 
 sped %>% glimpse()
 ```
-
-
 
 ## Column chart
 
@@ -58,6 +55,28 @@ starwars %>%
 
 ### Column with sped
 
+```{r sped_col_wrangle}
+sped_col_data <- sped %>% 
+  group_by(year) %>% 
+  summarise(
+    total_count = sum(all_count),
+    sped_count = sum(sped_count),
+  ) %>% 
+  mutate(sped_rate = ((sped_count / total_count) * 100) %>% round(1)) %>% 
+  select(year, sped_rate)
+```
+
+
+```{r}
+sped_col_data
+
+ggplot(sped_col_data, aes(x = year, y = sped_rate)) +
+  geom_col() +
+  geom_text(aes(label = sped_rate, vjust = 2), color = "white")
+```
+
+### Line with sped
+
 
 ```{r}
 
@@ -76,6 +95,8 @@ sped_line_data <- sped %>%
 
 
 ```{r}
+sped_line_data
+
 sped_line_data %>% 
   ggplot(aes(x = year, y = sped_rate, group = distname)) +
   geom_line(aes(color = distname)) +
