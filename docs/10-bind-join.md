@@ -353,16 +353,16 @@ sped_flag %>% sample_n(10)
 ## # A tibble: 10 × 8
 ##    district distname cntyname year  all_count sped_count sped_percent audit_flag
 ##    <chr>    <chr>    <chr>    <chr>     <dbl>      <dbl>        <dbl> <chr>     
-##  1 242902   SHAMROC… WHEELER  2021        403         62         15.4 ABOVE     
-##  2 063903   SPUR ISD DICKENS  2020        245         40         16.3 ABOVE     
-##  3 092902   KILGORE… GREGG    2017       4083        322          7.9 BELOW     
-##  4 108911   SHARYLA… HIDALGO  2013      10205        611          6   BELOW     
-##  5 201913   CARLISL… RUSK     2016        639         47          7.4 BELOW     
-##  6 074907   HONEY G… FANNIN   2017        603         71         11.8 ABOVE     
-##  7 014907   ROGERS … BELL     2016        879         62          7.1 BELOW     
-##  8 158906   VAN VLE… MATAGOR… 2013        920         96         10.4 ABOVE     
-##  9 195902   BALMORH… REEVES   2017        162         15          9.3 ABOVE     
-## 10 235902   VICTORI… VICTORIA 2018      14243       1477         10.4 ABOVE
+##  1 244903   VERNON … WILBARG… 2015       2134        232         10.9 ABOVE     
+##  2 019913   HUBBARD… BOWIE    2018         93         11         11.8 ABOVE     
+##  3 028903   LULING … CALDWELL 2021       1408        201         14.3 ABOVE     
+##  4 003907   CENTRAL… ANGELINA 2014       1592        157          9.9 ABOVE     
+##  5 071903   FABENS … EL PASO  2015       2333        244         10.5 ABOVE     
+##  6 208903   IRA ISD  SCURRY   2018        256         18          7   BELOW     
+##  7 250904   QUITMAN… WOOD     2019       1121        130         11.6 ABOVE     
+##  8 205902   GREGORY… SAN PAT… 2014       4518        398          8.8 ABOVE     
+##  9 216901   STERLIN… STERLING 2015        325         31          9.5 ABOVE     
+## 10 019909   SIMMS I… BOWIE    2017        493         77         15.6 ABOVE
 ```
 
 Let's walk through the code above:
