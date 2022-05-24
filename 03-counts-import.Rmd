@@ -11,7 +11,7 @@ Note: This lesson was written by Prof. McDonald and I use macOS.
 - Learn about R packages, how to install and import them.
 - Learn how to download and import CSV files using the [readr](https://readr.tidyverse.org/) package.
 - Introduce the Tibble/Data Frame.
-- Introduce the tidyverse ` %>% `.
+- String functions together with the pipe: ` |> ` (or ` %>% `).
 - Learn how to modify data types (date) and `select()` columns.
 
 We'll be exploring the Billboard Hot 100 charts along the way. Eventually you'll find the answers to a bunch of questions in this data and write about it.
@@ -39,11 +39,11 @@ You've done this once already in Chapter 2 so you got this! But here are the bas
 1. Delete the other boilerplate text.
 1. Save the file as `01-import.Rmd`.
 
-We named this notebook starting with `01-` because we will eventually end up with multiple notebooks and we want to know  the order to run them.
+We named this notebook starting with `01-` because we will eventually end up with multiple notebooks that depend on each other and we will need to know the order to run them in the future.
 
 ### Describe the goals of the notebook
 
-We'll add our first bit of RMarkdown just after the meta data to explain what we are doing. Add this text to your notebook:
+We'll add our first bit of R Markdown just after the meta data to explain what we are doing. Add this text to your notebook:
 
 ```rmarkdown
 ## Goals of this notebook
@@ -58,7 +58,7 @@ Steps to prepare our data:
 
 We want to start each notebook with a list like this so our future selves and others know what the heck we are trying to accomplish.
 
-We will also write text like this for each new "section" or goal in the notebook.
+We will also write R Markdown like this for each new "section" or goal in the notebook.
 
 ### The R Package environment
 
@@ -68,7 +68,7 @@ R is an open-source language, which means that other programmers can contribute 
 
 What happens is developers will find it difficult to do a certain task, so they will write an R "Package" of code that helps them with that task. They share that code with the community, and suddenly the R garage has an ["ultimate set of tools"](https://youtu.be/Y1En6FKd5Pk?t=24) that would make Spicoli's dad proud. 
 
-One set of these tools is the [tidyverse](https://www.tidyverse.org/) introduced by Hadley Wickham and his team at RStudio. It's a set of R packages for data science that work together in similar ways. Prof. Lukito and I are worshipers of the tidyverse worldview and we'll use these tools extensively. While not required reading, I highly recommend Wickham's book [R for data science](https://r4ds.had.co.nz/index.html), which is free.
+One set of these tools is the [tidyverse](https://www.tidyverse.org/) developed by Hadley Wickham and his team at RStudio. It's a set of R packages for data science that work together in similar ways. Prof. Lukito and I are worshipers of the tidyverse worldview and we'll use these tools extensively. While not required reading, I highly recommend Wickham's book [R for data science](https://r4ds.had.co.nz/index.html), which is free.
 
 There are also a series of useful tidyverse [cheatsheets](https://www.rstudio.com/resources/cheatsheets/) that can help you as you use the packages and functions from the tidyverse. We'll refer to these throughout the course.
 
@@ -76,12 +76,12 @@ There are also a series of useful tidyverse [cheatsheets](https://www.rstudio.co
 
 There are two steps to using an R package:
 
-- **Install the package** using `install.packages("package_name")`. You only have to do this once for each computer, so I usually do it using the R Console instead of in an R Notebook.
+- **Install the package** onto your computer by using `install.packages("package_name")`. You only have to do this once for each computer, so I usually do it using the R Console instead of in an R Notebook.
 - **Include the library** using `library(package_name)`. This has to be done for each R Notebook or script that uses it, so it is usually one of the first things you'll see in a notebook.
 
-> Note that you have to use "quotes" around the package name when you are installing, but you DON'T use quotes when you load the library.
+> Note that you use "quotes" around the package name when you are installing, but you DON'T need quotes when you load the library.
 
-We're going to install several packages we will use in this project. To do this, we are going to use the **Console**, which we haven't talked about much yet.
+We will install several packages to use in this project. To do this, we will use the **Console**, which we haven't talked about much yet.
 
 ![The Console and Terminal](images/import-console.png){width=600px}
 
@@ -94,9 +94,9 @@ install.packages("tidyverse")
 
 As you type into the Console, you'll see some type-assist hints on what you need. You can use the arrow keys to select one and hit the _tab_ key to complete that command, then enter the values you need. If it asks you to install "from source", type `Yes` and hit return.
 
-You'll see a bunch of response in the Console.
+You'll see a bunch of response fly by in the Console. It's probably all fine unless it ends the last response with an error.
 
-When you install the "tidyverse" package you actually get eight individual packages. You'll see references to "dplyr" even some functions referenced as `dplyr::filter()` but they are all part of the tidyverse. You can explore the list at [tidyverse.org](https://www.tidyverse.org/) but know there are other packages from the same folks that we use and load separately.
+When you install the "tidyverse" package you actually get eight individual packages. You'll see references to "dplyr" and even some functions referenced as `dplyr::filter()` but they are all part of the tidyverse. You can explore the list at [tidyverse.org](https://www.tidyverse.org/) but know there are other packages from the same folks that we use and load separately.
 
 1. We need two other packages as well, so also do:
 
@@ -110,13 +110,13 @@ We'll use janitor to clean up our data column names, among other things. A good 
 
 We'll use [lubridate](https://lubridate.tidyverse.org/) to fix some dates, which are a special complicated thing in programming. While Lubridate is part of the tidyverse universe, we have to install and load it separately.
 
-You only have to install the packages once on your computer (though you have to load the libraries into each new notebook, which is explained below).
+You only have to install the packages once on your computer (though you have to load the libraries into each new notebook, which is next).
 
 ### Load the libraries
 
-Next, we're going to tell our R Notebook to use these three libraries.
+Next, we're going to tell our R Notebook to actually _use_ these three libraries we've just installed.
 
-1. After the metadata at the top of your notebook, use *Cmd+option+i* to insert an R code chunk.
+1. In your notebook, after the metadata at the top, use *Cmd+option+i* to insert an R code chunk.
 1. In that chunk, type in the three libraries and run the code block with *Cmd+Shift+Return*.
 
 This is the code you need:
@@ -142,8 +142,8 @@ The first folder is called `data-raw`. We are creating this folder because we wa
 In your Files pane at the bottom-right of Rstudio, there is a **New Folder** icon.
 
 1. Click on the **New Folder** icon.
-1. Name your new folder `data-raw`. This is where we'll put raw data. We never write data to this folder.
-1. Also create another new folder called `data-processed`. This is were we will write data. We separate them so we don't accidentally overwrite raw data.
+1. Name your new folder `data-raw`. This is where we'll put raw data that we don't want to overwrite.
+1. Also create another new folder called `data-processed`. This is were we will write data. We separate them to help avoid overwriting our raw data.
 
 Once you've done that, they should show up in the file explorer in the Files pane. Click the refresh button if you don't see them. (The circlish thing at top right of the screenshot below. You might have to widen the pane to see it.)
 
@@ -153,7 +153,7 @@ Your `.Rproj` file name is likely a different name (and that is OK) and you can 
 
 ### About data sources
 
-Depending on the data source, importing can be brilliantly easy or a major pain in the rear. It all depends on how well-formatted it is.
+Depending on the data source, importing can be brilliantly easy or a major pain in the rear. It all depends on how well-formatted the data is.
 
 In this class, we will primarily use data stored as CSVs (Comma Separated Value), Excel files and APIs (Application Programming Interface).
 
@@ -168,11 +168,9 @@ While our data may be found on the internet in a data portal or through an API, 
 
 ## The Billboard Hot 100
 
-The _Billboard_ [Hot 100](https://www.billboard.com/charts/hot-100/) singles charts has been the music industry's standard record chart since its inception on 8/2/1958. The rankings, published by Billboard Media, are currently based on sales (physical and digital), radio play, and online streaming. The methods and policies of the chart have changed over time.
+The _Billboard_ [Hot 100](https://www.billboard.com/charts/hot-100/) singles charts has been the music industry's standard record chart since its inception on Aug. 4th, 1958. The rankings, published by Billboard Media, are currently based on sales (physical and digital), radio play, and online streaming. The methods and policies of the chart have changed over time.
 
-The data we will use here is a combination of data collected by Kaggle user [Dhruvil Dave](https://www.kaggle.com/dhruvildave/billboard-the-hot-100-songs), along with some scraping and merging by Prof. McDonald. It is stored on the code sharing website Github for safe keeping.
-
-When you write about this data (and you will), you should source it as **the Billboard Hot 100 from Billboard Media**, since that is where it originally came from and they are the "owner" of the data.
+The data we will use was compiled by Prof. McDonald from a [number of sources](https://github.com/utdata/rwd-billboard-data). When you write about this data (and you will), you should source it as **the Billboard Hot 100 from Billboard Media**, since that is where it originally came from and they are the "owner" of the data.
 
 ### Data dictionary
 
@@ -190,24 +188,24 @@ Take a look at the [current chart](https://www.billboard.com/charts/hot-100/). O
 
 Since this data is stored on Github, we can reference it through a URL and download it into our project. Since this is a new "section" of our R Notebook, we'll note what we are doing and why in Markdown.
 
-1. Add a Markdown headline `## Downloading data` and on a new line text that indicates you are downloading data. You would typically include a link and explain what it is, etc, often linking to the original source.
-1. Create an R chunk and include the following (hint: use the copy icon at the top right):
+1. Add a Markdown headline `## Downloading data` and some text explaining you are downloading data. Add a note about where the data comes from and include a link to the original source. (These are notes to your future self to explain what you are doing.)
+1. Create an R chunk and copy/paste the following inside it. (hint: use the copy icon at the top right):
 
 ```r
-download.file("https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_archive.csv?raw=true", "data-raw/hot100_archive.csv")
+download.file("https://github.com/utdata/rwdir/blob/main/data-raw/hot100_assignment.csv?raw=true", "data-raw/hot100_archive.csv")
 ```
 
 This `download.file` function takes at least two arguments:
 
-- The URL of the file you are downloading
-- The path and name of where you want to save it.
+- The URL of the file you are downloading.
+- The path and name of where you want to save the resulting file.
 
-Note those two arguments are in quotes. The path includes the folder and file name as it relates to where your R Notebook is. In this case we need to go inside the `data-raw` folder and then name the file: `data-raw/hot100_archive.csv`.
+Note those two arguments are in quotes. The path includes the folder and file name as it relates to where your R Notebook is. In this case we need to go inside the `data-raw/` folder and then name the file `hot100_archive.csv`.
 
 When you run this, it should save the file and then give you output similar to this:
 
 ```text
-trying URL 'https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_archive.csv?raw=true'
+trying URL 'https://github.com/utdata/rwdir/blob/main/data-raw/hot100_assignment.csv?raw=true'
 Content type 'text/plain; charset=utf-8' length 17960724 bytes (17.1 MB)
 ==================================================
 downloaded 17.1 MB
@@ -224,18 +222,20 @@ Now that we've downloaded the data to our computer, we don't need to run this li
 
 Adding comments in programming is a common thing and every programming language has a way to do it. It is a way for the programmer to write notes to their future self, colleagues or — like in this case — comment out some code that you want to keep, but don't want to execute when the program is run.
 
-In R, anything following one ore more hashes `#` _inside a code chunk_ will be a comment: The text is there, but it won't be executed as code. (Yes, this is a bit confusing since `#`'s are used for headlines in the Markdown parts of the file.)
+When using R Notebooks we write most of our "explaining" text _outside_ of code chunks using a syntax called [R Markdown](https://rmarkdown.rstudio.com/). R Markdown is designed to be readable as written, but it is given pretty formatting when "printed" as a PDF or HTML file. ^[I'll sometimes just say "Write in Markdown" since R Markdown is just a fancy version of the original [markdown](https://daringfireball.net/projects/markdown/). Beware my rabbit holes.]
 
-In R Notebooks we put a most of our "explaining" text in Markdown _outside_ of code chunks ... it's one of the reasons we like using R Notebooks. But sometimes it makes more sense to explain something right where the code is being executed, so that is where the code comments come in.
+But, sometimes it makes more sense to explain something right where the code is being executed. Inside R code chunks, anything following one or more hashes `#` _inside a code chunk_ will be a comment. The text is there in the chunk, but it won't be executed as code.
+
+(Yes, this is a bit confusing since `#`'s are used for comments in code chunks but headlines in the R Markdown parts of the file.)
 
 ## Import the data
 
-Now that we have the data on our machine, let's import it into our notebook so we can see it.
+Now that we have the data on our computer, let's import it into our notebook so we can see it.
 
 Since we are doing a new thing, we should note that with a Markdown headline and text. 
 
 1. Add a Markdown headline: `## Import data`
-1. Add some text to explain  that we are importing the Billboard Hot 100 data.
+1. Add some text to explain that we are importing the Billboard Hot 100 data.
 1. After your description, add a new code chunk (*Cmd+Option+i*).
 
 We'll be using the `read_csv()` function from the tidyverse [readr](https://readr.tidyverse.org/) package, which is different from `read.csv` that comes with base R. `read_csv()` is mo betta.
@@ -248,13 +248,11 @@ Inside the function we put in the path to our data, inside quotes. If you start 
 read_csv("data-raw/hot100_archive.csv")
 ```
 
-> Note the path is in quotes.
+> Note the path to the file is in quotes.
 
-You get two results printed to your screen.
+You get two results printed to your notebook.
 
-The first result called **"R Console"** shows what columns were imported and the data types. It's important to review these to make sure things happened the way that expected. In this case it noted which columns came in as text (`chr`), or numbers (`dbl`).
-
-Note: **Red** colored text in this output is NOT an indication of a problem.
+The first result called **"R Console"** shows what columns were imported and the data types. It's important to review these to make sure things happened the way that expected. In this case it noted which columns came in as text (`chr`), or numbers (`dbl`). The red colored text in this output is NOT an indication of a problem.
 
 ![RConsole output](images/bb-import-show-cols.png){width=600}
 
@@ -264,18 +262,18 @@ The second result **spec_tbl_df** prints out the data like a table. The data obj
 
 ![Data output](images/bb-import-show-data.png){width=600}
 
-When we look at the data output into RStudio, there are several things to note:
+When we look at the data output in RStudio, there are several things to note:
 
 - Below each column name is an indication of the data type. This is important.
 - You can use the arrow icon on the right to page through the additional columns.
 - You can use the paging numbers and controls at the bottom to page through the rows of data.
 - The number of rows and columns is displayed.
 
-Of special note here, we have only printed this data to the screen. We have not saved it in any way, but that is next.
+At this point we have only printed this data to the screen. We have not saved it in any way, but that is next.
 
 ## Assign our import to an R object
 
-As of right now, we've only printed the data to our screen. We haven't "saved" it at all. Next we need to assign it to an **R object** so it can be named thing in our project environment and we can reuse it. We don't want to re-import the data every time we use the data.
+Now that we know how to find our data, we next need to assign it to an **R object** so it can be named thing we can reuse it. We don't want to re-import the data every time we use the data.
 
 The syntax to create an object in R can seem weird at first, but the convention is to name the object first, then insert stuff into it. So, to create an object, the structure is this:
 
@@ -284,7 +282,7 @@ The syntax to create an object in R can seem weird at first, but the convention 
 new_object <- stuff_going_into_object
 ```
 
-Think of it like this: You must have a bucket before you can fill it with water. We "name" the bucket, then fill it with data.
+Think of it like this: You must have a bucket before you can fill it with water. We "name" the bucket, then fill it with data. That bucket is then saved into our "environment", meaning it is in memory where we can access it easily by calling its name.
 
 Let's make a object called `hot100` and fill it with our imported tibble.
 
@@ -306,9 +304,10 @@ Run that chunk and several things happen:
 
 Since we can't see the data after we assign it, let's print the object to our notebook so we can refer to it.
 
-1. Edit your import chunk to add the last two lines of this, including the one with the `#`:
+1. Edit your import chunk to add the last two lines of this, including `#`:
 
 ```r
+# create the object, then fill it with data from the csv
 hot100 <- read_csv("data-raw/hot100_archive.csv")
 
 # peek at the data
@@ -317,50 +316,52 @@ hot100
 
 > You can use the green play button at the right of the chunk, or preferrably have your cursor inside the chunk and do _Cmd+Shift+Return_ to run all lines. (_Cmd+Return_ runs only the current line.)
 
-This prints your saved object to your notebook.
-
-Note I added a little comment with the `#` _inside_ the code chunk. I'm just noting to my future self why I'm doing this.
-
 ### Glimpse the data
 
 There is another way to peek at the data that I prefer because it is more compact and shows you all the columns and data examples without scrolling: `glimpse()`.
 
 1. In your existing chunk, edit the last line to add the `glimpse()` function as noted below.
 
-I'm showing the return here as well. Afterward I'll explain the pipe: ` %>% `.
+I'm showing the return here as well. Afterward I'll explain the pipe: ` |> `.
 
 ```r
 hot100 <- read_csv("data-raw/hot100_archive.csv")
 
 # peek at the data
-hot100 %>% glimpse()
+hot100 |> glimpse()
 ```
 
 ```{r hot100-glimpse-notebook, echo=F, message=F, warning=F}
 hot100 <- read_csv("data-raw/hot100_archive.csv")
 
 # peek at the data
-hot100 %>% glimpse()
+hot100 |> glimpse()
 ```
 
 The glimpse shows there are 300,000+ rows and 7 columns in our data. Each column is then listed out with its data type and the first several values in that column.
 
-### About the pipe %>%
+### About the pipe |>
 
-We need to break down this code a little: `hot100 %>% glimpse()`.
+We need to break down this code a little: `hot100 |> glimpse()`.
 
-We are starting with the object `hot100`, but then we follow it with ` %>% `, which is called a pipe. The pipe is a tidyverse tool that allows us to take the **results** of an object or function and pass them into another function. Think of it like a sentence that says **"AND THEN" the next thing**.
+We are starting with the object `hot100`, but then we follow it with ` |> `, which is called a pipe. The pipe is concept that allows us to take the **result** of an object or function and pass it into another function. Think of it like a sentence that says **"AND THEN" the next thing**.
 
-It might look like there are no arguments inside `glimpse()`, but what we are actually doing is passing the `hot100` tibble into it.
+It might look like there are no arguments inside `glimpse()`, but what we are actually doing is passing the `hot100` tibble into it like this: `glimpse(hot100)`.
 
-You can't start a new line with a pipe. If you are breaking your code into multiple lines, then the ` %>% ` needs to be at the end and the next line should be indented so there is a visual clue it is related to line above it, like this:
+You can't start a new line with a pipe. If you are breaking your code into multiple lines, then the ` |> ` needs to be at the end and the next line should be indented so there is a visual clue it is related to line above it, like this:
 
 ```r
-hot100 %>%
+hot100 |> 
   glimpse()
 ```
 
-> IMPORTANT: There is a keyboard command for the pipe ` %>% `: **Cmd+Shift+m**. Learn that one!
+> There is a keyboard command for the pipe ` |> `: **Cmd+Shift+m**. Learn that one!
+
+### A rabbit dives into a pipe {-}
+
+The concept of the pipe was first introduced in 2014 as ` %>% ` by the tidyverse folks in 2014 with a package called [magrittr](https://magrittr.tidyverse.org/). It was so well received the concept was written directly into base R in 2011, but using the symbol `|>`. Even Hadley Wickham is [rewriting R for Data Science](https://r4ds.hadley.nz/workflow-pipes.html#magrittr-and-the-pipe) to use the base `|>` pipe by default. You can configure which to use in RStudio.
+
+(This book will be rewritten to migrate from ` %>%` to`|>`, but it might take a while to catch all references to ` %>% `. For now, assume they are interchangeable.)
 
 ## Cleaning data
 
@@ -386,24 +387,24 @@ So, given those notes above, we should clean up our column names. This is why we
 hot100 <- read_csv("data-raw/hot100_archive.csv") %>% clean_names()
 
 # peek at the data
-hot100 %>% glimpse()
+hot100 |> glimpse()
 ```
 
-This function has cleaned up your names, making them all lowercase and using `_` instead of periods between words. Believe me when I say this is helpful when you are writing code. It makes type-assist work better and you can now double-click on a column name to select all of it and copy and paste somewhere else. When you have spaces or dashes in an object you can't double-click on it and get all of it. 
+This function has cleaned up your names, making them all lowercase and using `_` instead of periods between words. Believe me when I say this is helpful when you are writing code. It makes type-assist work better and you can now double-click on a column name to select all of it and copy and paste somewhere else. When you have spaces or dashes in an object you can't double-click on it to select all of it. 
 
 ## Fixing the date
 
-Dates in programming are a tricky datatype because they are represented essentially as the number of seconds before/after January 1, 1970. Yes, that's crazy, but it is also cool because that allows us to do math on them. So, to use our `chart_week` properly in R we need to convert it from the text into a real _date_ datatype. (You can read more about why dates are tough in programming  [here](https://levelup.gitconnected.com/why-is-programming-with-dates-so-hard-7477b4aeff4c).)
+Dates in programming are a tricky data type because they are represented essentially as the number of seconds before/after January 1, 1970. Yes, that's crazy, but it is also cool because that allows us to do math on them. So, to use our `chart_week` properly in R we need to convert it from the text into a real _date_ datatype. (If you wish, you can [read more about why dates are tough in programming](https://levelup.gitconnected.com/why-is-programming-with-dates-so-hard-7477b4aeff4c).)
 
-Converting text into dates can be difficult, but the tidyverse universe has a package called [lubridate](https://lubridate.tidyverse.org/) to ease the friction. (Get it?).
+Converting text into dates can be challenging, but the tidyverse universe has a package called [lubridate](https://lubridate.tidyverse.org/) to ease the friction. (Get it?).
 
 Since we are doing something new, we want to start a new section in our notebook and explain what we are doing.
 
-1. Add a headline: `## Fix our dates`.
+1. In Markdown add a headline: `## Fix our dates`.
 1. Add some text that you are using lubridate to create a new column with a real date.
 1. Add a new code chunk. Remember _Cmd+Option+i_ will do that.
 
-We will be **changing or creating** our data, so we will create a **new object** to store it in. We do this so we can go back and reference the _unchanged_ data if we need to. Because of this, we'll set up a chunk of code that allows us to peek at what is happening while we write our code. We'll do this often.
+We will be **changing or creating** our data, so we will create a **new object** to store it in. We do this so we can go back and reference the _unchanged_ data if we need to. Because of this, we'll set up a chunk of code that allows us to peek at what is happening while we write our code. We'll do this kind of setup often when we are working out how to do something in code.
 
 1. Add the following inside your code chunk.
 
@@ -412,15 +413,15 @@ We will be **changing or creating** our data, so we will create a **new object**
 hot100_date <- hot100
 
 # peek at the result
-hot100_date %>% glimpse()
+hot100_date |> glimpse()
 ```
 
 Let's break this down:
 
-- I have a comment starting with `#` to explain the first part of the code
+- I have a comment starting with `#` to explain the first part of the code.
 - We created a new "bucket" called `hot100_date` and we fill it with our `hot100` data. Yes, as of now they are exactly the same.
-- I have a blank line for clarity
-- Then another comment
+- I have a blank line for clarity.
+- Then another comment.
 - Then we glimpse the new `hot100_date` object so we can see changes as we work on it.
 
 > To be clear, we haven't changed any data yet. We just created a new object like the old object.
@@ -433,11 +434,11 @@ We are going to use the text of our date field `chart_week` to create a new conv
 
 Let's explain how mutate works first: Mutate changes every value in a column. You can either create a new column or overwrite an existing one.
 
-Within the mutate function, we name the new thing first (the bucket first!) and then fill it with the new value.
+Within the mutate function, we name the new thing first (the bucket!) and then fill it with the new value.
 
 ```r
 # this is psuedo code. Don't run it.
-data %>% 
+data |> 
   mutate(
     newcol = new_stuff_from_math_or_whatever
   )
@@ -451,27 +452,27 @@ That new value could be arrived at through math or any combination of other func
 
 ```{r date-mutate}
 # part we will build upon
-hot100_date <- hot100 %>% 
+hot100_date <- hot100 |> 
   mutate(
     chart_date = mdy(chart_week)
   )
 
 # peek at the result
-hot100_date %>% glimpse()
+hot100_date |> glimpse()
 ```
 
 Again, let's break down what we've done:
 
-- At the end of the first line, we added the pipe ` %>% ` because we are taking our `hot100` data **AND THEN** we will mutate it.
+- At the end of the first line, we added the pipe ` |> ` because we are taking our `hot100` data **AND THEN** we will mutate it.
 - Next, we start the `mutate()` function. If you use type assist and tab completion to type this in, your cursor will end up in the middle of the parenthesis. This allows you to then hit your **Return** key to split it into multiple lines with proper indenting. We do this so we can more clearly see what _inside_ the mutate ... where the real action is going on here. It's also possible to make multiple changes within the same mutate, and putting each one on their own line makes that more clear.
 - Inside the mutate, we first name our new column `chart_date` and then we set that equal to `mdy(chart_week)`, which is explained next.
 
 The `mdy()` function is part of the lubridate package. Lubridate allows us to parse text and then turn it into a real date _if_ we tell it the order of the date values in the original data.
 
-- Our original date was something like "07/17/1965". That is month, followed by day, followed by year.
+- Our original date was something like "7/17/1965". That is month, followed by day, followed by year.
 - We use the lubridate function `mdy()` to say that's the order this text is in, now please convert this into a _real date_, which properly shows as YYYY-MM-DD. Lubridate is smart enough to figure out if you have `/` or `-` between your values in the original text.
 
-If your original text is in a different date order, then you look up what lubridate function you need to convert it. I typically use the **cheatsheet** on the [lubridate documentation](https://lubridate.tidyverse.org/). You'll find them in the PARSE DATE-TIMES section.
+If your original text is in a different date order, then you look up what lubridate function you need to convert it. I typically use the **cheatsheet** in the [lubridate documentation](https://lubridate.tidyverse.org/). You'll find them in the PARSE DATE-TIMES section.
 
 ### Check the result!
 
@@ -481,11 +482,11 @@ Did your dates convert correctly?
 
 ## Arrange the data
 
-If you are paying attention to the dates of our rows of data, you'll notice the first row is from "2021-11-06", which is not the first date of our data as I described this (that was in 1958) nor the last date (late December of 2021).
+Just to be tidy, we want arrange our data so it starts with the oldest week and "top" of the chart and then work forward through time and rank.
 
 Let's sort this data so that the oldest data is at the top.
 
-Sorting data is not a particularly difficult concept to grasp, but it is one of the [Basic Data Journalism Functions](https://vimeo.com/showcase/7320305) ...
+Sorting data is not a particularly difficult concept to grasp, but it is one of the [Basic Data Journalism Functions](https://vimeo.com/showcase/7320305), so watch this video:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Wl4IDvnzPcs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -493,23 +494,23 @@ Sorting data is not a particularly difficult concept to grasp, but it is one of 
 
 In R, the sorting function we use is called `arrange()`.
 
-We'll build our our data and use the pipe`%>%` to push it into an `arrange()` function. Inside arrange we'll give it the columns we wish to sort by.
+We'll build our our data and use the pipe ` |> ` to push it into an `arrange()` function. Inside arrange we'll give it the columns we wish to sort by.
 
 1. Edit your chunk to the following to add the `arrange()` function:
 
 ```{r clean-date}
 # part we will build upon
-hot100_date <- hot100 %>% 
+hot100_date <- hot100 |> 
   mutate(
     chart_date = mdy(chart_week)
-  ) %>%
+  ) |> 
   arrange(chart_date, this_week)
 
 # peek at the result
-hot100_date %>% glimpse()
+hot100_date |> glimpse()
 ```
 
-Now when you look at the glimpse, the first record in the `chart_date` column is from "1958-08-02" and the first in the `this_week` is "1", which is the top of the chart.
+Now when you look at the glimpse, the first record in the `chart_date` column is from "1958-08-04" and the first in the `this_week` is "1", which is the top of the chart.
 
 Just to see this all clearly in table form, we'll print the top of the table to our screen so we can see it.
 
@@ -519,7 +520,7 @@ Just to see this all clearly in table form, we'll print the top of the table to 
 > In case you haven't noticed yet, the code printout in your notebook is [a lot cooler](https://youtu.be/Z6XIGZ51VMo?t=149) than in this online book.
 
 ```{r date-done-peek}
-hot100_date %>% head(10)
+hot100_date |> head(10)
 ```
 
 This just prints the first 10 lines of the data.
@@ -560,7 +561,7 @@ In our case we will select the columns want to keep, and we'll rename some as we
 1. Add the code below and then I'll explain it. We again are setting this up to create a new object and view the changes.
 
 ```{r select}
-hot100_tight <- hot100_date %>% 
+hot100_tight <- hot100_date |> 
   select(
     chart_date,
     # renaming example with new name first
@@ -572,7 +573,7 @@ hot100_tight <- hot100_date %>%
     wks_on_chart
   )
 
-hot100_tight %>% glimpse()
+hot100_tight |> glimpse()
 ```
 
 Line by line, it goes like this:
@@ -619,17 +620,17 @@ We will use another readr function called `write_rds()` to create our file to pa
 <!-- running this code to get output for future chapter -->
 
 ```{r export}
-hot100_tight %>% 
+hot100_tight |> 
    write_rds("data-processed/01-hot100.rds")
 ```
 
-So, here we are starting with the `hot100_tight` tibble that we saved earlier. We then pipe ` %>% ` the result of that into a new function `write_rds()`. In addition to the data, the function needs to know where to save the file, so in quotes we give the path to where and what we want to call the file: `"data-processed/01-hot100.rds"`.
+So, here we are starting with the `hot100_tight` tibble that we saved earlier. We then pipe ` |> ` the result of that into a new function `write_rds()`. In addition to the data, the function needs to know where to save the file, so in quotes we give the path to where and what we want to call the file: `"data-processed/01-hot100.rds"`.
 
 Remember, we are saving in data-processed because we never export into data-raw. We are naming the file starting with `01-` to indicate to our future selves that this output came from our first notebook. We then name it, and use the `.rds` extension.
 
 ## Naming chunks
 
-I didn't want to break our flow of work to explain this earlier*, but I want you to name all your chunks so you can use a nice feature in RStudio to jump up and down your notebook.
+I didn't want to break our flow ^[Break the flow ... I wrote that and laughed out loud at all the silly asides (like this one) that I throw into intricate documentation. Like if. You are welcome and I'm sorry.] of work to explain this earlier , but I want you to name all your chunks so you can use a nice feature in RStudio to jump up and down your notebook.
 
 Let me show you and example of why first. Look at the bottom of your window above the console and you'll see a dropdown window. Click on that.
 
@@ -652,8 +653,6 @@ See where I have `{r download}`? I named it that because that is what the chunk 
 1. Under the **Run** menu, choose _Restart R and run all chunks_.
 
 Make sure that your Notebook runs all the way from top to bottom. The order of stuff in the notebook matters and you can make errors as you edit up and down the notebook. You **always** want to do this before you finish a notebook.
-
-> \* Break the flow ... I wrote that and laughed out loud at all the silly asides (like this one) that I throw into intricate documentation. Like if. You are welcome and I'm sorry.
 
 ## Knit your page
 

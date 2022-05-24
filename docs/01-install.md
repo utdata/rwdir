@@ -39,7 +39,7 @@ You'll never "launch" R as a program in a traditional sense, but you need it on 
 
 ### Getting "Git" errors on Macs
 
-If later during package installation you get errors that mention "git" or "xcode-select" then reach out to your instructor. We'll likely have you install [Homebrew](https://brew.sh/) and [git](https://git-scm.com/download/mac).
+If later during package installation you get errors that mention "git" or "xcode-select" then **say yes!** and do it.
 
 ## Class project folder
 
@@ -50,3 +50,6 @@ To keep things consistent and help with troubleshooting, We recommend that you s
 
 When we create new "Projects", I want you to always save them in the `Documents/rwd` folder. This just keeps us all on the same page.
 
+## RStudio Cloud
+
+If your computer is aging and you find you have trouble with RStudio, there is [RStudio Cloud](https://rstudio.cloud/). You can try it for free but might end up on the $5/month plan before the end of the semester, depending on your use. It works quite well.

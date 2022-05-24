@@ -24,7 +24,7 @@
 <meta name="author" content="Christian McDonald and Josephine Lukito" />
 
 
-<meta name="date" content="2022-05-23" />
+<meta name="date" content="2022-05-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -170,6 +170,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#christian-mcdonald"><i class="fa fa-check"></i>Christian McDonald</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#jo-lukito"><i class="fa fa-check"></i>Jo Lukito</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#versions"><i class="fa fa-check"></i>Versions</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-resources"><i class="fa fa-check"></i>Other resources</a></li>
 </ul></li>
@@ -182,6 +183,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3.1" data-path="install.html"><a href="install.html#getting-git-errors-on-macs"><i class="fa fa-check"></i><b>1.3.1</b> Getting “Git” errors on Macs</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="install.html"><a href="install.html#class-project-folder"><i class="fa fa-check"></i><b>1.4</b> Class project folder</a></li>
+<li class="chapter" data-level="1.5" data-path="install.html"><a href="install.html#rstudio-cloud"><i class="fa fa-check"></i><b>1.5</b> RStudio Cloud</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a>
 <ul>
@@ -226,7 +228,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="3.6.1" data-path="counts-import.html"><a href="counts-import.html#print-a-peek-to-your-r-notebook"><i class="fa fa-check"></i><b>3.6.1</b> Print a peek to your R Notebook</a></li>
 <li class="chapter" data-level="3.6.2" data-path="counts-import.html"><a href="counts-import.html#glimpse-the-data"><i class="fa fa-check"></i><b>3.6.2</b> Glimpse the data</a></li>
-<li class="chapter" data-level="3.6.3" data-path="counts-import.html"><a href="counts-import.html#about-the-pipe"><i class="fa fa-check"></i><b>3.6.3</b> About the pipe %&gt;%</a></li>
+<li class="chapter" data-level="3.6.3" data-path="counts-import.html"><a href="counts-import.html#about-the-pipe"><i class="fa fa-check"></i><b>3.6.3</b> About the pipe |&gt;</a></li>
+<li class="chapter" data-level="" data-path="counts-import.html"><a href="counts-import.html#a-rabbit-dives-into-a-pipe"><i class="fa fa-check"></i>A rabbit dives into a pipe</a></li>
 </ul></li>
 <li class="chapter" data-level="3.7" data-path="counts-import.html"><a href="counts-import.html#cleaning-data"><i class="fa fa-check"></i><b>3.7</b> Cleaning data</a></li>
 <li class="chapter" data-level="3.8" data-path="counts-import.html"><a href="counts-import.html#cleaning-column-names"><i class="fa fa-check"></i><b>3.8</b> Cleaning column names</a></li>
@@ -566,7 +569,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Learn about R packages, how to install and import them.</li>
 <li>Learn how to download and import CSV files using the <a href="https://readr.tidyverse.org/">readr</a> package.</li>
 <li>Introduce the Tibble/Data Frame.</li>
-<li>Introduce the tidyverse <code>%&gt;%</code>.</li>
+<li>String functions together with the pipe: <code>|&gt;</code> (or <code>%&gt;%</code>).</li>
 <li>Learn how to modify data types (date) and <code>select()</code> columns.</li>
 </ul>
 <p>We’ll be exploring the Billboard Hot 100 charts along the way. Eventually you’ll find the answers to a bunch of questions in this data and write about it.</p>
@@ -595,10 +598,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Delete the other boilerplate text.</li>
 <li>Save the file as <code>01-import.Rmd</code>.</li>
 </ol>
-<p>We named this notebook starting with <code>01-</code> because we will eventually end up with multiple notebooks and we want to know the order to run them.</p>
+<p>We named this notebook starting with <code>01-</code> because we will eventually end up with multiple notebooks that depend on each other and we will need to know the order to run them in the future.</p>
 <div id="describe-the-goals-of-the-notebook" class="section level3" number="3.3.1">
 <h3><span class="header-section-number">3.3.1</span> Describe the goals of the notebook</h3>
-<p>We’ll add our first bit of RMarkdown just after the meta data to explain what we are doing. Add this text to your notebook:</p>
+<p>We’ll add our first bit of R Markdown just after the meta data to explain what we are doing. Add this text to your notebook:</p>
 <pre class="rmarkdown"><code>## Goals of this notebook
 
 Steps to prepare our data:
@@ -608,27 +611,27 @@ Steps to prepare our data:
 - Clean up data types and columns
 - Export for next notebook</code></pre>
 <p>We want to start each notebook with a list like this so our future selves and others know what the heck we are trying to accomplish.</p>
-<p>We will also write text like this for each new “section” or goal in the notebook.</p>
+<p>We will also write R Markdown like this for each new “section” or goal in the notebook.</p>
 </div>
 <div id="the-r-package-environment" class="section level3" number="3.3.2">
 <h3><span class="header-section-number">3.3.2</span> The R Package environment</h3>
 <p>We have to back up from the step-by-step nature of this lesson and talk a little about the R programming language.</p>
 <p>R is an open-source language, which means that other programmers can contribute to how it works. It is what makes R beautiful.</p>
 <p>What happens is developers will find it difficult to do a certain task, so they will write an R “Package” of code that helps them with that task. They share that code with the community, and suddenly the R garage has an <a href="https://youtu.be/Y1En6FKd5Pk?t=24">“ultimate set of tools”</a> that would make Spicoli’s dad proud.</p>
-<p>One set of these tools is the <a href="https://www.tidyverse.org/">tidyverse</a> introduced by Hadley Wickham and his team at RStudio. It’s a set of R packages for data science that work together in similar ways. Prof. Lukito and I are worshipers of the tidyverse worldview and we’ll use these tools extensively. While not required reading, I highly recommend Wickham’s book <a href="https://r4ds.had.co.nz/index.html">R for data science</a>, which is free.</p>
+<p>One set of these tools is the <a href="https://www.tidyverse.org/">tidyverse</a> developed by Hadley Wickham and his team at RStudio. It’s a set of R packages for data science that work together in similar ways. Prof. Lukito and I are worshipers of the tidyverse worldview and we’ll use these tools extensively. While not required reading, I highly recommend Wickham’s book <a href="https://r4ds.had.co.nz/index.html">R for data science</a>, which is free.</p>
 <p>There are also a series of useful tidyverse <a href="https://www.rstudio.com/resources/cheatsheets/">cheatsheets</a> that can help you as you use the packages and functions from the tidyverse. We’ll refer to these throughout the course.</p>
 </div>
 <div id="installing-and-using-packages" class="section level3" number="3.3.3">
 <h3><span class="header-section-number">3.3.3</span> Installing and using packages</h3>
 <p>There are two steps to using an R package:</p>
 <ul>
-<li><strong>Install the package</strong> using <code>install.packages("package_name")</code>. You only have to do this once for each computer, so I usually do it using the R Console instead of in an R Notebook.</li>
+<li><strong>Install the package</strong> onto your computer by using <code>install.packages("package_name")</code>. You only have to do this once for each computer, so I usually do it using the R Console instead of in an R Notebook.</li>
 <li><strong>Include the library</strong> using <code>library(package_name)</code>. This has to be done for each R Notebook or script that uses it, so it is usually one of the first things you’ll see in a notebook.</li>
 </ul>
 <blockquote>
-<p>Note that you have to use “quotes” around the package name when you are installing, but you DON’T use quotes when you load the library.</p>
+<p>Note that you use “quotes” around the package name when you are installing, but you DON’T need quotes when you load the library.</p>
 </blockquote>
-<p>We’re going to install several packages we will use in this project. To do this, we are going to use the <strong>Console</strong>, which we haven’t talked about much yet.</p>
+<p>We will install several packages to use in this project. To do this, we will use the <strong>Console</strong>, which we haven’t talked about much yet.</p>
 <div class="figure">
 <img src="images/import-console.png" width="600" alt="" />
 <p class="caption">The Console and Terminal</p>
@@ -639,8 +642,8 @@ Steps to prepare our data:
 </ol>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="counts-import.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
 <p>As you type into the Console, you’ll see some type-assist hints on what you need. You can use the arrow keys to select one and hit the <em>tab</em> key to complete that command, then enter the values you need. If it asks you to install “from source,” type <code>Yes</code> and hit return.</p>
-<p>You’ll see a bunch of response in the Console.</p>
-<p>When you install the “tidyverse” package you actually get eight individual packages. You’ll see references to “dplyr” even some functions referenced as <code>dplyr::filter()</code> but they are all part of the tidyverse. You can explore the list at <a href="https://www.tidyverse.org/">tidyverse.org</a> but know there are other packages from the same folks that we use and load separately.</p>
+<p>You’ll see a bunch of response fly by in the Console. It’s probably all fine unless it ends the last response with an error.</p>
+<p>When you install the “tidyverse” package you actually get eight individual packages. You’ll see references to “dplyr” and even some functions referenced as <code>dplyr::filter()</code> but they are all part of the tidyverse. You can explore the list at <a href="https://www.tidyverse.org/">tidyverse.org</a> but know there are other packages from the same folks that we use and load separately.</p>
 <ol style="list-style-type: decimal">
 <li>We need two other packages as well, so also do:</li>
 </ol>
@@ -648,13 +651,13 @@ Steps to prepare our data:
 <span id="cb6-2"><a href="counts-import.html#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;lubridate&quot;</span>)</span></code></pre></div>
 <p>We’ll use janitor to clean up our data column names, among other things. A good reference to learn more is the <a href="https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html">janitor vignette</a>.</p>
 <p>We’ll use <a href="https://lubridate.tidyverse.org/">lubridate</a> to fix some dates, which are a special complicated thing in programming. While Lubridate is part of the tidyverse universe, we have to install and load it separately.</p>
-<p>You only have to install the packages once on your computer (though you have to load the libraries into each new notebook, which is explained below).</p>
+<p>You only have to install the packages once on your computer (though you have to load the libraries into each new notebook, which is next).</p>
 </div>
 <div id="load-the-libraries" class="section level3" number="3.3.4">
 <h3><span class="header-section-number">3.3.4</span> Load the libraries</h3>
-<p>Next, we’re going to tell our R Notebook to use these three libraries.</p>
+<p>Next, we’re going to tell our R Notebook to actually <em>use</em> these three libraries we’ve just installed.</p>
 <ol style="list-style-type: decimal">
-<li>After the metadata at the top of your notebook, use <em>Cmd+option+i</em> to insert an R code chunk.</li>
+<li>In your notebook, after the metadata at the top, use <em>Cmd+option+i</em> to insert an R code chunk.</li>
 <li>In that chunk, type in the three libraries and run the code block with <em>Cmd+Shift+Return</em>.</li>
 </ol>
 <p>This is the code you need:</p>
@@ -675,8 +678,8 @@ Steps to prepare our data:
 <p>In your Files pane at the bottom-right of Rstudio, there is a <strong>New Folder</strong> icon.</p>
 <ol style="list-style-type: decimal">
 <li>Click on the <strong>New Folder</strong> icon.</li>
-<li>Name your new folder <code>data-raw</code>. This is where we’ll put raw data. We never write data to this folder.</li>
-<li>Also create another new folder called <code>data-processed</code>. This is were we will write data. We separate them so we don’t accidentally overwrite raw data.</li>
+<li>Name your new folder <code>data-raw</code>. This is where we’ll put raw data that we don’t want to overwrite.</li>
+<li>Also create another new folder called <code>data-processed</code>. This is were we will write data. We separate them to help avoid overwriting our raw data.</li>
 </ol>
 <p>Once you’ve done that, they should show up in the file explorer in the Files pane. Click the refresh button if you don’t see them. (The circlish thing at top right of the screenshot below. You might have to widen the pane to see it.)</p>
 <div class="figure">
@@ -687,7 +690,7 @@ Steps to prepare our data:
 </div>
 <div id="about-data-sources" class="section level3" number="3.3.6">
 <h3><span class="header-section-number">3.3.6</span> About data sources</h3>
-<p>Depending on the data source, importing can be brilliantly easy or a major pain in the rear. It all depends on how well-formatted it is.</p>
+<p>Depending on the data source, importing can be brilliantly easy or a major pain in the rear. It all depends on how well-formatted the data is.</p>
 <p>In this class, we will primarily use data stored as CSVs (Comma Separated Value), Excel files and APIs (Application Programming Interface).</p>
 <ul>
 <li><strong>CSVs</strong> are a kind of lowest-common-denominator for data. Most any database or program can import or export them. It’s just text with a <code>,</code> or some other separator between each value.</li>
@@ -701,9 +704,8 @@ Steps to prepare our data:
 </div>
 <div id="the-billboard-hot-100" class="section level2" number="3.4">
 <h2><span class="header-section-number">3.4</span> The Billboard Hot 100</h2>
-<p>The <em>Billboard</em> <a href="https://www.billboard.com/charts/hot-100/">Hot 100</a> singles charts has been the music industry’s standard record chart since its inception on 8/2/1958. The rankings, published by Billboard Media, are currently based on sales (physical and digital), radio play, and online streaming. The methods and policies of the chart have changed over time.</p>
-<p>The data we will use here is a combination of data collected by Kaggle user <a href="https://www.kaggle.com/dhruvildave/billboard-the-hot-100-songs">Dhruvil Dave</a>, along with some scraping and merging by Prof. McDonald. It is stored on the code sharing website Github for safe keeping.</p>
-<p>When you write about this data (and you will), you should source it as <strong>the Billboard Hot 100 from Billboard Media</strong>, since that is where it originally came from and they are the “owner” of the data.</p>
+<p>The <em>Billboard</em> <a href="https://www.billboard.com/charts/hot-100/">Hot 100</a> singles charts has been the music industry’s standard record chart since its inception on Aug. 4th, 1958. The rankings, published by Billboard Media, are currently based on sales (physical and digital), radio play, and online streaming. The methods and policies of the chart have changed over time.</p>
+<p>The data we will use was compiled by Prof. McDonald from a <a href="https://github.com/utdata/rwd-billboard-data">number of sources</a>. When you write about this data (and you will), you should source it as <strong>the Billboard Hot 100 from Billboard Media</strong>, since that is where it originally came from and they are the “owner” of the data.</p>
 <div id="data-dictionary" class="section level3" number="3.4.1">
 <h3><span class="header-section-number">3.4.1</span> Data dictionary</h3>
 <p>Take a look at the <a href="https://www.billboard.com/charts/hot-100/">current chart</a>. Our data contains many (but not quite all) of the elements you see there. <strong>Each row of data (or observation as they are known in R) represents a song and the corresponding position on that week’s chart.</strong> Included in each row are the following columns (a.k.a. variables):</p>
@@ -721,18 +723,18 @@ Steps to prepare our data:
 <h3><span class="header-section-number">3.4.2</span> Let’s download our data</h3>
 <p>Since this data is stored on Github, we can reference it through a URL and download it into our project. Since this is a new “section” of our R Notebook, we’ll note what we are doing and why in Markdown.</p>
 <ol style="list-style-type: decimal">
-<li>Add a Markdown headline <code>## Downloading data</code> and on a new line text that indicates you are downloading data. You would typically include a link and explain what it is, etc, often linking to the original source.</li>
-<li>Create an R chunk and include the following (hint: use the copy icon at the top right):</li>
+<li>Add a Markdown headline <code>## Downloading data</code> and some text explaining you are downloading data. Add a note about where the data comes from and include a link to the original source. (These are notes to your future self to explain what you are doing.)</li>
+<li>Create an R chunk and copy/paste the following inside it. (hint: use the copy icon at the top right):</li>
 </ol>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="counts-import.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">&quot;https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_archive.csv?raw=true&quot;</span>, <span class="st">&quot;data-raw/hot100_archive.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="counts-import.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">&quot;https://github.com/utdata/rwdir/blob/main/data-raw/hot100_assignment.csv?raw=true&quot;</span>, <span class="st">&quot;data-raw/hot100_archive.csv&quot;</span>)</span></code></pre></div>
 <p>This <code>download.file</code> function takes at least two arguments:</p>
 <ul>
-<li>The URL of the file you are downloading</li>
-<li>The path and name of where you want to save it.</li>
+<li>The URL of the file you are downloading.</li>
+<li>The path and name of where you want to save the resulting file.</li>
 </ul>
-<p>Note those two arguments are in quotes. The path includes the folder and file name as it relates to where your R Notebook is. In this case we need to go inside the <code>data-raw</code> folder and then name the file: <code>data-raw/hot100_archive.csv</code>.</p>
+<p>Note those two arguments are in quotes. The path includes the folder and file name as it relates to where your R Notebook is. In this case we need to go inside the <code>data-raw/</code> folder and then name the file <code>hot100_archive.csv</code>.</p>
 <p>When you run this, it should save the file and then give you output similar to this:</p>
-<pre class="text"><code>trying URL &#39;https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_archive.csv?raw=true&#39;
+<pre class="text"><code>trying URL &#39;https://github.com/utdata/rwdir/blob/main/data-raw/hot100_assignment.csv?raw=true&#39;
 Content type &#39;text/plain; charset=utf-8&#39; length 17960724 bytes (17.1 MB)
 ==================================================
 downloaded 17.1 MB</code></pre>
@@ -746,13 +748,14 @@ downloaded 17.1 MB</code></pre>
 <li>In Markdown above it, add a note to your future self that you commented the download for now.</li>
 </ol>
 <p>Adding comments in programming is a common thing and every programming language has a way to do it. It is a way for the programmer to write notes to their future self, colleagues or — like in this case — comment out some code that you want to keep, but don’t want to execute when the program is run.</p>
-<p>In R, anything following one ore more hashes <code>#</code> <em>inside a code chunk</em> will be a comment: The text is there, but it won’t be executed as code. (Yes, this is a bit confusing since <code>#</code>’s are used for headlines in the Markdown parts of the file.)</p>
-<p>In R Notebooks we put a most of our “explaining” text in Markdown <em>outside</em> of code chunks … it’s one of the reasons we like using R Notebooks. But sometimes it makes more sense to explain something right where the code is being executed, so that is where the code comments come in.</p>
+<p>When using R Notebooks we write most of our “explaining” text <em>outside</em> of code chunks using a syntax called <a href="https://rmarkdown.rstudio.com/">R Markdown</a>. R Markdown is designed to be readable as written, but it is given pretty formatting when “printed” as a PDF or HTML file.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+<p>But, sometimes it makes more sense to explain something right where the code is being executed. Inside R code chunks, anything following one or more hashes <code>#</code> <em>inside a code chunk</em> will be a comment. The text is there in the chunk, but it won’t be executed as code.</p>
+<p>(Yes, this is a bit confusing since <code>#</code>’s are used for comments in code chunks but headlines in the R Markdown parts of the file.)</p>
 </div>
 </div>
 <div id="import-the-data" class="section level2" number="3.5">
 <h2><span class="header-section-number">3.5</span> Import the data</h2>
-<p>Now that we have the data on our machine, let’s import it into our notebook so we can see it.</p>
+<p>Now that we have the data on our computer, let’s import it into our notebook so we can see it.</p>
 <p>Since we are doing a new thing, we should note that with a Markdown headline and text.</p>
 <ol style="list-style-type: decimal">
 <li>Add a Markdown headline: <code>## Import data</code></li>
@@ -766,11 +769,10 @@ downloaded 17.1 MB</code></pre>
 </ol>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="counts-import.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">&quot;data-raw/hot100_archive.csv&quot;</span>)</span></code></pre></div>
 <blockquote>
-<p>Note the path is in quotes.</p>
+<p>Note the path to the file is in quotes.</p>
 </blockquote>
-<p>You get two results printed to your screen.</p>
-<p>The first result called <strong>“R Console”</strong> shows what columns were imported and the data types. It’s important to review these to make sure things happened the way that expected. In this case it noted which columns came in as text (<code>chr</code>), or numbers (<code>dbl</code>).</p>
-<p>Note: <strong>Red</strong> colored text in this output is NOT an indication of a problem.</p>
+<p>You get two results printed to your notebook.</p>
+<p>The first result called <strong>“R Console”</strong> shows what columns were imported and the data types. It’s important to review these to make sure things happened the way that expected. In this case it noted which columns came in as text (<code>chr</code>), or numbers (<code>dbl</code>). The red colored text in this output is NOT an indication of a problem.</p>
 <div class="figure">
 <img src="images/bb-import-show-cols.png" width="600" alt="" />
 <p class="caption">RConsole output</p>
@@ -783,22 +785,22 @@ downloaded 17.1 MB</code></pre>
 <img src="images/bb-import-show-data.png" width="600" alt="" />
 <p class="caption">Data output</p>
 </div>
-<p>When we look at the data output into RStudio, there are several things to note:</p>
+<p>When we look at the data output in RStudio, there are several things to note:</p>
 <ul>
 <li>Below each column name is an indication of the data type. This is important.</li>
 <li>You can use the arrow icon on the right to page through the additional columns.</li>
 <li>You can use the paging numbers and controls at the bottom to page through the rows of data.</li>
 <li>The number of rows and columns is displayed.</li>
 </ul>
-<p>Of special note here, we have only printed this data to the screen. We have not saved it in any way, but that is next.</p>
+<p>At this point we have only printed this data to the screen. We have not saved it in any way, but that is next.</p>
 </div>
 <div id="assign-our-import-to-an-r-object" class="section level2" number="3.6">
 <h2><span class="header-section-number">3.6</span> Assign our import to an R object</h2>
-<p>As of right now, we’ve only printed the data to our screen. We haven’t “saved” it at all. Next we need to assign it to an <strong>R object</strong> so it can be named thing in our project environment and we can reuse it. We don’t want to re-import the data every time we use the data.</p>
+<p>Now that we know how to find our data, we next need to assign it to an <strong>R object</strong> so it can be named thing we can reuse it. We don’t want to re-import the data every time we use the data.</p>
 <p>The syntax to create an object in R can seem weird at first, but the convention is to name the object first, then insert stuff into it. So, to create an object, the structure is this:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="counts-import.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is pseudo code. Don&#39;t put it in your notebook.</span></span>
 <span id="cb11-2"><a href="counts-import.html#cb11-2" aria-hidden="true" tabindex="-1"></a>new_object <span class="ot">&lt;-</span> stuff_going_into_object</span></code></pre></div>
-<p>Think of it like this: You must have a bucket before you can fill it with water. We “name” the bucket, then fill it with data.</p>
+<p>Think of it like this: You must have a bucket before you can fill it with water. We “name” the bucket, then fill it with data. That bucket is then saved into our “environment,” meaning it is in memory where we can access it easily by calling its name.</p>
 <p>Let’s make a object called <code>hot100</code> and fill it with our imported tibble.</p>
 <ol style="list-style-type: decimal">
 <li>Edit your existing code chunk to look like this. You can add the <code>&lt;-</code> by using <em>Option+-</em> as in holding down the Option key and then pressing the hyphen:</li>
@@ -818,17 +820,16 @@ downloaded 17.1 MB</code></pre>
 <h3><span class="header-section-number">3.6.1</span> Print a peek to your R Notebook</h3>
 <p>Since we can’t see the data after we assign it, let’s print the object to our notebook so we can refer to it.</p>
 <ol style="list-style-type: decimal">
-<li>Edit your import chunk to add the last two lines of this, including the one with the <code>#</code>:</li>
+<li>Edit your import chunk to add the last two lines of this, including <code>#</code>:</li>
 </ol>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="counts-import.html#cb13-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/hot100_archive.csv&quot;</span>)</span>
-<span id="cb13-2"><a href="counts-import.html#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="counts-import.html#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
-<span id="cb13-4"><a href="counts-import.html#cb13-4" aria-hidden="true" tabindex="-1"></a>hot100</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="counts-import.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the object, then fill it with data from the csv</span></span>
+<span id="cb13-2"><a href="counts-import.html#cb13-2" aria-hidden="true" tabindex="-1"></a>hot100 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/hot100_archive.csv&quot;</span>)</span>
+<span id="cb13-3"><a href="counts-import.html#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="counts-import.html#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb13-5"><a href="counts-import.html#cb13-5" aria-hidden="true" tabindex="-1"></a>hot100</span></code></pre></div>
 <blockquote>
 <p>You can use the green play button at the right of the chunk, or preferrably have your cursor inside the chunk and do <em>Cmd+Shift+Return</em> to run all lines. (<em>Cmd+Return</em> runs only the current line.)</p>
 </blockquote>
-<p>This prints your saved object to your notebook.</p>
-<p>Note I added a little comment with the <code>#</code> <em>inside</em> the code chunk. I’m just noting to my future self why I’m doing this.</p>
 </div>
 <div id="glimpse-the-data" class="section level3" number="3.6.2">
 <h3><span class="header-section-number">3.6.2</span> Glimpse the data</h3>
@@ -836,33 +837,38 @@ downloaded 17.1 MB</code></pre>
 <ol style="list-style-type: decimal">
 <li>In your existing chunk, edit the last line to add the <code>glimpse()</code> function as noted below.</li>
 </ol>
-<p>I’m showing the return here as well. Afterward I’ll explain the pipe: <code>%&gt;%</code>.</p>
+<p>I’m showing the return here as well. Afterward I’ll explain the pipe: <code>|&gt;</code>.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="counts-import.html#cb14-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/hot100_archive.csv&quot;</span>)</span>
 <span id="cb14-2"><a href="counts-import.html#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="counts-import.html#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
-<span id="cb14-4"><a href="counts-import.html#cb14-4" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
-<pre><code>## Rows: 330,787
+<span id="cb14-4"><a href="counts-import.html#cb14-4" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 330,800
 ## Columns: 7
-## $ `CHART WEEK`   &lt;chr&gt; &quot;11-6-2021&quot;, &quot;11-6-2021&quot;, &quot;11-6-2021&quot;, &quot;11-6-2021&quot;, &quot;11…
+## $ `CHART WEEK`   &lt;chr&gt; &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/19…
 ## $ `THIS WEEK`    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …
-## $ SONG           &lt;chr&gt; &quot;Easy On Me&quot;, &quot;Stay&quot;, &quot;Industry Baby&quot;, &quot;Fancy Like&quot;, &quot;B…
-## $ PERFORMER      &lt;chr&gt; &quot;Adele&quot;, &quot;The Kid LAROI &amp; Justin Bieber&quot;, &quot;Lil Nas X &amp; …
-## $ `LAST WEEK`    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 9, 7, 11, 8, 12, 10, 14, 15, 21, 16, …
-## $ `PEAK POS.`    &lt;dbl&gt; 1, 1, 1, 3, 2, 1, 7, 1, 9, 2, 9, 3, 12, 14, 15, 11, 1, …
-## $ `WKS ON CHART` &lt;dbl&gt; 3, 16, 14, 19, 18, 8, 7, 24, 20, 56, 17, 29, 41, 18, 8,…</code></pre>
+## $ SONG           &lt;chr&gt; &quot;Poor Little Fool&quot;, &quot;Patricia&quot;, &quot;Splish Splash&quot;, &quot;Hard …
+## $ PERFORMER      &lt;chr&gt; &quot;Ricky Nelson&quot;, &quot;Perez Prado And His Orchestra&quot;, &quot;Bobby…
+## $ `LAST WEEK`    &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ `PEAK POS.`    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …
+## $ `WKS ON CHART` &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</code></pre>
 <p>The glimpse shows there are 300,000+ rows and 7 columns in our data. Each column is then listed out with its data type and the first several values in that column.</p>
 </div>
 <div id="about-the-pipe" class="section level3" number="3.6.3">
-<h3><span class="header-section-number">3.6.3</span> About the pipe %&gt;%</h3>
-<p>We need to break down this code a little: <code>hot100 %&gt;% glimpse()</code>.</p>
-<p>We are starting with the object <code>hot100</code>, but then we follow it with <code>%&gt;%</code>, which is called a pipe. The pipe is a tidyverse tool that allows us to take the <strong>results</strong> of an object or function and pass them into another function. Think of it like a sentence that says <strong>“AND THEN” the next thing</strong>.</p>
-<p>It might look like there are no arguments inside <code>glimpse()</code>, but what we are actually doing is passing the <code>hot100</code> tibble into it.</p>
-<p>You can’t start a new line with a pipe. If you are breaking your code into multiple lines, then the <code>%&gt;%</code> needs to be at the end and the next line should be indented so there is a visual clue it is related to line above it, like this:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="counts-import.html#cb16-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">%&gt;%</span></span>
+<h3><span class="header-section-number">3.6.3</span> About the pipe |&gt;</h3>
+<p>We need to break down this code a little: <code>hot100 |&gt; glimpse()</code>.</p>
+<p>We are starting with the object <code>hot100</code>, but then we follow it with <code>|&gt;</code>, which is called a pipe. The pipe is concept that allows us to take the <strong>result</strong> of an object or function and pass it into another function. Think of it like a sentence that says <strong>“AND THEN” the next thing</strong>.</p>
+<p>It might look like there are no arguments inside <code>glimpse()</code>, but what we are actually doing is passing the <code>hot100</code> tibble into it like this: <code>glimpse(hot100)</code>.</p>
+<p>You can’t start a new line with a pipe. If you are breaking your code into multiple lines, then the <code>|&gt;</code> needs to be at the end and the next line should be indented so there is a visual clue it is related to line above it, like this:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="counts-import.html#cb16-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">|&gt;</span> </span>
 <span id="cb16-2"><a href="counts-import.html#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code></pre></div>
 <blockquote>
-<p>IMPORTANT: There is a keyboard command for the pipe <code>%&gt;%</code>: <strong>Cmd+Shift+m</strong>. Learn that one!</p>
+<p>There is a keyboard command for the pipe <code>|&gt;</code>: <strong>Cmd+Shift+m</strong>. Learn that one!</p>
 </blockquote>
+</div>
+<div id="a-rabbit-dives-into-a-pipe" class="section level3 unnumbered">
+<h3>A rabbit dives into a pipe</h3>
+<p>The concept of the pipe was first introduced in 2014 as <code>%&gt;%</code> by the tidyverse folks in 2014 with a package called <a href="https://magrittr.tidyverse.org/">magrittr</a>. It was so well received the concept was written directly into base R in 2011, but using the symbol <code>|&gt;</code>. Even Hadley Wickham is <a href="https://r4ds.hadley.nz/workflow-pipes.html#magrittr-and-the-pipe">rewriting R for Data Science</a> to use the base <code>|&gt;</code> pipe by default. You can configure which to use in RStudio.</p>
+<p>(This book will be rewritten to migrate from <code>%&gt;%</code> to<code>|&gt;</code>, but it might take a while to catch all references to <code>%&gt;%</code>. For now, assume they are interchangeable.)</p>
 </div>
 </div>
 <div id="cleaning-data" class="section level2" number="3.7">
@@ -890,29 +896,29 @@ downloaded 17.1 MB</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="counts-import.html#cb17-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/hot100_archive.csv&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>()</span>
 <span id="cb17-2"><a href="counts-import.html#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="counts-import.html#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
-<span id="cb17-4"><a href="counts-import.html#cb17-4" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
-<pre><code>## Rows: 330,787
+<span id="cb17-4"><a href="counts-import.html#cb17-4" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 330,800
 ## Columns: 7
-## $ chart_week   &lt;chr&gt; &quot;11-6-2021&quot;, &quot;11-6-2021&quot;, &quot;11-6-2021&quot;, &quot;11-6-2021&quot;, &quot;11-6…
+## $ chart_week   &lt;chr&gt; &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958…
 ## $ this_week    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
-## $ song         &lt;chr&gt; &quot;Easy On Me&quot;, &quot;Stay&quot;, &quot;Industry Baby&quot;, &quot;Fancy Like&quot;, &quot;Bad…
-## $ performer    &lt;chr&gt; &quot;Adele&quot;, &quot;The Kid LAROI &amp; Justin Bieber&quot;, &quot;Lil Nas X &amp; Ja…
-## $ last_week    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 9, 7, 11, 8, 12, 10, 14, 15, 21, 16, 17…
-## $ peak_pos     &lt;dbl&gt; 1, 1, 1, 3, 2, 1, 7, 1, 9, 2, 9, 3, 12, 14, 15, 11, 1, 15…
-## $ wks_on_chart &lt;dbl&gt; 3, 16, 14, 19, 18, 8, 7, 24, 20, 56, 17, 29, 41, 18, 8, 1…</code></pre>
-<p>This function has cleaned up your names, making them all lowercase and using <code>_</code> instead of periods between words. Believe me when I say this is helpful when you are writing code. It makes type-assist work better and you can now double-click on a column name to select all of it and copy and paste somewhere else. When you have spaces or dashes in an object you can’t double-click on it and get all of it.</p>
+## $ song         &lt;chr&gt; &quot;Poor Little Fool&quot;, &quot;Patricia&quot;, &quot;Splish Splash&quot;, &quot;Hard He…
+## $ performer    &lt;chr&gt; &quot;Ricky Nelson&quot;, &quot;Perez Prado And His Orchestra&quot;, &quot;Bobby D…
+## $ last_week    &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+## $ peak_pos     &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
+## $ wks_on_chart &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</code></pre>
+<p>This function has cleaned up your names, making them all lowercase and using <code>_</code> instead of periods between words. Believe me when I say this is helpful when you are writing code. It makes type-assist work better and you can now double-click on a column name to select all of it and copy and paste somewhere else. When you have spaces or dashes in an object you can’t double-click on it to select all of it.</p>
 </div>
 <div id="fixing-the-date" class="section level2" number="3.9">
 <h2><span class="header-section-number">3.9</span> Fixing the date</h2>
-<p>Dates in programming are a tricky datatype because they are represented essentially as the number of seconds before/after January 1, 1970. Yes, that’s crazy, but it is also cool because that allows us to do math on them. So, to use our <code>chart_week</code> properly in R we need to convert it from the text into a real <em>date</em> datatype. (You can read more about why dates are tough in programming <a href="https://levelup.gitconnected.com/why-is-programming-with-dates-so-hard-7477b4aeff4c">here</a>.)</p>
-<p>Converting text into dates can be difficult, but the tidyverse universe has a package called <a href="https://lubridate.tidyverse.org/">lubridate</a> to ease the friction. (Get it?).</p>
+<p>Dates in programming are a tricky data type because they are represented essentially as the number of seconds before/after January 1, 1970. Yes, that’s crazy, but it is also cool because that allows us to do math on them. So, to use our <code>chart_week</code> properly in R we need to convert it from the text into a real <em>date</em> datatype. (If you wish, you can <a href="https://levelup.gitconnected.com/why-is-programming-with-dates-so-hard-7477b4aeff4c">read more about why dates are tough in programming</a>.)</p>
+<p>Converting text into dates can be challenging, but the tidyverse universe has a package called <a href="https://lubridate.tidyverse.org/">lubridate</a> to ease the friction. (Get it?).</p>
 <p>Since we are doing something new, we want to start a new section in our notebook and explain what we are doing.</p>
 <ol style="list-style-type: decimal">
-<li>Add a headline: <code>## Fix our dates</code>.</li>
+<li>In Markdown add a headline: <code>## Fix our dates</code>.</li>
 <li>Add some text that you are using lubridate to create a new column with a real date.</li>
 <li>Add a new code chunk. Remember <em>Cmd+Option+i</em> will do that.</li>
 </ol>
-<p>We will be <strong>changing or creating</strong> our data, so we will create a <strong>new object</strong> to store it in. We do this so we can go back and reference the <em>unchanged</em> data if we need to. Because of this, we’ll set up a chunk of code that allows us to peek at what is happening while we write our code. We’ll do this often.</p>
+<p>We will be <strong>changing or creating</strong> our data, so we will create a <strong>new object</strong> to store it in. We do this so we can go back and reference the <em>unchanged</em> data if we need to. Because of this, we’ll set up a chunk of code that allows us to peek at what is happening while we write our code. We’ll do this kind of setup often when we are working out how to do something in code.</p>
 <ol style="list-style-type: decimal">
 <li>Add the following inside your code chunk.</li>
 </ol>
@@ -920,22 +926,22 @@ downloaded 17.1 MB</code></pre>
 <span id="cb19-2"><a href="counts-import.html#cb19-2" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="ot">&lt;-</span> hot100</span>
 <span id="cb19-3"><a href="counts-import.html#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-4"><a href="counts-import.html#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
-<span id="cb19-5"><a href="counts-import.html#cb19-5" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
-<pre><code>## Rows: 330,787
+<span id="cb19-5"><a href="counts-import.html#cb19-5" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 330,800
 ## Columns: 7
-## $ chart_week   &lt;chr&gt; &quot;11-6-2021&quot;, &quot;11-6-2021&quot;, &quot;11-6-2021&quot;, &quot;11-6-2021&quot;, &quot;11-6…
+## $ chart_week   &lt;chr&gt; &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958…
 ## $ this_week    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
-## $ song         &lt;chr&gt; &quot;Easy On Me&quot;, &quot;Stay&quot;, &quot;Industry Baby&quot;, &quot;Fancy Like&quot;, &quot;Bad…
-## $ performer    &lt;chr&gt; &quot;Adele&quot;, &quot;The Kid LAROI &amp; Justin Bieber&quot;, &quot;Lil Nas X &amp; Ja…
-## $ last_week    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 9, 7, 11, 8, 12, 10, 14, 15, 21, 16, 17…
-## $ peak_pos     &lt;dbl&gt; 1, 1, 1, 3, 2, 1, 7, 1, 9, 2, 9, 3, 12, 14, 15, 11, 1, 15…
-## $ wks_on_chart &lt;dbl&gt; 3, 16, 14, 19, 18, 8, 7, 24, 20, 56, 17, 29, 41, 18, 8, 1…</code></pre>
+## $ song         &lt;chr&gt; &quot;Poor Little Fool&quot;, &quot;Patricia&quot;, &quot;Splish Splash&quot;, &quot;Hard He…
+## $ performer    &lt;chr&gt; &quot;Ricky Nelson&quot;, &quot;Perez Prado And His Orchestra&quot;, &quot;Bobby D…
+## $ last_week    &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+## $ peak_pos     &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
+## $ wks_on_chart &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</code></pre>
 <p>Let’s break this down:</p>
 <ul>
-<li>I have a comment starting with <code>#</code> to explain the first part of the code</li>
+<li>I have a comment starting with <code>#</code> to explain the first part of the code.</li>
 <li>We created a new “bucket” called <code>hot100_date</code> and we fill it with our <code>hot100</code> data. Yes, as of now they are exactly the same.</li>
-<li>I have a blank line for clarity</li>
-<li>Then another comment</li>
+<li>I have a blank line for clarity.</li>
+<li>Then another comment.</li>
 <li>Then we glimpse the new <code>hot100_date</code> object so we can see changes as we work on it.</li>
 </ul>
 <blockquote>
@@ -948,9 +954,9 @@ downloaded 17.1 MB</code></pre>
 <p><a href="https://dplyr.tidyverse.org/">dplyr</a> is the tidyverse package of functions to manipulate data. We’ll use functions from it a lot. It is loaded with the <code>library(tidyverse)</code> so you don’t have to load it separately.</p>
 </blockquote>
 <p>Let’s explain how mutate works first: Mutate changes every value in a column. You can either create a new column or overwrite an existing one.</p>
-<p>Within the mutate function, we name the new thing first (the bucket first!) and then fill it with the new value.</p>
+<p>Within the mutate function, we name the new thing first (the bucket!) and then fill it with the new value.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="counts-import.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is psuedo code. Don&#39;t run it.</span></span>
-<span id="cb21-2"><a href="counts-import.html#cb21-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="counts-import.html#cb21-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
 <span id="cb21-3"><a href="counts-import.html#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb21-4"><a href="counts-import.html#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">newcol =</span> new_stuff_from_math_or_whatever</span>
 <span id="cb21-5"><a href="counts-import.html#cb21-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
@@ -962,35 +968,35 @@ downloaded 17.1 MB</code></pre>
 <li>Edit your chunk to add the changes below and run it. I <strong>implore</strong> you to <em>type</em> the changes so you see how RStudio helps you write it. Use tab completion, etc.</li>
 </ol>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="counts-import.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># part we will build upon</span></span>
-<span id="cb22-2"><a href="counts-import.html#cb22-2" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="ot">&lt;-</span> hot100 <span class="sc">%&gt;%</span> </span>
+<span id="cb22-2"><a href="counts-import.html#cb22-2" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="ot">&lt;-</span> hot100 <span class="sc">|&gt;</span> </span>
 <span id="cb22-3"><a href="counts-import.html#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb22-4"><a href="counts-import.html#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">chart_date =</span> <span class="fu">mdy</span>(chart_week)</span>
 <span id="cb22-5"><a href="counts-import.html#cb22-5" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb22-6"><a href="counts-import.html#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-7"><a href="counts-import.html#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
-<span id="cb22-8"><a href="counts-import.html#cb22-8" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
-<pre><code>## Rows: 330,787
+<span id="cb22-8"><a href="counts-import.html#cb22-8" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 330,800
 ## Columns: 8
-## $ chart_week   &lt;chr&gt; &quot;11-6-2021&quot;, &quot;11-6-2021&quot;, &quot;11-6-2021&quot;, &quot;11-6-2021&quot;, &quot;11-6…
+## $ chart_week   &lt;chr&gt; &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958…
 ## $ this_week    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
-## $ song         &lt;chr&gt; &quot;Easy On Me&quot;, &quot;Stay&quot;, &quot;Industry Baby&quot;, &quot;Fancy Like&quot;, &quot;Bad…
-## $ performer    &lt;chr&gt; &quot;Adele&quot;, &quot;The Kid LAROI &amp; Justin Bieber&quot;, &quot;Lil Nas X &amp; Ja…
-## $ last_week    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 9, 7, 11, 8, 12, 10, 14, 15, 21, 16, 17…
-## $ peak_pos     &lt;dbl&gt; 1, 1, 1, 3, 2, 1, 7, 1, 9, 2, 9, 3, 12, 14, 15, 11, 1, 15…
-## $ wks_on_chart &lt;dbl&gt; 3, 16, 14, 19, 18, 8, 7, 24, 20, 56, 17, 29, 41, 18, 8, 1…
-## $ chart_date   &lt;date&gt; 2021-11-06, 2021-11-06, 2021-11-06, 2021-11-06, 2021-11-…</code></pre>
+## $ song         &lt;chr&gt; &quot;Poor Little Fool&quot;, &quot;Patricia&quot;, &quot;Splish Splash&quot;, &quot;Hard He…
+## $ performer    &lt;chr&gt; &quot;Ricky Nelson&quot;, &quot;Perez Prado And His Orchestra&quot;, &quot;Bobby D…
+## $ last_week    &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+## $ peak_pos     &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
+## $ wks_on_chart &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ chart_date   &lt;date&gt; 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-…</code></pre>
 <p>Again, let’s break down what we’ve done:</p>
 <ul>
-<li>At the end of the first line, we added the pipe <code>%&gt;%</code> because we are taking our <code>hot100</code> data <strong>AND THEN</strong> we will mutate it.</li>
+<li>At the end of the first line, we added the pipe <code>|&gt;</code> because we are taking our <code>hot100</code> data <strong>AND THEN</strong> we will mutate it.</li>
 <li>Next, we start the <code>mutate()</code> function. If you use type assist and tab completion to type this in, your cursor will end up in the middle of the parenthesis. This allows you to then hit your <strong>Return</strong> key to split it into multiple lines with proper indenting. We do this so we can more clearly see what <em>inside</em> the mutate … where the real action is going on here. It’s also possible to make multiple changes within the same mutate, and putting each one on their own line makes that more clear.</li>
 <li>Inside the mutate, we first name our new column <code>chart_date</code> and then we set that equal to <code>mdy(chart_week)</code>, which is explained next.</li>
 </ul>
 <p>The <code>mdy()</code> function is part of the lubridate package. Lubridate allows us to parse text and then turn it into a real date <em>if</em> we tell it the order of the date values in the original data.</p>
 <ul>
-<li>Our original date was something like “07/17/1965.” That is month, followed by day, followed by year.</li>
+<li>Our original date was something like “7/17/1965.” That is month, followed by day, followed by year.</li>
 <li>We use the lubridate function <code>mdy()</code> to say that’s the order this text is in, now please convert this into a <em>real date</em>, which properly shows as YYYY-MM-DD. Lubridate is smart enough to figure out if you have <code>/</code> or <code>-</code> between your values in the original text.</li>
 </ul>
-<p>If your original text is in a different date order, then you look up what lubridate function you need to convert it. I typically use the <strong>cheatsheet</strong> on the <a href="https://lubridate.tidyverse.org/">lubridate documentation</a>. You’ll find them in the PARSE DATE-TIMES section.</p>
+<p>If your original text is in a different date order, then you look up what lubridate function you need to convert it. I typically use the <strong>cheatsheet</strong> in the <a href="https://lubridate.tidyverse.org/">lubridate documentation</a>. You’ll find them in the PARSE DATE-TIMES section.</p>
 </div>
 <div id="check-the-result" class="section level3" number="3.9.2">
 <h3><span class="header-section-number">3.9.2</span> Check the result!</h3>
@@ -1000,29 +1006,29 @@ downloaded 17.1 MB</code></pre>
 </div>
 <div id="arrange-the-data" class="section level2" number="3.10">
 <h2><span class="header-section-number">3.10</span> Arrange the data</h2>
-<p>If you are paying attention to the dates of our rows of data, you’ll notice the first row is from “2021-11-06,” which is not the first date of our data as I described this (that was in 1958) nor the last date (late December of 2021).</p>
+<p>Just to be tidy, we want arrange our data so it starts with the oldest week and “top” of the chart and then work forward through time and rank.</p>
 <p>Let’s sort this data so that the oldest data is at the top.</p>
-<p>Sorting data is not a particularly difficult concept to grasp, but it is one of the <a href="https://vimeo.com/showcase/7320305">Basic Data Journalism Functions</a> …</p>
+<p>Sorting data is not a particularly difficult concept to grasp, but it is one of the <a href="https://vimeo.com/showcase/7320305">Basic Data Journalism Functions</a>, so watch this video:</p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Wl4IDvnzPcs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
 </iframe>
 <p><br></p>
 <p>In R, the sorting function we use is called <code>arrange()</code>.</p>
-<p>We’ll build our our data and use the pipe<code>%&gt;%</code> to push it into an <code>arrange()</code> function. Inside arrange we’ll give it the columns we wish to sort by.</p>
+<p>We’ll build our our data and use the pipe <code>|&gt;</code> to push it into an <code>arrange()</code> function. Inside arrange we’ll give it the columns we wish to sort by.</p>
 <ol style="list-style-type: decimal">
 <li>Edit your chunk to the following to add the <code>arrange()</code> function:</li>
 </ol>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="counts-import.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># part we will build upon</span></span>
-<span id="cb24-2"><a href="counts-import.html#cb24-2" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="ot">&lt;-</span> hot100 <span class="sc">%&gt;%</span> </span>
+<span id="cb24-2"><a href="counts-import.html#cb24-2" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="ot">&lt;-</span> hot100 <span class="sc">|&gt;</span> </span>
 <span id="cb24-3"><a href="counts-import.html#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb24-4"><a href="counts-import.html#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">chart_date =</span> <span class="fu">mdy</span>(chart_week)</span>
-<span id="cb24-5"><a href="counts-import.html#cb24-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb24-5"><a href="counts-import.html#cb24-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
 <span id="cb24-6"><a href="counts-import.html#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(chart_date, this_week)</span>
 <span id="cb24-7"><a href="counts-import.html#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-8"><a href="counts-import.html#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
-<span id="cb24-9"><a href="counts-import.html#cb24-9" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
-<pre><code>## Rows: 330,787
+<span id="cb24-9"><a href="counts-import.html#cb24-9" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 330,800
 ## Columns: 8
-## $ chart_week   &lt;chr&gt; &quot;8-4-1958&quot;, &quot;8-4-1958&quot;, &quot;8-4-1958&quot;, &quot;8-4-1958&quot;, &quot;8-4-1958…
+## $ chart_week   &lt;chr&gt; &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958…
 ## $ this_week    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
 ## $ song         &lt;chr&gt; &quot;Poor Little Fool&quot;, &quot;Patricia&quot;, &quot;Splish Splash&quot;, &quot;Hard He…
 ## $ performer    &lt;chr&gt; &quot;Ricky Nelson&quot;, &quot;Perez Prado And His Orchestra&quot;, &quot;Bobby D…
@@ -1030,7 +1036,7 @@ downloaded 17.1 MB</code></pre>
 ## $ peak_pos     &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
 ## $ wks_on_chart &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
 ## $ chart_date   &lt;date&gt; 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-…</code></pre>
-<p>Now when you look at the glimpse, the first record in the <code>chart_date</code> column is from “1958-08-02” and the first in the <code>this_week</code> is “1,” which is the top of the chart.</p>
+<p>Now when you look at the glimpse, the first record in the <code>chart_date</code> column is from “1958-08-04” and the first in the <code>this_week</code> is “1,” which is the top of the chart.</p>
 <p>Just to see this all clearly in table form, we’ll print the top of the table to our screen so we can see it.</p>
 <ol style="list-style-type: decimal">
 <li>Add a line of Markdown text in your notebook explaining your are looking at the table.</li>
@@ -1039,20 +1045,20 @@ downloaded 17.1 MB</code></pre>
 <blockquote>
 <p>In case you haven’t noticed yet, the code printout in your notebook is <a href="https://youtu.be/Z6XIGZ51VMo?t=149">a lot cooler</a> than in this online book.</p>
 </blockquote>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="counts-import.html#cb26-1" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="counts-import.html#cb26-1" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 8
 ##    chart_week this_week song      performer      last_week peak_pos wks_on_chart
 ##    &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;
-##  1 8-4-1958           1 Poor Lit… Ricky Nelson          NA        1            1
-##  2 8-4-1958           2 Patricia  Perez Prado A…        NA        2            1
-##  3 8-4-1958           3 Splish S… Bobby Darin           NA        3            1
-##  4 8-4-1958           4 Hard Hea… Elvis Presley…        NA        4            1
-##  5 8-4-1958           5 When      Kalin Twins           NA        5            1
-##  6 8-4-1958           6 Rebel-&#39;r… Duane Eddy Hi…        NA        6            1
-##  7 8-4-1958           7 Yakety Y… The Coasters          NA        7            1
-##  8 8-4-1958           8 My True … Jack Scott            NA        8            1
-##  9 8-4-1958           9 Willie A… The Johnny Ot…        NA        9            1
-## 10 8-4-1958          10 Fever     Peggy Lee             NA       10            1
+##  1 8/4/1958           1 Poor Lit… Ricky Nelson          NA        1            1
+##  2 8/4/1958           2 Patricia  Perez Prado A…        NA        2            1
+##  3 8/4/1958           3 Splish S… Bobby Darin           NA        3            1
+##  4 8/4/1958           4 Hard Hea… Elvis Presley…        NA        4            1
+##  5 8/4/1958           5 When      Kalin Twins           NA        5            1
+##  6 8/4/1958           6 Rebel-&#39;r… Duane Eddy Hi…        NA        6            1
+##  7 8/4/1958           7 Yakety Y… The Coasters          NA        7            1
+##  8 8/4/1958           8 My True … Jack Scott            NA        8            1
+##  9 8/4/1958           9 Willie A… The Johnny Ot…        NA        9            1
+## 10 8/4/1958          10 Fever     Peggy Lee             NA       10            1
 ## # … with 1 more variable: chart_date &lt;date&gt;</code></pre>
 <p>This just prints the first 10 lines of the data.</p>
 <ol style="list-style-type: decimal">
@@ -1070,21 +1076,21 @@ downloaded 17.1 MB</code></pre>
 </ol>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="counts-import.html#cb28-1" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span></code></pre></div>
 <pre><code>##   chart_week          this_week         song            performer        
-##  Length:330787      Min.   :  1.0   Length:330787      Length:330787     
+##  Length:330800      Min.   :  1.0   Length:330800      Length:330800     
 ##  Class :character   1st Qu.: 26.0   Class :character   Class :character  
 ##  Mode  :character   Median : 51.0   Mode  :character   Mode  :character  
 ##                     Mean   : 50.5                                        
-##                     3rd Qu.: 76.0                                        
+##                     3rd Qu.: 75.0                                        
 ##                     Max.   :100.0                                        
 ##                                                                          
 ##    last_week         peak_pos       wks_on_chart      chart_date        
 ##  Min.   :  1.00   Min.   :  1.00   Min.   : 1.000   Min.   :1958-08-04  
-##  1st Qu.: 23.00   1st Qu.: 13.00   1st Qu.: 4.000   1st Qu.:1974-06-08  
-##  Median : 47.00   Median : 38.00   Median : 7.000   Median :1990-04-21  
-##  Mean   : 47.59   Mean   : 40.95   Mean   : 9.168   Mean   :1990-04-17  
-##  3rd Qu.: 71.00   3rd Qu.: 65.00   3rd Qu.:13.000   3rd Qu.:2006-02-25  
+##  1st Qu.: 23.00   1st Qu.: 13.00   1st Qu.: 4.000   1st Qu.:1974-06-13  
+##  Median : 47.00   Median : 38.00   Median : 7.000   Median :1990-04-17  
+##  Mean   : 47.58   Mean   : 40.95   Mean   : 9.168   Mean   :1990-04-17  
+##  3rd Qu.: 71.00   3rd Qu.: 65.00   3rd Qu.:13.000   3rd Qu.:2006-02-19  
 ##  Max.   :100.00   Max.   :100.00   Max.   :90.000   Max.   :2021-12-25  
-##  NA&#39;s   :32461</code></pre>
+##  NA&#39;s   :32460</code></pre>
 <p>These summary statistics can be informative for us. It is probably the easiest way to check what the newest and oldest dates are in your data (see the Min. and Max. returns for <code>chart_date</code>). You get an average (mean) and median for each number, too. You might notice potential problems in your data, like if we had a <code>this_week</code> number higher than “100” (we don’t).</p>
 </div>
 </div>
@@ -1102,7 +1108,7 @@ downloaded 17.1 MB</code></pre>
 <li>Explain in text we are dropping the text date column and renaming others.</li>
 <li>Add the code below and then I’ll explain it. We again are setting this up to create a new object and view the changes.</li>
 </ol>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="counts-import.html#cb30-1" aria-hidden="true" tabindex="-1"></a>hot100_tight <span class="ot">&lt;-</span> hot100_date <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="counts-import.html#cb30-1" aria-hidden="true" tabindex="-1"></a>hot100_tight <span class="ot">&lt;-</span> hot100_date <span class="sc">|&gt;</span> </span>
 <span id="cb30-2"><a href="counts-import.html#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
 <span id="cb30-3"><a href="counts-import.html#cb30-3" aria-hidden="true" tabindex="-1"></a>    chart_date,</span>
 <span id="cb30-4"><a href="counts-import.html#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># renaming example with new name first</span></span>
@@ -1114,8 +1120,8 @@ downloaded 17.1 MB</code></pre>
 <span id="cb30-10"><a href="counts-import.html#cb30-10" aria-hidden="true" tabindex="-1"></a>    wks_on_chart</span>
 <span id="cb30-11"><a href="counts-import.html#cb30-11" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb30-12"><a href="counts-import.html#cb30-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-13"><a href="counts-import.html#cb30-13" aria-hidden="true" tabindex="-1"></a>hot100_tight <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
-<pre><code>## Rows: 330,787
+<span id="cb30-13"><a href="counts-import.html#cb30-13" aria-hidden="true" tabindex="-1"></a>hot100_tight <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 330,800
 ## Columns: 7
 ## $ chart_date    &lt;date&gt; 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08…
 ## $ current_rank  &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
@@ -1162,15 +1168,15 @@ downloaded 17.1 MB</code></pre>
 <li>Add a new code chunk and add the following code:</li>
 </ol>
 <!-- running this code to get output for future chapter -->
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="counts-import.html#cb32-1" aria-hidden="true" tabindex="-1"></a>hot100_tight <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="counts-import.html#cb32-1" aria-hidden="true" tabindex="-1"></a>hot100_tight <span class="sc">|&gt;</span> </span>
 <span id="cb32-2"><a href="counts-import.html#cb32-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">write_rds</span>(<span class="st">&quot;data-processed/01-hot100.rds&quot;</span>)</span></code></pre></div>
-<p>So, here we are starting with the <code>hot100_tight</code> tibble that we saved earlier. We then pipe <code>%&gt;%</code> the result of that into a new function <code>write_rds()</code>. In addition to the data, the function needs to know where to save the file, so in quotes we give the path to where and what we want to call the file: <code>"data-processed/01-hot100.rds"</code>.</p>
+<p>So, here we are starting with the <code>hot100_tight</code> tibble that we saved earlier. We then pipe <code>|&gt;</code> the result of that into a new function <code>write_rds()</code>. In addition to the data, the function needs to know where to save the file, so in quotes we give the path to where and what we want to call the file: <code>"data-processed/01-hot100.rds"</code>.</p>
 <p>Remember, we are saving in data-processed because we never export into data-raw. We are naming the file starting with <code>01-</code> to indicate to our future selves that this output came from our first notebook. We then name it, and use the <code>.rds</code> extension.</p>
 </div>
 </div>
 <div id="naming-chunks" class="section level2" number="3.13">
 <h2><span class="header-section-number">3.13</span> Naming chunks</h2>
-<p>I didn’t want to break our flow of work to explain this earlier*, but I want you to name all your chunks so you can use a nice feature in RStudio to jump up and down your notebook.</p>
+<p>I didn’t want to break our flow<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> of work to explain this earlier , but I want you to name all your chunks so you can use a nice feature in RStudio to jump up and down your notebook.</p>
 <p>Let me show you and example of why first. Look at the bottom of your window above the console and you’ll see a dropdown window. Click on that.</p>
 <p>Here is mine, but yours will be different:</p>
 <div class="figure">
@@ -1193,9 +1199,6 @@ downloaded 17.1 MB</code></pre>
 <li>Under the <strong>Run</strong> menu, choose <em>Restart R and run all chunks</em>.</li>
 </ol>
 <p>Make sure that your Notebook runs all the way from top to bottom. The order of stuff in the notebook matters and you can make errors as you edit up and down the notebook. You <strong>always</strong> want to do this before you finish a notebook.</p>
-<blockquote>
-<p>* Break the flow … I wrote that and laughed out loud at all the silly asides (like this one) that I throw into intricate documentation. Like if. You are welcome and I’m sorry.</p>
-</blockquote>
 </div>
 <div id="knit-your-page" class="section level2" number="3.14">
 <h2><span class="header-section-number">3.14</span> Knit your page</h2>
@@ -1238,6 +1241,13 @@ downloaded 17.1 MB</code></pre>
 <p>Please reach out to me if you have questions on what you’ve done so far. These are important skills you’ll use on future projects.</p>
 
 </div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>I’ll sometimes just say “Write in Markdown” since R Markdown is just a fancy version of the original <a href="https://daringfireball.net/projects/markdown/">markdown</a>. Beware my rabbit holes.<a href="counts-import.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Break the flow … I wrote that and laughed out loud at all the silly asides (like this one) that I throw into intricate documentation. Like if. You are welcome and I’m sorry.<a href="counts-import.html#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 

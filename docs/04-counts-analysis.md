@@ -77,7 +77,7 @@ hot100 %>% glimpse()
 ```
 
 ```
-## Rows: 330,787
+## Rows: 330,800
 ## Columns: 7
 ## $ chart_date    <date> 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08…
 ## $ current_rank  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
@@ -155,7 +155,7 @@ hot100 %>%
 ## # A tibble: 1 × 1
 ##   appearances
 ##         <int>
-## 1      330787
+## 1      330800
 ```
 
 - We start with the tibble first and then pipe into `summarize()`.
@@ -187,7 +187,7 @@ hot100 %>%
 ```
 
 ```
-## # A tibble: 10,235 × 2
+## # A tibble: 10,237 × 2
 ##    performer                            appearances
 ##    <chr>                                      <int>
 ##  1 "? (Question Mark) & The Mysterians"          33
@@ -200,7 +200,7 @@ hot100 %>%
 ##  8 "\"Pookie\" Hudson"                            1
 ##  9 "\"Weird Al\" Yankovic"                       91
 ## 10 "(+44)"                                        1
-## # … with 10,225 more rows
+## # … with 10,227 more rows
 ```
 
 What we get in return is a **summarize**d table that shows all 10,000+ different performers that have been on the charts, and the **n**umber of rows in which they appear in the data.
@@ -222,7 +222,7 @@ hot100 %>%
 ```
 
 ```
-## # A tibble: 10,235 × 2
+## # A tibble: 10,237 × 2
 ##    performer     appearances
 ##    <chr>               <int>
 ##  1 Taylor Swift         1057
@@ -235,7 +235,7 @@ hot100 %>%
 ##  8 Stevie Wonder         659
 ##  9 Rod Stewart           657
 ## 10 Mariah Carey          626
-## # … with 10,225 more rows
+## # … with 10,227 more rows
 ```
 
 - We added the `arrange()` function and fed it the column of "appearances". If we left it with just that, then it would list the smallest values first.
@@ -313,8 +313,8 @@ hot100 %>% # start with the data, and then ...
 ```
 
 ```
-## # A tibble: 29,789 × 3
-## # Groups:   performer [10,235]
+## # A tibble: 29,791 × 3
+## # Groups:   performer [10,237]
 ##    performer                                 song                    appearances
 ##    <chr>                                     <chr>                         <int>
 ##  1 The Weeknd                                Blinding Lights                  90
@@ -327,7 +327,7 @@ hot100 %>% # start with the data, and then ...
 ##  8 Adele                                     Rolling In The Deep              65
 ##  9 Jewel                                     Foolish Games/You Were…          65
 ## 10 Carrie Underwood                          Before He Cheats                 64
-## # … with 29,779 more rows
+## # … with 29,781 more rows
 ```
 
 The logic is actually straightforward:
@@ -842,7 +842,7 @@ hot100 %>%
 ```
 
 ```
-## # A tibble: 10,235 × 2
+## # A tibble: 10,237 × 2
 ##    performer                                n
 ##    <chr>                                <int>
 ##  1 "? (Question Mark) & The Mysterians"    33
@@ -855,7 +855,7 @@ hot100 %>%
 ##  8 "\"Pookie\" Hudson"                      1
 ##  9 "\"Weird Al\" Yankovic"                 91
 ## 10 "(+44)"                                  1
-## # … with 10,225 more rows
+## # … with 10,227 more rows
 ```
 
 To get the same pretty table you still have to rename the new column and reverse the sort, you just do it differently as arguments within the `count()` function. You can view the [`count()` options here.](https://dplyr.tidyverse.org/reference/count.html)

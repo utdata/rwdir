@@ -15,9 +15,19 @@ There is a preference in RStudio that I would like you to change. By default, th
 1. Go to the **RStudio** menu and choose **Preferences**
 1. Under the **General** tab, uncheck the first four boxes.
 1. On the option "Save Workspace to .Rdata on exit", change that to **Never**.
-1. Click *OK* to close the box.
+1. Click *Apply* to save the change (but don't close the box yet).
 
 ![RStudio preferences](images/rstudio-prefs.png)
+
+Next we will set some value is the **Code** pane.
+
+1. On the left options, click on the **Code** pane.
+1. Check the box for **Use native pipe operator, |>**.
+1. Click **OK** to save and close the box.
+
+![Native pipe preference](images/native_pipe_pref.png)
+
+We'll get into why we did this part later.
 
 ## Starting a new Project
 
