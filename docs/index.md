@@ -1,7 +1,7 @@
 --- 
 title: "Reporting with Data in R"
 author: "Christian McDonald and Josephine Lukito"
-date: "2022-05-23"
+date: "2022-05-24"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
@@ -16,13 +16,11 @@ description: "Reporting with Data in R is a series of lessons and instructions u
 
 Reporting with Data in R is a series of lessons and instructions used for courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The first two versions of the book were written by Assistant Professor of Practice [Christian McDonald](https://moody.utexas.edu/faculty/christian-mcdonald). Assistant Professor [Jo Lukito](https://moody.utexas.edu/faculty/jo-lukito) joined in teaching sections of the Reporting with Data in spring 2022.
 
-This means the book is morphing from the voice of a single author and that process might get confusing at times. In addition, Prof. McDonald uses a Mac and Prof. Lukito uses a PC, so keyboard commands and screenshot examples may flip back and forth. We'll try to note the author and platform at the beginning of each chapter.
+This means the book is morphing from the voice of a single author and that might get confusing at times. In addition, Prof. McDonald uses a Mac and Prof. Lukito uses a PC, so keyboard commands and screenshot examples may flip back and forth. We'll try to note the author and platform at the beginning of each chapter.
 
-This work is written in [bookdown](https://bookdown.org/) and the source is available on [Github](https://github.com/utdata/rwdir). The text is under **constant revision**. The first version is somewhere in the commit history, but here are more recent editions:
+> **This work is under constant revision**. It is written in [bookdown](https://bookdown.org/) and the source is available on [Github](https://github.com/utdata/rwdir).
 
-- [Fall 2021](https://utdata.github.io/rwdir/v1/)
-- [Spring 2022](https://utdata.github.io/rwdir/v2/)
-
+We are currently updating for the fall 2022 semester. Earlier versions are linked below.
 
 ## A word from Prof. McDonald {-}
 
@@ -89,6 +87,13 @@ I'm an aspiring-journalist-turned-academic who studies journalism and digital me
 - Email: <jlukito@utexas.edu>
 - Website: [https://www.jlukito.com/](https://www.jlukito.com/)
 
+## Versions {-}
+
+The first version of this book from spring 2019 is buried somewhere in the commit history, but we've archived other recent editions:
+
+- [Fall 2021](https://utdata.github.io/rwdir/v1/)
+- [Spring 2022](https://utdata.github.io/rwdir/v2/)
+
 ## License {-}
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
@@ -106,4 +111,4 @@ This text stands upon the shoulders of giants and by design does not cover all a
 - [The R Graph Gallery](https://www.r-graph-gallery.com/) another place to see examples.
 - [Practical R for Journalism](https://www.crcpress.com/Practical-R-for-Mass-Communication-and-Journalism/Machlis/p/book/9781138726918) by Sharon Machlis, an editor with PC World and related publications. Sharon is a longtime proponent of using R in journalism.
 - [Sports Data Analysis and Visualization](http://mattwaite.github.io/sports/) and [Data Journalism with R and the Tidyverse](http://mattwaite.github.io/datajournalism/) by Matt Waite, a professor at the University of Nebraska-Lincoln.
-- [R for Journalists](http://learn.r-journalism.com/en/) site by Andrew Tran, a reporter at the Washington Post. A series of videos and tutorials on using R in a journalism setting.
+- [R for Journalists](http://learn.r-journalism.com/en/) site by Andrew Tran, a reporter at the Washington Post and University of Texas alum. A series of videos and tutorials on using R in a journalism setting.

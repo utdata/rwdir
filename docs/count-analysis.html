@@ -24,7 +24,7 @@
 <meta name="author" content="Christian McDonald and Josephine Lukito" />
 
 
-<meta name="date" content="2022-05-23" />
+<meta name="date" content="2022-05-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -170,6 +170,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#christian-mcdonald"><i class="fa fa-check"></i>Christian McDonald</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#jo-lukito"><i class="fa fa-check"></i>Jo Lukito</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#versions"><i class="fa fa-check"></i>Versions</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-resources"><i class="fa fa-check"></i>Other resources</a></li>
 </ul></li>
@@ -182,6 +183,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3.1" data-path="install.html"><a href="install.html#getting-git-errors-on-macs"><i class="fa fa-check"></i><b>1.3.1</b> Getting “Git” errors on Macs</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="install.html"><a href="install.html#class-project-folder"><i class="fa fa-check"></i><b>1.4</b> Class project folder</a></li>
+<li class="chapter" data-level="1.5" data-path="install.html"><a href="install.html#rstudio-cloud"><i class="fa fa-check"></i><b>1.5</b> RStudio Cloud</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a>
 <ul>
@@ -226,7 +228,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="3.6.1" data-path="counts-import.html"><a href="counts-import.html#print-a-peek-to-your-r-notebook"><i class="fa fa-check"></i><b>3.6.1</b> Print a peek to your R Notebook</a></li>
 <li class="chapter" data-level="3.6.2" data-path="counts-import.html"><a href="counts-import.html#glimpse-the-data"><i class="fa fa-check"></i><b>3.6.2</b> Glimpse the data</a></li>
-<li class="chapter" data-level="3.6.3" data-path="counts-import.html"><a href="counts-import.html#about-the-pipe"><i class="fa fa-check"></i><b>3.6.3</b> About the pipe %&gt;%</a></li>
+<li class="chapter" data-level="3.6.3" data-path="counts-import.html"><a href="counts-import.html#about-the-pipe"><i class="fa fa-check"></i><b>3.6.3</b> About the pipe |&gt;</a></li>
+<li class="chapter" data-level="" data-path="counts-import.html"><a href="counts-import.html#a-rabbit-dives-into-a-pipe"><i class="fa fa-check"></i>A rabbit dives into a pipe</a></li>
 </ul></li>
 <li class="chapter" data-level="3.7" data-path="counts-import.html"><a href="counts-import.html#cleaning-data"><i class="fa fa-check"></i><b>3.7</b> Cleaning data</a></li>
 <li class="chapter" data-level="3.8" data-path="counts-import.html"><a href="counts-import.html#cleaning-column-names"><i class="fa fa-check"></i><b>3.8</b> Cleaning column names</a></li>
@@ -624,7 +627,7 @@ Try real hard first before clicking here for the answer and result
 <span id="cb33-2"><a href="count-analysis.html#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-3"><a href="count-analysis.html#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
 <span id="cb33-4"><a href="count-analysis.html#cb33-4" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
-<pre><code>## Rows: 330,787
+<pre><code>## Rows: 330,800
 ## Columns: 7
 ## $ chart_date    &lt;date&gt; 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08…
 ## $ current_rank  &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
@@ -692,7 +695,7 @@ Try real hard first before clicking here for the answer and result
 <pre><code>## # A tibble: 1 × 1
 ##   appearances
 ##         &lt;int&gt;
-## 1      330787</code></pre>
+## 1      330800</code></pre>
 <ul>
 <li>We start with the tibble first and then pipe into <code>summarize()</code>.</li>
 <li>Within the function, we define our summary:
@@ -718,7 +721,7 @@ Try real hard first before clicking here for the answer and result
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="count-analysis.html#cb37-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">%&gt;%</span></span>
 <span id="cb37-2"><a href="count-analysis.html#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(performer) <span class="sc">%&gt;%</span> </span>
 <span id="cb37-3"><a href="count-analysis.html#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">appearances =</span> <span class="fu">n</span>())</span></code></pre></div>
-<pre><code>## # A tibble: 10,235 × 2
+<pre><code>## # A tibble: 10,237 × 2
 ##    performer                            appearances
 ##    &lt;chr&gt;                                      &lt;int&gt;
 ##  1 &quot;? (Question Mark) &amp; The Mysterians&quot;          33
@@ -731,7 +734,7 @@ Try real hard first before clicking here for the answer and result
 ##  8 &quot;\&quot;Pookie\&quot; Hudson&quot;                            1
 ##  9 &quot;\&quot;Weird Al\&quot; Yankovic&quot;                       91
 ## 10 &quot;(+44)&quot;                                        1
-## # … with 10,225 more rows</code></pre>
+## # … with 10,227 more rows</code></pre>
 <p>What we get in return is a <strong>summarize</strong>d table that shows all 10,000+ different performers that have been on the charts, and the <strong>n</strong>umber of rows in which they appear in the data.</p>
 <p>That’s great, but who had the most?</p>
 </div>
@@ -745,7 +748,7 @@ Try real hard first before clicking here for the answer and result
 <span id="cb39-2"><a href="count-analysis.html#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(performer) <span class="sc">%&gt;%</span> </span>
 <span id="cb39-3"><a href="count-analysis.html#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">appearances =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
 <span id="cb39-4"><a href="count-analysis.html#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(appearances))</span></code></pre></div>
-<pre><code>## # A tibble: 10,235 × 2
+<pre><code>## # A tibble: 10,237 × 2
 ##    performer     appearances
 ##    &lt;chr&gt;               &lt;int&gt;
 ##  1 Taylor Swift         1057
@@ -758,7 +761,7 @@ Try real hard first before clicking here for the answer and result
 ##  8 Stevie Wonder         659
 ##  9 Rod Stewart           657
 ## 10 Mariah Carey          626
-## # … with 10,225 more rows</code></pre>
+## # … with 10,227 more rows</code></pre>
 <ul>
 <li>We added the <code>arrange()</code> function and fed it the column of “appearances.” If we left it with just that, then it would list the smallest values first.</li>
 <li><em>Within the arrange function</em> we wrapped our column in another function: <code>desc()</code> to change the order to “descending,” or the most on the top.</li>
@@ -819,8 +822,8 @@ Try real hard first before clicking here for the answer and result
 <span id="cb43-4"><a href="count-analysis.html#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(appearances)) <span class="co"># arrange by appearances in descending order</span></span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;performer&#39;. You can override using the
 ## `.groups` argument.</code></pre>
-<pre><code>## # A tibble: 29,789 × 3
-## # Groups:   performer [10,235]
+<pre><code>## # A tibble: 29,791 × 3
+## # Groups:   performer [10,237]
 ##    performer                                 song                    appearances
 ##    &lt;chr&gt;                                     &lt;chr&gt;                         &lt;int&gt;
 ##  1 The Weeknd                                Blinding Lights                  90
@@ -833,7 +836,7 @@ Try real hard first before clicking here for the answer and result
 ##  8 Adele                                     Rolling In The Deep              65
 ##  9 Jewel                                     Foolish Games/You Were…          65
 ## 10 Carrie Underwood                          Before He Cheats                 64
-## # … with 29,779 more rows</code></pre>
+## # … with 29,781 more rows</code></pre>
 <p>The logic is actually straightforward:</p>
 <ul>
 <li>We want to count combinations over two columns: <code>song, performer</code>. When you group_by more then one column, it will group rows where the values are the same in all columns. i.e. all rows with both “Rush” as a performer and <em>Tom Sawyer</em> as a song. Rows with “Rush” and <em>Red Barchetta</em> will be considered in a different group.</li>
@@ -1279,7 +1282,7 @@ No, really. Try it on your own first.
 <p>The <a href="https://dplyr.tidyverse.org/reference/count.html"><code>count()</code></a> function takes the columns you want to group and then does the summarize on <code>n()</code> for you:</p>
 <div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="count-analysis.html#cb72-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">%&gt;%</span> </span>
 <span id="cb72-2"><a href="count-analysis.html#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(performer)</span></code></pre></div>
-<pre><code>## # A tibble: 10,235 × 2
+<pre><code>## # A tibble: 10,237 × 2
 ##    performer                                n
 ##    &lt;chr&gt;                                &lt;int&gt;
 ##  1 &quot;? (Question Mark) &amp; The Mysterians&quot;    33
@@ -1292,7 +1295,7 @@ No, really. Try it on your own first.
 ##  8 &quot;\&quot;Pookie\&quot; Hudson&quot;                      1
 ##  9 &quot;\&quot;Weird Al\&quot; Yankovic&quot;                 91
 ## 10 &quot;(+44)&quot;                                  1
-## # … with 10,225 more rows</code></pre>
+## # … with 10,227 more rows</code></pre>
 <p>To get the same pretty table you still have to rename the new column and reverse the sort, you just do it differently as arguments within the <code>count()</code> function. You can view the <a href="https://dplyr.tidyverse.org/reference/count.html"><code>count()</code> options here.</a></p>
 <ul>
 <li>Add this chunk to your notebook (with a note you are trying <code>count()</code>) so you have it to refer to.</li>
