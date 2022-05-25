@@ -1,7 +1,7 @@
 --- 
 title: "Reporting with Data in R"
 author: "Christian McDonald and Josephine Lukito"
-date: "2022-05-24"
+date: "2022-05-25"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
@@ -28,7 +28,7 @@ I'm a strong proponent of what I call Scripted Journalism, a method of committin
 
 R is a super powerful, open-source programming language for data that is deep with features and an awesome community of users who build upon it. No matter the challenge before you in your data storytelling, there is probably a package available to help you solve that challenge. Probably more than one.
 
-There is always more than one way to do things in R. This book is a [Tidyverse](https://www.tidyverse.org/)-oriented, opinionated collection of lessons intended to teach students new to programming and R for the expressed act of committing journalism. As a beginner course, I strive to make it as simple as possible, which means I may not go into detail about alternative (and possibly better) ways to accomplish tasks in favor of staying in the Tidyverse and reducing options to simplify understanding.
+There is always more than one way to do things in R. This book is a [Tidyverse](https://www.tidyverse.org/)-oriented, opinionated collection of lessons intended to teach students new to programming and R for the expressed act of committing journalism. As a beginner course, we strive to make it as simple as possible, which means we may not go into detail about alternative (and possibly better) ways to accomplish tasks in favor of staying in the Tidyverse and reducing options to simplify understanding. We rarely even discuss differences from base R; Tidyverse is our default.
 
 ## Tips on the book style {-}
 
