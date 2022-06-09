@@ -188,7 +188,9 @@ Take a look at the [current chart](https://www.billboard.com/charts/hot-100/). O
 
 ### Let's download our data
 
-Since this data is stored on Github, we can reference it through a URL and download it into our project. Since this is a new "section" of our R Notebook, we'll note what we are doing and why in Markdown.
+Since this data is stored as a CSV file on Github, we could import it directly into our project from there, but there are benefits to downloading the file to your computer first. The hosted file could change later in ways you can't control, and you would need access to the file the next time you ran your notebook. If you download the file to keep your own copy, you have more control of your future.
+
+Since this is a new "section" of our R Notebook, we'll note what we are doing and why in Markdown.
 
 1. Add a Markdown headline `## Downloading data` and some text explaining you are downloading data. Add a note about where the data comes from and include a link to the original source. (These are notes to your future self to explain what you are doing.)
 1. Create an R chunk and copy/paste the following inside it. (hint: use the copy icon at the top right):
@@ -275,7 +277,7 @@ At this point we have only printed this data to the screen. We have not saved it
 
 ## Assign our import to an R object
 
-Now that we know how to find our data, we next need to assign it to an **R object** so it can be named thing we can reuse it. We don't want to re-import the data every time we use the data.
+Now that we know how to find our data, we next need to assign it to an **R object** so it can be named thing we can reuse. We don't want to re-import the data over and over each time we need it.
 
 The syntax to create an object in R can seem weird at first, but the convention is to name the object first, then insert stuff into it. So, to create an object, the structure is this:
 
@@ -288,7 +290,7 @@ Think of it like this: You must have a bucket before you can fill it with water.
 
 Let's make a object called `hot100` and fill it with our imported tibble.
 
-1. Edit your existing code chunk to look like this. You can add the `<-` by using _Option+-_ as in holding down the Option key and then pressing the hyphen:
+1. **Edit your existing code chunk** to look like this. You can add the `<-` by using _Option+-_ as in holding down the Option key and then pressing the hyphen:
 
 ```{r hot100_assign, message=FALSE, warning=FALSE, include=TRUE, results=FALSE}
 hot100 <- read_csv("data-raw/hot100_archive.csv")
@@ -346,11 +348,11 @@ The glimpse shows there are 300,000+ rows and 7 columns in our data. Each column
 
 We need to break down this code a little: `hot100 |> glimpse()`.
 
-We are starting with the object `hot100`, but then we follow it with ` |> `, which is called a pipe. The pipe is concept that allows us to take the **result** of an object or function and pass it into another function. Think of it like a sentence that says **"AND THEN" the next thing**.
+We are starting with the object `hot100`, but then we follow it with ` |> `, which is called a pipe. The pipe is concept that takes the **result** of an object or function and passes it into another function. Think of it like a sentence that says **"AND THEN" the next thing**.
 
-It might look like there are no arguments inside `glimpse()`, but what we are actually doing is passing the `hot100` tibble into it like this: `glimpse(hot100)`. For almost every function in R the first argument or thing it needs is "what data are you taking about?" The pipe allows us to say "hey, take the data we just mucked  with (i.e., the code before the pipe) and use that in this function."
+It might look like there are no arguments inside `glimpse()`, but what we are actually doing is passing the `hot100` tibble into it like this: `glimpse(hot100)`. For almost every function in R the first argument is "what data are you taking about?" The pipe allows us to say "hey, take the data we just mucked with (i.e., the code before the pipe) and use that in this function."
 
-You can't start a new line with a pipe. If you are breaking your code into multiple lines, then the ` |> ` needs to be at the end and the next line should be indented so there is a visual clue it is related to line above it, like this:
+You can't start a new line with a pipe. If you are breaking your code into multiple lines, then the ` |> ` needs to be at the end of a line and the next line should be indented so there is a visual clue it is related to line above it, like this:
 
 ```r
 hot100 |> 
@@ -361,11 +363,15 @@ hot100 |>
 
 ### A rabbit dives into a pipe {-}
 
-The concept of the pipe was first introduced by tidyverse developers in 2014 in a package called [magrittr](https://magrittr.tidyverse.org/). They used the symbol ` %>% ` as the pipe. It was so well received the concept was written directly into base R in **2021**, but using the symbol `|>`. Even Hadley Wickham is [rewriting R for Data Science](https://r4ds.hadley.nz/workflow-pipes.html#magrittr-and-the-pipe) to use the base R pipe `|>` by default. You can configure which to use in RStudio.
+The concept of the pipe was first introduced by tidyverse developers in 2014 in a package called [magrittr](https://magrittr.tidyverse.org/). They used the symbol ` %>% ` as the pipe. It was so well received the concept was written directly into base R in **2021**, but using the symbol `|>`. Hadley Wickham's 2022 rewriting of [R for Data Science](https://r4ds.hadley.nz/workflow-pipes.html#magrittr-and-the-pipe) uses the base R pipe `|>` by default. You can configure which to use in RStudio.
 
-(This switch to `|>` is quite recent and this book is being rewritten to migrate from ` %>%`, but it might take a while to catch all references, especially in images. **For now, assume `|>` and `%>%` are interchangeable.** Also note there is A LOT  of code in the wild using the magrittr pipe ` %>% `, so you'll find many references on Stack Overflow and elsewhere.)
+(This switch to `|>` is quite recent and this book is being rewritten to migrate from ` %>% `, but it might take a while to catch all references, especially in images. **For now, assume `|>` and `%>%` are interchangeable.** Also note there is A LOT of code in the wild using the magrittr pipe ` %>% `, so you'll find many references on Stack Overflow and elsewhere.)
 
 ## Cleaning data
+
+Data is dirty. Usually because a human was involved at some point, we humans are fallible.
+
+Data problems are often revealed when importing so it is good practice to check for problems and fix them right away. We'll face some of those challenges in this project, but we should talk about what is good vs dirty data.
 
 This "Checking Your Data" section of this [DataCamp tutorial](https://www.datacamp.com/community/tutorials/r-data-import-tutorial) has a good outline of what makes good data, but in general it should:
 
@@ -375,11 +381,8 @@ This "Checking Your Data" section of this [DataCamp tutorial](https://www.dataca
     + Spaces in names make them harder to work with. Use and `_` or `.` between words. I prefer `_` and lowercase text.
 - Remove notes or comments from the files.
 - Each column should have the same kind of data: numbers vs words, etc.
-- Each row should be a single thing called an "observation". The columns should describe attributes of that observation.
 
-Data rarely comes perfect and that can cause challenges when importing and cleaning data. We'll face some of those challenges here. In our case our columns names could use help, and our field `CHART WEEK` is not really a date, but text characters. We'll tackle those issues next.
-
-## Cleaning column names
+### Cleaning column names
 
 So, given those notes above, we should clean up our column names. This is why we have included the janitor package, which includes a neat function called `clean_names()`
 
@@ -394,7 +397,7 @@ hot100 |> glimpse()
 
 This function has cleaned up your names, making them all lowercase and using `_` instead of periods between words. Believe me when I say this is helpful when you are writing code. It makes type-assist work better and you can now double-click on a column name to select all of it and copy and paste somewhere else. When you have spaces or dashes in an object you can't double-click on it to select all of it. 
 
-## Fixing the date
+### Fixing the date
 
 Dates in programming are a tricky data type because they are represented essentially as the number of seconds before/after January 1, 1970. Yes, that's crazy, but it is also cool because that allows us to do math on them. So, to use our `chart_week` properly in R we need to convert it from the text into a real _date_ datatype. (If you wish, you can [read more about why dates are tough in programming](https://levelup.gitconnected.com/why-is-programming-with-dates-so-hard-7477b4aeff4c).)
 

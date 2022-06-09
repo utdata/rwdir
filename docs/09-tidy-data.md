@@ -428,7 +428,7 @@ candy_long %>%
 ## 5 blue                   16           17           19               13
 ## 6 brown                   4            9            7                8
 ## # … with 26 more variables: Cristela_Jones <dbl>, Marina_Garcia <dbl>,
-## #   Samuel_Stark <dbl>, Kevin_Malcolm Jr <dbl>, Alexa_Haverlah <dbl>,
+## #   Samuel_Stark <dbl>, `Kevin_Malcolm Jr` <dbl>, Alexa_Haverlah <dbl>,
 ## #   Zacharia_Washington <dbl>, Jose_Martinez <dbl>, Ana_Garza <dbl>,
 ## #   Carolina_Cruz <dbl>, Anissa_Reyes <dbl>, Alaina_Bookman <dbl>,
 ## #   Bryan_Baker <dbl>, Mckenna_Lucas <dbl>, Marissa_DeLeon <dbl>,

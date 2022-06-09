@@ -404,18 +404,18 @@ tx %>%
 
 ```
 ## # A tibble: 41 × 3
-##    item_name                                   summed_quantity summed_total_val…
-##    <chr>                                                 <dbl>             <dbl>
-##  1 HELICOPTER,FLIGHT TRAINER                                 1           833400 
-##  2 IMAGE INTENSIFIER,NIGHT VISION                           85           467847.
-##  3 SIGHT,THERMAL                                            29           442310 
-##  4 PACKBOT 510 WITH FASTAC REMOTELY CONTROLLE…               4           308000 
-##  5 SIGHT,REFLEX                                            420           144245.
-##  6 ILLUMINATOR,INTEGRATED,SMALL ARMS                       135           122302 
-##  7 RECON SCOUT XT                                            8            92451.
-##  8 RECON SCOUT XT,SPEC                                       6            81900 
-##  9 TEST SET,NIGHT VISION VIEWER                              2            55610 
-## 10 PICKUP                                                    2            38075 
+##    item_name                                    summed_quantity summed_total_va…
+##    <chr>                                                  <dbl>            <dbl>
+##  1 HELICOPTER,FLIGHT TRAINER                                  1          833400 
+##  2 IMAGE INTENSIFIER,NIGHT VISION                            85          467847.
+##  3 SIGHT,THERMAL                                             29          442310 
+##  4 PACKBOT 510 WITH FASTAC REMOTELY CONTROLLED…               4          308000 
+##  5 SIGHT,REFLEX                                             420          144245.
+##  6 ILLUMINATOR,INTEGRATED,SMALL ARMS                        135          122302 
+##  7 RECON SCOUT XT                                             8           92451.
+##  8 RECON SCOUT XT,SPEC                                        6           81900 
+##  9 TEST SET,NIGHT VISION VIEWER                               2           55610 
+## 10 PICKUP                                                     2           38075 
 ## # … with 31 more rows
 ```
 
