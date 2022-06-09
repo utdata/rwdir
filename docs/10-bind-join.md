@@ -353,16 +353,16 @@ sped_flag %>% sample_n(10)
 ## # A tibble: 10 × 8
 ##    district distname cntyname year  all_count sped_count sped_percent audit_flag
 ##    <chr>    <chr>    <chr>    <chr>     <dbl>      <dbl>        <dbl> <chr>     
-##  1 179901   PERRYTO… OCHILTR… 2015       2425        167          6.9 BELOW     
-##  2 094901   SEGUIN … GUADALU… 2015       7379        680          9.2 ABOVE     
-##  3 204904   SHEPHER… SAN JAC… 2018       2015        154          7.6 BELOW     
-##  4 046902   COMAL I… COMAL    2020      25011       2976         11.9 ABOVE     
-##  5 126904   GRANDVI… JOHNSON  2017       1174         88          7.5 BELOW     
-##  6 120901   EDNA ISD JACKSON  2017       1552        140          9   ABOVE     
-##  7 209902   MORAN I… SHACKEL… 2016        128         19         14.8 ABOVE     
-##  8 220902   BIRDVIL… TARRANT  2020      23503       2456         10.4 ABOVE     
-##  9 200901   BALLING… RUNNELS  2016        955         80          8.4 BELOW     
-## 10 176901   BURKEVI… NEWTON   2016        292         25          8.6 ABOVE
+##  1 006902   CLAUDE … ARMSTRO… 2020        331         36         10.9 ABOVE     
+##  2 101920   SPRING … HARRIS   2019      34632       2821          8.1 BELOW     
+##  3 058909   SANDS C… DAWSON   2016        255         19          7.5 BELOW     
+##  4 112905   CUMBY I… HOPKINS  2013        402         51         12.7 ABOVE     
+##  5 160905   LOHN ISD MCCULLO… 2020         74         12         16.2 ABOVE     
+##  6 015917   SOUTHSI… BEXAR    2021       5593        845         15.1 ABOVE     
+##  7 021901   COLLEGE… BRAZOS   2016      12874       1066          8.3 BELOW     
+##  8 108909   PHARR-S… HIDALGO  2015      32272       1931          6   BELOW     
+##  9 068901   ECTOR C… ECTOR    2018      32179       2707          8.4 BELOW     
+## 10 154901   MADISON… MADISON  2020       2407        212          8.8 ABOVE
 ```
 
 Let's walk through the code above:

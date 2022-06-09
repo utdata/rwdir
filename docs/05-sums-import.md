@@ -198,18 +198,18 @@ leso
 
 ```
 ## # A tibble: 124,848 × 12
-##    sheet state agency_name   nsn    item_name    quantity ui    acquisition_val…
-##    <dbl> <chr> <chr>         <chr>  <chr>           <dbl> <chr>            <dbl>
-##  1     1 AL    ABBEVILLE PO… 2540-… BALLISTIC B…       10 Kit             15872.
-##  2     1 AL    ABBEVILLE PO… 1240-… OPTICAL SIG…        1 Each              246.
-##  3     1 AL    ABBEVILLE PO… 1005-… MOUNT,RIFLE        10 Each             1626 
-##  4     1 AL    ABBEVILLE PO… 1240-… SIGHT,REFLEX        9 Each              333 
-##  5     1 AL    ABBEVILLE PO… 5855-… ILLUMINATOR…       10 Each              926 
-##  6     1 AL    ABBEVILLE PO… 2355-… MINE RESIST…        1 Each           658000 
-##  7     1 AL    ABBEVILLE PO… 2320-… TRUCK,UTILI…        1 Each            62627 
-##  8     1 AL    ABBEVILLE PO… 1385-… UNMANNED VE…        1 Each            10000 
-##  9     1 AL    ABBEVILLE PO… 6760-… CAMERA ROBOT        1 Each             1500 
-## 10     1 AL    ABBEVILLE PO… 2320-… TRUCK,UTILI…        1 Each            62627 
+##    sheet state agency_name       nsn   item_name quantity ui    acquisition_val…
+##    <dbl> <chr> <chr>             <chr> <chr>        <dbl> <chr>            <dbl>
+##  1     1 AL    ABBEVILLE POLICE… 2540… BALLISTI…       10 Kit             15872.
+##  2     1 AL    ABBEVILLE POLICE… 1240… OPTICAL …        1 Each              246.
+##  3     1 AL    ABBEVILLE POLICE… 1005… MOUNT,RI…       10 Each             1626 
+##  4     1 AL    ABBEVILLE POLICE… 1240… SIGHT,RE…        9 Each              333 
+##  5     1 AL    ABBEVILLE POLICE… 5855… ILLUMINA…       10 Each              926 
+##  6     1 AL    ABBEVILLE POLICE… 2355… MINE RES…        1 Each           658000 
+##  7     1 AL    ABBEVILLE POLICE… 2320… TRUCK,UT…        1 Each            62627 
+##  8     1 AL    ABBEVILLE POLICE… 1385… UNMANNED…        1 Each            10000 
+##  9     1 AL    ABBEVILLE POLICE… 6760… CAMERA R…        1 Each             1500 
+## 10     1 AL    ABBEVILLE POLICE… 2320… TRUCK,UT…        1 Each            62627 
 ## # … with 124,838 more rows, and 4 more variables: demil_code <chr>,
 ## #   demil_ic <dbl>, ship_date <dttm>, station_type <chr>
 ```
