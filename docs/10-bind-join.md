@@ -353,16 +353,16 @@ sped_flag %>% sample_n(10)
 ## # A tibble: 10 × 8
 ##    district distname cntyname year  all_count sped_count sped_percent audit_flag
 ##    <chr>    <chr>    <chr>    <chr>     <dbl>      <dbl>        <dbl> <chr>     
-##  1 067907   RANGER … EASTLAND 2021        349         69         19.8 ABOVE     
-##  2 169902   NOCONA … MONTAGUE 2017        794         81         10.2 ABOVE     
-##  3 015914   FT SAM … BEXAR    2013       1605        193         12   ABOVE     
-##  4 031912   SAN BEN… CAMERON  2013      11160        819          7.3 BELOW     
-##  5 108916   VALLEY … HIDALGO  2014       4620        267          5.8 BELOW     
-##  6 126905   JOSHUA … JOHNSON  2013       4885        365          7.5 BELOW     
-##  7 027903   BURNET … BURNET   2014       3218        309          9.6 ABOVE     
-##  8 126911   GODLEY … JOHNSON  2015       1813        192         10.6 ABOVE     
-##  9 112901   SULPHUR… HOPKINS  2019       4392        495         11.3 ABOVE     
-## 10 191901   CANYON … RANDALL  2018       9962       1114         11.2 ABOVE
+##  1 246905   GRANGER… WILLIAM… 2016        405         40          9.9 ABOVE     
+##  2 180903   ADRIAN … OLDHAM   2016        129         16         12.4 ABOVE     
+##  3 075906   FAYETTE… FAYETTE  2019        251         14          5.6 BELOW     
+##  4 246908   LIBERTY… WILLIAM… 2014       2968        230          7.7 BELOW     
+##  5 246906   HUTTO I… WILLIAM… 2019       7578        945         12.5 ABOVE     
+##  6 083901   SEAGRAV… GAINES   2019        571         43          7.5 BELOW     
+##  7 161924   HALLSBU… MCLENNAN 2017        179         13          7.3 BELOW     
+##  8 088902   GOLIAD … GOLIAD   2019       1320        142         10.8 ABOVE     
+##  9 071903   FABENS … EL PASO  2014       2355        256         10.9 ABOVE     
+## 10 043918   COMMUNI… COLLIN   2014       1675        150          9   ABOVE
 ```
 
 Let's walk through the code above:

@@ -1,5 +1,18 @@
 # Summarize with math - analysis {#sums-analyze}
 
+Note to self:
+
+- cover `na.rm = TRUE`
+
+
+> I SHOULD MOVE THE ANALYTICAL VERSIONS ABOVE TO WHEN DO THE CODE.
+  - Put in a analytical way, we'll find the **summed** `quantity` and **summed** `total value` of the equipment **for each** `agency`. When I say "summed" that means we'll add together all the values in the column.
+  - i.e., we'll find the  **summed** `quantity` and **summed** `total value` **for each** `item` shipped to the agency.
+  - i.e., we'll find the **summed** `quantity` and **summed** `total value` **for each** YEAR in the `ship_date`.
+
+
+---
+
 In the last chapter, we covered the overall story about the LESO data ... that local law enforcement agencies can get surplus military equipment from the U.S. Department of Defense. We downloaded a pre-processed version of the data and filtered it to just Texas records over a specific time period (2010 to present), and used `mutate()` to create a new column calculated fron other variables in the data.
 
 ## Learning goals of this lesson
@@ -60,13 +73,16 @@ tx %>% glimpse()
 
 ```
 ## Rows: 7,411
-## Columns: 9
+## Columns: 12
 ## $ state             <chr> "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX"…
 ## $ agency_name       <chr> "ABERNATHY POLICE DEPT", "ABERNATHY POLICE DEPT", "A…
+## $ nsn               <chr> "1005-00-726-5655", "1005-00-726-5655", "1005-00-726…
 ## $ item_name         <chr> "PISTOL,CALIBER .45,AUTOMATIC", "PISTOL,CALIBER .45,…
 ## $ quantity          <dbl> 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
 ## $ ui                <chr> "Each", "Each", "Each", "Each", "Each", "Each", "Eac…
 ## $ acquisition_value <dbl> 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 333.00…
+## $ demil_code        <chr> "D", "D", "D", "D", "D", "C", "D", "D", "D", "D", "D…
+## $ demil_ic          <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
 ## $ ship_date         <dttm> 2011-11-03, 2011-11-03, 2011-11-03, 2011-11-03, 201…
 ## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
 ## $ total_value       <dbl> 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 1665.0…
@@ -154,20 +170,20 @@ tx %>%
 ```
 
 ```
-## # A tibble: 9 × 9
-##   state agency_name           item_name          quantity ui    acquisition_val…
-##   <chr> <chr>                 <chr>                 <dbl> <chr>            <dbl>
-## 1 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
-## 2 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
-## 3 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
-## 4 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
-## 5 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIM…        1 Each             749  
-## 6 TX    ABERNATHY POLICE DEPT TRUCK,UTILITY             1 Each           62627  
-## 7 TX    ABERNATHY POLICE DEPT SIGHT,REFLEX              5 Each             333  
-## 8 TX    ABERNATHY POLICE DEPT RIFLE,5.56 MILLIM…        1 Each             749  
-## 9 TX    ABERNATHY POLICE DEPT PISTOL,CALIBER .4…        1 Each              58.7
-## # … with 3 more variables: ship_date <dttm>, station_type <chr>,
-## #   total_value <dbl>
+## # A tibble: 9 × 12
+##   state agency_name   nsn   item_name quantity ui    acquisition_val… demil_code
+##   <chr> <chr>         <chr> <chr>        <dbl> <chr>            <dbl> <chr>     
+## 1 TX    ABERNATHY PO… 1005… PISTOL,C…        1 Each              58.7 D         
+## 2 TX    ABERNATHY PO… 1005… PISTOL,C…        1 Each              58.7 D         
+## 3 TX    ABERNATHY PO… 1005… PISTOL,C…        1 Each              58.7 D         
+## 4 TX    ABERNATHY PO… 1005… PISTOL,C…        1 Each              58.7 D         
+## 5 TX    ABERNATHY PO… 1005… RIFLE,5.…        1 Each             749   D         
+## 6 TX    ABERNATHY PO… 2320… TRUCK,UT…        1 Each           62627   C         
+## 7 TX    ABERNATHY PO… 1240… SIGHT,RE…        5 Each             333   D         
+## 8 TX    ABERNATHY PO… 1005… RIFLE,5.…        1 Each             749   D         
+## 9 TX    ABERNATHY PO… 1005… PISTOL,C…        1 Each              58.7 D         
+## # … with 4 more variables: demil_ic <dbl>, ship_date <dttm>,
+## #   station_type <chr>, total_value <dbl>
 ```
 
 If we look at the `quantity` column there and eyeball all the rows, we see there 8 rows with a value of "1", and one row with a value of "5". 8 + 5 = 13, which matches our `sum_quantity` answer in our summary table. We're good!
