@@ -353,16 +353,16 @@ sped_flag %>% sample_n(10)
 ## # A tibble: 10 × 8
 ##    district distname cntyname year  all_count sped_count sped_percent audit_flag
 ##    <chr>    <chr>    <chr>    <chr>     <dbl>      <dbl>        <dbl> <chr>     
-##  1 246905   GRANGER… WILLIAM… 2016        405         40          9.9 ABOVE     
-##  2 180903   ADRIAN … OLDHAM   2016        129         16         12.4 ABOVE     
-##  3 075906   FAYETTE… FAYETTE  2019        251         14          5.6 BELOW     
-##  4 246908   LIBERTY… WILLIAM… 2014       2968        230          7.7 BELOW     
-##  5 246906   HUTTO I… WILLIAM… 2019       7578        945         12.5 ABOVE     
-##  6 083901   SEAGRAV… GAINES   2019        571         43          7.5 BELOW     
-##  7 161924   HALLSBU… MCLENNAN 2017        179         13          7.3 BELOW     
-##  8 088902   GOLIAD … GOLIAD   2019       1320        142         10.8 ABOVE     
-##  9 071903   FABENS … EL PASO  2014       2355        256         10.9 ABOVE     
-## 10 043918   COMMUNI… COLLIN   2014       1675        150          9   ABOVE
+##  1 031905   LA FERI… CAMERON  2014       3597        257          7.1 BELOW     
+##  2 133901   CENTER … KERR     2021        534         77         14.4 ABOVE     
+##  3 219905   KRESS I… SWISHER  2020        282         23          8.2 BELOW     
+##  4 242906   FORT EL… WHEELER  2021        144         13          9   ABOVE     
+##  5 007905   PLEASAN… ATASCOSA 2016       3507        289          8.2 BELOW     
+##  6 126904   GRANDVI… JOHNSON  2021       1332        134         10.1 ABOVE     
+##  7 011904   SMITHVI… BASTROP  2019       1800        192         10.7 ABOVE     
+##  8 045903   RICE CI… COLORADO 2015       1255        132         10.5 ABOVE     
+##  9 030903   BAIRD I… CALLAHAN 2015        322         36         11.2 ABOVE     
+## 10 072901   THREE W… ERATH    2019        162          4          2.5 BELOW
 ```
 
 Let's walk through the code above:

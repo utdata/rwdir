@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Summarize with count - analysis {#count-analysis}
 
 This chapter is by Prof. McDonald and keyboard commands and screenshots are from  macOS.
@@ -10,7 +15,8 @@ This chapter continues the Billboard Hot 100 project. In the previous chapter we
 
 - To use the group_by/summarize/arrange combination to count rows of data.
 - To use filter in two ways: to focus data before summarizing, and to logically end summarized lists.
-- ~~Introduce the shortcut `count()` function, along with complex filters.~~
+- We'll also cover some more complex filters using and/or.
+- Introduce the shortcut `count()` function
 
 ## The questions we'll answer
 
@@ -892,70 +898,7 @@ The logic is very similar to the "Most No. 1 hits" quest you did before, but you
 1. Do it using the group_by/summarize method
 1. Filter to cut off at a logical number or rows. (i.e., don't stop at a tie)
 
-## A shortcut: count()
 
-In the interest of full disclosure but at the risk of confusing you, I must reveal this fact:
-
-We count stuff in data science (and journalism) all the time. So dplyr has a shortcut to group, count and arrange rows of data. We needed to use the long way above because a) we will use `group_by()` and `summarize()` with other math that isn't just counting rows, and b) you need to understand what is happening inside `count()`, which is really just using group_by/summarize/arrange under the hood.
-
-The [`count()`](https://dplyr.tidyverse.org/reference/count.html) function takes the columns you want to group and then does the summarize on `n()` for you:
-
-
-```r
-hot100 |> 
-  count(performer)
-```
-
-```
-## # A tibble: 10,237 × 2
-##    performer                                n
-##    <chr>                                <int>
-##  1 "? (Question Mark) & The Mysterians"    33
-##  2 "'N Sync"                              172
-##  3 "'N Sync & Gloria Estefan"              20
-##  4 "'N Sync Featuring Nelly"               20
-##  5 "'Til Tuesday"                          53
-##  6 "\"Groove\" Holmes"                     14
-##  7 "\"Little\" Jimmy Dickens"              10
-##  8 "\"Pookie\" Hudson"                      1
-##  9 "\"Weird Al\" Yankovic"                 91
-## 10 "(+44)"                                  1
-## # … with 10,227 more rows
-```
-
-To get the same pretty table you still have to rename the new column and reverse the sort, you just do it differently as arguments within the `count()` function. You can view the [`count()` options here.](https://dplyr.tidyverse.org/reference/count.html)
-
-- Add this chunk to your notebook (with a note you are trying `count()`) so you have it to refer to.
-
-
-```r
-hot100 |> 
-  count(performer, name = "appearances", sort = TRUE) |> 
-  filter(appearances > 600)
-```
-
-```
-## # A tibble: 13 × 2
-##    performer       appearances
-##    <chr>                 <int>
-##  1 Taylor Swift           1057
-##  2 Elton John              889
-##  3 Madonna                 857
-##  4 Drake                   787
-##  5 Kenny Chesney           776
-##  6 Tim McGraw              731
-##  7 Keith Urban             673
-##  8 Stevie Wonder           659
-##  9 Rod Stewart             657
-## 10 Mariah Carey            626
-## 11 Michael Jackson         612
-## 12 Chicago                 607
-## 13 Rascal Flatts           604
-```
-
-So the code above does same things here as we did in our first quest, but quicker.
-
-> IMPORTANT: We will concentrate on using group_by/summarize/arrange because it can do SO MUCH MORE than `count()`. Count can ONLY count rows. It can't do any other kind of math in summarize. 
 
 ## Complex filters
 
@@ -1081,6 +1024,71 @@ Now I want you to find something else on your own. It doesn't matter what it is.
 1. Use Markdown text to declare what you are looking for
 1. Find it! 
 1. After your code, explain what functions you used and why (like what did they do for you)
+
+## A shortcut: count()
+
+In the interest of full disclosure but at the risk of confusing you, I must reveal this fact:
+
+We count stuff in data science (and journalism) all the time. So dplyr has a shortcut to group, count and arrange rows of data. We needed to use the long way above because a) we will use `group_by()` and `summarize()` with other math that isn't just counting rows, and b) you need to understand what is happening inside `count()`, which is really just using group_by/summarize/arrange under the hood.
+
+The [`count()`](https://dplyr.tidyverse.org/reference/count.html) function takes the columns you want to group and then does the summarize on `n()` for you:
+
+
+```r
+hot100 |> 
+  count(performer)
+```
+
+```
+## # A tibble: 10,237 × 2
+##    performer                                n
+##    <chr>                                <int>
+##  1 "? (Question Mark) & The Mysterians"    33
+##  2 "'N Sync"                              172
+##  3 "'N Sync & Gloria Estefan"              20
+##  4 "'N Sync Featuring Nelly"               20
+##  5 "'Til Tuesday"                          53
+##  6 "\"Groove\" Holmes"                     14
+##  7 "\"Little\" Jimmy Dickens"              10
+##  8 "\"Pookie\" Hudson"                      1
+##  9 "\"Weird Al\" Yankovic"                 91
+## 10 "(+44)"                                  1
+## # … with 10,227 more rows
+```
+
+To get the same pretty table you still have to rename the new column and reverse the sort, you just do it differently as arguments within the `count()` function. You can view the [`count()` options here.](https://dplyr.tidyverse.org/reference/count.html)
+
+- Add this chunk to your notebook (with a note you are trying `count()`) so you have it to refer to.
+
+
+```r
+hot100 |> 
+  count(performer, name = "appearances", sort = TRUE) |> 
+  filter(appearances > 600)
+```
+
+```
+## # A tibble: 13 × 2
+##    performer       appearances
+##    <chr>                 <int>
+##  1 Taylor Swift           1057
+##  2 Elton John              889
+##  3 Madonna                 857
+##  4 Drake                   787
+##  5 Kenny Chesney           776
+##  6 Tim McGraw              731
+##  7 Keith Urban             673
+##  8 Stevie Wonder           659
+##  9 Rod Stewart             657
+## 10 Mariah Carey            626
+## 11 Michael Jackson         612
+## 12 Chicago                 607
+## 13 Rascal Flatts           604
+```
+
+So the code above does same things here as we did in our first quest, but quicker.
+
+> IMPORTANT: We will concentrate on using group_by/summarize/arrange because it can do SO MUCH MORE than `count()`. Count can ONLY count rows. It can't do any other kind of math in summarize.
 
 ## Review of what we've learned
 

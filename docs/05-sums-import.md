@@ -30,9 +30,12 @@ But most of the transfers are for **non-controlled** property that can be sold e
 
 The agency releases data quarterly, but it is really a “snapshot in time” and not a complete history. Those non-controlled items transferred more than a year prior are missing.
 
-The data we'll use here was from **March 31, 2022** and I've done some initial work on the original data that is beyond the scope of this class, so we'll use my copy of the data. **I will supply a link to the combined data below.**
 
 ### About the data
+
+![The raw data](images/leso-raw.png)
+
+The data comes in a spreadsheet that has a different tab for each state and territory. The data we'll use here was from **March 31, 2022** and I've done some initial work on the original data that is beyond the scope of this class, so we'll use my copy of the data. **I will supply a link to the combined data below.**
 
 There is no data dictionary or record layout included with the data but I have corresponded with the Defense Logistics Agency to get a decent understanding of what is included.
 
@@ -107,12 +110,12 @@ These are things I learned about by talking to the agency and reading through do
 
 First, we'll consider only **Texas** data from **Jan. 1, 2010** to present. You answer the following:
 
-- *How many total things did each agency get and how much was it all worth?* Like how many things did Austin Police get and what was it worth?
-- *What specific things did each agency get and how much were they worth?* Like how many rifles were sent to Austin Police and what were they worth?
-- *How has the volume of controlled transfers (the shooting kinds of stuff) changed over time?* Is this program being used more/less by agencies more recently?
+- *How many total things did each agency get and how much was it all worth?* Like which agency got the most stuff?
+- *What specific things did each agency get and how much were they worth?* Now we're looking at the kinds of items.
+- *What kinds of items did local agencies get?* I'll provide a list of agencies.
+- *How has the volume of controlled transfers changed over time?* Here we'll look at just the weapons kinds of things and see if the program is being used more/less by agencies.
 
 We'll look more closely at those results for some local agencies. You'll research some of the more interesting items the agencies received (i.e. Google the names) so you can write about them in a data drop.
-
 
 ## Getting started: Create your project
 
@@ -527,8 +530,8 @@ leso_control |>
 ```
 
 ```{=html}
-<div id="htmlwidget-f40d39c8eb00249aeec9" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f40d39c8eb00249aeec9">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29"],["A","A","A","A","B","B","B","C","C","C","C","C","D","D","D","D","D","E","E","E","F","F","F","Q","Q","Q","Q","Q","Q"],[0,1,7,null,0,3,null,0,1,4,7,null,0,1,4,7,null,1,7,null,1,7,null,0,1,3,5,6,null],[4,8315,224,4594,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,169,null],[null,3,null,null,1,31,115,1,6162,2,232,558,18,88733,10,1081,2888,125,6,3,4938,1180,25,1,7,5383,1,10,28]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>demil_code<\/th>\n      <th>demil_ic<\/th>\n      <th>FALSE<\/th>\n      <th>TRUE<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-322d13f5c522fa1cf7a9" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-322d13f5c522fa1cf7a9">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29"],["A","A","A","A","B","B","B","C","C","C","C","C","D","D","D","D","D","E","E","E","F","F","F","Q","Q","Q","Q","Q","Q"],[0,1,7,null,0,3,null,0,1,4,7,null,0,1,4,7,null,1,7,null,1,7,null,0,1,3,5,6,null],[4,8315,224,4594,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,169,null],[null,3,null,null,1,31,115,1,6162,2,232,558,18,88733,10,1081,2888,125,6,3,4938,1180,25,1,7,5383,1,10,28]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>demil_code<\/th>\n      <th>demil_ic<\/th>\n      <th>FALSE<\/th>\n      <th>TRUE<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ```
 
 OK, onto the next task to get Texas data for specific dates.
@@ -587,7 +590,7 @@ How do you know if it worked? Well the first column in the data is the `state` c
 
 
 ```r
-leso_filtered <- leso_total |> 
+leso_filtered <- leso_control |> 
   filter(
     state == "TX",
     ship_date >= "2010-01-01"
@@ -597,7 +600,7 @@ leso_filtered
 ```
 
 ```
-## # A tibble: 7,411 × 12
+## # A tibble: 7,411 × 13
 ##    state agency_name  nsn   item_name quantity ui    acquisition_val… demil_code
 ##    <chr> <chr>        <chr> <chr>        <dbl> <chr>            <dbl> <chr>     
 ##  1 TX    ABERNATHY P… 1005… PISTOL,C…        1 Each              58.7 D         
@@ -610,8 +613,8 @@ leso_filtered
 ##  8 TX    ABERNATHY P… 1005… RIFLE,5.…        1 Each             749   D         
 ##  9 TX    ABERNATHY P… 1005… PISTOL,C…        1 Each              58.7 D         
 ## 10 TX    ALLEN POLIC… 1240… SIGHT,RE…        1 Each             333   D         
-## # … with 7,401 more rows, and 4 more variables: demil_ic <dbl>,
-## #   ship_date <dttm>, station_type <chr>, total_value <dbl>
+## # … with 7,401 more rows, and 5 more variables: demil_ic <dbl>,
+## #   ship_date <dttm>, station_type <chr>, total_value <dbl>, control_type <lgl>
 ```
 
 </details>
@@ -655,13 +658,13 @@ leso_filtered |> summary()
 ##  3rd Qu.:1.000   3rd Qu.:2019-02-04 00:00:00.00                     
 ##  Max.   :7.000   Max.   :2021-12-29 00:00:00.00                     
 ##  NA's   :647                                                        
-##   total_value     
-##  Min.   :      0  
-##  1st Qu.:    333  
-##  Median :    749  
-##  Mean   :  20125  
-##  3rd Qu.:   4510  
-##  Max.   :5390000  
+##   total_value      control_type   
+##  Min.   :      0   Mode :logical  
+##  1st Qu.:    333   FALSE:1336     
+##  Median :    749   TRUE :6075     
+##  Mean   :  20125                  
+##  3rd Qu.:   4510                  
+##  Max.   :5390000                  
 ## 
 ```
 
