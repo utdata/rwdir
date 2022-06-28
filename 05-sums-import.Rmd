@@ -30,9 +30,12 @@ But most of the transfers are for **non-controlled** property that can be sold e
 
 The agency releases data quarterly, but it is really a “snapshot in time” and not a complete history. Those non-controlled items transferred more than a year prior are missing.
 
-The data we'll use here was from **March 31, 2022** and I've done some initial work on the original data that is beyond the scope of this class, so we'll use my copy of the data. **I will supply a link to the combined data below.**
 
 ### About the data
+
+![The raw data](images/leso-raw.png)
+
+The data comes in a spreadsheet that has a different tab for each state and territory. The data we'll use here was from **March 31, 2022** and I've done some initial work on the original data that is beyond the scope of this class, so we'll use my copy of the data. **I will supply a link to the combined data below.**
 
 There is no data dictionary or record layout included with the data but I have corresponded with the Defense Logistics Agency to get a decent understanding of what is included.
 
@@ -79,12 +82,12 @@ These are things I learned about by talking to the agency and reading through do
 
 First, we'll consider only **Texas** data from **Jan. 1, 2010** to present. You answer the following:
 
-- *How many total things did each agency get and how much was it all worth?* Like how many things did Austin Police get and what was it worth?
-- *What specific things did each agency get and how much were they worth?* Like how many rifles were sent to Austin Police and what were they worth?
-- *How has the volume of controlled transfers (the shooting kinds of stuff) changed over time?* Is this program being used more/less by agencies more recently?
+- *How many total things did each agency get and how much was it all worth?* Like which agency got the most stuff?
+- *What specific things did each agency get and how much were they worth?* Now we're looking at the kinds of items.
+- *What kinds of items did local agencies get?* I'll provide a list of agencies.
+- *How has the volume of controlled transfers changed over time?* Here we'll look at just the weapons kinds of things and see if the program is being used more/less by agencies.
 
 We'll look more closely at those results for some local agencies. You'll research some of the more interesting items the agencies received (i.e. Google the names) so you can write about them in a data drop.
-
 
 ## Getting started: Create your project
 
@@ -405,7 +408,7 @@ How do you know if it worked? Well the first column in the data is the `state` c
   <summary>If you do this on your own, treat yourself to a cookie</summary>
 
 ```{r filer-date}
-leso_filtered <- leso_total |> 
+leso_filtered <- leso_control |> 
   filter(
     state == "TX",
     ship_date >= "2010-01-01"
