@@ -13,7 +13,7 @@ This chapter continues the Billboard Hot 100 project. In the previous chapter we
 
 - To use the group_by/summarize/arrange combination to count rows of data.
 - To use filter in two ways: to focus data before summarizing, and to logically end summarized lists.
-- We'll also cover some more complex filters using and/or.
+- We'll also cover some more complex filters using and/or logic.
 - Introduce the shortcut `count()` function
 
 ## The questions we'll answer
