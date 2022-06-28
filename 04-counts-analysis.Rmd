@@ -7,8 +7,6 @@ output:
 
 This chapter is by Prof. McDonald and keyboard commands and screenshots are from  macOS.
 
-> QUESTIONS: Do we just skip count at this point?
-
 This chapter continues the Billboard Hot 100 project. In the previous chapter we downloaded, imported and cleaned the data. We'll be working in the same project.
 
 ## Goals of this lesson
