@@ -23,7 +23,7 @@
 <meta name="author" content="Christian McDonald and Josephine Lukito" />
 
 
-<meta name="date" content="2022-06-28" />
+<meta name="date" content="2022-07-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -520,7 +520,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13" data-path="troubleshooting.html"><a href="troubleshooting.html"><i class="fa fa-check"></i><b>13</b> Troubleshooting</a>
 <ul>
 <li class="chapter" data-level="13.1" data-path="troubleshooting.html"><a href="troubleshooting.html#when-things-break"><i class="fa fa-check"></i><b>13.1</b> When things break</a></li>
-<li class="chapter" data-level="13.2" data-path="troubleshooting.html"><a href="troubleshooting.html#checking-how-things-work"><i class="fa fa-check"></i><b>13.2</b> Checking how things work</a>
+<li class="chapter" data-level="13.2" data-path="troubleshooting.html"><a href="troubleshooting.html#learning-how-things-work"><i class="fa fa-check"></i><b>13.2</b> Learning how things work</a>
 <ul>
 <li class="chapter" data-level="13.2.1" data-path="troubleshooting.html"><a href="troubleshooting.html#help-docs"><i class="fa fa-check"></i><b>13.2.1</b> Help docs</a></li>
 <li class="chapter" data-level="13.2.2" data-path="troubleshooting.html"><a href="troubleshooting.html#good-googling"><i class="fa fa-check"></i><b>13.2.2</b> Good Googling</a></li>
@@ -530,7 +530,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="13.3.1" data-path="troubleshooting.html"><a href="troubleshooting.html#functions-objects-and-variables"><i class="fa fa-check"></i><b>13.3.1</b> Functions, objects and variables</a></li>
 <li class="chapter" data-level="13.3.2" data-path="troubleshooting.html"><a href="troubleshooting.html#some-r-code-basics"><i class="fa fa-check"></i><b>13.3.2</b> Some R code basics</a></li>
-<li class="chapter" data-level="13.3.3" data-path="troubleshooting.html"><a href="troubleshooting.html#common-mistakes"><i class="fa fa-check"></i><b>13.3.3</b> Common Mistakes</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>14</b> How to interview a new dataset</a>
@@ -596,12 +595,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>Beyond that, here are some common things students come across:</p>
 <ul>
-<li><code>there is no package called 'packagename'</code>: You are trying to use a library that is named wrong or you don’t have installed. You can install packages with <code>install.packages('packagename')</code> where ‘packagename’ is replaced with the name of the package you actually want.</li>
-<li><code>count not find function "functionname"</code>: You either misspelled the function or you are missing a <code>library()</code> in your setup. It’s best practice to have every <code>library()</code> loaded in a setup chunk near the top of the notebook.</li>
+<li><p><strong>There is no package called ‘packagename’</strong>: You are trying to use a library that is named wrong or you don’t have installed. You can install packages with <code>install.packages('packagename')</code> where ‘packagename’ is replaced with the name of the package you actually want.</p></li>
+<li><p><strong>Forgetting to use quotation marks when they are needed</strong>: <code>install.packages("gclus")</code> will work, while <code>install.packages(gclus)</code> will generate an error.</p></li>
+<li><p><strong>Could not find function ‘functionname’</strong>: You either misspelled the function or you are missing a <code>library()</code> in your setup. It’s best practice to have every <code>library()</code> loaded in a setup chunk near the top of the notebook.</p></li>
+<li><p><strong>Using the wrong case</strong>: <code>help()</code>, <code>Help()</code>, and <code>HELP()</code> are three different functions (and only the first one will work)</p></li>
+<li><p><strong>Forgetting to include the parentheses in a function call</strong>: <code>help()</code> rather than <code>help</code>. Even if there are no options, you still need the ().</p></li>
+<li><p><strong>Using the <code>\</code> in a path name on Windows</strong>” R sees the backlash character as an escape character. <code>setwd("c:\mydata")</code> will generate an error. Use <code>setwd("c:/mydata")</code> or <code>setwd("c:\\mydata")</code> instead.</p></li>
 </ul>
 </div>
-<div id="checking-how-things-work" class="section level2 hasAnchor" number="13.2">
-<h2><span class="header-section-number">13.2</span> Checking how things work<a href="troubleshooting.html#checking-how-things-work" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="learning-how-things-work" class="section level2 hasAnchor" number="13.2">
+<h2><span class="header-section-number">13.2</span> Learning how things work<a href="troubleshooting.html#learning-how-things-work" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>There are infinite ways to write code incorrectly or use a function improperly. Documentation and experience (sometimes of others) are key to these challenges.</p>
 <div id="help-docs" class="section level3 hasAnchor" number="13.2.1">
 <h3><span class="header-section-number">13.2.1</span> Help docs<a href="troubleshooting.html#help-docs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -708,28 +711,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul>
 <p>Here, <code>is.na()</code> is a <strong>function</strong>.</p>
-</div>
-<div id="common-mistakes" class="section level3 hasAnchor" number="13.3.3">
-<h3><span class="header-section-number">13.3.3</span> Common Mistakes<a href="troubleshooting.html#common-mistakes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<ul>
-<li><strong>Using the wrong case</strong>
-<ul>
-<li>help(), Help(), and HELP() are three different functions (and only the first one will work)</li>
-</ul></li>
-<li><strong>Forgetting to use quotation marks when they are needed</strong>
-<ul>
-<li>install.packages(“gclus”) will work, while install.packages(gclus) will generate an error.</li>
-</ul></li>
-<li><strong>Forgetting to include the parentheses in a function call</strong>
-<ul>
-<li>help() rather than help. Even if there are no options, you still need the().</li>
-</ul></li>
-<li><strong>Using the <code>\</code> in a path name on Windows</strong>
-<ul>
-<li>R sees the backlash character as an escape character.</li>
-<li><code>setwd("c:\mydata")</code> will generate an error. Use <code>setwd("c:/mydata")</code> or <code>setwd("c:\\mydata")</code> instead</li>
-</ul></li>
-</ul>
 
 </div>
 </div>

@@ -4,11 +4,11 @@
 
 This chapter is by Prof. McDonald, who uses macOS.
 
-**Note: The data you end up using might be updated, so your numbers may be slightly different.**
+**Note: Because of data updates, your answers may differ from what is presented here.**
 
-With our Billboard assignment, we went through some common data wrangling processes — importing data, cleaning it and querying it for answers. All of our answers involved using `group_by`, `summmarize` and `arrange` (which I dub GSA) and we summarized with `n()` to count the number of rows in our group.
+With our Billboard assignment, we went through some common data wrangling processes — importing data, cleaning it and querying it for answers. All of our answers involved using `group_by`, `summmarize` and `arrange` (which I dub GSA) and we summarized with `n()` to count the number of rows within our groups.
 
-For this data story we need the summary trio GSA again but we want to do different kinds of math within our summarize functions, mainly `sum()`.
+For this data story we need the GSA summary trio again, but we will use math operations within our summarize functions, mainly `sum()`.
 
 ## About the story: Military surplus transfers
 
@@ -22,13 +22,13 @@ To work through this story we need to understand how this transfer program works
 
 In 1997, Congress approved the "1033 program" that allows the U.S. military to give "surplus" equipment that they no longer need to law enforcement agencies like city police forces. The program is run by the [Law Enforcement Support Office](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/), which is part of the Defense Logistics Agency (which handles the global defense supply chain for all the branches of the military) within the Department of Defense. (The **program** is run by the **office** inside the **agency** that is part of the **department**.)
 
-All kinds of equipment moves between the military and these agencies, from boots and water bottles to assault rifles and cargo planes. The local agency only pays for shipping the equipment, but that isn't listed in the data. What is in the data is the "value" of the equipment in dollars, but we can't say the agency paid for it, because they didn't.
+All kinds of equipment moves between the military and these agencies, from boots and water bottles to assault rifles and cargo planes. The local agency only pays for shipping the equipment, but that isn't listed in the data. What is in the data is the "original value" of the equipment in dollars, but we can't say the agency paid for it, because they didn't.
 
-Property falls into two categories: controlled and non-controlled. **Controlled** property always remains on the LESO "property book" because it still belongs and is accountable to the Department of Defense. A record of the transfer stays in the data.
+Property falls into two categories: controlled and non-controlled. **Controlled** property "consists of military items that are provided via a conditional transfer or 'loan' basis where title remains with DoD/DLA. This includes items such as small arms/personal weapons, demilitarized vehicles and aircraft and night vision equipment. This property always remains in the LESO property book because it still belongs to and is accountable to DoD. When a law enforcement agency no longer wants the controlled property, it must be returned to DLA’s LESO for proper disposition." This is explained in the [LESO FAQ](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/ProgramFAQs.aspx#q6).
 
-But most of the transfers are for **non-controlled** property that can be sold even to the general public, like boots and blankets. Those items are removed from the data after one year, unless it is deemed a special circumstance.
+But most of the transfers are for **non-controlled** property that can be sold to the general public, like boots and blankets. Those items are removed from the data after one year, unless it is deemed a special circumstance.
 
-The agency releases data quarterly, but it is really a “snapshot in time” and not a complete history. Those non-controlled items transferred more than a year prior are missing.
+The agency releases data quarterly, but it is really a "snapshot in time" and not a complete history. Those non-controlled items transferred more than a year prior are missing.
 
 
 ### About the data
@@ -530,8 +530,8 @@ leso_control |>
 ```
 
 ```{=html}
-<div id="htmlwidget-490734c2a614a0989ec6" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-490734c2a614a0989ec6">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29"],["A","A","A","A","B","B","B","C","C","C","C","C","D","D","D","D","D","E","E","E","F","F","F","Q","Q","Q","Q","Q","Q"],[0,1,7,null,0,3,null,0,1,4,7,null,0,1,4,7,null,1,7,null,1,7,null,0,1,3,5,6,null],[4,8315,224,4594,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,169,null],[null,3,null,null,1,31,115,1,6162,2,232,558,18,88733,10,1081,2888,125,6,3,4938,1180,25,1,7,5383,1,10,28]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>demil_code<\/th>\n      <th>demil_ic<\/th>\n      <th>FALSE<\/th>\n      <th>TRUE<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-6e78b9810de4dd9548b5" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6e78b9810de4dd9548b5">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29"],["A","A","A","A","B","B","B","C","C","C","C","C","D","D","D","D","D","E","E","E","F","F","F","Q","Q","Q","Q","Q","Q"],[0,1,7,null,0,3,null,0,1,4,7,null,0,1,4,7,null,1,7,null,1,7,null,0,1,3,5,6,null],[4,8315,224,4594,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,169,null],[null,3,null,null,1,31,115,1,6162,2,232,558,18,88733,10,1081,2888,125,6,3,4938,1180,25,1,7,5383,1,10,28]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>demil_code<\/th>\n      <th>demil_ic<\/th>\n      <th>FALSE<\/th>\n      <th>TRUE<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ```
 
 OK, onto the next task to get Texas data for specific dates.
