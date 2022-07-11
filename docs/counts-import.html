@@ -234,8 +234,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="3.7.1" data-path="counts-import.html"><a href="counts-import.html#cleaning-column-names"><i class="fa fa-check"></i><b>3.7.1</b> Cleaning column names</a></li>
 <li class="chapter" data-level="3.7.2" data-path="counts-import.html"><a href="counts-import.html#fixing-the-date"><i class="fa fa-check"></i><b>3.7.2</b> Fixing the date</a></li>
-<li class="chapter" data-level="3.7.3" data-path="counts-import.html"><a href="counts-import.html#working-with-mutate"><i class="fa fa-check"></i><b>3.7.3</b> Working with mutate()</a></li>
-<li class="chapter" data-level="3.7.4" data-path="counts-import.html"><a href="counts-import.html#check-the-result"><i class="fa fa-check"></i><b>3.7.4</b> Check the result!</a></li>
 </ul></li>
 <li class="chapter" data-level="3.8" data-path="counts-import.html"><a href="counts-import.html#arrange-the-data"><i class="fa fa-check"></i><b>3.8</b> Arrange the data</a>
 <ul>
@@ -662,15 +660,15 @@ Steps to prepare our data:
 <li>Use the image above to orient yourself to the R Console and Terminal.</li>
 <li>In the Console, type in:</li>
 </ol>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="counts-import.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="counts-import.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
 <p>As you type into the Console, you’ll see some type-assist hints on what you need. You can use the arrow keys to select one and hit the <em>tab</em> key to complete that command, then enter the values you need. If it asks you to install “from source”, type <code>Yes</code> and hit return.</p>
 <p>You’ll see a bunch of response fly by in the Console. It’s probably all fine unless it ends the last response with an error.</p>
 <p>When you install the “tidyverse” package you actually get eight individual packages. You’ll see references to “dplyr” and even some functions referenced as <code>dplyr::filter()</code> but they are all part of the tidyverse. You can explore the list at <a href="https://www.tidyverse.org/">tidyverse.org</a> but know there are other packages from the same folks that we use and load separately.</p>
 <ol style="list-style-type: decimal">
 <li>We need two other packages as well, so also do:</li>
 </ol>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="counts-import.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;janitor&quot;</span>)</span>
-<span id="cb6-2"><a href="counts-import.html#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;lubridate&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="counts-import.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;janitor&quot;</span>)</span>
+<span id="cb3-2"><a href="counts-import.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;lubridate&quot;</span>)</span></code></pre></div>
 <p>We’ll use janitor to clean up our data column names, among other things. A good reference to learn more is the <a href="https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html">janitor vignette</a>.</p>
 <p>We’ll use <a href="https://lubridate.tidyverse.org/">lubridate</a> to fix some dates, which are a special complicated thing in programming. While Lubridate is part of the tidyverse universe, we have to install and load it separately.</p>
 <p>You only have to install the packages once on your computer (though you have to load the libraries into each new notebook, which is next).</p>
@@ -683,9 +681,9 @@ Steps to prepare our data:
 <li>In that chunk, type in the three libraries and run the code block with <em>Cmd+Shift+Return</em>.</li>
 </ol>
 <p>This is the code you need:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="counts-import.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb7-2"><a href="counts-import.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb7-3"><a href="counts-import.html#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="counts-import.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-2"><a href="counts-import.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb4-3"><a href="counts-import.html#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code></pre></div>
 <p>Your output will look something like this:</p>
 <div class="figure">
 <img src="images/import-libraries.png" width="600" alt="" />
@@ -749,7 +747,7 @@ Steps to prepare our data:
 <li>Add a Markdown headline <code>## Downloading data</code> and some text explaining you are downloading data. Add a note about where the data comes from and include a link to the original source. (These are notes to your future self to explain what you are doing.)</li>
 <li>Create an R chunk and copy/paste the following inside it. (hint: use the copy icon at the top right):</li>
 </ol>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="counts-import.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">&quot;https://github.com/utdata/rwdir/blob/main/data-raw/hot100_assignment.csv?raw=true&quot;</span>, <span class="st">&quot;data-raw/hot100_archive.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="counts-import.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">&quot;https://github.com/utdata/rwdir/blob/main/data-raw/hot100_assignment.csv?raw=true&quot;</span>, <span class="st">&quot;data-raw/hot100_archive.csv&quot;</span>)</span></code></pre></div>
 <p>This <code>download.file</code> function takes at least two arguments:</p>
 <ul>
 <li>The URL of the file you are downloading.</li>
@@ -790,7 +788,7 @@ downloaded 17.1 MB</code></pre>
 <ol style="list-style-type: decimal">
 <li>Add the following code into your chunk and run it.</li>
 </ol>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="counts-import.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">&quot;data-raw/hot100_archive.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="counts-import.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">&quot;data-raw/hot100_archive.csv&quot;</span>)</span></code></pre></div>
 <blockquote>
 <p>Note the path to the file is in quotes.</p>
 </blockquote>
@@ -821,14 +819,14 @@ downloaded 17.1 MB</code></pre>
 <h2><span class="header-section-number">3.6</span> Assign our import to an R object<a href="counts-import.html#assign-our-import-to-an-r-object" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Now that we know how to find our data, we next need to assign it to an <strong>R object</strong> so it can be named thing we can reuse. We don’t want to re-import the data over and over each time we need it.</p>
 <p>The syntax to create an object in R can seem weird at first, but the convention is to name the object first, then insert stuff into it. So, to create an object, the structure is this:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="counts-import.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is pseudo code. Don&#39;t put it in your notebook.</span></span>
-<span id="cb11-2"><a href="counts-import.html#cb11-2" aria-hidden="true" tabindex="-1"></a>new_object <span class="ot">&lt;-</span> stuff_going_into_object</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="counts-import.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is pseudo code. Don&#39;t put it in your notebook.</span></span>
+<span id="cb8-2"><a href="counts-import.html#cb8-2" aria-hidden="true" tabindex="-1"></a>new_object <span class="ot">&lt;-</span> stuff_going_into_object</span></code></pre></div>
 <p>Think of it like this: You must have a bucket before you can fill it with water. We “name” the bucket, then fill it with data. That bucket is then saved into our “environment”, meaning it is in memory where we can access it easily by calling its name.</p>
 <p>Let’s make a object called <code>hot100</code> and fill it with our imported tibble.</p>
 <ol style="list-style-type: decimal">
 <li><strong>Edit your existing code chunk</strong> to look like this. You can add the <code>&lt;-</code> by using <em>Option+-</em> as in holding down the Option key and then pressing the hyphen:</li>
 </ol>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="counts-import.html#cb12-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/hot100_archive.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="counts-import.html#cb9-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/hot100_archive.csv&quot;</span>)</span></code></pre></div>
 <p>Run that chunk and several things happen:</p>
 <ul>
 <li>We no longer see the result of the data in the notebook because we created an object instead of printing it.</li>
@@ -845,11 +843,11 @@ downloaded 17.1 MB</code></pre>
 <ol style="list-style-type: decimal">
 <li>Edit your import chunk to add the last two lines of this, including <code>#</code>:</li>
 </ol>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="counts-import.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the object, then fill it with data from the csv</span></span>
-<span id="cb13-2"><a href="counts-import.html#cb13-2" aria-hidden="true" tabindex="-1"></a>hot100 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/hot100_archive.csv&quot;</span>)</span>
-<span id="cb13-3"><a href="counts-import.html#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="counts-import.html#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
-<span id="cb13-5"><a href="counts-import.html#cb13-5" aria-hidden="true" tabindex="-1"></a>hot100</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="counts-import.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the object, then fill it with data from the csv</span></span>
+<span id="cb10-2"><a href="counts-import.html#cb10-2" aria-hidden="true" tabindex="-1"></a>hot100 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/hot100_archive.csv&quot;</span>)</span>
+<span id="cb10-3"><a href="counts-import.html#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="counts-import.html#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb10-5"><a href="counts-import.html#cb10-5" aria-hidden="true" tabindex="-1"></a>hot100</span></code></pre></div>
 <blockquote>
 <p>You can use the green play button at the right of the chunk, or preferrably have your cursor inside the chunk and do <em>Cmd+Shift+Return</em> to run all lines. (<em>Cmd+Return</em> runs only the current line.)</p>
 </blockquote>
@@ -861,10 +859,10 @@ downloaded 17.1 MB</code></pre>
 <li>In your existing chunk, edit the last line to add the <code>glimpse()</code> function as noted below.</li>
 </ol>
 <p>I’m showing the return here as well. Afterward I’ll explain the pipe: <code>|&gt;</code>.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="counts-import.html#cb14-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/hot100_archive.csv&quot;</span>)</span>
-<span id="cb14-2"><a href="counts-import.html#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="counts-import.html#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
-<span id="cb14-4"><a href="counts-import.html#cb14-4" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="counts-import.html#cb11-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/hot100_archive.csv&quot;</span>)</span>
+<span id="cb11-2"><a href="counts-import.html#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="counts-import.html#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb11-4"><a href="counts-import.html#cb11-4" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 330,800
 ## Columns: 7
 ## $ `CHART WEEK`   &lt;chr&gt; &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/19…
@@ -882,8 +880,8 @@ downloaded 17.1 MB</code></pre>
 <p>We are starting with the object <code>hot100</code>, but then we follow it with <code>|&gt;</code>, which is called a pipe. The pipe is concept that takes the <strong>result</strong> of an object or function and passes it into another function. Think of it like a sentence that says <strong>“AND THEN” the next thing</strong>.</p>
 <p>It might look like there are no arguments inside <code>glimpse()</code>, but what we are actually doing is passing the <code>hot100</code> tibble into it like this: <code>glimpse(hot100)</code>. For almost every function in R the first argument is “what data are you taking about?” The pipe allows us to say “hey, take the data we just mucked with (i.e., the code before the pipe) and use that in this function.”</p>
 <p>You can’t start a new line with a pipe. If you are breaking your code into multiple lines, then the <code>|&gt;</code> needs to be at the end of a line and the next line should be indented so there is a visual clue it is related to line above it, like this:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="counts-import.html#cb16-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">|&gt;</span> </span>
-<span id="cb16-2"><a href="counts-import.html#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="counts-import.html#cb13-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">|&gt;</span> </span>
+<span id="cb13-2"><a href="counts-import.html#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code></pre></div>
 <blockquote>
 <p>There is a keyboard command for the pipe <code>|&gt;</code>: <strong>Cmd+Shift+m</strong>. Learn that one!</p>
 </blockquote>
@@ -915,10 +913,10 @@ downloaded 17.1 MB</code></pre>
 <ol style="list-style-type: decimal">
 <li>Edit the first line of your chunk to add a pipe and the clean_names function: <code>%&gt;% clean_names()</code></li>
 </ol>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="counts-import.html#cb17-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/hot100_archive.csv&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>()</span>
-<span id="cb17-2"><a href="counts-import.html#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="counts-import.html#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
-<span id="cb17-4"><a href="counts-import.html#cb17-4" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="counts-import.html#cb14-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/hot100_archive.csv&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>()</span>
+<span id="cb14-2"><a href="counts-import.html#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="counts-import.html#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb14-4"><a href="counts-import.html#cb14-4" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 330,800
 ## Columns: 7
 ## $ chart_week   &lt;chr&gt; &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958…
@@ -944,11 +942,11 @@ downloaded 17.1 MB</code></pre>
 <ol style="list-style-type: decimal">
 <li>Add the following inside your code chunk.</li>
 </ol>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="counts-import.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># part we will build upon</span></span>
-<span id="cb19-2"><a href="counts-import.html#cb19-2" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="ot">&lt;-</span> hot100</span>
-<span id="cb19-3"><a href="counts-import.html#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="counts-import.html#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
-<span id="cb19-5"><a href="counts-import.html#cb19-5" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="counts-import.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># part we will build upon</span></span>
+<span id="cb16-2"><a href="counts-import.html#cb16-2" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="ot">&lt;-</span> hot100</span>
+<span id="cb16-3"><a href="counts-import.html#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="counts-import.html#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
+<span id="cb16-5"><a href="counts-import.html#cb16-5" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 330,800
 ## Columns: 7
 ## $ chart_week   &lt;chr&gt; &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958…
@@ -969,20 +967,19 @@ downloaded 17.1 MB</code></pre>
 <blockquote>
 <p>To be clear, we haven’t changed any data yet. We just created a new object like the old object.</p>
 </blockquote>
-</div>
-<div id="working-with-mutate" class="section level3 hasAnchor" number="3.7.3">
-<h3><span class="header-section-number">3.7.3</span> Working with mutate()<a href="counts-import.html#working-with-mutate" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="working-with-mutate" class="section level4 hasAnchor" number="3.7.2.1">
+<h4><span class="header-section-number">3.7.2.1</span> Working with mutate()<a href="counts-import.html#working-with-mutate" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We are going to use the text of our date field <code>chart_week</code> to create a new converted date. We will use the dplyr function <a href="https://dplyr.tidyverse.org/reference/mutate.html"><code>mutate()</code></a> to do this, with some help from lubridate.</p>
 <blockquote>
 <p><a href="https://dplyr.tidyverse.org/">dplyr</a> is the tidyverse package of functions to manipulate data. We’ll use functions from it a lot. It is loaded with the <code>library(tidyverse)</code> so you don’t have to load it separately.</p>
 </blockquote>
 <p>Let’s explain how mutate works first: Mutate changes every value in a column. You can either create a new column or overwrite an existing one.</p>
 <p>Within the mutate function, we name the new thing first (the bucket!) and then fill it with the new value.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="counts-import.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is psuedo code. You don&#39;t have to include or run it.</span></span>
-<span id="cb21-2"><a href="counts-import.html#cb21-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
-<span id="cb21-3"><a href="counts-import.html#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb21-4"><a href="counts-import.html#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">newcol =</span> new_stuff_from_math_or_whatever</span>
-<span id="cb21-5"><a href="counts-import.html#cb21-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="counts-import.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is psuedo code. You don&#39;t have to include or run it.</span></span>
+<span id="cb18-2"><a href="counts-import.html#cb18-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb18-3"><a href="counts-import.html#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb18-4"><a href="counts-import.html#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">newcol =</span> new_stuff_from_math_or_whatever</span>
+<span id="cb18-5"><a href="counts-import.html#cb18-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <p>That new value could be arrived at through math or any combination of other functions. In our case, we want to convert our old text-based date to a <em>real date</em>, and then assign it back to the “new” column.</p>
 <blockquote>
 <p>A note about my pseudo code above: I strategically used returns to make the code more readable. This code would work the same if it were all on the same line, but writing it this way helps me understand it. RStudio will help you indent properly this as you type. (Easier to show than explain.)</p>
@@ -990,14 +987,14 @@ downloaded 17.1 MB</code></pre>
 <ol style="list-style-type: decimal">
 <li>Edit your chunk to add the changes below and run it. I <strong>implore</strong> you to <em>type</em> the changes so you see how RStudio helps you write it. Use tab completion, etc.</li>
 </ol>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="counts-import.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># part we will build upon</span></span>
-<span id="cb22-2"><a href="counts-import.html#cb22-2" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="ot">&lt;-</span> hot100 <span class="sc">|&gt;</span> </span>
-<span id="cb22-3"><a href="counts-import.html#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb22-4"><a href="counts-import.html#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">chart_date =</span> <span class="fu">mdy</span>(chart_week)</span>
-<span id="cb22-5"><a href="counts-import.html#cb22-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb22-6"><a href="counts-import.html#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-7"><a href="counts-import.html#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
-<span id="cb22-8"><a href="counts-import.html#cb22-8" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="counts-import.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># part we will build upon</span></span>
+<span id="cb19-2"><a href="counts-import.html#cb19-2" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="ot">&lt;-</span> hot100 <span class="sc">|&gt;</span> </span>
+<span id="cb19-3"><a href="counts-import.html#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb19-4"><a href="counts-import.html#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">chart_date =</span> <span class="fu">mdy</span>(chart_week)</span>
+<span id="cb19-5"><a href="counts-import.html#cb19-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-6"><a href="counts-import.html#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="counts-import.html#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
+<span id="cb19-8"><a href="counts-import.html#cb19-8" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 330,800
 ## Columns: 8
 ## $ chart_week   &lt;chr&gt; &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958…
@@ -1021,10 +1018,11 @@ downloaded 17.1 MB</code></pre>
 </ul>
 <p>If your original text is in a different date order, then you look up what lubridate function you need to convert it. I typically use the <strong>cheatsheet</strong> in the <a href="https://lubridate.tidyverse.org/">lubridate documentation</a>. You’ll find them in the PARSE DATE-TIMES section.</p>
 </div>
-<div id="check-the-result" class="section level3 hasAnchor" number="3.7.4">
-<h3><span class="header-section-number">3.7.4</span> Check the result!<a href="counts-import.html#check-the-result" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="check-the-result" class="section level4 hasAnchor" number="3.7.2.2">
+<h4><span class="header-section-number">3.7.2.2</span> Check the result!<a href="counts-import.html#check-the-result" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>This new <code>chart_date</code> column is added as the LAST column of our data. After doing any kind of mutate you want to check the result to make sure you got the results you expected. This is why we built our code this way with <code>glimpse()</code> so we can see example of our data from both the first and the last column. (We’ll rearrange all the columns in a bit once we are done cleaning everything.)</p>
 <p>Check your glimpse returns … did your dates convert correctly?</p>
+</div>
 </div>
 </div>
 <div id="arrange-the-data" class="section level2 hasAnchor" number="3.8">
@@ -1040,15 +1038,15 @@ downloaded 17.1 MB</code></pre>
 <ol style="list-style-type: decimal">
 <li>Edit your chunk to the following to add the <code>arrange()</code> function:</li>
 </ol>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="counts-import.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># part we will build upon</span></span>
-<span id="cb24-2"><a href="counts-import.html#cb24-2" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="ot">&lt;-</span> hot100 <span class="sc">|&gt;</span> </span>
-<span id="cb24-3"><a href="counts-import.html#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb24-4"><a href="counts-import.html#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">chart_date =</span> <span class="fu">mdy</span>(chart_week)</span>
-<span id="cb24-5"><a href="counts-import.html#cb24-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb24-6"><a href="counts-import.html#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(chart_date, this_week)</span>
-<span id="cb24-7"><a href="counts-import.html#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-8"><a href="counts-import.html#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
-<span id="cb24-9"><a href="counts-import.html#cb24-9" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="counts-import.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># part we will build upon</span></span>
+<span id="cb21-2"><a href="counts-import.html#cb21-2" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="ot">&lt;-</span> hot100 <span class="sc">|&gt;</span> </span>
+<span id="cb21-3"><a href="counts-import.html#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb21-4"><a href="counts-import.html#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">chart_date =</span> <span class="fu">mdy</span>(chart_week)</span>
+<span id="cb21-5"><a href="counts-import.html#cb21-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb21-6"><a href="counts-import.html#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(chart_date, this_week)</span>
+<span id="cb21-7"><a href="counts-import.html#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="counts-import.html#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
+<span id="cb21-9"><a href="counts-import.html#cb21-9" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 330,800
 ## Columns: 8
 ## $ chart_week   &lt;chr&gt; &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958&quot;, &quot;8/4/1958…
@@ -1068,7 +1066,7 @@ downloaded 17.1 MB</code></pre>
 <blockquote>
 <p>In case you haven’t noticed yet, the code printout in your notebook is <a href="https://youtu.be/Z6XIGZ51VMo?t=149">a lot cooler</a> than in this online book.</p>
 </blockquote>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="counts-import.html#cb26-1" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="counts-import.html#cb23-1" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 8
 ##    chart_week this_week song           performer last_week peak_pos wks_on_chart
 ##    &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;
@@ -1097,7 +1095,7 @@ downloaded 17.1 MB</code></pre>
 <li>Add some Markdown text that you’ll print summary stats of your data.</li>
 <li>Add a new R chunk and put the following in and run it</li>
 </ol>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="counts-import.html#cb28-1" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="counts-import.html#cb25-1" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code></pre></div>
 <pre><code>##   chart_week          this_week         song            performer        
 ##  Length:330800      Min.   :  1.0   Length:330800      Length:330800     
 ##  Class :character   1st Qu.: 26.0   Class :character   Class :character  
@@ -1131,19 +1129,19 @@ downloaded 17.1 MB</code></pre>
 <li>Explain in text we are dropping the text date column and renaming others.</li>
 <li>Add the code below and then I’ll explain it. We again are setting this up to create a new object and view the changes.</li>
 </ol>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="counts-import.html#cb30-1" aria-hidden="true" tabindex="-1"></a>hot100_clean <span class="ot">&lt;-</span> hot100_date <span class="sc">|&gt;</span> </span>
-<span id="cb30-2"><a href="counts-import.html#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb30-3"><a href="counts-import.html#cb30-3" aria-hidden="true" tabindex="-1"></a>    chart_date,</span>
-<span id="cb30-4"><a href="counts-import.html#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this renames a column with new name first</span></span>
-<span id="cb30-5"><a href="counts-import.html#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">current_rank =</span> this_week,</span>
-<span id="cb30-6"><a href="counts-import.html#cb30-6" aria-hidden="true" tabindex="-1"></a>    song,</span>
-<span id="cb30-7"><a href="counts-import.html#cb30-7" aria-hidden="true" tabindex="-1"></a>    performer,</span>
-<span id="cb30-8"><a href="counts-import.html#cb30-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">previous_rank =</span> last_week,</span>
-<span id="cb30-9"><a href="counts-import.html#cb30-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">peak_rank =</span> peak_pos,</span>
-<span id="cb30-10"><a href="counts-import.html#cb30-10" aria-hidden="true" tabindex="-1"></a>    wks_on_chart</span>
-<span id="cb30-11"><a href="counts-import.html#cb30-11" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb30-12"><a href="counts-import.html#cb30-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-13"><a href="counts-import.html#cb30-13" aria-hidden="true" tabindex="-1"></a>hot100_clean <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="counts-import.html#cb27-1" aria-hidden="true" tabindex="-1"></a>hot100_clean <span class="ot">&lt;-</span> hot100_date <span class="sc">|&gt;</span> </span>
+<span id="cb27-2"><a href="counts-import.html#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb27-3"><a href="counts-import.html#cb27-3" aria-hidden="true" tabindex="-1"></a>    chart_date,</span>
+<span id="cb27-4"><a href="counts-import.html#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this renames a column with new name first</span></span>
+<span id="cb27-5"><a href="counts-import.html#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">current_rank =</span> this_week,</span>
+<span id="cb27-6"><a href="counts-import.html#cb27-6" aria-hidden="true" tabindex="-1"></a>    song,</span>
+<span id="cb27-7"><a href="counts-import.html#cb27-7" aria-hidden="true" tabindex="-1"></a>    performer,</span>
+<span id="cb27-8"><a href="counts-import.html#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">previous_rank =</span> last_week,</span>
+<span id="cb27-9"><a href="counts-import.html#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">peak_rank =</span> peak_pos,</span>
+<span id="cb27-10"><a href="counts-import.html#cb27-10" aria-hidden="true" tabindex="-1"></a>    wks_on_chart</span>
+<span id="cb27-11"><a href="counts-import.html#cb27-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb27-12"><a href="counts-import.html#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="counts-import.html#cb27-13" aria-hidden="true" tabindex="-1"></a>hot100_clean <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 330,800
 ## Columns: 7
 ## $ chart_date    &lt;date&gt; 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08…
@@ -1191,8 +1189,8 @@ downloaded 17.1 MB</code></pre>
 <li>Add a new code chunk and add the following code:</li>
 </ol>
 <!-- running this code to get output for future chapter -->
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="counts-import.html#cb32-1" aria-hidden="true" tabindex="-1"></a>hot100_clean <span class="sc">|&gt;</span> </span>
-<span id="cb32-2"><a href="counts-import.html#cb32-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">write_rds</span>(<span class="st">&quot;data-processed/01-hot100.rds&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="counts-import.html#cb29-1" aria-hidden="true" tabindex="-1"></a>hot100_clean <span class="sc">|&gt;</span> </span>
+<span id="cb29-2"><a href="counts-import.html#cb29-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">write_rds</span>(<span class="st">&quot;data-processed/01-hot100.rds&quot;</span>)</span></code></pre></div>
 <p>So, here we are starting with the <code>hot100_clean</code> tibble that we saved earlier. We then pipe <code>|&gt;</code> the result of that into a new function <code>write_rds()</code>. In addition to the data, the function needs to know where to save the file, so in quotes we give the path to where and what we want to call the file: <code>"data-processed/01-hot100.rds"</code>.</p>
 <p>Remember, we are saving in data-processed because we never export into data-raw. We are naming the file starting with <code>01-</code> to indicate to our future selves that this output came from our first notebook. We then name it, and use the <code>.rds</code> extension.</p>
 </div>
