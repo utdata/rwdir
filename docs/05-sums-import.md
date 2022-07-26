@@ -1,7 +1,5 @@
 # Summarize with math - import {#sums-import}
 
-> v1 draft
-
 This chapter is by Prof. McDonald, who uses macOS.
 
 **Note: Because of data updates, your answers may differ from what is presented here.**
@@ -24,18 +22,18 @@ In 1997, Congress approved the "1033 program" that allows the U.S. military to g
 
 All kinds of equipment moves between the military and these agencies, from boots and water bottles to assault rifles and cargo planes. The local agency only pays for shipping the equipment, but that isn't listed in the data. What is in the data is the "original value" of the equipment in dollars, but we can't say the agency paid for it, because they didn't.
 
-Property falls into two categories: controlled and non-controlled. **Controlled** property "consists of military items that are provided via a conditional transfer or 'loan' basis where title remains with DoD/DLA. This includes items such as small arms/personal weapons, demilitarized vehicles and aircraft and night vision equipment. This property always remains in the LESO property book because it still belongs to and is accountable to DoD. When a law enforcement agency no longer wants the controlled property, it must be returned to DLA’s LESO for proper disposition." This is explained in the [LESO FAQ](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/ProgramFAQs.aspx#q6).
+Property falls into two categories: controlled and non-controlled. **Controlled** property "consists of military items that are provided via a conditional transfer or 'loan' basis where title remains with DoD/DLA. This includes items such as small arms/personal weapons, demilitarized vehicles and aircraft and night vision equipment. This property always remains in the LESO property book because it still belongs to and is accountable to the Department of Defense. When a local law enforcement agency no longer wants the controlled property, it must be returned to Law Enforsement Support Office for proper disposition." This is explained in the [LESO FAQ](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/ProgramFAQs.aspx#q6).
 
-But most of the transfers are for **non-controlled** property that can be sold to the general public, like boots and blankets. Those items are removed from the data after one year, unless it is deemed a special circumstance.
+But most of the transfers to local agencies are for **non-controlled** property that can be sold to the general public, like boots and blankets. Those items are removed from the data after one year, unless it is deemed a special circumstance.
 
-The agency releases data quarterly, but it is really a "snapshot in time" and not a complete history. Those non-controlled items transferred more than a year prior are missing.
+The agency releases data quarterly, but it is really a "snapshot in time" and not a complete history. Those non-controlled items transferred more than a year prior are missing, as are any controlled items returned to the feds.
 
 
 ### About the data
 
 ![The raw data](images/leso-raw.png)
 
-The data comes in a spreadsheet that has a different tab for each state and territory. The data we'll use here was from **March 31, 2022** and I've done some initial work on the original data that is beyond the scope of this class, so we'll use my copy of the data. **I will supply a link to the combined data below.**
+The data comes in a spreadsheet that has a different tab for each state and territory. The data we'll use here was from **June 31, 2022** and I've done some initial work on the original data that is beyond the scope of this class, so we'll use my copy of the data. **I will supply a link to the combined data below.**
 
 There is no data dictionary or record layout included with the data but I have corresponded with the Defense Logistics Agency to get a decent understanding of what is included.
 
@@ -137,7 +135,7 @@ Again, like Billboard, we'll create a notebook specifically for downloading, cle
 ### The goals of the notebook
 
 As noted before, I separate cleaning into a separate notebook so that each subsequent analysis notebook can take advantage of that work. It's the DRY principal in programming: Don't Repeat Yourself. Often I will be in an analysis notebook realizing that it would be helpful to add a cleaning step to my import notebook, and I will. 
-Because I've worked with and researched this data, I'm aware of cleaning steps that a newcomer exploring the might not be aware of at this point. But here we will take advantage of my experience and so all this work up front even though you haven't seen the "need" for them yet.
+Because I've worked with and researched this data, I'm aware of cleaning steps that a newcomer to the data might not be aware of at this point. But here we will take advantage of my experience and do all this cleaning work up front even though you haven't seen the "need" for it yet.
 
 That's a long-winded opening to say let's add our notebook goals so you know what's going on here.
 
@@ -170,7 +168,9 @@ library(tidyverse)
 
 ### Download the data
 
-1. A new section means a new headline and description. Add it. It is good practice to describe and link to the data you will be using. You can use this:
+1. A new section means a new headline and description. Add it. It is good practice to describe and link to the data you will be using. You can use the text below:
+
+> HINT: You might try triple-clicking on the text in the box below to select it all since it scrolls off the screen.
 
 ```text
 While the data we will use here if from Prof. McDonald, it is from the [Law Enforcement Support Office](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/). Find more information [about the program here](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/ProgramFAQs/).
@@ -200,6 +200,8 @@ download.file("https://raw.githubusercontent.com/utdata/rwdir/main/data-raw/leso
 ```
 
 </details>
+
+> HINT: If you get an error about the path, you might make sure you created the `data-raw` folder first.
 
 ### Import the data
 
@@ -261,7 +263,7 @@ leso
 
 ### Glimpse the data
 
-1. In a new block, print the tibble but pipe it into `glimpse()` so you can see all the column names.
+1. In a new code block, print the tibble but pipe it into `glimpse()` so you can see all the column names.
 
 
 ```r
@@ -413,7 +415,7 @@ Note that new columns are added at the end of the tibble. That is why I suggeste
 
 Again, by reading through the [documentation](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/) about this data I learned about controlled vs non-controlled property. Basically non-controlled generic stuff like boots and blankets are removed from the data after one year, but controlled items like guns and airplanes remain on the list until they are returned to the military for disposal. It is the mainly the controlled items we are concerned with.
 
-There isn't anything the data that says it is "controlled" and really no clear indication in the documentation on how to tell what is what. So, I emailed the agency and asked them. Here was their answer, edited:
+There isn't anything within the data that says it is "controlled" and really no clear indication in the documentation on how to tell what is what. So, I emailed the agency and asked them. Here was their answer, edited:
 
 > Property with the DEMIL codes A and Q6 are considered non-controlled general property and fall off the LESO property books after one year. All other Demil codes are considered controlled items and stay on the LESO property book until returned to DLA for disposition/disposal. However, there are some exceptions. For instance, aircraft are always controlled regardless of the demil code. Also, LESO has the discretion to keep items as controlled despite the demil code. This happens with some high value items. There isn’t a standard minimum value. It also may also depend on the type of property.
 
@@ -425,11 +427,11 @@ But, we can catch most of them ... we just need to work through the logic. This 
 
 I usually approach this by thinking of the logic first, then writing some code, then testing it. Sometimes my logic is faulty and I have to try again, which is why we test the results. Know this could go on for many cycles. In the interest of time and getting this done, I will just show the finished code and explain how it works.
 
-Here the basic idea:
+Here is the basic idea:
 
 - We want to create a new column to denote if the item is controlled.
 - In that column we want it to be TRUE when an item is controlled, and FALSE when it is not.
-- We know that items that with "AIRPLANE" are always controlled, no matter their demil designations.
+- We know that items with "AIRPLANE" are always controlled, no matter their demil designations.
 - Otherwise we know that items that have a `demil_code` of "A", OR a `demil_code` of "Q" AND a `demil_id` of "6", are non-controlled.
 - Everything else is controlled.
 
@@ -441,7 +443,7 @@ We will use the `mutate()` function to create a new column called `control_type`
 
 But this time we will fill in values in the new column based on other data inside each row. `case_when()` allows us to create a test (or number of tests) and then mark the new value based on the answer. Once new data has been written the function goes to the next row, so we write the most specific rules first.
 
-This process is powerful and can get complicated depending on the logic needed. This example is perhaps more complicated than I like to explain this process, but this is real data we _need_ this, so here we go.
+This process is powerful and can get complicated depending on the logic needed. This example is perhaps more complicated than I like to explain this process, but this is real data and we _need_ this, so here we go.
 
 This is the code that does what we need and you can copy/paste the whole chunk, but be sure to read the explanation that follows it.
 
@@ -485,7 +487,7 @@ OK, let's go through the code line-by-line.
   - The first test is we use the [`str_detect()`](https://stringr.tidyverse.org/reference/str_detect.html) function to look inside the `item_name` field looking for the term "AIRPLANE". If the test finds the term, then the `control_type` field gets a value of `TRUE` and we move to the next row. If not, it moves to the next rule to see if that is a match. (We could fill this column with any text or number we want, but we are using `TRUE` and `FALSE` because that is the most basic kind of data to keep. If the item is controlled, set the value is TRUE. If not, it should be set to FALSE.)
   - Our second rule has two complex tests and we want to mark the row FALSE if either are true. (Remember, this is based on what the DLA told me: items with A or Q6 are non-controlled.) Our `case_when()` logic first looks for the value "A" in the `demil_code` field. If it is yes, then it marks the row FALSE. If no it goes to the next part: Is there a "Q" in the `demil_code` field AND a "6" in the `demil_ic` field? Both "Q" and "6" have to be there to get marked as FALSE. If both fail, then we move to the next test.
   - The last test is our catch-all. If none of the other rules apply, then mark this row as `TRUE`, which means it is controlled. So our default in the end is to mark everything TRUE if any of the other rules don't mark it first.
-- Lastly the glimpse at the data just so we can see the column was created.
+- Lastly we glimpse at the data just so we can see the column was created.
   
 As I said, we skipped the process of figuring all that out line-by-line, but I'll show some tests here to who we did what we were intending.
 
@@ -530,8 +532,8 @@ leso_control |>
 ```
 
 ```{=html}
-<div id="htmlwidget-6e78b9810de4dd9548b5" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6e78b9810de4dd9548b5">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29"],["A","A","A","A","B","B","B","C","C","C","C","C","D","D","D","D","D","E","E","E","F","F","F","Q","Q","Q","Q","Q","Q"],[0,1,7,null,0,3,null,0,1,4,7,null,0,1,4,7,null,1,7,null,1,7,null,0,1,3,5,6,null],[4,8315,224,4594,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,169,null],[null,3,null,null,1,31,115,1,6162,2,232,558,18,88733,10,1081,2888,125,6,3,4938,1180,25,1,7,5383,1,10,28]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>demil_code<\/th>\n      <th>demil_ic<\/th>\n      <th>FALSE<\/th>\n      <th>TRUE<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1e63d3318ed4b62b8c82" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1e63d3318ed4b62b8c82">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29"],["A","A","A","A","B","B","B","C","C","C","C","C","D","D","D","D","D","E","E","E","F","F","F","Q","Q","Q","Q","Q","Q"],[0,1,7,null,0,3,null,0,1,4,7,null,0,1,4,7,null,1,7,null,1,7,null,0,1,3,5,6,null],[4,8315,224,4594,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,169,null],[null,3,null,null,1,31,115,1,6162,2,232,558,18,88733,10,1081,2888,125,6,3,4938,1180,25,1,7,5383,1,10,28]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>demil_code<\/th>\n      <th>demil_ic<\/th>\n      <th>FALSE<\/th>\n      <th>TRUE<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ```
 
 OK, onto the next task to get Texas data for specific dates.
@@ -586,7 +588,7 @@ How do you know if it worked? Well the first column in the data is the `state` c
 3. Print out the new tibble `leso_filtered`.
 
 <details>
-  <summary>If you do this on your own, treat yourself to a cookie</summary>
+  <summary>If you do this on your own, treat yourself to a cookie!</summary>
 
 
 ```r
