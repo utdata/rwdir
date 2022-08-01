@@ -465,7 +465,7 @@ Let's break this down:
 
 > To be clear, we haven't changed any data yet. We just created a new object like the old object.
 
-### Working with mutate()
+#### Working with mutate()
 
 We are going to use the text of our date field `chart_week` to create a new converted date. We will use the dplyr function [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) to do this, with some help from lubridate.
 
@@ -527,7 +527,7 @@ The `mdy()` function is part of the lubridate package. Lubridate allows us to pa
 
 If your original text is in a different date order, then you look up what lubridate function you need to convert it. I typically use the **cheatsheet** in the [lubridate documentation](https://lubridate.tidyverse.org/). You'll find them in the PARSE DATE-TIMES section.
 
-### Check the result!
+#### Check the result!
 
 This new `chart_date` column is added as the LAST column of our data. After doing any kind of mutate you want to check the result to make sure you got the results you expected. This is why we built our code this way with `glimpse()` so we can see example of our data from both the first and the last column. (We'll rearrange all the columns in a bit once we are done cleaning everything.)
 

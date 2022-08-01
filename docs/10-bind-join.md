@@ -353,16 +353,16 @@ sped_flag %>% sample_n(10)
 ## # A tibble: 10 × 8
 ##    district distname cntyname year  all_count sped_count sped_percent audit_flag
 ##    <chr>    <chr>    <chr>    <chr>     <dbl>      <dbl>        <dbl> <chr>     
-##  1 020904   DANBURY… BRAZORIA 2019        799         51          6.4 BELOW     
-##  2 245904   SAN PER… WILLACY  2021        232         23          9.9 ABOVE     
-##  3 231901   MCCAMEY… UPTON    2013        534         35          6.6 BELOW     
-##  4 037908   NEW SUM… CHEROKEE 2013        497         42          8.5 BELOW     
-##  5 020905   BRAZOSP… BRAZORIA 2016      12306        954          7.8 BELOW     
-##  6 192901   REAGAN … REAGAN   2013        884         55          6.2 BELOW     
-##  7 043912   PROSPER… COLLIN   2017       9970        705          7.1 BELOW     
-##  8 050902   GATESVI… CORYELL  2018       2786        313         11.2 ABOVE     
-##  9 116902   CELESTE… HUNT     2014        451         58         12.9 ABOVE     
-## 10 227913   LAKE TR… TRAVIS   2013       7779        529          6.8 BELOW
+##  1 076904   ROTAN I… FISHER   2015        255         27         10.6 ABOVE     
+##  2 175910   MILDRED… NAVARRO  2013        720         51          7.1 BELOW     
+##  3 054902   LORENZO… CROSBY   2014        298         62         20.8 ABOVE     
+##  4 132902   JAYTON-… KENT     2016        127         15         11.8 ABOVE     
+##  5 223904   WELLMAN… TERRY    2015        248         26         10.5 ABOVE     
+##  6 015916   JUDSON … BEXAR    2019      22848       2645         11.6 ABOVE     
+##  7 215901   BRECKEN… STEPHENS 2021       1402        190         13.6 ABOVE     
+##  8 073901   CHILTON… FALLS    2014        509         59         11.6 ABOVE     
+##  9 049906   ERA ISD  COOKE    2014        450         31          6.9 BELOW     
+## 10 116909   WOLFE C… HUNT     2013        612         61         10   ABOVE
 ```
 
 Let's walk through the code above:

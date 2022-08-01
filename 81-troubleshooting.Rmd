@@ -24,10 +24,16 @@ Some tips:
 
 Beyond that, here are some common things students come across:
 
-- `there is no package called 'packagename'`: You are trying to use a library that is named wrong or you don't have installed. You can install packages with `install.packages('packagename')` where 'packagename' is replaced with the name of the package you actually want.
-- `count not find function "functionname"`: You either misspelled the function or you are missing a `library()` in your setup. It's best practice to have every `library()` loaded in a setup chunk near the top of the notebook.
+- **There is no package called 'packagename'**: You are trying to use a library that is named wrong or you don't have installed. You can install packages with `install.packages('packagename')` where 'packagename' is replaced with the name of the package you actually want.
+- **Forgetting to use quotation marks when they are needed**: `install.packages("gclus")` will work, while `install.packages(gclus)` will generate an error.
+- **Could not find function 'functionname'**: You either misspelled the function or you are missing a `library()` in your setup. It's best practice to have every `library()` loaded in a setup chunk near the top of the notebook.
 
-## Checking how things work
+- **Using the wrong case**: `help()`, `Help()`, and `HELP()` are three different functions (and only the first one will work)
+- **Forgetting to include the parentheses in a function call**: `help()` rather than `help`. Even if there are no options, you still need the ().
+- **Using the `\` in a path name on Windows**" R sees the backlash character as an escape character. `setwd("c:\mydata")` will generate an error. Use `setwd("c:/mydata")` or `setwd("c:\\mydata")` instead.
+
+
+## Learning how things work
 
 There are infinite ways to write code incorrectly or use a function improperly. Documentation and experience (sometimes of others) are key to these challenges.
 
@@ -86,40 +92,29 @@ Be thoughtfully obvious about the names you choose for objects and variable.
 
 ### Some R code basics
 
-* `<-` is known as an "assignment operator" -- it means "Make the object named to the left equal to the output of the code to the right"
-* `&` means AND, in Boolean logic
-* `|` means OR, in Boolean logic
-* `!` means NOT, in Boolean logic
-* When referring to values entered as text, or to dates, put them in quote marks like this: `"United States"`, or `"2016-07-26"`. Numbers are not quoted
-* When entering two or more values as a list, combine them using the function `c`, for combine, with the values separated by commas, for example: `c("2017-07-26", "2017-08-04")`
-* As in a spreadsheet, you can specify a range of values with a colon, for example: `c(1:10)` creates a list of integers (whole numbers) from one to ten.
-* Some common operators:
+- `<-` is known as an "assignment operator" -- it means "Make the object named to the left equal to the output of the code to the right"
+- `&` means AND, in Boolean logic
+- `|` means OR, in Boolean logic
+- `!` means NOT, in Boolean logic
+- When referring to values entered as text, or to dates, put them in quote marks like this: `"United States"`, or `"2016-07-26"`. Numbers are not quoted
+- When entering two or more values as a list, combine them using the function `c`, for combine, with the values separated by commas, for example: `c("2017-07-26", "2017-08-04")`
+- As in a spreadsheet, you can specify a range of values with a colon, for example: `c(1:10)` creates a list of integers (whole numbers) from one to ten.
+- Some common operators:
 	* `+` `-` add, subtract
 	* `*` `/` multiply, divide
 	* `>` `<` greater than less than
 	* `>=` `<=` greater than or equal to, less than or equal to
 	* `!=` not equal to
-* **Equal signs can be confusing**
+- **Equal signs can be confusing**
 	* `==` tests whether the objects on either end are equal. This is often used in filtering data
 	* `=` makes an object equal to a value, which is similar to `<-` but used within a function.
-* Handling null values:
+- Handling null values:
 	* Nulls are designated as `NA`
 	* `is.na(x)` looks for nulls within variable `x`.
 	* `!is.na(x)` looks for non-null values within variable `x`
 
 Here, `is.na()` is a **function**. 
 
-### Common Mistakes
-
-* **Using the wrong case**
-	* help(), Help(), and HELP() are three different functions (and only the first one will work)
-* **Forgetting to use quotation marks when they are needed**
-	* install.packages("gclus") will work, while install.packages(gclus) will generate an error.
-* **Forgetting to include the parentheses in a function call**
-	* help() rather than help. Even if there are no options, you still need the().
-* **Using the `\` in a path name on Windows**
-	* R sees the backlash character as an escape character.
-	* `setwd("c:\mydata")` will generate an error. Use `setwd("c:/mydata")` or `setwd("c:\\mydata")` instead
 
 	
 	
