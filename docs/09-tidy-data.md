@@ -96,20 +96,21 @@ raw_data
 ```
 
 ```
-## # A tibble: 30 × 11
-##    timestamp  first_name last_name candy_type box_code   red green orange yellow
-##    <chr>      <chr>      <chr>     <chr>      <chr>    <dbl> <dbl>  <dbl>  <dbl>
-##  1 2/21/2022… Christian  McDonald  Plain      140BSCL…     2    17     11      4
-##  2 2/28/2022… Andrew     Logan     Plain      140BSCL…     2     9     14      4
-##  3 2/28/2022… Gabby      Ybarra    Plain      140BSCL…     4    11     14      0
-##  4 2/28/2022… Veronica   Apodaca   Plain      140BSCL…     1    17     16      2
-##  5 2/28/2022… Cristela   Jones     Plain      140BSCL…     3    19     14      3
-##  6 2/28/2022… Marina     Garcia    Plain      140BSCL…     7    11     13      1
-##  7 2/28/2022… Samuel     Stark     Plain      140BSCL…     3     9     10      5
-##  8 2/28/2022… Kevin      Malcolm … Plain      140BSCL…     4    15     13      6
-##  9 2/28/2022… Alexa      Haverlah  Plain      140BSCL…     5    15      6      2
-## 10 2/28/2022… Zacharia   Washingt… Plain      140BSCL…     1    15     14      1
-## # … with 20 more rows, and 2 more variables: blue <dbl>, brown <dbl>
+## # A tibble: 30 x 11
+##    times~1 first~2 last_~3 candy~4 box_c~5   red green orange yellow  blue brown
+##    <chr>   <chr>   <chr>   <chr>   <chr>   <dbl> <dbl>  <dbl>  <dbl> <dbl> <dbl>
+##  1 2/21/2~ Christ~ McDona~ Plain   140BSC~     2    17     11      4    16     4
+##  2 2/28/2~ Andrew  Logan   Plain   140BSC~     2     9     14      4    17     9
+##  3 2/28/2~ Gabby   Ybarra  Plain   140BSC~     4    11     14      0    19     7
+##  4 2/28/2~ Veroni~ Apodaca Plain   140BSC~     1    17     16      2    13     8
+##  5 2/28/2~ Criste~ Jones   Plain   140BSC~     3    19     14      3    13     3
+##  6 2/28/2~ Marina  Garcia  Plain   140BSC~     7    11     13      1    14     6
+##  7 2/28/2~ Samuel  Stark   Plain   140BSC~     3     9     10      5    18     8
+##  8 2/28/2~ Kevin   Malcol~ Plain   140BSC~     4    15     13      6    14     3
+##  9 2/28/2~ Alexa   Haverl~ Plain   140BSC~     5    15      6      2    21     5
+## 10 2/28/2~ Zachar~ Washin~ Plain   140BSC~     1    15     14      1    20     6
+## # ... with 20 more rows, and abbreviated variable names 1: timestamp,
+## #   2: first_name, 3: last_name, 4: candy_type, 5: box_code
 ```
 
 This data comes from a Google Sheets document fed by a form that students have filled out, counting the colors of candies in a standard size bag of plain M&Ms.
@@ -146,7 +147,7 @@ candy %>% head()
 ```
 
 ```
-## # A tibble: 6 × 8
+## # A tibble: 6 x 8
 ##   first_name last_name   red green orange yellow  blue brown
 ##   <chr>      <chr>     <dbl> <dbl>  <dbl>  <dbl> <dbl> <dbl>
 ## 1 Christian  McDonald      2    17     11      4    16     4
@@ -247,7 +248,7 @@ candy_long %>% head()
 ```
 
 ```
-## # A tibble: 6 × 4
+## # A tibble: 6 x 4
 ##   first_name last_name color  candies
 ##   <chr>      <chr>     <chr>    <dbl>
 ## 1 Christian  McDonald  red          2
@@ -276,7 +277,7 @@ candy_avg
 ```
 
 ```
-## # A tibble: 6 × 2
+## # A tibble: 6 x 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
 ## 1 blue         15.3 
@@ -308,7 +309,7 @@ candy_avg
 ```
 
 ```
-## # A tibble: 6 × 2
+## # A tibble: 6 x 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
 ## 1 blue          15.3
@@ -418,22 +419,22 @@ candy_long %>%
 ```
 
 ```
-## # A tibble: 6 × 31
-##   color  Christian_McDonald Andrew_Logan Gabby_Ybarra Veronica_Apodaca
-##   <chr>               <dbl>        <dbl>        <dbl>            <dbl>
-## 1 red                     2            2            4                1
-## 2 green                  17            9           11               17
-## 3 orange                 11           14           14               16
-## 4 yellow                  4            4            0                2
-## 5 blue                   16           17           19               13
-## 6 brown                   4            9            7                8
-## # … with 26 more variables: Cristela_Jones <dbl>, Marina_Garcia <dbl>,
-## #   Samuel_Stark <dbl>, `Kevin_Malcolm Jr` <dbl>, Alexa_Haverlah <dbl>,
-## #   Zacharia_Washington <dbl>, Jose_Martinez <dbl>, Ana_Garza <dbl>,
-## #   Carolina_Cruz <dbl>, Anissa_Reyes <dbl>, Alaina_Bookman <dbl>,
-## #   Bryan_Baker <dbl>, Mckenna_Lucas <dbl>, Marissa_DeLeon <dbl>,
-## #   Claire_Stevens <dbl>, Katy_Vanatsky <dbl>, Vicente_Montalvo <dbl>,
-## #   Eric_Seow <dbl>, Brandon_Jenkins <dbl>, Luke_Skywalker <dbl>, …
+## # A tibble: 6 x 31
+##   color  Chris~1 Andre~2 Gabby~3 Veron~4 Crist~5 Marin~6 Samue~7 Kevin~8 Alexa~9
+##   <chr>    <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>
+## 1 red          2       2       4       1       3       7       3       4       5
+## 2 green       17       9      11      17      19      11       9      15      15
+## 3 orange      11      14      14      16      14      13      10      13       6
+## 4 yellow       4       4       0       2       3       1       5       6       2
+## 5 blue        16      17      19      13      13      14      18      14      21
+## 6 brown        4       9       7       8       3       6       8       3       5
+## # ... with 21 more variables: Zacharia_Washington <dbl>, Jose_Martinez <dbl>,
+## #   Ana_Garza <dbl>, Carolina_Cruz <dbl>, Anissa_Reyes <dbl>,
+## #   Alaina_Bookman <dbl>, Bryan_Baker <dbl>, Mckenna_Lucas <dbl>,
+## #   Marissa_DeLeon <dbl>, Claire_Stevens <dbl>, Katy_Vanatsky <dbl>,
+## #   Vicente_Montalvo <dbl>, Eric_Seow <dbl>, Brandon_Jenkins <dbl>,
+## #   Luke_Skywalker <dbl>, Pamela_Vance <dbl>, Eniola_Longe <dbl>,
+## #   Jo_Lukito <dbl>, `Obi Wan_Kenobi` <dbl>, `Jar Jar_Binks` <dbl>, ...
 ```
 
 ### Pivot wider on your own

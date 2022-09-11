@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 9 Tidy data | Reporting with Data in R</title>
   <meta name="description" content="Chapter 9 Tidy data | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The course is taught by Christian McDonald and Jo Lukito." />
-  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 9 Tidy data | Reporting with Data in R" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Christian McDonald and Josephine Lukito" />
 
 
-<meta name="date" content="2022-08-01" />
+<meta name="date" content="2022-09-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,7 +54,7 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.23/datatables.js"></script>
+<script src="libs/datatables-binding-0.24/datatables.js"></script>
 <link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
 <script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
@@ -650,8 +650,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Start a new R Notebook and edit the headline. Name it <strong>01-candy</strong>.</li>
 <li>Create your setup block and load the libraries below.</li>
 </ol>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="tidy-data.html#cb219-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb219-2"><a href="tidy-data.html#cb219-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code></pre></div>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="tidy-data.html#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb217-2"><a href="tidy-data.html#cb217-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code></pre></div>
 <div id="get-the-data" class="section level3 hasAnchor" number="9.4.1">
 <h3><span class="header-section-number">9.4.1</span> Get the data<a href="tidy-data.html#get-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We’ll just load this data directly from Google Sheets into this notebook. We’re doing something a little different here in we save the URL to our data into an object, then use that object in our <code>read_csv()</code> function. This is just a convenience for me, really, so I can swap that url out as needed.</p>
@@ -659,28 +659,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Add a Markdown section noting that you are importing data.</li>
 <li>Add this import chunk and run it.</li>
 </ol>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="tidy-data.html#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save the url</span></span>
-<span id="cb220-2"><a href="tidy-data.html#cb220-2" aria-hidden="true" tabindex="-1"></a>class_data <span class="ot">&lt;-</span> <span class="st">&quot;https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&amp;single=true&amp;output=csv&quot;</span></span>
-<span id="cb220-3"><a href="tidy-data.html#cb220-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb220-4"><a href="tidy-data.html#cb220-4" aria-hidden="true" tabindex="-1"></a><span class="co"># read the data, clean names and save into the object &quot;raw_data&quot;</span></span>
-<span id="cb220-5"><a href="tidy-data.html#cb220-5" aria-hidden="true" tabindex="-1"></a>raw_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(class_data) <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>()</span>
-<span id="cb220-6"><a href="tidy-data.html#cb220-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb220-7"><a href="tidy-data.html#cb220-7" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
-<span id="cb220-8"><a href="tidy-data.html#cb220-8" aria-hidden="true" tabindex="-1"></a>raw_data</span></code></pre></div>
-<pre><code>## # A tibble: 30 × 11
-##    timestamp  first_name last_name candy_type box_code   red green orange yellow
-##    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-##  1 2/21/2022… Christian  McDonald  Plain      140BSCL…     2    17     11      4
-##  2 2/28/2022… Andrew     Logan     Plain      140BSCL…     2     9     14      4
-##  3 2/28/2022… Gabby      Ybarra    Plain      140BSCL…     4    11     14      0
-##  4 2/28/2022… Veronica   Apodaca   Plain      140BSCL…     1    17     16      2
-##  5 2/28/2022… Cristela   Jones     Plain      140BSCL…     3    19     14      3
-##  6 2/28/2022… Marina     Garcia    Plain      140BSCL…     7    11     13      1
-##  7 2/28/2022… Samuel     Stark     Plain      140BSCL…     3     9     10      5
-##  8 2/28/2022… Kevin      Malcolm … Plain      140BSCL…     4    15     13      6
-##  9 2/28/2022… Alexa      Haverlah  Plain      140BSCL…     5    15      6      2
-## 10 2/28/2022… Zacharia   Washingt… Plain      140BSCL…     1    15     14      1
-## # … with 20 more rows, and 2 more variables: blue &lt;dbl&gt;, brown &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="tidy-data.html#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save the url</span></span>
+<span id="cb218-2"><a href="tidy-data.html#cb218-2" aria-hidden="true" tabindex="-1"></a>class_data <span class="ot">&lt;-</span> <span class="st">&quot;https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&amp;single=true&amp;output=csv&quot;</span></span>
+<span id="cb218-3"><a href="tidy-data.html#cb218-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb218-4"><a href="tidy-data.html#cb218-4" aria-hidden="true" tabindex="-1"></a><span class="co"># read the data, clean names and save into the object &quot;raw_data&quot;</span></span>
+<span id="cb218-5"><a href="tidy-data.html#cb218-5" aria-hidden="true" tabindex="-1"></a>raw_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(class_data) <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>()</span>
+<span id="cb218-6"><a href="tidy-data.html#cb218-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb218-7"><a href="tidy-data.html#cb218-7" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb218-8"><a href="tidy-data.html#cb218-8" aria-hidden="true" tabindex="-1"></a>raw_data</span></code></pre></div>
+<pre><code>## # A tibble: 30 x 11
+##    times~1 first~2 last_~3 candy~4 box_c~5   red green orange yellow  blue brown
+##    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 2/21/2~ Christ~ McDona~ Plain   140BSC~     2    17     11      4    16     4
+##  2 2/28/2~ Andrew  Logan   Plain   140BSC~     2     9     14      4    17     9
+##  3 2/28/2~ Gabby   Ybarra  Plain   140BSC~     4    11     14      0    19     7
+##  4 2/28/2~ Veroni~ Apodaca Plain   140BSC~     1    17     16      2    13     8
+##  5 2/28/2~ Criste~ Jones   Plain   140BSC~     3    19     14      3    13     3
+##  6 2/28/2~ Marina  Garcia  Plain   140BSC~     7    11     13      1    14     6
+##  7 2/28/2~ Samuel  Stark   Plain   140BSC~     3     9     10      5    18     8
+##  8 2/28/2~ Kevin   Malcol~ Plain   140BSC~     4    15     13      6    14     3
+##  9 2/28/2~ Alexa   Haverl~ Plain   140BSC~     5    15      6      2    21     5
+## 10 2/28/2~ Zachar~ Washin~ Plain   140BSC~     1    15     14      1    20     6
+## # ... with 20 more rows, and abbreviated variable names 1: timestamp,
+## #   2: first_name, 3: last_name, 4: candy_type, 5: box_code</code></pre>
 <p>This data comes from a Google Sheets document fed by a form that students have filled out, counting the colors of candies in a standard size bag of plain M&amp;Ms.</p>
 </div>
 <div id="drop-unneeded-columns" class="section level3 hasAnchor" number="9.4.2">
@@ -695,19 +696,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <summary>
 You got this! (But, just in case …)
 </summary>
-<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="tidy-data.html#cb222-1" aria-hidden="true" tabindex="-1"></a>candy <span class="ot">&lt;-</span> raw_data <span class="sc">%&gt;%</span> </span>
-<span id="cb222-2"><a href="tidy-data.html#cb222-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb222-3"><a href="tidy-data.html#cb222-3" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>timestamp,</span>
-<span id="cb222-4"><a href="tidy-data.html#cb222-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>candy_type,</span>
-<span id="cb222-5"><a href="tidy-data.html#cb222-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>box_code</span>
-<span id="cb222-6"><a href="tidy-data.html#cb222-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="tidy-data.html#cb220-1" aria-hidden="true" tabindex="-1"></a>candy <span class="ot">&lt;-</span> raw_data <span class="sc">%&gt;%</span> </span>
+<span id="cb220-2"><a href="tidy-data.html#cb220-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb220-3"><a href="tidy-data.html#cb220-3" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>timestamp,</span>
+<span id="cb220-4"><a href="tidy-data.html#cb220-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>candy_type,</span>
+<span id="cb220-5"><a href="tidy-data.html#cb220-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>box_code</span>
+<span id="cb220-6"><a href="tidy-data.html#cb220-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 </details>
 </div>
 <div id="peek-at-the-wide-table" class="section level3 hasAnchor" number="9.4.3">
 <h3><span class="header-section-number">9.4.3</span> Peek at the wide table<a href="tidy-data.html#peek-at-the-wide-table" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Let’s look closer at this data:</p>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="tidy-data.html#cb223-1" aria-hidden="true" tabindex="-1"></a>candy <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 8
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="tidy-data.html#cb221-1" aria-hidden="true" tabindex="-1"></a>candy <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 8
 ##   first_name last_name   red green orange yellow  blue brown
 ##   &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1 Christian  McDonald      2    17     11      4    16     4
@@ -882,15 +883,15 @@ You got this! (But, just in case …)
 <li>Add a note that you are pivoting the data</li>
 <li>Add the chunk below and run it</li>
 </ol>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="tidy-data.html#cb225-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="ot">&lt;-</span> candy <span class="sc">%&gt;%</span> </span>
-<span id="cb225-2"><a href="tidy-data.html#cb225-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb225-3"><a href="tidy-data.html#cb225-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> red<span class="sc">:</span>brown, <span class="co"># sets which columns to pivot based on their names</span></span>
-<span id="cb225-4"><a href="tidy-data.html#cb225-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;color&quot;</span>, <span class="co"># sets column name for color</span></span>
-<span id="cb225-5"><a href="tidy-data.html#cb225-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;candies&quot;</span> <span class="co"># sets column name for candies</span></span>
-<span id="cb225-6"><a href="tidy-data.html#cb225-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb225-7"><a href="tidy-data.html#cb225-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb225-8"><a href="tidy-data.html#cb225-8" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 4
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="tidy-data.html#cb223-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="ot">&lt;-</span> candy <span class="sc">%&gt;%</span> </span>
+<span id="cb223-2"><a href="tidy-data.html#cb223-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb223-3"><a href="tidy-data.html#cb223-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> red<span class="sc">:</span>brown, <span class="co"># sets which columns to pivot based on their names</span></span>
+<span id="cb223-4"><a href="tidy-data.html#cb223-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;color&quot;</span>, <span class="co"># sets column name for color</span></span>
+<span id="cb223-5"><a href="tidy-data.html#cb223-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;candies&quot;</span> <span class="co"># sets column name for candies</span></span>
+<span id="cb223-6"><a href="tidy-data.html#cb223-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb223-7"><a href="tidy-data.html#cb223-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb223-8"><a href="tidy-data.html#cb223-8" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 4
 ##   first_name last_name color  candies
 ##   &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt;
 ## 1 Christian  McDonald  red          2
@@ -905,12 +906,12 @@ You got this! (But, just in case …)
 <p>To get the average number of candies per each color, we can use our <code>candy_long</code> data and <code>group_by</code> color (which will consider all the <strong>red</strong> rows together, etc.) and use <code>summarize()</code> to get the mean.</p>
 <p>This is very similar to the <code>sum()</code>s we did with military surplus, but you use <code>mean()</code> instead. There is one trick with <code>mean()</code>, though, in that sometimes you have to add an argument <code>na.rm = TRUE</code> if there are missing or zero values, since you can’t divide by zero. We have that case here in some bags don’t have ANY red at all!</p>
 <p>Save the resulting summary table into a new tibble called <code>candy_avg</code>.</p>
-<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="tidy-data.html#cb227-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="ot">&lt;-</span> candy_long <span class="sc">%&gt;%</span> </span>
-<span id="cb227-2"><a href="tidy-data.html#cb227-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(color) <span class="sc">%&gt;%</span> </span>
-<span id="cb227-3"><a href="tidy-data.html#cb227-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candies))</span>
-<span id="cb227-4"><a href="tidy-data.html#cb227-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># the na.rm bit takes into account some records where there are zero or blank values.</span></span>
-<span id="cb227-5"><a href="tidy-data.html#cb227-5" aria-hidden="true" tabindex="-1"></a>candy_avg</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 2
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="tidy-data.html#cb225-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="ot">&lt;-</span> candy_long <span class="sc">%&gt;%</span> </span>
+<span id="cb225-2"><a href="tidy-data.html#cb225-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(color) <span class="sc">%&gt;%</span> </span>
+<span id="cb225-3"><a href="tidy-data.html#cb225-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candies))</span>
+<span id="cb225-4"><a href="tidy-data.html#cb225-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># the na.rm bit takes into account some records where there are zero or blank values.</span></span>
+<span id="cb225-5"><a href="tidy-data.html#cb225-5" aria-hidden="true" tabindex="-1"></a>candy_avg</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 2
 ##   color  avg_candies
 ##   &lt;chr&gt;        &lt;dbl&gt;
 ## 1 blue         15.3 
@@ -927,15 +928,15 @@ You got this! (But, just in case …)
 <ol style="list-style-type: decimal">
 <li>Edit your summary to include the mutate below.</li>
 </ol>
-<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="tidy-data.html#cb229-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="ot">&lt;-</span> candy_long <span class="sc">%&gt;%</span> </span>
-<span id="cb229-2"><a href="tidy-data.html#cb229-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(color) <span class="sc">%&gt;%</span> </span>
-<span id="cb229-3"><a href="tidy-data.html#cb229-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candies, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb229-4"><a href="tidy-data.html#cb229-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb229-5"><a href="tidy-data.html#cb229-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_candies =</span> <span class="fu">round</span>(avg_candies, <span class="dv">1</span>)</span>
-<span id="cb229-6"><a href="tidy-data.html#cb229-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb229-7"><a href="tidy-data.html#cb229-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb229-8"><a href="tidy-data.html#cb229-8" aria-hidden="true" tabindex="-1"></a>candy_avg</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 2
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="tidy-data.html#cb227-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="ot">&lt;-</span> candy_long <span class="sc">%&gt;%</span> </span>
+<span id="cb227-2"><a href="tidy-data.html#cb227-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(color) <span class="sc">%&gt;%</span> </span>
+<span id="cb227-3"><a href="tidy-data.html#cb227-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candies, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb227-4"><a href="tidy-data.html#cb227-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb227-5"><a href="tidy-data.html#cb227-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_candies =</span> <span class="fu">round</span>(avg_candies, <span class="dv">1</span>)</span>
+<span id="cb227-6"><a href="tidy-data.html#cb227-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb227-7"><a href="tidy-data.html#cb227-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb227-8"><a href="tidy-data.html#cb227-8" aria-hidden="true" tabindex="-1"></a>candy_avg</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 2
 ##   color  avg_candies
 ##   &lt;chr&gt;        &lt;dbl&gt;
 ## 1 blue          15.3
@@ -1000,9 +1001,9 @@ You got this! (But, just in case …)
 <li>Start a section that says you are going to get data for Datawrapper.</li>
 <li>Create a chunk with the following and run it.</li>
 </ol>
-<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="tidy-data.html#cb231-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(clipr)</span>
-<span id="cb231-2"><a href="tidy-data.html#cb231-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb231-3"><a href="tidy-data.html#cb231-3" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="sc">%&gt;%</span> <span class="fu">write_clip</span>(<span class="at">allow_non_interactive =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="tidy-data.html#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(clipr)</span>
+<span id="cb229-2"><a href="tidy-data.html#cb229-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb229-3"><a href="tidy-data.html#cb229-3" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="sc">%&gt;%</span> <span class="fu">write_clip</span>(<span class="at">allow_non_interactive =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>You won’t see anything happen, but all the data in <code>candy_avg</code> has been added to your clipboard as if you highlighted it and did <strong>Copy</strong>. You must have the <code>allow_non_interactive = TRUE</code> argument to allow your RMarkdown document to knit.</p>
 </div>
 <div id="build-the-datawrapper-graphic" class="section level3 hasAnchor" number="9.7.4">
@@ -1029,24 +1030,24 @@ You got this! (But, just in case …)
 <li><code>names_from =</code> lets us define from which column (or columns) we are pulling values from to create the new column names. <em>In our case, we need two columns to combine the first and last names. We can do that with <code>c(first_name, last_name)</code></em>.</li>
 <li><code>values_from =</code> lets us say which column will be the values in the new arrangement. <em>In our case, we want the <code>candies</code> column</em>.</li>
 </ul>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="tidy-data.html#cb232-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">%&gt;%</span> </span>
-<span id="cb232-2"><a href="tidy-data.html#cb232-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="fu">c</span>(first_name, last_name), <span class="at">values_from =</span> candies)</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 31
-##   color  Christian_McDonald Andrew_Logan Gabby_Ybarra Veronica_Apodaca
-##   &lt;chr&gt;               &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;            &lt;dbl&gt;
-## 1 red                     2            2            4                1
-## 2 green                  17            9           11               17
-## 3 orange                 11           14           14               16
-## 4 yellow                  4            4            0                2
-## 5 blue                   16           17           19               13
-## 6 brown                   4            9            7                8
-## # … with 26 more variables: Cristela_Jones &lt;dbl&gt;, Marina_Garcia &lt;dbl&gt;,
-## #   Samuel_Stark &lt;dbl&gt;, `Kevin_Malcolm Jr` &lt;dbl&gt;, Alexa_Haverlah &lt;dbl&gt;,
-## #   Zacharia_Washington &lt;dbl&gt;, Jose_Martinez &lt;dbl&gt;, Ana_Garza &lt;dbl&gt;,
-## #   Carolina_Cruz &lt;dbl&gt;, Anissa_Reyes &lt;dbl&gt;, Alaina_Bookman &lt;dbl&gt;,
-## #   Bryan_Baker &lt;dbl&gt;, Mckenna_Lucas &lt;dbl&gt;, Marissa_DeLeon &lt;dbl&gt;,
-## #   Claire_Stevens &lt;dbl&gt;, Katy_Vanatsky &lt;dbl&gt;, Vicente_Montalvo &lt;dbl&gt;,
-## #   Eric_Seow &lt;dbl&gt;, Brandon_Jenkins &lt;dbl&gt;, Luke_Skywalker &lt;dbl&gt;, …</code></pre>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="tidy-data.html#cb230-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">%&gt;%</span> </span>
+<span id="cb230-2"><a href="tidy-data.html#cb230-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="fu">c</span>(first_name, last_name), <span class="at">values_from =</span> candies)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 31
+##   color  Chris~1 Andre~2 Gabby~3 Veron~4 Crist~5 Marin~6 Samue~7 Kevin~8 Alexa~9
+##   &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1 red          2       2       4       1       3       7       3       4       5
+## 2 green       17       9      11      17      19      11       9      15      15
+## 3 orange      11      14      14      16      14      13      10      13       6
+## 4 yellow       4       4       0       2       3       1       5       6       2
+## 5 blue        16      17      19      13      13      14      18      14      21
+## 6 brown        4       9       7       8       3       6       8       3       5
+## # ... with 21 more variables: Zacharia_Washington &lt;dbl&gt;, Jose_Martinez &lt;dbl&gt;,
+## #   Ana_Garza &lt;dbl&gt;, Carolina_Cruz &lt;dbl&gt;, Anissa_Reyes &lt;dbl&gt;,
+## #   Alaina_Bookman &lt;dbl&gt;, Bryan_Baker &lt;dbl&gt;, Mckenna_Lucas &lt;dbl&gt;,
+## #   Marissa_DeLeon &lt;dbl&gt;, Claire_Stevens &lt;dbl&gt;, Katy_Vanatsky &lt;dbl&gt;,
+## #   Vicente_Montalvo &lt;dbl&gt;, Eric_Seow &lt;dbl&gt;, Brandon_Jenkins &lt;dbl&gt;,
+## #   Luke_Skywalker &lt;dbl&gt;, Pamela_Vance &lt;dbl&gt;, Eniola_Longe &lt;dbl&gt;,
+## #   Jo_Lukito &lt;dbl&gt;, `Obi Wan_Kenobi` &lt;dbl&gt;, `Jar Jar_Binks` &lt;dbl&gt;, ...</code></pre>
 <div id="pivot-wider-on-your-own" class="section level3 hasAnchor" number="9.8.1">
 <h3><span class="header-section-number">9.8.1</span> Pivot wider on your own<a href="tidy-data.html#pivot-wider-on-your-own" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Now I want you do apply the same <code>pivot_wider()</code> function to that same <code>candy_long</code> data, but to have the rows be people and the column be each color, basically like how our data started. (But, of course, I want to acdtually use <code>pivot_wider()</code> to do it!)</p>

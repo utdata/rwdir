@@ -50,20 +50,14 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
-```
-
-```
-## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
-## ✔ tibble  3.1.7     ✔ dplyr   1.0.9
-## ✔ tidyr   1.2.0     ✔ stringr 1.4.0
-## ✔ readr   2.1.2     ✔ forcats 0.5.1
-```
-
-```
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
+## -- Attaching packages --------------------------------------- tidyverse 1.3.2 --
+## v ggplot2 3.3.6     v purrr   0.3.4
+## v tibble  3.1.8     v dplyr   1.0.9
+## v tidyr   1.2.0     v stringr 1.4.1
+## v readr   2.1.2     v forcats 0.5.2
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
 ```
 
 </details>
@@ -86,21 +80,21 @@ tx |> glimpse()
 ```
 
 ```
-## Rows: 7,411
+## Rows: 6,698
 ## Columns: 13
-## $ state             <chr> "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX"…
-## $ agency_name       <chr> "ABERNATHY POLICE DEPT", "ABERNATHY POLICE DEPT", "A…
-## $ nsn               <chr> "1005-00-726-5655", "1005-00-726-5655", "1005-00-726…
-## $ item_name         <chr> "PISTOL,CALIBER .45,AUTOMATIC", "PISTOL,CALIBER .45,…
-## $ quantity          <dbl> 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
-## $ ui                <chr> "Each", "Each", "Each", "Each", "Each", "Each", "Eac…
-## $ acquisition_value <dbl> 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 333.00…
-## $ demil_code        <chr> "D", "D", "D", "D", "D", "C", "D", "D", "D", "D", "D…
-## $ demil_ic          <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
-## $ ship_date         <dttm> 2011-11-03, 2011-11-03, 2011-11-03, 2011-11-03, 201…
-## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
-## $ total_value       <dbl> 58.71, 58.71, 58.71, 58.71, 749.00, 62627.00, 1665.0…
-## $ control_type      <lgl> TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE…
+## $ state             <chr> "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX"~
+## $ agency_name       <chr> "ABERNATHY POLICE DEPT", "ABERNATHY POLICE DEPT", "A~
+## $ nsn               <chr> "2320-01-371-9584", "1240-01-540-3690", "1240-01-411~
+## $ item_name         <chr> "TRUCK,UTILITY", "SIGHT,REFLEX", "SIGHT,REFLEX", "SI~
+## $ quantity          <dbl> 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+## $ ui                <chr> "Each", "Each", "Each", "Each", "Each", "Each", "Eac~
+## $ acquisition_value <dbl> 62627, 333, 396, 396, 396, 371680, 371680, 658000, 3~
+## $ demil_code        <chr> "C", "D", "D", "D", "D", "Q", "Q", "C", "D", "D", "D~
+## $ demil_ic          <dbl> 1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 6, 7, 7, 1, 1~
+## $ ship_date         <dttm> 2016-03-07, 2016-02-02, 2013-09-13, 2013-09-13, 201~
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
+## $ total_value       <dbl> 62627, 1665, 396, 396, 396, 371680, 371680, 658000, ~
+## $ control_type      <lgl> TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE~
 ```
 
 </details>
@@ -155,10 +149,10 @@ tx_c |>
 ```
 
 ```
-## # A tibble: 1 × 2
+## # A tibble: 1 x 2
 ##   `sum(quantity)` `sum(total_value)`
 ##             <dbl>              <dbl>
-## 1           26284         138930337.
+## 1           22583         134445960.
 ```
 
 Walking through the code ...
@@ -180,10 +174,10 @@ tx_c |>
 ```
 
 ```
-## # A tibble: 1 × 2
+## # A tibble: 1 x 2
 ##   summed_quantity summed_total_value
 ##             <dbl>              <dbl>
-## 1           26284         138930337.
+## 1           22583         134445960.
 ```
 
 OK, from this we have learned something: **Since Jan. 1, 2010, Texas law enforcement agencies have received more than 26,000 controlled items worth nearly $140 million**.
@@ -210,10 +204,10 @@ tx_c |>
 ```
 
 ```
-## # A tibble: 1 × 4
+## # A tibble: 1 x 4
 ##   dumb_sum less_dumb_sum dumb_avg less_dumb_avg
 ##      <dbl>         <dbl>    <dbl>         <dbl>
-## 1       NA          8553       NA          1.45
+## 1       NA          7562       NA          1.41
 ```
 
 So there you have examples of using `sum()` and `mean()` with and without `na.rm = TRUE`. OK, you've been warned.
@@ -259,20 +253,20 @@ tx_c |>
 ```
 
 ```
-## # A tibble: 351 × 2
+## # A tibble: 335 x 2
 ##    agency_name                     summed_quantity
 ##    <chr>                                     <dbl>
-##  1 ABERNATHY POLICE DEPT                        13
+##  1 ABERNATHY POLICE DEPT                         6
 ##  2 ALLEN POLICE DEPT                            11
 ##  3 ALVARADO ISD PD                               4
-##  4 ALVIN POLICE DEPT                           483
+##  4 ALVIN POLICE DEPT                           478
 ##  5 ANDERSON COUNTY SHERIFFS OFFICE               7
 ##  6 ANDREWS COUNTY SHERIFF OFFICE                12
 ##  7 ANSON POLICE DEPT                             9
 ##  8 ANTHONY POLICE DEPT                          10
-##  9 ARANSAS PASS POLICE DEPARTMENT               27
+##  9 ARANSAS PASS POLICE DEPARTMENT               28
 ## 10 ARCHER COUNTY SHERIFF OFFICE                  3
-## # … with 341 more rows
+## # ... with 325 more rows
 ```
 
 Let's break this down a little.
@@ -293,20 +287,14 @@ tx_c |>
 ```
 
 ```
-## # A tibble: 9 × 13
-##   state agency_name   nsn   item_name quantity ui    acquisition_val… demil_code
-##   <chr> <chr>         <chr> <chr>        <dbl> <chr>            <dbl> <chr>     
-## 1 TX    ABERNATHY PO… 1005… PISTOL,C…        1 Each              58.7 D         
-## 2 TX    ABERNATHY PO… 1005… PISTOL,C…        1 Each              58.7 D         
-## 3 TX    ABERNATHY PO… 1005… PISTOL,C…        1 Each              58.7 D         
-## 4 TX    ABERNATHY PO… 1005… PISTOL,C…        1 Each              58.7 D         
-## 5 TX    ABERNATHY PO… 1005… RIFLE,5.…        1 Each             749   D         
-## 6 TX    ABERNATHY PO… 2320… TRUCK,UT…        1 Each           62627   C         
-## 7 TX    ABERNATHY PO… 1240… SIGHT,RE…        5 Each             333   D         
-## 8 TX    ABERNATHY PO… 1005… RIFLE,5.…        1 Each             749   D         
-## 9 TX    ABERNATHY PO… 1005… PISTOL,C…        1 Each              58.7 D         
-## # … with 5 more variables: demil_ic <dbl>, ship_date <dttm>,
-## #   station_type <chr>, total_value <dbl>, control_type <lgl>
+## # A tibble: 2 x 13
+##   state agency_name          nsn   item_~1 quant~2 ui    acqui~3 demil~4 demil~5
+##   <chr> <chr>                <chr> <chr>     <dbl> <chr>   <dbl> <chr>     <dbl>
+## 1 TX    ABERNATHY POLICE DE~ 2320~ TRUCK,~       1 Each    62627 C             1
+## 2 TX    ABERNATHY POLICE DE~ 1240~ SIGHT,~       5 Each      333 D             1
+## # ... with 4 more variables: ship_date <dttm>, station_type <chr>,
+## #   total_value <dbl>, control_type <lgl>, and abbreviated variable names
+## #   1: item_name, 2: quantity, 3: acquisition_value, 4: demil_code, 5: demil_ic
 ```
 
 If we look at the `quantity` column there and eyeball all the rows, we see there 8 rows with a value of "1", and one row with a value of "5". 8 + 5 = 13, which matches our `summed_quantity` answer in our summary table. We're good!
@@ -331,20 +319,20 @@ tx_c |>
 ```
 
 ```
-## # A tibble: 351 × 3
+## # A tibble: 335 x 3
 ##    agency_name                     summed_quantity summed_total_value
 ##    <chr>                                     <dbl>              <dbl>
-##  1 ABERNATHY POLICE DEPT                        13             66084.
-##  2 ALLEN POLICE DEPT                            11           1404024 
+##  1 ABERNATHY POLICE DEPT                         6             64292 
+##  2 ALLEN POLICE DEPT                            11           1404528 
 ##  3 ALVARADO ISD PD                               4               480 
-##  4 ALVIN POLICE DEPT                           483           2504265.
+##  4 ALVIN POLICE DEPT                           478           2436004.
 ##  5 ANDERSON COUNTY SHERIFFS OFFICE               7            733720 
 ##  6 ANDREWS COUNTY SHERIFF OFFICE                12              1476 
-##  7 ANSON POLICE DEPT                             9              5077 
+##  7 ANSON POLICE DEPT                             9              5329 
 ##  8 ANTHONY POLICE DEPT                          10              7490 
-##  9 ARANSAS PASS POLICE DEPARTMENT               27            503658 
+##  9 ARANSAS PASS POLICE DEPARTMENT               28            515396.
 ## 10 ARCHER COUNTY SHERIFF OFFICE                  3           1101000 
-## # … with 341 more rows
+## # ... with 325 more rows
 ```
 
 ### Arrange the results
@@ -365,20 +353,20 @@ tx_c |>
 ```
 
 ```
-## # A tibble: 351 × 3
-##    agency_name                      summed_quantity summed_total_value
-##    <chr>                                      <dbl>              <dbl>
-##  1 HOUSTON POLICE DEPT                         2966           7917768.
-##  2 JEFFERSON COUNTY SHERIFFS OFFICE             270           3464365.
-##  3 DPS SWAT- TEXAS RANGERS                     1320           3265332.
-##  4 SAN MARCOS POLICE DEPT                       597           2969256.
-##  5 AUSTIN POLICE DEPT                          1392           2685426.
-##  6 ALVIN POLICE DEPT                            483           2504265.
-##  7 HARRIS COUNTY CONSTABLE PCT 3                292           2376779.
-##  8 HARRIS COUNTY SHERIFF'S OFFICE                21           2318414 
-##  9 MILAM COUNTY SHERIFF DEPT                     83           2196952.
-## 10 VICTORIA COUNTY SHERIFF'S OFFICE             384           2150092.
-## # … with 341 more rows
+## # A tibble: 335 x 3
+##    agency_name                       summed_quantity summed_total_value
+##    <chr>                                       <dbl>              <dbl>
+##  1 HOUSTON POLICE DEPT                          2384           7322064.
+##  2 JEFFERSON COUNTY SHERIFFS OFFICE              206           3412547.
+##  3 SAN MARCOS POLICE DEPT                        600           3200702.
+##  4 DPS SWAT- TEXAS RANGERS                       137           3015221 
+##  5 AUSTIN POLICE DEPT                           1392           2622087.
+##  6 ALVIN POLICE DEPT                             478           2436004.
+##  7 HARRIS COUNTY CONSTABLE PCT 3                 291           2321126.
+##  8 MILAM COUNTY SHERIFF DEPT                      83           2196952.
+##  9 HARRIS COUNTY SHERIFF'S OFFICE                 16           1834141 
+## 10 VAN ZANDT COUNTY SHERIFF'S OFFICE              45           1789636.
+## # ... with 325 more rows
 ```
 
 So now we've sorted the results to put the highest `summed_total_value` at the top.
@@ -428,20 +416,20 @@ tx_agency_totals
 ```
 
 ```
-## # A tibble: 351 × 3
-##    agency_name                      summed_quantity summed_total_value
-##    <chr>                                      <dbl>              <dbl>
-##  1 HOUSTON POLICE DEPT                         2966           7917768.
-##  2 JEFFERSON COUNTY SHERIFFS OFFICE             270           3464365.
-##  3 DPS SWAT- TEXAS RANGERS                     1320           3265332.
-##  4 SAN MARCOS POLICE DEPT                       597           2969256.
-##  5 AUSTIN POLICE DEPT                          1392           2685426.
-##  6 ALVIN POLICE DEPT                            483           2504265.
-##  7 HARRIS COUNTY CONSTABLE PCT 3                292           2376779.
-##  8 HARRIS COUNTY SHERIFF'S OFFICE                21           2318414 
-##  9 MILAM COUNTY SHERIFF DEPT                     83           2196952.
-## 10 VICTORIA COUNTY SHERIFF'S OFFICE             384           2150092.
-## # … with 341 more rows
+## # A tibble: 335 x 3
+##    agency_name                       summed_quantity summed_total_value
+##    <chr>                                       <dbl>              <dbl>
+##  1 HOUSTON POLICE DEPT                          2384           7322064.
+##  2 JEFFERSON COUNTY SHERIFFS OFFICE              206           3412547.
+##  3 SAN MARCOS POLICE DEPT                        600           3200702.
+##  4 DPS SWAT- TEXAS RANGERS                       137           3015221 
+##  5 AUSTIN POLICE DEPT                           1392           2622087.
+##  6 ALVIN POLICE DEPT                             478           2436004.
+##  7 HARRIS COUNTY CONSTABLE PCT 3                 291           2321126.
+##  8 MILAM COUNTY SHERIFF DEPT                      83           2196952.
+##  9 HARRIS COUNTY SHERIFF'S OFFICE                 16           1834141 
+## 10 VAN ZANDT COUNTY SHERIFF'S OFFICE              45           1789636.
+## # ... with 325 more rows
 ```
 
 The result is the same, but we can reuse the `tx_agency_totals` tibble.
@@ -535,20 +523,28 @@ tx_agency_totals |>
 ```
 
 ```
-## # A tibble: 21 × 3
-##    agency_name                       summed_quantity summed_total_value
-##    <chr>                                       <dbl>              <dbl>
-##  1 SAN MARCOS POLICE DEPT                        597           2969256.
-##  2 AUSTIN POLICE DEPT                           1392           2685426.
-##  3 UNIV OF TEXAS SYSTEM POLICE HI_ED               3           1305000 
-##  4 LEANDER POLICE DEPT                           212           1180508 
-##  5 GEORGETOWN POLICE DEPT                         41           1075807.
-##  6 CEDAR PARK POLICE DEPT                        106            969276.
-##  7 CALDWELL COUNTY SHERIFFS OFFICE               319            955688.
-##  8 TRAVIS COUNTY SHERIFFS OFFICE                 151            935774.
-##  9 BASTROP COUNTY SHERIFF'S OFFICE               284            862117.
-## 10 HAYS COUNTY SHERIFFS OFFICE                   384            434265.
-## # … with 11 more rows
+## # A tibble: 19 x 3
+##    agency_name                        summed_quantity summed_total_value
+##    <chr>                                        <dbl>              <dbl>
+##  1 SAN MARCOS POLICE DEPT                         600           3200702.
+##  2 AUSTIN POLICE DEPT                            1392           2622087.
+##  3 UNIV OF TEXAS SYSTEM POLICE HI_ED                3           1305000 
+##  4 LEANDER POLICE DEPT                            212           1182083 
+##  5 GEORGETOWN POLICE DEPT                          41           1075807.
+##  6 CALDWELL COUNTY SHERIFFS OFFICE                339            977096.
+##  7 CEDAR PARK POLICE DEPT                         106            970222.
+##  8 TRAVIS COUNTY SHERIFFS OFFICE                   78            896006.
+##  9 BASTROP COUNTY SHERIFF'S OFFICE                263            712074.
+## 10 HAYS COUNTY SHERIFFS OFFICE                    384            442203.
+## 11 KYLE POLICE DEPT                               197            149673.
+## 12 WILLIAMSON COUNTY SHERIFF'S OFFICE             165             75460 
+## 13 LOCKHART POLICE DEPT                            16             54177.
+## 14 BEE CAVE POLICE DEPT                            38             51929.
+## 15 HUTTO POLICE DEPT                               90             13524.
+## 16 PFLUGERVILLE POLICE DEPT                         1             10747 
+## 17 BASTROP POLICE DEPT                             10              4990 
+## 18 LULING POLICE DEPT                              16              4700.
+## 19 BUDA POLICE DEPT                                16              1736.
 ```
 
 Let's walk through that code and my notes there.
@@ -606,21 +602,22 @@ tx_agency_item_totals
 ```
 
 ```
-## # A tibble: 1,655 × 4
-## # Groups:   agency_name [351]
-##    agency_name                       item_name  summed_quantity summed_total_va…
-##    <chr>                             <chr>                <dbl>            <dbl>
-##  1 HOUSTON POLICE DEPT               AIRCRAFT,…               1          5390000
-##  2 DPS SWAT- TEXAS RANGERS           MINE RESI…               4          2611000
-##  3 DEPT OF CRIM JUSTICE OIG          TRUCK,CAR…               4          1446516
-##  4 VICTORIA COUNTY SHERIFF'S OFFICE  MINE RESI…               2          1378000
-##  5 UNIV OF TEXAS SYSTEM POLICE HI_ED MINE RESI…               2          1228000
-##  6 JEFFERSON COUNTY SHERIFFS OFFICE  HELICOPTE…               1           922704
-##  7 ALVIN POLICE DEPT                 HOIST,INT…               6           900420
-##  8 VAN ZANDT COUNTY SHERIFF'S OFFICE TRUCK,WRE…               1           880674
-##  9 BURKBURNETT POLICE DEPT           MINE RESI…               1           865000
-## 10 CLEBURNE POLICE DEPT              MINE RESI…               1           865000
-## # … with 1,645 more rows
+## # A tibble: 1,548 x 4
+## # Groups:   agency_name [335]
+##    agency_name                       item_name              summed_qua~1 summe~2
+##    <chr>                             <chr>                         <dbl>   <dbl>
+##  1 HOUSTON POLICE DEPT               AIRCRAFT, FIXED WING              1 5390000
+##  2 DPS SWAT- TEXAS RANGERS           MINE RESISTANT VEHICLE            4 2611000
+##  3 DEPT OF CRIM JUSTICE OIG          TRUCK,CARGO                       4 1446516
+##  4 UNIV OF TEXAS SYSTEM POLICE HI_ED MINE RESISTANT VEHICLE            2 1228000
+##  5 JEFFERSON COUNTY SHERIFFS OFFICE  HELICOPTER,UTILITY                1  922704
+##  6 ALVIN POLICE DEPT                 HOIST,INTERNAL RESCUE             6  900420
+##  7 VAN ZANDT COUNTY SHERIFF'S OFFICE TRUCK,WRECKER                     1  880674
+##  8 BURKBURNETT POLICE DEPT           MINE RESISTANT VEHICLE            1  865000
+##  9 CLEBURNE POLICE DEPT              MINE RESISTANT VEHICLE            1  865000
+## 10 CUERO POLICE DEPT                 MINE RESISTANT VEHICLE            1  865000
+## # ... with 1,538 more rows, and abbreviated variable names 1: summed_quantity,
+## #   2: summed_total_value
 ```
 
 </details>
@@ -647,21 +644,22 @@ tx_agency_item_totals |>
 ```
 
 ```
-## # A tibble: 191 × 4
-## # Groups:   agency_name [21]
-##    agency_name                       item_name  summed_quantity summed_total_va…
-##    <chr>                             <chr>                <dbl>            <dbl>
-##  1 UNIV OF TEXAS SYSTEM POLICE HI_ED MINE RESI…               2         1228000 
-##  2 AUSTIN POLICE DEPT                HELICOPTE…               1          833400 
-##  3 TRAVIS COUNTY SHERIFFS OFFICE     MINE RESI…               1          767360 
-##  4 CEDAR PARK POLICE DEPT            MINE RESI…               1          733000 
-##  5 GEORGETOWN POLICE DEPT            MINE RESI…               1          733000 
-##  6 LEANDER POLICE DEPT               MINE RESI…               1          733000 
-##  7 SAN MARCOS POLICE DEPT            MINE RESI…               1          733000 
-##  8 BASTROP COUNTY SHERIFF'S OFFICE   MINE RESI…               1          658000 
-##  9 SAN MARCOS POLICE DEPT            CAPABILIT…               1          494724 
-## 10 AUSTIN POLICE DEPT                IMAGE INT…              85          467847.
-## # … with 181 more rows
+## # A tibble: 175 x 4
+## # Groups:   agency_name [19]
+##    agency_name                       item_name                   summe~1 summe~2
+##    <chr>                             <chr>                         <dbl>   <dbl>
+##  1 UNIV OF TEXAS SYSTEM POLICE HI_ED MINE RESISTANT VEHICLE            2  1.23e6
+##  2 AUSTIN POLICE DEPT                HELICOPTER,FLIGHT TRAINER         1  8.33e5
+##  3 TRAVIS COUNTY SHERIFFS OFFICE     MINE RESISTANT VEHICLE            1  7.67e5
+##  4 CEDAR PARK POLICE DEPT            MINE RESISTANT VEHICLE            1  7.33e5
+##  5 GEORGETOWN POLICE DEPT            MINE RESISTANT VEHICLE            1  7.33e5
+##  6 LEANDER POLICE DEPT               MINE RESISTANT VEHICLE            1  7.33e5
+##  7 SAN MARCOS POLICE DEPT            MINE RESISTANT VEHICLE            1  7.33e5
+##  8 BASTROP COUNTY SHERIFF'S OFFICE   MINE RESISTANT VEHICLE            1  6.58e5
+##  9 SAN MARCOS POLICE DEPT            CAPABILITIES SET,NON-LETHAL       1  4.95e5
+## 10 AUSTIN POLICE DEPT                IMAGE INTENSIFIER,NIGHT VI~      85  4.59e5
+## # ... with 165 more rows, and abbreviated variable names 1: summed_quantity,
+## #   2: summed_total_value
 ```
 
 Because our original list arranged the data by the most expensive items, we can see that here. But it might be easier to rearrange the data by agency name first, then the most expensive items.
@@ -677,21 +675,22 @@ tx_agency_item_totals |>
 ```
 
 ```
-## # A tibble: 191 × 4
-## # Groups:   agency_name [21]
-##    agency_name        item_name                 summed_quantity summed_total_va…
-##    <chr>              <chr>                               <dbl>            <dbl>
-##  1 AUSTIN POLICE DEPT HELICOPTER,FLIGHT TRAINER               1          833400 
-##  2 AUSTIN POLICE DEPT IMAGE INTENSIFIER,NIGHT …              85          467847.
-##  3 AUSTIN POLICE DEPT SIGHT,THERMAL                          29          442310 
-##  4 AUSTIN POLICE DEPT PACKBOT 510 WITH FASTAC …               4          308000 
-##  5 AUSTIN POLICE DEPT SIGHT,REFLEX                          420          144245.
-##  6 AUSTIN POLICE DEPT ILLUMINATOR,INTEGRATED,S…             135          122302 
-##  7 AUSTIN POLICE DEPT RECON SCOUT XT                          8           92451.
-##  8 AUSTIN POLICE DEPT RECON SCOUT XT,SPEC                     6           81900 
-##  9 AUSTIN POLICE DEPT TEST SET,NIGHT VISION VI…               2           55610 
-## 10 AUSTIN POLICE DEPT SCOPE,NIGHT-POCKET                      5           20535 
-## # … with 181 more rows
+## # A tibble: 175 x 4
+## # Groups:   agency_name [19]
+##    agency_name        item_name                                  summe~1 summe~2
+##    <chr>              <chr>                                        <dbl>   <dbl>
+##  1 AUSTIN POLICE DEPT HELICOPTER,FLIGHT TRAINER                        1 833400 
+##  2 AUSTIN POLICE DEPT IMAGE INTENSIFIER,NIGHT VISION                  85 458831.
+##  3 AUSTIN POLICE DEPT SIGHT,THERMAL                                   29 442310 
+##  4 AUSTIN POLICE DEPT PACKBOT 510 WITH FASTAC REMOTELY CONTROLL~       4 308000 
+##  5 AUSTIN POLICE DEPT SIGHT,REFLEX                                   420 169256.
+##  6 AUSTIN POLICE DEPT ILLUMINATOR,INTEGRATED,SMALL ARMS              135 122302 
+##  7 AUSTIN POLICE DEPT RECON SCOUT XT                                   8  92451.
+##  8 AUSTIN POLICE DEPT TEST SET,NIGHT VISION VIEWER                     2  55610 
+##  9 AUSTIN POLICE DEPT SCOPE,NIGHT-POCKET                               5  20535 
+## 10 AUSTIN POLICE DEPT POWER SUPPLY ASSEMBLY                           63  20086.
+## # ... with 165 more rows, and abbreviated variable names 1: summed_quantity,
+## #   2: summed_total_value
 ```
 
 ### Research some interesting items
@@ -714,20 +713,20 @@ tx_c |>
 ```
 
 ```
-## # A tibble: 100 × 2
+## # A tibble: 100 x 2
 ##    item_name                         nsn             
 ##    <chr>                             <chr>           
-##  1 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-571-1258
+##  1 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
 ##  2 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
-##  3 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
+##  3 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-571-1258
 ##  4 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
 ##  5 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
 ##  6 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
-##  7 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-535-6166
+##  7 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
 ##  8 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
 ##  9 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
 ## 10 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
-## # … with 90 more rows
+## # ... with 90 more rows
 ```
 
 It looks like most of these illuminators use this `nsn`: 5855-01-534-5931.

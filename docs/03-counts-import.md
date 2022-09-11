@@ -341,13 +341,13 @@ hot100 |> glimpse()
 ```
 ## Rows: 330,800
 ## Columns: 7
-## $ `CHART WEEK`   <chr> "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958", "8/4/19…
-## $ `THIS WEEK`    <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …
-## $ SONG           <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard …
-## $ PERFORMER      <chr> "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby…
-## $ `LAST WEEK`    <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
-## $ `PEAK POS.`    <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …
-## $ `WKS ON CHART` <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ `CHART WEEK`   <chr> "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958", "8/4/19~
+## $ `THIS WEEK`    <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, ~
+## $ SONG           <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard ~
+## $ PERFORMER      <chr> "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby~
+## $ `LAST WEEK`    <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,~
+## $ `PEAK POS.`    <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, ~
+## $ `WKS ON CHART` <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
 ```
 
 The glimpse shows there are 300,000+ rows and 7 columns in our data. Each column is then listed out with its data type and the first several values in that column.
@@ -407,13 +407,13 @@ hot100 |> glimpse()
 ```
 ## Rows: 330,800
 ## Columns: 7
-## $ chart_week   <chr> "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958…
-## $ this_week    <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
-## $ song         <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard He…
-## $ performer    <chr> "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby D…
-## $ last_week    <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-## $ peak_pos     <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
-## $ wks_on_chart <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ chart_week   <chr> "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958~
+## $ this_week    <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17~
+## $ song         <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard He~
+## $ performer    <chr> "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby D~
+## $ last_week    <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ peak_pos     <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17~
+## $ wks_on_chart <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ~
 ```
 
 This function has cleaned up your names, making them all lowercase and using `_` instead of periods between words. Believe me when I say this is helpful when you are writing code. It makes type-assist work better and you can now double-click on a column name to select all of it and copy and paste somewhere else. When you have spaces or dashes in an object you can't double-click on it to select all of it. 
@@ -446,13 +446,13 @@ hot100_date |> glimpse()
 ```
 ## Rows: 330,800
 ## Columns: 7
-## $ chart_week   <chr> "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958…
-## $ this_week    <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
-## $ song         <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard He…
-## $ performer    <chr> "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby D…
-## $ last_week    <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-## $ peak_pos     <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
-## $ wks_on_chart <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ chart_week   <chr> "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958~
+## $ this_week    <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17~
+## $ song         <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard He~
+## $ performer    <chr> "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby D~
+## $ last_week    <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ peak_pos     <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17~
+## $ wks_on_chart <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ~
 ```
 
 Let's break this down:
@@ -504,14 +504,14 @@ hot100_date |> glimpse()
 ```
 ## Rows: 330,800
 ## Columns: 8
-## $ chart_week   <chr> "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958…
-## $ this_week    <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
-## $ song         <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard He…
-## $ performer    <chr> "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby D…
-## $ last_week    <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-## $ peak_pos     <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
-## $ wks_on_chart <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-## $ chart_date   <date> 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-…
+## $ chart_week   <chr> "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958~
+## $ this_week    <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17~
+## $ song         <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard He~
+## $ performer    <chr> "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby D~
+## $ last_week    <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ peak_pos     <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17~
+## $ wks_on_chart <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ~
+## $ chart_date   <date> 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-~
 ```
 
 Again, let's break down what we've done:
@@ -567,14 +567,14 @@ hot100_date |> glimpse()
 ```
 ## Rows: 330,800
 ## Columns: 8
-## $ chart_week   <chr> "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958…
-## $ this_week    <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
-## $ song         <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard He…
-## $ performer    <chr> "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby D…
-## $ last_week    <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-## $ peak_pos     <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
-## $ wks_on_chart <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-## $ chart_date   <date> 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-…
+## $ chart_week   <chr> "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958~
+## $ this_week    <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17~
+## $ song         <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard He~
+## $ performer    <chr> "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby D~
+## $ last_week    <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ peak_pos     <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17~
+## $ wks_on_chart <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ~
+## $ chart_date   <date> 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-~
 ```
 
 Now when you look at the glimpse, the first record in the `chart_date` column is from "1958-08-04" and the first in the `this_week` is "1", which is the top of the chart.
@@ -592,20 +592,21 @@ hot100_date |> head(10)
 ```
 
 ```
-## # A tibble: 10 × 8
-##    chart_week this_week song           performer last_week peak_pos wks_on_chart
-##    <chr>          <dbl> <chr>          <chr>         <dbl>    <dbl>        <dbl>
-##  1 8/4/1958           1 Poor Little F… Ricky Ne…        NA        1            1
-##  2 8/4/1958           2 Patricia       Perez Pr…        NA        2            1
-##  3 8/4/1958           3 Splish Splash  Bobby Da…        NA        3            1
-##  4 8/4/1958           4 Hard Headed W… Elvis Pr…        NA        4            1
-##  5 8/4/1958           5 When           Kalin Tw…        NA        5            1
-##  6 8/4/1958           6 Rebel-'rouser  Duane Ed…        NA        6            1
-##  7 8/4/1958           7 Yakety Yak     The Coas…        NA        7            1
-##  8 8/4/1958           8 My True Love   Jack Sco…        NA        8            1
-##  9 8/4/1958           9 Willie And Th… The John…        NA        9            1
-## 10 8/4/1958          10 Fever          Peggy Lee        NA       10            1
-## # … with 1 more variable: chart_date <date>
+## # A tibble: 10 x 8
+##    chart_week this_week song          perfo~1 last_~2 peak_~3 wks_o~4 chart_date
+##    <chr>          <dbl> <chr>         <chr>     <dbl>   <dbl>   <dbl> <date>    
+##  1 8/4/1958           1 Poor Little ~ Ricky ~      NA       1       1 1958-08-04
+##  2 8/4/1958           2 Patricia      Perez ~      NA       2       1 1958-08-04
+##  3 8/4/1958           3 Splish Splash Bobby ~      NA       3       1 1958-08-04
+##  4 8/4/1958           4 Hard Headed ~ Elvis ~      NA       4       1 1958-08-04
+##  5 8/4/1958           5 When          Kalin ~      NA       5       1 1958-08-04
+##  6 8/4/1958           6 Rebel-'rouser Duane ~      NA       6       1 1958-08-04
+##  7 8/4/1958           7 Yakety Yak    The Co~      NA       7       1 1958-08-04
+##  8 8/4/1958           8 My True Love  Jack S~      NA       8       1 1958-08-04
+##  9 8/4/1958           9 Willie And T~ The Jo~      NA       9       1 1958-08-04
+## 10 8/4/1958          10 Fever         Peggy ~      NA      10       1 1958-08-04
+## # ... with abbreviated variable names 1: performer, 2: last_week, 3: peak_pos,
+## #   4: wks_on_chart
 ```
 
 This just prints the first 10 lines of the data.
@@ -685,13 +686,13 @@ hot100_clean |> glimpse()
 ```
 ## Rows: 330,800
 ## Columns: 7
-## $ chart_date    <date> 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08…
-## $ current_rank  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
-## $ song          <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard H…
-## $ performer     <chr> "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby …
-## $ previous_rank <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ peak_rank     <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
-## $ wks_on_chart  <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+## $ chart_date    <date> 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08~
+## $ current_rank  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1~
+## $ song          <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard H~
+## $ performer     <chr> "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby ~
+## $ previous_rank <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, ~
+## $ peak_rank     <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1~
+## $ wks_on_chart  <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,~
 ```
 
 Line by line, it goes like this:

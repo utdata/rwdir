@@ -102,7 +102,7 @@ dstud13
 ```
 
 ```
-## # A tibble: 1,228 × 5
+## # A tibble: 1,228 x 5
 ##    district year  dpetallc dpetspec dpetspep
 ##    <chr>    <chr>    <dbl>    <dbl>    <dbl>
 ##  1 001902   2013       595       73     12.3
@@ -115,7 +115,7 @@ dstud13
 ##  8 002901   2013      3617      250      6.9
 ##  9 003801   2013       635       45      7.1
 ## 10 003902   2013      2726      196      7.2
-## # … with 1,218 more rows
+## # ... with 1,218 more rows
 ```
 
 The result shows there are **1,228** rows and **5** variables in the data, which should match what shows for `dstud13` in your Environment tab.
@@ -129,7 +129,7 @@ dstud13 %>%
 ```
 
 ```
-## # A tibble: 2,455 × 5
+## # A tibble: 2,455 x 5
 ##    district year  dpetallc dpetspec dpetspep
 ##    <chr>    <chr>    <dbl>    <dbl>    <dbl>
 ##  1 001902   2013       595       73     12.3
@@ -142,7 +142,7 @@ dstud13 %>%
 ##  8 002901   2013      3617      250      6.9
 ##  9 003801   2013       635       45      7.1
 ## 10 003902   2013      2726      196      7.2
-## # … with 2,445 more rows
+## # ... with 2,445 more rows
 ```
 
 This shows we now have **2,455** rows and **5** variables. This is good ... we've addded the rows of `dstud14` but we don't have any new columns because the column names were identical.
@@ -166,7 +166,7 @@ sped_merged %>% count(year)
 ```
 
 ```
-## # A tibble: 3 × 2
+## # A tibble: 3 x 2
 ##   year      n
 ##   <chr> <int>
 ## 1 2013   1228
@@ -226,15 +226,16 @@ sped_joined %>% head()
 ```
 
 ```
-## # A tibble: 6 × 9
-##   district distname  cntyname dflalted dflchart year  dpetallc dpetspec dpetspep
-##   <chr>    <chr>     <chr>    <chr>    <chr>    <chr>    <dbl>    <dbl>    <dbl>
-## 1 001902   CAYUGA I… ANDERSON N        N        2013       595       73     12.3
-## 2 001902   CAYUGA I… ANDERSON N        N        2014       553       76     13.7
-## 3 001902   CAYUGA I… ANDERSON N        N        2015       577       76     13.2
-## 4 001902   CAYUGA I… ANDERSON N        N        2016       568       78     13.7
-## 5 001902   CAYUGA I… ANDERSON N        N        2017       576       82     14.2
-## 6 001902   CAYUGA I… ANDERSON N        N        2018       575       83     14.4
+## # A tibble: 6 x 9
+##   district distname   cntyname dflalted dflchart year  dpetallc dpetspec dpets~1
+##   <chr>    <chr>      <chr>    <chr>    <chr>    <chr>    <dbl>    <dbl>   <dbl>
+## 1 001902   CAYUGA ISD ANDERSON N        N        2013       595       73    12.3
+## 2 001902   CAYUGA ISD ANDERSON N        N        2014       553       76    13.7
+## 3 001902   CAYUGA ISD ANDERSON N        N        2015       577       76    13.2
+## 4 001902   CAYUGA ISD ANDERSON N        N        2016       568       78    13.7
+## 5 001902   CAYUGA ISD ANDERSON N        N        2017       576       82    14.2
+## 6 001902   CAYUGA ISD ANDERSON N        N        2018       575       83    14.4
+## # ... with abbreviated variable name 1: dpetspep
 ```
 
 ```r
@@ -244,15 +245,15 @@ sped_joined %>% glimpse()
 ```
 ## Rows: 10,684
 ## Columns: 9
-## $ district <chr> "001902", "001902", "001902", "001902", "001902", "001902", "…
-## $ distname <chr> "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "CAYU…
-## $ cntyname <chr> "ANDERSON", "ANDERSON", "ANDERSON", "ANDERSON", "ANDERSON", "…
-## $ dflalted <chr> "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "…
-## $ dflchart <chr> "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "…
-## $ year     <chr> "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020…
-## $ dpetallc <dbl> 595, 553, 577, 568, 576, 575, 564, 557, 535, 1236, 1207, 1217…
-## $ dpetspec <dbl> 73, 76, 76, 78, 82, 83, 84, 82, 78, 113, 107, 126, 144, 139, …
-## $ dpetspep <dbl> 12.3, 13.7, 13.2, 13.7, 14.2, 14.4, 14.9, 14.7, 14.6, 9.1, 8.…
+## $ district <chr> "001902", "001902", "001902", "001902", "001902", "001902", "~
+## $ distname <chr> "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "CAYU~
+## $ cntyname <chr> "ANDERSON", "ANDERSON", "ANDERSON", "ANDERSON", "ANDERSON", "~
+## $ dflalted <chr> "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "~
+## $ dflchart <chr> "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "~
+## $ year     <chr> "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020~
+## $ dpetallc <dbl> 595, 553, 577, 568, 576, 575, 564, 557, 535, 1236, 1207, 1217~
+## $ dpetspec <dbl> 73, 76, 76, 78, 82, 83, 84, 82, 78, 113, 107, 126, 144, 139, ~
+## $ dpetspep <dbl> 12.3, 13.7, 13.2, 13.7, 14.2, 14.4, 14.9, 14.7, 14.6, 9.1, 8.~
 ```
 
 I'm showing both a `head()` and `glimpse()` here so you can see all the columns have been added.
@@ -324,7 +325,7 @@ sped_cleaned %>% head()
 ```
 
 ```
-## # A tibble: 6 × 7
+## # A tibble: 6 x 7
 ##   district distname   cntyname year  all_count sped_count sped_percent
 ##   <chr>    <chr>      <chr>    <chr>     <dbl>      <dbl>        <dbl>
 ## 1 001902   CAYUGA ISD ANDERSON 2013        595         73         12.3
@@ -350,19 +351,21 @@ sped_flag %>% sample_n(10)
 ```
 
 ```
-## # A tibble: 10 × 8
-##    district distname cntyname year  all_count sped_count sped_percent audit_flag
-##    <chr>    <chr>    <chr>    <chr>     <dbl>      <dbl>        <dbl> <chr>     
-##  1 076904   ROTAN I… FISHER   2015        255         27         10.6 ABOVE     
-##  2 175910   MILDRED… NAVARRO  2013        720         51          7.1 BELOW     
-##  3 054902   LORENZO… CROSBY   2014        298         62         20.8 ABOVE     
-##  4 132902   JAYTON-… KENT     2016        127         15         11.8 ABOVE     
-##  5 223904   WELLMAN… TERRY    2015        248         26         10.5 ABOVE     
-##  6 015916   JUDSON … BEXAR    2019      22848       2645         11.6 ABOVE     
-##  7 215901   BRECKEN… STEPHENS 2021       1402        190         13.6 ABOVE     
-##  8 073901   CHILTON… FALLS    2014        509         59         11.6 ABOVE     
-##  9 049906   ERA ISD  COOKE    2014        450         31          6.9 BELOW     
-## 10 116909   WOLFE C… HUNT     2013        612         61         10   ABOVE
+## # A tibble: 10 x 8
+##    district distname          cntyname year  all_count sped_co~1 sped_~2 audit~3
+##    <chr>    <chr>             <chr>    <chr>     <dbl>     <dbl>   <dbl> <chr>  
+##  1 085903   SOUTHLAND ISD     GARZA    2021        117        10     8.5 BELOW  
+##  2 152910   IDALOU ISD        LUBBOCK  2018       1001        84     8.4 BELOW  
+##  3 186901   BUENA VISTA ISD   PECOS    2013        123         3     2.4 BELOW  
+##  4 018906   IREDELL ISD       BOSQUE   2018        140        17    12.1 ABOVE  
+##  5 126907   RIO VISTA ISD     JOHNSON  2013        814       107    13.1 ABOVE  
+##  6 019902   HOOKS ISD         BOWIE    2017        923       103    11.2 ABOVE  
+##  7 070903   ENNIS ISD         ELLIS    2017       5842       603    10.3 ABOVE  
+##  8 057910   GRAND PRAIRIE ISD DALLAS   2014      27637      2462     8.9 ABOVE  
+##  9 074912   TRENTON ISD       FANNIN   2014        534        50     9.4 ABOVE  
+## 10 143903   SHINER ISD        LAVACA   2015        598        60    10   ABOVE  
+## # ... with abbreviated variable names 1: sped_count, 2: sped_percent,
+## #   3: audit_flag
 ```
 
 Let's walk through the code above:

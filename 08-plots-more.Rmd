@@ -74,14 +74,14 @@ Buuuut, if you needed a refresher, check out section [5.4.6](https://utdata.gith
 - Creating a `total_value` column using `mutate()`  
 
 ```{r clean-data}
-leso_tight <- leso %>% 
+leso_tight <- leso |> 
   select(
     -sheet,
     -nsn,
     -starts_with("demil")
   ) #this chunk removes unnecessary columns
 
-leso_total <- leso_tight %>% 
+leso_total <- leso_tight |> 
   mutate(total_value = quantity * acquisition_value) #this chunk creates a total_value column
 ```
 
@@ -90,7 +90,7 @@ leso_total <- leso_tight %>%
 Alrighty! Let's look at the data
 
 ```{r data-glimpse}
-leso_total %>% glimpse()
+leso_total |> glimpse()
 ```
 
 Lookin' good!
@@ -103,10 +103,10 @@ To prepare the data for visualizing, we need to do a couple more new things. Thi
 2. And then, create a `year` variable using the `year()` function. `year()` is a function in `lubridate` that allows us to aggregate  
 3. And then, `select` a few variables to study (specifically, `year`, `total_value`, `state`, and `agency_name`)
 
-```{r}
-leso_total <- leso_total %>%
-  filter(ship_date >= as.Date("2010-01-01")) %>%
-  mutate(year = year(ship_date)) %>% #if you get an error, make sure you've loaded the lubridate library!
+```{r leso-wrangle}
+leso_total <- leso_total |>
+  filter(ship_date >= as.Date("2010-01-01")) |>
+  mutate(year = year(ship_date)) |> #if you get an error, make sure you've loaded the lubridate library!
   select(year, total_value, state)
 
 glimpse(leso_total)
@@ -114,17 +114,17 @@ glimpse(leso_total)
 
 There's a lot of information in this data, so let's focus our visualizing on Texas, like we did in our previous chapters. We'll do this by `filter`ing the rows where `state == "TX"`.
 
-```{r}
-leso_texas <- leso_total %>% 
+```{r leso-tx-filter}
+leso_texas <- leso_total |> 
   filter(state == "TX")
 ```
 
 Now that we have our data in a nice structure, with some yearly information, let's use our GSA process (`group_by() %>% summarize() %>% arrange()`). In this process, we'll `group by` year (the variable we have just created), `summarize` a the total value of the military surplus (by year) and arrange that information chronologically. 
 
-```{r}
-leso_texas_gsa <- leso_texas %>%
-  group_by(year) %>%
-  summarize(yearly_cost = sum(total_value)) %>%
+```{r leso-tx-gsa}
+leso_texas_gsa <- leso_texas |>
+  group_by(year) |>
+  summarize(yearly_cost = sum(total_value)) |>
   arrange(year)
 
 head(leso_texas_gsa) #use head() to view the first 6 rows of this new data frame
@@ -149,7 +149,7 @@ In this new plot, we'll learn about a new `geom` layer: `geom_line()` (recall th
 3. Then add the `+` and `geom_line()` and run it.
 4. Then add the `+` and `labs()`, and run everything.
 
-```{r}
+```{r leso-tx-plotting}
 ggplot(leso_texas_gsa, aes(x = year, y = yearly_cost)) + #we create the graph
   geom_point() + #adding the points
   geom_line() + #adding the lines between the points
@@ -161,7 +161,7 @@ ggplot(leso_texas_gsa, aes(x = year, y = yearly_cost)) + #we create the graph
 
 Alright, so we have a working plot! But there's a couple things that are a bit ugly about this plot. First, I'm not digging the weird numbers on the side (what the heck does `0.0e+00` even mean?!). To fix this, let's go back to our data and do a bit more preparing. If we use `head()` to look at our data, we'll notice that there are a few numbers that are just really, really big.
 
-```{r}
+```{r leso-tx-head-gsa}
 head(leso_texas_gsa) #use head() to view the first 6 rows of this new data frame
 ```
 
@@ -169,7 +169,7 @@ These large numbers are causing R to read our numbers as "scientific notation" (
 
 To get around this, let's divide our `yearly_cost` variable (in the `leso_tx_gsa` data frame) by 1 million. Just like we round our numbers when we write about data, so too do we often round numbers when we visualize it. In the line below, we use `mutate()` to divide `yearly_cost` by 1,000,000.
 
-```{r}
+```{r leso-tx-gsa-yearly}
 leso_texas_gsa <- leso_texas_gsa %>%
   mutate(yearly_cost = yearly_cost/1000000) #divide by 1 million
 
@@ -178,7 +178,7 @@ head(leso_texas_gsa)
 
 Now, let's re-visualize our data. Notice that in the `labs` layer below, we add some new information to the `y-axis`, so people know that the `5` here refers to `5 million`.
 
-```{r}
+```{r leso-txt-secondplot}
 ggplot(leso_texas_gsa, aes(x = year, y = yearly_cost)) + #we create the graph
   geom_point() + #adding the points
   geom_line() + #adding the lines between the points
