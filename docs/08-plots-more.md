@@ -173,7 +173,7 @@ leso_texas <- leso_total |>
   filter(state == "TX")
 ```
 
-Now that we have our data in a nice structure, with some yearly information, let's use our GSA process (`group_by() %>% summarize() %>% arrange()`). In this process, we'll `group by` year (the variable we have just created), `summarize` a the total value of the military surplus (by year) and arrange that information chronologically. 
+Now that we have our data in a nice structure, with some yearly information, let's use our GSA process (`group_by() |> summarize() |> arrange()`). In this process, we'll `group by` year (the variable we have just created), `summarize` a the total value of the military surplus (by year) and arrange that information chronologically. 
 
 
 ```r
@@ -254,7 +254,7 @@ To get around this, let's divide our `yearly_cost` variable (in the `leso_tx_gsa
 
 
 ```r
-leso_texas_gsa <- leso_texas_gsa %>%
+leso_texas_gsa <- leso_texas_gsa |>
   mutate(yearly_cost = yearly_cost/1000000) #divide by 1 million
 
 head(leso_texas_gsa)
@@ -386,7 +386,7 @@ We need to go back to our original `leso_total` to get the additional states.
 
 
 ```r
-leso_five <- leso_total %>% 
+leso_five <- leso_total |> 
   filter(
     state %in% c("TX", "OK", "AR", "NM", "LA")
   )
@@ -418,9 +418,9 @@ Now that we have our five states, let's GSA this information, like we did earlie
 
 
 ```r
-leso_five_gsa <- leso_five %>%
-  group_by(state, year) %>% #groups by state AND year
-  summarize(yearly_cost = sum(total_value)) %>% 
+leso_five_gsa <- leso_five |>
+  group_by(state, year) |> #groups by state AND year
+  summarize(yearly_cost = sum(total_value)) |> 
   mutate(yearly_cost = yearly_cost/1000000) #divide by 1 million
 ```
 
@@ -430,7 +430,7 @@ leso_five_gsa <- leso_five %>%
 ```
 
 ```r
-leso_five_gsa %>% glimpse()
+leso_five_gsa |> glimpse()
 ```
 
 ```
@@ -657,7 +657,7 @@ To use plotly, you’ll want to install the plotly package, add the library, and
 ```r
 library(plotly)
 
-tx_plot %>% 
+tx_plot |> 
   ggplotly()
 ```
 

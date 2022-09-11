@@ -725,7 +725,7 @@ Again, you should be able to do this on your own
 <p>There’s a lot of information in this data, so let’s focus our visualizing on Texas, like we did in our previous chapters. We’ll do this by <code>filter</code>ing the rows where <code>state == "TX"</code>.</p>
 <div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="ggplot-more.html#cb186-1" aria-hidden="true" tabindex="-1"></a>leso_texas <span class="ot">&lt;-</span> leso_total <span class="sc">|&gt;</span> </span>
 <span id="cb186-2"><a href="ggplot-more.html#cb186-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">&quot;TX&quot;</span>)</span></code></pre></div>
-<p>Now that we have our data in a nice structure, with some yearly information, let’s use our GSA process (<code>group_by() %&gt;% summarize() %&gt;% arrange()</code>). In this process, we’ll <code>group by</code> year (the variable we have just created), <code>summarize</code> a the total value of the military surplus (by year) and arrange that information chronologically.</p>
+<p>Now that we have our data in a nice structure, with some yearly information, let’s use our GSA process (<code>group_by() |&gt; summarize() |&gt; arrange()</code>). In this process, we’ll <code>group by</code> year (the variable we have just created), <code>summarize</code> a the total value of the military surplus (by year) and arrange that information chronologically.</p>
 <div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="ggplot-more.html#cb187-1" aria-hidden="true" tabindex="-1"></a>leso_texas_gsa <span class="ot">&lt;-</span> leso_texas <span class="sc">|&gt;</span></span>
 <span id="cb187-2"><a href="ggplot-more.html#cb187-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
 <span id="cb187-3"><a href="ggplot-more.html#cb187-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">yearly_cost =</span> <span class="fu">sum</span>(total_value)) <span class="sc">|&gt;</span></span>
@@ -781,7 +781,7 @@ Again, you should be able to do this on your own
 ## 6  2015    3361841.</code></pre>
 <p>These large numbers are causing R to read our numbers as “scientific notation” (a math-y way of reading large numbers). For example, the total cost of supplies in February 2010 was <code>5,399,589.0</code> (that’s the first spike in our figure, around the <code>5.0e + 06</code> mark). But what a pain to read!</p>
 <p>To get around this, let’s divide our <code>yearly_cost</code> variable (in the <code>leso_tx_gsa</code> data frame) by 1 million. Just like we round our numbers when we write about data, so too do we often round numbers when we visualize it. In the line below, we use <code>mutate()</code> to divide <code>yearly_cost</code> by 1,000,000.</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="ggplot-more.html#cb192-1" aria-hidden="true" tabindex="-1"></a>leso_texas_gsa <span class="ot">&lt;-</span> leso_texas_gsa <span class="sc">%&gt;%</span></span>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="ggplot-more.html#cb192-1" aria-hidden="true" tabindex="-1"></a>leso_texas_gsa <span class="ot">&lt;-</span> leso_texas_gsa <span class="sc">|&gt;</span></span>
 <span id="cb192-2"><a href="ggplot-more.html#cb192-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yearly_cost =</span> yearly_cost<span class="sc">/</span><span class="dv">1000000</span>) <span class="co">#divide by 1 million</span></span>
 <span id="cb192-3"><a href="ggplot-more.html#cb192-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb192-4"><a href="ggplot-more.html#cb192-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(leso_texas_gsa)</span></code></pre></div>
@@ -875,7 +875,7 @@ Again, you should be able to do this on your own
 <li>Start a new section that notes we are building a chart for five states (Texas, Oklahoma, Arkansas, New Mexico, and Louisiana)</li>
 <li>Prepare the data using the <code>%in%</code> filter that we learned about in <a href="https://utdata.github.io/rwdir/sums-analyze.html#looking-a-local-agencies">Chapter 6</a>. Rather than creating a separate list, we’re going to write the list right into the <code>filter()</code> function using <code>c()</code>.</li>
 </ol>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="ggplot-more.html#cb200-1" aria-hidden="true" tabindex="-1"></a>leso_five <span class="ot">&lt;-</span> leso_total <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="ggplot-more.html#cb200-1" aria-hidden="true" tabindex="-1"></a>leso_five <span class="ot">&lt;-</span> leso_total <span class="sc">|&gt;</span> </span>
 <span id="cb200-2"><a href="ggplot-more.html#cb200-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
 <span id="cb200-3"><a href="ggplot-more.html#cb200-3" aria-hidden="true" tabindex="-1"></a>    state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;TX&quot;</span>, <span class="st">&quot;OK&quot;</span>, <span class="st">&quot;AR&quot;</span>, <span class="st">&quot;NM&quot;</span>, <span class="st">&quot;LA&quot;</span>)</span>
 <span id="cb200-4"><a href="ggplot-more.html#cb200-4" aria-hidden="true" tabindex="-1"></a>  )</span>
@@ -900,13 +900,13 @@ Again, you should be able to do this on your own
 <summary>
 Again, this should be a refresher!
 </summary>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="ggplot-more.html#cb202-1" aria-hidden="true" tabindex="-1"></a>leso_five_gsa <span class="ot">&lt;-</span> leso_five <span class="sc">%&gt;%</span></span>
-<span id="cb202-2"><a href="ggplot-more.html#cb202-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state, year) <span class="sc">%&gt;%</span> <span class="co">#groups by state AND year</span></span>
-<span id="cb202-3"><a href="ggplot-more.html#cb202-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">yearly_cost =</span> <span class="fu">sum</span>(total_value)) <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="ggplot-more.html#cb202-1" aria-hidden="true" tabindex="-1"></a>leso_five_gsa <span class="ot">&lt;-</span> leso_five <span class="sc">|&gt;</span></span>
+<span id="cb202-2"><a href="ggplot-more.html#cb202-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state, year) <span class="sc">|&gt;</span> <span class="co">#groups by state AND year</span></span>
+<span id="cb202-3"><a href="ggplot-more.html#cb202-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">yearly_cost =</span> <span class="fu">sum</span>(total_value)) <span class="sc">|&gt;</span> </span>
 <span id="cb202-4"><a href="ggplot-more.html#cb202-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yearly_cost =</span> yearly_cost<span class="sc">/</span><span class="dv">1000000</span>) <span class="co">#divide by 1 million</span></span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;state&#39;. You can override using the
 ## `.groups` argument.</code></pre>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="ggplot-more.html#cb204-1" aria-hidden="true" tabindex="-1"></a>leso_five_gsa <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="ggplot-more.html#cb204-1" aria-hidden="true" tabindex="-1"></a>leso_five_gsa <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 58
 ## Columns: 3
 ## Groups: state [5]
@@ -1083,7 +1083,7 @@ The function <code>xlim()</code> and <code>ylim()</code> are shortcuts for <code
 </ol>
 <div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="ggplot-more.html#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
 <span id="cb216-2"><a href="ggplot-more.html#cb216-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb216-3"><a href="ggplot-more.html#cb216-3" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">%&gt;%</span> </span>
+<span id="cb216-3"><a href="ggplot-more.html#cb216-3" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">|&gt;</span> </span>
 <span id="cb216-4"><a href="ggplot-more.html#cb216-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplotly</span>()</span></code></pre></div>
 <p>(We can’t show the interactive version in this book.)</p>
 <p>Now you have tool tips on your points when you hover over them.</p>

@@ -352,18 +352,18 @@ sped_flag %>% sample_n(10)
 
 ```
 ## # A tibble: 10 x 8
-##    district distname          cntyname year  all_count sped_co~1 sped_~2 audit~3
-##    <chr>    <chr>             <chr>    <chr>     <dbl>     <dbl>   <dbl> <chr>  
-##  1 085903   SOUTHLAND ISD     GARZA    2021        117        10     8.5 BELOW  
-##  2 152910   IDALOU ISD        LUBBOCK  2018       1001        84     8.4 BELOW  
-##  3 186901   BUENA VISTA ISD   PECOS    2013        123         3     2.4 BELOW  
-##  4 018906   IREDELL ISD       BOSQUE   2018        140        17    12.1 ABOVE  
-##  5 126907   RIO VISTA ISD     JOHNSON  2013        814       107    13.1 ABOVE  
-##  6 019902   HOOKS ISD         BOWIE    2017        923       103    11.2 ABOVE  
-##  7 070903   ENNIS ISD         ELLIS    2017       5842       603    10.3 ABOVE  
-##  8 057910   GRAND PRAIRIE ISD DALLAS   2014      27637      2462     8.9 ABOVE  
-##  9 074912   TRENTON ISD       FANNIN   2014        534        50     9.4 ABOVE  
-## 10 143903   SHINER ISD        LAVACA   2015        598        60    10   ABOVE  
+##    district distname           cntyname  year  all_count sped_~1 sped_~2 audit~3
+##    <chr>    <chr>              <chr>     <chr>     <dbl>   <dbl>   <dbl> <chr>  
+##  1 225906   CHAPEL HILL ISD    TITUS     2015       1002      98     9.8 ABOVE  
+##  2 234903   EDGEWOOD ISD       VAN ZANDT 2020        977     144    14.7 ABOVE  
+##  3 159901   EAGLE PASS ISD     MAVERICK  2016      15030    1210     8.1 BELOW  
+##  4 130902   COMFORT ISD        KENDALL   2014       1115     108     9.7 ABOVE  
+##  5 175902   BLOOMING GROVE ISD NAVARRO   2020        941      87     9.2 ABOVE  
+##  6 220910   LAKE WORTH ISD     TARRANT   2014       3213     291     9.1 ABOVE  
+##  7 019903   MAUD ISD           BOWIE     2020        477      41     8.6 ABOVE  
+##  8 058909   SANDS CISD         DAWSON    2016        255      19     7.5 BELOW  
+##  9 254901   CRYSTAL CITY ISD   ZAVALA    2016       1969     194     9.9 ABOVE  
+## 10 119902   JACKSBORO ISD      JACK      2017       1005      94     9.4 ABOVE  
 ## # ... with abbreviated variable names 1: sped_count, 2: sped_percent,
 ## #   3: audit_flag
 ```

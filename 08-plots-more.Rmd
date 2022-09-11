@@ -119,7 +119,7 @@ leso_texas <- leso_total |>
   filter(state == "TX")
 ```
 
-Now that we have our data in a nice structure, with some yearly information, let's use our GSA process (`group_by() %>% summarize() %>% arrange()`). In this process, we'll `group by` year (the variable we have just created), `summarize` a the total value of the military surplus (by year) and arrange that information chronologically. 
+Now that we have our data in a nice structure, with some yearly information, let's use our GSA process (`group_by() |> summarize() |> arrange()`). In this process, we'll `group by` year (the variable we have just created), `summarize` a the total value of the military surplus (by year) and arrange that information chronologically. 
 
 ```{r leso-tx-gsa}
 leso_texas_gsa <- leso_texas |>
@@ -170,7 +170,7 @@ These large numbers are causing R to read our numbers as "scientific notation" (
 To get around this, let's divide our `yearly_cost` variable (in the `leso_tx_gsa` data frame) by 1 million. Just like we round our numbers when we write about data, so too do we often round numbers when we visualize it. In the line below, we use `mutate()` to divide `yearly_cost` by 1,000,000.
 
 ```{r leso-tx-gsa-yearly}
-leso_texas_gsa <- leso_texas_gsa %>%
+leso_texas_gsa <- leso_texas_gsa |>
   mutate(yearly_cost = yearly_cost/1000000) #divide by 1 million
 
 head(leso_texas_gsa)
@@ -271,7 +271,7 @@ We need to go back to our original `leso_total` to get the additional states.
 2. Prepare the data using the `%in%` filter that we learned about in [Chapter 6](https://utdata.github.io/rwdir/sums-analyze.html#looking-a-local-agencies). Rather than creating a separate list, we're going to write the list right into the `filter()` function using `c()`.
 
 ```{r five-hied-data}
-leso_five <- leso_total %>% 
+leso_five <- leso_total |> 
   filter(
     state %in% c("TX", "OK", "AR", "NM", "LA")
   )
@@ -285,12 +285,12 @@ Now that we have our five states, let's GSA this information, like we did earlie
   <summary>Again, this should be a refresher!</summary>
 
 ```{r gsa-fivestates}
-leso_five_gsa <- leso_five %>%
-  group_by(state, year) %>% #groups by state AND year
-  summarize(yearly_cost = sum(total_value)) %>% 
+leso_five_gsa <- leso_five |>
+  group_by(state, year) |> #groups by state AND year
+  summarize(yearly_cost = sum(total_value)) |> 
   mutate(yearly_cost = yearly_cost/1000000) #divide by 1 million
 
-leso_five_gsa %>% glimpse()
+leso_five_gsa |> glimpse()
 ```
 
 </details>
@@ -479,7 +479,7 @@ To use plotly, you’ll want to install the plotly package, add the library, and
 ```r
 library(plotly)
 
-tx_plot %>% 
+tx_plot |> 
   ggplotly()
 ```
 
