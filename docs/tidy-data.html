@@ -23,7 +23,7 @@
 <meta name="author" content="Christian McDonald and Josephine Lukito" />
 
 
-<meta name="date" content="2022-09-11" />
+<meta name="date" content="2022-10-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -667,7 +667,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb218-6"><a href="tidy-data.html#cb218-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb218-7"><a href="tidy-data.html#cb218-7" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
 <span id="cb218-8"><a href="tidy-data.html#cb218-8" aria-hidden="true" tabindex="-1"></a>raw_data</span></code></pre></div>
-<pre><code>## # A tibble: 30 x 11
+<pre><code>## # A tibble: 65 x 11
 ##    times~1 first~2 last_~3 candy~4 box_c~5   red green orange yellow  blue brown
 ##    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ##  1 2/21/2~ Christ~ McDona~ Plain   140BSC~     2    17     11      4    16     4
@@ -680,7 +680,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  8 2/28/2~ Kevin   Malcol~ Plain   140BSC~     4    15     13      6    14     3
 ##  9 2/28/2~ Alexa   Haverl~ Plain   140BSC~     5    15      6      2    21     5
 ## 10 2/28/2~ Zachar~ Washin~ Plain   140BSC~     1    15     14      1    20     6
-## # ... with 20 more rows, and abbreviated variable names 1: timestamp,
+## # ... with 55 more rows, and abbreviated variable names 1: timestamp,
 ## #   2: first_name, 3: last_name, 4: candy_type, 5: box_code</code></pre>
 <p>This data comes from a Google Sheets document fed by a form that students have filled out, counting the colors of candies in a standard size bag of plain M&amp;Ms.</p>
 </div>
@@ -914,12 +914,12 @@ You got this! (But, just in case …)
 <pre><code>## # A tibble: 6 x 2
 ##   color  avg_candies
 ##   &lt;chr&gt;        &lt;dbl&gt;
-## 1 blue         15.3 
-## 2 brown         5.83
-## 3 green        13.6 
-## 4 orange       13.1 
-## 5 red           3.23
-## 6 yellow        3.33</code></pre>
+## 1 blue         14   
+## 2 brown         6.22
+## 3 green        13.4 
+## 4 orange       11.1 
+## 5 red           4.31
+## 6 yellow        5.66</code></pre>
 </div>
 <div id="round-the-averages" class="section level3 hasAnchor" number="9.6.3">
 <h3><span class="header-section-number">9.6.3</span> Round the averages<a href="tidy-data.html#round-the-averages" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -939,12 +939,12 @@ You got this! (But, just in case …)
 <pre><code>## # A tibble: 6 x 2
 ##   color  avg_candies
 ##   &lt;chr&gt;        &lt;dbl&gt;
-## 1 blue          15.3
-## 2 brown          5.8
-## 3 green         13.6
-## 4 orange        13.1
-## 5 red            3.2
-## 6 yellow         3.3</code></pre>
+## 1 blue          14  
+## 2 brown          6.2
+## 3 green         13.4
+## 4 orange        11.1
+## 5 red            4.3
+## 6 yellow         5.7</code></pre>
 <p>BONUS POINT OPPORTUNITY: Using a similar method to rounding above, you can also capitalize the names of the colors. You don’t <em>have</em> to do this, but I’ll give you bonus points if you do:</p>
 <ul>
 <li>In your mutate, add a rule that updates <code>color</code> column using <code>str_to_title(color)</code>.</li>
@@ -1032,7 +1032,7 @@ You got this! (But, just in case …)
 </ul>
 <div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="tidy-data.html#cb230-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">%&gt;%</span> </span>
 <span id="cb230-2"><a href="tidy-data.html#cb230-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="fu">c</span>(first_name, last_name), <span class="at">values_from =</span> candies)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 31
+<pre><code>## # A tibble: 6 x 66
 ##   color  Chris~1 Andre~2 Gabby~3 Veron~4 Crist~5 Marin~6 Samue~7 Kevin~8 Alexa~9
 ##   &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
 ## 1 red          2       2       4       1       3       7       3       4       5
@@ -1041,7 +1041,7 @@ You got this! (But, just in case …)
 ## 4 yellow       4       4       0       2       3       1       5       6       2
 ## 5 blue        16      17      19      13      13      14      18      14      21
 ## 6 brown        4       9       7       8       3       6       8       3       5
-## # ... with 21 more variables: Zacharia_Washington &lt;dbl&gt;, Jose_Martinez &lt;dbl&gt;,
+## # ... with 56 more variables: Zacharia_Washington &lt;dbl&gt;, Jose_Martinez &lt;dbl&gt;,
 ## #   Ana_Garza &lt;dbl&gt;, Carolina_Cruz &lt;dbl&gt;, Anissa_Reyes &lt;dbl&gt;,
 ## #   Alaina_Bookman &lt;dbl&gt;, Bryan_Baker &lt;dbl&gt;, Mckenna_Lucas &lt;dbl&gt;,
 ## #   Marissa_DeLeon &lt;dbl&gt;, Claire_Stevens &lt;dbl&gt;, Katy_Vanatsky &lt;dbl&gt;,

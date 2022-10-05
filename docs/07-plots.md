@@ -233,7 +233,7 @@ class <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQfwR6DBW5Qv6
 ```
 
 ```
-## Rows: 28 Columns: 3
+## Rows: 38 Columns: 3
 ## -- Column specification --------------------------------------------------------
 ## Delimiter: ","
 ## chr (3): Name, Princess, Ice cream
@@ -248,20 +248,20 @@ class
 ```
 
 ```
-## # A tibble: 28 x 3
+## # A tibble: 38 x 3
 ##    Name    Princess                      `Ice cream`      
 ##    <chr>   <chr>                         <chr>            
-##  1 Katy    Belle (Beauty and the Beast)  Cookies and Cream
-##  2 Ana     Belle (Beauty and the Beast)  Cookie Dough     
-##  3 Marissa Tiana (Princess and the Frog) Cookie Dough     
-##  4 Jessie  Pocahontas                    Strawberry       
-##  5 José    Ariel (Little Mermaid)        Cookies and Cream
-##  6 Claire  Ariel (Little Mermaid)        Coffee/Jamoca    
-##  7 Payne   Snow White                    Cookie Dough     
-##  8 Caro    Belle (Beauty and the Beast)  Cookie Dough     
-##  9 Vicente Rapunzel (Tangled)            Coffee/Jamoca    
-## 10 Bryan   Jasmine (Aladdin)             Cookie Dough     
-## # ... with 18 more rows
+##  1 Adam O  Cinderella                    Cookie Dough     
+##  2 Adam C  Mulan                         Cookie Dough     
+##  3 Amaris  Tiana (Princess and the Frog) Coffee/Jamoca    
+##  4 Andrew  Mulan                         Chocolate        
+##  5 Athena  Belle (Beauty and the Beast)  Cookies and Cream
+##  6 Aurora  Aurora (Sleeping Beauty)      Cookie Dough     
+##  7 Avery   Mulan                         Cookie Dough     
+##  8 Brady   Jasmine (Aladdin)             Cookies and Cream
+##  9 Carolyn Merida (Brave)                Vanilla          
+## 10 Casey   Mulan                         Cookie Dough     
+## # ... with 28 more rows
 ```
 
 So, now, you should have the data in your environment. 
@@ -295,17 +295,17 @@ princess_data
 ## # A tibble: 11 x 2
 ##    princess                      votes
 ##    <chr>                         <int>
-##  1 Ariel (Little Mermaid)            5
-##  2 Belle (Beauty and the Beast)      4
-##  3 Tiana (Princess and the Frog)     4
-##  4 Mulan                             3
-##  5 Rapunzel (Tangled)                3
-##  6 Cinderella                        2
-##  7 Jasmine (Aladdin)                 2
-##  8 Snow White                        2
-##  9 Aurora (Sleeping Beauty)          1
-## 10 Merida (Brave)                    1
-## 11 Pocahontas                        1
+##  1 Mulan                             9
+##  2 Rapunzel (Tangled)                6
+##  3 Ariel (Little Mermaid)            4
+##  4 Jasmine (Aladdin)                 4
+##  5 Merida (Brave)                    3
+##  6 Pocahontas                        3
+##  7 Tiana (Princess and the Frog)     3
+##  8 Belle (Beauty and the Beast)      2
+##  9 Cinderella                        2
+## 10 Aurora (Sleeping Beauty)          1
+## 11 Snow White                        1
 ```
 
 At this point, y'all should be plenty familiar with these summary functions, and the output should be easy to interpret: we're just countin the number of rows for each princess.
