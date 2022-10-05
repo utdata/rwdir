@@ -352,20 +352,20 @@ sped_flag %>% sample_n(10)
 
 ```
 ## # A tibble: 10 x 8
-##    district distname           cntyname  year  all_count sped_~1 sped_~2 audit~3
-##    <chr>    <chr>              <chr>     <chr>     <dbl>   <dbl>   <dbl> <chr>  
-##  1 225906   CHAPEL HILL ISD    TITUS     2015       1002      98     9.8 ABOVE  
-##  2 234903   EDGEWOOD ISD       VAN ZANDT 2020        977     144    14.7 ABOVE  
-##  3 159901   EAGLE PASS ISD     MAVERICK  2016      15030    1210     8.1 BELOW  
-##  4 130902   COMFORT ISD        KENDALL   2014       1115     108     9.7 ABOVE  
-##  5 175902   BLOOMING GROVE ISD NAVARRO   2020        941      87     9.2 ABOVE  
-##  6 220910   LAKE WORTH ISD     TARRANT   2014       3213     291     9.1 ABOVE  
-##  7 019903   MAUD ISD           BOWIE     2020        477      41     8.6 ABOVE  
-##  8 058909   SANDS CISD         DAWSON    2016        255      19     7.5 BELOW  
-##  9 254901   CRYSTAL CITY ISD   ZAVALA    2016       1969     194     9.9 ABOVE  
-## 10 119902   JACKSBORO ISD      JACK      2017       1005      94     9.4 ABOVE  
-## # ... with abbreviated variable names 1: sped_count, 2: sped_percent,
-## #   3: audit_flag
+##    district distname               cntyn~1 year  all_c~2 sped_~3 sped_~4 audit~5
+##    <chr>    <chr>                  <chr>   <chr>   <dbl>   <dbl>   <dbl> <chr>  
+##  1 137901   KINGSVILLE ISD         KLEBERG 2013     3543     346     9.8 ABOVE  
+##  2 238904   GRANDFALLS-ROYALTY ISD WARD    2015      143      13     9.1 ABOVE  
+##  3 250906   ALBA-GOLDEN ISD        WOOD    2013      841      82     9.8 ABOVE  
+##  4 247904   POTH ISD               WILSON  2015      823      62     7.5 BELOW  
+##  5 074912   TRENTON ISD            FANNIN  2018      568      59    10.4 ABOVE  
+##  6 220910   LAKE WORTH ISD         TARRANT 2021     3309     356    10.8 ABOVE  
+##  7 054903   RALLS ISD              CROSBY  2014      532      55    10.3 ABOVE  
+##  8 101925   HUFFMAN ISD            HARRIS  2016     3454     279     8.1 BELOW  
+##  9 084911   FRIENDSWOOD ISD        GALVES~ 2015     6087     499     8.2 BELOW  
+## 10 115901   FT HANCOCK ISD         HUDSPE~ 2017      408      26     6.4 BELOW  
+## # ... with abbreviated variable names 1: cntyname, 2: all_count, 3: sped_count,
+## #   4: sped_percent, 5: audit_flag
 ```
 
 Let's walk through the code above:

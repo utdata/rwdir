@@ -96,7 +96,7 @@ raw_data
 ```
 
 ```
-## # A tibble: 30 x 11
+## # A tibble: 65 x 11
 ##    times~1 first~2 last_~3 candy~4 box_c~5   red green orange yellow  blue brown
 ##    <chr>   <chr>   <chr>   <chr>   <chr>   <dbl> <dbl>  <dbl>  <dbl> <dbl> <dbl>
 ##  1 2/21/2~ Christ~ McDona~ Plain   140BSC~     2    17     11      4    16     4
@@ -109,7 +109,7 @@ raw_data
 ##  8 2/28/2~ Kevin   Malcol~ Plain   140BSC~     4    15     13      6    14     3
 ##  9 2/28/2~ Alexa   Haverl~ Plain   140BSC~     5    15      6      2    21     5
 ## 10 2/28/2~ Zachar~ Washin~ Plain   140BSC~     1    15     14      1    20     6
-## # ... with 20 more rows, and abbreviated variable names 1: timestamp,
+## # ... with 55 more rows, and abbreviated variable names 1: timestamp,
 ## #   2: first_name, 3: last_name, 4: candy_type, 5: box_code
 ```
 
@@ -280,12 +280,12 @@ candy_avg
 ## # A tibble: 6 x 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
-## 1 blue         15.3 
-## 2 brown         5.83
-## 3 green        13.6 
-## 4 orange       13.1 
-## 5 red           3.23
-## 6 yellow        3.33
+## 1 blue         14   
+## 2 brown         6.22
+## 3 green        13.4 
+## 4 orange       11.1 
+## 5 red           4.31
+## 6 yellow        5.66
 ```
 
 ### Round the averages
@@ -312,12 +312,12 @@ candy_avg
 ## # A tibble: 6 x 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
-## 1 blue          15.3
-## 2 brown          5.8
-## 3 green         13.6
-## 4 orange        13.1
-## 5 red            3.2
-## 6 yellow         3.3
+## 1 blue          14  
+## 2 brown          6.2
+## 3 green         13.4
+## 4 orange        11.1
+## 5 red            4.3
+## 6 yellow         5.7
 ```
 
 BONUS POINT OPPORTUNITY: Using a similar method to rounding above, you can also capitalize the names of the colors. You don't _have_ to do this, but I'll give you bonus points if you do:
@@ -419,7 +419,7 @@ candy_long %>%
 ```
 
 ```
-## # A tibble: 6 x 31
+## # A tibble: 6 x 66
 ##   color  Chris~1 Andre~2 Gabby~3 Veron~4 Crist~5 Marin~6 Samue~7 Kevin~8 Alexa~9
 ##   <chr>    <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>
 ## 1 red          2       2       4       1       3       7       3       4       5
@@ -428,7 +428,7 @@ candy_long %>%
 ## 4 yellow       4       4       0       2       3       1       5       6       2
 ## 5 blue        16      17      19      13      13      14      18      14      21
 ## 6 brown        4       9       7       8       3       6       8       3       5
-## # ... with 21 more variables: Zacharia_Washington <dbl>, Jose_Martinez <dbl>,
+## # ... with 56 more variables: Zacharia_Washington <dbl>, Jose_Martinez <dbl>,
 ## #   Ana_Garza <dbl>, Carolina_Cruz <dbl>, Anissa_Reyes <dbl>,
 ## #   Alaina_Bookman <dbl>, Bryan_Baker <dbl>, Mckenna_Lucas <dbl>,
 ## #   Marissa_DeLeon <dbl>, Claire_Stevens <dbl>, Katy_Vanatsky <dbl>,
