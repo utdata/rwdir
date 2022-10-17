@@ -75,20 +75,20 @@ mpg
 ```
 
 ```
-## # A tibble: 234 x 11
+## # A tibble: 234 × 11
 ##    manufacturer model      displ  year   cyl trans drv     cty   hwy fl    class
 ##    <chr>        <chr>      <dbl> <int> <int> <chr> <chr> <int> <int> <chr> <chr>
-##  1 audi         a4           1.8  1999     4 auto~ f        18    29 p     comp~
-##  2 audi         a4           1.8  1999     4 manu~ f        21    29 p     comp~
-##  3 audi         a4           2    2008     4 manu~ f        20    31 p     comp~
-##  4 audi         a4           2    2008     4 auto~ f        21    30 p     comp~
-##  5 audi         a4           2.8  1999     6 auto~ f        16    26 p     comp~
-##  6 audi         a4           2.8  1999     6 manu~ f        18    26 p     comp~
-##  7 audi         a4           3.1  2008     6 auto~ f        18    27 p     comp~
-##  8 audi         a4 quattro   1.8  1999     4 manu~ 4        18    26 p     comp~
-##  9 audi         a4 quattro   1.8  1999     4 auto~ 4        16    25 p     comp~
-## 10 audi         a4 quattro   2    2008     4 manu~ 4        20    28 p     comp~
-## # ... with 224 more rows
+##  1 audi         a4           1.8  1999     4 auto… f        18    29 p     comp…
+##  2 audi         a4           1.8  1999     4 manu… f        21    29 p     comp…
+##  3 audi         a4           2    2008     4 manu… f        20    31 p     comp…
+##  4 audi         a4           2    2008     4 auto… f        21    30 p     comp…
+##  5 audi         a4           2.8  1999     6 auto… f        16    26 p     comp…
+##  6 audi         a4           2.8  1999     6 manu… f        18    26 p     comp…
+##  7 audi         a4           3.1  2008     6 auto… f        18    27 p     comp…
+##  8 audi         a4 quattro   1.8  1999     4 manu… 4        18    26 p     comp…
+##  9 audi         a4 quattro   1.8  1999     4 auto… 4        16    25 p     comp…
+## 10 audi         a4 quattro   2    2008     4 manu… 4        20    28 p     comp…
+## # … with 224 more rows
 ```
 
 The `mpg` data contains observations collected by the US Environmental Protection Agency on 38 models of cars. It's a data set embedded into the tidyverse for lessons like this one.
@@ -234,12 +234,12 @@ class <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQfwR6DBW5Qv6
 
 ```
 ## Rows: 38 Columns: 3
-## -- Column specification --------------------------------------------------------
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (3): Name, Princess, Ice cream
 ## 
-## i Use `spec()` to retrieve the full column specification for this data.
-## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 ```r
@@ -248,12 +248,12 @@ class
 ```
 
 ```
-## # A tibble: 38 x 3
+## # A tibble: 38 × 3
 ##    Name    Princess                      `Ice cream`      
 ##    <chr>   <chr>                         <chr>            
 ##  1 Adam O  Cinderella                    Cookie Dough     
 ##  2 Adam C  Mulan                         Cookie Dough     
-##  3 Amaris  Tiana (Princess and the Frog) Coffee/Jamoca    
+##  3 Amaris  Tiana (Princess and the Frog) Coffee           
 ##  4 Andrew  Mulan                         Chocolate        
 ##  5 Athena  Belle (Beauty and the Beast)  Cookies and Cream
 ##  6 Aurora  Aurora (Sleeping Beauty)      Cookie Dough     
@@ -261,7 +261,7 @@ class
 ##  8 Brady   Jasmine (Aladdin)             Cookies and Cream
 ##  9 Carolyn Merida (Brave)                Vanilla          
 ## 10 Casey   Mulan                         Cookie Dough     
-## # ... with 28 more rows
+## # … with 28 more rows
 ```
 
 So, now, you should have the data in your environment. 
@@ -292,7 +292,7 @@ princess_data
 ```
 
 ```
-## # A tibble: 11 x 2
+## # A tibble: 11 × 2
 ##    princess                      votes
 ##    <chr>                         <int>
 ##  1 Mulan                             9

@@ -59,17 +59,17 @@ Here is a glimpse of a sample of the data:
 ## Rows: 10
 ## Columns: 12
 ## $ sheet             <dbl> 17, 42, 5, 45, 36, 33, 5, 22, 3, 22
-## $ state             <chr> "KY", "SC", "CA", "TX", "OH", "NC", "CA", "MI", "AZ"~
-## $ agency_name       <chr> "MEADE COUNTY SHERIFF DEPT", "PROSPERITY POLICE DEPT~
-## $ nsn               <chr> "6115-01-435-1567", "1005-00-589-1271", "7520-01-519~
-## $ item_name         <chr> "GENERATOR SET,DIESEL ENGINE", "RIFLE,7.62 MILLIMETE~
+## $ state             <chr> "KY", "SC", "CA", "TX", "OH", "NC", "CA", "MI", "AZ"…
+## $ agency_name       <chr> "MEADE COUNTY SHERIFF DEPT", "PROSPERITY POLICE DEPT…
+## $ nsn               <chr> "6115-01-435-1567", "1005-00-589-1271", "7520-01-519…
+## $ item_name         <chr> "GENERATOR SET,DIESEL ENGINE", "RIFLE,7.62 MILLIMETE…
 ## $ quantity          <dbl> 5, 1, 32, 1, 1, 1, 1, 1, 1, 1
-## $ ui                <chr> "Each", "Each", "Dozen", "Each", "Each", "Each", "Ea~
-## $ acquisition_value <dbl> 4623.09, 138.00, 16.91, 749.00, 749.00, 138.00, 499.~
+## $ ui                <chr> "Each", "Each", "Dozen", "Each", "Each", "Each", "Ea…
+## $ acquisition_value <dbl> 4623.09, 138.00, 16.91, 749.00, 749.00, 138.00, 499.…
 ## $ demil_code        <chr> "A", "D", "A", "D", "D", "D", "D", "D", "D", "D"
 ## $ demil_ic          <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-## $ ship_date         <dttm> 2021-03-22, 2007-08-07, 2020-10-29, 2014-11-18, 2014~
-## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
+## $ ship_date         <dttm> 2021-03-22, 2007-08-07, 2020-10-29, 2014-11-18, 2014…
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
 ```
 
 And a look at just some of the more important columns:
@@ -81,8 +81,8 @@ leso_sample |>
 ```
 
 ```
-## # A tibble: 10 x 4
-##    agency_name                      item_name                   quantity acqui~1
+## # A tibble: 10 × 4
+##    agency_name                      item_name                   quantity acqui…¹
 ##    <chr>                            <chr>                          <dbl>   <dbl>
 ##  1 MEADE COUNTY SHERIFF DEPT        GENERATOR SET,DIESEL ENGINE        5  4623. 
 ##  2 PROSPERITY POLICE DEPT           RIFLE,7.62 MILLIMETER              1   138  
@@ -94,7 +94,7 @@ leso_sample |>
 ##  8 BERRIEN COUNTY SHERIFF'S OFFICE  RIFLE,5.56 MILLIMETER              1   499  
 ##  9 LA PAZ COUNTY SHERIFF OFFICE     RIFLE,5.56 MILLIMETER              1   499  
 ## 10 MUSKEGON HEIGHTS POLICE DEPT     RIFLE,5.56 MILLIMETER              1   749  
-## # ... with abbreviated variable name 1: acquisition_value
+## # … with abbreviated variable name ¹​acquisition_value
 ```
 
 Each row of data is a transfer of a particular type of item from the U.S. Department of Defense to a local law enforcement agency. The row includes the name of the item, the quantity, and the value ($) of a single unit.
@@ -230,14 +230,14 @@ leso <- read_csv("data-raw/leso.csv")
 
 ```
 ## Rows: 117518 Columns: 12
-## -- Column specification --------------------------------------------------------
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr  (7): state, agency_name, nsn, item_name, ui, demil_code, station_type
 ## dbl  (4): sheet, quantity, acquisition_value, demil_ic
 ## dttm (1): ship_date
 ## 
-## i Use `spec()` to retrieve the full column specification for this data.
-## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 ```r
@@ -246,22 +246,22 @@ leso
 ```
 
 ```
-## # A tibble: 117,518 x 12
-##    sheet state agency_name   nsn   item_~1 quant~2 ui    acqui~3 demil~4 demil~5
+## # A tibble: 117,518 × 12
+##    sheet state agency_name   nsn   item_…¹ quant…² ui    acqui…³ demil…⁴ demil…⁵
 ##    <dbl> <chr> <chr>         <chr> <chr>     <dbl> <chr>   <dbl> <chr>     <dbl>
-##  1     1 AL    ABBEVILLE PO~ 2540~ BALLIS~      10 Kit    15872. D             1
-##  2     1 AL    ABBEVILLE PO~ 6760~ CAMERA~       1 Each    1500  D             7
-##  3     1 AL    ABBEVILLE PO~ 5855~ ILLUMI~      10 Each    1128  D             1
-##  4     1 AL    ABBEVILLE PO~ 1385~ UNMANN~       1 Each   10000  Q             3
-##  5     1 AL    ABBEVILLE PO~ 1240~ OPTICA~       1 Each     246. D            NA
-##  6     1 AL    ABBEVILLE PO~ 2355~ MINE R~       1 Each  658000  C             1
-##  7     1 AL    ABBEVILLE PO~ 1240~ SIGHT,~       9 Each     396  D             1
-##  8     1 AL    ABBEVILLE PO~ 2320~ TRUCK,~       1 Each   62627  C             1
-##  9     1 AL    ABBEVILLE PO~ 1005~ MOUNT,~      10 Each    1626  D             1
-## 10     1 AL    ABBEVILLE PO~ 2320~ TRUCK,~       1 Each   62627  C             1
-## # ... with 117,508 more rows, 2 more variables: ship_date <dttm>,
-## #   station_type <chr>, and abbreviated variable names 1: item_name,
-## #   2: quantity, 3: acquisition_value, 4: demil_code, 5: demil_ic
+##  1     1 AL    ABBEVILLE PO… 2540… BALLIS…      10 Kit    15872. D             1
+##  2     1 AL    ABBEVILLE PO… 6760… CAMERA…       1 Each    1500  D             7
+##  3     1 AL    ABBEVILLE PO… 5855… ILLUMI…      10 Each    1128  D             1
+##  4     1 AL    ABBEVILLE PO… 1385… UNMANN…       1 Each   10000  Q             3
+##  5     1 AL    ABBEVILLE PO… 1240… OPTICA…       1 Each     246. D            NA
+##  6     1 AL    ABBEVILLE PO… 2355… MINE R…       1 Each  658000  C             1
+##  7     1 AL    ABBEVILLE PO… 1240… SIGHT,…       9 Each     396  D             1
+##  8     1 AL    ABBEVILLE PO… 2320… TRUCK,…       1 Each   62627  C             1
+##  9     1 AL    ABBEVILLE PO… 1005… MOUNT,…      10 Each    1626  D             1
+## 10     1 AL    ABBEVILLE PO… 2320… TRUCK,…       1 Each   62627  C             1
+## # … with 117,508 more rows, 2 more variables: ship_date <dttm>,
+## #   station_type <chr>, and abbreviated variable names ¹​item_name, ²​quantity,
+## #   ³​acquisition_value, ⁴​demil_code, ⁵​demil_ic
 ```
 
 </details>
@@ -278,18 +278,18 @@ leso |>  glimpse()
 ```
 ## Rows: 117,518
 ## Columns: 12
-## $ sheet             <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
-## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"~
-## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A~
-## $ nsn               <chr> "2540-01-565-4700", "6760-01-628-6105", "5855-01-577~
-## $ item_name         <chr> "BALLISTIC BLANKET KIT", "CAMERA ROBOT", "ILLUMINATO~
-## $ quantity          <dbl> 10, 1, 10, 1, 1, 1, 9, 1, 10, 1, 1, 12, 11, 1, 1, 10~
-## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each~
-## $ acquisition_value <dbl> 15871.59, 1500.00, 1128.00, 10000.00, 245.88, 658000~
-## $ demil_code        <chr> "D", "D", "D", "Q", "D", "C", "D", "C", "D", "C", "D~
-## $ demil_ic          <dbl> 1, 7, 1, 3, NA, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ~
-## $ ship_date         <dttm> 2018-01-30, 2017-02-08, 2017-03-28, 2017-03-28, 201~
-## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
+## $ sheet             <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
+## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
+## $ nsn               <chr> "2540-01-565-4700", "6760-01-628-6105", "5855-01-577…
+## $ item_name         <chr> "BALLISTIC BLANKET KIT", "CAMERA ROBOT", "ILLUMINATO…
+## $ quantity          <dbl> 10, 1, 10, 1, 1, 1, 9, 1, 10, 1, 1, 12, 11, 1, 1, 10…
+## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each…
+## $ acquisition_value <dbl> 15871.59, 1500.00, 1128.00, 10000.00, 245.88, 658000…
+## $ demil_code        <chr> "D", "D", "D", "Q", "D", "C", "D", "C", "D", "C", "D…
+## $ demil_ic          <dbl> 1, 7, 1, 3, NA, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ ship_date         <dttm> 2018-01-30, 2017-02-08, 2017-03-28, 2017-03-28, 201…
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
 ```
 
 ## Checking datatypes
@@ -320,17 +320,17 @@ leso_tight |> glimpse()
 ```
 ## Rows: 117,518
 ## Columns: 11
-## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"~
-## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A~
-## $ nsn               <chr> "2540-01-565-4700", "6760-01-628-6105", "5855-01-577~
-## $ item_name         <chr> "BALLISTIC BLANKET KIT", "CAMERA ROBOT", "ILLUMINATO~
-## $ quantity          <dbl> 10, 1, 10, 1, 1, 1, 9, 1, 10, 1, 1, 12, 11, 1, 1, 10~
-## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each~
-## $ acquisition_value <dbl> 15871.59, 1500.00, 1128.00, 10000.00, 245.88, 658000~
-## $ demil_code        <chr> "D", "D", "D", "Q", "D", "C", "D", "C", "D", "C", "D~
-## $ demil_ic          <dbl> 1, 7, 1, 3, NA, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ~
-## $ ship_date         <dttm> 2018-01-30, 2017-02-08, 2017-03-28, 2017-03-28, 201~
-## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
+## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
+## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
+## $ nsn               <chr> "2540-01-565-4700", "6760-01-628-6105", "5855-01-577…
+## $ item_name         <chr> "BALLISTIC BLANKET KIT", "CAMERA ROBOT", "ILLUMINATO…
+## $ quantity          <dbl> 10, 1, 10, 1, 1, 1, 9, 1, 10, 1, 1, 12, 11, 1, 1, 10…
+## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each…
+## $ acquisition_value <dbl> 15871.59, 1500.00, 1128.00, 10000.00, 245.88, 658000…
+## $ demil_code        <chr> "D", "D", "D", "Q", "D", "C", "D", "C", "D", "C", "D…
+## $ demil_ic          <dbl> 1, 7, 1, 3, NA, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ ship_date         <dttm> 2018-01-30, 2017-02-08, 2017-03-28, 2017-03-28, 201…
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
 ```
 
 In English, we are creating a new tibble `leso_tight` and then filling it with this: `leso` and then use select to remove the colunn called `sheet`. We then glimpse the new data.
@@ -395,18 +395,18 @@ leso_total |> glimpse()
 ```
 ## Rows: 117,518
 ## Columns: 12
-## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"~
-## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A~
-## $ nsn               <chr> "2540-01-565-4700", "6760-01-628-6105", "5855-01-577~
-## $ item_name         <chr> "BALLISTIC BLANKET KIT", "CAMERA ROBOT", "ILLUMINATO~
-## $ quantity          <dbl> 10, 1, 10, 1, 1, 1, 9, 1, 10, 1, 1, 12, 11, 1, 1, 10~
-## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each~
-## $ acquisition_value <dbl> 15871.59, 1500.00, 1128.00, 10000.00, 245.88, 658000~
-## $ demil_code        <chr> "D", "D", "D", "Q", "D", "C", "D", "C", "D", "C", "D~
-## $ demil_ic          <dbl> 1, 7, 1, 3, NA, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ~
-## $ ship_date         <dttm> 2018-01-30, 2017-02-08, 2017-03-28, 2017-03-28, 201~
-## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
-## $ total_value       <dbl> 158715.90, 1500.00, 11280.00, 10000.00, 245.88, 6580~
+## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
+## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
+## $ nsn               <chr> "2540-01-565-4700", "6760-01-628-6105", "5855-01-577…
+## $ item_name         <chr> "BALLISTIC BLANKET KIT", "CAMERA ROBOT", "ILLUMINATO…
+## $ quantity          <dbl> 10, 1, 10, 1, 1, 1, 9, 1, 10, 1, 1, 12, 11, 1, 1, 10…
+## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each…
+## $ acquisition_value <dbl> 15871.59, 1500.00, 1128.00, 10000.00, 245.88, 658000…
+## $ demil_code        <chr> "D", "D", "D", "Q", "D", "C", "D", "C", "D", "C", "D…
+## $ demil_ic          <dbl> 1, 7, 1, 3, NA, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ ship_date         <dttm> 2018-01-30, 2017-02-08, 2017-03-28, 2017-03-28, 201…
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
+## $ total_value       <dbl> 158715.90, 1500.00, 11280.00, 10000.00, 245.88, 6580…
 ```
 
 </details>
@@ -472,19 +472,19 @@ leso_control |> glimpse()
 ```
 ## Rows: 117,518
 ## Columns: 13
-## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"~
-## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A~
-## $ nsn               <chr> "2540-01-565-4700", "6760-01-628-6105", "5855-01-577~
-## $ item_name         <chr> "BALLISTIC BLANKET KIT", "CAMERA ROBOT", "ILLUMINATO~
-## $ quantity          <dbl> 10, 1, 10, 1, 1, 1, 9, 1, 10, 1, 1, 12, 11, 1, 1, 10~
-## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each~
-## $ acquisition_value <dbl> 15871.59, 1500.00, 1128.00, 10000.00, 245.88, 658000~
-## $ demil_code        <chr> "D", "D", "D", "Q", "D", "C", "D", "C", "D", "C", "D~
-## $ demil_ic          <dbl> 1, 7, 1, 3, NA, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ~
-## $ ship_date         <dttm> 2018-01-30, 2017-02-08, 2017-03-28, 2017-03-28, 201~
-## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
-## $ total_value       <dbl> 158715.90, 1500.00, 11280.00, 10000.00, 245.88, 6580~
-## $ control_type      <lgl> TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE~
+## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
+## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
+## $ nsn               <chr> "2540-01-565-4700", "6760-01-628-6105", "5855-01-577…
+## $ item_name         <chr> "BALLISTIC BLANKET KIT", "CAMERA ROBOT", "ILLUMINATO…
+## $ quantity          <dbl> 10, 1, 10, 1, 1, 1, 9, 1, 10, 1, 1, 12, 11, 1, 1, 10…
+## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each…
+## $ acquisition_value <dbl> 15871.59, 1500.00, 1128.00, 10000.00, 245.88, 658000…
+## $ demil_code        <chr> "D", "D", "D", "Q", "D", "C", "D", "C", "D", "C", "D…
+## $ demil_ic          <dbl> 1, 7, 1, 3, NA, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ ship_date         <dttm> 2018-01-30, 2017-02-08, 2017-03-28, 2017-03-28, 201…
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
+## $ total_value       <dbl> 158715.90, 1500.00, 11280.00, 10000.00, 245.88, 6580…
+## $ control_type      <lgl> TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE…
 ```
 
 OK, let's go through the code line-by-line.
@@ -510,7 +510,7 @@ leso_control |>
 ```
 
 ```
-## # A tibble: 15 x 4
+## # A tibble: 15 × 4
 ##    item_name                demil_code demil_ic control_type
 ##    <chr>                    <chr>         <dbl> <lgl>       
 ##  1 AIRPLANE,CARGO-TRANSPORT Q                 6 TRUE        
@@ -541,8 +541,8 @@ leso_control |>
 ```
 
 ```{=html}
-<div id="htmlwidget-e185c0eabfc91ad08a90" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e185c0eabfc91ad08a90">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29"],["A","A","A","A","B","B","C","C","C","C","C","D","D","D","D","D","E","E","E","F","F","F","F","Q","Q","Q","Q","Q","Q"],[0,1,7,null,3,null,0,1,4,7,null,0,1,4,7,null,1,7,null,0,1,7,null,0,1,3,5,6,null],[1,6853,179,4041,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,631,null],[null,4,null,null,26,112,2,5535,1,234,601,1,84368,10,1040,2889,105,5,3,1,4423,1082,25,6,6,5298,1,10,25]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>demil_code<\/th>\n      <th>demil_ic<\/th>\n      <th>FALSE<\/th>\n      <th>TRUE<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-e4951165bcea677ebbea" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e4951165bcea677ebbea">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29"],["A","A","A","A","B","B","C","C","C","C","C","D","D","D","D","D","E","E","E","F","F","F","F","Q","Q","Q","Q","Q","Q"],[0,1,7,null,3,null,0,1,4,7,null,0,1,4,7,null,1,7,null,0,1,7,null,0,1,3,5,6,null],[1,6853,179,4041,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,631,null],[null,4,null,null,26,112,2,5535,1,234,601,1,84368,10,1040,2889,105,5,3,1,4423,1082,25,6,6,5298,1,10,25]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>demil_code<\/th>\n      <th>demil_ic<\/th>\n      <th>FALSE<\/th>\n      <th>TRUE<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ```
 
 OK, onto the next task to get Texas data for specific dates.
@@ -569,23 +569,23 @@ leso_control |>
 ```
 
 ```
-## # A tibble: 7,817 x 13
-##    state agency_name         nsn   item_~1 quant~2 ui    acqui~3 demil~4 demil~5
+## # A tibble: 7,817 × 13
+##    state agency_name         nsn   item_…¹ quant…² ui    acqui…³ demil…⁴ demil…⁵
 ##    <chr> <chr>               <chr> <chr>     <dbl> <chr>   <dbl> <chr>     <dbl>
-##  1 TX    ABERNATHY POLICE D~ 2320~ TRUCK,~       1 Each    62627 C             1
-##  2 TX    ABERNATHY POLICE D~ 1240~ SIGHT,~       5 Each      333 D             1
-##  3 TX    ABILENE POLICE DEPT 1005~ RIFLE,~       1 Each      499 D             1
-##  4 TX    ABILENE POLICE DEPT 1005~ RIFLE,~       1 Each      499 D             1
-##  5 TX    ABILENE POLICE DEPT 1005~ RIFLE,~       1 Each      499 D             1
-##  6 TX    ABILENE POLICE DEPT 1005~ RIFLE,~       1 Each      499 D             1
-##  7 TX    ABILENE POLICE DEPT 1005~ RIFLE,~       1 Each      499 D             1
-##  8 TX    ABILENE POLICE DEPT 1005~ RIFLE,~       1 Each      499 D             1
-##  9 TX    ABILENE POLICE DEPT 1005~ RIFLE,~       1 Each      499 D             1
-## 10 TX    ABILENE POLICE DEPT 1005~ RIFLE,~       1 Each      499 D             1
-## # ... with 7,807 more rows, 4 more variables: ship_date <dttm>,
+##  1 TX    ABERNATHY POLICE D… 2320… TRUCK,…       1 Each    62627 C             1
+##  2 TX    ABERNATHY POLICE D… 1240… SIGHT,…       5 Each      333 D             1
+##  3 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
+##  4 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
+##  5 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
+##  6 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
+##  7 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
+##  8 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
+##  9 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
+## 10 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
+## # … with 7,807 more rows, 4 more variables: ship_date <dttm>,
 ## #   station_type <chr>, total_value <dbl>, control_type <lgl>, and abbreviated
-## #   variable names 1: item_name, 2: quantity, 3: acquisition_value,
-## #   4: demil_code, 5: demil_ic
+## #   variable names ¹​item_name, ²​quantity, ³​acquisition_value, ⁴​demil_code,
+## #   ⁵​demil_ic
 ```
 
 </details>
@@ -615,23 +615,23 @@ leso_filtered
 ```
 
 ```
-## # A tibble: 6,698 x 13
-##    state agency_name         nsn   item_~1 quant~2 ui    acqui~3 demil~4 demil~5
+## # A tibble: 6,698 × 13
+##    state agency_name         nsn   item_…¹ quant…² ui    acqui…³ demil…⁴ demil…⁵
 ##    <chr> <chr>               <chr> <chr>     <dbl> <chr>   <dbl> <chr>     <dbl>
-##  1 TX    ABERNATHY POLICE D~ 2320~ TRUCK,~       1 Each    62627 C             1
-##  2 TX    ABERNATHY POLICE D~ 1240~ SIGHT,~       5 Each      333 D             1
-##  3 TX    ALLEN POLICE DEPT   1240~ SIGHT,~       1 Each      396 D             1
-##  4 TX    ALLEN POLICE DEPT   1240~ SIGHT,~       1 Each      396 D             1
-##  5 TX    ALLEN POLICE DEPT   1240~ SIGHT,~       1 Each      396 D             1
-##  6 TX    ALLEN POLICE DEPT   1385~ MK3MOD0       1 Each   371680 Q             3
-##  7 TX    ALLEN POLICE DEPT   1385~ MK3MOD0       1 Each   371680 Q             3
-##  8 TX    ALLEN POLICE DEPT   2355~ MINE R~       1 Each   658000 C             1
-##  9 TX    ALLEN POLICE DEPT   1240~ SIGHT,~       1 Each      396 D             1
-## 10 TX    ALLEN POLICE DEPT   1240~ SIGHT,~       1 Each      396 D             1
-## # ... with 6,688 more rows, 4 more variables: ship_date <dttm>,
+##  1 TX    ABERNATHY POLICE D… 2320… TRUCK,…       1 Each    62627 C             1
+##  2 TX    ABERNATHY POLICE D… 1240… SIGHT,…       5 Each      333 D             1
+##  3 TX    ALLEN POLICE DEPT   1240… SIGHT,…       1 Each      396 D             1
+##  4 TX    ALLEN POLICE DEPT   1240… SIGHT,…       1 Each      396 D             1
+##  5 TX    ALLEN POLICE DEPT   1240… SIGHT,…       1 Each      396 D             1
+##  6 TX    ALLEN POLICE DEPT   1385… MK3MOD0       1 Each   371680 Q             3
+##  7 TX    ALLEN POLICE DEPT   1385… MK3MOD0       1 Each   371680 Q             3
+##  8 TX    ALLEN POLICE DEPT   2355… MINE R…       1 Each   658000 C             1
+##  9 TX    ALLEN POLICE DEPT   1240… SIGHT,…       1 Each      396 D             1
+## 10 TX    ALLEN POLICE DEPT   1240… SIGHT,…       1 Each      396 D             1
+## # … with 6,688 more rows, 4 more variables: ship_date <dttm>,
 ## #   station_type <chr>, total_value <dbl>, control_type <lgl>, and abbreviated
-## #   variable names 1: item_name, 2: quantity, 3: acquisition_value,
-## #   4: demil_code, 5: demil_ic
+## #   variable names ¹​item_name, ²​quantity, ³​acquisition_value, ⁴​demil_code,
+## #   ⁵​demil_ic
 ```
 
 </details>

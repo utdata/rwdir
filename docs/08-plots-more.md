@@ -58,14 +58,14 @@ leso <- read_csv("data-raw/leso.csv") #read the data in
 
 ```
 ## Rows: 117518 Columns: 12
-## -- Column specification --------------------------------------------------------
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr  (7): state, agency_name, nsn, item_name, ui, demil_code, station_type
 ## dbl  (4): sheet, quantity, acquisition_value, demil_ic
 ## dttm (1): ship_date
 ## 
-## i Use `spec()` to retrieve the full column specification for this data.
-## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 ```r
@@ -75,31 +75,32 @@ glimpse(leso) #peek at the data
 ```
 ## Rows: 117,518
 ## Columns: 12
-## $ sheet             <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
-## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"~
-## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A~
-## $ nsn               <chr> "2540-01-565-4700", "6760-01-628-6105", "5855-01-577~
-## $ item_name         <chr> "BALLISTIC BLANKET KIT", "CAMERA ROBOT", "ILLUMINATO~
-## $ quantity          <dbl> 10, 1, 10, 1, 1, 1, 9, 1, 10, 1, 1, 12, 11, 1, 1, 10~
-## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each~
-## $ acquisition_value <dbl> 15871.59, 1500.00, 1128.00, 10000.00, 245.88, 658000~
-## $ demil_code        <chr> "D", "D", "D", "Q", "D", "C", "D", "C", "D", "C", "D~
-## $ demil_ic          <dbl> 1, 7, 1, 3, NA, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ~
-## $ ship_date         <dttm> 2018-01-30, 2017-02-08, 2017-03-28, 2017-03-28, 201~
-## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
+## $ sheet             <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
+## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
+## $ nsn               <chr> "2540-01-565-4700", "6760-01-628-6105", "5855-01-577…
+## $ item_name         <chr> "BALLISTIC BLANKET KIT", "CAMERA ROBOT", "ILLUMINATO…
+## $ quantity          <dbl> 10, 1, 10, 1, 1, 1, 9, 1, 10, 1, 1, 12, 11, 1, 1, 10…
+## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each…
+## $ acquisition_value <dbl> 15871.59, 1500.00, 1128.00, 10000.00, 245.88, 658000…
+## $ demil_code        <chr> "D", "D", "D", "Q", "D", "C", "D", "C", "D", "C", "D…
+## $ demil_ic          <dbl> 1, 7, 1, 3, NA, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ ship_date         <dttm> 2018-01-30, 2017-02-08, 2017-03-28, 2017-03-28, 201…
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
 ```
 
 </details>
-
+<br/>
 Don't forget to also do the other processing steps we did in [Chapter 5](https://utdata.github.io/rwdir/sums-import.html#create-a-total_value-column).
-
-<details>
-  <summary>Again, you should be able to do this on your own</summary>
 
 Buuuut, if you needed a refresher, check out section [5.4.6](https://utdata.github.io/rwdir/sums-import.html#remove-unnecessary-columns) to [5.4.7](https://utdata.github.io/rwdir/sums-import.html#create-a-total_value-column). There are 2 steps to this:
 
 - Removing unnecessary columns using `select()`  
 - Creating a `total_value` column using `mutate()`  
+
+<details>
+  <summary>Again, you should be able to do this on your own</summary>
+
 
 
 ```r
@@ -115,6 +116,7 @@ leso_total <- leso_tight |>
 ```
 
 </details>
+<br/>
 
 Alrighty! Let's look at the data
 
@@ -126,15 +128,15 @@ leso_total |> glimpse()
 ```
 ## Rows: 117,518
 ## Columns: 9
-## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"~
-## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A~
-## $ item_name         <chr> "BALLISTIC BLANKET KIT", "CAMERA ROBOT", "ILLUMINATO~
-## $ quantity          <dbl> 10, 1, 10, 1, 1, 1, 9, 1, 10, 1, 1, 12, 11, 1, 1, 10~
-## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each~
-## $ acquisition_value <dbl> 15871.59, 1500.00, 1128.00, 10000.00, 245.88, 658000~
-## $ ship_date         <dttm> 2018-01-30, 2017-02-08, 2017-03-28, 2017-03-28, 201~
-## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
-## $ total_value       <dbl> 158715.90, 1500.00, 11280.00, 10000.00, 245.88, 6580~
+## $ state             <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
+## $ agency_name       <chr> "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
+## $ item_name         <chr> "BALLISTIC BLANKET KIT", "CAMERA ROBOT", "ILLUMINATO…
+## $ quantity          <dbl> 10, 1, 10, 1, 1, 1, 9, 1, 10, 1, 1, 12, 11, 1, 1, 10…
+## $ ui                <chr> "Kit", "Each", "Each", "Each", "Each", "Each", "Each…
+## $ acquisition_value <dbl> 15871.59, 1500.00, 1128.00, 10000.00, 245.88, 658000…
+## $ ship_date         <dttm> 2018-01-30, 2017-02-08, 2017-03-28, 2017-03-28, 201…
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
+## $ total_value       <dbl> 158715.90, 1500.00, 11280.00, 10000.00, 245.88, 6580…
 ```
 
 Lookin' good!
@@ -145,31 +147,32 @@ To prepare the data for visualizing, we need to do a couple more new things. Thi
 
 1. `filter` the data to focus on more recent data. Let's specifically consider military surplus in 2010 and after.
 2. And then, create a `year` variable using the `year()` function. `year()` is a function in `lubridate` that allows us to aggregate  
-3. And then, `select` a few variables to study (specifically, `year`, `total_value`, `state`, and `agency_name`)
+3. And then, `select` a few variables to study (specifically, `year`, `total_value`, and `state`)
+4. You should save all that into a new data frame called `leso_dated`.
 
 
 ```r
-leso_total <- leso_total |>
+leso_dated <- leso_total |>
   filter(ship_date >= as.Date("2010-01-01")) |>
   mutate(year = year(ship_date)) |> #if you get an error, make sure you've loaded the lubridate library!
   select(year, total_value, state)
 
-glimpse(leso_total)
+glimpse(leso_dated)
 ```
 
 ```
 ## Rows: 79,736
 ## Columns: 3
-## $ year        <dbl> 2018, 2017, 2017, 2017, 2016, 2016, 2016, 2016, 2016, 2016~
-## $ total_value <dbl> 158715.90, 1500.00, 11280.00, 10000.00, 245.88, 658000.00,~
-## $ state       <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"~
+## $ year        <dbl> 2018, 2017, 2017, 2017, 2016, 2016, 2016, 2016, 2016, 2016…
+## $ total_value <dbl> 158715.90, 1500.00, 11280.00, 10000.00, 245.88, 658000.00,…
+## $ state       <chr> "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
 ```
 
 There's a lot of information in this data, so let's focus our visualizing on Texas, like we did in our previous chapters. We'll do this by `filter`ing the rows where `state == "TX"`.
 
 
 ```r
-leso_texas <- leso_total |> 
+leso_texas <- leso_dated |> 
   filter(state == "TX")
 ```
 
@@ -186,7 +189,7 @@ head(leso_texas_gsa) #use head() to view the first 6 rows of this new data frame
 ```
 
 ```
-## # A tibble: 6 x 2
+## # A tibble: 6 × 2
 ##    year yearly_cost
 ##   <dbl>       <dbl>
 ## 1  2010    6808748.
@@ -237,7 +240,7 @@ head(leso_texas_gsa) #use head() to view the first 6 rows of this new data frame
 ```
 
 ```
-## # A tibble: 6 x 2
+## # A tibble: 6 × 2
 ##    year yearly_cost
 ##   <dbl>       <dbl>
 ## 1  2010    6808748.
@@ -261,7 +264,7 @@ head(leso_texas_gsa)
 ```
 
 ```
-## # A tibble: 6 x 2
+## # A tibble: 6 × 2
 ##    year yearly_cost
 ##   <dbl>       <dbl>
 ## 1  2010        6.81
@@ -379,14 +382,14 @@ OK, our Texas military surplus information is fine ... but how does that compare
 
 ### Prepare the data
 
-We need to go back to our original `leso_total` to get the additional states.
+We need to go back to our original `leso_dated` to get the additional states.
 
 1. Start a new section that notes we are building a chart for five states (Texas, Oklahoma, Arkansas, New Mexico, and Louisiana)
 2. Prepare the data using the `%in%` filter that we learned about in [Chapter 6](https://utdata.github.io/rwdir/sums-analyze.html#looking-a-local-agencies). Rather than creating a separate list, we're going to write the list right into the `filter()` function using `c()`.
 
 
 ```r
-leso_five <- leso_total |> 
+leso_five <- leso_dated |> 
   filter(
     state %in% c("TX", "OK", "AR", "NM", "LA")
   )
@@ -395,7 +398,7 @@ leso_five
 ```
 
 ```
-## # A tibble: 10,690 x 3
+## # A tibble: 10,690 × 3
 ##     year total_value state
 ##    <dbl>       <dbl> <chr>
 ##  1  2021        880  AR   
@@ -408,7 +411,7 @@ leso_five
 ##  8  2022       5828  AR   
 ##  9  2021      44478  AR   
 ## 10  2021        232. AR   
-## # ... with 10,680 more rows
+## # … with 10,680 more rows
 ```
 
 Now that we have our five states, let's GSA this information, like we did earlier (but for all 5 states and not just Texas).
@@ -437,9 +440,9 @@ leso_five_gsa |> glimpse()
 ## Rows: 58
 ## Columns: 3
 ## Groups: state [5]
-## $ state       <chr> "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR"~
-## $ year        <dbl> 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019~
-## $ yearly_cost <dbl> 0.00135600, 0.69895063, 0.62593678, 2.72113085, 12.0759872~
+## $ state       <chr> "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR", "AR"…
+## $ year        <dbl> 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019…
+## $ yearly_cost <dbl> 0.00135600, 0.69895063, 0.62593678, 2.72113085, 12.0759872…
 ```
 
 </details>

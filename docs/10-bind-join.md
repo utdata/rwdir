@@ -51,12 +51,12 @@ I will save you the hassle of going through the TAPR database to find and downlo
 
 ### Set up your project
 
-1. Go to [this page](https://github.com/utdata/rwdir/blob/main/resources/rwdir-sped-template.zip).
+1. Go to [this page](https://github.com/utdata/rwdir/blob/main/resources/rwdir-sped-template.zip). Yes, it looks like you can't see anything, but ...
 1. Look for the **Download** button and download the zip file.
 1. Find that on your computer and uncompress it.
 1. Rename the folder to `yourname-sped` **but use your name**.
 1. Move the folder to your `rwd` folder or wherever you've been saving your class projects.
-1. In RStudio, choose File > New Project. **Choose Next Directory** at the next step and then find the folder you just moved. Use that to create your project.
+1. In RStudio, choose File > New Project. **Choose EXISTING Directory** at the next step and then find the folder you just moved. Use that to create your project.
 
 You should now have your own project that already has a head start on this project. It has the data in a `data-raw` folder, and your first notebook `01-import` that already has some code in it.
 
@@ -75,7 +75,7 @@ Go ahead. I'll wait.
 
 <div style="width:100%;height:0;padding-bottom:56%;position:relative;"><iframe src="https://giphy.com/embed/ExSXXwQmCSMWKor0qb" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/snl-saturday-night-live-season-47-ExSXXwQmCSMWKor0qb">via GIPHY</a></p>
 
-There is a lot to take in there about where the data came from and how we dealth with it. Here is where you end up:
+There is a lot to take in there about where the data came from and how we dealt with it. Here is where you end up:
 
 - **You have nine data files for each year and one reference file imported.**
 
@@ -102,7 +102,7 @@ dstud13
 ```
 
 ```
-## # A tibble: 1,228 x 5
+## # A tibble: 1,228 × 5
 ##    district year  dpetallc dpetspec dpetspep
 ##    <chr>    <chr>    <dbl>    <dbl>    <dbl>
 ##  1 001902   2013       595       73     12.3
@@ -115,7 +115,7 @@ dstud13
 ##  8 002901   2013      3617      250      6.9
 ##  9 003801   2013       635       45      7.1
 ## 10 003902   2013      2726      196      7.2
-## # ... with 1,218 more rows
+## # … with 1,218 more rows
 ```
 
 The result shows there are **1,228** rows and **5** variables in the data, which should match what shows for `dstud13` in your Environment tab.
@@ -124,12 +124,12 @@ The result shows there are **1,228** rows and **5** variables in the data, which
 
 
 ```r
-dstud13 %>% 
+dstud13 |> 
   bind_rows(dstud14)
 ```
 
 ```
-## # A tibble: 2,455 x 5
+## # A tibble: 2,455 × 5
 ##    district year  dpetallc dpetspec dpetspep
 ##    <chr>    <chr>    <dbl>    <dbl>    <dbl>
 ##  1 001902   2013       595       73     12.3
@@ -142,7 +142,7 @@ dstud13 %>%
 ##  8 002901   2013      3617      250      6.9
 ##  9 003801   2013       635       45      7.1
 ## 10 003902   2013      2726      196      7.2
-## # ... with 2,445 more rows
+## # … with 2,445 more rows
 ```
 
 This shows we now have **2,455** rows and **5** variables. This is good ... we've addded the rows of `dstud14` but we don't have any new columns because the column names were identical.
@@ -150,29 +150,33 @@ This shows we now have **2,455** rows and **5** variables. This is good ... we'v
 Now **edit the chunk** to do all these things:
 
 1. Save the result of the merge into a new data frame called `sped_merged`.
-1. Tack on another `bind_rows()` for the `dstud15` data so you can see you are adding more on.
+1. Within the `bind_rows()` function, also add the `dstud15` dataframe so you can see you are adding more on.
 1. At the bottom of the chunk print out the `sped_merged` tibble and pipe it into `count(year)` so you can make sure you continue to add rows correctly.
 
 It should look like this:
 
 
 ```r
-sped_merged <- dstud13 %>% 
-  bind_rows(dstud14) %>% 
-  bind_rows(dstud15)
+sped_merged <- dstud13 |> 
+  bind_rows(
+    dstud14,
+    dstud15
+  )
 
 # we use this to ensure we bind correctly when we add new years
-sped_merged %>% count(year)
+sped_merged |> count(year)
 ```
 
 ```
-## # A tibble: 3 x 2
+## # A tibble: 3 × 2
 ##   year      n
 ##   <chr> <int>
 ## 1 2013   1228
 ## 2 2014   1227
 ## 3 2015   1219
 ```
+
+(You might also see each new datatable added in their own `bind_rows()` function instead of all in one. Either works.)
 
 We are NOT saving the `count()` result here, we are just printing it to our screen to make sure we get all the years.
 
@@ -219,15 +223,15 @@ In our case we start with the `dref` data and then use an **inner_join** to add 
 
 
 ```r
-sped_joined <- dref %>% 
+sped_joined <- dref |> 
   inner_join(sped_merged, by = "district")
 
-sped_joined %>% head()
+sped_joined |> head()
 ```
 
 ```
-## # A tibble: 6 x 9
-##   district distname   cntyname dflalted dflchart year  dpetallc dpetspec dpets~1
+## # A tibble: 6 × 9
+##   district distname   cntyname dflalted dflchart year  dpetallc dpetspec dpets…¹
 ##   <chr>    <chr>      <chr>    <chr>    <chr>    <chr>    <dbl>    <dbl>   <dbl>
 ## 1 001902   CAYUGA ISD ANDERSON N        N        2013       595       73    12.3
 ## 2 001902   CAYUGA ISD ANDERSON N        N        2014       553       76    13.7
@@ -235,25 +239,25 @@ sped_joined %>% head()
 ## 4 001902   CAYUGA ISD ANDERSON N        N        2016       568       78    13.7
 ## 5 001902   CAYUGA ISD ANDERSON N        N        2017       576       82    14.2
 ## 6 001902   CAYUGA ISD ANDERSON N        N        2018       575       83    14.4
-## # ... with abbreviated variable name 1: dpetspep
+## # … with abbreviated variable name ¹​dpetspep
 ```
 
 ```r
-sped_joined %>% glimpse()
+sped_joined |> glimpse()
 ```
 
 ```
 ## Rows: 10,684
 ## Columns: 9
-## $ district <chr> "001902", "001902", "001902", "001902", "001902", "001902", "~
-## $ distname <chr> "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "CAYU~
-## $ cntyname <chr> "ANDERSON", "ANDERSON", "ANDERSON", "ANDERSON", "ANDERSON", "~
-## $ dflalted <chr> "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "~
-## $ dflchart <chr> "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "~
-## $ year     <chr> "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020~
-## $ dpetallc <dbl> 595, 553, 577, 568, 576, 575, 564, 557, 535, 1236, 1207, 1217~
-## $ dpetspec <dbl> 73, 76, 76, 78, 82, 83, 84, 82, 78, 113, 107, 126, 144, 139, ~
-## $ dpetspep <dbl> 12.3, 13.7, 13.2, 13.7, 14.2, 14.4, 14.9, 14.7, 14.6, 9.1, 8.~
+## $ district <chr> "001902", "001902", "001902", "001902", "001902", "001902", "…
+## $ distname <chr> "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "CAYU…
+## $ cntyname <chr> "ANDERSON", "ANDERSON", "ANDERSON", "ANDERSON", "ANDERSON", "…
+## $ dflalted <chr> "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "…
+## $ dflchart <chr> "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "…
+## $ year     <chr> "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020…
+## $ dpetallc <dbl> 595, 553, 577, 568, 576, 575, 564, 557, 535, 1236, 1207, 1217…
+## $ dpetspec <dbl> 73, 76, 76, 78, 82, 83, 84, 82, 78, 113, 107, 126, 144, 139, …
+## $ dpetspep <dbl> 12.3, 13.7, 13.2, 13.7, 14.2, 14.4, 14.9, 14.7, 14.6, 9.1, 8.…
 ```
 
 I'm showing both a `head()` and `glimpse()` here so you can see all the columns have been added.
@@ -265,7 +269,7 @@ Let's explain what is going on here:
 - We then pipe into `inner_join()` to `sped_merged`, which will attach our `dref` data to our merged data when the ID matches in the `district` variable.
 - The `by = "district"` argument ensures that we are matching based on the `district` column in both data sets.
 
-We could've left out the `by =` argument and R would match columns of the same name, but it is best practice to specify your joining columns so it is clear what is happening. You wouldn't want to be surprised by other columns of the same name that you didn't want to join on. If you wanted to specify join columns of different names it would look like this: `df1 %>% inner_join(df2, by = c("df1_id" = "df2_id))`
+We could've left out the `by =` argument and R would match columns of the same name, but it is best practice to specify your joining columns so it is clear what is happening. You wouldn't want to be surprised by other columns of the same name that you didn't want to join on. If you wanted to specify join columns of different names it would look like this: `df1 |> inner_join(df2, by = c("df1_id" = "df2_id))`
 
 There are now **10,684** rows in our joined data, fewer than what was in the original merged file because some districts (mostly charters) have closed and were not in our reference file. We are comparing only districts that have been open during this time period. For that matter, we don't want charter or alternative education districts at all, so we'll drop those next.
 
@@ -296,8 +300,8 @@ I really, really suggest you don't try to write that all at once. Build it one l
   <summary>I'm being too nice here</summary>
 
 ```r
-sped_cleaned <- sped_joined %>% 
-  filter(dflalted == "N" & dflchart == "N") %>% 
+sped_cleaned <- sped_joined |> 
+  filter(dflalted == "N" & dflchart == "N") |> 
   select(
     district,
     distname,
@@ -321,11 +325,11 @@ OK, our data looks like this:
 
 
 ```r
-sped_cleaned %>% head()
+sped_cleaned |> head()
 ```
 
 ```
-## # A tibble: 6 x 7
+## # A tibble: 6 × 7
 ##   district distname   cntyname year  all_count sped_count sped_percent
 ##   <chr>    <chr>      <chr>    <chr>     <dbl>      <dbl>        <dbl>
 ## 1 001902   CAYUGA ISD ANDERSON 2013        595         73         12.3
@@ -343,29 +347,29 @@ We want to add a column called `audit_flag` that says **ABOVE** if the `sped_per
 
 
 ```r
-sped_flag <- sped_cleaned %>% 
+sped_flag <- sped_cleaned |> 
   mutate(audit_flag = if_else(sped_percent > 8.5, "ABOVE", "BELOW"))
 
 # this pulls 30 random rows so I can check results
-sped_flag %>% sample_n(10)
+sped_flag |> sample_n(10)
 ```
 
 ```
-## # A tibble: 10 x 8
-##    district distname               cntyn~1 year  all_c~2 sped_~3 sped_~4 audit~5
+## # A tibble: 10 × 8
+##    district distname               cntyn…¹ year  all_c…² sped_…³ sped_…⁴ audit…⁵
 ##    <chr>    <chr>                  <chr>   <chr>   <dbl>   <dbl>   <dbl> <chr>  
-##  1 137901   KINGSVILLE ISD         KLEBERG 2013     3543     346     9.8 ABOVE  
-##  2 238904   GRANDFALLS-ROYALTY ISD WARD    2015      143      13     9.1 ABOVE  
-##  3 250906   ALBA-GOLDEN ISD        WOOD    2013      841      82     9.8 ABOVE  
-##  4 247904   POTH ISD               WILSON  2015      823      62     7.5 BELOW  
-##  5 074912   TRENTON ISD            FANNIN  2018      568      59    10.4 ABOVE  
-##  6 220910   LAKE WORTH ISD         TARRANT 2021     3309     356    10.8 ABOVE  
-##  7 054903   RALLS ISD              CROSBY  2014      532      55    10.3 ABOVE  
-##  8 101925   HUFFMAN ISD            HARRIS  2016     3454     279     8.1 BELOW  
-##  9 084911   FRIENDSWOOD ISD        GALVES~ 2015     6087     499     8.2 BELOW  
-## 10 115901   FT HANCOCK ISD         HUDSPE~ 2017      408      26     6.4 BELOW  
-## # ... with abbreviated variable names 1: cntyname, 2: all_count, 3: sped_count,
-## #   4: sped_percent, 5: audit_flag
+##  1 128904   FALLS CITY ISD         KARNES  2021      406      32     7.9 BELOW  
+##  2 061903   PILOT POINT ISD        DENTON  2015     1388      92     6.6 BELOW  
+##  3 112910   SULPHUR BLUFF ISD      HOPKINS 2021      218      31    14.2 ABOVE  
+##  4 245903   RAYMONDVILLE ISD       WILLACY 2014     2154     139     6.5 BELOW  
+##  5 117904   PLEMONS-STINNETT-PHIL… HUTCHI… 2019      708      69     9.7 ABOVE  
+##  6 251901   DENVER CITY ISD        YOAKUM  2018     1685      98     5.8 BELOW  
+##  7 230905   HARMONY ISD            UPSHUR  2020     1088      70     6.4 BELOW  
+##  8 119903   PERRIN-WHITT CISD      JACK    2018      340      37    10.9 ABOVE  
+##  9 223904   WELLMAN-UNION CISD     TERRY   2015      248      26    10.5 ABOVE  
+## 10 070905   FERRIS ISD             ELLIS   2017     2580     259    10   ABOVE  
+## # … with abbreviated variable names ¹​cntyname, ²​all_count, ³​sped_count,
+## #   ⁴​sped_percent, ⁵​audit_flag
 ```
 
 Let's walk through the code above:

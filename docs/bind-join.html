@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 10 Bind and join | Reporting with Data in R</title>
   <meta name="description" content="Chapter 10 Bind and join | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The course is taught by Christian McDonald and Jo Lukito." />
-  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 10 Bind and join | Reporting with Data in R" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Christian McDonald and Josephine Lukito" />
 
 
-<meta name="date" content="2022-10-05" />
+<meta name="date" content="2022-10-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,7 +54,7 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.24/datatables.js"></script>
+<script src="libs/datatables-binding-0.25/datatables.js"></script>
 <link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
 <script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
@@ -639,12 +639,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="set-up-your-project" class="section level3 hasAnchor" number="10.3.1">
 <h3><span class="header-section-number">10.3.1</span> Set up your project<a href="bind-join.html#set-up-your-project" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ol style="list-style-type: decimal">
-<li>Go to <a href="https://github.com/utdata/rwdir/blob/main/resources/rwdir-sped-template.zip">this page</a>.</li>
+<li>Go to <a href="https://github.com/utdata/rwdir/blob/main/resources/rwdir-sped-template.zip">this page</a>. Yes, it looks like you can’t see anything, but …</li>
 <li>Look for the <strong>Download</strong> button and download the zip file.</li>
 <li>Find that on your computer and uncompress it.</li>
 <li>Rename the folder to <code>yourname-sped</code> <strong>but use your name</strong>.</li>
 <li>Move the folder to your <code>rwd</code> folder or wherever you’ve been saving your class projects.</li>
-<li>In RStudio, choose File &gt; New Project. <strong>Choose Next Directory</strong> at the next step and then find the folder you just moved. Use that to create your project.</li>
+<li>In RStudio, choose File &gt; New Project. <strong>Choose EXISTING Directory</strong> at the next step and then find the folder you just moved. Use that to create your project.</li>
 </ol>
 <p>You should now have your own project that already has a head start on this project. It has the data in a <code>data-raw</code> folder, and your first notebook <code>01-import</code> that already has some code in it.</p>
 </div>
@@ -664,7 +664,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>
 <a href="https://giphy.com/gifs/snl-saturday-night-live-season-47-ExSXXwQmCSMWKor0qb">via GIPHY</a>
 </p>
-<p>There is a lot to take in there about where the data came from and how we dealth with it. Here is where you end up:</p>
+<p>There is a lot to take in there about where the data came from and how we dealt with it. Here is where you end up:</p>
 <ul>
 <li><strong>You have nine data files for each year and one reference file imported.</strong></li>
 </ul>
@@ -684,7 +684,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Add a chunk with just the <code>dstud13</code> data and run it.</li>
 </ol>
 <div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="bind-join.html#cb232-1" aria-hidden="true" tabindex="-1"></a>dstud13</span></code></pre></div>
-<pre><code>## # A tibble: 1,228 x 5
+<pre><code>## # A tibble: 1,228 × 5
 ##    district year  dpetallc dpetspec dpetspep
 ##    &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
 ##  1 001902   2013       595       73     12.3
@@ -697,14 +697,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  8 002901   2013      3617      250      6.9
 ##  9 003801   2013       635       45      7.1
 ## 10 003902   2013      2726      196      7.2
-## # ... with 1,218 more rows</code></pre>
+## # … with 1,218 more rows</code></pre>
 <p>The result shows there are <strong>1,228</strong> rows and <strong>5</strong> variables in the data, which should match what shows for <code>dstud13</code> in your Environment tab.</p>
 <ol style="list-style-type: decimal">
 <li>Now <strong>edit</strong> that chunk to use <code>bind_rows()</code> with <code>dstud14</code>.</li>
 </ol>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="bind-join.html#cb234-1" aria-hidden="true" tabindex="-1"></a>dstud13 <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="bind-join.html#cb234-1" aria-hidden="true" tabindex="-1"></a>dstud13 <span class="sc">|&gt;</span> </span>
 <span id="cb234-2"><a href="bind-join.html#cb234-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(dstud14)</span></code></pre></div>
-<pre><code>## # A tibble: 2,455 x 5
+<pre><code>## # A tibble: 2,455 × 5
 ##    district year  dpetallc dpetspec dpetspep
 ##    &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
 ##  1 001902   2013       595       73     12.3
@@ -717,27 +717,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  8 002901   2013      3617      250      6.9
 ##  9 003801   2013       635       45      7.1
 ## 10 003902   2013      2726      196      7.2
-## # ... with 2,445 more rows</code></pre>
+## # … with 2,445 more rows</code></pre>
 <p>This shows we now have <strong>2,455</strong> rows and <strong>5</strong> variables. This is good … we’ve addded the rows of <code>dstud14</code> but we don’t have any new columns because the column names were identical.</p>
 <p>Now <strong>edit the chunk</strong> to do all these things:</p>
 <ol style="list-style-type: decimal">
 <li>Save the result of the merge into a new data frame called <code>sped_merged</code>.</li>
-<li>Tack on another <code>bind_rows()</code> for the <code>dstud15</code> data so you can see you are adding more on.</li>
+<li>Within the <code>bind_rows()</code> function, also add the <code>dstud15</code> dataframe so you can see you are adding more on.</li>
 <li>At the bottom of the chunk print out the <code>sped_merged</code> tibble and pipe it into <code>count(year)</code> so you can make sure you continue to add rows correctly.</li>
 </ol>
 <p>It should look like this:</p>
-<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="bind-join.html#cb236-1" aria-hidden="true" tabindex="-1"></a>sped_merged <span class="ot">&lt;-</span> dstud13 <span class="sc">%&gt;%</span> </span>
-<span id="cb236-2"><a href="bind-join.html#cb236-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(dstud14) <span class="sc">%&gt;%</span> </span>
-<span id="cb236-3"><a href="bind-join.html#cb236-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(dstud15)</span>
-<span id="cb236-4"><a href="bind-join.html#cb236-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb236-5"><a href="bind-join.html#cb236-5" aria-hidden="true" tabindex="-1"></a><span class="co"># we use this to ensure we bind correctly when we add new years</span></span>
-<span id="cb236-6"><a href="bind-join.html#cb236-6" aria-hidden="true" tabindex="-1"></a>sped_merged <span class="sc">%&gt;%</span> <span class="fu">count</span>(year)</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 2
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="bind-join.html#cb236-1" aria-hidden="true" tabindex="-1"></a>sped_merged <span class="ot">&lt;-</span> dstud13 <span class="sc">|&gt;</span> </span>
+<span id="cb236-2"><a href="bind-join.html#cb236-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(</span>
+<span id="cb236-3"><a href="bind-join.html#cb236-3" aria-hidden="true" tabindex="-1"></a>    dstud14,</span>
+<span id="cb236-4"><a href="bind-join.html#cb236-4" aria-hidden="true" tabindex="-1"></a>    dstud15</span>
+<span id="cb236-5"><a href="bind-join.html#cb236-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb236-6"><a href="bind-join.html#cb236-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb236-7"><a href="bind-join.html#cb236-7" aria-hidden="true" tabindex="-1"></a><span class="co"># we use this to ensure we bind correctly when we add new years</span></span>
+<span id="cb236-8"><a href="bind-join.html#cb236-8" aria-hidden="true" tabindex="-1"></a>sped_merged <span class="sc">|&gt;</span> <span class="fu">count</span>(year)</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
 ##   year      n
 ##   &lt;chr&gt; &lt;int&gt;
 ## 1 2013   1228
 ## 2 2014   1227
 ## 3 2015   1219</code></pre>
+<p>(You might also see each new datatable added in their own <code>bind_rows()</code> function instead of all in one. Either works.)</p>
 <p>We are NOT saving the <code>count()</code> result here, we are just printing it to our screen to make sure we get all the years.</p>
 <p>Now that we know this is working, you’ll finish this out on your own.</p>
 <ol style="list-style-type: decimal">
@@ -771,12 +774,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Start a new Markdown section and note we are joining the reference data</li>
 <li>Add the chunk below and run it</li>
 </ol>
-<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="bind-join.html#cb238-1" aria-hidden="true" tabindex="-1"></a>sped_joined <span class="ot">&lt;-</span> dref <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="bind-join.html#cb238-1" aria-hidden="true" tabindex="-1"></a>sped_joined <span class="ot">&lt;-</span> dref <span class="sc">|&gt;</span> </span>
 <span id="cb238-2"><a href="bind-join.html#cb238-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(sped_merged, <span class="at">by =</span> <span class="st">&quot;district&quot;</span>)</span>
 <span id="cb238-3"><a href="bind-join.html#cb238-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb238-4"><a href="bind-join.html#cb238-4" aria-hidden="true" tabindex="-1"></a>sped_joined <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 9
-##   district distname   cntyname dflalted dflchart year  dpetallc dpetspec dpets~1
+<span id="cb238-4"><a href="bind-join.html#cb238-4" aria-hidden="true" tabindex="-1"></a>sped_joined <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 9
+##   district distname   cntyname dflalted dflchart year  dpetallc dpetspec dpets…¹
 ##   &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
 ## 1 001902   CAYUGA ISD ANDERSON N        N        2013       595       73    12.3
 ## 2 001902   CAYUGA ISD ANDERSON N        N        2014       553       76    13.7
@@ -784,19 +787,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 4 001902   CAYUGA ISD ANDERSON N        N        2016       568       78    13.7
 ## 5 001902   CAYUGA ISD ANDERSON N        N        2017       576       82    14.2
 ## 6 001902   CAYUGA ISD ANDERSON N        N        2018       575       83    14.4
-## # ... with abbreviated variable name 1: dpetspep</code></pre>
-<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="bind-join.html#cb240-1" aria-hidden="true" tabindex="-1"></a>sped_joined <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+## # … with abbreviated variable name ¹​dpetspep</code></pre>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="bind-join.html#cb240-1" aria-hidden="true" tabindex="-1"></a>sped_joined <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 10,684
 ## Columns: 9
-## $ district &lt;chr&gt; &quot;001902&quot;, &quot;001902&quot;, &quot;001902&quot;, &quot;001902&quot;, &quot;001902&quot;, &quot;001902&quot;, &quot;~
-## $ distname &lt;chr&gt; &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;CAYU~
-## $ cntyname &lt;chr&gt; &quot;ANDERSON&quot;, &quot;ANDERSON&quot;, &quot;ANDERSON&quot;, &quot;ANDERSON&quot;, &quot;ANDERSON&quot;, &quot;~
-## $ dflalted &lt;chr&gt; &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;~
-## $ dflchart &lt;chr&gt; &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;~
-## $ year     &lt;chr&gt; &quot;2013&quot;, &quot;2014&quot;, &quot;2015&quot;, &quot;2016&quot;, &quot;2017&quot;, &quot;2018&quot;, &quot;2019&quot;, &quot;2020~
-## $ dpetallc &lt;dbl&gt; 595, 553, 577, 568, 576, 575, 564, 557, 535, 1236, 1207, 1217~
-## $ dpetspec &lt;dbl&gt; 73, 76, 76, 78, 82, 83, 84, 82, 78, 113, 107, 126, 144, 139, ~
-## $ dpetspep &lt;dbl&gt; 12.3, 13.7, 13.2, 13.7, 14.2, 14.4, 14.9, 14.7, 14.6, 9.1, 8.~</code></pre>
+## $ district &lt;chr&gt; &quot;001902&quot;, &quot;001902&quot;, &quot;001902&quot;, &quot;001902&quot;, &quot;001902&quot;, &quot;001902&quot;, &quot;…
+## $ distname &lt;chr&gt; &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;CAYUGA ISD&quot;, &quot;CAYU…
+## $ cntyname &lt;chr&gt; &quot;ANDERSON&quot;, &quot;ANDERSON&quot;, &quot;ANDERSON&quot;, &quot;ANDERSON&quot;, &quot;ANDERSON&quot;, &quot;…
+## $ dflalted &lt;chr&gt; &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;…
+## $ dflchart &lt;chr&gt; &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;…
+## $ year     &lt;chr&gt; &quot;2013&quot;, &quot;2014&quot;, &quot;2015&quot;, &quot;2016&quot;, &quot;2017&quot;, &quot;2018&quot;, &quot;2019&quot;, &quot;2020…
+## $ dpetallc &lt;dbl&gt; 595, 553, 577, 568, 576, 575, 564, 557, 535, 1236, 1207, 1217…
+## $ dpetspec &lt;dbl&gt; 73, 76, 76, 78, 82, 83, 84, 82, 78, 113, 107, 126, 144, 139, …
+## $ dpetspep &lt;dbl&gt; 12.3, 13.7, 13.2, 13.7, 14.2, 14.4, 14.9, 14.7, 14.6, 9.1, 8.…</code></pre>
 <p>I’m showing both a <code>head()</code> and <code>glimpse()</code> here so you can see all the columns have been added.</p>
 <p>Let’s explain what is going on here:</p>
 <ul>
@@ -805,7 +808,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>We then pipe into <code>inner_join()</code> to <code>sped_merged</code>, which will attach our <code>dref</code> data to our merged data when the ID matches in the <code>district</code> variable.</li>
 <li>The <code>by = "district"</code> argument ensures that we are matching based on the <code>district</code> column in both data sets.</li>
 </ul>
-<p>We could’ve left out the <code>by =</code> argument and R would match columns of the same name, but it is best practice to specify your joining columns so it is clear what is happening. You wouldn’t want to be surprised by other columns of the same name that you didn’t want to join on. If you wanted to specify join columns of different names it would look like this: <code>df1 %&gt;% inner_join(df2, by = c("df1_id" = "df2_id))</code></p>
+<p>We could’ve left out the <code>by =</code> argument and R would match columns of the same name, but it is best practice to specify your joining columns so it is clear what is happening. You wouldn’t want to be surprised by other columns of the same name that you didn’t want to join on. If you wanted to specify join columns of different names it would look like this: <code>df1 |&gt; inner_join(df2, by = c("df1_id" = "df2_id))</code></p>
 <p>There are now <strong>10,684</strong> rows in our joined data, fewer than what was in the original merged file because some districts (mostly charters) have closed and were not in our reference file. We are comparing only districts that have been open during this time period. For that matter, we don’t want charter or alternative education districts at all, so we’ll drop those next.</p>
 </div>
 </div>
@@ -839,8 +842,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <summary>
 I’m being too nice here
 </summary>
-<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="bind-join.html#cb242-1" aria-hidden="true" tabindex="-1"></a>sped_cleaned <span class="ot">&lt;-</span> sped_joined <span class="sc">%&gt;%</span> </span>
-<span id="cb242-2"><a href="bind-join.html#cb242-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dflalted <span class="sc">==</span> <span class="st">&quot;N&quot;</span> <span class="sc">&amp;</span> dflchart <span class="sc">==</span> <span class="st">&quot;N&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="bind-join.html#cb242-1" aria-hidden="true" tabindex="-1"></a>sped_cleaned <span class="ot">&lt;-</span> sped_joined <span class="sc">|&gt;</span> </span>
+<span id="cb242-2"><a href="bind-join.html#cb242-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dflalted <span class="sc">==</span> <span class="st">&quot;N&quot;</span> <span class="sc">&amp;</span> dflchart <span class="sc">==</span> <span class="st">&quot;N&quot;</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb242-3"><a href="bind-join.html#cb242-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
 <span id="cb242-4"><a href="bind-join.html#cb242-4" aria-hidden="true" tabindex="-1"></a>    district,</span>
 <span id="cb242-5"><a href="bind-join.html#cb242-5" aria-hidden="true" tabindex="-1"></a>    distname,</span>
@@ -858,8 +861,8 @@ I’m being too nice here
 <h2><span class="header-section-number">10.7</span> Create an audit benchmark column<a href="bind-join.html#create-an-audit-benchmark-column" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Part of this story is to note when a district is above the “8.5%” benchmark that the TEA was using for their audit calculations. It would be useful to have a column that noted if a district was above or below that threshold so we could plot districts based on that flag. We’ll create this new column and introduce the logic of <a href="https://dplyr.tidyverse.org/reference/if_else.html"><code>if_else()</code></a>.</p>
 <p>OK, our data looks like this:</p>
-<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="bind-join.html#cb243-1" aria-hidden="true" tabindex="-1"></a>sped_cleaned <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 7
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="bind-join.html#cb243-1" aria-hidden="true" tabindex="-1"></a>sped_cleaned <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 7
 ##   district distname   cntyname year  all_count sped_count sped_percent
 ##   &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;
 ## 1 001902   CAYUGA ISD ANDERSON 2013        595         73         12.3
@@ -873,26 +876,26 @@ I’m being too nice here
 <li>Add a new Markdown section and note that you are adding an audit flag column</li>
 <li>Create an r chunk that and run it and I’ll explain after.</li>
 </ol>
-<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="bind-join.html#cb245-1" aria-hidden="true" tabindex="-1"></a>sped_flag <span class="ot">&lt;-</span> sped_cleaned <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="bind-join.html#cb245-1" aria-hidden="true" tabindex="-1"></a>sped_flag <span class="ot">&lt;-</span> sped_cleaned <span class="sc">|&gt;</span> </span>
 <span id="cb245-2"><a href="bind-join.html#cb245-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">audit_flag =</span> <span class="fu">if_else</span>(sped_percent <span class="sc">&gt;</span> <span class="fl">8.5</span>, <span class="st">&quot;ABOVE&quot;</span>, <span class="st">&quot;BELOW&quot;</span>))</span>
 <span id="cb245-3"><a href="bind-join.html#cb245-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb245-4"><a href="bind-join.html#cb245-4" aria-hidden="true" tabindex="-1"></a><span class="co"># this pulls 30 random rows so I can check results</span></span>
-<span id="cb245-5"><a href="bind-join.html#cb245-5" aria-hidden="true" tabindex="-1"></a>sped_flag <span class="sc">%&gt;%</span> <span class="fu">sample_n</span>(<span class="dv">10</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 10 x 8
-##    district distname               cntyn~1 year  all_c~2 sped_~3 sped_~4 audit~5
+<span id="cb245-5"><a href="bind-join.html#cb245-5" aria-hidden="true" tabindex="-1"></a>sped_flag <span class="sc">|&gt;</span> <span class="fu">sample_n</span>(<span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 10 × 8
+##    district distname               cntyn…¹ year  all_c…² sped_…³ sped_…⁴ audit…⁵
 ##    &lt;chr&gt;    &lt;chr&gt;                  &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  
-##  1 137901   KINGSVILLE ISD         KLEBERG 2013     3543     346     9.8 ABOVE  
-##  2 238904   GRANDFALLS-ROYALTY ISD WARD    2015      143      13     9.1 ABOVE  
-##  3 250906   ALBA-GOLDEN ISD        WOOD    2013      841      82     9.8 ABOVE  
-##  4 247904   POTH ISD               WILSON  2015      823      62     7.5 BELOW  
-##  5 074912   TRENTON ISD            FANNIN  2018      568      59    10.4 ABOVE  
-##  6 220910   LAKE WORTH ISD         TARRANT 2021     3309     356    10.8 ABOVE  
-##  7 054903   RALLS ISD              CROSBY  2014      532      55    10.3 ABOVE  
-##  8 101925   HUFFMAN ISD            HARRIS  2016     3454     279     8.1 BELOW  
-##  9 084911   FRIENDSWOOD ISD        GALVES~ 2015     6087     499     8.2 BELOW  
-## 10 115901   FT HANCOCK ISD         HUDSPE~ 2017      408      26     6.4 BELOW  
-## # ... with abbreviated variable names 1: cntyname, 2: all_count, 3: sped_count,
-## #   4: sped_percent, 5: audit_flag</code></pre>
+##  1 128904   FALLS CITY ISD         KARNES  2021      406      32     7.9 BELOW  
+##  2 061903   PILOT POINT ISD        DENTON  2015     1388      92     6.6 BELOW  
+##  3 112910   SULPHUR BLUFF ISD      HOPKINS 2021      218      31    14.2 ABOVE  
+##  4 245903   RAYMONDVILLE ISD       WILLACY 2014     2154     139     6.5 BELOW  
+##  5 117904   PLEMONS-STINNETT-PHIL… HUTCHI… 2019      708      69     9.7 ABOVE  
+##  6 251901   DENVER CITY ISD        YOAKUM  2018     1685      98     5.8 BELOW  
+##  7 230905   HARMONY ISD            UPSHUR  2020     1088      70     6.4 BELOW  
+##  8 119903   PERRIN-WHITT CISD      JACK    2018      340      37    10.9 ABOVE  
+##  9 223904   WELLMAN-UNION CISD     TERRY   2015      248      26    10.5 ABOVE  
+## 10 070905   FERRIS ISD             ELLIS   2017     2580     259    10   ABOVE  
+## # … with abbreviated variable names ¹​cntyname, ²​all_count, ³​sped_count,
+## #   ⁴​sped_percent, ⁵​audit_flag</code></pre>
 <p>Let’s walk through the code above:</p>
 <ul>
 <li>We’re making a new data frame called <code>sped_flag</code> and then starting with <code>sped_cleaned</code>.</li>

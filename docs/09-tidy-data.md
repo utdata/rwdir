@@ -96,21 +96,21 @@ raw_data
 ```
 
 ```
-## # A tibble: 65 x 11
-##    times~1 first~2 last_~3 candy~4 box_c~5   red green orange yellow  blue brown
+## # A tibble: 67 × 11
+##    times…¹ first…² last_…³ candy…⁴ box_c…⁵   red green orange yellow  blue brown
 ##    <chr>   <chr>   <chr>   <chr>   <chr>   <dbl> <dbl>  <dbl>  <dbl> <dbl> <dbl>
-##  1 2/21/2~ Christ~ McDona~ Plain   140BSC~     2    17     11      4    16     4
-##  2 2/28/2~ Andrew  Logan   Plain   140BSC~     2     9     14      4    17     9
-##  3 2/28/2~ Gabby   Ybarra  Plain   140BSC~     4    11     14      0    19     7
-##  4 2/28/2~ Veroni~ Apodaca Plain   140BSC~     1    17     16      2    13     8
-##  5 2/28/2~ Criste~ Jones   Plain   140BSC~     3    19     14      3    13     3
-##  6 2/28/2~ Marina  Garcia  Plain   140BSC~     7    11     13      1    14     6
-##  7 2/28/2~ Samuel  Stark   Plain   140BSC~     3     9     10      5    18     8
-##  8 2/28/2~ Kevin   Malcol~ Plain   140BSC~     4    15     13      6    14     3
-##  9 2/28/2~ Alexa   Haverl~ Plain   140BSC~     5    15      6      2    21     5
-## 10 2/28/2~ Zachar~ Washin~ Plain   140BSC~     1    15     14      1    20     6
-## # ... with 55 more rows, and abbreviated variable names 1: timestamp,
-## #   2: first_name, 3: last_name, 4: candy_type, 5: box_code
+##  1 2/21/2… Christ… McDona… Plain   140BSC…     2    17     11      4    16     4
+##  2 2/28/2… Andrew  Logan   Plain   140BSC…     2     9     14      4    17     9
+##  3 2/28/2… Gabby   Ybarra  Plain   140BSC…     4    11     14      0    19     7
+##  4 2/28/2… Veroni… Apodaca Plain   140BSC…     1    17     16      2    13     8
+##  5 2/28/2… Criste… Jones   Plain   140BSC…     3    19     14      3    13     3
+##  6 2/28/2… Marina  Garcia  Plain   140BSC…     7    11     13      1    14     6
+##  7 2/28/2… Samuel  Stark   Plain   140BSC…     3     9     10      5    18     8
+##  8 2/28/2… Kevin   Malcol… Plain   140BSC…     4    15     13      6    14     3
+##  9 2/28/2… Alexa   Haverl… Plain   140BSC…     5    15      6      2    21     5
+## 10 2/28/2… Zachar… Washin… Plain   140BSC…     1    15     14      1    20     6
+## # … with 57 more rows, and abbreviated variable names ¹​timestamp, ²​first_name,
+## #   ³​last_name, ⁴​candy_type, ⁵​box_code
 ```
 
 This data comes from a Google Sheets document fed by a form that students have filled out, counting the colors of candies in a standard size bag of plain M&Ms.
@@ -147,7 +147,7 @@ candy %>% head()
 ```
 
 ```
-## # A tibble: 6 x 8
+## # A tibble: 6 × 8
 ##   first_name last_name   red green orange yellow  blue brown
 ##   <chr>      <chr>     <dbl> <dbl>  <dbl>  <dbl> <dbl> <dbl>
 ## 1 Christian  McDonald      2    17     11      4    16     4
@@ -248,7 +248,7 @@ candy_long %>% head()
 ```
 
 ```
-## # A tibble: 6 x 4
+## # A tibble: 6 × 4
 ##   first_name last_name color  candies
 ##   <chr>      <chr>     <chr>    <dbl>
 ## 1 Christian  McDonald  red          2
@@ -277,15 +277,15 @@ candy_avg
 ```
 
 ```
-## # A tibble: 6 x 2
+## # A tibble: 6 × 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
-## 1 blue         14   
-## 2 brown         6.22
-## 3 green        13.4 
-## 4 orange       11.1 
-## 5 red           4.31
-## 6 yellow        5.66
+## 1 blue         13.8 
+## 2 brown         6.24
+## 3 green        13.3 
+## 4 orange       11.0 
+## 5 red           4.57
+## 6 yellow        5.79
 ```
 
 ### Round the averages
@@ -309,15 +309,15 @@ candy_avg
 ```
 
 ```
-## # A tibble: 6 x 2
+## # A tibble: 6 × 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
-## 1 blue          14  
+## 1 blue          13.8
 ## 2 brown          6.2
-## 3 green         13.4
-## 4 orange        11.1
-## 5 red            4.3
-## 6 yellow         5.7
+## 3 green         13.3
+## 4 orange        11  
+## 5 red            4.6
+## 6 yellow         5.8
 ```
 
 BONUS POINT OPPORTUNITY: Using a similar method to rounding above, you can also capitalize the names of the colors. You don't _have_ to do this, but I'll give you bonus points if you do:
@@ -419,8 +419,8 @@ candy_long %>%
 ```
 
 ```
-## # A tibble: 6 x 66
-##   color  Chris~1 Andre~2 Gabby~3 Veron~4 Crist~5 Marin~6 Samue~7 Kevin~8 Alexa~9
+## # A tibble: 6 × 68
+##   color  Chris…¹ Andre…² Gabby…³ Veron…⁴ Crist…⁵ Marin…⁶ Samue…⁷ Kevin…⁸ Alexa…⁹
 ##   <chr>    <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>
 ## 1 red          2       2       4       1       3       7       3       4       5
 ## 2 green       17       9      11      17      19      11       9      15      15
@@ -428,13 +428,13 @@ candy_long %>%
 ## 4 yellow       4       4       0       2       3       1       5       6       2
 ## 5 blue        16      17      19      13      13      14      18      14      21
 ## 6 brown        4       9       7       8       3       6       8       3       5
-## # ... with 56 more variables: Zacharia_Washington <dbl>, Jose_Martinez <dbl>,
+## # … with 58 more variables: Zacharia_Washington <dbl>, Jose_Martinez <dbl>,
 ## #   Ana_Garza <dbl>, Carolina_Cruz <dbl>, Anissa_Reyes <dbl>,
 ## #   Alaina_Bookman <dbl>, Bryan_Baker <dbl>, Mckenna_Lucas <dbl>,
 ## #   Marissa_DeLeon <dbl>, Claire_Stevens <dbl>, Katy_Vanatsky <dbl>,
 ## #   Vicente_Montalvo <dbl>, Eric_Seow <dbl>, Brandon_Jenkins <dbl>,
 ## #   Luke_Skywalker <dbl>, Pamela_Vance <dbl>, Eniola_Longe <dbl>,
-## #   Jo_Lukito <dbl>, `Obi Wan_Kenobi` <dbl>, `Jar Jar_Binks` <dbl>, ...
+## #   Jo_Lukito <dbl>, `Obi Wan_Kenobi` <dbl>, `Jar Jar_Binks` <dbl>, …
 ```
 
 ### Pivot wider on your own

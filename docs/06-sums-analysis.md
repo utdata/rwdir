@@ -50,14 +50,14 @@ library(tidyverse)
 ```
 
 ```
-## -- Attaching packages --------------------------------------- tidyverse 1.3.2 --
-## v ggplot2 3.3.6     v purrr   0.3.4
-## v tibble  3.1.8     v dplyr   1.0.9
-## v tidyr   1.2.0     v stringr 1.4.1
-## v readr   2.1.2     v forcats 0.5.2
-## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
+## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.2.0     ✔ stringr 1.4.1
+## ✔ readr   2.1.2     ✔ forcats 0.5.1
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
 ```
 
 </details>
@@ -82,19 +82,19 @@ tx |> glimpse()
 ```
 ## Rows: 6,698
 ## Columns: 13
-## $ state             <chr> "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX"~
-## $ agency_name       <chr> "ABERNATHY POLICE DEPT", "ABERNATHY POLICE DEPT", "A~
-## $ nsn               <chr> "2320-01-371-9584", "1240-01-540-3690", "1240-01-411~
-## $ item_name         <chr> "TRUCK,UTILITY", "SIGHT,REFLEX", "SIGHT,REFLEX", "SI~
-## $ quantity          <dbl> 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
-## $ ui                <chr> "Each", "Each", "Each", "Each", "Each", "Each", "Eac~
-## $ acquisition_value <dbl> 62627, 333, 396, 396, 396, 371680, 371680, 658000, 3~
-## $ demil_code        <chr> "C", "D", "D", "D", "D", "Q", "Q", "C", "D", "D", "D~
-## $ demil_ic          <dbl> 1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 6, 7, 7, 1, 1~
-## $ ship_date         <dttm> 2016-03-07, 2016-02-02, 2013-09-13, 2013-09-13, 201~
-## $ station_type      <chr> "State", "State", "State", "State", "State", "State"~
-## $ total_value       <dbl> 62627, 1665, 396, 396, 396, 371680, 371680, 658000, ~
-## $ control_type      <lgl> TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE~
+## $ state             <chr> "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX"…
+## $ agency_name       <chr> "ABERNATHY POLICE DEPT", "ABERNATHY POLICE DEPT", "A…
+## $ nsn               <chr> "2320-01-371-9584", "1240-01-540-3690", "1240-01-411…
+## $ item_name         <chr> "TRUCK,UTILITY", "SIGHT,REFLEX", "SIGHT,REFLEX", "SI…
+## $ quantity          <dbl> 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ ui                <chr> "Each", "Each", "Each", "Each", "Each", "Each", "Eac…
+## $ acquisition_value <dbl> 62627, 333, 396, 396, 396, 371680, 371680, 658000, 3…
+## $ demil_code        <chr> "C", "D", "D", "D", "D", "Q", "Q", "C", "D", "D", "D…
+## $ demil_ic          <dbl> 1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 6, 7, 7, 1, 1…
+## $ ship_date         <dttm> 2016-03-07, 2016-02-02, 2013-09-13, 2013-09-13, 201…
+## $ station_type      <chr> "State", "State", "State", "State", "State", "State"…
+## $ total_value       <dbl> 62627, 1665, 396, 396, 396, 371680, 371680, 658000, …
+## $ control_type      <lgl> TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE…
 ```
 
 </details>
@@ -149,7 +149,7 @@ tx_c |>
 ```
 
 ```
-## # A tibble: 1 x 2
+## # A tibble: 1 × 2
 ##   `sum(quantity)` `sum(total_value)`
 ##             <dbl>              <dbl>
 ## 1           22583         134445960.
@@ -174,7 +174,7 @@ tx_c |>
 ```
 
 ```
-## # A tibble: 1 x 2
+## # A tibble: 1 × 2
 ##   summed_quantity summed_total_value
 ##             <dbl>              <dbl>
 ## 1           22583         134445960.
@@ -204,7 +204,7 @@ tx_c |>
 ```
 
 ```
-## # A tibble: 1 x 4
+## # A tibble: 1 × 4
 ##   dumb_sum less_dumb_sum dumb_avg less_dumb_avg
 ##      <dbl>         <dbl>    <dbl>         <dbl>
 ## 1       NA          7562       NA          1.41
@@ -253,7 +253,7 @@ tx_c |>
 ```
 
 ```
-## # A tibble: 335 x 2
+## # A tibble: 335 × 2
 ##    agency_name                     summed_quantity
 ##    <chr>                                     <dbl>
 ##  1 ABERNATHY POLICE DEPT                         6
@@ -266,7 +266,7 @@ tx_c |>
 ##  8 ANTHONY POLICE DEPT                          10
 ##  9 ARANSAS PASS POLICE DEPARTMENT               28
 ## 10 ARCHER COUNTY SHERIFF OFFICE                  3
-## # ... with 325 more rows
+## # … with 325 more rows
 ```
 
 Let's break this down a little.
@@ -287,14 +287,14 @@ tx_c |>
 ```
 
 ```
-## # A tibble: 2 x 13
-##   state agency_name          nsn   item_~1 quant~2 ui    acqui~3 demil~4 demil~5
+## # A tibble: 2 × 13
+##   state agency_name          nsn   item_…¹ quant…² ui    acqui…³ demil…⁴ demil…⁵
 ##   <chr> <chr>                <chr> <chr>     <dbl> <chr>   <dbl> <chr>     <dbl>
-## 1 TX    ABERNATHY POLICE DE~ 2320~ TRUCK,~       1 Each    62627 C             1
-## 2 TX    ABERNATHY POLICE DE~ 1240~ SIGHT,~       5 Each      333 D             1
-## # ... with 4 more variables: ship_date <dttm>, station_type <chr>,
+## 1 TX    ABERNATHY POLICE DE… 2320… TRUCK,…       1 Each    62627 C             1
+## 2 TX    ABERNATHY POLICE DE… 1240… SIGHT,…       5 Each      333 D             1
+## # … with 4 more variables: ship_date <dttm>, station_type <chr>,
 ## #   total_value <dbl>, control_type <lgl>, and abbreviated variable names
-## #   1: item_name, 2: quantity, 3: acquisition_value, 4: demil_code, 5: demil_ic
+## #   ¹​item_name, ²​quantity, ³​acquisition_value, ⁴​demil_code, ⁵​demil_ic
 ```
 
 If we look at the `quantity` column there and eyeball all the rows, we see there 8 rows with a value of "1", and one row with a value of "5". 8 + 5 = 13, which matches our `summed_quantity` answer in our summary table. We're good!
@@ -319,7 +319,7 @@ tx_c |>
 ```
 
 ```
-## # A tibble: 335 x 3
+## # A tibble: 335 × 3
 ##    agency_name                     summed_quantity summed_total_value
 ##    <chr>                                     <dbl>              <dbl>
 ##  1 ABERNATHY POLICE DEPT                         6             64292 
@@ -332,7 +332,7 @@ tx_c |>
 ##  8 ANTHONY POLICE DEPT                          10              7490 
 ##  9 ARANSAS PASS POLICE DEPARTMENT               28            515396.
 ## 10 ARCHER COUNTY SHERIFF OFFICE                  3           1101000 
-## # ... with 325 more rows
+## # … with 325 more rows
 ```
 
 ### Arrange the results
@@ -353,7 +353,7 @@ tx_c |>
 ```
 
 ```
-## # A tibble: 335 x 3
+## # A tibble: 335 × 3
 ##    agency_name                       summed_quantity summed_total_value
 ##    <chr>                                       <dbl>              <dbl>
 ##  1 HOUSTON POLICE DEPT                          2384           7322064.
@@ -366,7 +366,7 @@ tx_c |>
 ##  8 MILAM COUNTY SHERIFF DEPT                      83           2196952.
 ##  9 HARRIS COUNTY SHERIFF'S OFFICE                 16           1834141 
 ## 10 VAN ZANDT COUNTY SHERIFF'S OFFICE              45           1789636.
-## # ... with 325 more rows
+## # … with 325 more rows
 ```
 
 So now we've sorted the results to put the highest `summed_total_value` at the top.
@@ -416,7 +416,7 @@ tx_agency_totals
 ```
 
 ```
-## # A tibble: 335 x 3
+## # A tibble: 335 × 3
 ##    agency_name                       summed_quantity summed_total_value
 ##    <chr>                                       <dbl>              <dbl>
 ##  1 HOUSTON POLICE DEPT                          2384           7322064.
@@ -429,7 +429,7 @@ tx_agency_totals
 ##  8 MILAM COUNTY SHERIFF DEPT                      83           2196952.
 ##  9 HARRIS COUNTY SHERIFF'S OFFICE                 16           1834141 
 ## 10 VAN ZANDT COUNTY SHERIFF'S OFFICE              45           1789636.
-## # ... with 325 more rows
+## # … with 325 more rows
 ```
 
 The result is the same, but we can reuse the `tx_agency_totals` tibble.
@@ -523,7 +523,7 @@ tx_agency_totals |>
 ```
 
 ```
-## # A tibble: 19 x 3
+## # A tibble: 19 × 3
 ##    agency_name                        summed_quantity summed_total_value
 ##    <chr>                                        <dbl>              <dbl>
 ##  1 SAN MARCOS POLICE DEPT                         600           3200702.
@@ -602,9 +602,9 @@ tx_agency_item_totals
 ```
 
 ```
-## # A tibble: 1,548 x 4
+## # A tibble: 1,548 × 4
 ## # Groups:   agency_name [335]
-##    agency_name                       item_name              summed_qua~1 summe~2
+##    agency_name                       item_name              summed_qua…¹ summe…²
 ##    <chr>                             <chr>                         <dbl>   <dbl>
 ##  1 HOUSTON POLICE DEPT               AIRCRAFT, FIXED WING              1 5390000
 ##  2 DPS SWAT- TEXAS RANGERS           MINE RESISTANT VEHICLE            4 2611000
@@ -616,8 +616,8 @@ tx_agency_item_totals
 ##  8 BURKBURNETT POLICE DEPT           MINE RESISTANT VEHICLE            1  865000
 ##  9 CLEBURNE POLICE DEPT              MINE RESISTANT VEHICLE            1  865000
 ## 10 CUERO POLICE DEPT                 MINE RESISTANT VEHICLE            1  865000
-## # ... with 1,538 more rows, and abbreviated variable names 1: summed_quantity,
-## #   2: summed_total_value
+## # … with 1,538 more rows, and abbreviated variable names ¹​summed_quantity,
+## #   ²​summed_total_value
 ```
 
 </details>
@@ -644,9 +644,9 @@ tx_agency_item_totals |>
 ```
 
 ```
-## # A tibble: 175 x 4
+## # A tibble: 175 × 4
 ## # Groups:   agency_name [19]
-##    agency_name                       item_name                   summe~1 summe~2
+##    agency_name                       item_name                   summe…¹ summe…²
 ##    <chr>                             <chr>                         <dbl>   <dbl>
 ##  1 UNIV OF TEXAS SYSTEM POLICE HI_ED MINE RESISTANT VEHICLE            2  1.23e6
 ##  2 AUSTIN POLICE DEPT                HELICOPTER,FLIGHT TRAINER         1  8.33e5
@@ -657,9 +657,9 @@ tx_agency_item_totals |>
 ##  7 SAN MARCOS POLICE DEPT            MINE RESISTANT VEHICLE            1  7.33e5
 ##  8 BASTROP COUNTY SHERIFF'S OFFICE   MINE RESISTANT VEHICLE            1  6.58e5
 ##  9 SAN MARCOS POLICE DEPT            CAPABILITIES SET,NON-LETHAL       1  4.95e5
-## 10 AUSTIN POLICE DEPT                IMAGE INTENSIFIER,NIGHT VI~      85  4.59e5
-## # ... with 165 more rows, and abbreviated variable names 1: summed_quantity,
-## #   2: summed_total_value
+## 10 AUSTIN POLICE DEPT                IMAGE INTENSIFIER,NIGHT VI…      85  4.59e5
+## # … with 165 more rows, and abbreviated variable names ¹​summed_quantity,
+## #   ²​summed_total_value
 ```
 
 Because our original list arranged the data by the most expensive items, we can see that here. But it might be easier to rearrange the data by agency name first, then the most expensive items.
@@ -675,22 +675,22 @@ tx_agency_item_totals |>
 ```
 
 ```
-## # A tibble: 175 x 4
+## # A tibble: 175 × 4
 ## # Groups:   agency_name [19]
-##    agency_name        item_name                                  summe~1 summe~2
+##    agency_name        item_name                                  summe…¹ summe…²
 ##    <chr>              <chr>                                        <dbl>   <dbl>
 ##  1 AUSTIN POLICE DEPT HELICOPTER,FLIGHT TRAINER                        1 833400 
 ##  2 AUSTIN POLICE DEPT IMAGE INTENSIFIER,NIGHT VISION                  85 458831.
 ##  3 AUSTIN POLICE DEPT SIGHT,THERMAL                                   29 442310 
-##  4 AUSTIN POLICE DEPT PACKBOT 510 WITH FASTAC REMOTELY CONTROLL~       4 308000 
+##  4 AUSTIN POLICE DEPT PACKBOT 510 WITH FASTAC REMOTELY CONTROLL…       4 308000 
 ##  5 AUSTIN POLICE DEPT SIGHT,REFLEX                                   420 169256.
 ##  6 AUSTIN POLICE DEPT ILLUMINATOR,INTEGRATED,SMALL ARMS              135 122302 
 ##  7 AUSTIN POLICE DEPT RECON SCOUT XT                                   8  92451.
 ##  8 AUSTIN POLICE DEPT TEST SET,NIGHT VISION VIEWER                     2  55610 
 ##  9 AUSTIN POLICE DEPT SCOPE,NIGHT-POCKET                               5  20535 
 ## 10 AUSTIN POLICE DEPT POWER SUPPLY ASSEMBLY                           63  20086.
-## # ... with 165 more rows, and abbreviated variable names 1: summed_quantity,
-## #   2: summed_total_value
+## # … with 165 more rows, and abbreviated variable names ¹​summed_quantity,
+## #   ²​summed_total_value
 ```
 
 ### Research some interesting items
@@ -713,7 +713,7 @@ tx_c |>
 ```
 
 ```
-## # A tibble: 100 x 2
+## # A tibble: 100 × 2
 ##    item_name                         nsn             
 ##    <chr>                             <chr>           
 ##  1 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
@@ -726,7 +726,7 @@ tx_c |>
 ##  8 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
 ##  9 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
 ## 10 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
-## # ... with 90 more rows
+## # … with 90 more rows
 ```
 
 It looks like most of these illuminators use this `nsn`: 5855-01-534-5931.
