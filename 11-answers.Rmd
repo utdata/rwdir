@@ -1,12 +1,12 @@
 # Plotting for answers {#answers}
 
-This is the second of of a two-chapter project. Now that we have assembled and cleaned our data, we need to answer this question in our followup to the [Denied](https://www.houstonchronicle.com/denied/) series:
+This is the second of of a two-chapter project. Now that we have assembled and cleaned our data, we need to answer these questions in our followup to the [Denied](https://www.houstonchronicle.com/denied/) series:
 
 - Has the percentage of special education students in Texas changed since the benchmarking policy was dropped??
 - How many districts were above that arbitrary 8.5% benchmark before and after the changes?
 - How have local districts changed?
 
-The idea here is to answer those two questions through plotting. We'll use this chapter to walk through the process of using plots to explore and find answers in your data.
+The idea here is to answer those questions through plotting. We'll use this chapter to walk through the process of using plots to explore and find answers in your data.
 
 ## Goals of this chapter
 
@@ -15,7 +15,7 @@ The idea here is to answer those two questions through plotting. We'll use this 
 - Practice plots to reveal insights in data
 - There are wrap-up assignments that include writing, charts and this analysis
 
-When a new concept is introduced, it shown and explained here. However, there are also **on your own** parts where you apply concepts you have learned in previous chapters or assignments.
+When a new concept is introduced, it's shown and explained here. However, there are also **on your own** parts where you apply concepts you have learned in previous chapters or assignments.
 
 ## Project setup
 
@@ -34,18 +34,18 @@ library(DT)
 1. Create a section for your import
 2. Import your cleaned data and call it `sped` if you want to follow along here.
 
-You should know how do do all that and I don't know what you called in export anyway.
+You should know how to do all that and I don't know what you called your export file anyway.
 
 ```{r import, include=FALSE}
 sped <- read_rds("data-processed/01-sped-districts.rds")
 
-sped %>% head()
+sped |> head()
 ```
 
-But to recap, it should look like this:
+But to recap, the data should look like this:
 
 ```{r sped-peek}
-sped %>% head()
+sped |> head()
 ```
 
 ## Make a searchable table
@@ -77,13 +77,14 @@ You used [`pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.htm
 1. Save the result into a new tibble and call it `district_percents_data`
 
 <details>
-  <summary>You won't need this code below because I believe in you</summary>
+  <summary>You won't need this because I believe in you</summary>
 ```{r select-pivot-wider}
-district_percents_data <- sped %>% 
-  select(distname, cntyname, year, sped_percent) %>% 
+
+district_percents_data <- sped |> 
+  select(distname, cntyname, year, sped_percent) |> 
   pivot_wider(names_from = year, values_from = sped_percent)
 ```
-<details>
+</details>
 
 
 ### Make a datatable
@@ -93,7 +94,7 @@ Now comes the magic.
 1. In a new R chunk take your `district_percents_data` and then pipe it into a function called `datatable()`
 
 ```{r datatable}
-district_percents_data %>% 
+district_percents_data |> 
   datatable()
 ```
 
@@ -145,13 +146,13 @@ So, let's summarize our data. This is a "simple" group_by and summarize to get y
 <details>
   <summary>My version</summary>
 ```{r yearly-percent-data}
-yearly_percent <- sped %>% 
-  group_by(year) %>% 
+yearly_percent <- sped |> 
+  group_by(year) |> 
   summarise(
     total_students = sum(all_count),
     total_sped = sum(sped_count)
-  ) %>% 
-  mutate(sped_percent = ((total_sped / total_students) * 100) %>% round(1))
+  ) |> 
+  mutate(sped_percent = ((total_sped / total_students) * 100) |> round(1))
 
 yearly_percent
 ```
@@ -162,7 +163,7 @@ yearly_percent
 And with that table, you can plot your chart using the `year` and `sped_percent`.
 
 ```{r yearly-percent-plot}
-yearly_percent %>% 
+yearly_percent |> 
   ggplot(aes(x = year, y = sped_percent)) + 
   geom_col() +
   geom_text(aes(label = sped_percent, vjust = -.5))
@@ -178,7 +179,7 @@ BTW, if you wanted to make that chart in [datawrapper](https://academy.datawrapp
 
 Our second question is this: **How many districts were above that arbitrary 8.5% benchmark before and after the changes?**
 
-It was in anticipation for this that we built the `audit_flag` field in our data. With that we can count how many rows have the "ABOVE" or "BELOW" value. (In reality, it's probably at this point we would discover it useful to create, instead of at the data cleaning phase, but I wanted to get that part out of the way to we can concentrate on the charts.)
+It was in anticipation for this that we built the `audit_flag` field in our data. With that we can count how many rows have the "ABOVE" or "BELOW" value. (In reality, it's probably at this point we would discover it useful to create, instead of at the data cleaning phase, but I wanted to get that part out of the way so we can concentrate on the charts.)
 
 To decide on which chart to build, we can go back to our chart decision workflow or consult the ggplot cheetsheet. Given we have the discrete values of `audit_flag` and `years`, and we want to plot how many districts are counted (which is a continuous value), we're looking at a stacked or grouped column/bar chart or a line chart.
 
@@ -196,7 +197,7 @@ Before we can build the chart, we need to summarize our data. The logic is this:
   <summary>Use GSA or the `count()` shortcut</summary> 
 ```{r count-districts-code}
 # I used the count() shortcut instead of GSA
-flag_count_districts <- sped %>% 
+flag_count_districts <- sped |> 
   count(year, audit_flag, name = "count_districts")
 ```
 </details>
@@ -217,7 +218,7 @@ Now that we have the data, we can build the ggplot column chart. The key new thi
 1. Add an R chunk with the following:
 
 ```{r audit-col-stacked}
-flag_count_districts %>% 
+flag_count_districts |> 
   ggplot(aes(x = year, y = count_districts, fill = audit_flag)) +
   geom_col()
 ```
@@ -231,7 +232,7 @@ Leave that chart there for reference, but let's build a new one that is almost t
 1. Update the column geom to this: `geom_col(position = "dodge")`
 
 ```{r audit-col-grouped}
-flag_count_districts %>% 
+flag_count_districts |> 
   ggplot(aes(x = year, y = count_districts, fill = audit_flag)) +
   geom_col(position = "dodge")
 ```
@@ -244,7 +245,7 @@ Lastly, let's chart this data as a line chart to see if that looks any better or
 1. Add the chunk below.
 
 ```{r audit-line}
-flag_count_districts %>% 
+flag_count_districts |> 
   ggplot(aes(x = year, y = count_districts, group = audit_flag)) +
   geom_line(aes(color = audit_flag)) +
   ylim(0,1000)
@@ -269,7 +270,7 @@ Looking at the chart suggestions workflow, we are doing a comparison over time o
 To make that line chart we think about our axes and groups: We need our x axis of `year`, y axis of the `sped_percent` and we need to group the lines by their district. Since we need a column that has each year, the _long_ data we started with should suffice:
 
 ```{r local-show-sped}
-sped %>%
+sped |>
   head()
 ```
 
@@ -285,8 +286,8 @@ We just need to filter that down to a single county `cntyname == "BASTROP"` to s
 It should look like this:
 
 ```{r echo=FALSE}
-sped %>% 
-  filter(cntyname == "BASTROP") %>% 
+sped |> 
+  filter(cntyname == "BASTROP") |> 
   ggplot(aes(x = year, y = sped_percent, group = distname)) +
   geom_line(aes(color = distname))
 ```

@@ -62,16 +62,17 @@ glimpse(leso) #peek at the data
 ```
 
 </details>
-
+<br/>
 Don't forget to also do the other processing steps we did in [Chapter 5](https://utdata.github.io/rwdir/sums-import.html#create-a-total_value-column).
-
-<details>
-  <summary>Again, you should be able to do this on your own</summary>
 
 Buuuut, if you needed a refresher, check out section [5.4.6](https://utdata.github.io/rwdir/sums-import.html#remove-unnecessary-columns) to [5.4.7](https://utdata.github.io/rwdir/sums-import.html#create-a-total_value-column). There are 2 steps to this:
 
 - Removing unnecessary columns using `select()`  
 - Creating a `total_value` column using `mutate()`  
+
+<details>
+  <summary>Again, you should be able to do this on your own</summary>
+
 
 ```{r clean-data}
 leso_tight <- leso |> 
@@ -86,6 +87,7 @@ leso_total <- leso_tight |>
 ```
 
 </details>
+<br/>
 
 Alrighty! Let's look at the data
 
@@ -101,21 +103,22 @@ To prepare the data for visualizing, we need to do a couple more new things. Thi
 
 1. `filter` the data to focus on more recent data. Let's specifically consider military surplus in 2010 and after.
 2. And then, create a `year` variable using the `year()` function. `year()` is a function in `lubridate` that allows us to aggregate  
-3. And then, `select` a few variables to study (specifically, `year`, `total_value`, `state`, and `agency_name`)
+3. And then, `select` a few variables to study (specifically, `year`, `total_value`, and `state`)
+4. You should save all that into a new data frame called `leso_dated`.
 
 ```{r leso-wrangle}
-leso_total <- leso_total |>
+leso_dated <- leso_total |>
   filter(ship_date >= as.Date("2010-01-01")) |>
   mutate(year = year(ship_date)) |> #if you get an error, make sure you've loaded the lubridate library!
   select(year, total_value, state)
 
-glimpse(leso_total)
+glimpse(leso_dated)
 ```
 
 There's a lot of information in this data, so let's focus our visualizing on Texas, like we did in our previous chapters. We'll do this by `filter`ing the rows where `state == "TX"`.
 
 ```{r leso-tx-filter}
-leso_texas <- leso_total |> 
+leso_texas <- leso_dated |> 
   filter(state == "TX")
 ```
 
@@ -265,13 +268,13 @@ OK, our Texas military surplus information is fine ... but how does that compare
 
 ### Prepare the data
 
-We need to go back to our original `leso_total` to get the additional states.
+We need to go back to our original `leso_dated` to get the additional states.
 
 1. Start a new section that notes we are building a chart for five states (Texas, Oklahoma, Arkansas, New Mexico, and Louisiana)
 2. Prepare the data using the `%in%` filter that we learned about in [Chapter 6](https://utdata.github.io/rwdir/sums-analyze.html#looking-a-local-agencies). Rather than creating a separate list, we're going to write the list right into the `filter()` function using `c()`.
 
 ```{r five-hied-data}
-leso_five <- leso_total |> 
+leso_five <- leso_dated |> 
   filter(
     state %in% c("TX", "OK", "AR", "NM", "LA")
   )

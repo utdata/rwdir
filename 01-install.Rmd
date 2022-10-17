@@ -43,7 +43,7 @@ If later during package installation you get errors that mention "git" or "xcode
 
 ## Class project folder
 
-To keep things consistent and help with troubleshooting, We recommend that you save your work in the same location all the time.
+To keep things consistent and help with troubleshooting, we recommend that you save your work in the same location all the time.
 
 - On both Mac and Windows, every user has a "Documents" folder. Open that folder. (If you don't know where it is, ask us to help you find it.)
 - Create a new folder called "rwd". Use all lowercase letters.
