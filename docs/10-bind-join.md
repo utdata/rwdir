@@ -358,16 +358,16 @@ sped_flag |> sample_n(10)
 ## # A tibble: 10 × 8
 ##    district distname               cntyn…¹ year  all_c…² sped_…³ sped_…⁴ audit…⁵
 ##    <chr>    <chr>                  <chr>   <chr>   <dbl>   <dbl>   <dbl> <chr>  
-##  1 128904   FALLS CITY ISD         KARNES  2021      406      32     7.9 BELOW  
-##  2 061903   PILOT POINT ISD        DENTON  2015     1388      92     6.6 BELOW  
-##  3 112910   SULPHUR BLUFF ISD      HOPKINS 2021      218      31    14.2 ABOVE  
-##  4 245903   RAYMONDVILLE ISD       WILLACY 2014     2154     139     6.5 BELOW  
-##  5 117904   PLEMONS-STINNETT-PHIL… HUTCHI… 2019      708      69     9.7 ABOVE  
-##  6 251901   DENVER CITY ISD        YOAKUM  2018     1685      98     5.8 BELOW  
-##  7 230905   HARMONY ISD            UPSHUR  2020     1088      70     6.4 BELOW  
-##  8 119903   PERRIN-WHITT CISD      JACK    2018      340      37    10.9 ABOVE  
-##  9 223904   WELLMAN-UNION CISD     TERRY   2015      248      26    10.5 ABOVE  
-## 10 070905   FERRIS ISD             ELLIS   2017     2580     259    10   ABOVE  
+##  1 205904   MATHIS ISD             SAN PA… 2013     1653     152     9.2 ABOVE  
+##  2 116908   QUINLAN ISD            HUNT    2014     2587     283    10.9 ABOVE  
+##  3 247901   FLORESVILLE ISD        WILSON  2018     4012     363     9   ABOVE  
+##  4 055901   CULBERSON COUNTY-ALLA… CULBER… 2017      425      26     6.1 BELOW  
+##  5 127904   HAWLEY ISD             JONES   2015      758      58     7.7 BELOW  
+##  6 020907   COLUMBIA-BRAZORIA ISD  BRAZOR… 2019     3031     292     9.6 ABOVE  
+##  7 088902   GOLIAD ISD             GOLIAD  2021     1251     160    12.8 ABOVE  
+##  8 177902   SWEETWATER ISD         NOLAN   2013     2189     272    12.4 ABOVE  
+##  9 091913   POTTSBORO ISD          GRAYSON 2014     1348     129     9.6 ABOVE  
+## 10 019906   REDWATER ISD           BOWIE   2016     1133     100     8.8 ABOVE  
 ## # … with abbreviated variable names ¹​cntyname, ²​all_count, ³​sped_count,
 ## #   ⁴​sped_percent, ⁵​audit_flag
 ```

@@ -328,7 +328,7 @@ You can read more about [converting the case of a string here](https://stringr.t
 
 ### On your own: Plot the averages
 
-Now I want you to use ggplot to create a bar chart that shows the average number of candies in a bag. This is very similar to the [Disney Princesses bar chart in Chapter 7](https://utdata.github.io/rwdir/ggplot-intro.html#lets-build-a-bar-chart).
+Now I want you to use ggplot to create a bar chart that shows the average number of candies by color in a bag. This is very similar to the [Disney Princesses bar chart in Chapter 7](https://utdata.github.io/rwdir/ggplot-intro.html#lets-build-a-bar-chart).
 
 1. Build a bar chart of average color using ggplot.
 
