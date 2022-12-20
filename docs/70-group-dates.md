@@ -159,14 +159,14 @@ hot100_sample
 
 ```
 ## # A tibble: 6 × 2
-##   chart_date title         
-##   <date>     <chr>         
-## 1 1960-05-16 Jump Over     
-## 2 1983-04-16 Poison Arrow  
-## 3 1959-03-16 Peter Gunn    
-## 4 1992-07-11 The Way I Feel
-## 5 2010-04-24 Eenie Meenie  
-## 6 2017-07-08 How Not To
+##   chart_date title                    
+##   <date>     <chr>                    
+## 1 1968-11-30 Till                     
+## 2 2005-12-24 Believe                  
+## 3 2010-07-31 Lay Me Down              
+## 4 1994-01-01 93 'til Infinity         
+## 5 2010-09-18 Only Prettier            
+## 6 2016-12-03 This Is What You Came For
 ```
 
 ### Let's make a year
@@ -187,14 +187,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 3
-##   chart_date title             yr
-##   <date>     <chr>          <dbl>
-## 1 1960-05-16 Jump Over       1960
-## 2 1983-04-16 Poison Arrow    1983
-## 3 1959-03-16 Peter Gunn      1959
-## 4 1992-07-11 The Way I Feel  1992
-## 5 2010-04-24 Eenie Meenie    2010
-## 6 2017-07-08 How Not To      2017
+##   chart_date title                        yr
+##   <date>     <chr>                     <dbl>
+## 1 1968-11-30 Till                       1968
+## 2 2005-12-24 Believe                    2005
+## 3 2010-07-31 Lay Me Down                2010
+## 4 1994-01-01 93 'til Infinity           1994
+## 5 2010-09-18 Only Prettier              2010
+## 6 2016-12-03 This Is What You Came For  2016
 ```
 
 ### The magical month
@@ -211,14 +211,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 3
-##   chart_date title             mo
-##   <date>     <chr>          <dbl>
-## 1 1960-05-16 Jump Over          5
-## 2 1983-04-16 Poison Arrow       4
-## 3 1959-03-16 Peter Gunn         3
-## 4 1992-07-11 The Way I Feel     7
-## 5 2010-04-24 Eenie Meenie       4
-## 6 2017-07-08 How Not To         7
+##   chart_date title                        mo
+##   <date>     <chr>                     <dbl>
+## 1 1968-11-30 Till                         11
+## 2 2005-12-24 Believe                      12
+## 3 2010-07-31 Lay Me Down                   7
+## 4 1994-01-01 93 'til Infinity              1
+## 5 2010-09-18 Only Prettier                 9
+## 6 2016-12-03 This Is What You Came For    12
 ```
 
 But there are some options within `month()` to give us month NAMES that are ordered as factors instead of alphabetical.
@@ -235,14 +235,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 4
-##   chart_date title          mo_label mo_long
-##   <date>     <chr>          <ord>    <ord>  
-## 1 1959-03-16 Peter Gunn     Mar      March  
-## 2 1983-04-16 Poison Arrow   Apr      April  
-## 3 2010-04-24 Eenie Meenie   Apr      April  
-## 4 1960-05-16 Jump Over      May      May    
-## 5 1992-07-11 The Way I Feel Jul      July   
-## 6 2017-07-08 How Not To     Jul      July
+##   chart_date title                     mo_label mo_long  
+##   <date>     <chr>                     <ord>    <ord>    
+## 1 1994-01-01 93 'til Infinity          Jan      January  
+## 2 2010-07-31 Lay Me Down               Jul      July     
+## 3 2010-09-18 Only Prettier             Sep      September
+## 4 1968-11-30 Till                      Nov      November 
+## 5 2005-12-24 Believe                   Dec      December 
+## 6 2016-12-03 This Is What You Came For Dec      December
 ```
 
 The sample may change, but note the datatype `<ord>` under the column `mo_label` and `mo_long`. That means this is an "ordered factor" and that when arranged by those labels it will list in MONTH order instead of alphabetical order, which is quite useful.
@@ -262,14 +262,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 4
-##   chart_date title          fl_month   fl_year   
-##   <date>     <chr>          <date>     <date>    
-## 1 1960-05-16 Jump Over      1960-05-01 1960-01-01
-## 2 1983-04-16 Poison Arrow   1983-04-01 1983-01-01
-## 3 1959-03-16 Peter Gunn     1959-03-01 1959-01-01
-## 4 1992-07-11 The Way I Feel 1992-07-01 1992-01-01
-## 5 2010-04-24 Eenie Meenie   2010-04-01 2010-01-01
-## 6 2017-07-08 How Not To     2017-07-01 2017-01-01
+##   chart_date title                     fl_month   fl_year   
+##   <date>     <chr>                     <date>     <date>    
+## 1 1968-11-30 Till                      1968-11-01 1968-01-01
+## 2 2005-12-24 Believe                   2005-12-01 2005-01-01
+## 3 2010-07-31 Lay Me Down               2010-07-01 2010-01-01
+## 4 1994-01-01 93 'til Infinity          1994-01-01 1994-01-01
+## 5 2010-09-18 Only Prettier             2010-09-01 2010-01-01
+## 6 2016-12-03 This Is What You Came For 2016-12-01 2016-01-01
 ```
 
 You can see the resulting new columns are real dates, but they are normalized:

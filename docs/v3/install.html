@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Install Party | Reporting with Data in R</title>
+  <meta name="description" content="Chapter 1 Install Party | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The course is taught by Christian McDonald and Jo Lukito." />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Install Party | Reporting with Data in R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Chapter 1 Install Party | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The course is taught by Christian McDonald and Jo Lukito." />
+  <meta name="github-repo" content="utdata/rwdir" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Install Party | Reporting with Data in R" />
+  
+  <meta name="twitter:description" content="Chapter 1 Install Party | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The course is taught by Christian McDonald and Jo Lukito." />
+  
+
+<meta name="author" content="Christian McDonald and Josephine Lukito" />
+
+
+<meta name="date" content="2022-10-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="intro.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.25/datatables.js"></script>
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<style type="text/css">
+  p.caption {
+    color: #777;
+    margin-top: 10px;
+  }
+  p code, pre, pre code, li code {
+    background-color: #DCDCDC !important;
+  }
+  detail {
+    margin-bottom: 30px;
+  }
+</style>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Reporting with Data in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About this book</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#a-word-from-prof.-mcdonald"><i class="fa fa-check"></i>A word from Prof. McDonald</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#tips-on-the-book-style"><i class="fa fa-check"></i>Tips on the book style</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#things-to-do"><i class="fa fa-check"></i>Things to do</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#notes-some-important"><i class="fa fa-check"></i>Notes, some important</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#copy-code-blocks"><i class="fa fa-check"></i>Copy code blocks</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-authors"><i class="fa fa-check"></i>About the authors</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#christian-mcdonald"><i class="fa fa-check"></i>Christian McDonald</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#jo-lukito"><i class="fa fa-check"></i>Jo Lukito</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#versions"><i class="fa fa-check"></i>Versions</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-resources"><i class="fa fa-check"></i>Other resources</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="install.html"><a href="install.html"><i class="fa fa-check"></i><b>1</b> Install Party</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="install.html"><a href="install.html#mac-vs-pc"><i class="fa fa-check"></i><b>1.1</b> Mac vs PC</a></li>
+<li class="chapter" data-level="1.2" data-path="install.html"><a href="install.html#installing-r"><i class="fa fa-check"></i><b>1.2</b> Installing R</a></li>
+<li class="chapter" data-level="1.3" data-path="install.html"><a href="install.html#installing-rstudio"><i class="fa fa-check"></i><b>1.3</b> Installing RStudio</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="install.html"><a href="install.html#getting-git-errors-on-macs"><i class="fa fa-check"></i><b>1.3.1</b> Getting “Git” errors on Macs</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="install.html"><a href="install.html#class-project-folder"><i class="fa fa-check"></i><b>1.4</b> Class project folder</a></li>
+<li class="chapter" data-level="1.5" data-path="install.html"><a href="install.html#rstudio-cloud"><i class="fa fa-check"></i><b>1.5</b> RStudio Cloud</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#rstudio-tour"><i class="fa fa-check"></i><b>2.1</b> RStudio tour</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#updating-preferences"><i class="fa fa-check"></i><b>2.2</b> Updating preferences</a></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#starting-a-new-project"><i class="fa fa-check"></i><b>2.3</b> Starting a new Project</a></li>
+<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#using-r-notebooks"><i class="fa fa-check"></i><b>2.4</b> Using R Notebooks</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="intro.html"><a href="intro.html#create-your-first-notebook"><i class="fa fa-check"></i><b>2.4.1</b> Create your first notebook</a></li>
+<li class="chapter" data-level="2.4.2" data-path="intro.html"><a href="intro.html#save-the-.rmd-file"><i class="fa fa-check"></i><b>2.4.2</b> Save the .Rmd file</a></li>
+<li class="chapter" data-level="2.4.3" data-path="intro.html"><a href="intro.html#run-the-notebook"><i class="fa fa-check"></i><b>2.4.3</b> Run the notebook</a></li>
+<li class="chapter" data-level="2.4.4" data-path="intro.html"><a href="intro.html#a-note-about-rmarkdown"><i class="fa fa-check"></i><b>2.4.4</b> A note about RMarkdown</a></li>
+<li class="chapter" data-level="2.4.5" data-path="intro.html"><a href="intro.html#adding-new-code-chunks"><i class="fa fa-check"></i><b>2.4.5</b> Adding new code chunks</a></li>
+<li class="chapter" data-level="2.4.6" data-path="intro.html"><a href="intro.html#practice-adding-code-chunks"><i class="fa fa-check"></i><b>2.4.6</b> Practice adding code chunks</a></li>
+<li class="chapter" data-level="2.4.7" data-path="intro.html"><a href="intro.html#preview-the-report"><i class="fa fa-check"></i><b>2.4.7</b> Preview the report</a></li>
+<li class="chapter" data-level="2.4.8" data-path="intro.html"><a href="intro.html#the-toolbar"><i class="fa fa-check"></i><b>2.4.8</b> The toolbar</a></li>
+<li class="chapter" data-level="2.4.9" data-path="intro.html"><a href="intro.html#knit-the-final-workbook"><i class="fa fa-check"></i><b>2.4.9</b> Knit the final workbook</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="intro.html"><a href="intro.html#turning-in-our-projects"><i class="fa fa-check"></i><b>2.5</b> Turning in our projects</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="counts-import.html"><a href="counts-import.html"><i class="fa fa-check"></i><b>3</b> Summarize with count - import</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="counts-import.html"><a href="counts-import.html#learning-goals-of-this-lesson"><i class="fa fa-check"></i><b>3.1</b> Learning goals of this lesson</a></li>
+<li class="chapter" data-level="3.2" data-path="counts-import.html"><a href="counts-import.html#basic-steps-of-this-lesson"><i class="fa fa-check"></i><b>3.2</b> Basic steps of this lesson</a></li>
+<li class="chapter" data-level="3.3" data-path="counts-import.html"><a href="counts-import.html#create-a-new-project"><i class="fa fa-check"></i><b>3.3</b> Create a new project</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="counts-import.html"><a href="counts-import.html#describe-the-goals-of-the-notebook"><i class="fa fa-check"></i><b>3.3.1</b> Describe the goals of the notebook</a></li>
+<li class="chapter" data-level="3.3.2" data-path="counts-import.html"><a href="counts-import.html#the-r-package-environment"><i class="fa fa-check"></i><b>3.3.2</b> The R Package environment</a></li>
+<li class="chapter" data-level="3.3.3" data-path="counts-import.html"><a href="counts-import.html#installing-and-using-packages"><i class="fa fa-check"></i><b>3.3.3</b> Installing and using packages</a></li>
+<li class="chapter" data-level="3.3.4" data-path="counts-import.html"><a href="counts-import.html#load-the-libraries"><i class="fa fa-check"></i><b>3.3.4</b> Load the libraries</a></li>
+<li class="chapter" data-level="3.3.5" data-path="counts-import.html"><a href="counts-import.html#create-a-directory-for-your-data"><i class="fa fa-check"></i><b>3.3.5</b> Create a directory for your data</a></li>
+<li class="chapter" data-level="3.3.6" data-path="counts-import.html"><a href="counts-import.html#about-data-sources"><i class="fa fa-check"></i><b>3.3.6</b> About data sources</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="counts-import.html"><a href="counts-import.html#the-billboard-hot-100"><i class="fa fa-check"></i><b>3.4</b> The Billboard Hot 100</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="counts-import.html"><a href="counts-import.html#data-dictionary"><i class="fa fa-check"></i><b>3.4.1</b> Data dictionary</a></li>
+<li class="chapter" data-level="3.4.2" data-path="counts-import.html"><a href="counts-import.html#lets-download-our-data"><i class="fa fa-check"></i><b>3.4.2</b> Let’s download our data</a></li>
+<li class="chapter" data-level="3.4.3" data-path="counts-import.html"><a href="counts-import.html#consider-commenting-the-download"><i class="fa fa-check"></i><b>3.4.3</b> Consider commenting the download</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="counts-import.html"><a href="counts-import.html#import-the-data"><i class="fa fa-check"></i><b>3.5</b> Import the data</a></li>
+<li class="chapter" data-level="3.6" data-path="counts-import.html"><a href="counts-import.html#assign-our-import-to-an-r-object"><i class="fa fa-check"></i><b>3.6</b> Assign our import to an R object</a>
+<ul>
+<li class="chapter" data-level="3.6.1" data-path="counts-import.html"><a href="counts-import.html#print-a-peek-to-your-r-notebook"><i class="fa fa-check"></i><b>3.6.1</b> Print a peek to your R Notebook</a></li>
+<li class="chapter" data-level="3.6.2" data-path="counts-import.html"><a href="counts-import.html#glimpse-the-data"><i class="fa fa-check"></i><b>3.6.2</b> Glimpse the data</a></li>
+<li class="chapter" data-level="3.6.3" data-path="counts-import.html"><a href="counts-import.html#about-the-pipe"><i class="fa fa-check"></i><b>3.6.3</b> About the pipe |&gt;</a></li>
+<li class="chapter" data-level="" data-path="counts-import.html"><a href="counts-import.html#a-rabbit-dives-into-a-pipe"><i class="fa fa-check"></i>A rabbit dives into a pipe</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="counts-import.html"><a href="counts-import.html#cleaning-data"><i class="fa fa-check"></i><b>3.7</b> Cleaning data</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="counts-import.html"><a href="counts-import.html#cleaning-column-names"><i class="fa fa-check"></i><b>3.7.1</b> Cleaning column names</a></li>
+<li class="chapter" data-level="3.7.2" data-path="counts-import.html"><a href="counts-import.html#fixing-the-date"><i class="fa fa-check"></i><b>3.7.2</b> Fixing the date</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="counts-import.html"><a href="counts-import.html#arrange-the-data"><i class="fa fa-check"></i><b>3.8</b> Arrange the data</a>
+<ul>
+<li class="chapter" data-level="3.8.1" data-path="counts-import.html"><a href="counts-import.html#getting-summary-stats"><i class="fa fa-check"></i><b>3.8.1</b> Getting summary stats</a></li>
+</ul></li>
+<li class="chapter" data-level="3.9" data-path="counts-import.html"><a href="counts-import.html#selecting-columns"><i class="fa fa-check"></i><b>3.9</b> Selecting columns</a></li>
+<li class="chapter" data-level="3.10" data-path="counts-import.html"><a href="counts-import.html#exporting-data"><i class="fa fa-check"></i><b>3.10</b> Exporting data</a>
+<ul>
+<li class="chapter" data-level="3.10.1" data-path="counts-import.html"><a href="counts-import.html#single-notebook-philosophy"><i class="fa fa-check"></i><b>3.10.1</b> Single-notebook philosophy</a></li>
+<li class="chapter" data-level="3.10.2" data-path="counts-import.html"><a href="counts-import.html#exporting-as-rds"><i class="fa fa-check"></i><b>3.10.2</b> Exporting as rds</a></li>
+</ul></li>
+<li class="chapter" data-level="3.11" data-path="counts-import.html"><a href="counts-import.html#naming-chunks"><i class="fa fa-check"></i><b>3.11</b> Naming chunks</a></li>
+<li class="chapter" data-level="3.12" data-path="counts-import.html"><a href="counts-import.html#knit-your-page"><i class="fa fa-check"></i><b>3.12</b> Knit your page</a></li>
+<li class="chapter" data-level="3.13" data-path="counts-import.html"><a href="counts-import.html#review-of-what-weve-learned-so-far"><i class="fa fa-check"></i><b>3.13</b> Review of what we’ve learned so far</a></li>
+<li class="chapter" data-level="3.14" data-path="counts-import.html"><a href="counts-import.html#whats-next"><i class="fa fa-check"></i><b>3.14</b> What’s next</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="count-analysis.html"><a href="count-analysis.html"><i class="fa fa-check"></i><b>4</b> Summarize with count - analysis</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="count-analysis.html"><a href="count-analysis.html#goals-of-this-lesson"><i class="fa fa-check"></i><b>4.1</b> Goals of this lesson</a></li>
+<li class="chapter" data-level="4.2" data-path="count-analysis.html"><a href="count-analysis.html#the-questions-well-answer"><i class="fa fa-check"></i><b>4.2</b> The questions we’ll answer</a></li>
+<li class="chapter" data-level="4.3" data-path="count-analysis.html"><a href="count-analysis.html#setting-up-an-analysis-notebook"><i class="fa fa-check"></i><b>4.3</b> Setting up an analysis notebook</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="count-analysis.html"><a href="count-analysis.html#import-the-cleaned-data"><i class="fa fa-check"></i><b>4.3.1</b> Import the cleaned data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="count-analysis.html"><a href="count-analysis.html#introducing-dplyr"><i class="fa fa-check"></i><b>4.4</b> Introducing dplyr</a></li>
+<li class="chapter" data-level="4.5" data-path="count-analysis.html"><a href="count-analysis.html#most-appearances"><i class="fa fa-check"></i><b>4.5</b> Most appearances</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="count-analysis.html"><a href="count-analysis.html#group-aggregate"><i class="fa fa-check"></i><b>4.5.1</b> Group &amp; Aggregate</a></li>
+<li class="chapter" data-level="4.5.2" data-path="count-analysis.html"><a href="count-analysis.html#summarize"><i class="fa fa-check"></i><b>4.5.2</b> Summarize</a></li>
+<li class="chapter" data-level="4.5.3" data-path="count-analysis.html"><a href="count-analysis.html#group-by"><i class="fa fa-check"></i><b>4.5.3</b> Group by</a></li>
+<li class="chapter" data-level="4.5.4" data-path="count-analysis.html"><a href="count-analysis.html#arrange-the-results"><i class="fa fa-check"></i><b>4.5.4</b> Arrange the results</a></li>
+<li class="chapter" data-level="4.5.5" data-path="count-analysis.html"><a href="count-analysis.html#get-the-top-of-the-list"><i class="fa fa-check"></i><b>4.5.5</b> Get the top of the list</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="count-analysis.html"><a href="count-analysis.html#songperformer-with-most-appearances"><i class="fa fa-check"></i><b>4.6</b> Song/performer with most appearances</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="count-analysis.html"><a href="count-analysis.html#introducing-filter"><i class="fa fa-check"></i><b>4.6.1</b> Introducing filter()</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="count-analysis.html"><a href="count-analysis.html#songperformer-with-most-weeks-at-no.-1"><i class="fa fa-check"></i><b>4.7</b> Song/Performer with most weeks at No. 1</a></li>
+<li class="chapter" data-level="4.8" data-path="count-analysis.html"><a href="count-analysis.html#performer-with-most-songs-to-reach-no.-1"><i class="fa fa-check"></i><b>4.8</b> Performer with most songs to reach No. 1</a>
+<ul>
+<li class="chapter" data-level="4.8.1" data-path="count-analysis.html"><a href="count-analysis.html#using-distinct"><i class="fa fa-check"></i><b>4.8.1</b> Using distinct()</a></li>
+<li class="chapter" data-level="4.8.2" data-path="count-analysis.html"><a href="count-analysis.html#summarize-the-performers"><i class="fa fa-check"></i><b>4.8.2</b> Summarize the performers</a></li>
+<li class="chapter" data-level="4.8.3" data-path="count-analysis.html"><a href="count-analysis.html#filter-for-a-good-cutoff"><i class="fa fa-check"></i><b>4.8.3</b> Filter for a good cutoff</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="count-analysis.html"><a href="count-analysis.html#no.-1-hits-in-last-five-years"><i class="fa fa-check"></i><b>4.9</b> No. 1 hits in last five years</a></li>
+<li class="chapter" data-level="4.10" data-path="count-analysis.html"><a href="count-analysis.html#top-10-hits-overall-on-your-own"><i class="fa fa-check"></i><b>4.10</b> Top 10 hits overall (on your own)</a></li>
+<li class="chapter" data-level="4.11" data-path="count-analysis.html"><a href="count-analysis.html#complex-filters"><i class="fa fa-check"></i><b>4.11</b> Complex filters</a>
+<ul>
+<li class="chapter" data-level="4.11.1" data-path="count-analysis.html"><a href="count-analysis.html#multiple-truths"><i class="fa fa-check"></i><b>4.11.1</b> Multiple truths</a></li>
+<li class="chapter" data-level="4.11.2" data-path="count-analysis.html"><a href="count-analysis.html#either-is-true"><i class="fa fa-check"></i><b>4.11.2</b> Either is true</a></li>
+<li class="chapter" data-level="4.11.3" data-path="count-analysis.html"><a href="count-analysis.html#mixing-criteria"><i class="fa fa-check"></i><b>4.11.3</b> Mixing criteria</a></li>
+<li class="chapter" data-level="4.11.4" data-path="count-analysis.html"><a href="count-analysis.html#search-within-a-string"><i class="fa fa-check"></i><b>4.11.4</b> Search within a string</a></li>
+</ul></li>
+<li class="chapter" data-level="4.12" data-path="count-analysis.html"><a href="count-analysis.html#on-your-own"><i class="fa fa-check"></i><b>4.12</b> On your own</a></li>
+<li class="chapter" data-level="4.13" data-path="count-analysis.html"><a href="count-analysis.html#a-shortcut-count"><i class="fa fa-check"></i><b>4.13</b> A shortcut: count()</a></li>
+<li class="chapter" data-level="4.14" data-path="count-analysis.html"><a href="count-analysis.html#review-of-what-weve-learned"><i class="fa fa-check"></i><b>4.14</b> Review of what we’ve learned</a></li>
+<li class="chapter" data-level="4.15" data-path="count-analysis.html"><a href="count-analysis.html#turn-in-your-project"><i class="fa fa-check"></i><b>4.15</b> Turn in your project</a></li>
+<li class="chapter" data-level="4.16" data-path="count-analysis.html"><a href="count-analysis.html#soundtrack-for-this-assignment"><i class="fa fa-check"></i><b>4.16</b> Soundtrack for this assignment</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="sums-import.html"><a href="sums-import.html"><i class="fa fa-check"></i><b>5</b> Summarize with math - import</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="sums-import.html"><a href="sums-import.html#about-the-story-military-surplus-transfers"><i class="fa fa-check"></i><b>5.1</b> About the story: Military surplus transfers</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="sums-import.html"><a href="sums-import.html#the-1033-program"><i class="fa fa-check"></i><b>5.1.1</b> The 1033 program</a></li>
+<li class="chapter" data-level="5.1.2" data-path="sums-import.html"><a href="sums-import.html#about-the-data"><i class="fa fa-check"></i><b>5.1.2</b> About the data</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="sums-import.html"><a href="sums-import.html#the-questions-we-will-answer"><i class="fa fa-check"></i><b>5.2</b> The questions we will answer</a></li>
+<li class="chapter" data-level="5.3" data-path="sums-import.html"><a href="sums-import.html#getting-started-create-your-project"><i class="fa fa-check"></i><b>5.3</b> Getting started: Create your project</a></li>
+<li class="chapter" data-level="5.4" data-path="sums-import.html"><a href="sums-import.html#importcleaning-notebook"><i class="fa fa-check"></i><b>5.4</b> Import/cleaning notebook</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="sums-import.html"><a href="sums-import.html#the-goals-of-the-notebook"><i class="fa fa-check"></i><b>5.4.1</b> The goals of the notebook</a></li>
+<li class="chapter" data-level="5.4.2" data-path="sums-import.html"><a href="sums-import.html#add-a-setup-section"><i class="fa fa-check"></i><b>5.4.2</b> Add a setup section</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="sums-import.html"><a href="sums-import.html#download-the-data"><i class="fa fa-check"></i><b>5.5</b> Download the data</a></li>
+<li class="chapter" data-level="5.6" data-path="sums-import.html"><a href="sums-import.html#import-the-data-1"><i class="fa fa-check"></i><b>5.6</b> Import the data</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="sums-import.html"><a href="sums-import.html#glimpse-the-data-1"><i class="fa fa-check"></i><b>5.6.1</b> Glimpse the data</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="sums-import.html"><a href="sums-import.html#checking-datatypes"><i class="fa fa-check"></i><b>5.7</b> Checking datatypes</a></li>
+<li class="chapter" data-level="5.8" data-path="sums-import.html"><a href="sums-import.html#remove-unnecessary-columns"><i class="fa fa-check"></i><b>5.8</b> Remove unnecessary columns</a></li>
+<li class="chapter" data-level="5.9" data-path="sums-import.html"><a href="sums-import.html#create-a-total_value-column"><i class="fa fa-check"></i><b>5.9</b> Create a total_value column</a></li>
+<li class="chapter" data-level="5.10" data-path="sums-import.html"><a href="sums-import.html#controlled-vs.-non-controlled"><i class="fa fa-check"></i><b>5.10</b> Controlled vs. non-controlled</a>
+<ul>
+<li class="chapter" data-level="5.10.1" data-path="sums-import.html"><a href="sums-import.html#categorization-logic-with-case_when"><i class="fa fa-check"></i><b>5.10.1</b> Categorization logic with case_when()</a></li>
+</ul></li>
+<li class="chapter" data-level="5.11" data-path="sums-import.html"><a href="sums-import.html#filtering-our-data"><i class="fa fa-check"></i><b>5.11</b> Filtering our data</a>
+<ul>
+<li class="chapter" data-level="5.11.1" data-path="sums-import.html"><a href="sums-import.html#apply-the-tx-filter"><i class="fa fa-check"></i><b>5.11.1</b> Apply the TX filter</a></li>
+<li class="chapter" data-level="5.11.2" data-path="sums-import.html"><a href="sums-import.html#add-the-date-filter"><i class="fa fa-check"></i><b>5.11.2</b> Add the date filter</a></li>
+<li class="chapter" data-level="5.11.3" data-path="sums-import.html"><a href="sums-import.html#checking-the-results-with-summary"><i class="fa fa-check"></i><b>5.11.3</b> Checking the results with summary()</a></li>
+</ul></li>
+<li class="chapter" data-level="5.12" data-path="sums-import.html"><a href="sums-import.html#export-cleaned-data"><i class="fa fa-check"></i><b>5.12</b> Export cleaned data</a></li>
+<li class="chapter" data-level="5.13" data-path="sums-import.html"><a href="sums-import.html#things-we-learned-in-this-lesson"><i class="fa fa-check"></i><b>5.13</b> Things we learned in this lesson</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="sums-analyze.html"><a href="sums-analyze.html"><i class="fa fa-check"></i><b>6</b> Summarize with math - analysis</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="sums-analyze.html"><a href="sums-analyze.html#learning-goals-of-this-lesson-1"><i class="fa fa-check"></i><b>6.1</b> Learning goals of this lesson</a></li>
+<li class="chapter" data-level="6.2" data-path="sums-analyze.html"><a href="sums-analyze.html#questions-to-answer"><i class="fa fa-check"></i><b>6.2</b> Questions to answer</a></li>
+<li class="chapter" data-level="6.3" data-path="sums-analyze.html"><a href="sums-analyze.html#set-up-the-analysis-notebook"><i class="fa fa-check"></i><b>6.3</b> Set up the analysis notebook</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="sums-analyze.html"><a href="sums-analyze.html#load-the-data-into-a-tibble"><i class="fa fa-check"></i><b>6.3.1</b> Load the data into a tibble</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="sums-analyze.html"><a href="sums-analyze.html#filter-for-controlled-items"><i class="fa fa-check"></i><b>6.4</b> Filter for controlled items</a></li>
+<li class="chapter" data-level="6.5" data-path="sums-analyze.html"><a href="sums-analyze.html#building-summaries-with-math"><i class="fa fa-check"></i><b>6.5</b> Building summaries with math</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="sums-analyze.html"><a href="sums-analyze.html#summarize-across-the-data"><i class="fa fa-check"></i><b>6.5.1</b> Summarize across the data</a></li>
+<li class="chapter" data-level="6.5.2" data-path="sums-analyze.html"><a href="sums-analyze.html#na-values-in-a-sum-mean-and-median"><i class="fa fa-check"></i><b>6.5.2</b> NA values in a sum, mean and median</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="sums-analyze.html"><a href="sums-analyze.html#totals-by-agency"><i class="fa fa-check"></i><b>6.6</b> Totals by agency</a>
+<ul>
+<li class="chapter" data-level="6.6.1" data-path="sums-analyze.html"><a href="sums-analyze.html#group_by-then-summary-with-math"><i class="fa fa-check"></i><b>6.6.1</b> Group_by, then summary with math</a></li>
+<li class="chapter" data-level="6.6.2" data-path="sums-analyze.html"><a href="sums-analyze.html#add-the-total_value"><i class="fa fa-check"></i><b>6.6.2</b> Add the total_value</a></li>
+<li class="chapter" data-level="6.6.3" data-path="sums-analyze.html"><a href="sums-analyze.html#arrange-the-results-1"><i class="fa fa-check"></i><b>6.6.3</b> Arrange the results</a></li>
+<li class="chapter" data-level="6.6.4" data-path="sums-analyze.html"><a href="sums-analyze.html#consider-the-results"><i class="fa fa-check"></i><b>6.6.4</b> Consider the results</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="sums-analyze.html"><a href="sums-analyze.html#looking-a-local-agencies"><i class="fa fa-check"></i><b>6.7</b> Looking a local agencies</a>
+<ul>
+<li class="chapter" data-level="6.7.1" data-path="sums-analyze.html"><a href="sums-analyze.html#save-our-by-agency-list"><i class="fa fa-check"></i><b>6.7.1</b> Save our “by agency” list</a></li>
+<li class="chapter" data-level="6.7.2" data-path="sums-analyze.html"><a href="sums-analyze.html#filtering-within-a-vector"><i class="fa fa-check"></i><b>6.7.2</b> Filtering within a vector</a></li>
+<li class="chapter" data-level="6.7.3" data-path="sums-analyze.html"><a href="sums-analyze.html#create-a-vector-to-build-this-filter"><i class="fa fa-check"></i><b>6.7.3</b> Create a vector to build this filter</a></li>
+</ul></li>
+<li class="chapter" data-level="6.8" data-path="sums-analyze.html"><a href="sums-analyze.html#types-of-items-shipped-to-each-agency"><i class="fa fa-check"></i><b>6.8</b> Types of items shipped to each agency</a>
+<ul>
+<li class="chapter" data-level="6.8.1" data-path="sums-analyze.html"><a href="sums-analyze.html#items-for-local-agencies"><i class="fa fa-check"></i><b>6.8.1</b> Items for local agencies</a></li>
+<li class="chapter" data-level="6.8.2" data-path="sums-analyze.html"><a href="sums-analyze.html#research-some-interesting-items"><i class="fa fa-check"></i><b>6.8.2</b> Research some interesting items</a></li>
+</ul></li>
+<li class="chapter" data-level="6.9" data-path="sums-analyze.html"><a href="sums-analyze.html#write-a-data-drop"><i class="fa fa-check"></i><b>6.9</b> Write a data drop</a></li>
+<li class="chapter" data-level="6.10" data-path="sums-analyze.html"><a href="sums-analyze.html#what-we-learned-in-this-chapter"><i class="fa fa-check"></i><b>6.10</b> What we learned in this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ggplot-intro.html"><a href="ggplot-intro.html"><i class="fa fa-check"></i><b>7</b> Data Viz - Intro to ggplot</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#goals-for-this-section"><i class="fa fa-check"></i><b>7.1</b> Goals for this section</a></li>
+<li class="chapter" data-level="7.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#introduction-to-ggplot"><i class="fa fa-check"></i><b>7.2</b> Introduction to ggplot</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#what-i-likedislike-about-ggplot"><i class="fa fa-check"></i><b>7.2.1</b> What I like/dislike about ggplot</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#the-grammar-of-graphics"><i class="fa fa-check"></i><b>7.2.2</b> The Grammar of Graphics</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#start-a-new-project"><i class="fa fa-check"></i><b>7.3</b> Start a new project</a></li>
+<li class="chapter" data-level="7.4" data-path="ggplot-intro.html"><a href="ggplot-intro.html#the-layers-of-ggplot"><i class="fa fa-check"></i><b>7.4</b> The layers of ggplot</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#build-the-base-layer"><i class="fa fa-check"></i><b>7.4.1</b> Build the base layer</a></li>
+<li class="chapter" data-level="7.4.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#layers-can-we-add-to-our-plots"><i class="fa fa-check"></i><b>7.4.2</b> Layers can we add to our plots</a></li>
+<li class="chapter" data-level="7.4.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-geom_point"><i class="fa fa-check"></i><b>7.4.3</b> Add geom_point</a></li>
+<li class="chapter" data-level="7.4.4" data-path="ggplot-intro.html"><a href="ggplot-intro.html#adding-other-mappings"><i class="fa fa-check"></i><b>7.4.4</b> Adding other mappings</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="ggplot-intro.html"><a href="ggplot-intro.html#lets-build-a-bar-chart"><i class="fa fa-check"></i><b>7.5</b> Let’s build a bar chart</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#prepare-the-data"><i class="fa fa-check"></i><b>7.5.1</b> Prepare the data</a></li>
+<li class="chapter" data-level="7.5.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#build-our-plot-with-geom_col"><i class="fa fa-check"></i><b>7.5.2</b> Build our plot with geom_col</a></li>
+<li class="chapter" data-level="7.5.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-the-geom_col-layer"><i class="fa fa-check"></i><b>7.5.3</b> Add the geom_col layer</a></li>
+<li class="chapter" data-level="7.5.4" data-path="ggplot-intro.html"><a href="ggplot-intro.html#flip-the-axes"><i class="fa fa-check"></i><b>7.5.4</b> Flip the axes</a></li>
+<li class="chapter" data-level="7.5.5" data-path="ggplot-intro.html"><a href="ggplot-intro.html#reorder-the-bars"><i class="fa fa-check"></i><b>7.5.5</b> Reorder the bars</a></li>
+<li class="chapter" data-level="7.5.6" data-path="ggplot-intro.html"><a href="ggplot-intro.html#adding-a-geom_text-layer"><i class="fa fa-check"></i><b>7.5.6</b> Adding a geom_text layer</a></li>
+<li class="chapter" data-level="7.5.7" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-some-titles-and-more-labels"><i class="fa fa-check"></i><b>7.5.7</b> Add some titles and more labels</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="ggplot-intro.html"><a href="ggplot-intro.html#on-your-own-ice-cream"><i class="fa fa-check"></i><b>7.6</b> On your own: Ice cream!</a></li>
+<li class="chapter" data-level="7.7" data-path="ggplot-intro.html"><a href="ggplot-intro.html#what-weve-learned"><i class="fa fa-check"></i><b>7.7</b> What we’ve learned</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="ggplot-more.html"><a href="ggplot-more.html"><i class="fa fa-check"></i><b>8</b> Deeper into ggplot</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="ggplot-more.html"><a href="ggplot-more.html#references"><i class="fa fa-check"></i><b>8.1</b> References</a></li>
+<li class="chapter" data-level="8.2" data-path="ggplot-more.html"><a href="ggplot-more.html#learning-goals-for-this-chapter"><i class="fa fa-check"></i><b>8.2</b> Learning goals for this chapter</a></li>
+<li class="chapter" data-level="8.3" data-path="ggplot-more.html"><a href="ggplot-more.html#set-up-your-notebook"><i class="fa fa-check"></i><b>8.3</b> Set up your notebook</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="ggplot-more.html"><a href="ggplot-more.html#lets-get-the-data"><i class="fa fa-check"></i><b>8.3.1</b> Let’s get the data</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="ggplot-more.html"><a href="ggplot-more.html#wrangle-the-data"><i class="fa fa-check"></i><b>8.4</b> Wrangle the data</a></li>
+<li class="chapter" data-level="8.5" data-path="ggplot-more.html"><a href="ggplot-more.html#make-a-line-chart-of-the-texas-data"><i class="fa fa-check"></i><b>8.5</b> Make a line chart of the Texas data</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="ggplot-more.html"><a href="ggplot-more.html#plot-the-chart"><i class="fa fa-check"></i><b>8.5.1</b> Plot the chart</a></li>
+<li class="chapter" data-level="8.5.2" data-path="ggplot-more.html"><a href="ggplot-more.html#cleaning-up"><i class="fa fa-check"></i><b>8.5.2</b> Cleaning Up</a></li>
+<li class="chapter" data-level="8.5.3" data-path="ggplot-more.html"><a href="ggplot-more.html#saving-plots-as-an-object"><i class="fa fa-check"></i><b>8.5.3</b> Saving plots as an object</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="ggplot-more.html"><a href="ggplot-more.html#themes"><i class="fa fa-check"></i><b>8.6</b> Themes</a>
+<ul>
+<li class="chapter" data-level="8.6.1" data-path="ggplot-more.html"><a href="ggplot-more.html#more-with-ggthemes"><i class="fa fa-check"></i><b>8.6.1</b> More with ggthemes</a></li>
+<li class="chapter" data-level="8.6.2" data-path="ggplot-more.html"><a href="ggplot-more.html#there-is-more-to-themes"><i class="fa fa-check"></i><b>8.6.2</b> There is more to themes</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="ggplot-more.html"><a href="ggplot-more.html#adding-more-information"><i class="fa fa-check"></i><b>8.7</b> Adding more information</a>
+<ul>
+<li class="chapter" data-level="8.7.1" data-path="ggplot-more.html"><a href="ggplot-more.html#prepare-the-data-1"><i class="fa fa-check"></i><b>8.7.1</b> Prepare the data</a></li>
+<li class="chapter" data-level="8.7.2" data-path="ggplot-more.html"><a href="ggplot-more.html#plot-multiple-line-chart"><i class="fa fa-check"></i><b>8.7.2</b> Plot multiple line chart</a></li>
+</ul></li>
+<li class="chapter" data-level="8.8" data-path="ggplot-more.html"><a href="ggplot-more.html#on-your-own-line-chart"><i class="fa fa-check"></i><b>8.8</b> On your own: Line chart</a></li>
+<li class="chapter" data-level="8.9" data-path="ggplot-more.html"><a href="ggplot-more.html#tour-of-some-other-adjustments"><i class="fa fa-check"></i><b>8.9</b> Tour of some other adjustments</a>
+<ul>
+<li class="chapter" data-level="8.9.1" data-path="ggplot-more.html"><a href="ggplot-more.html#line-width"><i class="fa fa-check"></i><b>8.9.1</b> Line width</a></li>
+<li class="chapter" data-level="8.9.2" data-path="ggplot-more.html"><a href="ggplot-more.html#line-type"><i class="fa fa-check"></i><b>8.9.2</b> Line type</a></li>
+<li class="chapter" data-level="8.9.3" data-path="ggplot-more.html"><a href="ggplot-more.html#adjust-axis"><i class="fa fa-check"></i><b>8.9.3</b> Adjust axis</a></li>
+</ul></li>
+<li class="chapter" data-level="8.10" data-path="ggplot-more.html"><a href="ggplot-more.html#facets"><i class="fa fa-check"></i><b>8.10</b> Facets</a>
+<ul>
+<li class="chapter" data-level="8.10.1" data-path="ggplot-more.html"><a href="ggplot-more.html#facet-wrap"><i class="fa fa-check"></i><b>8.10.1</b> Facet wrap</a></li>
+<li class="chapter" data-level="8.10.2" data-path="ggplot-more.html"><a href="ggplot-more.html#facet-grids"><i class="fa fa-check"></i><b>8.10.2</b> Facet grids</a></li>
+</ul></li>
+<li class="chapter" data-level="8.11" data-path="ggplot-more.html"><a href="ggplot-more.html#on-your-own-facet-wrap"><i class="fa fa-check"></i><b>8.11</b> On your own: Facet wrap</a></li>
+<li class="chapter" data-level="8.12" data-path="ggplot-more.html"><a href="ggplot-more.html#saving-plots"><i class="fa fa-check"></i><b>8.12</b> Saving plots</a></li>
+<li class="chapter" data-level="8.13" data-path="ggplot-more.html"><a href="ggplot-more.html#interactive-plots"><i class="fa fa-check"></i><b>8.13</b> Interactive plots</a></li>
+<li class="chapter" data-level="8.14" data-path="ggplot-more.html"><a href="ggplot-more.html#what-we-learned"><i class="fa fa-check"></i><b>8.14</b> What we learned</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="tidy-data.html"><a href="tidy-data.html"><i class="fa fa-check"></i><b>9</b> Tidy data</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="tidy-data.html"><a href="tidy-data.html#goals-for-this-section-1"><i class="fa fa-check"></i><b>9.1</b> Goals for this section</a></li>
+<li class="chapter" data-level="9.2" data-path="tidy-data.html"><a href="tidy-data.html#the-questions-well-answer-1"><i class="fa fa-check"></i><b>9.2</b> The questions we’ll answer</a></li>
+<li class="chapter" data-level="9.3" data-path="tidy-data.html"><a href="tidy-data.html#what-is-tidy-data"><i class="fa fa-check"></i><b>9.3</b> What is tidy data</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="tidy-data.html"><a href="tidy-data.html#wide-vs-long-data"><i class="fa fa-check"></i><b>9.3.1</b> Wide vs long data</a></li>
+<li class="chapter" data-level="9.3.2" data-path="tidy-data.html"><a href="tidy-data.html#why-we-might-want-different-shaped-data"><i class="fa fa-check"></i><b>9.3.2</b> Why we might want different shaped data</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="tidy-data.html"><a href="tidy-data.html#prepare-our-candy-project"><i class="fa fa-check"></i><b>9.4</b> Prepare our candy project</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="tidy-data.html"><a href="tidy-data.html#get-the-data"><i class="fa fa-check"></i><b>9.4.1</b> Get the data</a></li>
+<li class="chapter" data-level="9.4.2" data-path="tidy-data.html"><a href="tidy-data.html#drop-unneeded-columns"><i class="fa fa-check"></i><b>9.4.2</b> Drop unneeded columns</a></li>
+<li class="chapter" data-level="9.4.3" data-path="tidy-data.html"><a href="tidy-data.html#peek-at-the-wide-table"><i class="fa fa-check"></i><b>9.4.3</b> Peek at the wide table</a></li>
+<li class="chapter" data-level="9.4.4" data-path="tidy-data.html"><a href="tidy-data.html#where-are-we-going-with-this-data"><i class="fa fa-check"></i><b>9.4.4</b> Where are we going with this data</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="tidy-data.html"><a href="tidy-data.html#the-tidyr-verbs"><i class="fa fa-check"></i><b>9.5</b> The tidyr verbs</a></li>
+<li class="chapter" data-level="9.6" data-path="tidy-data.html"><a href="tidy-data.html#pivot-longer"><i class="fa fa-check"></i><b>9.6</b> Pivot longer</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="tidy-data.html"><a href="tidy-data.html#pivot-our-candy-data-longer"><i class="fa fa-check"></i><b>9.6.1</b> Pivot our candy data longer</a></li>
+<li class="chapter" data-level="9.6.2" data-path="tidy-data.html"><a href="tidy-data.html#get-average-candies-per-color"><i class="fa fa-check"></i><b>9.6.2</b> Get average candies per color</a></li>
+<li class="chapter" data-level="9.6.3" data-path="tidy-data.html"><a href="tidy-data.html#round-the-averages"><i class="fa fa-check"></i><b>9.6.3</b> Round the averages</a></li>
+<li class="chapter" data-level="9.6.4" data-path="tidy-data.html"><a href="tidy-data.html#on-your-own-plot-the-averages"><i class="fa fa-check"></i><b>9.6.4</b> On your own: Plot the averages</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="tidy-data.html"><a href="tidy-data.html#introducing-datawrapper"><i class="fa fa-check"></i><b>9.7</b> Introducing Datawrapper</a>
+<ul>
+<li class="chapter" data-level="9.7.1" data-path="tidy-data.html"><a href="tidy-data.html#review-how-to-make-a-bar-chart"><i class="fa fa-check"></i><b>9.7.1</b> Review how to make a bar chart</a></li>
+<li class="chapter" data-level="9.7.2" data-path="tidy-data.html"><a href="tidy-data.html#start-a-chart"><i class="fa fa-check"></i><b>9.7.2</b> Start a chart</a></li>
+<li class="chapter" data-level="9.7.3" data-path="tidy-data.html"><a href="tidy-data.html#get-your-candies-data"><i class="fa fa-check"></i><b>9.7.3</b> Get your candies data</a></li>
+<li class="chapter" data-level="9.7.4" data-path="tidy-data.html"><a href="tidy-data.html#build-the-datawrapper-graphic"><i class="fa fa-check"></i><b>9.7.4</b> Build the datawrapper graphic</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="tidy-data.html"><a href="tidy-data.html#pivot-wider"><i class="fa fa-check"></i><b>9.8</b> Pivot wider</a>
+<ul>
+<li class="chapter" data-level="9.8.1" data-path="tidy-data.html"><a href="tidy-data.html#pivot-wider-on-your-own"><i class="fa fa-check"></i><b>9.8.1</b> Pivot wider on your own</a></li>
+</ul></li>
+<li class="chapter" data-level="9.9" data-path="tidy-data.html"><a href="tidy-data.html#bonus-questions"><i class="fa fa-check"></i><b>9.9</b> Bonus questions</a>
+<ul>
+<li class="chapter" data-level="9.9.1" data-path="tidy-data.html"><a href="tidy-data.html#mostleast-candies"><i class="fa fa-check"></i><b>9.9.1</b> Most/least candies</a></li>
+<li class="chapter" data-level="9.9.2" data-path="tidy-data.html"><a href="tidy-data.html#average-total-candies-in-a-bag"><i class="fa fa-check"></i><b>9.9.2</b> Average total candies in a bag</a></li>
+</ul></li>
+<li class="chapter" data-level="9.10" data-path="tidy-data.html"><a href="tidy-data.html#turn-in-your-work"><i class="fa fa-check"></i><b>9.10</b> Turn in your work</a></li>
+<li class="chapter" data-level="9.11" data-path="tidy-data.html"><a href="tidy-data.html#what-we-learned-1"><i class="fa fa-check"></i><b>9.11</b> What we learned</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="bind-join.html"><a href="bind-join.html"><i class="fa fa-check"></i><b>10</b> Bind and join</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="bind-join.html"><a href="bind-join.html#goals-of-the-chapter"><i class="fa fa-check"></i><b>10.1</b> Goals of the chapter</a></li>
+<li class="chapter" data-level="10.2" data-path="bind-join.html"><a href="bind-join.html#the-story-an-update-to-denied"><i class="fa fa-check"></i><b>10.2</b> The story: An update to Denied</a></li>
+<li class="chapter" data-level="10.3" data-path="bind-join.html"><a href="bind-join.html#about-the-data-1"><i class="fa fa-check"></i><b>10.3</b> About the data</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="bind-join.html"><a href="bind-join.html#set-up-your-project"><i class="fa fa-check"></i><b>10.3.1</b> Set up your project</a></li>
+<li class="chapter" data-level="10.3.2" data-path="bind-join.html"><a href="bind-join.html#open-read-and-run"><i class="fa fa-check"></i><b>10.3.2</b> Open, read and run</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="bind-join.html"><a href="bind-join.html#merging-data-together"><i class="fa fa-check"></i><b>10.4</b> Merging data together</a></li>
+<li class="chapter" data-level="10.5" data-path="bind-join.html"><a href="bind-join.html#about-joins"><i class="fa fa-check"></i><b>10.5</b> About joins</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="bind-join.html"><a href="bind-join.html#joining-our-reference-table"><i class="fa fa-check"></i><b>10.5.1</b> Joining our reference table</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="bind-join.html"><a href="bind-join.html#some-cleanup-filter-and-select"><i class="fa fa-check"></i><b>10.6</b> Some cleanup: filter and select</a></li>
+<li class="chapter" data-level="10.7" data-path="bind-join.html"><a href="bind-join.html#create-an-audit-benchmark-column"><i class="fa fa-check"></i><b>10.7</b> Create an audit benchmark column</a></li>
+<li class="chapter" data-level="10.8" data-path="bind-join.html"><a href="bind-join.html#export-the-data"><i class="fa fa-check"></i><b>10.8</b> Export the data</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="answers.html"><a href="answers.html"><i class="fa fa-check"></i><b>11</b> Plotting for answers</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="answers.html"><a href="answers.html#goals-of-this-chapter"><i class="fa fa-check"></i><b>11.1</b> Goals of this chapter</a></li>
+<li class="chapter" data-level="11.2" data-path="answers.html"><a href="answers.html#project-setup"><i class="fa fa-check"></i><b>11.2</b> Project setup</a></li>
+<li class="chapter" data-level="11.3" data-path="answers.html"><a href="answers.html#import-cleaned-data"><i class="fa fa-check"></i><b>11.3</b> Import cleaned data</a></li>
+<li class="chapter" data-level="11.4" data-path="answers.html"><a href="answers.html#make-a-searchable-table"><i class="fa fa-check"></i><b>11.4</b> Make a searchable table</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="answers.html"><a href="answers.html#pivot-wider-1"><i class="fa fa-check"></i><b>11.4.1</b> Pivot wider</a></li>
+<li class="chapter" data-level="11.4.2" data-path="answers.html"><a href="answers.html#make-a-datatable"><i class="fa fa-check"></i><b>11.4.2</b> Make a datatable</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="answers.html"><a href="answers.html#choosing-a-chart-to-display-data"><i class="fa fa-check"></i><b>11.5</b> Choosing a chart to display data</a></li>
+<li class="chapter" data-level="11.6" data-path="answers.html"><a href="answers.html#plot-yearly-student-percentage"><i class="fa fa-check"></i><b>11.6</b> Plot yearly student percentage</a>
+<ul>
+<li class="chapter" data-level="11.6.1" data-path="answers.html"><a href="answers.html#build-the-statewide-percentage-by-year-data"><i class="fa fa-check"></i><b>11.6.1</b> Build the statewide percentage by year data</a></li>
+<li class="chapter" data-level="11.6.2" data-path="answers.html"><a href="answers.html#build-the-statewide-percentage-chart"><i class="fa fa-check"></i><b>11.6.2</b> Build the statewide percentage chart</a></li>
+</ul></li>
+<li class="chapter" data-level="11.7" data-path="answers.html"><a href="answers.html#districts-by-benchmark-and-year"><i class="fa fa-check"></i><b>11.7</b> Districts by benchmark and year</a>
+<ul>
+<li class="chapter" data-level="11.7.1" data-path="answers.html"><a href="answers.html#build-the-audit-flag-data"><i class="fa fa-check"></i><b>11.7.1</b> Build the audit flag data</a></li>
+<li class="chapter" data-level="11.7.2" data-path="answers.html"><a href="answers.html#build-the-audit-flag-chart"><i class="fa fa-check"></i><b>11.7.2</b> Build the audit flag chart</a></li>
+<li class="chapter" data-level="11.7.3" data-path="answers.html"><a href="answers.html#which-chart-is-best"><i class="fa fa-check"></i><b>11.7.3</b> Which chart is best?</a></li>
+</ul></li>
+<li class="chapter" data-level="11.8" data-path="answers.html"><a href="answers.html#local-districts"><i class="fa fa-check"></i><b>11.8</b> Local districts</a></li>
+<li class="chapter" data-level="11.9" data-path="answers.html"><a href="answers.html#the-assignments"><i class="fa fa-check"></i><b>11.9</b> The assignments</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>12</b> R Functions</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="functions.html"><a href="functions.html#importexport"><i class="fa fa-check"></i><b>12.1</b> Import/Export</a></li>
+<li class="chapter" data-level="12.2" data-path="functions.html"><a href="functions.html#data-manipulation"><i class="fa fa-check"></i><b>12.2</b> Data manipulation</a></li>
+<li class="chapter" data-level="12.3" data-path="functions.html"><a href="functions.html#aggregation"><i class="fa fa-check"></i><b>12.3</b> Aggregation</a></li>
+<li class="chapter" data-level="12.4" data-path="functions.html"><a href="functions.html#math"><i class="fa fa-check"></i><b>12.4</b> Math</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="troubleshooting.html"><a href="troubleshooting.html"><i class="fa fa-check"></i><b>13</b> Troubleshooting</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="troubleshooting.html"><a href="troubleshooting.html#when-things-break"><i class="fa fa-check"></i><b>13.1</b> When things break</a></li>
+<li class="chapter" data-level="13.2" data-path="troubleshooting.html"><a href="troubleshooting.html#learning-how-things-work"><i class="fa fa-check"></i><b>13.2</b> Learning how things work</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="troubleshooting.html"><a href="troubleshooting.html#help-docs"><i class="fa fa-check"></i><b>13.2.1</b> Help docs</a></li>
+<li class="chapter" data-level="13.2.2" data-path="troubleshooting.html"><a href="troubleshooting.html#good-googling"><i class="fa fa-check"></i><b>13.2.2</b> Good Googling</a></li>
+<li class="chapter" data-level="13.2.3" data-path="troubleshooting.html"><a href="troubleshooting.html#tidyverse-docs-and-cheatsheets"><i class="fa fa-check"></i><b>13.2.3</b> Tidyverse docs and cheatsheets</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="troubleshooting.html"><a href="troubleshooting.html#r-frequently-asked-questions"><i class="fa fa-check"></i><b>13.3</b> R Frequently asked Questions</a>
+<ul>
+<li class="chapter" data-level="13.3.1" data-path="troubleshooting.html"><a href="troubleshooting.html#functions-objects-and-variables"><i class="fa fa-check"></i><b>13.3.1</b> Functions, objects and variables</a></li>
+<li class="chapter" data-level="13.3.2" data-path="troubleshooting.html"><a href="troubleshooting.html#some-r-code-basics"><i class="fa fa-check"></i><b>13.3.2</b> Some R code basics</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>14</b> How to interview a new dataset</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="explore.html"><a href="explore.html#start-by-listing-questions"><i class="fa fa-check"></i><b>14.1</b> Start by listing questions</a></li>
+<li class="chapter" data-level="14.2" data-path="explore.html"><a href="explore.html#understand-your-data"><i class="fa fa-check"></i><b>14.2</b> Understand your data</a></li>
+<li class="chapter" data-level="14.3" data-path="explore.html"><a href="explore.html#pay-attention-to-the-shape-of-your-data"><i class="fa fa-check"></i><b>14.3</b> Pay attention to the shape of your data</a></li>
+<li class="chapter" data-level="14.4" data-path="explore.html"><a href="explore.html#counting-and-aggregation"><i class="fa fa-check"></i><b>14.4</b> Counting and aggregation</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="explore.html"><a href="explore.html#counting-rows-based-on-a-column"><i class="fa fa-check"></i><b>14.4.1</b> Counting rows based on a column</a></li>
+<li class="chapter" data-level="14.4.2" data-path="explore.html"><a href="explore.html#sum-mean-and-other-aggregations"><i class="fa fa-check"></i><b>14.4.2</b> Sum, mean and other aggregations</a></li>
+<li class="chapter" data-level="14.4.3" data-path="explore.html"><a href="explore.html#creating-columns-to-show-difference"><i class="fa fa-check"></i><b>14.4.3</b> Creating columns to show difference</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="explore.html"><a href="explore.html#cleaning-up-categorical-data"><i class="fa fa-check"></i><b>14.5</b> Cleaning up categorical data</a></li>
+<li class="chapter" data-level="14.6" data-path="explore.html"><a href="explore.html#time-as-a-variable"><i class="fa fa-check"></i><b>14.6</b> Time as a variable</a></li>
+<li class="chapter" data-level="14.7" data-path="explore.html"><a href="explore.html#explore-the-distributions-in-your-data"><i class="fa fa-check"></i><b>14.7</b> Explore the distributions in your data</a>
+<ul>
+<li class="chapter" data-level="14.7.1" data-path="explore.html"><a href="explore.html#more-on-histograms"><i class="fa fa-check"></i><b>14.7.1</b> More on histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="14.8" data-path="explore.html"><a href="explore.html#same-ideas-using-spreadsheets"><i class="fa fa-check"></i><b>14.8</b> Same ideas using spreadsheets</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="charts.html"><a href="charts.html"><i class="fa fa-check"></i><b>15</b> Chart production tips</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="charts.html"><a href="charts.html#titles-descriptions-and-annotations"><i class="fa fa-check"></i><b>15.1</b> Titles, descriptions and annotations</a></li>
+<li class="chapter" data-level="15.2" data-path="charts.html"><a href="charts.html#other-considerations"><i class="fa fa-check"></i><b>15.2</b> Other considerations</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Reporting with Data in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="install" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Install Party<a href="install.html#install" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<blockquote>
+<p>This chapter was written by Prof. McDonald using macOS.</p>
+</blockquote>
+<p>Let’s get this party started.</p>
+<div id="mac-vs-pc" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Mac vs PC<a href="install.html#mac-vs-pc" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We’re a big fan of using keyboard commands to do operations in any program, but Prof. McDonald references this from a Mac perspective and Prof. Lukito references this from a PC perspective. So if we say use <em>Cmd+S</em> or <em>Command+S</em> to save, that translates to <em>Cntl+S</em> or <em>Control+S</em> on a PC. Importantly, <em>Cmd</em> (for Mac) and <em>Cntl</em> (for PC) are fairly synonymous, but there may be other differences. Usually, it’s easy to figure the translation out by looking at menu items in RStudio to figure out the Mac/PC command.</p>
+<p>As we said, Prof. McDonald uses a Mac and Prof. Lukito uses a PC, so we’ll be able to troubleshoot it regardless of the operating system that you use! <strong>We will try to note that at the top of a chapter.</strong></p>
+<p>We will install R and RStudio. It might take some time depending on your Internet connection.</p>
+<p><strong>If you are doing this on your own</strong> you might follow <a href="https://learnr-examples.shinyapps.io/ex-setup-r/">this tutorial</a>. But below you’ll find the basic steps.</p>
+</div>
+<div id="installing-r" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Installing R<a href="install.html#installing-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Our first task is to install the R programming language onto your computer.</p>
+<ol style="list-style-type: decimal">
+<li>Go to the <a href="https://cloud.r-project.org/" class="uri">https://cloud.r-project.org/</a>.</li>
+<li>Click on the link for your operating system.</li>
+<li>The following steps will differ slightly based on your operating system.
+<ul>
+<li>For Macs, you want the “latest package” unless you have an “M1” Mac (Nov. 2020 or newer), in which case choose the <strong>arm64.pkg</strong> version.</li>
+<li>For Windows, you want the “base” package. You’ll need to decide whether you want the 32- or 64-bit version. (Unless you’ve got a pretty old system, chances are you’ll want 64-bit.)</li>
+</ul></li>
+</ol>
+<p>This should be pretty self explanatory: once you download the installation file, you should be able to run it on your respective computers to install R.</p>
+<p>You’ll never “launch” R as a program in a traditional sense, but you need it on your computers (it’s mostly so that the computer can recognize R as a “language”). In all situations (in this class, and beyond), we’ll use RStudio, which is next.</p>
+</div>
+<div id="installing-rstudio" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Installing RStudio<a href="install.html#installing-rstudio" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><a href="https://www.rstudio.com/">RStudio</a> is an “integrated development environment” – or IDE – for programming in R. Basically, it’s the program you will use when doing work for this class.</p>
+<ol style="list-style-type: decimal">
+<li>Go to <a href="https://www.rstudio.com/download" class="uri">https://www.rstudio.com/download</a>.</li>
+<li>Scroll down to the versions and find <strong>RStudio Desktop</strong> and click on the <strong>Download</strong> button.</li>
+<li>It should take you down the page to the version you need for your computer.</li>
+<li>Install it. Should be like installing any other program on your computer.</li>
+</ol>
+<div id="getting-git-errors-on-macs" class="section level3 hasAnchor" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Getting “Git” errors on Macs<a href="install.html#getting-git-errors-on-macs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>If later during package installation you get errors that mention “git” or “xcode-select” then <strong>say yes!</strong> and do it.</p>
+</div>
+</div>
+<div id="class-project-folder" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Class project folder<a href="install.html#class-project-folder" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To keep things consistent and help with troubleshooting, we recommend that you save your work in the same location all the time.</p>
+<ul>
+<li>On both Mac and Windows, every user has a “Documents” folder. Open that folder. (If you don’t know where it is, ask us to help you find it.)</li>
+<li>Create a new folder called “rwd”. Use all lowercase letters.</li>
+</ul>
+<p>When we create new “Projects”, I want you to always save them in the <code>Documents/rwd</code> folder. This just keeps us all on the same page.</p>
+</div>
+<div id="rstudio-cloud" class="section level2 hasAnchor" number="1.5">
+<h2><span class="header-section-number">1.5</span> RStudio Cloud<a href="install.html#rstudio-cloud" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>If your computer is aging and you find you have trouble with RStudio, there is <a href="https://rstudio.cloud/">RStudio Cloud</a>. You can try it for free but might end up on the $5/month plan before the end of the semester, depending on your use. It works quite well.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="intro.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/01-install.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

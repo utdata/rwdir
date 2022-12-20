@@ -356,20 +356,19 @@ sped_flag |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 8
-##    district distname             cntyname  year  all_c…¹ sped_…² sped_…³ audit…⁴
-##    <chr>    <chr>                <chr>     <chr>   <dbl>   <dbl>   <dbl> <chr>  
-##  1 169902   NOCONA ISD           MONTAGUE  2020      811     139    17.1 ABOVE  
-##  2 087901   GLASSCOCK COUNTY ISD GLASSCOCK 2020      306      28     9.2 ABOVE  
-##  3 063906   PATTON SPRINGS ISD   DICKENS   2020       99      16    16.2 ABOVE  
-##  4 024901   BROOKS COUNTY ISD    BROOKS    2020     1500     184    12.3 ABOVE  
-##  5 014905   HOLLAND ISD          BELL      2020      674      57     8.5 BELOW  
-##  6 042901   COLEMAN ISD          COLEMAN   2021      839     118    14.1 ABOVE  
-##  7 196901   AUSTWELL-TIVOLI ISD  REFUGIO   2013      150      13     8.7 ABOVE  
-##  8 158902   TIDEHAVEN ISD        MATAGORDA 2016      881      67     7.6 BELOW  
-##  9 160905   LOHN ISD             MCCULLOCH 2013       89      14    15.7 ABOVE  
-## 10 045905   WEIMAR ISD           COLORADO  2020      676      79    11.7 ABOVE  
-## # … with abbreviated variable names ¹​all_count, ²​sped_count, ³​sped_percent,
-## #   ⁴​audit_flag
+##    district distname        cntyname year  all_count sped_count sped_p…¹ audit…²
+##    <chr>    <chr>           <chr>    <chr>     <dbl>      <dbl>    <dbl> <chr>  
+##  1 003904   HUNTINGTON ISD  ANGELINA 2016       1699        149      8.8 ABOVE  
+##  2 015904   HARLANDALE ISD  BEXAR    2013      15154       1418      9.4 ABOVE  
+##  3 211902   STRATFORD ISD   SHERMAN  2017        579         47      8.1 BELOW  
+##  4 250902   HAWKINS ISD     WOOD     2013        765         77     10.1 ABOVE  
+##  5 168901   COLORADO ISD    MITCHELL 2014       1037         88      8.5 BELOW  
+##  6 189902   PRESIDIO ISD    PRESIDIO 2015       1373         99      7.2 BELOW  
+##  7 116908   QUINLAN ISD     HUNT     2016       2571        303     11.8 ABOVE  
+##  8 043914   WYLIE ISD       COLLIN   2016      14562       1327      9.1 ABOVE  
+##  9 054901   CROSBYTON CISD  CROSBY   2021        316         53     16.8 ABOVE  
+## 10 075903   SCHULENBURG ISD FAYETTE  2019        726        107     14.7 ABOVE  
+## # … with abbreviated variable names ¹​sped_percent, ²​audit_flag
 ```
 
 Let's walk through the code above:
