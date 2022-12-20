@@ -16,6 +16,8 @@ This chapter continues the Billboard Hot 100 project. In the previous chapter we
 - We'll also cover some more complex filters using and/or logic.
 - Introduce the shortcut `count()` function
 
+> OF NOTE: I updated the data used in this book so some written word references to code results _might_ be different than the actual data in the book or what you get on your computer. I've tried to catch them all, but I'm a fallible human.
+
 ## The questions we'll answer
 
 Now that we have the Billboard Hot 100 charts data in our project it's time to find the answers to the following questions:
@@ -196,7 +198,7 @@ In our case we want a "summary" about the **number** of times a specific perform
 
 > THEY BE THE ZAME: `summarize()` and `summarise()` are the same function, as R supports both the American and UK spelling of summarize. They work the same and I don't care which you use.
 
-Here is an example if `summarize()` in a different context:
+Here is an example of `summarize()` in a different context:
 
 ![Learn about your data with summarize()](images/transform-summarise.png){width=500px}
 
@@ -206,7 +208,7 @@ Much like the `mutate()` function we used earlier, within `summarize()` we list 
 
 Again, in our case (as we work toward finding the performer with most appearances) we want to summarize the **number** of rows, and there is a function for that: `n()`. (Think "**n**umber of observations".) Every row in the data is an appearance ... we just need to count how many rows have each performer.
 
-But first, to show how this works, we'll count _all_ the rows in our data. Let's write the code and run it on our code, then I'll explain:
+But first, to show how this works, we'll count _all_ the rows in our data. Let's write the code and run it, then I'll explain:
 
 1. Set up a new section with a Markdown headline, text and explain you are looking for most appearances.
 1. Add a named code chunk and add the following:
@@ -233,7 +235,7 @@ hot100 |>
   
 Basically we are summarizing the total number of rows in the data. Through 2021 there were 330,800 rows.
 
-> AN ASIDE: Like with mutate, I often break up the arguments inside `summarize()` into new lines so they are easier to read, like above.
+> AN ASIDE: Like I did earlier with mutate, I often break up the arguments inside `summarize()` into new lines so they are easier to read, like above.
 
 But I bet you're asking: Professor, we want to count the number of times an _performer_ has appeared, right?
 
@@ -356,11 +358,11 @@ Since we have our answer here and we're not using the result later, we don't nee
 
 So, **Taylor Swift** ... is that who you guessed? A little history here, Swift past Elton John in the summer of 2019. Elton John has been around a long time, but Swift's popularity at a young age, plus changes in how Billboard counts plays in the modern era (like streaming) has rocketed her to the top. (Sorry, Rocket Man). And it doesn't hurt that she is re-releasing her entire catalog (Taylor's version)!
 
-> AN IMPORTANT NOTE: The list we've created here is based on **unique** `performer` names, and as such considers collaborations separately. For instance, Drake is near the top of the list but those are only songs he performed alone and not the many, many collaborations he has had with other performers. So, songs by "Drake" are counted separately than "Drake featuring Future" and even "Future featuring Drake". You'll need to make this clear when you write your data drop in a later assignment.
+> AN IMPORTANT NOTE: The list we've created here is based on **unique** `performer` names, and as such considers collaborations separately. For instance, Drake is near the top of the list but those are only songs he performed alone and not the many, many collaborations he has done with other performers. So, songs by "Drake" are counted separately than "Drake featuring Future" and even "Future featuring Drake". You'll need to make this clear when you write your data drop in a later assignment.
 
-## Song/performer with most appearances
+## Title/performer combo with most appearances
 
-Our quest here is this: **Which song/performer combination has been on the charts the most number of weeks at any position?**
+Our quest here is this: **Which title/performer combination has been on the charts the most number of weeks at any position?**
 
 This is very similar to our quest to find the artist with the most appearances, but we have to consider both `title` and `performer` together because different artists can perform songs of the same name. For example, Adele's song "Hold On" entered the Hot 100 at 49 in December 2021, but 18 different performers have had a song titled "Hold On" on the Hot 100.
 
@@ -414,7 +416,7 @@ So, what was your guess or this one? A little bit of history in that answer ... 
 
 ### Introducing filter()
 
-I showed you `head()` in the previous quest and that was useful to quickly limit that list, but it does so indiscriminately. In this case, if we use the default `head()` function that retains six rows, it would cut right in the middle of a tie at 68 records. (at least with data through 2021). A better strategy is to cut off the list at a logical place using `filter()`. Let's dive into this new function:
+I showed you `head()` in the previous quest and that was useful to quickly limit that list, but it does so indiscriminately. In this case, if we use the default `head()` function that retains six rows, it would cut right in the middle of a tie at 68 records (at least with data through 2021). A better strategy is to cut off the list at a logical place using `filter()`. Let's dive into this new function:
 
 Filtering is one of those Basic Data Journalism Functions:
 

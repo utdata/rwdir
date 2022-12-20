@@ -267,7 +267,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.5.4" data-path="count-analysis.html"><a href="count-analysis.html#arrange-the-results"><i class="fa fa-check"></i><b>4.5.4</b> Arrange the results</a></li>
 <li class="chapter" data-level="4.5.5" data-path="count-analysis.html"><a href="count-analysis.html#get-the-top-of-the-list"><i class="fa fa-check"></i><b>4.5.5</b> Get the top of the list</a></li>
 </ul></li>
-<li class="chapter" data-level="4.6" data-path="count-analysis.html"><a href="count-analysis.html#songperformer-with-most-appearances"><i class="fa fa-check"></i><b>4.6</b> Song/performer with most appearances</a>
+<li class="chapter" data-level="4.6" data-path="count-analysis.html"><a href="count-analysis.html#titleperformer-combo-with-most-appearances"><i class="fa fa-check"></i><b>4.6</b> Title/performer combo with most appearances</a>
 <ul>
 <li class="chapter" data-level="4.6.1" data-path="count-analysis.html"><a href="count-analysis.html#introducing-filter"><i class="fa fa-check"></i><b>4.6.1</b> Introducing filter()</a></li>
 </ul></li>
@@ -610,6 +610,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>We’ll also cover some more complex filters using and/or logic.</li>
 <li>Introduce the shortcut <code>count()</code> function</li>
 </ul>
+<blockquote>
+<p>OF NOTE: I updated the data used in this book so some written word references to code results <em>might</em> be different than the actual data in the book or what you get on your computer. I’ve tried to catch them all, but I’m a fallible human.</p>
+</blockquote>
 </div>
 <div id="the-questions-well-answer" class="section level2 hasAnchor" number="4.2">
 <h2><span class="header-section-number">4.2</span> The questions we’ll answer<a href="count-analysis.html#the-questions-well-answer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -756,7 +759,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <blockquote>
 <p>THEY BE THE ZAME: <code>summarize()</code> and <code>summarise()</code> are the same function, as R supports both the American and UK spelling of summarize. They work the same and I don’t care which you use.</p>
 </blockquote>
-<p>Here is an example if <code>summarize()</code> in a different context:</p>
+<p>Here is an example of <code>summarize()</code> in a different context:</p>
 <div class="figure">
 <img src="images/transform-summarise.png" width="500" alt="" />
 <p class="caption">Learn about your data with summarize()</p>
@@ -764,7 +767,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The example above is giving us two summaries: It is applying a function <code>mean()</code> (or average) on all the values in the <code>lifeExp</code> column, and then again with <code>min()</code>, the lowest life expectancy in the data.</p>
 <p>Much like the <code>mutate()</code> function we used earlier, within <code>summarize()</code> we list the name of the new column first, then assign to it the function and column we want to accomplish using <code>=</code>.</p>
 <p>Again, in our case (as we work toward finding the performer with most appearances) we want to summarize the <strong>number</strong> of rows, and there is a function for that: <code>n()</code>. (Think “<strong>n</strong>umber of observations”.) Every row in the data is an appearance … we just need to count how many rows have each performer.</p>
-<p>But first, to show how this works, we’ll count <em>all</em> the rows in our data. Let’s write the code and run it on our code, then I’ll explain:</p>
+<p>But first, to show how this works, we’ll count <em>all</em> the rows in our data. Let’s write the code and run it, then I’ll explain:</p>
 <ol style="list-style-type: decimal">
 <li>Set up a new section with a Markdown headline, text and explain you are looking for most appearances.</li>
 <li>Add a named code chunk and add the following:</li>
@@ -787,7 +790,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>Basically we are summarizing the total number of rows in the data. Through 2021 there were 330,800 rows.</p>
 <blockquote>
-<p>AN ASIDE: Like with mutate, I often break up the arguments inside <code>summarize()</code> into new lines so they are easier to read, like above.</p>
+<p>AN ASIDE: Like I did earlier with mutate, I often break up the arguments inside <code>summarize()</code> into new lines so they are easier to read, like above.</p>
 </blockquote>
 <p>But I bet you’re asking: Professor, we want to count the number of times an <em>performer</em> has appeared, right?</p>
 <p>This is where we bring in a close friend to <code>summarize()</code> … the <code>group_by()</code> function.</p>
@@ -887,13 +890,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Since we have our answer here and we’re not using the result later, we don’t need to create a new object or anything. Printing it to our notebook is sufficient.</p>
 <p>So, <strong>Taylor Swift</strong> … is that who you guessed? A little history here, Swift past Elton John in the summer of 2019. Elton John has been around a long time, but Swift’s popularity at a young age, plus changes in how Billboard counts plays in the modern era (like streaming) has rocketed her to the top. (Sorry, Rocket Man). And it doesn’t hurt that she is re-releasing her entire catalog (Taylor’s version)!</p>
 <blockquote>
-<p>AN IMPORTANT NOTE: The list we’ve created here is based on <strong>unique</strong> <code>performer</code> names, and as such considers collaborations separately. For instance, Drake is near the top of the list but those are only songs he performed alone and not the many, many collaborations he has had with other performers. So, songs by “Drake” are counted separately than “Drake featuring Future” and even “Future featuring Drake”. You’ll need to make this clear when you write your data drop in a later assignment.</p>
+<p>AN IMPORTANT NOTE: The list we’ve created here is based on <strong>unique</strong> <code>performer</code> names, and as such considers collaborations separately. For instance, Drake is near the top of the list but those are only songs he performed alone and not the many, many collaborations he has done with other performers. So, songs by “Drake” are counted separately than “Drake featuring Future” and even “Future featuring Drake”. You’ll need to make this clear when you write your data drop in a later assignment.</p>
 </blockquote>
 </div>
 </div>
-<div id="songperformer-with-most-appearances" class="section level2 hasAnchor" number="4.6">
-<h2><span class="header-section-number">4.6</span> Song/performer with most appearances<a href="count-analysis.html#songperformer-with-most-appearances" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Our quest here is this: <strong>Which song/performer combination has been on the charts the most number of weeks at any position?</strong></p>
+<div id="titleperformer-combo-with-most-appearances" class="section level2 hasAnchor" number="4.6">
+<h2><span class="header-section-number">4.6</span> Title/performer combo with most appearances<a href="count-analysis.html#titleperformer-combo-with-most-appearances" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Our quest here is this: <strong>Which title/performer combination has been on the charts the most number of weeks at any position?</strong></p>
 <p>This is very similar to our quest to find the artist with the most appearances, but we have to consider both <code>title</code> and <code>performer</code> together because different artists can perform songs of the same name. For example, Adele’s song “Hold On” entered the Hot 100 at 49 in December 2021, but 18 different performers have had a song titled “Hold On” on the Hot 100.</p>
 <ol style="list-style-type: decimal">
 <li>Start a new section (headline, text describing goal and a new code chunk.)</li>
@@ -932,7 +935,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>So, what was your guess or this one? A little bit of history in that answer … The Weeknd’s <em>Blinding Lights</em> passed Imagine Dragon’s <em>Radioactive</em> some time in 2021.</p>
 <div id="introducing-filter" class="section level3 hasAnchor" number="4.6.1">
 <h3><span class="header-section-number">4.6.1</span> Introducing filter()<a href="count-analysis.html#introducing-filter" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>I showed you <code>head()</code> in the previous quest and that was useful to quickly limit that list, but it does so indiscriminately. In this case, if we use the default <code>head()</code> function that retains six rows, it would cut right in the middle of a tie at 68 records. (at least with data through 2021). A better strategy is to cut off the list at a logical place using <code>filter()</code>. Let’s dive into this new function:</p>
+<p>I showed you <code>head()</code> in the previous quest and that was useful to quickly limit that list, but it does so indiscriminately. In this case, if we use the default <code>head()</code> function that retains six rows, it would cut right in the middle of a tie at 68 records (at least with data through 2021). A better strategy is to cut off the list at a logical place using <code>filter()</code>. Let’s dive into this new function:</p>
 <p>Filtering is one of those Basic Data Journalism Functions:</p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ckojM4rtlMc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
 </iframe>

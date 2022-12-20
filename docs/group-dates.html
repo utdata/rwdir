@@ -267,7 +267,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.5.4" data-path="count-analysis.html"><a href="count-analysis.html#arrange-the-results"><i class="fa fa-check"></i><b>4.5.4</b> Arrange the results</a></li>
 <li class="chapter" data-level="4.5.5" data-path="count-analysis.html"><a href="count-analysis.html#get-the-top-of-the-list"><i class="fa fa-check"></i><b>4.5.5</b> Get the top of the list</a></li>
 </ul></li>
-<li class="chapter" data-level="4.6" data-path="count-analysis.html"><a href="count-analysis.html#songperformer-with-most-appearances"><i class="fa fa-check"></i><b>4.6</b> Song/performer with most appearances</a>
+<li class="chapter" data-level="4.6" data-path="count-analysis.html"><a href="count-analysis.html#titleperformer-combo-with-most-appearances"><i class="fa fa-check"></i><b>4.6</b> Title/performer combo with most appearances</a>
 <ul>
 <li class="chapter" data-level="4.6.1" data-path="count-analysis.html"><a href="count-analysis.html#introducing-filter"><i class="fa fa-check"></i><b>4.6.1</b> Introducing filter()</a></li>
 </ul></li>
@@ -601,7 +601,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="group-dates" class="section level1 hasAnchor" number="12">
 <h1><span class="header-section-number">Chapter 12</span> Grouping by dates<a href="group-dates.html#group-dates" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>It is not uncommon in data journalism to count or sum records by year based on a date within your data. Or even by other date parts like month or week. There are some really nifty features within the <a href="https://lubridate.tidyverse.org/">lubridate</a> package that make this pretty easy.</p>
-<p>We’ll run through some of those scenarios here using the Billboard Hot 100 data we used in Chapters 3 &amp; 4.</p>
+<p>We’ll run through some of those scenarios here using the Billboard Hot 100 data we used in Chapters 3 &amp; 4. If you want to follow along, you can create a new notebook in your Billboard project. Or you can just use this for reference.</p>
 <div id="setting-up" class="section level2 hasAnchor" number="12.1">
 <h2><span class="header-section-number">12.1</span> Setting up<a href="group-dates.html#setting-up" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We need to set up our notebook with libraries and data before we can talk specifics. We need to load both the <strong>tidyverse</strong> and <strong>lubridate</strong> libraries. Lubridate is installed with the tidyverse package, but you have to load it separately.</p>
@@ -630,7 +630,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="grouping-by-a-date-part-on-the-fly" class="section level2 hasAnchor" number="12.3">
 <h2><span class="header-section-number">12.3</span> Grouping by a date part on the fly<a href="group-dates.html#grouping-by-a-date-part-on-the-fly" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Let’s show how this might use this through an example question:</p>
+<p>Let’s show how this might be useful through an example question:</p>
 <p><strong>Which performer has the most appearances on the chart in a given year?</strong></p>
 <p>The logic works like this:</p>
 <ul>
@@ -662,7 +662,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 10               2009 Beyonce                118
 ## # … with 22,471 more rows</code></pre>
 <p>We can see here that The Beatles had the most hits in 1964 with 214 (at least as of this writing).</p>
-<p>But notice how the year column name is kinda shite? We would not be able to reference that later, so we should rename that AS we make the group:</p>
+<p>But notice how the year column name is kinda shite? We would not be able to easily reference that variable later, so we should rename that AS we make the group:</p>
 <div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="group-dates.html#cb271-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">|&gt;</span> </span>
 <span id="cb271-2"><a href="group-dates.html#cb271-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(</span>
 <span id="cb271-3"><a href="group-dates.html#cb271-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">yr =</span> <span class="fu">year</span>(chart_date), <span class="co"># added &quot;yr = &quot; here</span></span>
@@ -687,31 +687,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9  2009 Taylor Swift           122
 ## 10  2009 Beyonce                118
 ## # … with 22,471 more rows</code></pre>
-<p>It is a good practice to rename any grouping variable made from a function like that. FWIW, it would’ve worked if I called the new column <code>year</code>, I named it <code>yr</code> so I’m less likely to confuse it with the function <code>year()</code>. It’s a personal preference what to name the new column.</p>
+<p>It is a good practice to rename any grouping variable made from a function like that. FWIW, it would’ve worked if I called the new column <code>year</code>, but I named it <code>yr</code> so I’m less likely to confuse it with the function <code>year()</code>. It’s a personal preference what to name the new column.</p>
 </div>
 <div id="making-reusable-date-parts" class="section level2 hasAnchor" number="12.4">
 <h2><span class="header-section-number">12.4</span> Making reusable date parts<a href="group-dates.html#making-reusable-date-parts" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>If you will group by a date part more than once, then it makes sense to create a new <code>yr</code> column and save it. In fact, you might make several date parts, but we’ll start with only one.</p>
-<p>To be clear, I usually go back to my cleaning notebook to add these once I recognize I’ll need them.</p>
-<p>To make this easier to show, I’ve created a random sample of data with only a couple columns. Here is our sample:</p>
+<p>If you think you’ll use a date parts more than once, then it makes sense to create a new columns and save them. You might make several date parts, but we’ll start with only one.</p>
+<p><strong>I usually go back to my cleaning notebook to add these once I recognize I need them, and then rerun everything.</strong></p>
+<p>To make this easier to show, I’ve created a random sample of data with only the <code>chart_date</code> and <code>title</code> columns. Here is our sample:</p>
 <div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="group-dates.html#cb274-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you wouldn&#39;t normally do this!!!!</span></span>
 <span id="cb274-2"><a href="group-dates.html#cb274-2" aria-hidden="true" tabindex="-1"></a>hot100_sample <span class="ot">&lt;-</span> hot100 <span class="sc">|&gt;</span> <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">6</span>) <span class="sc">|&gt;</span> <span class="fu">select</span>(chart_date, title)</span>
 <span id="cb274-3"><a href="group-dates.html#cb274-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb274-4"><a href="group-dates.html#cb274-4" aria-hidden="true" tabindex="-1"></a>hot100_sample</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 2
-##   chart_date title                    
-##   &lt;date&gt;     &lt;chr&gt;                    
-## 1 1968-11-30 Till                     
-## 2 2005-12-24 Believe                  
-## 3 2010-07-31 Lay Me Down              
-## 4 1994-01-01 93 &#39;til Infinity         
-## 5 2010-09-18 Only Prettier            
-## 6 2016-12-03 This Is What You Came For</code></pre>
+##   chart_date title                                        
+##   &lt;date&gt;     &lt;chr&gt;                                        
+## 1 1976-01-31 Let It Shine/He Ain&#39;t Heavy...He&#39;s My Brother
+## 2 2021-05-15 Without You                                  
+## 3 2011-02-26 Pretty Girl Rock                             
+## 4 2013-08-17 Royals                                       
+## 5 2005-06-04 Baby I&#39;m Back                                
+## 6 1970-01-24 Traces/Memories Medley</code></pre>
 <div id="lets-make-a-year" class="section level3 hasAnchor" number="12.4.1">
 <h3><span class="header-section-number">12.4.1</span> Let’s make a year<a href="group-dates.html#lets-make-a-year" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Here’s how we do it:</p>
 <ul>
-<li>We use mutate to create a new column</li>
+<li>We use mutate to create a new column.</li>
 <li>We name the new column <code>yr</code>.</li>
 <li>We set the value of <code>yr</code> to equal the <code>year()</code> of <code>chart_date</code>.</li>
 </ul>
@@ -720,14 +720,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb276-3"><a href="group-dates.html#cb276-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">yr =</span> <span class="fu">year</span>(chart_date)</span>
 <span id="cb276-4"><a href="group-dates.html#cb276-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 3
-##   chart_date title                        yr
-##   &lt;date&gt;     &lt;chr&gt;                     &lt;dbl&gt;
-## 1 1968-11-30 Till                       1968
-## 2 2005-12-24 Believe                    2005
-## 3 2010-07-31 Lay Me Down                2010
-## 4 1994-01-01 93 &#39;til Infinity           1994
-## 5 2010-09-18 Only Prettier              2010
-## 6 2016-12-03 This Is What You Came For  2016</code></pre>
+##   chart_date title                                            yr
+##   &lt;date&gt;     &lt;chr&gt;                                         &lt;dbl&gt;
+## 1 1976-01-31 Let It Shine/He Ain&#39;t Heavy...He&#39;s My Brother  1976
+## 2 2021-05-15 Without You                                    2021
+## 3 2011-02-26 Pretty Girl Rock                               2011
+## 4 2013-08-17 Royals                                         2013
+## 5 2005-06-04 Baby I&#39;m Back                                  2005
+## 6 1970-01-24 Traces/Memories Medley                         1970</code></pre>
 </div>
 <div id="the-magical-month" class="section level3 hasAnchor" number="12.4.2">
 <h3><span class="header-section-number">12.4.2</span> The magical month<a href="group-dates.html#the-magical-month" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -737,14 +737,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb278-3"><a href="group-dates.html#cb278-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo =</span> <span class="fu">month</span>(chart_date)</span>
 <span id="cb278-4"><a href="group-dates.html#cb278-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 3
-##   chart_date title                        mo
-##   &lt;date&gt;     &lt;chr&gt;                     &lt;dbl&gt;
-## 1 1968-11-30 Till                         11
-## 2 2005-12-24 Believe                      12
-## 3 2010-07-31 Lay Me Down                   7
-## 4 1994-01-01 93 &#39;til Infinity              1
-## 5 2010-09-18 Only Prettier                 9
-## 6 2016-12-03 This Is What You Came For    12</code></pre>
+##   chart_date title                                            mo
+##   &lt;date&gt;     &lt;chr&gt;                                         &lt;dbl&gt;
+## 1 1976-01-31 Let It Shine/He Ain&#39;t Heavy...He&#39;s My Brother     1
+## 2 2021-05-15 Without You                                       5
+## 3 2011-02-26 Pretty Girl Rock                                  2
+## 4 2013-08-17 Royals                                            8
+## 5 2005-06-04 Baby I&#39;m Back                                     6
+## 6 1970-01-24 Traces/Memories Medley                            1</code></pre>
 <p>But there are some options within <code>month()</code> to give us month NAMES that are ordered as factors instead of alphabetical.</p>
 <div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="group-dates.html#cb280-1" aria-hidden="true" tabindex="-1"></a>hot100_sample <span class="sc">|&gt;</span> </span>
 <span id="cb280-2"><a href="group-dates.html#cb280-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -753,15 +753,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb280-5"><a href="group-dates.html#cb280-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
 <span id="cb280-6"><a href="group-dates.html#cb280-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(mo_label)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 4
-##   chart_date title                     mo_label mo_long  
-##   &lt;date&gt;     &lt;chr&gt;                     &lt;ord&gt;    &lt;ord&gt;    
-## 1 1994-01-01 93 &#39;til Infinity          Jan      January  
-## 2 2010-07-31 Lay Me Down               Jul      July     
-## 3 2010-09-18 Only Prettier             Sep      September
-## 4 1968-11-30 Till                      Nov      November 
-## 5 2005-12-24 Believe                   Dec      December 
-## 6 2016-12-03 This Is What You Came For Dec      December</code></pre>
-<p>The sample may change, but note the datatype <code>&lt;ord&gt;</code> under the column <code>mo_label</code> and <code>mo_long</code>. That means this is an “ordered factor” and that when arranged by those labels it will list in MONTH order instead of alphabetical order, which is quite useful.</p>
+##   chart_date title                                         mo_label mo_long 
+##   &lt;date&gt;     &lt;chr&gt;                                         &lt;ord&gt;    &lt;ord&gt;   
+## 1 1976-01-31 Let It Shine/He Ain&#39;t Heavy...He&#39;s My Brother Jan      January 
+## 2 1970-01-24 Traces/Memories Medley                        Jan      January 
+## 3 2011-02-26 Pretty Girl Rock                              Feb      February
+## 4 2021-05-15 Without You                                   May      May     
+## 5 2005-06-04 Baby I&#39;m Back                                 Jun      June    
+## 6 2013-08-17 Royals                                        Aug      August</code></pre>
+<p>Note the datatype <code>&lt;ord&gt;</code> under the column <code>mo_label</code> and <code>mo_long</code>. That means this is an “ordered factor” and that when arranged by those labels it will list in MONTH order instead of alphabetical order, which is quite useful.</p>
 </div>
 <div id="floor-dates" class="section level3 hasAnchor" number="12.4.3">
 <h3><span class="header-section-number">12.4.3</span> Floor dates<a href="group-dates.html#floor-dates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -772,20 +772,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb282-4"><a href="group-dates.html#cb282-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">fl_year =</span> <span class="fu">floor_date</span>(chart_date, <span class="at">unit =</span> <span class="st">&quot;year&quot;</span>)</span>
 <span id="cb282-5"><a href="group-dates.html#cb282-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 4
-##   chart_date title                     fl_month   fl_year   
-##   &lt;date&gt;     &lt;chr&gt;                     &lt;date&gt;     &lt;date&gt;    
-## 1 1968-11-30 Till                      1968-11-01 1968-01-01
-## 2 2005-12-24 Believe                   2005-12-01 2005-01-01
-## 3 2010-07-31 Lay Me Down               2010-07-01 2010-01-01
-## 4 1994-01-01 93 &#39;til Infinity          1994-01-01 1994-01-01
-## 5 2010-09-18 Only Prettier             2010-09-01 2010-01-01
-## 6 2016-12-03 This Is What You Came For 2016-12-01 2016-01-01</code></pre>
+##   chart_date title                                         fl_month   fl_year   
+##   &lt;date&gt;     &lt;chr&gt;                                         &lt;date&gt;     &lt;date&gt;    
+## 1 1976-01-31 Let It Shine/He Ain&#39;t Heavy...He&#39;s My Brother 1976-01-01 1976-01-01
+## 2 2021-05-15 Without You                                   2021-05-01 2021-01-01
+## 3 2011-02-26 Pretty Girl Rock                              2011-02-01 2011-01-01
+## 4 2013-08-17 Royals                                        2013-08-01 2013-01-01
+## 5 2005-06-04 Baby I&#39;m Back                                 2005-06-01 2005-01-01
+## 6 1970-01-24 Traces/Memories Medley                        1970-01-01 1970-01-01</code></pre>
 <p>You can see the resulting new columns are real dates, but they are normalized:</p>
 <ul>
 <li>The <code>fl_month</code> gives you the first day of the month for that <code>chart_date</code>.</li>
 <li>The <code>fl_year</code> gives you the first day of the year for that <code>chart_date</code>.</li>
 </ul>
-<p>Let’s put this to use with an example. I’ll create a <code>fl_month</code> on the fly to find <strong>Taylor Swift appearances by month for 2020-2021</strong>. I’ll also do the year on the fly.</p>
+<p>Let’s put this to use with an example. I’ll create a <code>fl_month</code> on the fly to find <strong>Taylor Swift appearances by month for 2020-2021</strong>. I’ll also do the <code>year()</code> on the fly in my filter.</p>
 <div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="group-dates.html#cb284-1" aria-hidden="true" tabindex="-1"></a>swift_month <span class="ot">&lt;-</span> hot100 <span class="sc">|&gt;</span> </span>
 <span id="cb284-2"><a href="group-dates.html#cb284-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
 <span id="cb284-3"><a href="group-dates.html#cb284-3" aria-hidden="true" tabindex="-1"></a>    performer <span class="sc">==</span> <span class="st">&quot;Taylor Swift&quot;</span>,</span>
@@ -826,8 +826,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb286-6"><a href="group-dates.html#cb286-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">x =</span>  <span class="fu">guide_axis</span>(<span class="at">angle =</span> <span class="dv">45</span>)) <span class="sc">+</span></span>
 <span id="cb286-7"><a href="group-dates.html#cb286-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb286-8"><a href="group-dates.html#cb286-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Month and Year&quot;</span>,</span>
-<span id="cb286-9"><a href="group-dates.html#cb286-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Appearances&quot;</span>,</span>
-<span id="cb286-10"><a href="group-dates.html#cb286-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Taylor Swift&#39;s Hot 100 appearances by month, 2020-2021&quot;</span></span>
+<span id="cb286-9"><a href="group-dates.html#cb286-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Hot 100 appearances&quot;</span>,</span>
+<span id="cb286-10"><a href="group-dates.html#cb286-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Taylor Swift&#39;s Billboard Hot 100 appearances by month, 2020-2021&quot;</span></span>
 <span id="cb286-11"><a href="group-dates.html#cb286-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <p><img src="70-group-dates_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>That tall bar with 28 appearances was right after “Folklore” <a href="https://en.wikipedia.org/wiki/Taylor_Swift_albums_discography#Studio_albums">was released</a> in July 2020. There was another spike after “Evermore” was released in December 2020. We’ll see what happened with “Midnights” once I update the data.</p>
