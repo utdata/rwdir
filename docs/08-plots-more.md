@@ -508,6 +508,11 @@ ggplot(leso_five_gsa, aes(x = year, y = yearly_cost)) +
        caption = "Source: Law Enforcement Support Office")
 ```
 
+```
+## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+```
+
 <img src="08-plots-more_files/figure-html/line-width-1.png" width="672" />
 
 ### Line type

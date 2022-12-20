@@ -356,20 +356,20 @@ sped_flag |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 8
-##    district distname               cntyn…¹ year  all_c…² sped_…³ sped_…⁴ audit…⁵
-##    <chr>    <chr>                  <chr>   <chr>   <dbl>   <dbl>   <dbl> <chr>  
-##  1 205904   MATHIS ISD             SAN PA… 2013     1653     152     9.2 ABOVE  
-##  2 116908   QUINLAN ISD            HUNT    2014     2587     283    10.9 ABOVE  
-##  3 247901   FLORESVILLE ISD        WILSON  2018     4012     363     9   ABOVE  
-##  4 055901   CULBERSON COUNTY-ALLA… CULBER… 2017      425      26     6.1 BELOW  
-##  5 127904   HAWLEY ISD             JONES   2015      758      58     7.7 BELOW  
-##  6 020907   COLUMBIA-BRAZORIA ISD  BRAZOR… 2019     3031     292     9.6 ABOVE  
-##  7 088902   GOLIAD ISD             GOLIAD  2021     1251     160    12.8 ABOVE  
-##  8 177902   SWEETWATER ISD         NOLAN   2013     2189     272    12.4 ABOVE  
-##  9 091913   POTTSBORO ISD          GRAYSON 2014     1348     129     9.6 ABOVE  
-## 10 019906   REDWATER ISD           BOWIE   2016     1133     100     8.8 ABOVE  
-## # … with abbreviated variable names ¹​cntyname, ²​all_count, ³​sped_count,
-## #   ⁴​sped_percent, ⁵​audit_flag
+##    district distname             cntyname  year  all_c…¹ sped_…² sped_…³ audit…⁴
+##    <chr>    <chr>                <chr>     <chr>   <dbl>   <dbl>   <dbl> <chr>  
+##  1 169902   NOCONA ISD           MONTAGUE  2020      811     139    17.1 ABOVE  
+##  2 087901   GLASSCOCK COUNTY ISD GLASSCOCK 2020      306      28     9.2 ABOVE  
+##  3 063906   PATTON SPRINGS ISD   DICKENS   2020       99      16    16.2 ABOVE  
+##  4 024901   BROOKS COUNTY ISD    BROOKS    2020     1500     184    12.3 ABOVE  
+##  5 014905   HOLLAND ISD          BELL      2020      674      57     8.5 BELOW  
+##  6 042901   COLEMAN ISD          COLEMAN   2021      839     118    14.1 ABOVE  
+##  7 196901   AUSTWELL-TIVOLI ISD  REFUGIO   2013      150      13     8.7 ABOVE  
+##  8 158902   TIDEHAVEN ISD        MATAGORDA 2016      881      67     7.6 BELOW  
+##  9 160905   LOHN ISD             MCCULLOCH 2013       89      14    15.7 ABOVE  
+## 10 045905   WEIMAR ISD           COLORADO  2020      676      79    11.7 ABOVE  
+## # … with abbreviated variable names ¹​all_count, ²​sped_count, ³​sped_percent,
+## #   ⁴​audit_flag
 ```
 
 Let's walk through the code above:
