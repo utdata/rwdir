@@ -21,10 +21,11 @@ This chapter continues the Billboard Hot 100 project. In the previous chapter we
 Now that we have the Billboard Hot 100 charts data in our project it's time to find the answers to the following questions:
 
 - Which performer had the most appearances on the Hot 100 chart at any position?
-- Which song/performer combination has been on the charts the most number of weeks at any position?
-- Which song/performer combination was No. 1 for the most number of weeks?
+- Which title/performer combination has been on the charts the most number of weeks at any position?
+- Which title/performer combination was No. 1 for the most number of weeks?
 - Which performer had the most songs reach No. 1?
 - Which performer had the most songs reach No. 1 in the most recent five years?
+- How many appearances for a specific performer in each year?
 - Which performer had the most Top 10 hits overall?
 
 > What are your guesses for the questions above? NO PEEKING!
@@ -50,7 +51,7 @@ Since we are starting a new notebook, we need to set up a few things. First up w
 1. Go ahead and copy all the questions we outlined above into your notebook.
 1. Format those questions as a nice list. Start each line with a `-` or `*` followed by a space. There should be a blank line above and below the entire LIST but not between the items. List tiems should be on sequential lines ... and it is the only markdown item like that.
 1. Now add a another headline (two hashes) called Setup.
-1. Add a chunk, also name it "setup" and add the tidyverse library.
+1. Add a chunk, also name it "setup" and add the tidyverse and lubridate libraries.
 1. Run the chunk to load the library.
 
 
@@ -138,7 +139,7 @@ hot100 |> glimpse()
 ## Columns: 7
 ## $ chart_date    <date> 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08…
 ## $ current_rank  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
-## $ song          <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard H…
+## $ title         <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard H…
 ## $ performer     <chr> "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby …
 ## $ previous_rank <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
 ## $ peak_rank     <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
@@ -361,7 +362,7 @@ So, **Taylor Swift** ... is that who you guessed? A little history here, Swift p
 
 Our quest here is this: **Which song/performer combination has been on the charts the most number of weeks at any position?**
 
-This is very similar to our quest to find the artist with the most appearances, but we have to consider both `song` and `performer` together because different artists can perform songs of the same name. For example, Adele's song "Hold On" entered the Hot 100 at 49 in December 2021, but 18 different performers have had a song called "Hold On" on the Hot 100.
+This is very similar to our quest to find the artist with the most appearances, but we have to consider both `title` and `performer` together because different artists can perform songs of the same name. For example, Adele's song "Hold On" entered the Hot 100 at 49 in December 2021, but 18 different performers have had a song titled "Hold On" on the Hot 100.
 
 1. Start a new section (headline, text describing goal and a new code chunk.)
 1. Add the code below ONE LINE AT A TIME and run it and then I'll outline it below.
@@ -373,7 +374,7 @@ Remember, you write and run the line *BEFORE* you add the pipe ` |> `!
 
 ```r
 hot100 |> # start with the data, and then ...
-  group_by(performer, song) |> # group by performer and song, and then ..
+  group_by(performer, title) |> # group by performer and title, and then ..
   summarize(appearances = n()) |> # count the rows with n(), and then ...
   arrange(desc(appearances)) # arrange by appearances in descending order
 ```
@@ -386,7 +387,7 @@ hot100 |> # start with the data, and then ...
 ```
 ## # A tibble: 29,791 × 3
 ## # Groups:   performer [10,237]
-##    performer                                 song                        appea…¹
+##    performer                                 title                       appea…¹
 ##    <chr>                                     <chr>                         <int>
 ##  1 The Weeknd                                Blinding Lights                  90
 ##  2 Imagine Dragons                           Radioactive                      87
@@ -403,7 +404,7 @@ hot100 |> # start with the data, and then ...
 
 The logic works like this:
 
-- We want to count combinations over two columns: `song, performer`. When you group_by more then one column, it will group rows where the values are the same in all columns. i.e. all rows with both "Rush" as a performer and _Tom Sawyer_ as a song are in the same group. Rows with "Rush" and _Red Barchetta_ will be considered in a different group.
+- We want to count combinations over two columns: `title, performer`. When you group_by more then one column, it will group rows where the values are the same in all columns. i.e. all rows with both "Rush" as a performer and _Tom Sawyer_ as a title are in the same group. Rows with "Rush" and _Red Barchetta_ will be considered in a different group.
 - Within `summarize()`, we can name the new column first (we chose `appearances` as a name here), then describe what should fill it. In this case we filled the column using the `n()`, which counts the **n**umber of rows in each group.
 - Once you have a summary table, we sort it by appearances and set it to **desc**ending order, which puts the highest value on the top.
 
@@ -470,7 +471,7 @@ In this case, I want you to use filter _after_ the GSA actions to include **only
 
 ```r
 hot100 |>
-  group_by(performer, song) |>
+  group_by(performer, title) |>
   summarize(appearances = n()) |>
   arrange(appearances |> desc()) |> 
   filter(appearances >= 65) # this is the new line
@@ -484,7 +485,7 @@ hot100 |>
 ```
 ## # A tibble: 9 × 3
 ## # Groups:   performer [9]
-##   performer                                 song                         appea…¹
+##   performer                                 title                        appea…¹
 ##   <chr>                                     <chr>                          <int>
 ## 1 The Weeknd                                Blinding Lights                   90
 ## 2 Imagine Dragons                           Radioactive                       87
@@ -505,19 +506,19 @@ Let's break down that last line:
 - We then provide a comparison operator `>=` to get "greater than or equal to".
 - We then give the value to compare, `65` in our case.
 
-## Song/Performer with most weeks at No. 1
+## Title/Performer with most weeks at No. 1
 
 We introduced `filter()` in the last quest to limit the summary. For this quest you'll need to filter the data _before_ the group by/summarize/arrange trio.
 
-Let's review the quest: **Which performer/song combination was No. 1 for the most number of weeks?**
+Let's review the quest: **Which performer/title combination was No. 1 for the most number of weeks?**
 
 While this quest is very similar to the one above, it _really_ helps to think about the logic of what you need and then build the query **one line at a time** to make each line works.
 
 Let's talk through the logic:
 
 - We are starting with our `hot100` data.
-- Do we want to consider all the data? In this case, no: We only want songs that have a `current_rank` of 1. This means we will **filter** before any summarizing.
-- Then we want to count the number of rows with the same **performer** and **song** combinations. This means we need to `group_by` both `performer` and `song`.
+- Do we want to consider all the data? In this case, no: We only want titles that have a `current_rank` of 1. This means we will **filter** before any summarizing.
+- Then we want to count the number of rows with the same **performer** and **title** combinations. This means we need to `group_by` both `performer` and `title`.
 - Since we are **counting rows**, we need use `n()` as our summarize function, which counts the **number** or rows in each group.
 
 So let's step through this with code: 
@@ -535,7 +536,7 @@ hot100 |>
 
 ```
 ## # A tibble: 3,308 × 7
-##    chart_date current_rank song                  perfo…¹ previ…² peak_…³ wks_o…⁴
+##    chart_date current_rank title                 perfo…¹ previ…² peak_…³ wks_o…⁴
 ##    <date>            <dbl> <chr>                 <chr>     <dbl>   <dbl>   <dbl>
 ##  1 1958-08-04            1 Poor Little Fool      Ricky …      NA       1       1
 ##  2 1958-08-11            1 Poor Little Fool      Ricky …       1       1       2
@@ -551,9 +552,9 @@ hot100 |>
 ## #   ²​previous_rank, ³​peak_rank, ⁴​wks_on_chart
 ```
 
-The result should show _only_ songs with a `1` for `current_rank`.
+The result should show _only_ titles with a `1` for `current_rank`.
 
-The rest of our logic is just like our last quest. We need to group by the `song` and `performer` and then `summarize` using `n()` to count the rows.
+The rest of our logic is just like our last quest. We need to group by the `title` and `performer` and then `summarize` using `n()` to count the rows.
 
 1. Edit your existing chunk to add the `group_by` and `summarize` functions. Name your new column `appearances` and set it to count the rows with `n()`.
 
@@ -565,7 +566,7 @@ The rest of our logic is just like our last quest. We need to group by the `song
 ```r
 hot100 |>
   filter(current_rank == 1) |> 
-  group_by(performer, song) |>
+  group_by(performer, title) |>
   summarize(appearances = n())
 ```
 
@@ -577,7 +578,7 @@ hot100 |>
 ```
 ## # A tibble: 1,132 × 3
 ## # Groups:   performer [749]
-##    performer                          song                             appeara…¹
+##    performer                          title                            appeara…¹
 ##    <chr>                              <chr>                                <int>
 ##  1 ? (Question Mark) & The Mysterians 96 Tears                                 1
 ##  2 'N Sync                            It's Gonna Be Me                         2
@@ -593,7 +594,7 @@ hot100 |>
 ```
 </details>
 
-Look at your results to make sure you have the three columns you expect: performer, song and appearances.
+Look at your results to make sure you have the three columns you expect: performer, title and appearances.
 
 This doesn't quite get us where we want because it lists the results alphabetically by the performer. You need to **arrange** the data to show us the most appearances at the top.
 
@@ -606,7 +607,7 @@ This doesn't quite get us where we want because it lists the results alphabetica
 ```r
 hot100 |>
   filter(current_rank == 1) |> 
-  group_by(performer, song) |>
+  group_by(performer, title) |>
   summarize(appearances = n()) |>
   arrange(appearances |> desc())
 ```
@@ -619,7 +620,7 @@ hot100 |>
 ```
 ## # A tibble: 1,132 × 3
 ## # Groups:   performer [749]
-##    performer                                         song                appea…¹
+##    performer                                         title               appea…¹
 ##    <chr>                                             <chr>                 <int>
 ##  1 Lil Nas X Featuring Billy Ray Cyrus               Old Town Road            19
 ##  2 Luis Fonsi & Daddy Yankee Featuring Justin Bieber Despacito                16
@@ -646,7 +647,7 @@ You have your answer now (you go, Lil Nas) but we are listing more than 1,000 ro
 ```r
 hot100 |>
   filter(current_rank == 1) |> 
-  group_by(performer, song) |>
+  group_by(performer, title) |>
   summarize(appearances = n()) |>
   arrange(appearances |> desc()) |> 
   filter(appearances >= 14)
@@ -660,7 +661,7 @@ hot100 |>
 ```
 ## # A tibble: 10 × 3
 ## # Groups:   performer [10]
-##    performer                                         song                appea…¹
+##    performer                                         title               appea…¹
 ##    <chr>                                             <chr>                 <int>
 ##  1 Lil Nas X Featuring Billy Ray Cyrus               Old Town Road            19
 ##  2 Luis Fonsi & Daddy Yankee Featuring Justin Bieber Despacito                16
@@ -676,18 +677,18 @@ hot100 |>
 ```
 </details> 
 
-Now you have the answers to the performer/song with the most weeks at No. 1 with a logical cutoff. If you add to the data later, that logic will still hold and not cut off arbitrarily at a certain number of records.
+Now you have the answers to the performer/title with the most weeks at No. 1 with a logical cutoff. If you add to the data later, that logic will still hold and not cut off arbitrarily at a certain number of records.
 
-## Performer with most songs to reach No. 1
+## Performer with most titles to reach No. 1
 
-Our new quest is this: **Which performer had the most songs reach No. 1?** The answer might be easier to guess if you know music history, but perhaps not.
+Our new quest is this: **Which performer had the most titles reach No. 1?** The answer might be easier to guess if you know music history, but perhaps not.
 
 This sounds similar to our last quest, but there is a **distinct** difference. (That's a bad joke that will reveal itself here in a bit.)
 
 Again, let's think through the logic of what we have to do to get our answer:
 
-- We need to consider only No. 1 songs. (filter!)
-- Because a song could be No. 1 for more than one week, we need to consider the same song/performer combination only once. Another way to say this is we need unique or distinct combinations of song/performer. (We'll introduce a new function to find this.)
+- We need to consider only No. 1 songs (filter!)
+- Because a song could be No. 1 for more than one week, we need to consider the same title/performer combination only once. Another way to say this is we need unique or distinct combinations of title/performer. (We'll introduce a new function to find this.)
 - Once we have all the unique No. 1 songs in a list, then we can group by **performer** and count the **n**umber of times they are on the list.
 
 Let's start by getting the No. 1 songs. You've did this in the last quest.
@@ -703,7 +704,7 @@ hot100 |>
 
 ```
 ## # A tibble: 3,308 × 7
-##    chart_date current_rank song                  perfo…¹ previ…² peak_…³ wks_o…⁴
+##    chart_date current_rank title                 perfo…¹ previ…² peak_…³ wks_o…⁴
 ##    <date>            <dbl> <chr>                 <chr>     <dbl>   <dbl>   <dbl>
 ##  1 1958-08-04            1 Poor Little Fool      Ricky …      NA       1       1
 ##  2 1958-08-11            1 Poor Little Fool      Ricky …       1       1       2
@@ -723,9 +724,9 @@ Now look at the result. Note how "Poor Little Fool" shows up more than once? Oth
 
 ### Using distinct()
 
-The next challenge in our logic is to show only unique performer/song combinations. We do this with [`distinct()`](https://dplyr.tidyverse.org/reference/distinct.html).
+The next challenge in our logic is to show only unique performer/title combinations. We do this with [`distinct()`](https://dplyr.tidyverse.org/reference/distinct.html).
 
-We feed the `distinct()` function with the variables we want to consider together, in our case the `perfomer` and `song`. All other columns are dropped since including them would mess up their distinctness.
+We feed the `distinct()` function with the variables we want to consider together, in our case the `perfomer` and `title`. All other columns are dropped since including them would mess up their distinctness.
 
 1. **Edit** your chunk to add the `distinct()` function to your code chunk.
 
@@ -733,12 +734,12 @@ We feed the `distinct()` function with the variables we want to consider togethe
 ```r
 hot100 |> 
   filter(current_rank == 1) |> 
-  distinct(song, performer)
+  distinct(title, performer)
 ```
 
 ```
 ## # A tibble: 1,132 × 2
-##    song                            performer                       
+##    title                           performer                       
 ##    <chr>                           <chr>                           
 ##  1 Poor Little Fool                Ricky Nelson                    
 ##  2 Nel Blu Dipinto Di Blu (Volaré) Domenico Modugno                
@@ -770,7 +771,7 @@ We'll again use the group_by/summarize/arrange combination for this, but we are 
 ```r
 hot100 |> 
   filter(current_rank == 1) |>
-  distinct(song, performer) |>
+  distinct(title, performer) |>
   group_by(performer) |>
   summarize(no1_hits = n()) |>
   arrange(no1_hits |> desc())
@@ -806,7 +807,7 @@ Like we did earlier, use a `filter()` after your arrange to cut the list off at 
 ```r
 hot100 |> 
   filter(current_rank == 1) |>
-  distinct(song, performer) |>
+  distinct(title, performer) |>
   group_by(performer) |>
   summarize(no1_hits = n()) |>
   arrange(no1_hits |> desc()) |> 
@@ -863,7 +864,7 @@ hot100 |>
     current_rank == 1,
     chart_date > "2016-12-31"
   ) |> 
-  distinct(song, performer) |> 
+  distinct(title, performer) |> 
   group_by(performer) |> 
   summarize(top_hits = n()) |> 
   arrange(top_hits |> desc()) |> 
@@ -900,13 +901,11 @@ The logic is very similar to the "Most No. 1 hits" quest you did before, but you
 1. Do it using the group_by/summarize method
 1. Filter to cut off at a logical number or rows. (i.e., don't stop at a tie)
 
-
-
 ## Complex filters
 
 You can combine filters in different ways to really target which rows to keep. For these I want you to play around a bit.
 
-1. Copy **each of the examples below** into your notebook, but change the song and/or artists to some that you like.
+1. Copy **each of the examples below** into your notebook, but change the title and/or artists to some that you like.
 
 ### Multiple truths
 
@@ -916,13 +915,13 @@ If you want filter data for when **two or more things are true**, you can write 
 ```r
 # When Poor Little Fool was No. 1, but not any other position
 hot100 |> 
-  filter(song == "Poor Little Fool" & current_rank == 1) |> 
+  filter(title == "Poor Little Fool" & current_rank == 1) |> 
   select(chart_date:performer)
 ```
 
 ```
 ## # A tibble: 2 × 4
-##   chart_date current_rank song             performer   
+##   chart_date current_rank title            performer   
 ##   <date>            <dbl> <chr>            <chr>       
 ## 1 1958-08-04            1 Poor Little Fool Ricky Nelson
 ## 2 1958-08-11            1 Poor Little Fool Ricky Nelson
@@ -942,7 +941,7 @@ hot100 |>
 
 ```
 ## # A tibble: 4 × 4
-##   chart_date current_rank song              performer     
+##   chart_date current_rank title             performer     
 ##   <date>            <dbl> <chr>             <chr>         
 ## 1 1999-01-02           80 The Chanukah Song Adam Sandler  
 ## 2 1999-01-09           98 The Chanukah Song Adam Sandler  
@@ -965,12 +964,12 @@ hot100 |>
     performer == "Taylor Swift" | performer == "Drake",
     current_rank == 1
 ) |> 
-  distinct(current_rank, song, performer)
+  distinct(current_rank, title, performer)
 ```
 
 ```
 ## # A tibble: 12 × 3
-##    current_rank song                                    performer   
+##    current_rank title                                   performer   
 ##           <dbl> <chr>                                   <chr>       
 ##  1            1 We Are Never Ever Getting Back Together Taylor Swift
 ##  2            1 Shake It Off                            Taylor Swift
@@ -988,7 +987,7 @@ hot100 |>
 
 ### Search within a string
 
-And if you want to search for text **within** the data, you can use [`str_detect()`](https://stringr.tidyverse.org/reference/str_detect.html) to look for specific characters within a value to filter rows. `str_detect()` needs two arguments: 1) What column to search in, and 2) what to search for "in quotes". I also use `distinct()` here to show only unique song/performer combinations.
+And if you want to search for text **within** the data, you can use [`str_detect()`](https://stringr.tidyverse.org/reference/str_detect.html) to look for specific characters within a value to filter rows. `str_detect()` needs two arguments: 1) What column to search in, and 2) what to search for "in quotes". I also use `distinct()` here to show only unique title/performer combinations.
 
 
 
@@ -996,12 +995,12 @@ And if you want to search for text **within** the data, you can use [`str_detect
 # Songs where "2 Chainz" was among performers
 hot100 |> 
   filter(str_detect(performer, "2 Chainz")) |> 
-  distinct(song, performer)
+  distinct(title, performer)
 ```
 
 ```
 ## # A tibble: 40 × 2
-##    song                   performer                                            
+##    title                  performer                                            
 ##    <chr>                  <chr>                                                
 ##  1 Mercy                  Kanye West, Big Sean, Pusha T, 2 Chainz              
 ##  2 Beez In The Trap       Nicki Minaj Featuring 2 Chainz                       
@@ -1120,7 +1119,7 @@ hot100 |>
 
 ```
 ## # A tibble: 0 × 7
-## # … with 7 variables: chart_date <date>, current_rank <dbl>, song <chr>,
+## # … with 7 variables: chart_date <date>, current_rank <dbl>, title <chr>,
 ## #   performer <chr>, previous_rank <dbl>, peak_rank <dbl>, wks_on_chart <dbl>
 ```
 

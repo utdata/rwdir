@@ -179,9 +179,9 @@ The data we will use was compiled by Prof. McDonald from a [number of sources](h
 
 Take a look at the [current chart](https://www.billboard.com/charts/hot-100/). Our data contains many (but not quite all) of the elements you see there. **Each row of data (or observation as they are known in R) represents a song and the corresponding position on that week's chart.** Included in each row are the following columns (a.k.a. variables):
 
-- CHART WEEK: The release date of the chart
+- CHART DATE: The release date of the chart
 - THIS WEEK: The current ranking as of the chart date
-- SONG: The song title
+- TITLE: The song title
 - PERFORMER: The performer of the song
 - LAST WEEK: The ranking on the previous week's chart
 - PEAK POS.: The peak rank the song has reached as of the chart date
@@ -343,7 +343,7 @@ hot100 |> glimpse()
 ## Columns: 7
 ## $ `CHART WEEK`   <chr> "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958", "8/4/19…
 ## $ `THIS WEEK`    <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …
-## $ SONG           <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard …
+## $ TITLE          <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard …
 ## $ PERFORMER      <chr> "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby…
 ## $ `LAST WEEK`    <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
 ## $ `PEAK POS.`    <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …
@@ -398,7 +398,7 @@ So, given those notes above, we should clean up our column names. This is why we
 
 
 ```r
-hot100 <- read_csv("data-raw/hot100_archive.csv") %>% clean_names()
+hot100 <- read_csv("data-raw/hot100_assignment.csv") %>% clean_names()
 
 # peek at the data
 hot100 |> glimpse()
@@ -409,7 +409,7 @@ hot100 |> glimpse()
 ## Columns: 7
 ## $ chart_week   <chr> "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958…
 ## $ this_week    <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
-## $ song         <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard He…
+## $ title        <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard He…
 ## $ performer    <chr> "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby D…
 ## $ last_week    <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
 ## $ peak_pos     <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
@@ -420,7 +420,7 @@ This function has cleaned up your names, making them all lowercase and using `_`
 
 ### Fixing the date
 
-Dates in programming are a tricky data type because they are represented essentially as the number of seconds before/after January 1, 1970. Yes, that's crazy, but it is also cool because that allows us to do math on them. So, to use our `chart_week` properly in R we need to convert it from the text into a real _date_ datatype. (If you wish, you can [read more about why dates are tough in programming](https://levelup.gitconnected.com/why-is-programming-with-dates-so-hard-7477b4aeff4c).)
+Dates in programming are a tricky data type because they are represented essentially as the number of seconds before/after January 1, 1970. Yes, that's crazy, but it is also cool because that allows us to do math on them. So, to use our `chart_date` properly in R we need to convert it from the text into a real _date_ datatype. (If you wish, you can [read more about why dates are tough in programming](https://levelup.gitconnected.com/why-is-programming-with-dates-so-hard-7477b4aeff4c).)
 
 Converting text into dates can be challenging, but the tidyverse universe has a package called [lubridate](https://lubridate.tidyverse.org/) to ease the friction. (Get it?).
 
@@ -448,7 +448,7 @@ hot100_date |> glimpse()
 ## Columns: 7
 ## $ chart_week   <chr> "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958…
 ## $ this_week    <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
-## $ song         <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard He…
+## $ title        <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard He…
 ## $ performer    <chr> "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby D…
 ## $ last_week    <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
 ## $ peak_pos     <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
@@ -467,7 +467,7 @@ Let's break this down:
 
 #### Working with mutate()
 
-We are going to use the text of our date field `chart_week` to create a new converted date. We will use the dplyr function [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) to do this, with some help from lubridate.
+We are going to use the text of our date field `chart_date` to create a new converted date. We will use the dplyr function [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) to do this, with some help from lubridate.
 
 > [dplyr](https://dplyr.tidyverse.org/) is the tidyverse package of functions to manipulate data. We'll use functions from it a lot. It is loaded with the `library(tidyverse)` so you don't have to load it separately.
 
@@ -506,7 +506,7 @@ hot100_date |> glimpse()
 ## Columns: 8
 ## $ chart_week   <chr> "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958…
 ## $ this_week    <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
-## $ song         <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard He…
+## $ title        <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard He…
 ## $ performer    <chr> "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby D…
 ## $ last_week    <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
 ## $ peak_pos     <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
@@ -529,13 +529,13 @@ If your original text is in a different date order, then you look up what lubrid
 
 #### Check the result!
 
-This new `chart_date` column is added as the LAST column of our data. After doing any kind of mutate you want to check the result to make sure you got the results you expected. This is why we built our code this way with `glimpse()` so we can see example of our data from both the first and the last column. (We'll rearrange all the columns in a bit once we are done cleaning everything.)
+This new `chart_date` column is added as the LAST column of our data. After doing any kind of mutate you want to check the result to make sure you got the results you expected, which is why we didn't just overwire the original `chart_week` column. That's also why we built our code this way with `glimpse()` so we can see example of our data from both the first and the last column. (We'll rearrange all the columns in a bit once we are done cleaning everything.)
 
 Check your glimpse returns ... did your dates convert correctly?
 
 ## Arrange the data
 
-Just to be tidy, we want arrange our data so it starts with the oldest week and "top" of the chart and then work forward through time and rank.
+Just to be tidy, we want ensure our data is arranged to start with the oldest week and "top" of the chart and then work forward through time and rank.
 
 i.e., let's arrange this data so that the oldest data is at the top.
 
@@ -569,7 +569,7 @@ hot100_date |> glimpse()
 ## Columns: 8
 ## $ chart_week   <chr> "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958…
 ## $ this_week    <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
-## $ song         <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard He…
+## $ title        <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard He…
 ## $ performer    <chr> "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby D…
 ## $ last_week    <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
 ## $ peak_pos     <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
@@ -593,7 +593,7 @@ hot100_date |> head(10)
 
 ```
 ## # A tibble: 10 × 8
-##    chart_week this_week song          perfo…¹ last_…² peak_…³ wks_o…⁴ chart_date
+##    chart_week this_week title         perfo…¹ last_…² peak_…³ wks_o…⁴ chart_date
 ##    <chr>          <dbl> <chr>         <chr>     <dbl>   <dbl>   <dbl> <date>    
 ##  1 8/4/1958           1 Poor Little … Ricky …      NA       1       1 1958-08-04
 ##  2 8/4/1958           2 Patricia      Perez …      NA       2       1 1958-08-04
@@ -628,7 +628,7 @@ hot100_date |> summary()
 ```
 
 ```
-##   chart_week          this_week         song            performer        
+##   chart_week          this_week        title            performer        
 ##  Length:330800      Min.   :  1.0   Length:330800      Length:330800     
 ##  Class :character   1st Qu.: 26.0   Class :character   Class :character  
 ##  Mode  :character   Median : 51.0   Mode  :character   Mode  :character  
@@ -673,7 +673,7 @@ hot100_clean <- hot100_date |>
     chart_date,
     # this renames a column with new name first
     current_rank = this_week,
-    song,
+    title,
     performer,
     previous_rank = last_week,
     peak_rank = peak_pos,
@@ -688,7 +688,7 @@ hot100_clean |> glimpse()
 ## Columns: 7
 ## $ chart_date    <date> 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08…
 ## $ current_rank  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
-## $ song          <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard H…
+## $ title         <chr> "Poor Little Fool", "Patricia", "Splish Splash", "Hard H…
 ## $ performer     <chr> "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby …
 ## $ previous_rank <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
 ## $ peak_rank     <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
@@ -701,7 +701,7 @@ Line by line, it goes like this:
 - We use the `select()` function to choose our columns to keep, renaming some of them along the way:
     - We start with `chart_date` which is our _real date_. We just won't ever name the text version so we won't keep it.
     - When we get to our `this_week` column, we rename it to `current_rank`. We're doing this because we'll rename all the "ranking" columns with something that includes `_rank` at the end. We're being (too) clever here so later we can use `select(ends_with("_rank"))` to get those ranking columns together. Note the R concept of naming the new thing first before filling it.
-    - For `song` and `performer` we just list them because we want them to come next but we don't need to change the names at all.
+    - For `title` and `performer` we just list them because we want them to come next but we don't need to change the names at all.
     - For the other columns we rename or not as needed.
 - Lastly, we glimpse the new object to check it.
 
