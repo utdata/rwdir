@@ -8,7 +8,7 @@ output:
 
 It is not uncommon in data journalism to count or sum records by year based on a date within your data. Or even by other date parts like month or week. There are some really nifty features within the [lubridate](https://lubridate.tidyverse.org/) package that make this pretty easy.
 
-We'll run through some of those scenarios here using the Billboard Hot 100 data we used in Chapters 3 & 4.
+We'll run through some of those scenarios here using the Billboard Hot 100 data we used in Chapters 3 & 4. If you want to follow along, you can create a new notebook in your Billboard project. Or you can just use this for reference.
 
 ## Setting up
 
@@ -30,7 +30,7 @@ hot100 |> glimpse()
 ```
 
 ```
-## Rows: 330,800
+## Rows: 336,100
 ## Columns: 7
 ## $ chart_date    <date> 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08…
 ## $ current_rank  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
@@ -58,7 +58,7 @@ year("1989-12-13")
 
 ## Grouping by a date part on the fly
 
-Let's show how this might use this through an example question:
+Let's show how this might be useful through an example question:
 
 **Which performer has the most appearances on the chart in a given year?**
 
@@ -84,26 +84,26 @@ hot100 |>
 ```
 
 ```
-## # A tibble: 22,481 × 3
-## # Groups:   year(chart_date) [64]
+## # A tibble: 22,953 × 3
+## # Groups:   year(chart_date) [65]
 ##    `year(chart_date)` performer      appearances
 ##                 <dbl> <chr>                <int>
 ##  1               1964 The Beatles            214
 ##  2               2021 Olivia Rodrigo         172
 ##  3               2018 Drake                  168
-##  4               2019 Billie Eilish          145
-##  5               2016 Drake                  134
-##  6               2015 The Weeknd             126
-##  7               2005 Kelly Clarkson         124
-##  8               2015 Drake                  124
-##  9               2009 Taylor Swift           122
-## 10               2009 Beyonce                118
-## # … with 22,471 more rows
+##  4               2022 Bad Bunny              148
+##  5               2019 Billie Eilish          145
+##  6               2016 Drake                  134
+##  7               2015 The Weeknd             126
+##  8               2005 Kelly Clarkson         124
+##  9               2015 Drake                  124
+## 10               2009 Taylor Swift           122
+## # … with 22,943 more rows
 ```
 
 We can see here that The Beatles had the most hits in 1964 with 214 (at least as of this writing).
 
-But notice how the year column name is kinda shite? We would not be able to reference that later, so we should rename that AS we make the group:
+But notice how the year column name is kinda shite? We would not be able to easily reference that variable later, so we should rename that AS we make the group:
 
 
 ```r
@@ -122,32 +122,32 @@ hot100 |>
 ```
 
 ```
-## # A tibble: 22,481 × 3
-## # Groups:   yr [64]
+## # A tibble: 22,953 × 3
+## # Groups:   yr [65]
 ##       yr performer      appearances
 ##    <dbl> <chr>                <int>
 ##  1  1964 The Beatles            214
 ##  2  2021 Olivia Rodrigo         172
 ##  3  2018 Drake                  168
-##  4  2019 Billie Eilish          145
-##  5  2016 Drake                  134
-##  6  2015 The Weeknd             126
-##  7  2005 Kelly Clarkson         124
-##  8  2015 Drake                  124
-##  9  2009 Taylor Swift           122
-## 10  2009 Beyonce                118
-## # … with 22,471 more rows
+##  4  2022 Bad Bunny              148
+##  5  2019 Billie Eilish          145
+##  6  2016 Drake                  134
+##  7  2015 The Weeknd             126
+##  8  2005 Kelly Clarkson         124
+##  9  2015 Drake                  124
+## 10  2009 Taylor Swift           122
+## # … with 22,943 more rows
 ```
 
-It is a good practice to rename any grouping variable made from a function like that. FWIW, it would've worked if I called the new column `year`, I named it `yr` so I'm less likely to confuse it with the function `year()`. It's a personal preference what to name the new column.
+It is a good practice to rename any grouping variable made from a function like that. FWIW, it would've worked if I called the new column `year`, but I named it `yr` so I'm less likely to confuse it with the function `year()`. It's a personal preference what to name the new column.
 
 ## Making reusable date parts
 
-If you will group by a date part more than once, then it makes sense to create a new `yr` column and save it. In fact, you might make several date parts, but we'll start with only one.
+If you think you'll use a date parts more than once, then it makes sense to create a new columns and save them. You might make several date parts, but we'll start with only one.
 
-To be clear, I usually go back to my cleaning notebook to add these once I recognize I'll need them.
+**I usually go back to my cleaning notebook to add these once I recognize I need them, and then rerun everything.**
 
-To make this easier to show, I've created a random sample of data with only a couple columns. Here is our sample:
+To make this easier to show, I've created a random sample of data with only the `chart_date` and `title` columns. Here is our sample:
 
 
 ```r
@@ -159,21 +159,21 @@ hot100_sample
 
 ```
 ## # A tibble: 6 × 2
-##   chart_date title                    
-##   <date>     <chr>                    
-## 1 1968-11-30 Till                     
-## 2 2005-12-24 Believe                  
-## 3 2010-07-31 Lay Me Down              
-## 4 1994-01-01 93 'til Infinity         
-## 5 2010-09-18 Only Prettier            
-## 6 2016-12-03 This Is What You Came For
+##   chart_date title              
+##   <date>     <chr>              
+## 1 1973-08-04 Kodachrome         
+## 2 1995-04-01 Take A Bow         
+## 3 1998-05-30 My Heart Will Go On
+## 4 1999-08-07 Wild Wild West     
+## 5 1977-03-19 Dancin'            
+## 6 1985-11-09 Face The Face
 ```
 
 ### Let's make a year
 
 Here's how we do it:
 
-- We use mutate to create a new column
+- We use mutate to create a new column.
 - We name the new column `yr`.
 - We set the value of `yr` to equal the `year()` of `chart_date`.
 
@@ -187,14 +187,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 3
-##   chart_date title                        yr
-##   <date>     <chr>                     <dbl>
-## 1 1968-11-30 Till                       1968
-## 2 2005-12-24 Believe                    2005
-## 3 2010-07-31 Lay Me Down                2010
-## 4 1994-01-01 93 'til Infinity           1994
-## 5 2010-09-18 Only Prettier              2010
-## 6 2016-12-03 This Is What You Came For  2016
+##   chart_date title                  yr
+##   <date>     <chr>               <dbl>
+## 1 1973-08-04 Kodachrome           1973
+## 2 1995-04-01 Take A Bow           1995
+## 3 1998-05-30 My Heart Will Go On  1998
+## 4 1999-08-07 Wild Wild West       1999
+## 5 1977-03-19 Dancin'              1977
+## 6 1985-11-09 Face The Face        1985
 ```
 
 ### The magical month
@@ -211,14 +211,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 3
-##   chart_date title                        mo
-##   <date>     <chr>                     <dbl>
-## 1 1968-11-30 Till                         11
-## 2 2005-12-24 Believe                      12
-## 3 2010-07-31 Lay Me Down                   7
-## 4 1994-01-01 93 'til Infinity              1
-## 5 2010-09-18 Only Prettier                 9
-## 6 2016-12-03 This Is What You Came For    12
+##   chart_date title                  mo
+##   <date>     <chr>               <dbl>
+## 1 1973-08-04 Kodachrome              8
+## 2 1995-04-01 Take A Bow              4
+## 3 1998-05-30 My Heart Will Go On     5
+## 4 1999-08-07 Wild Wild West          8
+## 5 1977-03-19 Dancin'                 3
+## 6 1985-11-09 Face The Face          11
 ```
 
 But there are some options within `month()` to give us month NAMES that are ordered as factors instead of alphabetical.
@@ -235,17 +235,17 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 4
-##   chart_date title                     mo_label mo_long  
-##   <date>     <chr>                     <ord>    <ord>    
-## 1 1994-01-01 93 'til Infinity          Jan      January  
-## 2 2010-07-31 Lay Me Down               Jul      July     
-## 3 2010-09-18 Only Prettier             Sep      September
-## 4 1968-11-30 Till                      Nov      November 
-## 5 2005-12-24 Believe                   Dec      December 
-## 6 2016-12-03 This Is What You Came For Dec      December
+##   chart_date title               mo_label mo_long 
+##   <date>     <chr>               <ord>    <ord>   
+## 1 1977-03-19 Dancin'             Mar      March   
+## 2 1995-04-01 Take A Bow          Apr      April   
+## 3 1998-05-30 My Heart Will Go On May      May     
+## 4 1973-08-04 Kodachrome          Aug      August  
+## 5 1999-08-07 Wild Wild West      Aug      August  
+## 6 1985-11-09 Face The Face       Nov      November
 ```
 
-The sample may change, but note the datatype `<ord>` under the column `mo_label` and `mo_long`. That means this is an "ordered factor" and that when arranged by those labels it will list in MONTH order instead of alphabetical order, which is quite useful.
+Note the datatype `<ord>` under the column `mo_label` and `mo_long`. That means this is an "ordered factor" and that when arranged by those labels it will list in MONTH order instead of alphabetical order, which is quite useful.
 
 ### Floor dates
 
@@ -262,14 +262,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 4
-##   chart_date title                     fl_month   fl_year   
-##   <date>     <chr>                     <date>     <date>    
-## 1 1968-11-30 Till                      1968-11-01 1968-01-01
-## 2 2005-12-24 Believe                   2005-12-01 2005-01-01
-## 3 2010-07-31 Lay Me Down               2010-07-01 2010-01-01
-## 4 1994-01-01 93 'til Infinity          1994-01-01 1994-01-01
-## 5 2010-09-18 Only Prettier             2010-09-01 2010-01-01
-## 6 2016-12-03 This Is What You Came For 2016-12-01 2016-01-01
+##   chart_date title               fl_month   fl_year   
+##   <date>     <chr>               <date>     <date>    
+## 1 1973-08-04 Kodachrome          1973-08-01 1973-01-01
+## 2 1995-04-01 Take A Bow          1995-04-01 1995-01-01
+## 3 1998-05-30 My Heart Will Go On 1998-05-01 1998-01-01
+## 4 1999-08-07 Wild Wild West      1999-08-01 1999-01-01
+## 5 1977-03-19 Dancin'             1977-03-01 1977-01-01
+## 6 1985-11-09 Face The Face       1985-11-01 1985-01-01
 ```
 
 You can see the resulting new columns are real dates, but they are normalized:
@@ -277,7 +277,7 @@ You can see the resulting new columns are real dates, but they are normalized:
 - The `fl_month` gives you the first day of the month for that `chart_date`.
 - The `fl_year` gives you the first day of the year for that `chart_date`.
 
-Let's put this to use with an example. I'll create a `fl_month` on the fly to find **Taylor Swift appearances by month for 2020-2021**. I'll also do the year on the fly.
+Let's put this to use with an example. I'll create a `fl_month` on the fly to find **Taylor Swift appearances by month for 2020-2021**. I'll also do the `year()` on the fly in my filter.
 
 
 ```r
@@ -329,8 +329,8 @@ swift_month |>
   guides(x =  guide_axis(angle = 45)) +
   labs(
     x = "Month and Year",
-    y = "Appearances",
-    title = "Taylor Swift's Hot 100 appearances by month, 2020-2021"
+    y = "Hot 100 appearances",
+    title = "Taylor Swift's Billboard Hot 100 appearances by month, 2020-2021"
   )
 ```
 

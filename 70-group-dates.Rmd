@@ -8,7 +8,7 @@ output:
 
 It is not uncommon in data journalism to count or sum records by year based on a date within your data. Or even by other date parts like month or week. There are some really nifty features within the [lubridate](https://lubridate.tidyverse.org/) package that make this pretty easy.
 
-We'll run through some of those scenarios here using the Billboard Hot 100 data we used in Chapters 3 & 4.
+We'll run through some of those scenarios here using the Billboard Hot 100 data we used in Chapters 3 & 4. If you want to follow along, you can create a new notebook in your Billboard project. Or you can just use this for reference.
 
 ## Setting up
 
@@ -39,7 +39,7 @@ year("1989-12-13")
 
 ## Grouping by a date part on the fly
 
-Let's show how this might use this through an example question:
+Let's show how this might be useful through an example question:
 
 **Which performer has the most appearances on the chart in a given year?**
 
@@ -60,7 +60,7 @@ hot100 |>
 
 We can see here that The Beatles had the most hits in 1964 with 214 (at least as of this writing).
 
-But notice how the year column name is kinda shite? We would not be able to reference that later, so we should rename that AS we make the group:
+But notice how the year column name is kinda shite? We would not be able to easily reference that variable later, so we should rename that AS we make the group:
 
 ```{r grp-year-betta}
 hot100 |> 
@@ -72,15 +72,15 @@ hot100 |>
   arrange(desc(appearances))
 ```
 
-It is a good practice to rename any grouping variable made from a function like that. FWIW, it would've worked if I called the new column `year`, I named it `yr` so I'm less likely to confuse it with the function `year()`. It's a personal preference what to name the new column.
+It is a good practice to rename any grouping variable made from a function like that. FWIW, it would've worked if I called the new column `year`, but I named it `yr` so I'm less likely to confuse it with the function `year()`. It's a personal preference what to name the new column.
 
 ## Making reusable date parts
 
-If you will group by a date part more than once, then it makes sense to create a new `yr` column and save it. In fact, you might make several date parts, but we'll start with only one.
+If you think you'll use a date parts more than once, then it makes sense to create a new columns and save them. You might make several date parts, but we'll start with only one.
 
-To be clear, I usually go back to my cleaning notebook to add these once I recognize I'll need them.
+**I usually go back to my cleaning notebook to add these once I recognize I need them, and then rerun everything.**
 
-To make this easier to show, I've created a random sample of data with only a couple columns. Here is our sample:
+To make this easier to show, I've created a random sample of data with only the `chart_date` and `title` columns. Here is our sample:
 
 ```{r make-sample}
 # you wouldn't normally do this!!!!
@@ -93,7 +93,7 @@ hot100_sample
 
 Here's how we do it:
 
-- We use mutate to create a new column
+- We use mutate to create a new column.
 - We name the new column `yr`.
 - We set the value of `yr` to equal the `year()` of `chart_date`.
 
@@ -126,7 +126,7 @@ hot100_sample |>
   arrange(mo_label)
 ```
 
-The sample may change, but note the datatype `<ord>` under the column `mo_label` and `mo_long`. That means this is an "ordered factor" and that when arranged by those labels it will list in MONTH order instead of alphabetical order, which is quite useful.
+Note the datatype `<ord>` under the column `mo_label` and `mo_long`. That means this is an "ordered factor" and that when arranged by those labels it will list in MONTH order instead of alphabetical order, which is quite useful.
 
 ### Floor dates
 
@@ -145,7 +145,7 @@ You can see the resulting new columns are real dates, but they are normalized:
 - The `fl_month` gives you the first day of the month for that `chart_date`.
 - The `fl_year` gives you the first day of the year for that `chart_date`.
 
-Let's put this to use with an example. I'll create a `fl_month` on the fly to find **Taylor Swift appearances by month for 2020-2021**. I'll also do the year on the fly.
+Let's put this to use with an example. I'll create a `fl_month` on the fly to find **Taylor Swift appearances by month for 2020-2021**. I'll also do the `year()` on the fly in my filter.
 
 ```{r swift-month}
 swift_month <- hot100 |> 
@@ -172,8 +172,8 @@ swift_month |>
   guides(x =  guide_axis(angle = 45)) +
   labs(
     x = "Month and Year",
-    y = "Appearances",
-    title = "Taylor Swift's Hot 100 appearances by month, 2020-2021"
+    y = "Hot 100 appearances",
+    title = "Taylor Swift's Billboard Hot 100 appearances by month, 2020-2021"
   )
 ```
 
