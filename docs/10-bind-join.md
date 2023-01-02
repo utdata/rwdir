@@ -356,19 +356,20 @@ sped_flag |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 8
-##    district distname       cntyname      year  all_count sped_…¹ sped_…² audit…³
-##    <chr>    <chr>          <chr>         <chr>     <dbl>   <dbl>   <dbl> <chr>  
-##  1 230906   NEW DIANA ISD  UPSHUR        2016       1039      55     5.3 BELOW  
-##  2 074909   LEONARD ISD    FANNIN        2017        917      81     8.8 ABOVE  
-##  3 224902   WOODSON ISD    THROCKMORTON  2017        153      18    11.8 ABOVE  
-##  4 228903   TRINITY ISD    TRINITY       2021       1161     119    10.2 ABOVE  
-##  5 019901   DEKALB ISD     BOWIE         2018        830      81     9.8 ABOVE  
-##  6 044902   WELLINGTON ISD COLLINGSWORTH 2020        570      65    11.4 ABOVE  
-##  7 109903   COVINGTON ISD  HILL          2014        270      41    15.2 ABOVE  
-##  8 239903   BURTON ISD     WASHINGTON    2018        455      47    10.3 ABOVE  
-##  9 220902   BIRDVILLE ISD  TARRANT       2018      23607    2192     9.3 ABOVE  
-## 10 166907   BUCKHOLTS ISD  MILAM         2017        137      18    13.1 ABOVE  
-## # … with abbreviated variable names ¹​sped_count, ²​sped_percent, ³​audit_flag
+##    district distname               cntyn…¹ year  all_c…² sped_…³ sped_…⁴ audit…⁵
+##    <chr>    <chr>                  <chr>   <chr>   <dbl>   <dbl>   <dbl> <chr>  
+##  1 175910   MILDRED ISD            NAVARRO 2013      720      51     7.1 BELOW  
+##  2 176902   NEWTON ISD             NEWTON  2016     1020     136    13.3 ABOVE  
+##  3 015904   HARLANDALE ISD         BEXAR   2017    14818    1343     9.1 ABOVE  
+##  4 109907   ITASCA ISD             HILL    2014      686      57     8.3 BELOW  
+##  5 170903   MONTGOMERY ISD         MONTGO… 2018     8730     589     6.7 BELOW  
+##  6 072910   MORGAN MILL ISD        ERATH   2017      114       7     6.1 BELOW  
+##  7 095902   COTTON CENTER ISD      HALE    2016      106      11    10.4 ABOVE  
+##  8 238904   GRANDFALLS-ROYALTY ISD WARD    2019      182      15     8.2 BELOW  
+##  9 092906   SABINE ISD             GREGG   2017     1451     117     8.1 BELOW  
+## 10 196901   AUSTWELL-TIVOLI ISD    REFUGIO 2015      161       9     5.6 BELOW  
+## # … with abbreviated variable names ¹​cntyname, ²​all_count, ³​sped_count,
+## #   ⁴​sped_percent, ⁵​audit_flag
 ```
 
 Let's walk through the code above:

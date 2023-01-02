@@ -317,7 +317,7 @@ The logic works like this:
 
 We will _often_ use `group_by()`, `summarize()` and `arrange()` together, which is why I'll refer to this as the **GSA trio**. They are like three close friends that always want to hang out together.
 
-So, what was your guess or this one? A little bit of history in that answer ... The Weeknd's _Blinding Lights_ passed Imagine Dragon's _Radioactive_ some time in 2021.
+So, what was your guess or this one? A little bit of history in that answer ... The Weeknd's _Blinding Lights_ passed Imagine Dragon's _Radioactive_ some time in 2021, but then Glass Animals' _Heat Waves_ topped the chart in 2022.
 
 ### Introducing filter()
 
@@ -665,6 +665,14 @@ hot100 |>
   distinct(title, performer)
 ```
 
+There is a newer string search function called `str_like()` that has some [interesting nuances](https://stringr.tidyverse.org/reference/str_like.html) derived from SQL. It must match the entire phrase so it will find only songs where "2 Chainz" is the only artist, but it case INSENSITIVE by default, unlike `str_detect()`.
+
+```{r like}
+hot100 |> 
+  filter(str_like(performer, "2 chainz")) |> # note chainz is lowercase in the search string
+  distinct(title, performer)
+```
+
 Of course there is much, much more.
 
 ## On your own
@@ -680,7 +688,7 @@ Now I want you to find something else on your own. It doesn't matter what it is.
 
 In the interest of full disclosure but at the risk of confusing you, I must reveal this fact:
 
-We count stuff in data science (and journalism) all the time. So dplyr has a shortcut to group, count and arrange rows of data. We needed to use the long way above because a) we will use `group_by()` and `summarize()` with other math that isn't just counting rows, and b) you need to understand what is happening inside `count()`, which is really just using group_by/summarize/arrange under the hood.
+We count stuff in data science (and journalism) all the time. So dplyr has a shortcut to group, count and arrange rows of data. We needed to use the long way above because a) we will use `group_by()` and `summarize()` with other math that isn't just counting rows, and b) you need to understand what is happening inside `count()`, which uses group_by/summarize/arrange under the hood.
 
 The [`count()`](https://dplyr.tidyverse.org/reference/count.html) function takes the columns you want to group and then does the summarize on `n()` for you:
 
@@ -711,6 +719,7 @@ We introduced a number of new functions in this lesson, most of them from the [d
 - [`summarize()`](https://dplyr.tidyverse.org/reference/summarise.html) builds a summary table _about_ your data. You can count rows [`n()`](https://dplyr.tidyverse.org/reference/n.html) or do math on numerical values, like `mean()`.
 - [`group_by()`](https://dplyr.tidyverse.org/reference/group_by.html) is often used with `summarize()` to put data into groups before building a summary table based on the groups.
 - [`distinct()`](https://dplyr.tidyverse.org/reference/distinct.html) returns rows based on unique values in columns you specify. i.e., it deduplicates data.
+- [`str_detect()`](https://stringr.tidyverse.org/reference/str_detect.html) and [`str_like()`](https://stringr.tidyverse.org/reference/str_like.html) to search within strings.
 - [`count()`](https://dplyr.tidyverse.org/reference/count.html) is a shorthand for the group_by/summarize operation to count rows based on groups. You can name your summary columns and sort the data within the same function.
 
 ## Turn in your project

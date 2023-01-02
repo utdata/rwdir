@@ -30,7 +30,7 @@ hot100 |> glimpse()
 ```
 
 ```
-## Rows: 330,800
+## Rows: 336,100
 ## Columns: 7
 ## $ chart_date    <date> 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08…
 ## $ current_rank  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
@@ -84,21 +84,21 @@ hot100 |>
 ```
 
 ```
-## # A tibble: 22,481 × 3
-## # Groups:   year(chart_date) [64]
+## # A tibble: 22,953 × 3
+## # Groups:   year(chart_date) [65]
 ##    `year(chart_date)` performer      appearances
 ##                 <dbl> <chr>                <int>
 ##  1               1964 The Beatles            214
 ##  2               2021 Olivia Rodrigo         172
 ##  3               2018 Drake                  168
-##  4               2019 Billie Eilish          145
-##  5               2016 Drake                  134
-##  6               2015 The Weeknd             126
-##  7               2005 Kelly Clarkson         124
-##  8               2015 Drake                  124
-##  9               2009 Taylor Swift           122
-## 10               2009 Beyonce                118
-## # … with 22,471 more rows
+##  4               2022 Bad Bunny              148
+##  5               2019 Billie Eilish          145
+##  6               2016 Drake                  134
+##  7               2015 The Weeknd             126
+##  8               2005 Kelly Clarkson         124
+##  9               2015 Drake                  124
+## 10               2009 Taylor Swift           122
+## # … with 22,943 more rows
 ```
 
 We can see here that The Beatles had the most hits in 1964 with 214 (at least as of this writing).
@@ -122,21 +122,21 @@ hot100 |>
 ```
 
 ```
-## # A tibble: 22,481 × 3
-## # Groups:   yr [64]
+## # A tibble: 22,953 × 3
+## # Groups:   yr [65]
 ##       yr performer      appearances
 ##    <dbl> <chr>                <int>
 ##  1  1964 The Beatles            214
 ##  2  2021 Olivia Rodrigo         172
 ##  3  2018 Drake                  168
-##  4  2019 Billie Eilish          145
-##  5  2016 Drake                  134
-##  6  2015 The Weeknd             126
-##  7  2005 Kelly Clarkson         124
-##  8  2015 Drake                  124
-##  9  2009 Taylor Swift           122
-## 10  2009 Beyonce                118
-## # … with 22,471 more rows
+##  4  2022 Bad Bunny              148
+##  5  2019 Billie Eilish          145
+##  6  2016 Drake                  134
+##  7  2015 The Weeknd             126
+##  8  2005 Kelly Clarkson         124
+##  9  2015 Drake                  124
+## 10  2009 Taylor Swift           122
+## # … with 22,943 more rows
 ```
 
 It is a good practice to rename any grouping variable made from a function like that. FWIW, it would've worked if I called the new column `year`, but I named it `yr` so I'm less likely to confuse it with the function `year()`. It's a personal preference what to name the new column.
@@ -159,14 +159,14 @@ hot100_sample
 
 ```
 ## # A tibble: 6 × 2
-##   chart_date title                                        
-##   <date>     <chr>                                        
-## 1 1976-01-31 Let It Shine/He Ain't Heavy...He's My Brother
-## 2 2021-05-15 Without You                                  
-## 3 2011-02-26 Pretty Girl Rock                             
-## 4 2013-08-17 Royals                                       
-## 5 2005-06-04 Baby I'm Back                                
-## 6 1970-01-24 Traces/Memories Medley
+##   chart_date title              
+##   <date>     <chr>              
+## 1 1973-08-04 Kodachrome         
+## 2 1995-04-01 Take A Bow         
+## 3 1998-05-30 My Heart Will Go On
+## 4 1999-08-07 Wild Wild West     
+## 5 1977-03-19 Dancin'            
+## 6 1985-11-09 Face The Face
 ```
 
 ### Let's make a year
@@ -187,14 +187,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 3
-##   chart_date title                                            yr
-##   <date>     <chr>                                         <dbl>
-## 1 1976-01-31 Let It Shine/He Ain't Heavy...He's My Brother  1976
-## 2 2021-05-15 Without You                                    2021
-## 3 2011-02-26 Pretty Girl Rock                               2011
-## 4 2013-08-17 Royals                                         2013
-## 5 2005-06-04 Baby I'm Back                                  2005
-## 6 1970-01-24 Traces/Memories Medley                         1970
+##   chart_date title                  yr
+##   <date>     <chr>               <dbl>
+## 1 1973-08-04 Kodachrome           1973
+## 2 1995-04-01 Take A Bow           1995
+## 3 1998-05-30 My Heart Will Go On  1998
+## 4 1999-08-07 Wild Wild West       1999
+## 5 1977-03-19 Dancin'              1977
+## 6 1985-11-09 Face The Face        1985
 ```
 
 ### The magical month
@@ -211,14 +211,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 3
-##   chart_date title                                            mo
-##   <date>     <chr>                                         <dbl>
-## 1 1976-01-31 Let It Shine/He Ain't Heavy...He's My Brother     1
-## 2 2021-05-15 Without You                                       5
-## 3 2011-02-26 Pretty Girl Rock                                  2
-## 4 2013-08-17 Royals                                            8
-## 5 2005-06-04 Baby I'm Back                                     6
-## 6 1970-01-24 Traces/Memories Medley                            1
+##   chart_date title                  mo
+##   <date>     <chr>               <dbl>
+## 1 1973-08-04 Kodachrome              8
+## 2 1995-04-01 Take A Bow              4
+## 3 1998-05-30 My Heart Will Go On     5
+## 4 1999-08-07 Wild Wild West          8
+## 5 1977-03-19 Dancin'                 3
+## 6 1985-11-09 Face The Face          11
 ```
 
 But there are some options within `month()` to give us month NAMES that are ordered as factors instead of alphabetical.
@@ -235,14 +235,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 4
-##   chart_date title                                         mo_label mo_long 
-##   <date>     <chr>                                         <ord>    <ord>   
-## 1 1976-01-31 Let It Shine/He Ain't Heavy...He's My Brother Jan      January 
-## 2 1970-01-24 Traces/Memories Medley                        Jan      January 
-## 3 2011-02-26 Pretty Girl Rock                              Feb      February
-## 4 2021-05-15 Without You                                   May      May     
-## 5 2005-06-04 Baby I'm Back                                 Jun      June    
-## 6 2013-08-17 Royals                                        Aug      August
+##   chart_date title               mo_label mo_long 
+##   <date>     <chr>               <ord>    <ord>   
+## 1 1977-03-19 Dancin'             Mar      March   
+## 2 1995-04-01 Take A Bow          Apr      April   
+## 3 1998-05-30 My Heart Will Go On May      May     
+## 4 1973-08-04 Kodachrome          Aug      August  
+## 5 1999-08-07 Wild Wild West      Aug      August  
+## 6 1985-11-09 Face The Face       Nov      November
 ```
 
 Note the datatype `<ord>` under the column `mo_label` and `mo_long`. That means this is an "ordered factor" and that when arranged by those labels it will list in MONTH order instead of alphabetical order, which is quite useful.
@@ -262,14 +262,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 4
-##   chart_date title                                         fl_month   fl_year   
-##   <date>     <chr>                                         <date>     <date>    
-## 1 1976-01-31 Let It Shine/He Ain't Heavy...He's My Brother 1976-01-01 1976-01-01
-## 2 2021-05-15 Without You                                   2021-05-01 2021-01-01
-## 3 2011-02-26 Pretty Girl Rock                              2011-02-01 2011-01-01
-## 4 2013-08-17 Royals                                        2013-08-01 2013-01-01
-## 5 2005-06-04 Baby I'm Back                                 2005-06-01 2005-01-01
-## 6 1970-01-24 Traces/Memories Medley                        1970-01-01 1970-01-01
+##   chart_date title               fl_month   fl_year   
+##   <date>     <chr>               <date>     <date>    
+## 1 1973-08-04 Kodachrome          1973-08-01 1973-01-01
+## 2 1995-04-01 Take A Bow          1995-04-01 1995-01-01
+## 3 1998-05-30 My Heart Will Go On 1998-05-01 1998-01-01
+## 4 1999-08-07 Wild Wild West      1999-08-01 1999-01-01
+## 5 1977-03-19 Dancin'             1977-03-01 1977-01-01
+## 6 1985-11-09 Face The Face       1985-11-01 1985-01-01
 ```
 
 You can see the resulting new columns are real dates, but they are normalized:
