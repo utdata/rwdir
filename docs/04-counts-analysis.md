@@ -843,20 +843,20 @@ So, **The Beatles**. Was that your guess? Look closely at that list ... who has 
 
 Let's talk through the logic. This is very similar to the No. 1 hits above but with two differences:
 
-- In addition to filtering for No. 1 songs, we also want to filter for songs in 2017-2021.
+- In addition to filtering for No. 1 songs, we also want to filter for songs in 2018-2022.
 - We might need to adjust our last filter for a better "break point".
 
-We haven't talked about filtering dates, so let me tell you this: You can use filter operations on dates just like you do any other text. This will give you rows _after_ the last day of 2016.
+We haven't talked about filtering dates, so let me tell you this: You can use filter operations on dates just like you do any other text. This will give you rows _after_ the last day of 2017.
 
 ```r
-filter(chart_date > "2016-12-31")
+filter(chart_date > "2017-12-31")
 ```
 
 But since we need this filter before our group, we can do this within the same filter function where we get the number one songs.
 
 1. Create a new section (headline, text, chunk).
 1. Build (from scratch, one line at a time) the same filter, group_by, summarize and arrange as above, but **leave out the cut-off filter** at the end. Make sure it runs.
-1. **Edit your filter** to put a comma after `current_rank == 1` and then add this filter: `chart_date > "2016-12-31"`. Run the code.
+1. **Edit your filter** to put a comma after `current_rank == 1` and then add this filter: `chart_date > "2017-12-31"`. Run the code.
 1. Build a new cut-off filter at the end and keep only rows with more than 1 `top_hits`.
 
 <details>
@@ -867,7 +867,7 @@ But since we need this filter before our group, we can do this within the same f
 hot100 |> 
   filter(
     current_rank == 1,
-    chart_date > "2016-12-31"
+    chart_date > "2017-12-31"
   ) |> 
   distinct(title, performer) |> 
   group_by(performer) |> 
@@ -877,20 +877,18 @@ hot100 |>
 ```
 
 ```
-## # A tibble: 11 × 2
-##    performer      top_hits
-##    <chr>             <int>
-##  1 Drake                 5
-##  2 Taylor Swift          5
-##  3 BTS                   4
-##  4 Ariana Grande         3
-##  5 Cardi B               2
-##  6 Ed Sheeran            2
-##  7 Harry Styles          2
-##  8 Lizzo                 2
-##  9 Olivia Rodrigo        2
-## 10 The Weeknd            2
-## 11 Travis Scott          2
+## # A tibble: 9 × 2
+##   performer      top_hits
+##   <chr>             <int>
+## 1 Drake                 5
+## 2 BTS                   4
+## 3 Taylor Swift          4
+## 4 Ariana Grande         3
+## 5 Harry Styles          2
+## 6 Lizzo                 2
+## 7 Olivia Rodrigo        2
+## 8 The Weeknd            2
+## 9 Travis Scott          2
 ```
 
 </details>
