@@ -23,7 +23,7 @@
 <meta name="author" content="Christian McDonald and Josephine Lukito" />
 
 
-<meta name="date" content="2023-01-02" />
+<meta name="date" content="2023-01-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -1313,16 +1313,16 @@ You can do this. Really.
 <p><strong>Which performer had the most songs reach No. 1 in the most recent five years?</strong></p>
 <p>Let’s talk through the logic. This is very similar to the No. 1 hits above but with two differences:</p>
 <ul>
-<li>In addition to filtering for No. 1 songs, we also want to filter for songs in 2017-2021.</li>
+<li>In addition to filtering for No. 1 songs, we also want to filter for songs in 2018-2022.</li>
 <li>We might need to adjust our last filter for a better “break point”.</li>
 </ul>
-<p>We haven’t talked about filtering dates, so let me tell you this: You can use filter operations on dates just like you do any other text. This will give you rows <em>after</em> the last day of 2016.</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="count-analysis.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(chart_date <span class="sc">&gt;</span> <span class="st">&quot;2016-12-31&quot;</span>)</span></code></pre></div>
+<p>We haven’t talked about filtering dates, so let me tell you this: You can use filter operations on dates just like you do any other text. This will give you rows <em>after</em> the last day of 2017.</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="count-analysis.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(chart_date <span class="sc">&gt;</span> <span class="st">&quot;2017-12-31&quot;</span>)</span></code></pre></div>
 <p>But since we need this filter before our group, we can do this within the same filter function where we get the number one songs.</p>
 <ol style="list-style-type: decimal">
 <li>Create a new section (headline, text, chunk).</li>
 <li>Build (from scratch, one line at a time) the same filter, group_by, summarize and arrange as above, but <strong>leave out the cut-off filter</strong> at the end. Make sure it runs.</li>
-<li><strong>Edit your filter</strong> to put a comma after <code>current_rank == 1</code> and then add this filter: <code>chart_date &gt; "2016-12-31"</code>. Run the code.</li>
+<li><strong>Edit your filter</strong> to put a comma after <code>current_rank == 1</code> and then add this filter: <code>chart_date &gt; "2017-12-31"</code>. Run the code.</li>
 <li>Build a new cut-off filter at the end and keep only rows with more than 1 <code>top_hits</code>.</li>
 </ol>
 <details>
@@ -1332,27 +1332,25 @@ No, really. Try it on your own first.
 <div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="count-analysis.html#cb73-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">|&gt;</span> </span>
 <span id="cb73-2"><a href="count-analysis.html#cb73-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
 <span id="cb73-3"><a href="count-analysis.html#cb73-3" aria-hidden="true" tabindex="-1"></a>    current_rank <span class="sc">==</span> <span class="dv">1</span>,</span>
-<span id="cb73-4"><a href="count-analysis.html#cb73-4" aria-hidden="true" tabindex="-1"></a>    chart_date <span class="sc">&gt;</span> <span class="st">&quot;2016-12-31&quot;</span></span>
+<span id="cb73-4"><a href="count-analysis.html#cb73-4" aria-hidden="true" tabindex="-1"></a>    chart_date <span class="sc">&gt;</span> <span class="st">&quot;2017-12-31&quot;</span></span>
 <span id="cb73-5"><a href="count-analysis.html#cb73-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
 <span id="cb73-6"><a href="count-analysis.html#cb73-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(title, performer) <span class="sc">|&gt;</span> </span>
 <span id="cb73-7"><a href="count-analysis.html#cb73-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(performer) <span class="sc">|&gt;</span> </span>
 <span id="cb73-8"><a href="count-analysis.html#cb73-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">top_hits =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span> </span>
 <span id="cb73-9"><a href="count-analysis.html#cb73-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(top_hits <span class="sc">|&gt;</span> <span class="fu">desc</span>()) <span class="sc">|&gt;</span> </span>
 <span id="cb73-10"><a href="count-analysis.html#cb73-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(top_hits <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 11 × 2
-##    performer      top_hits
-##    &lt;chr&gt;             &lt;int&gt;
-##  1 Drake                 5
-##  2 Taylor Swift          5
-##  3 BTS                   4
-##  4 Ariana Grande         3
-##  5 Cardi B               2
-##  6 Ed Sheeran            2
-##  7 Harry Styles          2
-##  8 Lizzo                 2
-##  9 Olivia Rodrigo        2
-## 10 The Weeknd            2
-## 11 Travis Scott          2</code></pre>
+<pre><code>## # A tibble: 9 × 2
+##   performer      top_hits
+##   &lt;chr&gt;             &lt;int&gt;
+## 1 Drake                 5
+## 2 BTS                   4
+## 3 Taylor Swift          4
+## 4 Ariana Grande         3
+## 5 Harry Styles          2
+## 6 Lizzo                 2
+## 7 Olivia Rodrigo        2
+## 8 The Weeknd            2
+## 9 Travis Scott          2</code></pre>
 </details>
 </div>
 <div id="top-10-hits-overall-on-your-own" class="section level2 hasAnchor" number="4.10">
