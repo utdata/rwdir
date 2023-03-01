@@ -182,8 +182,8 @@ We are NOT saving the `count()` result here, we are just printing it to our scre
 
 Now that we know this is working, you'll finish this out on your own.
 
-1. **Edit your chunk** to add `bind_rows()` for the rest of the files `dstud16` through `dstud21`. You just keep tacking them on like we did with `dstud15`.
-2. After you are done, make sure you look at the `sped_merged` listing in your environment to make sure you end up with **10,891** rows of data and **5** variables.
+1. **Edit your chunk** to add `bind_rows()` for the rest of the files `dstud16` through `dstud22`. You just keep tacking them on like we did with `dstud15`.
+2. After you are done, make sure you look at the `sped_merged` listing in your environment to make sure you end up with **12,088** rows of data and **5** variables.
 
 
 
@@ -247,7 +247,7 @@ sped_joined |> glimpse()
 ```
 
 ```
-## Rows: 10,684
+## Rows: 11,882
 ## Columns: 9
 ## $ district <chr> "001902", "001902", "001902", "001902", "001902", "001902", "…
 ## $ distname <chr> "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "CAYU…
@@ -255,9 +255,9 @@ sped_joined |> glimpse()
 ## $ dflalted <chr> "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "…
 ## $ dflchart <chr> "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "…
 ## $ year     <chr> "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020…
-## $ dpetallc <dbl> 595, 553, 577, 568, 576, 575, 564, 557, 535, 1236, 1207, 1217…
-## $ dpetspec <dbl> 73, 76, 76, 78, 82, 83, 84, 82, 78, 113, 107, 126, 144, 139, …
-## $ dpetspep <dbl> 12.3, 13.7, 13.2, 13.7, 14.2, 14.4, 14.9, 14.7, 14.6, 9.1, 8.…
+## $ dpetallc <dbl> 595, 553, 577, 568, 576, 575, 564, 557, 535, 574, 1236, 1207,…
+## $ dpetspec <dbl> 73, 76, 76, 78, 82, 83, 84, 82, 78, 84, 113, 107, 126, 144, 1…
+## $ dpetspep <dbl> 12.3, 13.7, 13.2, 13.7, 14.2, 14.4, 14.9, 14.7, 14.6, 14.6, 9…
 ```
 
 I'm showing both a `head()` and `glimpse()` here so you can see all the columns have been added.
@@ -269,9 +269,9 @@ Let's explain what is going on here:
 - We then pipe into `inner_join()` to `sped_merged`, which will attach our `dref` data to our merged data when the ID matches in the `district` variable.
 - The `by = "district"` argument ensures that we are matching based on the `district` column in both data sets.
 
-We could've left out the `by =` argument and R would match columns of the same name, but it is best practice to specify your joining columns so it is clear what is happening. You wouldn't want to be surprised by other columns of the same name that you didn't want to join on. If you wanted to specify join columns of different names it would look like this: `df1 |> inner_join(df2, by = c("df1_id" = "df2_id))`
+We could've left out the `by =` argument and R would match columns of the same name, but it is best practice to specify your joining columns so it is clear what is happening. You wouldn't want to be surprised by other columns of the same name that you didn't want to join on. If you wanted to specify join columns of different names it would look like this: `df1 |> inner_join(df2, by = c("df1_id" = "df2_id"))`
 
-There are now **10,684** rows in our joined data, fewer than what was in the original merged file because some districts (mostly charters) have closed and were not in our reference file. We are comparing only districts that have been open during this time period. For that matter, we don't want charter or alternative education districts at all, so we'll drop those next.
+There are now **11,882** rows in our joined data, fewer than what was in the original merged file because some districts (mostly charters) have closed and were not in our reference file. We are comparing only districts that have been open during this time period. For that matter, we don't want charter or alternative education districts at all, so we'll drop those next.
 
 ## Some cleanup: filter and select
 
@@ -315,7 +315,7 @@ sped_cleaned <- sped_joined |>
 </details>
 <br>
 
-You should end up with **9,182** rows and **7** variables.
+You should end up with **10,204** rows and **7** variables.
 
 ## Create an audit benchmark column
 
@@ -356,19 +356,20 @@ sped_flag |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 8
-##    district distname            cntyname year  all_count sped_…¹ sped_…² audit…³
-##    <chr>    <chr>               <chr>    <chr>     <dbl>   <dbl>   <dbl> <chr>  
-##  1 014902   BARTLETT ISD        BELL     2016        369      41    11.1 ABOVE  
-##  2 186903   IRAAN-SHEFFIELD ISD PECOS    2015        543      54     9.9 ABOVE  
-##  3 249903   BRIDGEPORT ISD      WISE     2016       2090     191     9.1 ABOVE  
-##  4 225906   CHAPEL HILL ISD     TITUS    2020       1055     104     9.9 ABOVE  
-##  5 070903   ENNIS ISD           ELLIS    2014       5691     543     9.5 ABOVE  
-##  6 165902   GREENWOOD ISD       MIDLAND  2021       2836     265     9.3 ABOVE  
-##  7 141902   LOMETA ISD          LAMPASAS 2015        268      24     9   ABOVE  
-##  8 240903   UNITED ISD          WEBB     2018      43212    3658     8.5 BELOW  
-##  9 101912   HOUSTON ISD         HARRIS   2021     196550   16056     8.2 BELOW  
-## 10 007901   CHARLOTTE ISD       ATASCOSA 2021        419      57    13.6 ABOVE  
-## # … with abbreviated variable names ¹​sped_count, ²​sped_percent, ³​audit_flag
+##    district distname               cntyn…¹ year  all_c…² sped_…³ sped_…⁴ audit…⁵
+##    <chr>    <chr>                  <chr>   <chr>   <dbl>   <dbl>   <dbl> <chr>  
+##  1 238902   MONAHANS-WICKETT-PYOT… WARD    2017     2320     180     7.8 BELOW  
+##  2 075901   FLATONIA ISD           FAYETTE 2017      575      52     9   ABOVE  
+##  3 066901   BENAVIDES ISD          DUVAL   2020      293      41    14   ABOVE  
+##  4 226905   WATER VALLEY ISD       TOM GR… 2022      350      69    19.7 ABOVE  
+##  5 102902   MARSHALL ISD           HARRIS… 2016     5577     335     6   BELOW  
+##  6 233901   SAN FELIPE-DEL RIO CI… VAL VE… 2022     9851    1308    13.3 ABOVE  
+##  7 249901   ALVORD ISD             WISE    2019      725      81    11.2 ABOVE  
+##  8 115902   SIERRA BLANCA ISD      HUDSPE… 2022      118      19    16.1 ABOVE  
+##  9 108902   DONNA ISD              HIDALGO 2022    13060    1361    10.4 ABOVE  
+## 10 187904   CORRIGAN-CAMDEN ISD    POLK    2015      988     109    11   ABOVE  
+## # … with abbreviated variable names ¹​cntyname, ²​all_count, ³​sped_count,
+## #   ⁴​sped_percent, ⁵​audit_flag
 ```
 
 Let's walk through the code above:
