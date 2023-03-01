@@ -159,14 +159,14 @@ hot100_sample
 
 ```
 ## # A tibble: 6 × 2
-##   chart_date title                  
-##   <date>     <chr>                  
-## 1 1960-03-21 Outside My Window      
-## 2 2018-10-20 Girls Like You         
-## 3 1962-01-13 Twistin' All Night Long
-## 4 2003-07-12 Get Busy               
-## 5 2006-12-02 Before He Cheats       
-## 6 1981-02-21 Love T.K.O.
+##   chart_date title                   
+##   <date>     <chr>                   
+## 1 1992-08-22 November Rain           
+## 2 2015-01-10 Bang Bang               
+## 3 2016-09-17 Make You Miss Me        
+## 4 1987-06-13 If I Was Your Girlfriend
+## 5 2022-02-12 No Love                 
+## 6 1964-12-26 Are You Still My Baby
 ```
 
 ### Let's make a year
@@ -187,14 +187,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 3
-##   chart_date title                      yr
-##   <date>     <chr>                   <dbl>
-## 1 1960-03-21 Outside My Window        1960
-## 2 2018-10-20 Girls Like You           2018
-## 3 1962-01-13 Twistin' All Night Long  1962
-## 4 2003-07-12 Get Busy                 2003
-## 5 2006-12-02 Before He Cheats         2006
-## 6 1981-02-21 Love T.K.O.              1981
+##   chart_date title                       yr
+##   <date>     <chr>                    <dbl>
+## 1 1992-08-22 November Rain             1992
+## 2 2015-01-10 Bang Bang                 2015
+## 3 2016-09-17 Make You Miss Me          2016
+## 4 1987-06-13 If I Was Your Girlfriend  1987
+## 5 2022-02-12 No Love                   2022
+## 6 1964-12-26 Are You Still My Baby     1964
 ```
 
 ### The magical month
@@ -211,14 +211,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 3
-##   chart_date title                      mo
-##   <date>     <chr>                   <dbl>
-## 1 1960-03-21 Outside My Window           3
-## 2 2018-10-20 Girls Like You             10
-## 3 1962-01-13 Twistin' All Night Long     1
-## 4 2003-07-12 Get Busy                    7
-## 5 2006-12-02 Before He Cheats           12
-## 6 1981-02-21 Love T.K.O.                 2
+##   chart_date title                       mo
+##   <date>     <chr>                    <dbl>
+## 1 1992-08-22 November Rain                8
+## 2 2015-01-10 Bang Bang                    1
+## 3 2016-09-17 Make You Miss Me             9
+## 4 1987-06-13 If I Was Your Girlfriend     6
+## 5 2022-02-12 No Love                      2
+## 6 1964-12-26 Are You Still My Baby       12
 ```
 
 But there are some options within `month()` to give us month NAMES that are ordered as factors instead of alphabetical.
@@ -235,14 +235,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 4
-##   chart_date title                   mo_label mo_long 
-##   <date>     <chr>                   <ord>    <ord>   
-## 1 1962-01-13 Twistin' All Night Long Jan      January 
-## 2 1981-02-21 Love T.K.O.             Feb      February
-## 3 1960-03-21 Outside My Window       Mar      March   
-## 4 2003-07-12 Get Busy                Jul      July    
-## 5 2018-10-20 Girls Like You          Oct      October 
-## 6 2006-12-02 Before He Cheats        Dec      December
+##   chart_date title                    mo_label mo_long  
+##   <date>     <chr>                    <ord>    <ord>    
+## 1 2015-01-10 Bang Bang                Jan      January  
+## 2 2022-02-12 No Love                  Feb      February 
+## 3 1987-06-13 If I Was Your Girlfriend Jun      June     
+## 4 1992-08-22 November Rain            Aug      August   
+## 5 2016-09-17 Make You Miss Me         Sep      September
+## 6 1964-12-26 Are You Still My Baby    Dec      December
 ```
 
 Note the datatype `<ord>` under the column `mo_label` and `mo_long`. That means this is an "ordered factor" and that when arranged by those labels it will list in MONTH order instead of alphabetical order, which is quite useful.
@@ -262,14 +262,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 4
-##   chart_date title                   fl_month   fl_year   
-##   <date>     <chr>                   <date>     <date>    
-## 1 1960-03-21 Outside My Window       1960-03-01 1960-01-01
-## 2 2018-10-20 Girls Like You          2018-10-01 2018-01-01
-## 3 1962-01-13 Twistin' All Night Long 1962-01-01 1962-01-01
-## 4 2003-07-12 Get Busy                2003-07-01 2003-01-01
-## 5 2006-12-02 Before He Cheats        2006-12-01 2006-01-01
-## 6 1981-02-21 Love T.K.O.             1981-02-01 1981-01-01
+##   chart_date title                    fl_month   fl_year   
+##   <date>     <chr>                    <date>     <date>    
+## 1 1992-08-22 November Rain            1992-08-01 1992-01-01
+## 2 2015-01-10 Bang Bang                2015-01-01 2015-01-01
+## 3 2016-09-17 Make You Miss Me         2016-09-01 2016-01-01
+## 4 1987-06-13 If I Was Your Girlfriend 1987-06-01 1987-01-01
+## 5 2022-02-12 No Love                  2022-02-01 2022-01-01
+## 6 1964-12-26 Are You Still My Baby    1964-12-01 1964-01-01
 ```
 
 You can see the resulting new columns are real dates, but they are normalized:

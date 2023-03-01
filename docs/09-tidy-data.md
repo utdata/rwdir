@@ -89,14 +89,14 @@ We'll just load this data directly from Google Sheets into this notebook. We're 
 class_data <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&single=true&output=csv"
 
 # read the data, clean names and save into the object "raw_data"
-raw_data <- read_csv(class_data) %>% clean_names()
+raw_data <- read_csv(class_data) |> clean_names()
 
 # peek at the data
 raw_data
 ```
 
 ```
-## # A tibble: 67 × 11
+## # A tibble: 106 × 11
 ##    times…¹ first…² last_…³ candy…⁴ box_c…⁵   red green orange yellow  blue brown
 ##    <chr>   <chr>   <chr>   <chr>   <chr>   <dbl> <dbl>  <dbl>  <dbl> <dbl> <dbl>
 ##  1 2/21/2… Christ… McDona… Plain   140BSC…     2    17     11      4    16     4
@@ -109,7 +109,7 @@ raw_data
 ##  8 2/28/2… Kevin   Malcol… Plain   140BSC…     4    15     13      6    14     3
 ##  9 2/28/2… Alexa   Haverl… Plain   140BSC…     5    15      6      2    21     5
 ## 10 2/28/2… Zachar… Washin… Plain   140BSC…     1    15     14      1    20     6
-## # … with 57 more rows, and abbreviated variable names ¹​timestamp, ²​first_name,
+## # … with 96 more rows, and abbreviated variable names ¹​timestamp, ²​first_name,
 ## #   ³​last_name, ⁴​candy_type, ⁵​box_code
 ```
 
@@ -117,7 +117,7 @@ This data comes from a Google Sheets document fed by a form that students have f
 
 ### Drop unneeded columns
 
-For this exercise we don't need the `timestamp`, `candy_type` or `box_code` columns for this exercise. We'll drop them so we can keep things simple.
+For this exercise we don't need the `timestamp`, `candy_type` or `box_code` columns. We'll drop them so we can keep things simple.
 
 1. Create a Markdown section noting you'll drop unneeded columns.
 1. Create an R chunk and use `select()` to remove the columns noted above and save the result into a new data frame called `candy`.
@@ -128,7 +128,7 @@ You've done this in the past, so you should be able to do it on your own.
   <summary>You got this! (But, just in case ...)</summary>
 
 ```r
-candy <- raw_data %>% 
+candy <- raw_data |> 
   select(
     -timestamp,
     -candy_type,
@@ -143,7 +143,7 @@ Let's look closer at this data:
 
 
 ```r
-candy %>% head()
+candy |> head()
 ```
 
 ```
@@ -222,7 +222,7 @@ The `pivot_longer()` function needs several arguments: **cols=**, **names_to=** 
 
 - **`cols=`** is where you define a range of columns you want to pivot. _For our candy data we want the range `red:brown`_.
 - **`names_to=`** allows you to name the new column filled by the column names. _For our candy data we want to name this "color" since that's what those columns described._
-- **`values_to=** allows you to name the new column filled with the cell data. _For us we want to call this "candies" since these are the number of candies in each bag._
+- **`values_to=`** allows you to name the new column filled with the cell data. _For us we want to call this "candies" since these are the number of candies in each bag._
 
 There are a number of ways we can describe the `cols=` argument ... anything in [tidy-select](https://tidyr.tidyverse.org/reference/tidyr_tidy_select.html) works. You can see a bunch of [examples here](https://tidyr.tidyverse.org/reference/pivot_longer.html#ref-examples).
 
@@ -237,14 +237,14 @@ We are using a range, naming the first "red" and the last column "brown" with `:
 
 
 ```r
-candy_long <- candy %>% 
+candy_long <- candy |> 
   pivot_longer(
     cols = red:brown, # sets which columns to pivot based on their names
     names_to = "color", # sets column name for color
     values_to = "candies" # sets column name for candies
   )
 
-candy_long %>% head()
+candy_long |> head()
 ```
 
 ```
@@ -263,15 +263,15 @@ candy_long %>% head()
 
 To get the average number of candies per each color, we can use our `candy_long` data and `group_by` color (which will consider all the **red** rows together, etc.) and use `summarize()` to get the mean.
 
-This is very similar to the `sum()`s we did with military surplus, but you use `mean()` instead. There is one trick with `mean()`, though, in that sometimes you have to add an argument `na.rm = TRUE` if there are missing or zero values, since you can't divide by zero. We have that case here in some bags don't have ANY red at all!
+This is very similar to the `sum()`s we did with military surplus, but you use `mean()` instead. There is one trick with `mean()`, though, in that sometimes you have to add an argument `na.rm = TRUE` if there are missing or zero values, since you can't divide by zero. We have that case here in some bags don't have ANY candies of a color at all!
 
 Save the resulting summary table into a new tibble called `candy_avg`.
 
 
 ```r
-candy_avg <- candy_long %>% 
-  group_by(color) %>% 
-  summarize(avg_candies = mean(candies))
+candy_avg <- candy_long |> 
+  group_by(color) |> 
+  summarize(avg_candies = mean(candies, na.rm = TRUE))
   # the na.rm bit takes into account some records where there are zero or blank values.
 candy_avg
 ```
@@ -280,12 +280,12 @@ candy_avg
 ## # A tibble: 6 × 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
-## 1 blue         13.8 
-## 2 brown         6.24
-## 3 green        13.3 
-## 4 orange       11.0 
-## 5 red           4.57
-## 6 yellow        5.79
+## 1 blue         12.6 
+## 2 brown         6.34
+## 3 green        12.6 
+## 4 orange       10.1 
+## 5 red           5.62
+## 6 yellow        8.31
 ```
 
 ### Round the averages
@@ -294,13 +294,13 @@ Let's **modify this summary** to round the averages to tenths so they will plot 
 
 The `round()` function needs the column to change, and then the number of digits past the decimal to include.
 
-1. Edit your summary to include the mutate below.
+1. Edit your summarize function to add the `mutate()` functin below.
 
 
 ```r
-candy_avg <- candy_long %>% 
-  group_by(color) %>% 
-  summarize(avg_candies = mean(candies, na.rm = TRUE)) %>% 
+candy_avg <- candy_long |> 
+  group_by(color) |> 
+  summarize(avg_candies = mean(candies, na.rm = TRUE)) |> 
   mutate(
     avg_candies = round(avg_candies, 1)
   )
@@ -312,12 +312,12 @@ candy_avg
 ## # A tibble: 6 × 2
 ##   color  avg_candies
 ##   <chr>        <dbl>
-## 1 blue          13.8
-## 2 brown          6.2
-## 3 green         13.3
-## 4 orange        11  
-## 5 red            4.6
-## 6 yellow         5.8
+## 1 blue          12.6
+## 2 brown          6.3
+## 3 green         12.6
+## 4 orange        10.1
+## 5 red            5.6
+## 6 yellow         8.3
 ```
 
 BONUS POINT OPPORTUNITY: Using a similar method to rounding above, you can also capitalize the names of the colors. You don't _have_ to do this, but I'll give you bonus points if you do:
@@ -336,8 +336,8 @@ Some things to consider:
 
 - I want the bars to be ordered by the highest average on top.
 - I want you to have a good title, subtitle and byline, along with good axes names. Make sure a reader has all the information they need to understand what you are communicating with the chart.
-- Include the values on the bars
-- Change the theme to something other than the default
+- Include the values on the bars.
+- Change the theme to something other than the default.
 
 Here is what it should more or less look like, but with good text, etc: 
 
@@ -347,7 +347,7 @@ Here is what it should more or less look like, but with good text, etc:
 
 ## Introducing Datawrapper
 
-There are some other great charting tools that journalists use. My favorite is [Datawrapper](https://www.datawrapper.de/) and is free for the level you need it.
+There are some other great charting tools that journalists use. My favorite is [Datawrapper](https://www.datawrapper.de/) and it is free for the level you need it.
 
 Datawrapper is so easy I don't even have to teach you how to use it. They have [excellent tutorials](https://academy.datawrapper.de/).
 
@@ -383,7 +383,7 @@ We need to install a package called clipr.
 ```r
 library(clipr)
 
-candy_avg %>% write_clip(allow_non_interactive = TRUE)
+candy_avg |> write_clip(allow_non_interactive = TRUE)
 ```
 
 You won't see anything happen, but all the data in `candy_avg` has been added to your clipboard as if you highlighted it and did **Copy**. You must have the `allow_non_interactive = TRUE` argument to allow your RMarkdown document to knit.
@@ -414,12 +414,12 @@ We'll practice this by taking our long candy data and pivot it so there is a col
 
 
 ```r
-candy_long %>% 
+candy_long |> 
   pivot_wider(names_from = c(first_name, last_name), values_from = candies)
 ```
 
 ```
-## # A tibble: 6 × 68
+## # A tibble: 6 × 107
 ##   color  Chris…¹ Andre…² Gabby…³ Veron…⁴ Crist…⁵ Marin…⁶ Samue…⁷ Kevin…⁸ Alexa…⁹
 ##   <chr>    <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>
 ## 1 red          2       2       4       1       3       7       3       4       5
@@ -428,7 +428,7 @@ candy_long %>%
 ## 4 yellow       4       4       0       2       3       1       5       6       2
 ## 5 blue        16      17      19      13      13      14      18      14      21
 ## 6 brown        4       9       7       8       3       6       8       3       5
-## # … with 58 more variables: Zacharia_Washington <dbl>, Jose_Martinez <dbl>,
+## # … with 97 more variables: Zacharia_Washington <dbl>, Jose_Martinez <dbl>,
 ## #   Ana_Garza <dbl>, Carolina_Cruz <dbl>, Anissa_Reyes <dbl>,
 ## #   Alaina_Bookman <dbl>, Bryan_Baker <dbl>, Mckenna_Lucas <dbl>,
 ## #   Marissa_DeLeon <dbl>, Claire_Stevens <dbl>, Katy_Vanatsky <dbl>,
