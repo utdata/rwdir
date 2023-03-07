@@ -118,7 +118,10 @@ dstud13
 ## # … with 1,218 more rows
 ```
 
-The result shows there are **1,228** rows and **5** variables in the data, which should match what shows for `dstud13` in your Environment tab.
+
+
+
+The result shows there are **1228** rows and **5** variables in the data, which should match what shows for `dstud13` in your Environment tab.
 
 1. Now **edit** that chunk to use `bind_rows()` with `dstud14`.
 
@@ -145,7 +148,10 @@ dstud13 |>
 ## # … with 2,445 more rows
 ```
 
-This shows we now have **2,455** rows and **5** variables. This is good ... we've addded the rows of `dstud14` but we don't have any new columns because the column names were identical.
+
+
+
+This shows we now have **2455** rows and **5** variables. This is good ... we've addded the rows of `dstud14` but we don't have any new columns because the column names were identical.
 
 Now **edit the chunk** to do all these things:
 
@@ -183,7 +189,7 @@ We are NOT saving the `count()` result here, we are just printing it to our scre
 Now that we know this is working, you'll finish this out on your own.
 
 1. **Edit your chunk** to add `bind_rows()` for the rest of the files `dstud16` through `dstud22`. You just keep tacking them on like we did with `dstud15`.
-2. After you are done, make sure you look at the `sped_merged` listing in your environment to make sure you end up with **12,088** rows of data and **5** variables.
+2. After you are done, make sure you look at the `sped_merged` listing in your environment to make sure you end up with a count for each year of data.
 
 
 
@@ -242,6 +248,9 @@ sped_joined |> head()
 ## # … with abbreviated variable name ¹​dpetspep
 ```
 
+You might also `glimpse()` it so you can see all the columns have been added.
+
+
 ```r
 sped_joined |> glimpse()
 ```
@@ -260,8 +269,6 @@ sped_joined |> glimpse()
 ## $ dpetspep <dbl> 12.3, 13.7, 13.2, 13.7, 14.2, 14.4, 14.9, 14.7, 14.6, 14.6, 9…
 ```
 
-I'm showing both a `head()` and `glimpse()` here so you can see all the columns have been added.
-
 Let's explain what is going on here:
 
 - We are creating a new bucket `sped_joined` to save our data.
@@ -271,7 +278,10 @@ Let's explain what is going on here:
 
 We could've left out the `by =` argument and R would match columns of the same name, but it is best practice to specify your joining columns so it is clear what is happening. You wouldn't want to be surprised by other columns of the same name that you didn't want to join on. If you wanted to specify join columns of different names it would look like this: `df1 |> inner_join(df2, by = c("df1_id" = "df2_id"))`
 
-There are now **11,882** rows in our joined data, fewer than what was in the original merged file because some districts (mostly charters) have closed and were not in our reference file. We are comparing only districts that have been open during this time period. For that matter, we don't want charter or alternative education districts at all, so we'll drop those next.
+
+
+
+There are now **11882** rows in our joined data, fewer than what was in the original merged file because some districts (mostly charters) have closed and were not in our reference file. We are comparing only districts that have been open during this time period. For that matter, we don't want charter or alternative education districts at all, so we'll drop those next.
 
 ## Some cleanup: filter and select
 
@@ -315,7 +325,10 @@ sped_cleaned <- sped_joined |>
 </details>
 <br>
 
-You should end up with **10,204** rows and **7** variables.
+
+
+
+You should end up with **10204** rows and **7** variables.
 
 ## Create an audit benchmark column
 
@@ -356,20 +369,19 @@ sped_flag |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 8
-##    district distname               cntyn…¹ year  all_c…² sped_…³ sped_…⁴ audit…⁵
-##    <chr>    <chr>                  <chr>   <chr>   <dbl>   <dbl>   <dbl> <chr>  
-##  1 238902   MONAHANS-WICKETT-PYOT… WARD    2017     2320     180     7.8 BELOW  
-##  2 075901   FLATONIA ISD           FAYETTE 2017      575      52     9   ABOVE  
-##  3 066901   BENAVIDES ISD          DUVAL   2020      293      41    14   ABOVE  
-##  4 226905   WATER VALLEY ISD       TOM GR… 2022      350      69    19.7 ABOVE  
-##  5 102902   MARSHALL ISD           HARRIS… 2016     5577     335     6   BELOW  
-##  6 233901   SAN FELIPE-DEL RIO CI… VAL VE… 2022     9851    1308    13.3 ABOVE  
-##  7 249901   ALVORD ISD             WISE    2019      725      81    11.2 ABOVE  
-##  8 115902   SIERRA BLANCA ISD      HUDSPE… 2022      118      19    16.1 ABOVE  
-##  9 108902   DONNA ISD              HIDALGO 2022    13060    1361    10.4 ABOVE  
-## 10 187904   CORRIGAN-CAMDEN ISD    POLK    2015      988     109    11   ABOVE  
-## # … with abbreviated variable names ¹​cntyname, ²​all_count, ³​sped_count,
-## #   ⁴​sped_percent, ⁵​audit_flag
+##    district distname         cntyname   year  all_count sped_c…¹ sped_…² audit…³
+##    <chr>    <chr>            <chr>      <chr>     <dbl>    <dbl>   <dbl> <chr>  
+##  1 182905   STRAWN ISD       PALO PINTO 2019        167       17    10.2 ABOVE  
+##  2 040901   MORTON ISD       COCHRAN    2013        422       37     8.8 ABOVE  
+##  3 018904   VALLEY MILLS ISD BOSQUE     2017        619       74    12   ABOVE  
+##  4 018907   KOPPERL ISD      BOSQUE     2016        223       25    11.2 ABOVE  
+##  5 235902   VICTORIA ISD     VICTORIA   2020      13797     1689    12.2 ABOVE  
+##  6 227907   MANOR ISD        TRAVIS     2019       9445      844     8.9 ABOVE  
+##  7 034906   MCLEOD ISD       CASS       2018        378       40    10.6 ABOVE  
+##  8 239901   BRENHAM ISD      WASHINGTON 2017       4950      594    12   ABOVE  
+##  9 057914   MESQUITE ISD     DALLAS     2017      40945     3970     9.7 ABOVE  
+## 10 247903   LA VERNIA ISD    WILSON     2017       3278      302     9.2 ABOVE  
+## # … with abbreviated variable names ¹​sped_count, ²​sped_percent, ³​audit_flag
 ```
 
 Let's walk through the code above:
