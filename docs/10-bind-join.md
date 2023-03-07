@@ -77,19 +77,20 @@ Go ahead. I'll wait.
 
 There is a lot to take in there about where the data came from and how we dealt with it. Here is where you end up:
 
-- **You have nine data files for each year and one reference file imported.**
+<!-- UPDATE THE DATA FILES VALUE WHEN NEW YEAR IS ADDED -->
+- **You have 10 data files for each year and one reference file imported.**
 
 ## Merging data together
 
-OK, so we have nine different yearly files. Wouldn't it be a lot easier if these were ONE thing? Indeed, we can **merge** these files together by stacking them on top of each other. Let's review the concept using Starburst data:
+OK, so we have all these different yearly files. Wouldn't it be a lot easier if these were ONE thing? Indeed, we can **merge** these files together by stacking them on top of each other. Let's review the concept using Starburst data:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/9WA8YxMjpnI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/9WA8YxMjpnI" title="Merge" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Here's an image representation of the concept. You have two data sets and you stack them on top of each other where the column names match. (Note here that identical rows in both data sets remain).
 
 ![](images/bind_rows.png)
 
-Since all nine of our data files have the same column names, we can easily merge them with function **`bind_rows()`**.
+Since all of our data files have the same column names, we can easily merge them with function **`bind_rows()`**.
 
 Let's demonstrate through building it.
 
@@ -184,7 +185,7 @@ sped_merged |> count(year)
 
 (You might also see each new datatable added in their own `bind_rows()` function instead of all in one. Either works.)
 
-We are NOT saving the `count()` result here, we are just printing it to our screen to make sure we get all the years.
+We are NOT saving the `count()` result into a new object; We are just printing it to our screen to make sure we get all the years.
 
 Now that we know this is working, you'll finish this out on your own.
 
@@ -369,18 +370,18 @@ sped_flag |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 8
-##    district distname         cntyname   year  all_count sped_c…¹ sped_…² audit…³
-##    <chr>    <chr>            <chr>      <chr>     <dbl>    <dbl>   <dbl> <chr>  
-##  1 182905   STRAWN ISD       PALO PINTO 2019        167       17    10.2 ABOVE  
-##  2 040901   MORTON ISD       COCHRAN    2013        422       37     8.8 ABOVE  
-##  3 018904   VALLEY MILLS ISD BOSQUE     2017        619       74    12   ABOVE  
-##  4 018907   KOPPERL ISD      BOSQUE     2016        223       25    11.2 ABOVE  
-##  5 235902   VICTORIA ISD     VICTORIA   2020      13797     1689    12.2 ABOVE  
-##  6 227907   MANOR ISD        TRAVIS     2019       9445      844     8.9 ABOVE  
-##  7 034906   MCLEOD ISD       CASS       2018        378       40    10.6 ABOVE  
-##  8 239901   BRENHAM ISD      WASHINGTON 2017       4950      594    12   ABOVE  
-##  9 057914   MESQUITE ISD     DALLAS     2017      40945     3970     9.7 ABOVE  
-## 10 247903   LA VERNIA ISD    WILSON     2017       3278      302     9.2 ABOVE  
+##    district distname           cntyname  year  all_count sped_…¹ sped_…² audit…³
+##    <chr>    <chr>              <chr>     <chr>     <dbl>   <dbl>   <dbl> <chr>  
+##  1 234905   MARTINS MILL ISD   VAN ZANDT 2016        512      49     9.6 ABOVE  
+##  2 188903   HIGHLAND PARK ISD  POTTER    2014        902      88     9.8 ABOVE  
+##  3 086901   FREDERICKSBURG ISD GILLESPIE 2019       3111     323    10.4 ABOVE  
+##  4 003903   LUFKIN ISD         ANGELINA  2019       7827     848    10.8 ABOVE  
+##  5 019907   TEXARKANA ISD      BOWIE     2021       7654     876    11.4 ABOVE  
+##  6 232901   KNIPPA ISD         UVALDE    2020        448      41     9.2 ABOVE  
+##  7 033904   WHITE DEER ISD     CARSON    2013        389      28     7.2 BELOW  
+##  8 079907   FORT BEND ISD      FORT BEND 2017      73750    4965     6.7 BELOW  
+##  9 126901   ALVARADO ISD       JOHNSON   2020       3656     288     7.9 BELOW  
+## 10 091914   S AND S CISD       GRAYSON   2016        849      66     7.8 BELOW  
 ## # … with abbreviated variable names ¹​sped_count, ²​sped_percent, ³​audit_flag
 ```
 

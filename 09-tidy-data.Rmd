@@ -313,13 +313,40 @@ You'll use these directions to create your charts so you might keep this open in
 
 1. In a new browser tab, go to [datawrapper.de](https://www.datawrapper.de/) and click the big **Start creating** button.
 2. Use the **Login/Sign Up** button along the top to create an account or log in if you have one.
-1. The first screen you have is where you can **Upload data** or paste it into the window. We are going to paste the data, but we have to do some stuff in R to get it.
+1. The first screen you have is where you can **Upload data** or paste it into the window. We are going to upload the data, but we have to write out the data to your computer first.
 
-### Get your candies data
+### Export your data for Datawrapper
 
-We need to install a package called clipr.
+1. Go back to RStudio.
+1. Create a new block and name it something about exporting
+1. Take your data and pipe it into `write_csv()`. As an argument to write_csv(), give it a path into your data-processed folder, and name the file `candy_avg.csv`.
 
-1. In your R project **in the R Console** install the package clipr: `install.packages("clipr")`.
+```{r write-candy}
+candy_avg |> write_csv("data-processed/candy_avg.csv")
+```
+
+This will save your data file onto your computer, in your project's `data-processed` folder.
+
+1. Return to **Datawrapper** in your browser and click on the **XLS/CSV upload** button and go find your file to import it.
+
+#### posit.cloud export
+
+If you are using posit.cloud, you will also need to **Export** your data from the cloud to get it onto your computer so you can import it into Datawrapper. Do this **only** if you are using the cloud version.
+
+1. In the Files window (bottom right) go inside your `data-processed` folder.
+1. Click on the checkbox next to the `candy_avg.csv` file.
+1. Click on the **More** blue gear thing and choose **Export**.
+1. You'll get a prompt to name the file (which you can keep the same) and then a **download** button. Click the button.
+1. The file should go to your Downloads folder like anything else you download from the Internet.
+1. When you go back to **Datawrapper** click on the **XLS/CSV upload** button and go find your file to import.
+
+#### An alternative export: "copy" your data
+
+> This is an alternative to exporting your data, but it only works in the desktop version of RStudio. It does **NOT** work for the online posit.cloud version of Rstudio. You either EXPORT or WRITE_CLIP, but you don't need to do both.
+
+To do this, you'll need to install a package called clipr.
+
+1. In your R project **in the R Console** install the package clipr: `install.packages("clipr")`. Do NOT save this code inside your notebook.
 1. Start a section that says you are going to get data for Datawrapper.
 3. Create a chunk with the following and run it.
 
@@ -331,12 +358,13 @@ candy_avg |> write_clip(allow_non_interactive = TRUE)
 
 You won't see anything happen, but all the data in `candy_avg` has been added to your clipboard as if you highlighted it and did **Copy**. You must have the `allow_non_interactive = TRUE` argument to allow your RMarkdown document to knit.
 
+1. Return to your browser where you are making the chart, put your cursor into the "Paste your copied data here ..." window and paste. (Like *Cmd-V* or use the menu Edit > Paste.)
+
 ### Build the datawrapper graphic
 
-1. Return to your browser where you are making the chart, put your cursor into the "Paste your copied data here ..." window and paste. (Like *Cmd-V* or use the menu Edit > Paste.)
-1. Click **Proceed**.
+1. Once your data is either uploaded or copied into Datawrapper, you can click **Proceed** to go to the next step.
 
-You can now follow the Datawrapper Academy directions to finish your chart.
+You can now follow the [Datawrapper Academy](https://academy.datawrapper.de/article/7-bar-chart) directions to finish your chart.
 
 When you get to the Publish & Embed window, I want you to click the **Publish Now** button and then add the resulting *Link to your visualization:* URL to your R Notebook so I can find it for grading.
 

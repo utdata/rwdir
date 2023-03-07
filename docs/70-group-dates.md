@@ -159,14 +159,14 @@ hot100_sample
 
 ```
 ## # A tibble: 6 × 2
-##   chart_date title                                                 
-##   <date>     <chr>                                                 
-## 1 1977-08-13 I Don't Love You Anymore                              
-## 2 1974-11-09 I Feel A Song (In My Heart)/Don't Burn Down The Bridge
-## 3 1984-02-04 The Language Of Love                                  
-## 4 1970-02-28 Rock Island Line                                      
-## 5 1984-06-16 Let's Hear It For The Boy                             
-## 6 1971-10-09 Valerie
+##   chart_date title                  
+##   <date>     <chr>                  
+## 1 1989-10-14 When I Looked At Him   
+## 2 2000-05-20 Never Let You Go       
+## 3 1983-02-05 On The Loose           
+## 4 2010-07-10 Up All Night           
+## 5 1960-09-12 Yes Sir, That's My Baby
+## 6 1998-12-26 From This Moment On
 ```
 
 ### Let's make a year
@@ -187,14 +187,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 3
-##   chart_date title                                                     yr
-##   <date>     <chr>                                                  <dbl>
-## 1 1977-08-13 I Don't Love You Anymore                                1977
-## 2 1974-11-09 I Feel A Song (In My Heart)/Don't Burn Down The Bridge  1974
-## 3 1984-02-04 The Language Of Love                                    1984
-## 4 1970-02-28 Rock Island Line                                        1970
-## 5 1984-06-16 Let's Hear It For The Boy                               1984
-## 6 1971-10-09 Valerie                                                 1971
+##   chart_date title                      yr
+##   <date>     <chr>                   <dbl>
+## 1 1989-10-14 When I Looked At Him     1989
+## 2 2000-05-20 Never Let You Go         2000
+## 3 1983-02-05 On The Loose             1983
+## 4 2010-07-10 Up All Night             2010
+## 5 1960-09-12 Yes Sir, That's My Baby  1960
+## 6 1998-12-26 From This Moment On      1998
 ```
 
 ### The magical month
@@ -211,14 +211,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 3
-##   chart_date title                                                     mo
-##   <date>     <chr>                                                  <dbl>
-## 1 1977-08-13 I Don't Love You Anymore                                   8
-## 2 1974-11-09 I Feel A Song (In My Heart)/Don't Burn Down The Bridge    11
-## 3 1984-02-04 The Language Of Love                                       2
-## 4 1970-02-28 Rock Island Line                                           2
-## 5 1984-06-16 Let's Hear It For The Boy                                  6
-## 6 1971-10-09 Valerie                                                   10
+##   chart_date title                      mo
+##   <date>     <chr>                   <dbl>
+## 1 1989-10-14 When I Looked At Him       10
+## 2 2000-05-20 Never Let You Go            5
+## 3 1983-02-05 On The Loose                2
+## 4 2010-07-10 Up All Night                7
+## 5 1960-09-12 Yes Sir, That's My Baby     9
+## 6 1998-12-26 From This Moment On        12
 ```
 
 But there are some options within `month()` to give us month NAMES that are ordered as factors instead of alphabetical.
@@ -235,15 +235,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 4
-##   chart_date title                                               mo_la…¹ mo_long
-##   <date>     <chr>                                               <ord>   <ord>  
-## 1 1984-02-04 The Language Of Love                                Feb     Februa…
-## 2 1970-02-28 Rock Island Line                                    Feb     Februa…
-## 3 1984-06-16 Let's Hear It For The Boy                           Jun     June   
-## 4 1977-08-13 I Don't Love You Anymore                            Aug     August 
-## 5 1971-10-09 Valerie                                             Oct     October
-## 6 1974-11-09 I Feel A Song (In My Heart)/Don't Burn Down The Br… Nov     Novemb…
-## # … with abbreviated variable name ¹​mo_label
+##   chart_date title                   mo_label mo_long  
+##   <date>     <chr>                   <ord>    <ord>    
+## 1 1983-02-05 On The Loose            Feb      February 
+## 2 2000-05-20 Never Let You Go        May      May      
+## 3 2010-07-10 Up All Night            Jul      July     
+## 4 1960-09-12 Yes Sir, That's My Baby Sep      September
+## 5 1989-10-14 When I Looked At Him    Oct      October  
+## 6 1998-12-26 From This Moment On     Dec      December
 ```
 
 Note the datatype `<ord>` under the column `mo_label` and `mo_long`. That means this is an "ordered factor" and that when arranged by those labels it will list in MONTH order instead of alphabetical order, which is quite useful.
@@ -263,14 +262,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 4
-##   chart_date title                                         fl_month   fl_year   
-##   <date>     <chr>                                         <date>     <date>    
-## 1 1977-08-13 I Don't Love You Anymore                      1977-08-01 1977-01-01
-## 2 1974-11-09 I Feel A Song (In My Heart)/Don't Burn Down … 1974-11-01 1974-01-01
-## 3 1984-02-04 The Language Of Love                          1984-02-01 1984-01-01
-## 4 1970-02-28 Rock Island Line                              1970-02-01 1970-01-01
-## 5 1984-06-16 Let's Hear It For The Boy                     1984-06-01 1984-01-01
-## 6 1971-10-09 Valerie                                       1971-10-01 1971-01-01
+##   chart_date title                   fl_month   fl_year   
+##   <date>     <chr>                   <date>     <date>    
+## 1 1989-10-14 When I Looked At Him    1989-10-01 1989-01-01
+## 2 2000-05-20 Never Let You Go        2000-05-01 2000-01-01
+## 3 1983-02-05 On The Loose            1983-02-01 1983-01-01
+## 4 2010-07-10 Up All Night            2010-07-01 2010-01-01
+## 5 1960-09-12 Yes Sir, That's My Baby 1960-09-01 1960-01-01
+## 6 1998-12-26 From This Moment On     1998-12-01 1998-01-01
 ```
 
 You can see the resulting new columns are real dates, but they are normalized:

@@ -23,7 +23,7 @@
 <meta name="author" content="Christian McDonald and Josephine Lukito" />
 
 
-<meta name="date" content="2023-02-28" />
+<meta name="date" content="2023-03-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -462,7 +462,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="9.7.1" data-path="tidy-data.html"><a href="tidy-data.html#review-how-to-make-a-bar-chart"><i class="fa fa-check"></i><b>9.7.1</b> Review how to make a bar chart</a></li>
 <li class="chapter" data-level="9.7.2" data-path="tidy-data.html"><a href="tidy-data.html#start-a-chart"><i class="fa fa-check"></i><b>9.7.2</b> Start a chart</a></li>
-<li class="chapter" data-level="9.7.3" data-path="tidy-data.html"><a href="tidy-data.html#get-your-candies-data"><i class="fa fa-check"></i><b>9.7.3</b> Get your candies data</a></li>
+<li class="chapter" data-level="9.7.3" data-path="tidy-data.html"><a href="tidy-data.html#export-your-data-for-datawrapper"><i class="fa fa-check"></i><b>9.7.3</b> Export your data for Datawrapper</a></li>
 <li class="chapter" data-level="9.7.4" data-path="tidy-data.html"><a href="tidy-data.html#build-the-datawrapper-graphic"><i class="fa fa-check"></i><b>9.7.4</b> Build the datawrapper graphic</a></li>
 </ul></li>
 <li class="chapter" data-level="9.8" data-path="tidy-data.html"><a href="tidy-data.html#pivot-wider"><i class="fa fa-check"></i><b>9.8</b> Pivot wider</a>
@@ -1002,29 +1002,59 @@ You got this! (But, just in case …)
 <ol style="list-style-type: decimal">
 <li>In a new browser tab, go to <a href="https://www.datawrapper.de/">datawrapper.de</a> and click the big <strong>Start creating</strong> button.</li>
 <li>Use the <strong>Login/Sign Up</strong> button along the top to create an account or log in if you have one.</li>
-<li>The first screen you have is where you can <strong>Upload data</strong> or paste it into the window. We are going to paste the data, but we have to do some stuff in R to get it.</li>
+<li>The first screen you have is where you can <strong>Upload data</strong> or paste it into the window. We are going to upload the data, but we have to write out the data to your computer first.</li>
 </ol>
 </div>
-<div id="get-your-candies-data" class="section level3 hasAnchor" number="9.7.3">
-<h3><span class="header-section-number">9.7.3</span> Get your candies data<a href="tidy-data.html#get-your-candies-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>We need to install a package called clipr.</p>
+<div id="export-your-data-for-datawrapper" class="section level3 hasAnchor" number="9.7.3">
+<h3><span class="header-section-number">9.7.3</span> Export your data for Datawrapper<a href="tidy-data.html#export-your-data-for-datawrapper" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ol style="list-style-type: decimal">
-<li>In your R project <strong>in the R Console</strong> install the package clipr: <code>install.packages("clipr")</code>.</li>
+<li>Go back to RStudio.</li>
+<li>Create a new block and name it something about exporting</li>
+<li>Take your data and pipe it into <code>write_csv()</code>. As an argument to write_csv(), give it a path into your data-processed folder, and name the file <code>candy_avg.csv</code>.</li>
+</ol>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="tidy-data.html#cb232-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">&quot;data-processed/candy_avg.csv&quot;</span>)</span></code></pre></div>
+<p>This will save your data file onto your computer, in your project’s <code>data-processed</code> folder.</p>
+<ol style="list-style-type: decimal">
+<li>Return to <strong>Datawrapper</strong> in your browser and click on the <strong>XLS/CSV upload</strong> button and go find your file to import it.</li>
+</ol>
+<div id="posit.cloud-export" class="section level4 hasAnchor" number="9.7.3.1">
+<h4><span class="header-section-number">9.7.3.1</span> posit.cloud export<a href="tidy-data.html#posit.cloud-export" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>If you are using posit.cloud, you will also need to <strong>Export</strong> your data from the cloud to get it onto your computer so you can import it into Datawrapper. Do this <strong>only</strong> if you are using the cloud version.</p>
+<ol style="list-style-type: decimal">
+<li>In the Files window (bottom right) go inside your <code>data-processed</code> folder.</li>
+<li>Click on the checkbox next to the <code>candy_avg.csv</code> file.</li>
+<li>Click on the <strong>More</strong> blue gear thing and choose <strong>Export</strong>.</li>
+<li>You’ll get a prompt to name the file (which you can keep the same) and then a <strong>download</strong> button. Click the button.</li>
+<li>The file should go to your Downloads folder like anything else you download from the Internet.</li>
+<li>When you go back to <strong>Datawrapper</strong> click on the <strong>XLS/CSV upload</strong> button and go find your file to import.</li>
+</ol>
+</div>
+<div id="an-alternative-export-copy-your-data" class="section level4 hasAnchor" number="9.7.3.2">
+<h4><span class="header-section-number">9.7.3.2</span> An alternative export: “copy” your data<a href="tidy-data.html#an-alternative-export-copy-your-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<blockquote>
+<p>This is an alternative to exporting your data, but it only works in the desktop version of RStudio. It does <strong>NOT</strong> work for the online posit.cloud version of Rstudio. You either EXPORT or WRITE_CLIP, but you don’t need to do both.</p>
+</blockquote>
+<p>To do this, you’ll need to install a package called clipr.</p>
+<ol style="list-style-type: decimal">
+<li>In your R project <strong>in the R Console</strong> install the package clipr: <code>install.packages("clipr")</code>. Do NOT save this code inside your notebook.</li>
 <li>Start a section that says you are going to get data for Datawrapper.</li>
 <li>Create a chunk with the following and run it.</li>
 </ol>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="tidy-data.html#cb232-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(clipr)</span>
-<span id="cb232-2"><a href="tidy-data.html#cb232-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb232-3"><a href="tidy-data.html#cb232-3" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="sc">|&gt;</span> <span class="fu">write_clip</span>(<span class="at">allow_non_interactive =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="tidy-data.html#cb233-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(clipr)</span>
+<span id="cb233-2"><a href="tidy-data.html#cb233-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb233-3"><a href="tidy-data.html#cb233-3" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="sc">|&gt;</span> <span class="fu">write_clip</span>(<span class="at">allow_non_interactive =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>You won’t see anything happen, but all the data in <code>candy_avg</code> has been added to your clipboard as if you highlighted it and did <strong>Copy</strong>. You must have the <code>allow_non_interactive = TRUE</code> argument to allow your RMarkdown document to knit.</p>
+<ol style="list-style-type: decimal">
+<li>Return to your browser where you are making the chart, put your cursor into the “Paste your copied data here …” window and paste. (Like <em>Cmd-V</em> or use the menu Edit &gt; Paste.)</li>
+</ol>
+</div>
 </div>
 <div id="build-the-datawrapper-graphic" class="section level3 hasAnchor" number="9.7.4">
 <h3><span class="header-section-number">9.7.4</span> Build the datawrapper graphic<a href="tidy-data.html#build-the-datawrapper-graphic" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ol style="list-style-type: decimal">
-<li>Return to your browser where you are making the chart, put your cursor into the “Paste your copied data here …” window and paste. (Like <em>Cmd-V</em> or use the menu Edit &gt; Paste.)</li>
-<li>Click <strong>Proceed</strong>.</li>
+<li>Once your data is either uploaded or copied into Datawrapper, you can click <strong>Proceed</strong> to go to the next step.</li>
 </ol>
-<p>You can now follow the Datawrapper Academy directions to finish your chart.</p>
+<p>You can now follow the <a href="https://academy.datawrapper.de/article/7-bar-chart">Datawrapper Academy</a> directions to finish your chart.</p>
 <p>When you get to the Publish &amp; Embed window, I want you to click the <strong>Publish Now</strong> button and then add the resulting <em>Link to your visualization:</em> URL to your R Notebook so I can find it for grading.</p>
 </div>
 </div>
@@ -1042,8 +1072,8 @@ You got this! (But, just in case …)
 <li><code>names_from =</code> lets us define from which column (or columns) we are pulling values from to create the new column names. <em>In our case, we need two columns to combine the first and last names. We can do that with <code>c(first_name, last_name)</code></em>.</li>
 <li><code>values_from =</code> lets us say which column will be the values in the new arrangement. <em>In our case, we want the <code>candies</code> column</em>.</li>
 </ul>
-<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="tidy-data.html#cb233-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">|&gt;</span> </span>
-<span id="cb233-2"><a href="tidy-data.html#cb233-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="fu">c</span>(first_name, last_name), <span class="at">values_from =</span> candies)</span></code></pre></div>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="tidy-data.html#cb234-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">|&gt;</span> </span>
+<span id="cb234-2"><a href="tidy-data.html#cb234-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="fu">c</span>(first_name, last_name), <span class="at">values_from =</span> candies)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 107
 ##   color  Chris…¹ Andre…² Gabby…³ Veron…⁴ Crist…⁵ Marin…⁶ Samue…⁷ Kevin…⁸ Alexa…⁹
 ##   &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
