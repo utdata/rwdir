@@ -161,12 +161,12 @@ hot100_sample
 ## # A tibble: 6 × 2
 ##   chart_date title                  
 ##   <date>     <chr>                  
-## 1 1960-03-21 Outside My Window      
-## 2 2018-10-20 Girls Like You         
-## 3 1962-01-13 Twistin' All Night Long
-## 4 2003-07-12 Get Busy               
-## 5 2006-12-02 Before He Cheats       
-## 6 1981-02-21 Love T.K.O.
+## 1 1989-10-14 When I Looked At Him   
+## 2 2000-05-20 Never Let You Go       
+## 3 1983-02-05 On The Loose           
+## 4 2010-07-10 Up All Night           
+## 5 1960-09-12 Yes Sir, That's My Baby
+## 6 1998-12-26 From This Moment On
 ```
 
 ### Let's make a year
@@ -189,12 +189,12 @@ hot100_sample |>
 ## # A tibble: 6 × 3
 ##   chart_date title                      yr
 ##   <date>     <chr>                   <dbl>
-## 1 1960-03-21 Outside My Window        1960
-## 2 2018-10-20 Girls Like You           2018
-## 3 1962-01-13 Twistin' All Night Long  1962
-## 4 2003-07-12 Get Busy                 2003
-## 5 2006-12-02 Before He Cheats         2006
-## 6 1981-02-21 Love T.K.O.              1981
+## 1 1989-10-14 When I Looked At Him     1989
+## 2 2000-05-20 Never Let You Go         2000
+## 3 1983-02-05 On The Loose             1983
+## 4 2010-07-10 Up All Night             2010
+## 5 1960-09-12 Yes Sir, That's My Baby  1960
+## 6 1998-12-26 From This Moment On      1998
 ```
 
 ### The magical month
@@ -213,12 +213,12 @@ hot100_sample |>
 ## # A tibble: 6 × 3
 ##   chart_date title                      mo
 ##   <date>     <chr>                   <dbl>
-## 1 1960-03-21 Outside My Window           3
-## 2 2018-10-20 Girls Like You             10
-## 3 1962-01-13 Twistin' All Night Long     1
-## 4 2003-07-12 Get Busy                    7
-## 5 2006-12-02 Before He Cheats           12
-## 6 1981-02-21 Love T.K.O.                 2
+## 1 1989-10-14 When I Looked At Him       10
+## 2 2000-05-20 Never Let You Go            5
+## 3 1983-02-05 On The Loose                2
+## 4 2010-07-10 Up All Night                7
+## 5 1960-09-12 Yes Sir, That's My Baby     9
+## 6 1998-12-26 From This Moment On        12
 ```
 
 But there are some options within `month()` to give us month NAMES that are ordered as factors instead of alphabetical.
@@ -235,14 +235,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 4
-##   chart_date title                   mo_label mo_long 
-##   <date>     <chr>                   <ord>    <ord>   
-## 1 1962-01-13 Twistin' All Night Long Jan      January 
-## 2 1981-02-21 Love T.K.O.             Feb      February
-## 3 1960-03-21 Outside My Window       Mar      March   
-## 4 2003-07-12 Get Busy                Jul      July    
-## 5 2018-10-20 Girls Like You          Oct      October 
-## 6 2006-12-02 Before He Cheats        Dec      December
+##   chart_date title                   mo_label mo_long  
+##   <date>     <chr>                   <ord>    <ord>    
+## 1 1983-02-05 On The Loose            Feb      February 
+## 2 2000-05-20 Never Let You Go        May      May      
+## 3 2010-07-10 Up All Night            Jul      July     
+## 4 1960-09-12 Yes Sir, That's My Baby Sep      September
+## 5 1989-10-14 When I Looked At Him    Oct      October  
+## 6 1998-12-26 From This Moment On     Dec      December
 ```
 
 Note the datatype `<ord>` under the column `mo_label` and `mo_long`. That means this is an "ordered factor" and that when arranged by those labels it will list in MONTH order instead of alphabetical order, which is quite useful.
@@ -264,12 +264,12 @@ hot100_sample |>
 ## # A tibble: 6 × 4
 ##   chart_date title                   fl_month   fl_year   
 ##   <date>     <chr>                   <date>     <date>    
-## 1 1960-03-21 Outside My Window       1960-03-01 1960-01-01
-## 2 2018-10-20 Girls Like You          2018-10-01 2018-01-01
-## 3 1962-01-13 Twistin' All Night Long 1962-01-01 1962-01-01
-## 4 2003-07-12 Get Busy                2003-07-01 2003-01-01
-## 5 2006-12-02 Before He Cheats        2006-12-01 2006-01-01
-## 6 1981-02-21 Love T.K.O.             1981-02-01 1981-01-01
+## 1 1989-10-14 When I Looked At Him    1989-10-01 1989-01-01
+## 2 2000-05-20 Never Let You Go        2000-05-01 2000-01-01
+## 3 1983-02-05 On The Loose            1983-02-01 1983-01-01
+## 4 2010-07-10 Up All Night            2010-07-01 2010-01-01
+## 5 1960-09-12 Yes Sir, That's My Baby 1960-09-01 1960-01-01
+## 6 1998-12-26 From This Moment On     1998-12-01 1998-01-01
 ```
 
 You can see the resulting new columns are real dates, but they are normalized:

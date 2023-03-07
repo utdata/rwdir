@@ -23,7 +23,7 @@
 <meta name="author" content="Christian McDonald and Josephine Lukito" />
 
 
-<meta name="date" content="2023-01-04" />
+<meta name="date" content="2023-03-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -462,7 +462,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="9.7.1" data-path="tidy-data.html"><a href="tidy-data.html#review-how-to-make-a-bar-chart"><i class="fa fa-check"></i><b>9.7.1</b> Review how to make a bar chart</a></li>
 <li class="chapter" data-level="9.7.2" data-path="tidy-data.html"><a href="tidy-data.html#start-a-chart"><i class="fa fa-check"></i><b>9.7.2</b> Start a chart</a></li>
-<li class="chapter" data-level="9.7.3" data-path="tidy-data.html"><a href="tidy-data.html#get-your-candies-data"><i class="fa fa-check"></i><b>9.7.3</b> Get your candies data</a></li>
+<li class="chapter" data-level="9.7.3" data-path="tidy-data.html"><a href="tidy-data.html#export-your-data-for-datawrapper"><i class="fa fa-check"></i><b>9.7.3</b> Export your data for Datawrapper</a></li>
 <li class="chapter" data-level="9.7.4" data-path="tidy-data.html"><a href="tidy-data.html#build-the-datawrapper-graphic"><i class="fa fa-check"></i><b>9.7.4</b> Build the datawrapper graphic</a></li>
 </ul></li>
 <li class="chapter" data-level="9.8" data-path="tidy-data.html"><a href="tidy-data.html#pivot-wider"><i class="fa fa-check"></i><b>9.8</b> Pivot wider</a>
@@ -675,11 +675,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb221-2"><a href="tidy-data.html#cb221-2" aria-hidden="true" tabindex="-1"></a>class_data <span class="ot">&lt;-</span> <span class="st">&quot;https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&amp;single=true&amp;output=csv&quot;</span></span>
 <span id="cb221-3"><a href="tidy-data.html#cb221-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb221-4"><a href="tidy-data.html#cb221-4" aria-hidden="true" tabindex="-1"></a><span class="co"># read the data, clean names and save into the object &quot;raw_data&quot;</span></span>
-<span id="cb221-5"><a href="tidy-data.html#cb221-5" aria-hidden="true" tabindex="-1"></a>raw_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(class_data) <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>()</span>
+<span id="cb221-5"><a href="tidy-data.html#cb221-5" aria-hidden="true" tabindex="-1"></a>raw_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(class_data) <span class="sc">|&gt;</span> <span class="fu">clean_names</span>()</span>
 <span id="cb221-6"><a href="tidy-data.html#cb221-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb221-7"><a href="tidy-data.html#cb221-7" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
 <span id="cb221-8"><a href="tidy-data.html#cb221-8" aria-hidden="true" tabindex="-1"></a>raw_data</span></code></pre></div>
-<pre><code>## # A tibble: 67 × 11
+<pre><code>## # A tibble: 106 × 11
 ##    times…¹ first…² last_…³ candy…⁴ box_c…⁵   red green orange yellow  blue brown
 ##    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ##  1 2/21/2… Christ… McDona… Plain   140BSC…     2    17     11      4    16     4
@@ -692,13 +692,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  8 2/28/2… Kevin   Malcol… Plain   140BSC…     4    15     13      6    14     3
 ##  9 2/28/2… Alexa   Haverl… Plain   140BSC…     5    15      6      2    21     5
 ## 10 2/28/2… Zachar… Washin… Plain   140BSC…     1    15     14      1    20     6
-## # … with 57 more rows, and abbreviated variable names ¹​timestamp, ²​first_name,
+## # … with 96 more rows, and abbreviated variable names ¹​timestamp, ²​first_name,
 ## #   ³​last_name, ⁴​candy_type, ⁵​box_code</code></pre>
 <p>This data comes from a Google Sheets document fed by a form that students have filled out, counting the colors of candies in a standard size bag of plain M&amp;Ms.</p>
 </div>
 <div id="drop-unneeded-columns" class="section level3 hasAnchor" number="9.4.2">
 <h3><span class="header-section-number">9.4.2</span> Drop unneeded columns<a href="tidy-data.html#drop-unneeded-columns" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>For this exercise we don’t need the <code>timestamp</code>, <code>candy_type</code> or <code>box_code</code> columns for this exercise. We’ll drop them so we can keep things simple.</p>
+<p>For this exercise we don’t need the <code>timestamp</code>, <code>candy_type</code> or <code>box_code</code> columns. We’ll drop them so we can keep things simple.</p>
 <ol style="list-style-type: decimal">
 <li>Create a Markdown section noting you’ll drop unneeded columns.</li>
 <li>Create an R chunk and use <code>select()</code> to remove the columns noted above and save the result into a new data frame called <code>candy</code>.</li>
@@ -708,7 +708,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <summary>
 You got this! (But, just in case …)
 </summary>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="tidy-data.html#cb223-1" aria-hidden="true" tabindex="-1"></a>candy <span class="ot">&lt;-</span> raw_data <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="tidy-data.html#cb223-1" aria-hidden="true" tabindex="-1"></a>candy <span class="ot">&lt;-</span> raw_data <span class="sc">|&gt;</span> </span>
 <span id="cb223-2"><a href="tidy-data.html#cb223-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
 <span id="cb223-3"><a href="tidy-data.html#cb223-3" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>timestamp,</span>
 <span id="cb223-4"><a href="tidy-data.html#cb223-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>candy_type,</span>
@@ -719,7 +719,7 @@ You got this! (But, just in case …)
 <div id="peek-at-the-wide-table" class="section level3 hasAnchor" number="9.4.3">
 <h3><span class="header-section-number">9.4.3</span> Peek at the wide table<a href="tidy-data.html#peek-at-the-wide-table" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Let’s look closer at this data:</p>
-<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="tidy-data.html#cb224-1" aria-hidden="true" tabindex="-1"></a>candy <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="tidy-data.html#cb224-1" aria-hidden="true" tabindex="-1"></a>candy <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 8
 ##   first_name last_name   red green orange yellow  blue brown
 ##   &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -884,7 +884,7 @@ You got this! (But, just in case …)
 <ul>
 <li><strong><code>cols=</code></strong> is where you define a range of columns you want to pivot. <em>For our candy data we want the range <code>red:brown</code></em>.</li>
 <li><strong><code>names_to=</code></strong> allows you to name the new column filled by the column names. <em>For our candy data we want to name this “color” since that’s what those columns described.</em></li>
-<li><strong>`values_to=</strong> allows you to name the new column filled with the cell data. <em>For us we want to call this “candies” since these are the number of candies in each bag.</em></li>
+<li><strong><code>values_to=</code></strong> allows you to name the new column filled with the cell data. <em>For us we want to call this “candies” since these are the number of candies in each bag.</em></li>
 </ul>
 <p>There are a number of ways we can describe the <code>cols=</code> argument … anything in <a href="https://tidyr.tidyverse.org/reference/tidyr_tidy_select.html">tidy-select</a> works. You can see a bunch of <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html#ref-examples">examples here</a>.</p>
 <div id="pivot-our-candy-data-longer" class="section level3 hasAnchor" number="9.6.1">
@@ -895,14 +895,14 @@ You got this! (But, just in case …)
 <li>Add a note that you are pivoting the data</li>
 <li>Add the chunk below and run it</li>
 </ol>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="tidy-data.html#cb226-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="ot">&lt;-</span> candy <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="tidy-data.html#cb226-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="ot">&lt;-</span> candy <span class="sc">|&gt;</span> </span>
 <span id="cb226-2"><a href="tidy-data.html#cb226-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
 <span id="cb226-3"><a href="tidy-data.html#cb226-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> red<span class="sc">:</span>brown, <span class="co"># sets which columns to pivot based on their names</span></span>
 <span id="cb226-4"><a href="tidy-data.html#cb226-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;color&quot;</span>, <span class="co"># sets column name for color</span></span>
 <span id="cb226-5"><a href="tidy-data.html#cb226-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;candies&quot;</span> <span class="co"># sets column name for candies</span></span>
 <span id="cb226-6"><a href="tidy-data.html#cb226-6" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb226-7"><a href="tidy-data.html#cb226-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb226-8"><a href="tidy-data.html#cb226-8" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<span id="cb226-8"><a href="tidy-data.html#cb226-8" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 4
 ##   first_name last_name color  candies
 ##   &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt;
@@ -916,33 +916,33 @@ You got this! (But, just in case …)
 <div id="get-average-candies-per-color" class="section level3 hasAnchor" number="9.6.2">
 <h3><span class="header-section-number">9.6.2</span> Get average candies per color<a href="tidy-data.html#get-average-candies-per-color" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To get the average number of candies per each color, we can use our <code>candy_long</code> data and <code>group_by</code> color (which will consider all the <strong>red</strong> rows together, etc.) and use <code>summarize()</code> to get the mean.</p>
-<p>This is very similar to the <code>sum()</code>s we did with military surplus, but you use <code>mean()</code> instead. There is one trick with <code>mean()</code>, though, in that sometimes you have to add an argument <code>na.rm = TRUE</code> if there are missing or zero values, since you can’t divide by zero. We have that case here in some bags don’t have ANY red at all!</p>
+<p>This is very similar to the <code>sum()</code>s we did with military surplus, but you use <code>mean()</code> instead. There is one trick with <code>mean()</code>, though, in that sometimes you have to add an argument <code>na.rm = TRUE</code> if there are missing or zero values, since you can’t divide by zero. We have that case here in some bags don’t have ANY candies of a color at all!</p>
 <p>Save the resulting summary table into a new tibble called <code>candy_avg</code>.</p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="tidy-data.html#cb228-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="ot">&lt;-</span> candy_long <span class="sc">%&gt;%</span> </span>
-<span id="cb228-2"><a href="tidy-data.html#cb228-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(color) <span class="sc">%&gt;%</span> </span>
-<span id="cb228-3"><a href="tidy-data.html#cb228-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candies))</span>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="tidy-data.html#cb228-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="ot">&lt;-</span> candy_long <span class="sc">|&gt;</span> </span>
+<span id="cb228-2"><a href="tidy-data.html#cb228-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(color) <span class="sc">|&gt;</span> </span>
+<span id="cb228-3"><a href="tidy-data.html#cb228-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candies, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb228-4"><a href="tidy-data.html#cb228-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># the na.rm bit takes into account some records where there are zero or blank values.</span></span>
 <span id="cb228-5"><a href="tidy-data.html#cb228-5" aria-hidden="true" tabindex="-1"></a>candy_avg</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 2
 ##   color  avg_candies
 ##   &lt;chr&gt;        &lt;dbl&gt;
-## 1 blue         13.8 
-## 2 brown         6.24
-## 3 green        13.3 
-## 4 orange       11.0 
-## 5 red           4.57
-## 6 yellow        5.79</code></pre>
+## 1 blue         12.6 
+## 2 brown         6.34
+## 3 green        12.6 
+## 4 orange       10.1 
+## 5 red           5.62
+## 6 yellow        8.31</code></pre>
 </div>
 <div id="round-the-averages" class="section level3 hasAnchor" number="9.6.3">
 <h3><span class="header-section-number">9.6.3</span> Round the averages<a href="tidy-data.html#round-the-averages" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Let’s <strong>modify this summary</strong> to round the averages to tenths so they will plot nicely on our chart.’</p>
 <p>The <code>round()</code> function needs the column to change, and then the number of digits past the decimal to include.</p>
 <ol style="list-style-type: decimal">
-<li>Edit your summary to include the mutate below.</li>
+<li>Edit your summarize function to add the <code>mutate()</code> functin below.</li>
 </ol>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="tidy-data.html#cb230-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="ot">&lt;-</span> candy_long <span class="sc">%&gt;%</span> </span>
-<span id="cb230-2"><a href="tidy-data.html#cb230-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(color) <span class="sc">%&gt;%</span> </span>
-<span id="cb230-3"><a href="tidy-data.html#cb230-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candies, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="tidy-data.html#cb230-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="ot">&lt;-</span> candy_long <span class="sc">|&gt;</span> </span>
+<span id="cb230-2"><a href="tidy-data.html#cb230-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(color) <span class="sc">|&gt;</span> </span>
+<span id="cb230-3"><a href="tidy-data.html#cb230-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candies, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb230-4"><a href="tidy-data.html#cb230-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb230-5"><a href="tidy-data.html#cb230-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_candies =</span> <span class="fu">round</span>(avg_candies, <span class="dv">1</span>)</span>
 <span id="cb230-6"><a href="tidy-data.html#cb230-6" aria-hidden="true" tabindex="-1"></a>  )</span>
@@ -951,12 +951,12 @@ You got this! (But, just in case …)
 <pre><code>## # A tibble: 6 × 2
 ##   color  avg_candies
 ##   &lt;chr&gt;        &lt;dbl&gt;
-## 1 blue          13.8
-## 2 brown          6.2
-## 3 green         13.3
-## 4 orange        11  
-## 5 red            4.6
-## 6 yellow         5.8</code></pre>
+## 1 blue          12.6
+## 2 brown          6.3
+## 3 green         12.6
+## 4 orange        10.1
+## 5 red            5.6
+## 6 yellow         8.3</code></pre>
 <p>BONUS POINT OPPORTUNITY: Using a similar method to rounding above, you can also capitalize the names of the colors. You don’t <em>have</em> to do this, but I’ll give you bonus points if you do:</p>
 <ul>
 <li>In your mutate, add a rule that updates <code>color</code> column using <code>str_to_title(color)</code>.</li>
@@ -973,8 +973,8 @@ You got this! (But, just in case …)
 <ul>
 <li>I want the bars to be ordered by the highest average on top.</li>
 <li>I want you to have a good title, subtitle and byline, along with good axes names. Make sure a reader has all the information they need to understand what you are communicating with the chart.</li>
-<li>Include the values on the bars</li>
-<li>Change the theme to something other than the default</li>
+<li>Include the values on the bars.</li>
+<li>Change the theme to something other than the default.</li>
 </ul>
 <p>Here is what it should more or less look like, but with good text, etc:</p>
 <p><img src="09-tidy-data_files/figure-html/avg-plot-1.png" width="672" /></p>
@@ -983,7 +983,7 @@ You got this! (But, just in case …)
 </div>
 <div id="introducing-datawrapper" class="section level2 hasAnchor" number="9.7">
 <h2><span class="header-section-number">9.7</span> Introducing Datawrapper<a href="tidy-data.html#introducing-datawrapper" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>There are some other great charting tools that journalists use. My favorite is <a href="https://www.datawrapper.de/">Datawrapper</a> and is free for the level you need it.</p>
+<p>There are some other great charting tools that journalists use. My favorite is <a href="https://www.datawrapper.de/">Datawrapper</a> and it is free for the level you need it.</p>
 <p>Datawrapper is so easy I don’t even have to teach you how to use it. They have <a href="https://academy.datawrapper.de/">excellent tutorials</a>.</p>
 <p>What you do need is the data to plot, but you’ve already “shaped” it the way you need it. Your <code>candy_avg</code> tibble is what you need.</p>
 <p>Here are the steps I want you to follow:</p>
@@ -1002,29 +1002,59 @@ You got this! (But, just in case …)
 <ol style="list-style-type: decimal">
 <li>In a new browser tab, go to <a href="https://www.datawrapper.de/">datawrapper.de</a> and click the big <strong>Start creating</strong> button.</li>
 <li>Use the <strong>Login/Sign Up</strong> button along the top to create an account or log in if you have one.</li>
-<li>The first screen you have is where you can <strong>Upload data</strong> or paste it into the window. We are going to paste the data, but we have to do some stuff in R to get it.</li>
+<li>The first screen you have is where you can <strong>Upload data</strong> or paste it into the window. We are going to upload the data, but we have to write out the data to your computer first.</li>
 </ol>
 </div>
-<div id="get-your-candies-data" class="section level3 hasAnchor" number="9.7.3">
-<h3><span class="header-section-number">9.7.3</span> Get your candies data<a href="tidy-data.html#get-your-candies-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>We need to install a package called clipr.</p>
+<div id="export-your-data-for-datawrapper" class="section level3 hasAnchor" number="9.7.3">
+<h3><span class="header-section-number">9.7.3</span> Export your data for Datawrapper<a href="tidy-data.html#export-your-data-for-datawrapper" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ol style="list-style-type: decimal">
-<li>In your R project <strong>in the R Console</strong> install the package clipr: <code>install.packages("clipr")</code>.</li>
+<li>Go back to RStudio.</li>
+<li>Create a new block and name it something about exporting</li>
+<li>Take your data and pipe it into <code>write_csv()</code>. As an argument to write_csv(), give it a path into your data-processed folder, and name the file <code>candy_avg.csv</code>.</li>
+</ol>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="tidy-data.html#cb232-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">&quot;data-processed/candy_avg.csv&quot;</span>)</span></code></pre></div>
+<p>This will save your data file onto your computer, in your project’s <code>data-processed</code> folder.</p>
+<ol style="list-style-type: decimal">
+<li>Return to <strong>Datawrapper</strong> in your browser and click on the <strong>XLS/CSV upload</strong> button and go find your file to import it.</li>
+</ol>
+<div id="posit.cloud-export" class="section level4 hasAnchor" number="9.7.3.1">
+<h4><span class="header-section-number">9.7.3.1</span> posit.cloud export<a href="tidy-data.html#posit.cloud-export" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>If you are using posit.cloud, you will also need to <strong>Export</strong> your data from the cloud to get it onto your computer so you can import it into Datawrapper. Do this <strong>only</strong> if you are using the cloud version.</p>
+<ol style="list-style-type: decimal">
+<li>In the Files window (bottom right) go inside your <code>data-processed</code> folder.</li>
+<li>Click on the checkbox next to the <code>candy_avg.csv</code> file.</li>
+<li>Click on the <strong>More</strong> blue gear thing and choose <strong>Export</strong>.</li>
+<li>You’ll get a prompt to name the file (which you can keep the same) and then a <strong>download</strong> button. Click the button.</li>
+<li>The file should go to your Downloads folder like anything else you download from the Internet.</li>
+<li>When you go back to <strong>Datawrapper</strong> click on the <strong>XLS/CSV upload</strong> button and go find your file to import.</li>
+</ol>
+</div>
+<div id="an-alternative-export-copy-your-data" class="section level4 hasAnchor" number="9.7.3.2">
+<h4><span class="header-section-number">9.7.3.2</span> An alternative export: “copy” your data<a href="tidy-data.html#an-alternative-export-copy-your-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<blockquote>
+<p>This is an alternative to exporting your data, but it only works in the desktop version of RStudio. It does <strong>NOT</strong> work for the online posit.cloud version of Rstudio. You either EXPORT or WRITE_CLIP, but you don’t need to do both.</p>
+</blockquote>
+<p>To do this, you’ll need to install a package called clipr.</p>
+<ol style="list-style-type: decimal">
+<li>In your R project <strong>in the R Console</strong> install the package clipr: <code>install.packages("clipr")</code>. Do NOT save this code inside your notebook.</li>
 <li>Start a section that says you are going to get data for Datawrapper.</li>
 <li>Create a chunk with the following and run it.</li>
 </ol>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="tidy-data.html#cb232-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(clipr)</span>
-<span id="cb232-2"><a href="tidy-data.html#cb232-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb232-3"><a href="tidy-data.html#cb232-3" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="sc">%&gt;%</span> <span class="fu">write_clip</span>(<span class="at">allow_non_interactive =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="tidy-data.html#cb233-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(clipr)</span>
+<span id="cb233-2"><a href="tidy-data.html#cb233-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb233-3"><a href="tidy-data.html#cb233-3" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="sc">|&gt;</span> <span class="fu">write_clip</span>(<span class="at">allow_non_interactive =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>You won’t see anything happen, but all the data in <code>candy_avg</code> has been added to your clipboard as if you highlighted it and did <strong>Copy</strong>. You must have the <code>allow_non_interactive = TRUE</code> argument to allow your RMarkdown document to knit.</p>
+<ol style="list-style-type: decimal">
+<li>Return to your browser where you are making the chart, put your cursor into the “Paste your copied data here …” window and paste. (Like <em>Cmd-V</em> or use the menu Edit &gt; Paste.)</li>
+</ol>
+</div>
 </div>
 <div id="build-the-datawrapper-graphic" class="section level3 hasAnchor" number="9.7.4">
 <h3><span class="header-section-number">9.7.4</span> Build the datawrapper graphic<a href="tidy-data.html#build-the-datawrapper-graphic" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ol style="list-style-type: decimal">
-<li>Return to your browser where you are making the chart, put your cursor into the “Paste your copied data here …” window and paste. (Like <em>Cmd-V</em> or use the menu Edit &gt; Paste.)</li>
-<li>Click <strong>Proceed</strong>.</li>
+<li>Once your data is either uploaded or copied into Datawrapper, you can click <strong>Proceed</strong> to go to the next step.</li>
 </ol>
-<p>You can now follow the Datawrapper Academy directions to finish your chart.</p>
+<p>You can now follow the <a href="https://academy.datawrapper.de/article/7-bar-chart">Datawrapper Academy</a> directions to finish your chart.</p>
 <p>When you get to the Publish &amp; Embed window, I want you to click the <strong>Publish Now</strong> button and then add the resulting <em>Link to your visualization:</em> URL to your R Notebook so I can find it for grading.</p>
 </div>
 </div>
@@ -1042,9 +1072,9 @@ You got this! (But, just in case …)
 <li><code>names_from =</code> lets us define from which column (or columns) we are pulling values from to create the new column names. <em>In our case, we need two columns to combine the first and last names. We can do that with <code>c(first_name, last_name)</code></em>.</li>
 <li><code>values_from =</code> lets us say which column will be the values in the new arrangement. <em>In our case, we want the <code>candies</code> column</em>.</li>
 </ul>
-<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="tidy-data.html#cb233-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">%&gt;%</span> </span>
-<span id="cb233-2"><a href="tidy-data.html#cb233-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="fu">c</span>(first_name, last_name), <span class="at">values_from =</span> candies)</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 68
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="tidy-data.html#cb234-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">|&gt;</span> </span>
+<span id="cb234-2"><a href="tidy-data.html#cb234-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="fu">c</span>(first_name, last_name), <span class="at">values_from =</span> candies)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 107
 ##   color  Chris…¹ Andre…² Gabby…³ Veron…⁴ Crist…⁵ Marin…⁶ Samue…⁷ Kevin…⁸ Alexa…⁹
 ##   &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
 ## 1 red          2       2       4       1       3       7       3       4       5
@@ -1053,7 +1083,7 @@ You got this! (But, just in case …)
 ## 4 yellow       4       4       0       2       3       1       5       6       2
 ## 5 blue        16      17      19      13      13      14      18      14      21
 ## 6 brown        4       9       7       8       3       6       8       3       5
-## # … with 58 more variables: Zacharia_Washington &lt;dbl&gt;, Jose_Martinez &lt;dbl&gt;,
+## # … with 97 more variables: Zacharia_Washington &lt;dbl&gt;, Jose_Martinez &lt;dbl&gt;,
 ## #   Ana_Garza &lt;dbl&gt;, Carolina_Cruz &lt;dbl&gt;, Anissa_Reyes &lt;dbl&gt;,
 ## #   Alaina_Bookman &lt;dbl&gt;, Bryan_Baker &lt;dbl&gt;, Mckenna_Lucas &lt;dbl&gt;,
 ## #   Marissa_DeLeon &lt;dbl&gt;, Claire_Stevens &lt;dbl&gt;, Katy_Vanatsky &lt;dbl&gt;,

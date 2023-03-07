@@ -23,7 +23,7 @@
 <meta name="author" content="Christian McDonald and Josephine Lukito" />
 
 
-<meta name="date" content="2023-01-04" />
+<meta name="date" content="2023-03-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -462,7 +462,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="9.7.1" data-path="tidy-data.html"><a href="tidy-data.html#review-how-to-make-a-bar-chart"><i class="fa fa-check"></i><b>9.7.1</b> Review how to make a bar chart</a></li>
 <li class="chapter" data-level="9.7.2" data-path="tidy-data.html"><a href="tidy-data.html#start-a-chart"><i class="fa fa-check"></i><b>9.7.2</b> Start a chart</a></li>
-<li class="chapter" data-level="9.7.3" data-path="tidy-data.html"><a href="tidy-data.html#get-your-candies-data"><i class="fa fa-check"></i><b>9.7.3</b> Get your candies data</a></li>
+<li class="chapter" data-level="9.7.3" data-path="tidy-data.html"><a href="tidy-data.html#export-your-data-for-datawrapper"><i class="fa fa-check"></i><b>9.7.3</b> Export your data for Datawrapper</a></li>
 <li class="chapter" data-level="9.7.4" data-path="tidy-data.html"><a href="tidy-data.html#build-the-datawrapper-graphic"><i class="fa fa-check"></i><b>9.7.4</b> Build the datawrapper graphic</a></li>
 </ul></li>
 <li class="chapter" data-level="9.8" data-path="tidy-data.html"><a href="tidy-data.html#pivot-wider"><i class="fa fa-check"></i><b>9.8</b> Pivot wider</a>
@@ -782,7 +782,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="ggplot-intro.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read the data and create an tibble object called &quot;class&quot;</span></span>
 <span id="cb166-2"><a href="ggplot-intro.html#cb166-2" aria-hidden="true" tabindex="-1"></a>class <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://docs.google.com/spreadsheets/d/e/2PACX-1vQfwR6DBW5Qv6O5aEBFJl4V8itnlDxFEc1e_-fOAtBMDxXx1GeEGb8o5VSgi33oTYqeFhVCevGGbG5y/pub?gid=0&amp;single=true&amp;output=csv&quot;</span>)</span></code></pre></div>
-<pre><code>## Rows: 38 Columns: 3
+<pre><code>## Rows: 37 Columns: 3
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (3): Name, Princess, Ice cream
@@ -791,20 +791,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="ggplot-intro.html#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
 <span id="cb168-2"><a href="ggplot-intro.html#cb168-2" aria-hidden="true" tabindex="-1"></a>class</span></code></pre></div>
-<pre><code>## # A tibble: 38 × 3
-##    Name    Princess                      `Ice cream`      
-##    &lt;chr&gt;   &lt;chr&gt;                         &lt;chr&gt;            
-##  1 Adam O  Cinderella                    Cookie Dough     
-##  2 Adam C  Mulan                         Cookie Dough     
-##  3 Amaris  Tiana (Princess and the Frog) Coffee           
-##  4 Andrew  Mulan                         Chocolate        
-##  5 Athena  Belle (Beauty and the Beast)  Cookies and Cream
-##  6 Aurora  Aurora (Sleeping Beauty)      Cookie Dough     
-##  7 Avery   Mulan                         Cookie Dough     
-##  8 Brady   Jasmine (Aladdin)             Cookies and Cream
-##  9 Carolyn Merida (Brave)                Vanilla          
-## 10 Casey   Mulan                         Cookie Dough     
-## # … with 28 more rows</code></pre>
+<pre><code>## # A tibble: 37 × 3
+##    Name      Princess   `Ice cream`        
+##    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;              
+##  1 Abbie     Cinderella Chocolate          
+##  2 Aislyn    Rapunzel   Coffee             
+##  3 Ana       Ariel      Chocolate          
+##  4 Ana Sofia Tiana      Cookie Dough       
+##  5 Ardynne   Belle      Cookies and Cream  
+##  6 Benton    Mulan      Coffee             
+##  7 Cheney    Merida     Rocky Road         
+##  8 Christy   Tiana      Rocky Road         
+##  9 Corey     Mulan      Mint Chocolate Chip
+## 10 Darren    Mulan      Coffee             
+## # … with 27 more rows</code></pre>
 <p>So, now, you should have the data in your environment.</p>
 <div id="prepare-the-data" class="section level3 hasAnchor" number="7.5.1">
 <h3><span class="header-section-number">7.5.1</span> Prepare the data<a href="ggplot-intro.html#prepare-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -825,20 +825,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb170-7"><a href="ggplot-intro.html#cb170-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb170-8"><a href="ggplot-intro.html#cb170-8" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
 <span id="cb170-9"><a href="ggplot-intro.html#cb170-9" aria-hidden="true" tabindex="-1"></a>princess_data</span></code></pre></div>
-<pre><code>## # A tibble: 11 × 2
-##    princess                      votes
-##    &lt;chr&gt;                         &lt;int&gt;
-##  1 Mulan                             9
-##  2 Rapunzel (Tangled)                6
-##  3 Ariel (Little Mermaid)            4
-##  4 Jasmine (Aladdin)                 4
-##  5 Merida (Brave)                    3
-##  6 Pocahontas                        3
-##  7 Tiana (Princess and the Frog)     3
-##  8 Belle (Beauty and the Beast)      2
-##  9 Cinderella                        2
-## 10 Aurora (Sleeping Beauty)          1
-## 11 Snow White                        1</code></pre>
+<pre><code>## # A tibble: 10 × 2
+##    princess   votes
+##    &lt;chr&gt;      &lt;int&gt;
+##  1 Mulan         12
+##  2 Belle          7
+##  3 Pocahontas     4
+##  4 Ariel          3
+##  5 Rapunzel       3
+##  6 Tiana          3
+##  7 Jasmine        2
+##  8 Aurora         1
+##  9 Cinderella     1
+## 10 Merida         1</code></pre>
 <p>At this point, y’all should be plenty familiar with these summary functions, and the output should be easy to interpret: we’re just countin the number of rows for each princess.</p>
 <p>Now that we have our table data, let’s actually plot it.</p>
 </div>

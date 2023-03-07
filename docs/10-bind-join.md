@@ -77,19 +77,20 @@ Go ahead. I'll wait.
 
 There is a lot to take in there about where the data came from and how we dealt with it. Here is where you end up:
 
-- **You have nine data files for each year and one reference file imported.**
+<!-- UPDATE THE DATA FILES VALUE WHEN NEW YEAR IS ADDED -->
+- **You have 10 data files for each year and one reference file imported.**
 
 ## Merging data together
 
-OK, so we have nine different yearly files. Wouldn't it be a lot easier if these were ONE thing? Indeed, we can **merge** these files together by stacking them on top of each other. Let's review the concept using Starburst data:
+OK, so we have all these different yearly files. Wouldn't it be a lot easier if these were ONE thing? Indeed, we can **merge** these files together by stacking them on top of each other. Let's review the concept using Starburst data:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/9WA8YxMjpnI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/9WA8YxMjpnI" title="Merge" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Here's an image representation of the concept. You have two data sets and you stack them on top of each other where the column names match. (Note here that identical rows in both data sets remain).
 
 ![](images/bind_rows.png)
 
-Since all nine of our data files have the same column names, we can easily merge them with function **`bind_rows()`**.
+Since all of our data files have the same column names, we can easily merge them with function **`bind_rows()`**.
 
 Let's demonstrate through building it.
 
@@ -118,7 +119,10 @@ dstud13
 ## # … with 1,218 more rows
 ```
 
-The result shows there are **1,228** rows and **5** variables in the data, which should match what shows for `dstud13` in your Environment tab.
+
+
+
+The result shows there are **1228** rows and **5** variables in the data, which should match what shows for `dstud13` in your Environment tab.
 
 1. Now **edit** that chunk to use `bind_rows()` with `dstud14`.
 
@@ -145,7 +149,10 @@ dstud13 |>
 ## # … with 2,445 more rows
 ```
 
-This shows we now have **2,455** rows and **5** variables. This is good ... we've addded the rows of `dstud14` but we don't have any new columns because the column names were identical.
+
+
+
+This shows we now have **2455** rows and **5** variables. This is good ... we've addded the rows of `dstud14` but we don't have any new columns because the column names were identical.
 
 Now **edit the chunk** to do all these things:
 
@@ -178,12 +185,12 @@ sped_merged |> count(year)
 
 (You might also see each new datatable added in their own `bind_rows()` function instead of all in one. Either works.)
 
-We are NOT saving the `count()` result here, we are just printing it to our screen to make sure we get all the years.
+We are NOT saving the `count()` result into a new object; We are just printing it to our screen to make sure we get all the years.
 
 Now that we know this is working, you'll finish this out on your own.
 
-1. **Edit your chunk** to add `bind_rows()` for the rest of the files `dstud16` through `dstud21`. You just keep tacking them on like we did with `dstud15`.
-2. After you are done, make sure you look at the `sped_merged` listing in your environment to make sure you end up with **10,891** rows of data and **5** variables.
+1. **Edit your chunk** to add `bind_rows()` for the rest of the files `dstud16` through `dstud22`. You just keep tacking them on like we did with `dstud15`.
+2. After you are done, make sure you look at the `sped_merged` listing in your environment to make sure you end up with a count for each year of data.
 
 
 
@@ -242,12 +249,15 @@ sped_joined |> head()
 ## # … with abbreviated variable name ¹​dpetspep
 ```
 
+You might also `glimpse()` it so you can see all the columns have been added.
+
+
 ```r
 sped_joined |> glimpse()
 ```
 
 ```
-## Rows: 10,684
+## Rows: 11,882
 ## Columns: 9
 ## $ district <chr> "001902", "001902", "001902", "001902", "001902", "001902", "…
 ## $ distname <chr> "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "CAYU…
@@ -255,12 +265,10 @@ sped_joined |> glimpse()
 ## $ dflalted <chr> "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "…
 ## $ dflchart <chr> "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "…
 ## $ year     <chr> "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020…
-## $ dpetallc <dbl> 595, 553, 577, 568, 576, 575, 564, 557, 535, 1236, 1207, 1217…
-## $ dpetspec <dbl> 73, 76, 76, 78, 82, 83, 84, 82, 78, 113, 107, 126, 144, 139, …
-## $ dpetspep <dbl> 12.3, 13.7, 13.2, 13.7, 14.2, 14.4, 14.9, 14.7, 14.6, 9.1, 8.…
+## $ dpetallc <dbl> 595, 553, 577, 568, 576, 575, 564, 557, 535, 574, 1236, 1207,…
+## $ dpetspec <dbl> 73, 76, 76, 78, 82, 83, 84, 82, 78, 84, 113, 107, 126, 144, 1…
+## $ dpetspep <dbl> 12.3, 13.7, 13.2, 13.7, 14.2, 14.4, 14.9, 14.7, 14.6, 14.6, 9…
 ```
-
-I'm showing both a `head()` and `glimpse()` here so you can see all the columns have been added.
 
 Let's explain what is going on here:
 
@@ -269,9 +277,12 @@ Let's explain what is going on here:
 - We then pipe into `inner_join()` to `sped_merged`, which will attach our `dref` data to our merged data when the ID matches in the `district` variable.
 - The `by = "district"` argument ensures that we are matching based on the `district` column in both data sets.
 
-We could've left out the `by =` argument and R would match columns of the same name, but it is best practice to specify your joining columns so it is clear what is happening. You wouldn't want to be surprised by other columns of the same name that you didn't want to join on. If you wanted to specify join columns of different names it would look like this: `df1 |> inner_join(df2, by = c("df1_id" = "df2_id))`
+We could've left out the `by =` argument and R would match columns of the same name, but it is best practice to specify your joining columns so it is clear what is happening. You wouldn't want to be surprised by other columns of the same name that you didn't want to join on. If you wanted to specify join columns of different names it would look like this: `df1 |> inner_join(df2, by = c("df1_id" = "df2_id"))`
 
-There are now **10,684** rows in our joined data, fewer than what was in the original merged file because some districts (mostly charters) have closed and were not in our reference file. We are comparing only districts that have been open during this time period. For that matter, we don't want charter or alternative education districts at all, so we'll drop those next.
+
+
+
+There are now **11882** rows in our joined data, fewer than what was in the original merged file because some districts (mostly charters) have closed and were not in our reference file. We are comparing only districts that have been open during this time period. For that matter, we don't want charter or alternative education districts at all, so we'll drop those next.
 
 ## Some cleanup: filter and select
 
@@ -315,7 +326,10 @@ sped_cleaned <- sped_joined |>
 </details>
 <br>
 
-You should end up with **9,182** rows and **7** variables.
+
+
+
+You should end up with **10204** rows and **7** variables.
 
 ## Create an audit benchmark column
 
@@ -356,20 +370,19 @@ sped_flag |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 8
-##    district distname             cntyname  year  all_c…¹ sped_…² sped_…³ audit…⁴
-##    <chr>    <chr>                <chr>     <chr>   <dbl>   <dbl>   <dbl> <chr>  
-##  1 225907   HARTS BLUFF ISD      TITUS     2013      471      24     5.1 BELOW  
-##  2 019908   LIBERTY-EYLAU ISD    BOWIE     2013     2750     318    11.6 ABOVE  
-##  3 083903   SEMINOLE ISD         GAINES    2019     2954     232     7.9 BELOW  
-##  4 158905   PALACIOS ISD         MATAGORDA 2015     1441     131     9.1 ABOVE  
-##  5 101919   SPRING ISD           HARRIS    2019    35348    3132     8.9 ABOVE  
-##  6 184904   MILLSAP ISD          PARKER    2020     1039     121    11.6 ABOVE  
-##  7 100905   HARDIN-JEFFERSON ISD HARDIN    2020     2450     307    12.5 ABOVE  
-##  8 007905   PLEASANTON ISD       ATASCOSA  2019     3555     355    10   ABOVE  
-##  9 057911   HIGHLAND PARK ISD    DALLAS    2020     6824     609     8.9 ABOVE  
-## 10 240903   UNITED ISD           WEBB      2021    41835    4773    11.4 ABOVE  
-## # … with abbreviated variable names ¹​all_count, ²​sped_count, ³​sped_percent,
-## #   ⁴​audit_flag
+##    district distname           cntyname  year  all_count sped_…¹ sped_…² audit…³
+##    <chr>    <chr>              <chr>     <chr>     <dbl>   <dbl>   <dbl> <chr>  
+##  1 234905   MARTINS MILL ISD   VAN ZANDT 2016        512      49     9.6 ABOVE  
+##  2 188903   HIGHLAND PARK ISD  POTTER    2014        902      88     9.8 ABOVE  
+##  3 086901   FREDERICKSBURG ISD GILLESPIE 2019       3111     323    10.4 ABOVE  
+##  4 003903   LUFKIN ISD         ANGELINA  2019       7827     848    10.8 ABOVE  
+##  5 019907   TEXARKANA ISD      BOWIE     2021       7654     876    11.4 ABOVE  
+##  6 232901   KNIPPA ISD         UVALDE    2020        448      41     9.2 ABOVE  
+##  7 033904   WHITE DEER ISD     CARSON    2013        389      28     7.2 BELOW  
+##  8 079907   FORT BEND ISD      FORT BEND 2017      73750    4965     6.7 BELOW  
+##  9 126901   ALVARADO ISD       JOHNSON   2020       3656     288     7.9 BELOW  
+## 10 091914   S AND S CISD       GRAYSON   2016        849      66     7.8 BELOW  
+## # … with abbreviated variable names ¹​sped_count, ²​sped_percent, ³​audit_flag
 ```
 
 Let's walk through the code above:

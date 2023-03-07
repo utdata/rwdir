@@ -66,51 +66,56 @@ library(tidyverse)
 library(janitor)
 
 # district reference table
-dref <- read_csv("data-raw/DREF_21.csv") |> clean_names() |> 
-  mutate(
-    district = str_remove(district, "'")
-  ) |> 
+dref <- read_csv("data-raw/DREF_22.csv") %>% clean_names() %>% 
+  mutate(district = str_remove(district, "'")) %>% 
   select(district, distname, cntyname, dflalted, dflchart)
 
-# 2021 student data is formatted differently that rest
-dstud21 <- read_csv("data-raw/DSTUD_21.csv") |> clean_names() |>
+# 2013-2020 data is formatted the same, so these are similar but with changing years
+dstud13 <- read_csv("data-raw/DSTUD_13.csv") %>% clean_names() %>%
+  mutate(year = "2013") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+
+dstud14 <- read_csv("data-raw/DSTUD_14.csv") %>% clean_names() %>%
+  mutate(year = "2014") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+
+dstud15 <- read_csv("data-raw/DSTUD_15.csv") %>% clean_names() %>%
+  mutate(year = "2015") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+
+dstud16 <- read_csv("data-raw/DSTUD_16.csv") %>% clean_names() %>%
+  mutate(year = "2016") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+
+dstud17 <- read_csv("data-raw/DSTUD_17.csv") %>% clean_names() %>%
+  mutate(year = "2017") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+
+dstud18 <- read_csv("data-raw/DSTUD_18.csv") %>% clean_names() %>%
+  mutate(year = "2018") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+
+dstud19 <- read_csv("data-raw/DSTUD_19.csv") %>% clean_names() %>%
+  mutate(year = "2019") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+
+dstud20 <- read_csv("data-raw/DSTUD_20.csv") %>% clean_names() %>%
+  mutate(year = "2020") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+
+# 2021 and newer student data is formatted differently than older files
+dstud21 <- read_csv("data-raw/DSTUD_21.csv") %>% clean_names() %>%
   mutate(
     year = "2021",
     district = str_remove(district, "'")
-    ) |> 
+    ) %>% 
   select(district, year, dpetallc, dpetspec, dpetspep)
 
-# 2013-2020 data is formatted the same, so these just repeat with changing years
-dstud13 <- read_csv("data-raw/DSTUD_13.csv") |> clean_names() |>
-  mutate(year = "2013") |> 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-
-dstud14 <- read_csv("data-raw/DSTUD_14.csv") |> clean_names() |>
-  mutate(year = "2014") |> 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-
-dstud15 <- read_csv("data-raw/DSTUD_15.csv") |> clean_names() |>
-  mutate(year = "2015") |> 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-
-dstud16 <- read_csv("data-raw/DSTUD_16.csv") |> clean_names() |>
-  mutate(year = "2016") |> 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-
-dstud17 <- read_csv("data-raw/DSTUD_17.csv") |> clean_names() |>
-  mutate(year = "2017") |> 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-
-dstud18 <- read_csv("data-raw/DSTUD_18.csv") |> clean_names() |>
-  mutate(year = "2018") |> 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-
-dstud19 <- read_csv("data-raw/DSTUD_19.csv") |> clean_names() |>
-  mutate(year = "2019") |> 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-
-dstud20 <- read_csv("data-raw/DSTUD_20.csv") |> clean_names() |>
-  mutate(year = "2020") |> 
+dstud22 <- read_csv("data-raw/DSTUD_22.csv") |> clean_names() |> 
+  mutate(
+    year = "2022",
+    district = str_remove(district, "'")
+    )  %>% 
   select(district, year, dpetallc, dpetspec, dpetspep)
 
 ```
@@ -130,19 +135,20 @@ Go ahead. I'll wait.
 
 There is a lot to take in there about where the data came from and how we dealt with it. Here is where you end up:
 
-- **You have nine data files for each year and one reference file imported.**
+<!-- UPDATE THE DATA FILES VALUE WHEN NEW YEAR IS ADDED -->
+- **You have 10 data files for each year and one reference file imported.**
 
 ## Merging data together
 
-OK, so we have nine different yearly files. Wouldn't it be a lot easier if these were ONE thing? Indeed, we can **merge** these files together by stacking them on top of each other. Let's review the concept using Starburst data:
+OK, so we have all these different yearly files. Wouldn't it be a lot easier if these were ONE thing? Indeed, we can **merge** these files together by stacking them on top of each other. Let's review the concept using Starburst data:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/9WA8YxMjpnI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/9WA8YxMjpnI" title="Merge" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Here's an image representation of the concept. You have two data sets and you stack them on top of each other where the column names match. (Note here that identical rows in both data sets remain).
 
 ![](images/bind_rows.png)
 
-Since all nine of our data files have the same column names, we can easily merge them with function **`bind_rows()`**.
+Since all of our data files have the same column names, we can easily merge them with function **`bind_rows()`**.
 
 Let's demonstrate through building it.
 
@@ -153,7 +159,13 @@ Let's demonstrate through building it.
 dstud13
 ```
 
-The result shows there are **1,228** rows and **5** variables in the data, which should match what shows for `dstud13` in your Environment tab.
+```{r write_dstud13_vars, include=FALSE}
+dstud13_rows <-  dstud13 |> nrow()
+dstud13_cols <-  dstud13 |> ncol()
+```
+
+
+The result shows there are **`r dstud13_rows`** rows and **`r dstud13_cols`** variables in the data, which should match what shows for `dstud13` in your Environment tab.
 
 1. Now **edit** that chunk to use `bind_rows()` with `dstud14`.
 
@@ -162,7 +174,13 @@ dstud13 |>
   bind_rows(dstud14)
 ```
 
-This shows we now have **2,455** rows and **5** variables. This is good ... we've addded the rows of `dstud14` but we don't have any new columns because the column names were identical.
+```{r write_dstud14_vars, include=FALSE}
+merge_13_14_rows <-  dstud13 |> bind_rows(dstud14) |> nrow()
+merge_13_14_cols <-  dstud13 |> bind_rows(dstud14) |> ncol()
+```
+
+
+This shows we now have **`r merge_13_14_rows`** rows and **`r merge_13_14_cols`** variables. This is good ... we've addded the rows of `dstud14` but we don't have any new columns because the column names were identical.
 
 Now **edit the chunk** to do all these things:
 
@@ -185,12 +203,12 @@ sped_merged |> count(year)
 
 (You might also see each new datatable added in their own `bind_rows()` function instead of all in one. Either works.)
 
-We are NOT saving the `count()` result here, we are just printing it to our screen to make sure we get all the years.
+We are NOT saving the `count()` result into a new object; We are just printing it to our screen to make sure we get all the years.
 
 Now that we know this is working, you'll finish this out on your own.
 
-1. **Edit your chunk** to add `bind_rows()` for the rest of the files `dstud16` through `dstud21`. You just keep tacking them on like we did with `dstud15`.
-2. After you are done, make sure you look at the `sped_merged` listing in your environment to make sure you end up with **10,891** rows of data and **5** variables.
+1. **Edit your chunk** to add `bind_rows()` for the rest of the files `dstud16` through `dstud22`. You just keep tacking them on like we did with `dstud15`.
+2. After you are done, make sure you look at the `sped_merged` listing in your environment to make sure you end up with a count for each year of data.
 
 ```{r merged, include=FALSE}
 sped_merged <- dstud13 |> 
@@ -202,7 +220,8 @@ sped_merged <- dstud13 |>
     dstud18,
     dstud19,
     dstud20,
-    dstud21
+    dstud21,
+    dstud22
   )
 # we use this to ensure we bind correctly
 sped_merged |> count(year)
@@ -247,10 +266,13 @@ sped_joined <- dref |>
   inner_join(sped_merged, by = "district")
 
 sped_joined |> head()
-sped_joined |> glimpse()
 ```
 
-I'm showing both a `head()` and `glimpse()` here so you can see all the columns have been added.
+You might also `glimpse()` it so you can see all the columns have been added.
+
+```{r join_glimpse}
+sped_joined |> glimpse()
+```
 
 Let's explain what is going on here:
 
@@ -259,9 +281,14 @@ Let's explain what is going on here:
 - We then pipe into `inner_join()` to `sped_merged`, which will attach our `dref` data to our merged data when the ID matches in the `district` variable.
 - The `by = "district"` argument ensures that we are matching based on the `district` column in both data sets.
 
-We could've left out the `by =` argument and R would match columns of the same name, but it is best practice to specify your joining columns so it is clear what is happening. You wouldn't want to be surprised by other columns of the same name that you didn't want to join on. If you wanted to specify join columns of different names it would look like this: `df1 |> inner_join(df2, by = c("df1_id" = "df2_id))`
+We could've left out the `by =` argument and R would match columns of the same name, but it is best practice to specify your joining columns so it is clear what is happening. You wouldn't want to be surprised by other columns of the same name that you didn't want to join on. If you wanted to specify join columns of different names it would look like this: `df1 |> inner_join(df2, by = c("df1_id" = "df2_id"))`
 
-There are now **10,684** rows in our joined data, fewer than what was in the original merged file because some districts (mostly charters) have closed and were not in our reference file. We are comparing only districts that have been open during this time period. For that matter, we don't want charter or alternative education districts at all, so we'll drop those next.
+```{r include=FALSE}
+joined_rows <- sped_joined |> nrow()
+```
+
+
+There are now **`r joined_rows`** rows in our joined data, fewer than what was in the original merged file because some districts (mostly charters) have closed and were not in our reference file. We are comparing only districts that have been open during this time period. For that matter, we don't want charter or alternative education districts at all, so we'll drop those next.
 
 ## Some cleanup: filter and select
 
@@ -304,7 +331,13 @@ sped_cleaned <- sped_joined |>
 </details>
 <br>
 
-You should end up with **9,182** rows and **7** variables.
+```{r cleaned-values, include=FALSE}
+clean_rows <- sped_cleaned |> nrow()
+clean_cols <- sped_cleaned |> ncol()
+```
+
+
+You should end up with **`r clean_rows`** rows and **`r clean_cols`** variables.
 
 ## Create an audit benchmark column
 
