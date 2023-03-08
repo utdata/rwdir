@@ -379,10 +379,10 @@ You'll use these directions to create your charts so you might keep this open in
 
 
 ```r
-candy_avg |> write_csv("data-processed/candy_avg.csv")
+candy_avg |> write_csv("candy_avg.csv")
 ```
 
-This will save your data file onto your computer, in your project's `data-processed` folder.
+This will save your data file onto your computer in your project folder.
 
 1. Return to **Datawrapper** in your browser and click on the **XLS/CSV upload** button and go find your file to import it.
 
