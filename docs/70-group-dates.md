@@ -159,14 +159,14 @@ hot100_sample
 
 ```
 ## # A tibble: 6 × 2
-##   chart_date title                          
-##   <date>     <chr>                          
-## 1 1986-08-02 Nasty                          
-## 2 1980-02-09 Holdin' On For Dear Love       
-## 3 1971-07-17 Puppet Man/Resurrection Shuffle
-## 4 2010-01-30 White Liar                     
-## 5 1970-03-28 Vehicle                        
-## 6 1994-12-17 Living In Danger
+##   chart_date title                      
+##   <date>     <chr>                      
+## 1 1994-10-01 Wild Night                 
+## 2 1970-07-25 I Just Can't Help Believing
+## 3 1990-03-31 The Humpty Dance           
+## 4 1985-01-05 Walking On A Thin Line     
+## 5 1965-12-25 Jenny Take A Ride!         
+## 6 1995-12-16 Hurricane
 ```
 
 ### Let's make a year
@@ -187,14 +187,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 3
-##   chart_date title                              yr
-##   <date>     <chr>                           <dbl>
-## 1 1986-08-02 Nasty                            1986
-## 2 1980-02-09 Holdin' On For Dear Love         1980
-## 3 1971-07-17 Puppet Man/Resurrection Shuffle  1971
-## 4 2010-01-30 White Liar                       2010
-## 5 1970-03-28 Vehicle                          1970
-## 6 1994-12-17 Living In Danger                 1994
+##   chart_date title                          yr
+##   <date>     <chr>                       <dbl>
+## 1 1994-10-01 Wild Night                   1994
+## 2 1970-07-25 I Just Can't Help Believing  1970
+## 3 1990-03-31 The Humpty Dance             1990
+## 4 1985-01-05 Walking On A Thin Line       1985
+## 5 1965-12-25 Jenny Take A Ride!           1965
+## 6 1995-12-16 Hurricane                    1995
 ```
 
 ### The magical month
@@ -211,14 +211,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 3
-##   chart_date title                              mo
-##   <date>     <chr>                           <dbl>
-## 1 1986-08-02 Nasty                               8
-## 2 1980-02-09 Holdin' On For Dear Love            2
-## 3 1971-07-17 Puppet Man/Resurrection Shuffle     7
-## 4 2010-01-30 White Liar                          1
-## 5 1970-03-28 Vehicle                             3
-## 6 1994-12-17 Living In Danger                   12
+##   chart_date title                          mo
+##   <date>     <chr>                       <dbl>
+## 1 1994-10-01 Wild Night                     10
+## 2 1970-07-25 I Just Can't Help Believing     7
+## 3 1990-03-31 The Humpty Dance                3
+## 4 1985-01-05 Walking On A Thin Line          1
+## 5 1965-12-25 Jenny Take A Ride!             12
+## 6 1995-12-16 Hurricane                      12
 ```
 
 But there are some options within `month()` to give us month NAMES that are ordered as factors instead of alphabetical.
@@ -235,14 +235,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 4
-##   chart_date title                           mo_label mo_long 
-##   <date>     <chr>                           <ord>    <ord>   
-## 1 2010-01-30 White Liar                      Jan      January 
-## 2 1980-02-09 Holdin' On For Dear Love        Feb      February
-## 3 1970-03-28 Vehicle                         Mar      March   
-## 4 1971-07-17 Puppet Man/Resurrection Shuffle Jul      July    
-## 5 1986-08-02 Nasty                           Aug      August  
-## 6 1994-12-17 Living In Danger                Dec      December
+##   chart_date title                       mo_label mo_long 
+##   <date>     <chr>                       <ord>    <ord>   
+## 1 1985-01-05 Walking On A Thin Line      Jan      January 
+## 2 1990-03-31 The Humpty Dance            Mar      March   
+## 3 1970-07-25 I Just Can't Help Believing Jul      July    
+## 4 1994-10-01 Wild Night                  Oct      October 
+## 5 1965-12-25 Jenny Take A Ride!          Dec      December
+## 6 1995-12-16 Hurricane                   Dec      December
 ```
 
 Note the datatype `<ord>` under the column `mo_label` and `mo_long`. That means this is an "ordered factor" and that when arranged by those labels it will list in MONTH order instead of alphabetical order, which is quite useful.
@@ -262,14 +262,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 4
-##   chart_date title                           fl_month   fl_year   
-##   <date>     <chr>                           <date>     <date>    
-## 1 1986-08-02 Nasty                           1986-08-01 1986-01-01
-## 2 1980-02-09 Holdin' On For Dear Love        1980-02-01 1980-01-01
-## 3 1971-07-17 Puppet Man/Resurrection Shuffle 1971-07-01 1971-01-01
-## 4 2010-01-30 White Liar                      2010-01-01 2010-01-01
-## 5 1970-03-28 Vehicle                         1970-03-01 1970-01-01
-## 6 1994-12-17 Living In Danger                1994-12-01 1994-01-01
+##   chart_date title                       fl_month   fl_year   
+##   <date>     <chr>                       <date>     <date>    
+## 1 1994-10-01 Wild Night                  1994-10-01 1994-01-01
+## 2 1970-07-25 I Just Can't Help Believing 1970-07-01 1970-01-01
+## 3 1990-03-31 The Humpty Dance            1990-03-01 1990-01-01
+## 4 1985-01-05 Walking On A Thin Line      1985-01-01 1985-01-01
+## 5 1965-12-25 Jenny Take A Ride!          1965-12-01 1965-01-01
+## 6 1995-12-16 Hurricane                   1995-12-01 1995-01-01
 ```
 
 You can see the resulting new columns are real dates, but they are normalized:

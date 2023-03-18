@@ -51,17 +51,21 @@ I will save you the hassle of going through the TAPR database to find and downlo
 
 ### Set up your project
 
+#### If you are a posit.cloud user
+
+1. From your posit.cloud account, go to [this shared project](https://posit.cloud/content/3753507)
+1. Click **Save a permanent copy** so you have your own version.
+1. Rename the project `yourname-sped` **but use your name**.
+1. You can skip to the **Open, read and run** section below.
+
+#### If you are using RStudio Desktop
+
 1. Go to [this page](https://github.com/utdata/rwdir/blob/main/resources/rwdir-sped-template.zip). Yes, it looks like you can't see anything, but ...
 1. Look for the **Download** button and download the zip file.
 1. Find that on your computer and uncompress it.
 1. Rename the folder to `yourname-sped` **but use your name**.
 1. Move the folder to your `rwd` folder or wherever you've been saving your class projects.
 1. In RStudio, choose File > New Project. **Choose EXISTING Directory** at the next step and then find the folder you just moved. Use that to create your project.
-
-You should now have your own project that already has a head start on this project. It has the data in a `data-raw` folder, and your first notebook `01-import` that already has some code in it.
-
-
-
 
 ### Open, read and run
 
@@ -80,13 +84,15 @@ There is a lot to take in there about where the data came from and how we dealt 
 <!-- UPDATE THE DATA FILES VALUE WHEN NEW YEAR IS ADDED -->
 - **You have 10 data files for each year and one reference file imported.**
 
+
+
 ## Merging data together
 
 OK, so we have all these different yearly files. Wouldn't it be a lot easier if these were ONE thing? Indeed, we can **merge** these files together by stacking them on top of each other. Let's review the concept using Starburst data:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/9WA8YxMjpnI" title="Merge" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Here's an image representation of the concept. You have two data sets and you stack them on top of each other where the column names match. (Note here that identical rows in both data sets remain).
+Here's another representation of the concept. You have two data sets and you stack them on top of each other where the column names match. (Note here that identical rows in both data sets remain).
 
 ![](images/bind_rows.png)
 
@@ -124,7 +130,7 @@ dstud13
 
 The result shows there are **1228** rows and **5** variables in the data, which should match what shows for `dstud13` in your Environment tab.
 
-1. Now **edit** that chunk to use `bind_rows()` with `dstud14`.
+1. Now **edit** that chunk to use `bind_rows()` with `dstud14` and run it.
 
 
 ```r
@@ -156,8 +162,8 @@ This shows we now have **2455** rows and **5** variables. This is good ... we've
 
 Now **edit the chunk** to do all these things:
 
-1. Save the result of the merge into a new data frame called `sped_merged`.
 1. Within the `bind_rows()` function, also add the `dstud15` dataframe so you can see you are adding more on.
+1. Save the result of the merge into a new data frame called `sped_merged`.
 1. At the bottom of the chunk print out the `sped_merged` tibble and pipe it into `count(year)` so you can make sure you continue to add rows correctly.
 
 It should look like this:
@@ -183,7 +189,7 @@ sped_merged |> count(year)
 ## 3 2015   1219
 ```
 
-(You might also see each new datatable added in their own `bind_rows()` function instead of all in one. Either works.)
+(In the screencast video you might also see each new datatable added in their own `bind_rows()` function instead of all in one. Either works.)
 
 We are NOT saving the `count()` result into a new object; We are just printing it to our screen to make sure we get all the years.
 
@@ -370,18 +376,18 @@ sped_flag |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 8
-##    district distname          cntyname   year  all_count sped_…¹ sped_…² audit…³
-##    <chr>    <chr>             <chr>      <chr>     <dbl>   <dbl>   <dbl> <chr>  
-##  1 101902   ALDINE ISD        HARRIS     2019      66763    5432     8.1 BELOW  
-##  2 030901   CROSS PLAINS ISD  CALLAHAN   2018        368      40    10.9 ABOVE  
-##  3 249905   DECATUR ISD       WISE       2019       3402     383    11.3 ABOVE  
-##  4 005904   WINDTHORST ISD    ARCHER     2018        428      38     8.9 ABOVE  
-##  5 050910   COPPERAS COVE ISD CORYELL    2013       8355     668     8   BELOW  
-##  6 059902   WALCOTT ISD       DEAF SMITH 2021        142      22    15.5 ABOVE  
-##  7 170904   WILLIS ISD        MONTGOMERY 2020       7813     746     9.5 ABOVE  
-##  8 070912   WAXAHACHIE ISD    ELLIS      2020       9468    1343    14.2 ABOVE  
-##  9 011902   ELGIN ISD         BASTROP    2017       4298     397     9.2 ABOVE  
-## 10 229906   CHESTER ISD       TYLER      2017        194      26    13.4 ABOVE  
+##    district distname          cntyname year  all_count sped_co…¹ sped_…² audit…³
+##    <chr>    <chr>             <chr>    <chr>     <dbl>     <dbl>   <dbl> <chr>  
+##  1 137901   KINGSVILLE ISD    KLEBERG  2013       3543       346     9.8 ABOVE  
+##  2 015913   LACKLAND ISD      BEXAR    2018       1051       112    10.7 ABOVE  
+##  3 139905   CHISUM ISD        LAMAR    2013        837        82     9.8 ABOVE  
+##  4 243902   ELECTRA ISD       WICHITA  2022        454        73    16.1 ABOVE  
+##  5 200902   MILES ISD         RUNNELS  2022        486        42     8.6 ABOVE  
+##  6 034909   BLOOMBURG ISD     CASS     2021        249        31    12.4 ABOVE  
+##  7 146905   HULL-DAISETTA ISD LIBERTY  2017        467        48    10.3 ABOVE  
+##  8 178902   BISHOP CISD       NUECES   2017       1381       158    11.4 ABOVE  
+##  9 121906   EVADALE ISD       JASPER   2019        445        48    10.8 ABOVE  
+## 10 201908   OVERTON ISD       RUSK     2016        502        46     9.2 ABOVE  
 ## # … with abbreviated variable names ¹​sped_count, ²​sped_percent, ³​audit_flag
 ```
 

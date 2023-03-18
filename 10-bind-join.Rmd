@@ -51,75 +51,21 @@ I will save you the hassle of going through the TAPR database to find and downlo
 
 ### Set up your project
 
+#### If you are a posit.cloud user
+
+1. From your posit.cloud account, go to [this shared project](https://posit.cloud/content/3753507)
+1. Click **Save a permanent copy** so you have your own version.
+1. Rename the project `yourname-sped` **but use your name**.
+1. You can skip to the **Open, read and run** section below.
+
+#### If you are using RStudio Desktop
+
 1. Go to [this page](https://github.com/utdata/rwdir/blob/main/resources/rwdir-sped-template.zip). Yes, it looks like you can't see anything, but ...
 1. Look for the **Download** button and download the zip file.
 1. Find that on your computer and uncompress it.
 1. Rename the folder to `yourname-sped` **but use your name**.
 1. Move the folder to your `rwd` folder or wherever you've been saving your class projects.
 1. In RStudio, choose File > New Project. **Choose EXISTING Directory** at the next step and then find the folder you just moved. Use that to create your project.
-
-You should now have your own project that already has a head start on this project. It has the data in a `data-raw` folder, and your first notebook `01-import` that already has some code in it.
-
-```{r include=FALSE}
-
-library(tidyverse)
-library(janitor)
-
-# district reference table
-dref <- read_csv("data-raw/DREF_22.csv") %>% clean_names() %>% 
-  mutate(district = str_remove(district, "'")) %>% 
-  select(district, distname, cntyname, dflalted, dflchart)
-
-# 2013-2020 data is formatted the same, so these are similar but with changing years
-dstud13 <- read_csv("data-raw/DSTUD_13.csv") %>% clean_names() %>%
-  mutate(year = "2013") %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-
-dstud14 <- read_csv("data-raw/DSTUD_14.csv") %>% clean_names() %>%
-  mutate(year = "2014") %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-
-dstud15 <- read_csv("data-raw/DSTUD_15.csv") %>% clean_names() %>%
-  mutate(year = "2015") %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-
-dstud16 <- read_csv("data-raw/DSTUD_16.csv") %>% clean_names() %>%
-  mutate(year = "2016") %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-
-dstud17 <- read_csv("data-raw/DSTUD_17.csv") %>% clean_names() %>%
-  mutate(year = "2017") %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-
-dstud18 <- read_csv("data-raw/DSTUD_18.csv") %>% clean_names() %>%
-  mutate(year = "2018") %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-
-dstud19 <- read_csv("data-raw/DSTUD_19.csv") %>% clean_names() %>%
-  mutate(year = "2019") %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-
-dstud20 <- read_csv("data-raw/DSTUD_20.csv") %>% clean_names() %>%
-  mutate(year = "2020") %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-
-# 2021 and newer student data is formatted differently than older files
-dstud21 <- read_csv("data-raw/DSTUD_21.csv") %>% clean_names() %>%
-  mutate(
-    year = "2021",
-    district = str_remove(district, "'")
-    ) %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-
-dstud22 <- read_csv("data-raw/DSTUD_22.csv") |> clean_names() |> 
-  mutate(
-    year = "2022",
-    district = str_remove(district, "'")
-    )  %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-
-```
-
 
 ### Open, read and run
 
@@ -138,13 +84,60 @@ There is a lot to take in there about where the data came from and how we dealt 
 <!-- UPDATE THE DATA FILES VALUE WHEN NEW YEAR IS ADDED -->
 - **You have 10 data files for each year and one reference file imported.**
 
+```{r include=FALSE}
+library(tidyverse)
+library(janitor)
+# district reference table
+dref <- read_csv("data-raw/DREF_22.csv") %>% clean_names() %>% 
+  mutate(district = str_remove(district, "'")) %>% 
+  select(district, distname, cntyname, dflalted, dflchart)
+# 2013-2020 data is formatted the same, so these are similar but with changing years
+dstud13 <- read_csv("data-raw/DSTUD_13.csv") %>% clean_names() %>%
+  mutate(year = "2013") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+dstud14 <- read_csv("data-raw/DSTUD_14.csv") %>% clean_names() %>%
+  mutate(year = "2014") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+dstud15 <- read_csv("data-raw/DSTUD_15.csv") %>% clean_names() %>%
+  mutate(year = "2015") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+dstud16 <- read_csv("data-raw/DSTUD_16.csv") %>% clean_names() %>%
+  mutate(year = "2016") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+dstud17 <- read_csv("data-raw/DSTUD_17.csv") %>% clean_names() %>%
+  mutate(year = "2017") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+dstud18 <- read_csv("data-raw/DSTUD_18.csv") %>% clean_names() %>%
+  mutate(year = "2018") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+dstud19 <- read_csv("data-raw/DSTUD_19.csv") %>% clean_names() %>%
+  mutate(year = "2019") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+dstud20 <- read_csv("data-raw/DSTUD_20.csv") %>% clean_names() %>%
+  mutate(year = "2020") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+# 2021 and newer student data is formatted differently than older files
+dstud21 <- read_csv("data-raw/DSTUD_21.csv") %>% clean_names() %>%
+  mutate(
+    year = "2021",
+    district = str_remove(district, "'")
+    ) %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+dstud22 <- read_csv("data-raw/DSTUD_22.csv") |> clean_names() |> 
+  mutate(
+    year = "2022",
+    district = str_remove(district, "'")
+    )  %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+```
+
 ## Merging data together
 
 OK, so we have all these different yearly files. Wouldn't it be a lot easier if these were ONE thing? Indeed, we can **merge** these files together by stacking them on top of each other. Let's review the concept using Starburst data:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/9WA8YxMjpnI" title="Merge" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Here's an image representation of the concept. You have two data sets and you stack them on top of each other where the column names match. (Note here that identical rows in both data sets remain).
+Here's another representation of the concept. You have two data sets and you stack them on top of each other where the column names match. (Note here that identical rows in both data sets remain).
 
 ![](images/bind_rows.png)
 
@@ -167,7 +160,7 @@ dstud13_cols <-  dstud13 |> ncol()
 
 The result shows there are **`r dstud13_rows`** rows and **`r dstud13_cols`** variables in the data, which should match what shows for `dstud13` in your Environment tab.
 
-1. Now **edit** that chunk to use `bind_rows()` with `dstud14`.
+1. Now **edit** that chunk to use `bind_rows()` with `dstud14` and run it.
 
 ```{r merge_first}
 dstud13 |> 
@@ -184,8 +177,8 @@ This shows we now have **`r merge_13_14_rows`** rows and **`r merge_13_14_cols`*
 
 Now **edit the chunk** to do all these things:
 
-1. Save the result of the merge into a new data frame called `sped_merged`.
 1. Within the `bind_rows()` function, also add the `dstud15` dataframe so you can see you are adding more on.
+1. Save the result of the merge into a new data frame called `sped_merged`.
 1. At the bottom of the chunk print out the `sped_merged` tibble and pipe it into `count(year)` so you can make sure you continue to add rows correctly.
 
 It should look like this:
@@ -201,7 +194,7 @@ sped_merged <- dstud13 |>
 sped_merged |> count(year)
 ```
 
-(You might also see each new datatable added in their own `bind_rows()` function instead of all in one. Either works.)
+(In the screencast video you might also see each new datatable added in their own `bind_rows()` function instead of all in one. Either works.)
 
 We are NOT saving the `count()` result into a new object; We are just printing it to our screen to make sure we get all the years.
 

@@ -23,7 +23,7 @@
 <meta name="author" content="Christian McDonald and Josephine Lukito" />
 
 
-<meta name="date" content="2023-03-08" />
+<meta name="date" content="2023-03-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -650,6 +650,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>I will save you the hassle of going through the TAPR database to find and download the individual files, and I will also supply code to clean the files to make them consistent. I’ll try not to get lost in the weeds along the way.</p>
 <div id="set-up-your-project" class="section level3 hasAnchor" number="10.3.1">
 <h3><span class="header-section-number">10.3.1</span> Set up your project<a href="bind-join.html#set-up-your-project" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="if-you-are-a-posit.cloud-user" class="section level4 hasAnchor" number="10.3.1.1">
+<h4><span class="header-section-number">10.3.1.1</span> If you are a posit.cloud user<a href="bind-join.html#if-you-are-a-posit.cloud-user" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ol style="list-style-type: decimal">
+<li>From your posit.cloud account, go to <a href="https://posit.cloud/content/3753507">this shared project</a></li>
+<li>Click <strong>Save a permanent copy</strong> so you have your own version.</li>
+<li>Rename the project <code>yourname-sped</code> <strong>but use your name</strong>.</li>
+<li>You can skip to the <strong>Open, read and run</strong> section below.</li>
+</ol>
+</div>
+<div id="if-you-are-using-rstudio-desktop" class="section level4 hasAnchor" number="10.3.1.2">
+<h4><span class="header-section-number">10.3.1.2</span> If you are using RStudio Desktop<a href="bind-join.html#if-you-are-using-rstudio-desktop" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <ol style="list-style-type: decimal">
 <li>Go to <a href="https://github.com/utdata/rwdir/blob/main/resources/rwdir-sped-template.zip">this page</a>. Yes, it looks like you can’t see anything, but …</li>
 <li>Look for the <strong>Download</strong> button and download the zip file.</li>
@@ -658,7 +669,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Move the folder to your <code>rwd</code> folder or wherever you’ve been saving your class projects.</li>
 <li>In RStudio, choose File &gt; New Project. <strong>Choose EXISTING Directory</strong> at the next step and then find the folder you just moved. Use that to create your project.</li>
 </ol>
-<p>You should now have your own project that already has a head start on this project. It has the data in a <code>data-raw</code> folder, and your first notebook <code>01-import</code> that already has some code in it.</p>
+</div>
 </div>
 <div id="open-read-and-run" class="section level3 hasAnchor" number="10.3.2">
 <h3><span class="header-section-number">10.3.2</span> Open, read and run<a href="bind-join.html#open-read-and-run" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -688,7 +699,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>OK, so we have all these different yearly files. Wouldn’t it be a lot easier if these were ONE thing? Indeed, we can <strong>merge</strong> these files together by stacking them on top of each other. Let’s review the concept using Starburst data:</p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/9WA8YxMjpnI" title="Merge" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
 </iframe>
-<p>Here’s an image representation of the concept. You have two data sets and you stack them on top of each other where the column names match. (Note here that identical rows in both data sets remain).</p>
+<p>Here’s another representation of the concept. You have two data sets and you stack them on top of each other where the column names match. (Note here that identical rows in both data sets remain).</p>
 <p><img src="images/bind_rows.png" /></p>
 <p>Since all of our data files have the same column names, we can easily merge them with function <strong><code>bind_rows()</code></strong>.</p>
 <p>Let’s demonstrate through building it.</p>
@@ -713,7 +724,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## # … with 1,218 more rows</code></pre>
 <p>The result shows there are <strong>1228</strong> rows and <strong>5</strong> variables in the data, which should match what shows for <code>dstud13</code> in your Environment tab.</p>
 <ol style="list-style-type: decimal">
-<li>Now <strong>edit</strong> that chunk to use <code>bind_rows()</code> with <code>dstud14</code>.</li>
+<li>Now <strong>edit</strong> that chunk to use <code>bind_rows()</code> with <code>dstud14</code> and run it.</li>
 </ol>
 <div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="bind-join.html#cb238-1" aria-hidden="true" tabindex="-1"></a>dstud13 <span class="sc">|&gt;</span> </span>
 <span id="cb238-2"><a href="bind-join.html#cb238-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(dstud14)</span></code></pre></div>
@@ -734,8 +745,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This shows we now have <strong>2455</strong> rows and <strong>5</strong> variables. This is good … we’ve addded the rows of <code>dstud14</code> but we don’t have any new columns because the column names were identical.</p>
 <p>Now <strong>edit the chunk</strong> to do all these things:</p>
 <ol style="list-style-type: decimal">
-<li>Save the result of the merge into a new data frame called <code>sped_merged</code>.</li>
 <li>Within the <code>bind_rows()</code> function, also add the <code>dstud15</code> dataframe so you can see you are adding more on.</li>
+<li>Save the result of the merge into a new data frame called <code>sped_merged</code>.</li>
 <li>At the bottom of the chunk print out the <code>sped_merged</code> tibble and pipe it into <code>count(year)</code> so you can make sure you continue to add rows correctly.</li>
 </ol>
 <p>It should look like this:</p>
@@ -753,7 +764,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 1 2013   1228
 ## 2 2014   1227
 ## 3 2015   1219</code></pre>
-<p>(You might also see each new datatable added in their own <code>bind_rows()</code> function instead of all in one. Either works.)</p>
+<p>(In the screencast video you might also see each new datatable added in their own <code>bind_rows()</code> function instead of all in one. Either works.)</p>
 <p>We are NOT saving the <code>count()</code> result into a new object; We are just printing it to our screen to make sure we get all the years.</p>
 <p>Now that we know this is working, you’ll finish this out on your own.</p>
 <ol style="list-style-type: decimal">
@@ -895,18 +906,18 @@ I’m being too nice here
 <span id="cb249-4"><a href="bind-join.html#cb249-4" aria-hidden="true" tabindex="-1"></a><span class="co"># this pulls 30 random rows so I can check results</span></span>
 <span id="cb249-5"><a href="bind-join.html#cb249-5" aria-hidden="true" tabindex="-1"></a>sped_flag <span class="sc">|&gt;</span> <span class="fu">sample_n</span>(<span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 8
-##    district distname          cntyname   year  all_count sped_…¹ sped_…² audit…³
-##    &lt;chr&gt;    &lt;chr&gt;             &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  
-##  1 101902   ALDINE ISD        HARRIS     2019      66763    5432     8.1 BELOW  
-##  2 030901   CROSS PLAINS ISD  CALLAHAN   2018        368      40    10.9 ABOVE  
-##  3 249905   DECATUR ISD       WISE       2019       3402     383    11.3 ABOVE  
-##  4 005904   WINDTHORST ISD    ARCHER     2018        428      38     8.9 ABOVE  
-##  5 050910   COPPERAS COVE ISD CORYELL    2013       8355     668     8   BELOW  
-##  6 059902   WALCOTT ISD       DEAF SMITH 2021        142      22    15.5 ABOVE  
-##  7 170904   WILLIS ISD        MONTGOMERY 2020       7813     746     9.5 ABOVE  
-##  8 070912   WAXAHACHIE ISD    ELLIS      2020       9468    1343    14.2 ABOVE  
-##  9 011902   ELGIN ISD         BASTROP    2017       4298     397     9.2 ABOVE  
-## 10 229906   CHESTER ISD       TYLER      2017        194      26    13.4 ABOVE  
+##    district distname          cntyname year  all_count sped_co…¹ sped_…² audit…³
+##    &lt;chr&gt;    &lt;chr&gt;             &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  
+##  1 137901   KINGSVILLE ISD    KLEBERG  2013       3543       346     9.8 ABOVE  
+##  2 015913   LACKLAND ISD      BEXAR    2018       1051       112    10.7 ABOVE  
+##  3 139905   CHISUM ISD        LAMAR    2013        837        82     9.8 ABOVE  
+##  4 243902   ELECTRA ISD       WICHITA  2022        454        73    16.1 ABOVE  
+##  5 200902   MILES ISD         RUNNELS  2022        486        42     8.6 ABOVE  
+##  6 034909   BLOOMBURG ISD     CASS     2021        249        31    12.4 ABOVE  
+##  7 146905   HULL-DAISETTA ISD LIBERTY  2017        467        48    10.3 ABOVE  
+##  8 178902   BISHOP CISD       NUECES   2017       1381       158    11.4 ABOVE  
+##  9 121906   EVADALE ISD       JASPER   2019        445        48    10.8 ABOVE  
+## 10 201908   OVERTON ISD       RUSK     2016        502        46     9.2 ABOVE  
 ## # … with abbreviated variable names ¹​sped_count, ²​sped_percent, ³​audit_flag</code></pre>
 <p>Let’s walk through the code above:</p>
 <ul>
