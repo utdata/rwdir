@@ -94,6 +94,7 @@ The first version of this book from spring 2019 is buried somewhere in the commi
 - [Fall 2021](https://utdata.github.io/rwdir/v1/)
 - [Spring 2022](https://utdata.github.io/rwdir/v2/)
 - [Fall 2022](https://utdata.github.io/rwdir/v3/)
+- [Spring 2023](https://utdata.github.io/rwdir/v4/)
 
 ## License {-}
 

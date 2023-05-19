@@ -159,14 +159,14 @@ hot100_sample
 
 ```
 ## # A tibble: 6 × 2
-##   chart_date title                 
-##   <date>     <chr>                 
-## 1 1975-12-27 Eighteen With A Bullet
-## 2 1965-06-05 A Little Bit Of Heaven
-## 3 1981-03-28 I Have The Skill      
-## 4 1979-12-22 Don't Do Me Like That 
-## 5 1992-10-31 People Everyday       
-## 6 2010-06-05 Solo
+##   chart_date title              
+##   <date>     <chr>              
+## 1 1998-05-16 Reality            
+## 2 1986-01-18 And She Was        
+## 3 1983-05-07 Front Page Story   
+## 4 2003-05-31 I'm With You       
+## 5 2008-04-05 What Hurts The Most
+## 6 2018-01-13 One Foot
 ```
 
 ### Let's make a year
@@ -187,14 +187,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 3
-##   chart_date title                     yr
-##   <date>     <chr>                  <dbl>
-## 1 1975-12-27 Eighteen With A Bullet  1975
-## 2 1965-06-05 A Little Bit Of Heaven  1965
-## 3 1981-03-28 I Have The Skill        1981
-## 4 1979-12-22 Don't Do Me Like That   1979
-## 5 1992-10-31 People Everyday         1992
-## 6 2010-06-05 Solo                    2010
+##   chart_date title                  yr
+##   <date>     <chr>               <dbl>
+## 1 1998-05-16 Reality              1998
+## 2 1986-01-18 And She Was          1986
+## 3 1983-05-07 Front Page Story     1983
+## 4 2003-05-31 I'm With You         2003
+## 5 2008-04-05 What Hurts The Most  2008
+## 6 2018-01-13 One Foot             2018
 ```
 
 ### The magical month
@@ -211,14 +211,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 3
-##   chart_date title                     mo
-##   <date>     <chr>                  <dbl>
-## 1 1975-12-27 Eighteen With A Bullet    12
-## 2 1965-06-05 A Little Bit Of Heaven     6
-## 3 1981-03-28 I Have The Skill           3
-## 4 1979-12-22 Don't Do Me Like That     12
-## 5 1992-10-31 People Everyday           10
-## 6 2010-06-05 Solo                       6
+##   chart_date title                  mo
+##   <date>     <chr>               <dbl>
+## 1 1998-05-16 Reality                 5
+## 2 1986-01-18 And She Was             1
+## 3 1983-05-07 Front Page Story        5
+## 4 2003-05-31 I'm With You            5
+## 5 2008-04-05 What Hurts The Most     4
+## 6 2018-01-13 One Foot                1
 ```
 
 But there are some options within `month()` to give us month NAMES that are ordered as factors instead of alphabetical.
@@ -235,14 +235,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 4
-##   chart_date title                  mo_label mo_long 
-##   <date>     <chr>                  <ord>    <ord>   
-## 1 1981-03-28 I Have The Skill       Mar      March   
-## 2 1965-06-05 A Little Bit Of Heaven Jun      June    
-## 3 2010-06-05 Solo                   Jun      June    
-## 4 1992-10-31 People Everyday        Oct      October 
-## 5 1975-12-27 Eighteen With A Bullet Dec      December
-## 6 1979-12-22 Don't Do Me Like That  Dec      December
+##   chart_date title               mo_label mo_long
+##   <date>     <chr>               <ord>    <ord>  
+## 1 1986-01-18 And She Was         Jan      January
+## 2 2018-01-13 One Foot            Jan      January
+## 3 2008-04-05 What Hurts The Most Apr      April  
+## 4 1998-05-16 Reality             May      May    
+## 5 1983-05-07 Front Page Story    May      May    
+## 6 2003-05-31 I'm With You        May      May
 ```
 
 Note the datatype `<ord>` under the column `mo_label` and `mo_long`. That means this is an "ordered factor" and that when arranged by those labels it will list in MONTH order instead of alphabetical order, which is quite useful.
@@ -262,14 +262,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 4
-##   chart_date title                  fl_month   fl_year   
-##   <date>     <chr>                  <date>     <date>    
-## 1 1975-12-27 Eighteen With A Bullet 1975-12-01 1975-01-01
-## 2 1965-06-05 A Little Bit Of Heaven 1965-06-01 1965-01-01
-## 3 1981-03-28 I Have The Skill       1981-03-01 1981-01-01
-## 4 1979-12-22 Don't Do Me Like That  1979-12-01 1979-01-01
-## 5 1992-10-31 People Everyday        1992-10-01 1992-01-01
-## 6 2010-06-05 Solo                   2010-06-01 2010-01-01
+##   chart_date title               fl_month   fl_year   
+##   <date>     <chr>               <date>     <date>    
+## 1 1998-05-16 Reality             1998-05-01 1998-01-01
+## 2 1986-01-18 And She Was         1986-01-01 1986-01-01
+## 3 1983-05-07 Front Page Story    1983-05-01 1983-01-01
+## 4 2003-05-31 I'm With You        2003-05-01 2003-01-01
+## 5 2008-04-05 What Hurts The Most 2008-04-01 2008-01-01
+## 6 2018-01-13 One Foot            2018-01-01 2018-01-01
 ```
 
 You can see the resulting new columns are real dates, but they are normalized:

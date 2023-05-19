@@ -377,16 +377,16 @@ sped_flag |> sample_n(10)
 ## # A tibble: 10 × 8
 ##    district distname cntyname year  all_count sped_count sped_percent audit_flag
 ##    <chr>    <chr>    <chr>    <chr>     <dbl>      <dbl>        <dbl> <chr>     
-##  1 059901   HEREFOR… DEAF SM… 2013       4229        309          7.3 BELOW     
-##  2 019902   HOOKS I… BOWIE    2021        844         95         11.3 ABOVE     
-##  3 025905   MAY ISD  BROWN    2021        253         34         13.4 ABOVE     
-##  4 113901   CROCKET… HOUSTON  2022       1190        143         12   ABOVE     
-##  5 181906   WEST OR… ORANGE   2018       2404        253         10.5 ABOVE     
-##  6 226905   WATER V… TOM GRE… 2018        363         54         14.9 ABOVE     
-##  7 096905   TURKEY-… HALL     2021        195         22         11.3 ABOVE     
-##  8 109908   MALONE … HILL     2018        158         22         13.9 ABOVE     
-##  9 109911   WHITNEY… HILL     2016       1478        166         11.2 ABOVE     
-## 10 034901   ATLANTA… CASS     2020       1824        236         12.9 ABOVE
+##  1 183901   BECKVIL… PANOLA   2019        698         71         10.2 ABOVE     
+##  2 122901   FT DAVI… JEFF DA… 2021        195         24         12.3 ABOVE     
+##  3 201902   HENDERS… RUSK     2016       3431        285          8.3 BELOW     
+##  4 143904   VYSEHRA… LAVACA   2015        109         11         10.1 ABOVE     
+##  5 074912   TRENTON… FANNIN   2022        725         79         10.9 ABOVE     
+##  6 109913   BLUM ISD HILL     2017        396         41         10.4 ABOVE     
+##  7 212902   BULLARD… SMITH    2018       2556        272         10.6 ABOVE     
+##  8 105905   WIMBERL… HAYS     2017       2293        189          8.2 BELOW     
+##  9 037904   JACKSON… CHEROKEE 2017       4951        426          8.6 ABOVE     
+## 10 101912   HOUSTON… HARRIS   2015     214462      15884          7.4 BELOW
 ```
 
 Let's walk through the code above:
