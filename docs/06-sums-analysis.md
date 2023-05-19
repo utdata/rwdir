@@ -50,14 +50,16 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
-## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.1      ✔ stringr 1.5.0 
-## ✔ readr   2.1.3      ✔ forcats 0.5.1 
+## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.2     ✔ readr     2.1.4
+## ✔ forcats   1.0.0     ✔ stringr   1.5.0
+## ✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+## ✔ purrr     1.0.1     
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 ```
 
 </details>
@@ -266,7 +268,7 @@ tx_c |>
 ##  8 ANTHONY POLICE DEPT                          10
 ##  9 ARANSAS PASS POLICE DEPARTMENT               28
 ## 10 ARCHER COUNTY SHERIFF OFFICE                  3
-## # … with 325 more rows
+## # ℹ 325 more rows
 ```
 
 Let's break this down a little.
@@ -288,13 +290,12 @@ tx_c |>
 
 ```
 ## # A tibble: 2 × 13
-##   state agency_name          nsn   item_…¹ quant…² ui    acqui…³ demil…⁴ demil…⁵
-##   <chr> <chr>                <chr> <chr>     <dbl> <chr>   <dbl> <chr>     <dbl>
-## 1 TX    ABERNATHY POLICE DE… 2320… TRUCK,…       1 Each    62627 C             1
-## 2 TX    ABERNATHY POLICE DE… 1240… SIGHT,…       5 Each      333 D             1
-## # … with 4 more variables: ship_date <dttm>, station_type <chr>,
-## #   total_value <dbl>, control_type <lgl>, and abbreviated variable names
-## #   ¹​item_name, ²​quantity, ³​acquisition_value, ⁴​demil_code, ⁵​demil_ic
+##   state agency_name  nsn   item_name quantity ui    acquisition_value demil_code
+##   <chr> <chr>        <chr> <chr>        <dbl> <chr>             <dbl> <chr>     
+## 1 TX    ABERNATHY P… 2320… TRUCK,UT…        1 Each              62627 C         
+## 2 TX    ABERNATHY P… 1240… SIGHT,RE…        5 Each                333 D         
+## # ℹ 5 more variables: demil_ic <dbl>, ship_date <dttm>, station_type <chr>,
+## #   total_value <dbl>, control_type <lgl>
 ```
 
 If we look at the `quantity` column there and eyeball all the rows, we see there 8 rows with a value of "1", and one row with a value of "5". 8 + 5 = 13, which matches our `summed_quantity` answer in our summary table. We're good!
@@ -332,7 +333,7 @@ tx_c |>
 ##  8 ANTHONY POLICE DEPT                          10              7490 
 ##  9 ARANSAS PASS POLICE DEPARTMENT               28            515396.
 ## 10 ARCHER COUNTY SHERIFF OFFICE                  3           1101000 
-## # … with 325 more rows
+## # ℹ 325 more rows
 ```
 
 ### Arrange the results
@@ -366,7 +367,7 @@ tx_c |>
 ##  8 MILAM COUNTY SHERIFF DEPT                      83           2196952.
 ##  9 HARRIS COUNTY SHERIFF'S OFFICE                 16           1834141 
 ## 10 VAN ZANDT COUNTY SHERIFF'S OFFICE              45           1789636.
-## # … with 325 more rows
+## # ℹ 325 more rows
 ```
 
 So now we've sorted the results to put the highest `summed_total_value` at the top.
@@ -429,7 +430,7 @@ tx_agency_totals
 ##  8 MILAM COUNTY SHERIFF DEPT                      83           2196952.
 ##  9 HARRIS COUNTY SHERIFF'S OFFICE                 16           1834141 
 ## 10 VAN ZANDT COUNTY SHERIFF'S OFFICE              45           1789636.
-## # … with 325 more rows
+## # ℹ 325 more rows
 ```
 
 The result is the same, but we can reuse the `tx_agency_totals` tibble.
@@ -604,20 +605,19 @@ tx_agency_item_totals
 ```
 ## # A tibble: 1,548 × 4
 ## # Groups:   agency_name [335]
-##    agency_name                       item_name              summed_qua…¹ summe…²
-##    <chr>                             <chr>                         <dbl>   <dbl>
-##  1 HOUSTON POLICE DEPT               AIRCRAFT, FIXED WING              1 5390000
-##  2 DPS SWAT- TEXAS RANGERS           MINE RESISTANT VEHICLE            4 2611000
-##  3 DEPT OF CRIM JUSTICE OIG          TRUCK,CARGO                       4 1446516
-##  4 UNIV OF TEXAS SYSTEM POLICE HI_ED MINE RESISTANT VEHICLE            2 1228000
-##  5 JEFFERSON COUNTY SHERIFFS OFFICE  HELICOPTER,UTILITY                1  922704
-##  6 ALVIN POLICE DEPT                 HOIST,INTERNAL RESCUE             6  900420
-##  7 VAN ZANDT COUNTY SHERIFF'S OFFICE TRUCK,WRECKER                     1  880674
-##  8 BURKBURNETT POLICE DEPT           MINE RESISTANT VEHICLE            1  865000
-##  9 CLEBURNE POLICE DEPT              MINE RESISTANT VEHICLE            1  865000
-## 10 CUERO POLICE DEPT                 MINE RESISTANT VEHICLE            1  865000
-## # … with 1,538 more rows, and abbreviated variable names ¹​summed_quantity,
-## #   ²​summed_total_value
+##    agency_name                      item_name summed_quantity summed_total_value
+##    <chr>                            <chr>               <dbl>              <dbl>
+##  1 HOUSTON POLICE DEPT              AIRCRAFT…               1            5390000
+##  2 DPS SWAT- TEXAS RANGERS          MINE RES…               4            2611000
+##  3 DEPT OF CRIM JUSTICE OIG         TRUCK,CA…               4            1446516
+##  4 UNIV OF TEXAS SYSTEM POLICE HI_… MINE RES…               2            1228000
+##  5 JEFFERSON COUNTY SHERIFFS OFFICE HELICOPT…               1             922704
+##  6 ALVIN POLICE DEPT                HOIST,IN…               6             900420
+##  7 VAN ZANDT COUNTY SHERIFF'S OFFI… TRUCK,WR…               1             880674
+##  8 BURKBURNETT POLICE DEPT          MINE RES…               1             865000
+##  9 CLEBURNE POLICE DEPT             MINE RES…               1             865000
+## 10 CUERO POLICE DEPT                MINE RES…               1             865000
+## # ℹ 1,538 more rows
 ```
 
 </details>
@@ -646,20 +646,19 @@ tx_agency_item_totals |>
 ```
 ## # A tibble: 175 × 4
 ## # Groups:   agency_name [19]
-##    agency_name                       item_name                   summe…¹ summe…²
-##    <chr>                             <chr>                         <dbl>   <dbl>
-##  1 UNIV OF TEXAS SYSTEM POLICE HI_ED MINE RESISTANT VEHICLE            2  1.23e6
-##  2 AUSTIN POLICE DEPT                HELICOPTER,FLIGHT TRAINER         1  8.33e5
-##  3 TRAVIS COUNTY SHERIFFS OFFICE     MINE RESISTANT VEHICLE            1  7.67e5
-##  4 CEDAR PARK POLICE DEPT            MINE RESISTANT VEHICLE            1  7.33e5
-##  5 GEORGETOWN POLICE DEPT            MINE RESISTANT VEHICLE            1  7.33e5
-##  6 LEANDER POLICE DEPT               MINE RESISTANT VEHICLE            1  7.33e5
-##  7 SAN MARCOS POLICE DEPT            MINE RESISTANT VEHICLE            1  7.33e5
-##  8 BASTROP COUNTY SHERIFF'S OFFICE   MINE RESISTANT VEHICLE            1  6.58e5
-##  9 SAN MARCOS POLICE DEPT            CAPABILITIES SET,NON-LETHAL       1  4.95e5
-## 10 AUSTIN POLICE DEPT                IMAGE INTENSIFIER,NIGHT VI…      85  4.59e5
-## # … with 165 more rows, and abbreviated variable names ¹​summed_quantity,
-## #   ²​summed_total_value
+##    agency_name                      item_name summed_quantity summed_total_value
+##    <chr>                            <chr>               <dbl>              <dbl>
+##  1 UNIV OF TEXAS SYSTEM POLICE HI_… MINE RES…               2           1228000 
+##  2 AUSTIN POLICE DEPT               HELICOPT…               1            833400 
+##  3 TRAVIS COUNTY SHERIFFS OFFICE    MINE RES…               1            767360 
+##  4 CEDAR PARK POLICE DEPT           MINE RES…               1            733000 
+##  5 GEORGETOWN POLICE DEPT           MINE RES…               1            733000 
+##  6 LEANDER POLICE DEPT              MINE RES…               1            733000 
+##  7 SAN MARCOS POLICE DEPT           MINE RES…               1            733000 
+##  8 BASTROP COUNTY SHERIFF'S OFFICE  MINE RES…               1            658000 
+##  9 SAN MARCOS POLICE DEPT           CAPABILI…               1            494724 
+## 10 AUSTIN POLICE DEPT               IMAGE IN…              85            458831.
+## # ℹ 165 more rows
 ```
 
 Because our original list arranged the data by the most expensive items, we can see that here. But it might be easier to rearrange the data by agency name first, then the most expensive items.
@@ -677,20 +676,19 @@ tx_agency_item_totals |>
 ```
 ## # A tibble: 175 × 4
 ## # Groups:   agency_name [19]
-##    agency_name        item_name                                  summe…¹ summe…²
-##    <chr>              <chr>                                        <dbl>   <dbl>
-##  1 AUSTIN POLICE DEPT HELICOPTER,FLIGHT TRAINER                        1 833400 
-##  2 AUSTIN POLICE DEPT IMAGE INTENSIFIER,NIGHT VISION                  85 458831.
-##  3 AUSTIN POLICE DEPT SIGHT,THERMAL                                   29 442310 
-##  4 AUSTIN POLICE DEPT PACKBOT 510 WITH FASTAC REMOTELY CONTROLL…       4 308000 
-##  5 AUSTIN POLICE DEPT SIGHT,REFLEX                                   420 169256.
-##  6 AUSTIN POLICE DEPT ILLUMINATOR,INTEGRATED,SMALL ARMS              135 122302 
-##  7 AUSTIN POLICE DEPT RECON SCOUT XT                                   8  92451.
-##  8 AUSTIN POLICE DEPT TEST SET,NIGHT VISION VIEWER                     2  55610 
-##  9 AUSTIN POLICE DEPT SCOPE,NIGHT-POCKET                               5  20535 
-## 10 AUSTIN POLICE DEPT POWER SUPPLY ASSEMBLY                           63  20086.
-## # … with 165 more rows, and abbreviated variable names ¹​summed_quantity,
-## #   ²​summed_total_value
+##    agency_name        item_name               summed_quantity summed_total_value
+##    <chr>              <chr>                             <dbl>              <dbl>
+##  1 AUSTIN POLICE DEPT HELICOPTER,FLIGHT TRAI…               1            833400 
+##  2 AUSTIN POLICE DEPT IMAGE INTENSIFIER,NIGH…              85            458831.
+##  3 AUSTIN POLICE DEPT SIGHT,THERMAL                        29            442310 
+##  4 AUSTIN POLICE DEPT PACKBOT 510 WITH FASTA…               4            308000 
+##  5 AUSTIN POLICE DEPT SIGHT,REFLEX                        420            169256.
+##  6 AUSTIN POLICE DEPT ILLUMINATOR,INTEGRATED…             135            122302 
+##  7 AUSTIN POLICE DEPT RECON SCOUT XT                        8             92451.
+##  8 AUSTIN POLICE DEPT TEST SET,NIGHT VISION …               2             55610 
+##  9 AUSTIN POLICE DEPT SCOPE,NIGHT-POCKET                    5             20535 
+## 10 AUSTIN POLICE DEPT POWER SUPPLY ASSEMBLY                63             20086.
+## # ℹ 165 more rows
 ```
 
 ### Research some interesting items
@@ -726,7 +724,7 @@ tx_c |>
 ##  8 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
 ##  9 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
 ## 10 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
-## # … with 90 more rows
+## # ℹ 90 more rows
 ```
 
 It looks like most of these illuminators use this `nsn`: 5855-01-534-5931.

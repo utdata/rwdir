@@ -88,7 +88,7 @@ mpg
 ##  8 audi         a4 quattro   1.8  1999     4 manu… 4        18    26 p     comp…
 ##  9 audi         a4 quattro   1.8  1999     4 auto… 4        16    25 p     comp…
 ## 10 audi         a4 quattro   2    2008     4 manu… 4        20    28 p     comp…
-## # … with 224 more rows
+## # ℹ 224 more rows
 ```
 
 The `mpg` data contains observations collected by the US Environmental Protection Agency on 38 models of cars. It's a data set embedded into the tidyverse for lessons like this one.
@@ -261,7 +261,7 @@ class
 ##  8 Christy   Tiana      Rocky Road         
 ##  9 Corey     Mulan      Mint Chocolate Chip
 ## 10 Darren    Mulan      Coffee             
-## # … with 27 more rows
+## # ℹ 27 more rows
 ```
 
 So, now, you should have the data in your environment. 

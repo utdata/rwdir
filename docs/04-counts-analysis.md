@@ -258,19 +258,19 @@ hot100 |>
 
 ```
 ## # A tibble: 10,492 × 2
-##    performer                            appearances
-##    <chr>                                      <int>
-##  1 "? (Question Mark) & The Mysterians"          33
-##  2 "'N Sync"                                    172
-##  3 "'N Sync & Gloria Estefan"                    20
-##  4 "'N Sync Featuring Nelly"                     20
-##  5 "'Til Tuesday"                                53
-##  6 "\"Groove\" Holmes"                           14
-##  7 "\"Little\" Jimmy Dickens"                    10
-##  8 "\"Pookie\" Hudson"                            1
-##  9 "\"Weird Al\" Yankovic"                       91
-## 10 "(+44)"                                        1
-## # … with 10,482 more rows
+##    performer                  appearances
+##    <chr>                            <int>
+##  1 "\"Groove\" Holmes"                 14
+##  2 "\"Little\" Jimmy Dickens"          10
+##  3 "\"Pookie\" Hudson"                  1
+##  4 "\"Weird Al\" Yankovic"             91
+##  5 "$NOT & A$AP Rocky"                  1
+##  6 "'N Sync"                          172
+##  7 "'N Sync & Gloria Estefan"          20
+##  8 "'N Sync Featuring Nelly"           20
+##  9 "'Til Tuesday"                      53
+## 10 "(+44)"                              1
+## # ℹ 10,482 more rows
 ```
 
 What we get in return is a **summarize**d table that shows all 10,000+ different performers that have been on the charts, and the **n**umber of rows in which they appear in the data.
@@ -305,7 +305,7 @@ hot100 |>
 ##  8 Stevie Wonder         659
 ##  9 Rod Stewart           657
 ## 10 Mariah Carey          634
-## # … with 10,482 more rows
+## # ℹ 10,482 more rows
 ```
 
 - We added the `arrange()` function and fed it the column of "appearances". If we left it with just that, then it would list the smallest values first.
@@ -389,7 +389,7 @@ hot100 |> # start with the data, and then ...
 ```
 ## # A tibble: 30,425 × 3
 ## # Groups:   performer [10,492]
-##    performer                                 title                       appea…¹
+##    performer                                 title                   appearances
 ##    <chr>                                     <chr>                         <int>
 ##  1 Glass Animals                             Heat Waves                       91
 ##  2 The Weeknd                                Blinding Lights                  90
@@ -400,8 +400,8 @@ hot100 |> # start with the data, and then ...
 ##  7 LMFAO Featuring Lauren Bennett & GoonRock Party Rock Anthem                68
 ##  8 OneRepublic                               Counting Stars                   68
 ##  9 Adele                                     Rolling In The Deep              65
-## 10 Jewel                                     Foolish Games/You Were Mea…      65
-## # … with 30,415 more rows, and abbreviated variable name ¹​appearances
+## 10 Jewel                                     Foolish Games/You Were…          65
+## # ℹ 30,415 more rows
 ```
 
 The logic works like this:
@@ -487,7 +487,7 @@ hot100 |>
 ```
 ## # A tibble: 10 × 3
 ## # Groups:   performer [10]
-##    performer                                 title                       appea…¹
+##    performer                                 title                   appearances
 ##    <chr>                                     <chr>                         <int>
 ##  1 Glass Animals                             Heat Waves                       91
 ##  2 The Weeknd                                Blinding Lights                  90
@@ -498,8 +498,7 @@ hot100 |>
 ##  7 LMFAO Featuring Lauren Bennett & GoonRock Party Rock Anthem                68
 ##  8 OneRepublic                               Counting Stars                   68
 ##  9 Adele                                     Rolling In The Deep              65
-## 10 Jewel                                     Foolish Games/You Were Mea…      65
-## # … with abbreviated variable name ¹​appearances
+## 10 Jewel                                     Foolish Games/You Were…          65
 ```
 
 Let's break down that last line:
@@ -539,20 +538,19 @@ hot100 |>
 
 ```
 ## # A tibble: 3,361 × 7
-##    chart_date current_rank title                 perfo…¹ previ…² peak_…³ wks_o…⁴
-##    <date>            <dbl> <chr>                 <chr>     <dbl>   <dbl>   <dbl>
-##  1 1958-08-04            1 Poor Little Fool      Ricky …      NA       1       1
-##  2 1958-08-11            1 Poor Little Fool      Ricky …       1       1       2
-##  3 1958-08-18            1 Nel Blu Dipinto Di B… Domeni…       2       1       3
-##  4 1958-08-25            1 Little Star           The El…       2       1       4
-##  5 1958-09-01            1 Nel Blu Dipinto Di B… Domeni…       2       1       5
-##  6 1958-09-08            1 Nel Blu Dipinto Di B… Domeni…       1       1       6
-##  7 1958-09-15            1 Nel Blu Dipinto Di B… Domeni…       1       1       7
-##  8 1958-09-22            1 Nel Blu Dipinto Di B… Domeni…       1       1       8
-##  9 1958-09-29            1 It's All In The Game  Tommy …       3       1       7
-## 10 1958-10-06            1 It's All In The Game  Tommy …       1       1       8
-## # … with 3,351 more rows, and abbreviated variable names ¹​performer,
-## #   ²​previous_rank, ³​peak_rank, ⁴​wks_on_chart
+##    chart_date current_rank title  performer previous_rank peak_rank wks_on_chart
+##    <date>            <dbl> <chr>  <chr>             <dbl>     <dbl>        <dbl>
+##  1 1958-08-04            1 Poor … Ricky Ne…            NA         1            1
+##  2 1958-08-11            1 Poor … Ricky Ne…             1         1            2
+##  3 1958-08-18            1 Nel B… Domenico…             2         1            3
+##  4 1958-08-25            1 Littl… The Eleg…             2         1            4
+##  5 1958-09-01            1 Nel B… Domenico…             2         1            5
+##  6 1958-09-08            1 Nel B… Domenico…             1         1            6
+##  7 1958-09-15            1 Nel B… Domenico…             1         1            7
+##  8 1958-09-22            1 Nel B… Domenico…             1         1            8
+##  9 1958-09-29            1 It's … Tommy Ed…             3         1            7
+## 10 1958-10-06            1 It's … Tommy Ed…             1         1            8
+## # ℹ 3,351 more rows
 ```
 
 The result should show _only_ titles with a `1` for `current_rank`.
@@ -581,19 +579,19 @@ hot100 |>
 ```
 ## # A tibble: 1,144 × 3
 ## # Groups:   performer [757]
-##    performer                          title                            appeara…¹
+##    performer                          title                          appearances
 ##    <chr>                              <chr>                                <int>
-##  1 ? (Question Mark) & The Mysterians 96 Tears                                 1
-##  2 'N Sync                            It's Gonna Be Me                         2
-##  3 24kGoldn Featuring iann dior       Mood                                     8
-##  4 2Pac Featuring K-Ci And JoJo       How Do U Want It/California Love         2
-##  5 50 Cent                            In Da Club                               9
-##  6 50 Cent Featuring Nate Dogg        21 Questions                             4
-##  7 50 Cent Featuring Olivia           Candy Shop                               9
-##  8 6ix9ine & Nicki Minaj              Trollz                                   1
+##  1 'N Sync                            It's Gonna Be Me                         2
+##  2 24kGoldn Featuring iann dior       Mood                                     8
+##  3 2Pac Featuring K-Ci And JoJo       How Do U Want It/California L…           2
+##  4 50 Cent                            In Da Club                               9
+##  5 50 Cent Featuring Nate Dogg        21 Questions                             4
+##  6 50 Cent Featuring Olivia           Candy Shop                               9
+##  7 6ix9ine & Nicki Minaj              Trollz                                   1
+##  8 ? (Question Mark) & The Mysterians 96 Tears                                 1
 ##  9 A Taste Of Honey                   Boogie Oogie Oogie                       3
-## 10 a-ha                               Take On Me                               1
-## # … with 1,134 more rows, and abbreviated variable name ¹​appearances
+## 10 ABBA                               Dancing Queen                            1
+## # ℹ 1,134 more rows
 ```
 </details>
 
@@ -623,19 +621,19 @@ hot100 |>
 ```
 ## # A tibble: 1,144 × 3
 ## # Groups:   performer [757]
-##    performer                                         title               appea…¹
+##    performer                                         title           appearances
 ##    <chr>                                             <chr>                 <int>
 ##  1 Lil Nas X Featuring Billy Ray Cyrus               Old Town Road            19
 ##  2 Luis Fonsi & Daddy Yankee Featuring Justin Bieber Despacito                16
 ##  3 Mariah Carey & Boyz II Men                        One Sweet Day            16
 ##  4 Harry Styles                                      As It Was                15
-##  5 Boyz II Men                                       I'll Make Love To …      14
-##  6 Elton John                                        Candle In The Wind…      14
-##  7 Los Del Rio                                       Macarena (Bayside …      14
-##  8 Mariah Carey                                      We Belong Together       14
+##  5 Boyz II Men                                       I'll Make Love…          14
+##  6 Elton John                                        Candle In The …          14
+##  7 Los Del Rio                                       Macarena (Bays…          14
+##  8 Mariah Carey                                      We Belong Toge…          14
 ##  9 Mark Ronson Featuring Bruno Mars                  Uptown Funk!             14
 ## 10 The Black Eyed Peas                               I Gotta Feeling          14
-## # … with 1,134 more rows, and abbreviated variable name ¹​appearances
+## # ℹ 1,134 more rows
 ```
 </details>
 
@@ -664,20 +662,19 @@ hot100 |>
 ```
 ## # A tibble: 11 × 3
 ## # Groups:   performer [11]
-##    performer                                         title               appea…¹
+##    performer                                         title           appearances
 ##    <chr>                                             <chr>                 <int>
 ##  1 Lil Nas X Featuring Billy Ray Cyrus               Old Town Road            19
 ##  2 Luis Fonsi & Daddy Yankee Featuring Justin Bieber Despacito                16
 ##  3 Mariah Carey & Boyz II Men                        One Sweet Day            16
 ##  4 Harry Styles                                      As It Was                15
-##  5 Boyz II Men                                       I'll Make Love To …      14
-##  6 Elton John                                        Candle In The Wind…      14
-##  7 Los Del Rio                                       Macarena (Bayside …      14
-##  8 Mariah Carey                                      We Belong Together       14
+##  5 Boyz II Men                                       I'll Make Love…          14
+##  6 Elton John                                        Candle In The …          14
+##  7 Los Del Rio                                       Macarena (Bays…          14
+##  8 Mariah Carey                                      We Belong Toge…          14
 ##  9 Mark Ronson Featuring Bruno Mars                  Uptown Funk!             14
 ## 10 The Black Eyed Peas                               I Gotta Feeling          14
-## 11 Whitney Houston                                   I Will Always Love…      14
-## # … with abbreviated variable name ¹​appearances
+## 11 Whitney Houston                                   I Will Always …          14
 ```
 </details> 
 
@@ -708,20 +705,19 @@ hot100 |>
 
 ```
 ## # A tibble: 3,361 × 7
-##    chart_date current_rank title                 perfo…¹ previ…² peak_…³ wks_o…⁴
-##    <date>            <dbl> <chr>                 <chr>     <dbl>   <dbl>   <dbl>
-##  1 1958-08-04            1 Poor Little Fool      Ricky …      NA       1       1
-##  2 1958-08-11            1 Poor Little Fool      Ricky …       1       1       2
-##  3 1958-08-18            1 Nel Blu Dipinto Di B… Domeni…       2       1       3
-##  4 1958-08-25            1 Little Star           The El…       2       1       4
-##  5 1958-09-01            1 Nel Blu Dipinto Di B… Domeni…       2       1       5
-##  6 1958-09-08            1 Nel Blu Dipinto Di B… Domeni…       1       1       6
-##  7 1958-09-15            1 Nel Blu Dipinto Di B… Domeni…       1       1       7
-##  8 1958-09-22            1 Nel Blu Dipinto Di B… Domeni…       1       1       8
-##  9 1958-09-29            1 It's All In The Game  Tommy …       3       1       7
-## 10 1958-10-06            1 It's All In The Game  Tommy …       1       1       8
-## # … with 3,351 more rows, and abbreviated variable names ¹​performer,
-## #   ²​previous_rank, ³​peak_rank, ⁴​wks_on_chart
+##    chart_date current_rank title  performer previous_rank peak_rank wks_on_chart
+##    <date>            <dbl> <chr>  <chr>             <dbl>     <dbl>        <dbl>
+##  1 1958-08-04            1 Poor … Ricky Ne…            NA         1            1
+##  2 1958-08-11            1 Poor … Ricky Ne…             1         1            2
+##  3 1958-08-18            1 Nel B… Domenico…             2         1            3
+##  4 1958-08-25            1 Littl… The Eleg…             2         1            4
+##  5 1958-09-01            1 Nel B… Domenico…             2         1            5
+##  6 1958-09-08            1 Nel B… Domenico…             1         1            6
+##  7 1958-09-15            1 Nel B… Domenico…             1         1            7
+##  8 1958-09-22            1 Nel B… Domenico…             1         1            8
+##  9 1958-09-29            1 It's … Tommy Ed…             3         1            7
+## 10 1958-10-06            1 It's … Tommy Ed…             1         1            8
+## # ℹ 3,351 more rows
 ```
 
 Now look at the result. Note how "Poor Little Fool" shows up more than once? Other songs do as well. If we counted rows by `performer` now, that would tell us the number of weeks they've had No. 1 songs, not how many _different_ songs have made No. 1.
@@ -755,7 +751,7 @@ hot100 |>
 ##  8 The Chipmunk Song               The Chipmunks With David Seville
 ##  9 Smoke Gets In Your Eyes         The Platters                    
 ## 10 Stagger Lee                     Lloyd Price                     
-## # … with 1,134 more rows
+## # ℹ 1,134 more rows
 ```
 
 Now we have a list of just No. 1 songs!
@@ -795,7 +791,7 @@ hot100 |>
 ##  8 Taylor Swift              8
 ##  9 The Rolling Stones        8
 ## 10 Janet Jackson             7
-## # … with 747 more rows
+## # ℹ 747 more rows
 ```
 </details>
 
@@ -1018,7 +1014,7 @@ hot100 |>
 ##  8 F**kin Problems        A$AP Rocky Featuring Drake, 2 Chainz & Kendrick Lamar
 ##  9 I'm Different          2 Chainz                                             
 ## 10 R.I.P.                 Young Jeezy Featuring 2 Chainz                       
-## # … with 30 more rows
+## # ℹ 30 more rows
 ```
 
 There is a newer string search function called `str_like()` that has some [interesting nuances](https://stringr.tidyverse.org/reference/str_like.html) derived from SQL. It must match the entire phrase so it will find only songs where "2 Chainz" is the only artist, but it case INSENSITIVE by default, unlike `str_detect()`.
@@ -1065,19 +1061,19 @@ hot100 |>
 
 ```
 ## # A tibble: 10,492 × 2
-##    performer                                n
-##    <chr>                                <int>
-##  1 "? (Question Mark) & The Mysterians"    33
-##  2 "'N Sync"                              172
-##  3 "'N Sync & Gloria Estefan"              20
-##  4 "'N Sync Featuring Nelly"               20
-##  5 "'Til Tuesday"                          53
-##  6 "\"Groove\" Holmes"                     14
-##  7 "\"Little\" Jimmy Dickens"              10
-##  8 "\"Pookie\" Hudson"                      1
-##  9 "\"Weird Al\" Yankovic"                 91
-## 10 "(+44)"                                  1
-## # … with 10,482 more rows
+##    performer                      n
+##    <chr>                      <int>
+##  1 "\"Groove\" Holmes"           14
+##  2 "\"Little\" Jimmy Dickens"    10
+##  3 "\"Pookie\" Hudson"            1
+##  4 "\"Weird Al\" Yankovic"       91
+##  5 "$NOT & A$AP Rocky"            1
+##  6 "'N Sync"                    172
+##  7 "'N Sync & Gloria Estefan"    20
+##  8 "'N Sync Featuring Nelly"     20
+##  9 "'Til Tuesday"                53
+## 10 "(+44)"                        1
+## # ℹ 10,482 more rows
 ```
 
 To get the same pretty table you still have to rename the new column and reverse the sort, you just do it differently as arguments within the `count()` function. You can view the [`count()` options here.](https://dplyr.tidyverse.org/reference/count.html)
@@ -1143,7 +1139,7 @@ hot100 |>
 
 ```
 ## # A tibble: 0 × 7
-## # … with 7 variables: chart_date <date>, current_rank <dbl>, title <chr>,
+## # ℹ 7 variables: chart_date <date>, current_rank <dbl>, title <chr>,
 ## #   performer <chr>, previous_rank <dbl>, peak_rank <dbl>, wks_on_chart <dbl>
 ```
 

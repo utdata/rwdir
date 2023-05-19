@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Summarize with math - import | Reporting with Data in R</title>
   <meta name="description" content="Chapter 5 Summarize with math - import | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The course is taught by Christian McDonald and Jo Lukito." />
-  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Summarize with math - import | Reporting with Data in R" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Christian McDonald and Josephine Lukito" />
 
 
-<meta name="date" content="2023-03-17" />
+<meta name="date" content="2023-05-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -52,12 +52,12 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.25/datatables.js"></script>
-<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="libs/datatables-binding-0.27/datatables.js"></script>
+<link href="libs/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
 <link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
 <script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 <style type="text/css">
@@ -139,6 +139,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 </head>
 
@@ -658,19 +662,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="sums-import.html#cb92-1" aria-hidden="true" tabindex="-1"></a>leso_sample <span class="sc">|&gt;</span> </span>
 <span id="cb92-2"><a href="sums-import.html#cb92-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(agency_name, item_name, quantity, acquisition_value)</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 4
-##    agency_name                      item_name                   quantity acqui…¹
-##    &lt;chr&gt;                            &lt;chr&gt;                          &lt;dbl&gt;   &lt;dbl&gt;
-##  1 MEADE COUNTY SHERIFF DEPT        GENERATOR SET,DIESEL ENGINE        5  4623. 
-##  2 PROSPERITY POLICE DEPT           RIFLE,7.62 MILLIMETER              1   138  
-##  3 KERN COUNTY SHERIFF OFFICE       MARKER,TUBE TYPE                  32    16.9
-##  4 LEAGUE CITY POLICE DEPT          RIFLE,5.56 MILLIMETER              1   749  
-##  5 TRUMBULL COUNTY SHERIFF&#39;S OFFICE RIFLE,5.56 MILLIMETER              1   749  
-##  6 VALDESE POLICE DEPT              RIFLE,7.62 MILLIMETER              1   138  
-##  7 SACRAMENTO POLICE DEPT           RIFLE,5.56 MILLIMETER              1   499  
-##  8 BERRIEN COUNTY SHERIFF&#39;S OFFICE  RIFLE,5.56 MILLIMETER              1   499  
-##  9 LA PAZ COUNTY SHERIFF OFFICE     RIFLE,5.56 MILLIMETER              1   499  
-## 10 MUSKEGON HEIGHTS POLICE DEPT     RIFLE,5.56 MILLIMETER              1   749  
-## # … with abbreviated variable name ¹​acquisition_value</code></pre>
+##    agency_name                      item_name         quantity acquisition_value
+##    &lt;chr&gt;                            &lt;chr&gt;                &lt;dbl&gt;             &lt;dbl&gt;
+##  1 MEADE COUNTY SHERIFF DEPT        GENERATOR SET,DI…        5            4623. 
+##  2 PROSPERITY POLICE DEPT           RIFLE,7.62 MILLI…        1             138  
+##  3 KERN COUNTY SHERIFF OFFICE       MARKER,TUBE TYPE        32              16.9
+##  4 LEAGUE CITY POLICE DEPT          RIFLE,5.56 MILLI…        1             749  
+##  5 TRUMBULL COUNTY SHERIFF&#39;S OFFICE RIFLE,5.56 MILLI…        1             749  
+##  6 VALDESE POLICE DEPT              RIFLE,7.62 MILLI…        1             138  
+##  7 SACRAMENTO POLICE DEPT           RIFLE,5.56 MILLI…        1             499  
+##  8 BERRIEN COUNTY SHERIFF&#39;S OFFICE  RIFLE,5.56 MILLI…        1             499  
+##  9 LA PAZ COUNTY SHERIFF OFFICE     RIFLE,5.56 MILLI…        1             499  
+## 10 MUSKEGON HEIGHTS POLICE DEPT     RIFLE,5.56 MILLI…        1             749</code></pre>
 <p>Each row of data is a transfer of a particular type of item from the U.S. Department of Defense to a local law enforcement agency. The row includes the name of the item, the quantity, and the value ($) of a single unit.</p>
 <p>What the data doesn’t have is the <strong>total value</strong> of the items in the shipment. If there are 5 generators as noted in the first row above and the cost of each one is $4623.09, we have to multiply the <code>quantity</code> times the <code>acquisition_value</code> to get the total value of that equipment.</p>
 <p>The data also doesn’t have any variable indicating if an item is controlled or non-controlled, but I’ve corresponded with the Defense Logistics Agency to gain a pretty good understanding of how to isolate them based on the <strong>demil</strong>itarization codes.</p>
@@ -801,21 +804,21 @@ Try real hard first before clicking here for the answer. Note the book will also
 <div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="sums-import.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="co"># printing the tibble</span></span>
 <span id="cb101-2"><a href="sums-import.html#cb101-2" aria-hidden="true" tabindex="-1"></a>leso</span></code></pre></div>
 <pre><code>## # A tibble: 117,518 × 12
-##    sheet state agency_name   nsn   item_…¹ quant…² ui    acqui…³ demil…⁴ demil…⁵
-##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
-##  1     1 AL    ABBEVILLE PO… 2540… BALLIS…      10 Kit    15872. D             1
-##  2     1 AL    ABBEVILLE PO… 6760… CAMERA…       1 Each    1500  D             7
-##  3     1 AL    ABBEVILLE PO… 5855… ILLUMI…      10 Each    1128  D             1
-##  4     1 AL    ABBEVILLE PO… 1385… UNMANN…       1 Each   10000  Q             3
-##  5     1 AL    ABBEVILLE PO… 1240… OPTICA…       1 Each     246. D            NA
-##  6     1 AL    ABBEVILLE PO… 2355… MINE R…       1 Each  658000  C             1
-##  7     1 AL    ABBEVILLE PO… 1240… SIGHT,…       9 Each     396  D             1
-##  8     1 AL    ABBEVILLE PO… 2320… TRUCK,…       1 Each   62627  C             1
-##  9     1 AL    ABBEVILLE PO… 1005… MOUNT,…      10 Each    1626  D             1
-## 10     1 AL    ABBEVILLE PO… 2320… TRUCK,…       1 Each   62627  C             1
-## # … with 117,508 more rows, 2 more variables: ship_date &lt;dttm&gt;,
-## #   station_type &lt;chr&gt;, and abbreviated variable names ¹​item_name, ²​quantity,
-## #   ³​acquisition_value, ⁴​demil_code, ⁵​demil_ic</code></pre>
+##    sheet state agency_name      nsn   item_name quantity ui    acquisition_value
+##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;            &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt;
+##  1     1 AL    ABBEVILLE POLIC… 2540… BALLISTI…       10 Kit              15872.
+##  2     1 AL    ABBEVILLE POLIC… 6760… CAMERA R…        1 Each              1500 
+##  3     1 AL    ABBEVILLE POLIC… 5855… ILLUMINA…       10 Each              1128 
+##  4     1 AL    ABBEVILLE POLIC… 1385… UNMANNED…        1 Each             10000 
+##  5     1 AL    ABBEVILLE POLIC… 1240… OPTICAL …        1 Each               246.
+##  6     1 AL    ABBEVILLE POLIC… 2355… MINE RES…        1 Each            658000 
+##  7     1 AL    ABBEVILLE POLIC… 1240… SIGHT,RE…        9 Each               396 
+##  8     1 AL    ABBEVILLE POLIC… 2320… TRUCK,UT…        1 Each             62627 
+##  9     1 AL    ABBEVILLE POLIC… 1005… MOUNT,RI…       10 Each              1626 
+## 10     1 AL    ABBEVILLE POLIC… 2320… TRUCK,UT…        1 Each             62627 
+## # ℹ 117,508 more rows
+## # ℹ 4 more variables: demil_code &lt;chr&gt;, demil_ic &lt;dbl&gt;, ship_date &lt;dttm&gt;,
+## #   station_type &lt;chr&gt;</code></pre>
 </details>
 <div id="glimpse-the-data-1" class="section level3 hasAnchor" number="5.6.1">
 <h3><span class="header-section-number">5.6.1</span> Glimpse the data<a href="sums-import.html#glimpse-the-data-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -1076,8 +1079,8 @@ Try it on your own. You can figure it out!
 <span id="cb114-2"><a href="sums-import.html#cb114-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(demil_code, demil_ic, control_type, <span class="at">name =</span> <span class="st">&quot;cnt&quot;</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb114-3"><a href="sums-import.html#cb114-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> control_type, <span class="at">values_from =</span> cnt) <span class="sc">|&gt;</span> </span>
 <span id="cb114-4"><a href="sums-import.html#cb114-4" aria-hidden="true" tabindex="-1"></a>  DT<span class="sc">::</span><span class="fu">datatable</span>()</span></code></pre></div>
-<div id="htmlwidget-4037b66b29dc286a6054" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-4037b66b29dc286a6054">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29"],["A","A","A","A","B","B","C","C","C","C","C","D","D","D","D","D","E","E","E","F","F","F","F","Q","Q","Q","Q","Q","Q"],[0,1,7,null,3,null,0,1,4,7,null,0,1,4,7,null,1,7,null,0,1,7,null,0,1,3,5,6,null],[1,6853,179,4041,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,631,null],[null,4,null,null,26,112,2,5535,1,234,601,1,84368,10,1040,2889,105,5,3,1,4423,1082,25,6,6,5298,1,10,25]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>demil_code<\/th>\n      <th>demil_ic<\/th>\n      <th>FALSE<\/th>\n      <th>TRUE<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-2ba96da9e61e9ba70419" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-2ba96da9e61e9ba70419">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29"],["A","A","A","A","B","B","C","C","C","C","C","D","D","D","D","D","E","E","E","F","F","F","F","Q","Q","Q","Q","Q","Q"],[0,1,7,null,3,null,0,1,4,7,null,0,1,4,7,null,1,7,null,0,1,7,null,0,1,3,5,6,null],[1,6853,179,4041,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,631,null],[null,4,null,null,26,112,2,5535,1,234,601,1,84368,10,1040,2889,105,5,3,1,4423,1082,25,6,6,5298,1,10,25]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>demil_code<\/th>\n      <th>demil_ic<\/th>\n      <th>FALSE<\/th>\n      <th>TRUE<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <p>OK, onto the next task to get Texas data for specific dates.</p>
 </div>
 </div>
@@ -1100,22 +1103,21 @@ Try this on your own, but the code is here.
 <span id="cb115-3"><a href="sums-import.html#cb115-3" aria-hidden="true" tabindex="-1"></a>    state <span class="sc">==</span> <span class="st">&quot;TX&quot;</span></span>
 <span id="cb115-4"><a href="sums-import.html#cb115-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 7,817 × 13
-##    state agency_name         nsn   item_…¹ quant…² ui    acqui…³ demil…⁴ demil…⁵
-##    &lt;chr&gt; &lt;chr&gt;               &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
-##  1 TX    ABERNATHY POLICE D… 2320… TRUCK,…       1 Each    62627 C             1
-##  2 TX    ABERNATHY POLICE D… 1240… SIGHT,…       5 Each      333 D             1
-##  3 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
-##  4 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
-##  5 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
-##  6 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
-##  7 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
-##  8 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
-##  9 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
-## 10 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
-## # … with 7,807 more rows, 4 more variables: ship_date &lt;dttm&gt;,
-## #   station_type &lt;chr&gt;, total_value &lt;dbl&gt;, control_type &lt;lgl&gt;, and abbreviated
-## #   variable names ¹​item_name, ²​quantity, ³​acquisition_value, ⁴​demil_code,
-## #   ⁵​demil_ic</code></pre>
+##    state agency_name nsn   item_name quantity ui    acquisition_value demil_code
+##    &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt; &lt;chr&gt;     
+##  1 TX    ABERNATHY … 2320… TRUCK,UT…        1 Each              62627 C         
+##  2 TX    ABERNATHY … 1240… SIGHT,RE…        5 Each                333 D         
+##  3 TX    ABILENE PO… 1005… RIFLE,5.…        1 Each                499 D         
+##  4 TX    ABILENE PO… 1005… RIFLE,5.…        1 Each                499 D         
+##  5 TX    ABILENE PO… 1005… RIFLE,5.…        1 Each                499 D         
+##  6 TX    ABILENE PO… 1005… RIFLE,5.…        1 Each                499 D         
+##  7 TX    ABILENE PO… 1005… RIFLE,5.…        1 Each                499 D         
+##  8 TX    ABILENE PO… 1005… RIFLE,5.…        1 Each                499 D         
+##  9 TX    ABILENE PO… 1005… RIFLE,5.…        1 Each                499 D         
+## 10 TX    ABILENE PO… 1005… RIFLE,5.…        1 Each                499 D         
+## # ℹ 7,807 more rows
+## # ℹ 5 more variables: demil_ic &lt;dbl&gt;, ship_date &lt;dttm&gt;, station_type &lt;chr&gt;,
+## #   total_value &lt;dbl&gt;, control_type &lt;lgl&gt;</code></pre>
 </details>
 <p><br /></p>
 <p>How do you know if it worked? Well the first column in the data is the <code>state</code> column, so they should all start with “TX”. Also note you started with nearly 130k observations (rows), and there are only 8,600+ in Texas.</p>
@@ -1139,22 +1141,21 @@ If you do this on your own, treat yourself to a cookie!
 <span id="cb117-6"><a href="sums-import.html#cb117-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb117-7"><a href="sums-import.html#cb117-7" aria-hidden="true" tabindex="-1"></a>leso_filtered</span></code></pre></div>
 <pre><code>## # A tibble: 6,698 × 13
-##    state agency_name         nsn   item_…¹ quant…² ui    acqui…³ demil…⁴ demil…⁵
-##    &lt;chr&gt; &lt;chr&gt;               &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
-##  1 TX    ABERNATHY POLICE D… 2320… TRUCK,…       1 Each    62627 C             1
-##  2 TX    ABERNATHY POLICE D… 1240… SIGHT,…       5 Each      333 D             1
-##  3 TX    ALLEN POLICE DEPT   1240… SIGHT,…       1 Each      396 D             1
-##  4 TX    ALLEN POLICE DEPT   1240… SIGHT,…       1 Each      396 D             1
-##  5 TX    ALLEN POLICE DEPT   1240… SIGHT,…       1 Each      396 D             1
-##  6 TX    ALLEN POLICE DEPT   1385… MK3MOD0       1 Each   371680 Q             3
-##  7 TX    ALLEN POLICE DEPT   1385… MK3MOD0       1 Each   371680 Q             3
-##  8 TX    ALLEN POLICE DEPT   2355… MINE R…       1 Each   658000 C             1
-##  9 TX    ALLEN POLICE DEPT   1240… SIGHT,…       1 Each      396 D             1
-## 10 TX    ALLEN POLICE DEPT   1240… SIGHT,…       1 Each      396 D             1
-## # … with 6,688 more rows, 4 more variables: ship_date &lt;dttm&gt;,
-## #   station_type &lt;chr&gt;, total_value &lt;dbl&gt;, control_type &lt;lgl&gt;, and abbreviated
-## #   variable names ¹​item_name, ²​quantity, ³​acquisition_value, ⁴​demil_code,
-## #   ⁵​demil_ic</code></pre>
+##    state agency_name nsn   item_name quantity ui    acquisition_value demil_code
+##    &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt; &lt;chr&gt;     
+##  1 TX    ABERNATHY … 2320… TRUCK,UT…        1 Each              62627 C         
+##  2 TX    ABERNATHY … 1240… SIGHT,RE…        5 Each                333 D         
+##  3 TX    ALLEN POLI… 1240… SIGHT,RE…        1 Each                396 D         
+##  4 TX    ALLEN POLI… 1240… SIGHT,RE…        1 Each                396 D         
+##  5 TX    ALLEN POLI… 1240… SIGHT,RE…        1 Each                396 D         
+##  6 TX    ALLEN POLI… 1385… MK3MOD0          1 Each             371680 Q         
+##  7 TX    ALLEN POLI… 1385… MK3MOD0          1 Each             371680 Q         
+##  8 TX    ALLEN POLI… 2355… MINE RES…        1 Each             658000 C         
+##  9 TX    ALLEN POLI… 1240… SIGHT,RE…        1 Each                396 D         
+## 10 TX    ALLEN POLI… 1240… SIGHT,RE…        1 Each                396 D         
+## # ℹ 6,688 more rows
+## # ℹ 5 more variables: demil_ic &lt;dbl&gt;, ship_date &lt;dttm&gt;, station_type &lt;chr&gt;,
+## #   total_value &lt;dbl&gt;, control_type &lt;lgl&gt;</code></pre>
 </details>
 </div>
 <div id="checking-the-results-with-summary" class="section level3 hasAnchor" number="5.11.3">

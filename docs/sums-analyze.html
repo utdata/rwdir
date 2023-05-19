@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 Summarize with math - analysis | Reporting with Data in R</title>
   <meta name="description" content="Chapter 6 Summarize with math - analysis | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The course is taught by Christian McDonald and Jo Lukito." />
-  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 Summarize with math - analysis | Reporting with Data in R" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Christian McDonald and Josephine Lukito" />
 
 
-<meta name="date" content="2023-03-17" />
+<meta name="date" content="2023-05-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -52,12 +52,12 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.25/datatables.js"></script>
-<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="libs/datatables-binding-0.27/datatables.js"></script>
+<link href="libs/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
 <link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
 <script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 <style type="text/css">
@@ -139,6 +139,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 </head>
 
@@ -646,14 +650,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 Library setup
 </summary>
 <div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="sums-analyze.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
-## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.1      ✔ stringr 1.5.0 
-## ✔ readr   2.1.3      ✔ forcats 0.5.1 
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.2     ✔ readr     2.1.4
+## ✔ forcats   1.0.0     ✔ stringr   1.5.0
+## ✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+## ✔ purrr     1.0.1     
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </details>
 <div id="load-the-data-into-a-tibble" class="section level3 hasAnchor" number="6.3.1">
 <h3><span class="header-section-number">6.3.1</span> Load the data into a tibble<a href="sums-analyze.html#load-the-data-into-a-tibble" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -835,7 +841,7 @@ Remember your data is in data-processed
 ##  8 ANTHONY POLICE DEPT                          10
 ##  9 ARANSAS PASS POLICE DEPARTMENT               28
 ## 10 ARCHER COUNTY SHERIFF OFFICE                  3
-## # … with 325 more rows</code></pre>
+## # ℹ 325 more rows</code></pre>
 <p>Let’s break this down a little.</p>
 <ul>
 <li>We start with the <code>tx_c</code>, which is the “controlled” data, and then …</li>
@@ -848,13 +854,12 @@ Remember your data is in data-processed
 <div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="sums-analyze.html#cb135-1" aria-hidden="true" tabindex="-1"></a>tx_c <span class="sc">|&gt;</span> </span>
 <span id="cb135-2"><a href="sums-analyze.html#cb135-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">==</span> <span class="st">&quot;ABERNATHY POLICE DEPT&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 2 × 13
-##   state agency_name          nsn   item_…¹ quant…² ui    acqui…³ demil…⁴ demil…⁵
-##   &lt;chr&gt; &lt;chr&gt;                &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
-## 1 TX    ABERNATHY POLICE DE… 2320… TRUCK,…       1 Each    62627 C             1
-## 2 TX    ABERNATHY POLICE DE… 1240… SIGHT,…       5 Each      333 D             1
-## # … with 4 more variables: ship_date &lt;dttm&gt;, station_type &lt;chr&gt;,
-## #   total_value &lt;dbl&gt;, control_type &lt;lgl&gt;, and abbreviated variable names
-## #   ¹​item_name, ²​quantity, ³​acquisition_value, ⁴​demil_code, ⁵​demil_ic</code></pre>
+##   state agency_name  nsn   item_name quantity ui    acquisition_value demil_code
+##   &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt; &lt;chr&gt;     
+## 1 TX    ABERNATHY P… 2320… TRUCK,UT…        1 Each              62627 C         
+## 2 TX    ABERNATHY P… 1240… SIGHT,RE…        5 Each                333 D         
+## # ℹ 5 more variables: demil_ic &lt;dbl&gt;, ship_date &lt;dttm&gt;, station_type &lt;chr&gt;,
+## #   total_value &lt;dbl&gt;, control_type &lt;lgl&gt;</code></pre>
 <p>If we look at the <code>quantity</code> column there and eyeball all the rows, we see there 8 rows with a value of “1”, and one row with a value of “5”. 8 + 5 = 13, which matches our <code>summed_quantity</code> answer in our summary table. We’re good!</p>
 </div>
 <div id="add-the-total_value" class="section level3 hasAnchor" number="6.6.2">
@@ -884,7 +889,7 @@ Remember your data is in data-processed
 ##  8 ANTHONY POLICE DEPT                          10              7490 
 ##  9 ARANSAS PASS POLICE DEPARTMENT               28            515396.
 ## 10 ARCHER COUNTY SHERIFF OFFICE                  3           1101000 
-## # … with 325 more rows</code></pre>
+## # ℹ 325 more rows</code></pre>
 </div>
 <div id="arrange-the-results-1" class="section level3 hasAnchor" number="6.6.3">
 <h3><span class="header-section-number">6.6.3</span> Arrange the results<a href="sums-analyze.html#arrange-the-results-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -912,7 +917,7 @@ Remember your data is in data-processed
 ##  8 MILAM COUNTY SHERIFF DEPT                      83           2196952.
 ##  9 HARRIS COUNTY SHERIFF&#39;S OFFICE                 16           1834141 
 ## 10 VAN ZANDT COUNTY SHERIFF&#39;S OFFICE              45           1789636.
-## # … with 325 more rows</code></pre>
+## # ℹ 325 more rows</code></pre>
 <p>So now we’ve sorted the results to put the highest <code>summed_total_value</code> at the top.</p>
 <p>Remember, there are two ways we can set up that <code>arrange()</code> function in descending order:</p>
 <ul>
@@ -966,7 +971,7 @@ Remember your data is in data-processed
 ##  8 MILAM COUNTY SHERIFF DEPT                      83           2196952.
 ##  9 HARRIS COUNTY SHERIFF&#39;S OFFICE                 16           1834141 
 ## 10 VAN ZANDT COUNTY SHERIFF&#39;S OFFICE              45           1789636.
-## # … with 325 more rows</code></pre>
+## # ℹ 325 more rows</code></pre>
 <p>The result is the same, but we can reuse the <code>tx_agency_totals</code> tibble.</p>
 </div>
 <div id="filtering-within-a-vector" class="section level3 hasAnchor" number="6.7.2">
@@ -1107,20 +1112,19 @@ Give it a go on your own first, then check here
 <span id="cb150-2"><a href="sums-analyze.html#cb150-2" aria-hidden="true" tabindex="-1"></a>tx_agency_item_totals</span></code></pre></div>
 <pre><code>## # A tibble: 1,548 × 4
 ## # Groups:   agency_name [335]
-##    agency_name                       item_name              summed_qua…¹ summe…²
-##    &lt;chr&gt;                             &lt;chr&gt;                         &lt;dbl&gt;   &lt;dbl&gt;
-##  1 HOUSTON POLICE DEPT               AIRCRAFT, FIXED WING              1 5390000
-##  2 DPS SWAT- TEXAS RANGERS           MINE RESISTANT VEHICLE            4 2611000
-##  3 DEPT OF CRIM JUSTICE OIG          TRUCK,CARGO                       4 1446516
-##  4 UNIV OF TEXAS SYSTEM POLICE HI_ED MINE RESISTANT VEHICLE            2 1228000
-##  5 JEFFERSON COUNTY SHERIFFS OFFICE  HELICOPTER,UTILITY                1  922704
-##  6 ALVIN POLICE DEPT                 HOIST,INTERNAL RESCUE             6  900420
-##  7 VAN ZANDT COUNTY SHERIFF&#39;S OFFICE TRUCK,WRECKER                     1  880674
-##  8 BURKBURNETT POLICE DEPT           MINE RESISTANT VEHICLE            1  865000
-##  9 CLEBURNE POLICE DEPT              MINE RESISTANT VEHICLE            1  865000
-## 10 CUERO POLICE DEPT                 MINE RESISTANT VEHICLE            1  865000
-## # … with 1,538 more rows, and abbreviated variable names ¹​summed_quantity,
-## #   ²​summed_total_value</code></pre>
+##    agency_name                      item_name summed_quantity summed_total_value
+##    &lt;chr&gt;                            &lt;chr&gt;               &lt;dbl&gt;              &lt;dbl&gt;
+##  1 HOUSTON POLICE DEPT              AIRCRAFT…               1            5390000
+##  2 DPS SWAT- TEXAS RANGERS          MINE RES…               4            2611000
+##  3 DEPT OF CRIM JUSTICE OIG         TRUCK,CA…               4            1446516
+##  4 UNIV OF TEXAS SYSTEM POLICE HI_… MINE RES…               2            1228000
+##  5 JEFFERSON COUNTY SHERIFFS OFFICE HELICOPT…               1             922704
+##  6 ALVIN POLICE DEPT                HOIST,IN…               6             900420
+##  7 VAN ZANDT COUNTY SHERIFF&#39;S OFFI… TRUCK,WR…               1             880674
+##  8 BURKBURNETT POLICE DEPT          MINE RES…               1             865000
+##  9 CLEBURNE POLICE DEPT             MINE RES…               1             865000
+## 10 CUERO POLICE DEPT                MINE RES…               1             865000
+## # ℹ 1,538 more rows</code></pre>
 </details>
 <p><br/></p>
 <p>This reuse of code like this – copying the agency grouping code and editing it to add the item_name value – is very common in coding, and there is nothing wrong with doing so as long as you are careful.</p>
@@ -1137,20 +1141,19 @@ Give it a go on your own first, then check here
 <span id="cb152-2"><a href="sums-analyze.html#cb152-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">%in%</span> local_agencies)</span></code></pre></div>
 <pre><code>## # A tibble: 175 × 4
 ## # Groups:   agency_name [19]
-##    agency_name                       item_name                   summe…¹ summe…²
-##    &lt;chr&gt;                             &lt;chr&gt;                         &lt;dbl&gt;   &lt;dbl&gt;
-##  1 UNIV OF TEXAS SYSTEM POLICE HI_ED MINE RESISTANT VEHICLE            2  1.23e6
-##  2 AUSTIN POLICE DEPT                HELICOPTER,FLIGHT TRAINER         1  8.33e5
-##  3 TRAVIS COUNTY SHERIFFS OFFICE     MINE RESISTANT VEHICLE            1  7.67e5
-##  4 CEDAR PARK POLICE DEPT            MINE RESISTANT VEHICLE            1  7.33e5
-##  5 GEORGETOWN POLICE DEPT            MINE RESISTANT VEHICLE            1  7.33e5
-##  6 LEANDER POLICE DEPT               MINE RESISTANT VEHICLE            1  7.33e5
-##  7 SAN MARCOS POLICE DEPT            MINE RESISTANT VEHICLE            1  7.33e5
-##  8 BASTROP COUNTY SHERIFF&#39;S OFFICE   MINE RESISTANT VEHICLE            1  6.58e5
-##  9 SAN MARCOS POLICE DEPT            CAPABILITIES SET,NON-LETHAL       1  4.95e5
-## 10 AUSTIN POLICE DEPT                IMAGE INTENSIFIER,NIGHT VI…      85  4.59e5
-## # … with 165 more rows, and abbreviated variable names ¹​summed_quantity,
-## #   ²​summed_total_value</code></pre>
+##    agency_name                      item_name summed_quantity summed_total_value
+##    &lt;chr&gt;                            &lt;chr&gt;               &lt;dbl&gt;              &lt;dbl&gt;
+##  1 UNIV OF TEXAS SYSTEM POLICE HI_… MINE RES…               2           1228000 
+##  2 AUSTIN POLICE DEPT               HELICOPT…               1            833400 
+##  3 TRAVIS COUNTY SHERIFFS OFFICE    MINE RES…               1            767360 
+##  4 CEDAR PARK POLICE DEPT           MINE RES…               1            733000 
+##  5 GEORGETOWN POLICE DEPT           MINE RES…               1            733000 
+##  6 LEANDER POLICE DEPT              MINE RES…               1            733000 
+##  7 SAN MARCOS POLICE DEPT           MINE RES…               1            733000 
+##  8 BASTROP COUNTY SHERIFF&#39;S OFFICE  MINE RES…               1            658000 
+##  9 SAN MARCOS POLICE DEPT           CAPABILI…               1            494724 
+## 10 AUSTIN POLICE DEPT               IMAGE IN…              85            458831.
+## # ℹ 165 more rows</code></pre>
 <p>Because our original list arranged the data by the most expensive items, we can see that here. But it might be easier to rearrange the data by agency name first, then the most expensive items.</p>
 <ol style="list-style-type: decimal">
 <li>EDIT your chunk to add an arrange function.</li>
@@ -1161,20 +1164,19 @@ Give it a go on your own first, then check here
 <span id="cb154-3"><a href="sums-analyze.html#cb154-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(agency_name, <span class="fu">desc</span>(summed_total_value))</span></code></pre></div>
 <pre><code>## # A tibble: 175 × 4
 ## # Groups:   agency_name [19]
-##    agency_name        item_name                                  summe…¹ summe…²
-##    &lt;chr&gt;              &lt;chr&gt;                                        &lt;dbl&gt;   &lt;dbl&gt;
-##  1 AUSTIN POLICE DEPT HELICOPTER,FLIGHT TRAINER                        1 833400 
-##  2 AUSTIN POLICE DEPT IMAGE INTENSIFIER,NIGHT VISION                  85 458831.
-##  3 AUSTIN POLICE DEPT SIGHT,THERMAL                                   29 442310 
-##  4 AUSTIN POLICE DEPT PACKBOT 510 WITH FASTAC REMOTELY CONTROLL…       4 308000 
-##  5 AUSTIN POLICE DEPT SIGHT,REFLEX                                   420 169256.
-##  6 AUSTIN POLICE DEPT ILLUMINATOR,INTEGRATED,SMALL ARMS              135 122302 
-##  7 AUSTIN POLICE DEPT RECON SCOUT XT                                   8  92451.
-##  8 AUSTIN POLICE DEPT TEST SET,NIGHT VISION VIEWER                     2  55610 
-##  9 AUSTIN POLICE DEPT SCOPE,NIGHT-POCKET                               5  20535 
-## 10 AUSTIN POLICE DEPT POWER SUPPLY ASSEMBLY                           63  20086.
-## # … with 165 more rows, and abbreviated variable names ¹​summed_quantity,
-## #   ²​summed_total_value</code></pre>
+##    agency_name        item_name               summed_quantity summed_total_value
+##    &lt;chr&gt;              &lt;chr&gt;                             &lt;dbl&gt;              &lt;dbl&gt;
+##  1 AUSTIN POLICE DEPT HELICOPTER,FLIGHT TRAI…               1            833400 
+##  2 AUSTIN POLICE DEPT IMAGE INTENSIFIER,NIGH…              85            458831.
+##  3 AUSTIN POLICE DEPT SIGHT,THERMAL                        29            442310 
+##  4 AUSTIN POLICE DEPT PACKBOT 510 WITH FASTA…               4            308000 
+##  5 AUSTIN POLICE DEPT SIGHT,REFLEX                        420            169256.
+##  6 AUSTIN POLICE DEPT ILLUMINATOR,INTEGRATED…             135            122302 
+##  7 AUSTIN POLICE DEPT RECON SCOUT XT                        8             92451.
+##  8 AUSTIN POLICE DEPT TEST SET,NIGHT VISION …               2             55610 
+##  9 AUSTIN POLICE DEPT SCOPE,NIGHT-POCKET                    5             20535 
+## 10 AUSTIN POLICE DEPT POWER SUPPLY ASSEMBLY                63             20086.
+## # ℹ 165 more rows</code></pre>
 </div>
 <div id="research-some-interesting-items" class="section level3 hasAnchor" number="6.8.2">
 <h3><span class="header-section-number">6.8.2</span> Research some interesting items<a href="sums-analyze.html#research-some-interesting-items" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -1203,7 +1205,7 @@ Give it a go on your own first, then check here
 ##  8 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
 ##  9 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
 ## 10 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
-## # … with 90 more rows</code></pre>
+## # ℹ 90 more rows</code></pre>
 <p>It looks like most of these illuminators use this <code>nsn</code>: 5855-01-534-5931.</p>
 <p>Now we go to the website <a href="https://nationalstocknumber.info/" class="uri">https://nationalstocknumber.info/</a> and plug that number into the search bar. We get a couple of returns, and if we click on one we <a href="https://nationalstocknumber.info/national-stock-number/5855-01-534-5931">get this page</a>. It gives us a description of the item:</p>
 <blockquote>

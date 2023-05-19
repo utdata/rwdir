@@ -82,19 +82,18 @@ leso_sample |>
 
 ```
 ## # A tibble: 10 × 4
-##    agency_name                      item_name                   quantity acqui…¹
-##    <chr>                            <chr>                          <dbl>   <dbl>
-##  1 MEADE COUNTY SHERIFF DEPT        GENERATOR SET,DIESEL ENGINE        5  4623. 
-##  2 PROSPERITY POLICE DEPT           RIFLE,7.62 MILLIMETER              1   138  
-##  3 KERN COUNTY SHERIFF OFFICE       MARKER,TUBE TYPE                  32    16.9
-##  4 LEAGUE CITY POLICE DEPT          RIFLE,5.56 MILLIMETER              1   749  
-##  5 TRUMBULL COUNTY SHERIFF'S OFFICE RIFLE,5.56 MILLIMETER              1   749  
-##  6 VALDESE POLICE DEPT              RIFLE,7.62 MILLIMETER              1   138  
-##  7 SACRAMENTO POLICE DEPT           RIFLE,5.56 MILLIMETER              1   499  
-##  8 BERRIEN COUNTY SHERIFF'S OFFICE  RIFLE,5.56 MILLIMETER              1   499  
-##  9 LA PAZ COUNTY SHERIFF OFFICE     RIFLE,5.56 MILLIMETER              1   499  
-## 10 MUSKEGON HEIGHTS POLICE DEPT     RIFLE,5.56 MILLIMETER              1   749  
-## # … with abbreviated variable name ¹​acquisition_value
+##    agency_name                      item_name         quantity acquisition_value
+##    <chr>                            <chr>                <dbl>             <dbl>
+##  1 MEADE COUNTY SHERIFF DEPT        GENERATOR SET,DI…        5            4623. 
+##  2 PROSPERITY POLICE DEPT           RIFLE,7.62 MILLI…        1             138  
+##  3 KERN COUNTY SHERIFF OFFICE       MARKER,TUBE TYPE        32              16.9
+##  4 LEAGUE CITY POLICE DEPT          RIFLE,5.56 MILLI…        1             749  
+##  5 TRUMBULL COUNTY SHERIFF'S OFFICE RIFLE,5.56 MILLI…        1             749  
+##  6 VALDESE POLICE DEPT              RIFLE,7.62 MILLI…        1             138  
+##  7 SACRAMENTO POLICE DEPT           RIFLE,5.56 MILLI…        1             499  
+##  8 BERRIEN COUNTY SHERIFF'S OFFICE  RIFLE,5.56 MILLI…        1             499  
+##  9 LA PAZ COUNTY SHERIFF OFFICE     RIFLE,5.56 MILLI…        1             499  
+## 10 MUSKEGON HEIGHTS POLICE DEPT     RIFLE,5.56 MILLI…        1             749
 ```
 
 Each row of data is a transfer of a particular type of item from the U.S. Department of Defense to a local law enforcement agency. The row includes the name of the item, the quantity, and the value ($) of a single unit.
@@ -247,21 +246,21 @@ leso
 
 ```
 ## # A tibble: 117,518 × 12
-##    sheet state agency_name   nsn   item_…¹ quant…² ui    acqui…³ demil…⁴ demil…⁵
-##    <dbl> <chr> <chr>         <chr> <chr>     <dbl> <chr>   <dbl> <chr>     <dbl>
-##  1     1 AL    ABBEVILLE PO… 2540… BALLIS…      10 Kit    15872. D             1
-##  2     1 AL    ABBEVILLE PO… 6760… CAMERA…       1 Each    1500  D             7
-##  3     1 AL    ABBEVILLE PO… 5855… ILLUMI…      10 Each    1128  D             1
-##  4     1 AL    ABBEVILLE PO… 1385… UNMANN…       1 Each   10000  Q             3
-##  5     1 AL    ABBEVILLE PO… 1240… OPTICA…       1 Each     246. D            NA
-##  6     1 AL    ABBEVILLE PO… 2355… MINE R…       1 Each  658000  C             1
-##  7     1 AL    ABBEVILLE PO… 1240… SIGHT,…       9 Each     396  D             1
-##  8     1 AL    ABBEVILLE PO… 2320… TRUCK,…       1 Each   62627  C             1
-##  9     1 AL    ABBEVILLE PO… 1005… MOUNT,…      10 Each    1626  D             1
-## 10     1 AL    ABBEVILLE PO… 2320… TRUCK,…       1 Each   62627  C             1
-## # … with 117,508 more rows, 2 more variables: ship_date <dttm>,
-## #   station_type <chr>, and abbreviated variable names ¹​item_name, ²​quantity,
-## #   ³​acquisition_value, ⁴​demil_code, ⁵​demil_ic
+##    sheet state agency_name      nsn   item_name quantity ui    acquisition_value
+##    <dbl> <chr> <chr>            <chr> <chr>        <dbl> <chr>             <dbl>
+##  1     1 AL    ABBEVILLE POLIC… 2540… BALLISTI…       10 Kit              15872.
+##  2     1 AL    ABBEVILLE POLIC… 6760… CAMERA R…        1 Each              1500 
+##  3     1 AL    ABBEVILLE POLIC… 5855… ILLUMINA…       10 Each              1128 
+##  4     1 AL    ABBEVILLE POLIC… 1385… UNMANNED…        1 Each             10000 
+##  5     1 AL    ABBEVILLE POLIC… 1240… OPTICAL …        1 Each               246.
+##  6     1 AL    ABBEVILLE POLIC… 2355… MINE RES…        1 Each            658000 
+##  7     1 AL    ABBEVILLE POLIC… 1240… SIGHT,RE…        9 Each               396 
+##  8     1 AL    ABBEVILLE POLIC… 2320… TRUCK,UT…        1 Each             62627 
+##  9     1 AL    ABBEVILLE POLIC… 1005… MOUNT,RI…       10 Each              1626 
+## 10     1 AL    ABBEVILLE POLIC… 2320… TRUCK,UT…        1 Each             62627 
+## # ℹ 117,508 more rows
+## # ℹ 4 more variables: demil_code <chr>, demil_ic <dbl>, ship_date <dttm>,
+## #   station_type <chr>
 ```
 
 </details>
@@ -541,8 +540,8 @@ leso_control |>
 ```
 
 ```{=html}
-<div id="htmlwidget-4037b66b29dc286a6054" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-4037b66b29dc286a6054">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29"],["A","A","A","A","B","B","C","C","C","C","C","D","D","D","D","D","E","E","E","F","F","F","F","Q","Q","Q","Q","Q","Q"],[0,1,7,null,3,null,0,1,4,7,null,0,1,4,7,null,1,7,null,0,1,7,null,0,1,3,5,6,null],[1,6853,179,4041,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,631,null],[null,4,null,null,26,112,2,5535,1,234,601,1,84368,10,1040,2889,105,5,3,1,4423,1082,25,6,6,5298,1,10,25]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>demil_code<\/th>\n      <th>demil_ic<\/th>\n      <th>FALSE<\/th>\n      <th>TRUE<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-2ba96da9e61e9ba70419" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-2ba96da9e61e9ba70419">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29"],["A","A","A","A","B","B","C","C","C","C","C","D","D","D","D","D","E","E","E","F","F","F","F","Q","Q","Q","Q","Q","Q"],[0,1,7,null,3,null,0,1,4,7,null,0,1,4,7,null,1,7,null,0,1,7,null,0,1,3,5,6,null],[1,6853,179,4041,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,631,null],[null,4,null,null,26,112,2,5535,1,234,601,1,84368,10,1040,2889,105,5,3,1,4423,1082,25,6,6,5298,1,10,25]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>demil_code<\/th>\n      <th>demil_ic<\/th>\n      <th>FALSE<\/th>\n      <th>TRUE<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ```
 
 OK, onto the next task to get Texas data for specific dates.
@@ -570,22 +569,21 @@ leso_control |>
 
 ```
 ## # A tibble: 7,817 × 13
-##    state agency_name         nsn   item_…¹ quant…² ui    acqui…³ demil…⁴ demil…⁵
-##    <chr> <chr>               <chr> <chr>     <dbl> <chr>   <dbl> <chr>     <dbl>
-##  1 TX    ABERNATHY POLICE D… 2320… TRUCK,…       1 Each    62627 C             1
-##  2 TX    ABERNATHY POLICE D… 1240… SIGHT,…       5 Each      333 D             1
-##  3 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
-##  4 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
-##  5 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
-##  6 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
-##  7 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
-##  8 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
-##  9 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
-## 10 TX    ABILENE POLICE DEPT 1005… RIFLE,…       1 Each      499 D             1
-## # … with 7,807 more rows, 4 more variables: ship_date <dttm>,
-## #   station_type <chr>, total_value <dbl>, control_type <lgl>, and abbreviated
-## #   variable names ¹​item_name, ²​quantity, ³​acquisition_value, ⁴​demil_code,
-## #   ⁵​demil_ic
+##    state agency_name nsn   item_name quantity ui    acquisition_value demil_code
+##    <chr> <chr>       <chr> <chr>        <dbl> <chr>             <dbl> <chr>     
+##  1 TX    ABERNATHY … 2320… TRUCK,UT…        1 Each              62627 C         
+##  2 TX    ABERNATHY … 1240… SIGHT,RE…        5 Each                333 D         
+##  3 TX    ABILENE PO… 1005… RIFLE,5.…        1 Each                499 D         
+##  4 TX    ABILENE PO… 1005… RIFLE,5.…        1 Each                499 D         
+##  5 TX    ABILENE PO… 1005… RIFLE,5.…        1 Each                499 D         
+##  6 TX    ABILENE PO… 1005… RIFLE,5.…        1 Each                499 D         
+##  7 TX    ABILENE PO… 1005… RIFLE,5.…        1 Each                499 D         
+##  8 TX    ABILENE PO… 1005… RIFLE,5.…        1 Each                499 D         
+##  9 TX    ABILENE PO… 1005… RIFLE,5.…        1 Each                499 D         
+## 10 TX    ABILENE PO… 1005… RIFLE,5.…        1 Each                499 D         
+## # ℹ 7,807 more rows
+## # ℹ 5 more variables: demil_ic <dbl>, ship_date <dttm>, station_type <chr>,
+## #   total_value <dbl>, control_type <lgl>
 ```
 
 </details>
@@ -616,22 +614,21 @@ leso_filtered
 
 ```
 ## # A tibble: 6,698 × 13
-##    state agency_name         nsn   item_…¹ quant…² ui    acqui…³ demil…⁴ demil…⁵
-##    <chr> <chr>               <chr> <chr>     <dbl> <chr>   <dbl> <chr>     <dbl>
-##  1 TX    ABERNATHY POLICE D… 2320… TRUCK,…       1 Each    62627 C             1
-##  2 TX    ABERNATHY POLICE D… 1240… SIGHT,…       5 Each      333 D             1
-##  3 TX    ALLEN POLICE DEPT   1240… SIGHT,…       1 Each      396 D             1
-##  4 TX    ALLEN POLICE DEPT   1240… SIGHT,…       1 Each      396 D             1
-##  5 TX    ALLEN POLICE DEPT   1240… SIGHT,…       1 Each      396 D             1
-##  6 TX    ALLEN POLICE DEPT   1385… MK3MOD0       1 Each   371680 Q             3
-##  7 TX    ALLEN POLICE DEPT   1385… MK3MOD0       1 Each   371680 Q             3
-##  8 TX    ALLEN POLICE DEPT   2355… MINE R…       1 Each   658000 C             1
-##  9 TX    ALLEN POLICE DEPT   1240… SIGHT,…       1 Each      396 D             1
-## 10 TX    ALLEN POLICE DEPT   1240… SIGHT,…       1 Each      396 D             1
-## # … with 6,688 more rows, 4 more variables: ship_date <dttm>,
-## #   station_type <chr>, total_value <dbl>, control_type <lgl>, and abbreviated
-## #   variable names ¹​item_name, ²​quantity, ³​acquisition_value, ⁴​demil_code,
-## #   ⁵​demil_ic
+##    state agency_name nsn   item_name quantity ui    acquisition_value demil_code
+##    <chr> <chr>       <chr> <chr>        <dbl> <chr>             <dbl> <chr>     
+##  1 TX    ABERNATHY … 2320… TRUCK,UT…        1 Each              62627 C         
+##  2 TX    ABERNATHY … 1240… SIGHT,RE…        5 Each                333 D         
+##  3 TX    ALLEN POLI… 1240… SIGHT,RE…        1 Each                396 D         
+##  4 TX    ALLEN POLI… 1240… SIGHT,RE…        1 Each                396 D         
+##  5 TX    ALLEN POLI… 1240… SIGHT,RE…        1 Each                396 D         
+##  6 TX    ALLEN POLI… 1385… MK3MOD0          1 Each             371680 Q         
+##  7 TX    ALLEN POLI… 1385… MK3MOD0          1 Each             371680 Q         
+##  8 TX    ALLEN POLI… 2355… MINE RES…        1 Each             658000 C         
+##  9 TX    ALLEN POLI… 1240… SIGHT,RE…        1 Each                396 D         
+## 10 TX    ALLEN POLI… 1240… SIGHT,RE…        1 Each                396 D         
+## # ℹ 6,688 more rows
+## # ℹ 5 more variables: demil_ic <dbl>, ship_date <dttm>, station_type <chr>,
+## #   total_value <dbl>, control_type <lgl>
 ```
 
 </details>

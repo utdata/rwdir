@@ -45,7 +45,7 @@ There are some challenges, though:
 
 - We have to download each year individually. There are nine years of data.
 - The are no district names in the files, only a district ID. We can get a reference file, though.
-- There are some differences is formatting for some files.
+- There are some differences in formatting for some files.
 
 I will save you the hassle of going through the TAPR database to find and download the individual files, and I will also supply code to clean the files to make them consistent. I'll try not to get lost in the weeds along the way.
 
@@ -122,7 +122,7 @@ dstud13
 ##  8 002901   2013      3617      250      6.9
 ##  9 003801   2013       635       45      7.1
 ## 10 003902   2013      2726      196      7.2
-## # … with 1,218 more rows
+## # ℹ 1,218 more rows
 ```
 
 
@@ -152,7 +152,7 @@ dstud13 |>
 ##  8 002901   2013      3617      250      6.9
 ##  9 003801   2013       635       45      7.1
 ## 10 003902   2013      2726      196      7.2
-## # … with 2,445 more rows
+## # ℹ 2,445 more rows
 ```
 
 
@@ -244,15 +244,14 @@ sped_joined |> head()
 
 ```
 ## # A tibble: 6 × 9
-##   district distname   cntyname dflalted dflchart year  dpetallc dpetspec dpets…¹
-##   <chr>    <chr>      <chr>    <chr>    <chr>    <chr>    <dbl>    <dbl>   <dbl>
-## 1 001902   CAYUGA ISD ANDERSON N        N        2013       595       73    12.3
-## 2 001902   CAYUGA ISD ANDERSON N        N        2014       553       76    13.7
-## 3 001902   CAYUGA ISD ANDERSON N        N        2015       577       76    13.2
-## 4 001902   CAYUGA ISD ANDERSON N        N        2016       568       78    13.7
-## 5 001902   CAYUGA ISD ANDERSON N        N        2017       576       82    14.2
-## 6 001902   CAYUGA ISD ANDERSON N        N        2018       575       83    14.4
-## # … with abbreviated variable name ¹​dpetspep
+##   district distname  cntyname dflalted dflchart year  dpetallc dpetspec dpetspep
+##   <chr>    <chr>     <chr>    <chr>    <chr>    <chr>    <dbl>    <dbl>    <dbl>
+## 1 001902   CAYUGA I… ANDERSON N        N        2013       595       73     12.3
+## 2 001902   CAYUGA I… ANDERSON N        N        2014       553       76     13.7
+## 3 001902   CAYUGA I… ANDERSON N        N        2015       577       76     13.2
+## 4 001902   CAYUGA I… ANDERSON N        N        2016       568       78     13.7
+## 5 001902   CAYUGA I… ANDERSON N        N        2017       576       82     14.2
+## 6 001902   CAYUGA I… ANDERSON N        N        2018       575       83     14.4
 ```
 
 You might also `glimpse()` it so you can see all the columns have been added.
@@ -376,19 +375,18 @@ sped_flag |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 8
-##    district distname          cntyname year  all_count sped_co…¹ sped_…² audit…³
-##    <chr>    <chr>             <chr>    <chr>     <dbl>     <dbl>   <dbl> <chr>  
-##  1 137901   KINGSVILLE ISD    KLEBERG  2013       3543       346     9.8 ABOVE  
-##  2 015913   LACKLAND ISD      BEXAR    2018       1051       112    10.7 ABOVE  
-##  3 139905   CHISUM ISD        LAMAR    2013        837        82     9.8 ABOVE  
-##  4 243902   ELECTRA ISD       WICHITA  2022        454        73    16.1 ABOVE  
-##  5 200902   MILES ISD         RUNNELS  2022        486        42     8.6 ABOVE  
-##  6 034909   BLOOMBURG ISD     CASS     2021        249        31    12.4 ABOVE  
-##  7 146905   HULL-DAISETTA ISD LIBERTY  2017        467        48    10.3 ABOVE  
-##  8 178902   BISHOP CISD       NUECES   2017       1381       158    11.4 ABOVE  
-##  9 121906   EVADALE ISD       JASPER   2019        445        48    10.8 ABOVE  
-## 10 201908   OVERTON ISD       RUSK     2016        502        46     9.2 ABOVE  
-## # … with abbreviated variable names ¹​sped_count, ²​sped_percent, ³​audit_flag
+##    district distname cntyname year  all_count sped_count sped_percent audit_flag
+##    <chr>    <chr>    <chr>    <chr>     <dbl>      <dbl>        <dbl> <chr>     
+##  1 059901   HEREFOR… DEAF SM… 2013       4229        309          7.3 BELOW     
+##  2 019902   HOOKS I… BOWIE    2021        844         95         11.3 ABOVE     
+##  3 025905   MAY ISD  BROWN    2021        253         34         13.4 ABOVE     
+##  4 113901   CROCKET… HOUSTON  2022       1190        143         12   ABOVE     
+##  5 181906   WEST OR… ORANGE   2018       2404        253         10.5 ABOVE     
+##  6 226905   WATER V… TOM GRE… 2018        363         54         14.9 ABOVE     
+##  7 096905   TURKEY-… HALL     2021        195         22         11.3 ABOVE     
+##  8 109908   MALONE … HILL     2018        158         22         13.9 ABOVE     
+##  9 109911   WHITNEY… HILL     2016       1478        166         11.2 ABOVE     
+## 10 034901   ATLANTA… CASS     2020       1824        236         12.9 ABOVE
 ```
 
 Let's walk through the code above:
