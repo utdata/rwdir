@@ -411,7 +411,7 @@ leso_five
 ##  8  2022       5828  AR   
 ##  9  2021      44478  AR   
 ## 10  2021        232. AR   
-## # … with 10,680 more rows
+## # ℹ 10,680 more rows
 ```
 
 Now that we have our five states, let's GSA this information, like we did earlier (but for all 5 states and not just Texas).
@@ -511,6 +511,9 @@ ggplot(leso_five_gsa, aes(x = year, y = yearly_cost)) +
 ```
 ## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
 ## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
 ```
 
 <img src="08-plots-more_files/figure-html/line-width-1.png" width="672" />

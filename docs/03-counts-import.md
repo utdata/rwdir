@@ -593,20 +593,19 @@ hot100_date |> head(10)
 
 ```
 ## # A tibble: 10 × 8
-##    chart_week this_week title         perfo…¹ last_…² peak_…³ wks_o…⁴ chart_date
-##    <chr>          <dbl> <chr>         <chr>     <dbl>   <dbl>   <dbl> <date>    
-##  1 8/4/1958           1 Poor Little … Ricky …      NA       1       1 1958-08-04
-##  2 8/4/1958           2 Patricia      Perez …      NA       2       1 1958-08-04
-##  3 8/4/1958           3 Splish Splash Bobby …      NA       3       1 1958-08-04
-##  4 8/4/1958           4 Hard Headed … Elvis …      NA       4       1 1958-08-04
-##  5 8/4/1958           5 When          Kalin …      NA       5       1 1958-08-04
-##  6 8/4/1958           6 Rebel-'rouser Duane …      NA       6       1 1958-08-04
-##  7 8/4/1958           7 Yakety Yak    The Co…      NA       7       1 1958-08-04
-##  8 8/4/1958           8 My True Love  Jack S…      NA       8       1 1958-08-04
-##  9 8/4/1958           9 Willie And T… The Jo…      NA       9       1 1958-08-04
-## 10 8/4/1958          10 Fever         Peggy …      NA      10       1 1958-08-04
-## # … with abbreviated variable names ¹​performer, ²​last_week, ³​peak_pos,
-## #   ⁴​wks_on_chart
+##    chart_week this_week title          performer last_week peak_pos wks_on_chart
+##    <chr>          <dbl> <chr>          <chr>         <dbl>    <dbl>        <dbl>
+##  1 8/4/1958           1 Poor Little F… Ricky Ne…        NA        1            1
+##  2 8/4/1958           2 Patricia       Perez Pr…        NA        2            1
+##  3 8/4/1958           3 Splish Splash  Bobby Da…        NA        3            1
+##  4 8/4/1958           4 Hard Headed W… Elvis Pr…        NA        4            1
+##  5 8/4/1958           5 When           Kalin Tw…        NA        5            1
+##  6 8/4/1958           6 Rebel-'rouser  Duane Ed…        NA        6            1
+##  7 8/4/1958           7 Yakety Yak     The Coas…        NA        7            1
+##  8 8/4/1958           8 My True Love   Jack Sco…        NA        8            1
+##  9 8/4/1958           9 Willie And Th… The John…        NA        9            1
+## 10 8/4/1958          10 Fever          Peggy Lee        NA       10            1
+## # ℹ 1 more variable: chart_date <date>
 ```
 
 This just prints the first 10 lines of the data.

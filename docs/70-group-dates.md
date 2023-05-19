@@ -98,7 +98,7 @@ hot100 |>
 ##  8               2005 Kelly Clarkson         124
 ##  9               2015 Drake                  124
 ## 10               2009 Taylor Swift           122
-## # … with 22,943 more rows
+## # ℹ 22,943 more rows
 ```
 
 We can see here that The Beatles had the most hits in 1964 with 214 (at least as of this writing).
@@ -136,7 +136,7 @@ hot100 |>
 ##  8  2005 Kelly Clarkson         124
 ##  9  2015 Drake                  124
 ## 10  2009 Taylor Swift           122
-## # … with 22,943 more rows
+## # ℹ 22,943 more rows
 ```
 
 It is a good practice to rename any grouping variable made from a function like that. FWIW, it would've worked if I called the new column `year`, but I named it `yr` so I'm less likely to confuse it with the function `year()`. It's a personal preference what to name the new column.
@@ -159,14 +159,14 @@ hot100_sample
 
 ```
 ## # A tibble: 6 × 2
-##   chart_date title                      
-##   <date>     <chr>                      
-## 1 1994-10-01 Wild Night                 
-## 2 1970-07-25 I Just Can't Help Believing
-## 3 1990-03-31 The Humpty Dance           
-## 4 1985-01-05 Walking On A Thin Line     
-## 5 1965-12-25 Jenny Take A Ride!         
-## 6 1995-12-16 Hurricane
+##   chart_date title                 
+##   <date>     <chr>                 
+## 1 1975-12-27 Eighteen With A Bullet
+## 2 1965-06-05 A Little Bit Of Heaven
+## 3 1981-03-28 I Have The Skill      
+## 4 1979-12-22 Don't Do Me Like That 
+## 5 1992-10-31 People Everyday       
+## 6 2010-06-05 Solo
 ```
 
 ### Let's make a year
@@ -187,14 +187,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 3
-##   chart_date title                          yr
-##   <date>     <chr>                       <dbl>
-## 1 1994-10-01 Wild Night                   1994
-## 2 1970-07-25 I Just Can't Help Believing  1970
-## 3 1990-03-31 The Humpty Dance             1990
-## 4 1985-01-05 Walking On A Thin Line       1985
-## 5 1965-12-25 Jenny Take A Ride!           1965
-## 6 1995-12-16 Hurricane                    1995
+##   chart_date title                     yr
+##   <date>     <chr>                  <dbl>
+## 1 1975-12-27 Eighteen With A Bullet  1975
+## 2 1965-06-05 A Little Bit Of Heaven  1965
+## 3 1981-03-28 I Have The Skill        1981
+## 4 1979-12-22 Don't Do Me Like That   1979
+## 5 1992-10-31 People Everyday         1992
+## 6 2010-06-05 Solo                    2010
 ```
 
 ### The magical month
@@ -211,14 +211,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 3
-##   chart_date title                          mo
-##   <date>     <chr>                       <dbl>
-## 1 1994-10-01 Wild Night                     10
-## 2 1970-07-25 I Just Can't Help Believing     7
-## 3 1990-03-31 The Humpty Dance                3
-## 4 1985-01-05 Walking On A Thin Line          1
-## 5 1965-12-25 Jenny Take A Ride!             12
-## 6 1995-12-16 Hurricane                      12
+##   chart_date title                     mo
+##   <date>     <chr>                  <dbl>
+## 1 1975-12-27 Eighteen With A Bullet    12
+## 2 1965-06-05 A Little Bit Of Heaven     6
+## 3 1981-03-28 I Have The Skill           3
+## 4 1979-12-22 Don't Do Me Like That     12
+## 5 1992-10-31 People Everyday           10
+## 6 2010-06-05 Solo                       6
 ```
 
 But there are some options within `month()` to give us month NAMES that are ordered as factors instead of alphabetical.
@@ -235,14 +235,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 4
-##   chart_date title                       mo_label mo_long 
-##   <date>     <chr>                       <ord>    <ord>   
-## 1 1985-01-05 Walking On A Thin Line      Jan      January 
-## 2 1990-03-31 The Humpty Dance            Mar      March   
-## 3 1970-07-25 I Just Can't Help Believing Jul      July    
-## 4 1994-10-01 Wild Night                  Oct      October 
-## 5 1965-12-25 Jenny Take A Ride!          Dec      December
-## 6 1995-12-16 Hurricane                   Dec      December
+##   chart_date title                  mo_label mo_long 
+##   <date>     <chr>                  <ord>    <ord>   
+## 1 1981-03-28 I Have The Skill       Mar      March   
+## 2 1965-06-05 A Little Bit Of Heaven Jun      June    
+## 3 2010-06-05 Solo                   Jun      June    
+## 4 1992-10-31 People Everyday        Oct      October 
+## 5 1975-12-27 Eighteen With A Bullet Dec      December
+## 6 1979-12-22 Don't Do Me Like That  Dec      December
 ```
 
 Note the datatype `<ord>` under the column `mo_label` and `mo_long`. That means this is an "ordered factor" and that when arranged by those labels it will list in MONTH order instead of alphabetical order, which is quite useful.
@@ -262,14 +262,14 @@ hot100_sample |>
 
 ```
 ## # A tibble: 6 × 4
-##   chart_date title                       fl_month   fl_year   
-##   <date>     <chr>                       <date>     <date>    
-## 1 1994-10-01 Wild Night                  1994-10-01 1994-01-01
-## 2 1970-07-25 I Just Can't Help Believing 1970-07-01 1970-01-01
-## 3 1990-03-31 The Humpty Dance            1990-03-01 1990-01-01
-## 4 1985-01-05 Walking On A Thin Line      1985-01-01 1985-01-01
-## 5 1965-12-25 Jenny Take A Ride!          1965-12-01 1965-01-01
-## 6 1995-12-16 Hurricane                   1995-12-01 1995-01-01
+##   chart_date title                  fl_month   fl_year   
+##   <date>     <chr>                  <date>     <date>    
+## 1 1975-12-27 Eighteen With A Bullet 1975-12-01 1975-01-01
+## 2 1965-06-05 A Little Bit Of Heaven 1965-06-01 1965-01-01
+## 3 1981-03-28 I Have The Skill       1981-03-01 1981-01-01
+## 4 1979-12-22 Don't Do Me Like That  1979-12-01 1979-01-01
+## 5 1992-10-31 People Everyday        1992-10-01 1992-01-01
+## 6 2010-06-05 Solo                   2010-06-01 2010-01-01
 ```
 
 You can see the resulting new columns are real dates, but they are normalized:
