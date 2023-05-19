@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Reporting with Data in R - 7&nbsp; Data Viz - Intro to ggplot</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./tidy-data.html" rel="next">
+<link href="./sums-analysis.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./plots.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data Viz - Intro to ggplot</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Reporting with Data in R</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About this book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./install.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Install Party</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./counts-import.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarize: count - import</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./counts-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Summarize: count - analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./sums-import.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Summarize: math - import</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./sums-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Summarize: math - analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plots.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data Viz - Intro to ggplot</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tidy-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tidy data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bind-join.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bind and join</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./answers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Plotting for answers</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./group-dates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Grouping by dates</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">R Functions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Troubleshooting</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./explore.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Exploring a new dataset</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./charts-tips.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Chart production tips</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#goals-for-this-section" id="toc-goals-for-this-section" class="nav-link active" data-scroll-target="#goals-for-this-section"><span class="header-section-number">7.1</span> Goals for this section</a></li>
+  <li><a href="#introduction-to-ggplot" id="toc-introduction-to-ggplot" class="nav-link" data-scroll-target="#introduction-to-ggplot"><span class="header-section-number">7.2</span> Introduction to ggplot</a>
+  <ul class="collapse">
+  <li><a href="#what-i-likedislike-about-ggplot" id="toc-what-i-likedislike-about-ggplot" class="nav-link" data-scroll-target="#what-i-likedislike-about-ggplot"><span class="header-section-number">7.2.1</span> What I like/dislike about ggplot</a></li>
+  <li><a href="#the-grammar-of-graphics" id="toc-the-grammar-of-graphics" class="nav-link" data-scroll-target="#the-grammar-of-graphics"><span class="header-section-number">7.2.2</span> The Grammar of Graphics</a></li>
+  </ul></li>
+  <li><a href="#start-a-new-project" id="toc-start-a-new-project" class="nav-link" data-scroll-target="#start-a-new-project"><span class="header-section-number">7.3</span> Start a new project</a></li>
+  <li><a href="#the-layers-of-ggplot" id="toc-the-layers-of-ggplot" class="nav-link" data-scroll-target="#the-layers-of-ggplot"><span class="header-section-number">7.4</span> The layers of ggplot</a>
+  <ul class="collapse">
+  <li><a href="#build-the-base-layer" id="toc-build-the-base-layer" class="nav-link" data-scroll-target="#build-the-base-layer"><span class="header-section-number">7.4.1</span> Build the base layer</a></li>
+  <li><a href="#layers-can-we-add-to-our-plots" id="toc-layers-can-we-add-to-our-plots" class="nav-link" data-scroll-target="#layers-can-we-add-to-our-plots"><span class="header-section-number">7.4.2</span> Layers can we add to our plots</a></li>
+  <li><a href="#add-geom_point" id="toc-add-geom_point" class="nav-link" data-scroll-target="#add-geom_point"><span class="header-section-number">7.4.3</span> Add geom_point</a></li>
+  <li><a href="#adding-other-mappings" id="toc-adding-other-mappings" class="nav-link" data-scroll-target="#adding-other-mappings"><span class="header-section-number">7.4.4</span> Adding other mappings</a></li>
+  </ul></li>
+  <li><a href="#lets-build-a-bar-chart" id="toc-lets-build-a-bar-chart" class="nav-link" data-scroll-target="#lets-build-a-bar-chart"><span class="header-section-number">7.5</span> Let’s build a bar chart</a>
+  <ul class="collapse">
+  <li><a href="#prepare-the-data" id="toc-prepare-the-data" class="nav-link" data-scroll-target="#prepare-the-data"><span class="header-section-number">7.5.1</span> Prepare the data</a></li>
+  <li><a href="#build-our-plot-with-geom_col" id="toc-build-our-plot-with-geom_col" class="nav-link" data-scroll-target="#build-our-plot-with-geom_col"><span class="header-section-number">7.5.2</span> Build our plot with geom_col</a></li>
+  <li><a href="#add-the-geom_col-layer" id="toc-add-the-geom_col-layer" class="nav-link" data-scroll-target="#add-the-geom_col-layer"><span class="header-section-number">7.5.3</span> Add the geom_col layer</a></li>
+  <li><a href="#flip-the-axes" id="toc-flip-the-axes" class="nav-link" data-scroll-target="#flip-the-axes"><span class="header-section-number">7.5.4</span> Flip the axes</a></li>
+  <li><a href="#reorder-the-bars" id="toc-reorder-the-bars" class="nav-link" data-scroll-target="#reorder-the-bars"><span class="header-section-number">7.5.5</span> Reorder the bars</a></li>
+  <li><a href="#adding-a-geom_text-layer" id="toc-adding-a-geom_text-layer" class="nav-link" data-scroll-target="#adding-a-geom_text-layer"><span class="header-section-number">7.5.6</span> Adding a geom_text layer</a></li>
+  <li><a href="#add-some-titles-and-more-labels" id="toc-add-some-titles-and-more-labels" class="nav-link" data-scroll-target="#add-some-titles-and-more-labels"><span class="header-section-number">7.5.7</span> Add some titles and more labels</a></li>
+  </ul></li>
+  <li><a href="#on-your-own-ice-cream" id="toc-on-your-own-ice-cream" class="nav-link" data-scroll-target="#on-your-own-ice-cream"><span class="header-section-number">7.6</span> On your own: Ice cream!</a></li>
+  <li><a href="#what-weve-learned" id="toc-what-weve-learned" class="nav-link" data-scroll-target="#what-weve-learned"><span class="header-section-number">7.7</span> What we’ve learned</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="ggplot-intro" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data Viz - Intro to ggplot</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>The chapter is by Prof.&nbsp;Lukito, who uses a PC.</p>
+<p>This week, we’ll move on from summaries to talking about data visualizations (“data viz”), an essential skill for any data journalist. While there are a lot of different ways to make figures and graphs, this chapter will focus on one popular R package for data viz: <code>ggplot</code>.</p>
+<section id="goals-for-this-section" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="goals-for-this-section"><span class="header-section-number">7.1</span> Goals for this section</h2>
+<p>In this chapter, we’ll learn the basics of <strong>data visualization</strong> using the Grammar of Graphics principles. We’ll start with some smaller datasets to give you a sense of how the code works. And, in the next chapter, you’ll apply this to a dataset we have already used in the class.</p>
+<p>Our learning goals are:</p>
+<ul>
+<li>To learn about the Grammar of Graphics</li>
+<li>To make scatterplots</li>
+<li>To make bar charts</li>
+</ul>
+</section>
+<section id="introduction-to-ggplot" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="introduction-to-ggplot"><span class="header-section-number">7.2</span> Introduction to ggplot</h2>
+<p><a href="https://ggplot2.tidyverse.org/">ggplot2</a> is the data visualization library within Hadley Wickham’s <a href="https://www.tidyverse.org/">tidyverse</a>. It is <strong>a beast</strong> of a package because it supports a whole variety of different types of data visualizations, from <a href="https://www.r-graph-gallery.com/histogram.html">bar charts</a> and <a href="https://www.r-graph-gallery.com/connected-scatterplot.html">line charts</a> to fancy <a href="https://www.r-graph-gallery.com/choropleth-map.html">choropleth maps</a> and <a href="https://www.r-graph-gallery.com/animation.html">animated figures</a>.</p>
+<p>Even though the package is called <code>ggplot2</code>, the function to make graphs is just <code>ggplot()</code>. So, for simplicity, we’ll just call everything <code>ggplot</code></p>
+<p>The <code>ggplot</code> package relies on a concept called the <a href="https://byrneslab.net/classes/biol607/readings/wickham_layered-grammar.pdf">Grammar of Graphics</a>, hence the <code>gg</code> in <code>ggplot</code>. The basic logic of the Grammar of Graphics is that any graph you could ever want to build will need similar things: a data set, some information about the scales of your variables, and the type of figure or graph that you want to create. These various things can be “layered” on top of each other to create a visually pleasing graph.</p>
+<p>Folks who have used Adobe creative programs (e.g., Photoshop, Illustrator, etc.) can think about it like laying an image: each layer in your image <em>should do something</em> to change the image. Likewise, each layer in a <code>ggplot</code> figure will add to the overall graph.</p>
+<section id="what-i-likedislike-about-ggplot" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="what-i-likedislike-about-ggplot"><span class="header-section-number">7.2.1</span> What I like/dislike about ggplot</h3>
+<p>Let me just start by saying that I’m a total <code>ggplot</code> geek. I’ll talk about <code>ggplot</code> figures the way people talk about new TikTok trends. When producing figures and graphs in R, <code>ggplot</code> is the <strong>absolute best approach</strong> because you’ll see the results right in your R notebook. And, basic data visualizations are an absolutely essential skill for any data journalist: it helps you find important things in your data that you may ultimately report on. So, <code>ggplot</code> is important for any R-based data journalism project.</p>
+<p>That being said, there are less complicated ways of creating publishable graphics. Tools like <a href="https://www.datawrapper.de/">Datawrapper</a> and <a href="https://flourish.studio/">Flourish</a> can produce equally beautiful graphics without the code. So why learn <code>ggplot</code>? Because, <strong>(1)</strong> <code>ggplot</code> is super useful when you’re just learning about the data and <strong>(2)</strong> to get good enough in <code>ggplot</code> to make publishable graphics, you have to practice, practice, practice. Yes, <code>ggplot</code> is a big package with lots of nuiance. But the more you take the time to learn it, the more you will master it.</p>
+</section>
+<section id="the-grammar-of-graphics" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="the-grammar-of-graphics"><span class="header-section-number">7.2.2</span> The Grammar of Graphics</h3>
+<p>This section was inspired by <a href="http://www.mattwaite.com/">Matt Waite</a> and the <a href="https://bbc.github.io/rcookbook/">BBC Visual Cookbook</a>.</p>
+<p>As I said above, the <code>gg</code> in <code>ggplot</code> stands for “Grammar of Graphics,” which is a fancy way of saying we’ll build our charts layer by layer. Once you know what data you are using, there are three main layers to any <code>ggplot</code> chart:</p>
+<ul>
+<li><strong>aesthetics</strong> (“aes”): this is where you put information about the dataset, including specifics about what fields/variables should be on the x-axis and y-axis.</li>
+<li><strong>geometries</strong> (“geom”): this is where you tell R the shape of your visualization, whether it’s lines, bars, points, or something else.</li>
+<li><strong>themes</strong> (“theme”): this is where you tell R the font you’d like to use, the background color, and other things you want to “pretty up” the data viz.</li>
+</ul>
+<p>In addition to these three main layers, there are lots of helper layers we’ll learn about along the way, including:</p>
+<ul>
+<li><p><strong>coord_flip</strong>: a special layer for flipping the chart<br>
+</p></li>
+<li><p><strong>scales</strong>: transforming the data to make the plot more read-able<br>
+</p></li>
+<li><p><strong>labels</strong> (“labs”): for making titles and labels<br>
+</p></li>
+<li><p><strong>facets</strong>: For graphing many elements of the same data set in the same space (one dataset, multiple figures)</p>
+<p>This all may seem complicated now, but it’ll make sense once we start putting together these layers together, one at a time. After all, the best way to learn any R package is to <strong>do it</strong></p></li>
+</ul>
+</section>
+</section>
+<section id="start-a-new-project" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="start-a-new-project"><span class="header-section-number">7.3</span> Start a new project</h2>
+<ol type="1">
+<li>Get into RStudio and make sure you don’t have any other files or projects open.</li>
+<li>Create a new project, name it <code>yourname-ggplot</code> and save it in your rwd folder.</li>
+<li>(No need for a folder structure, we’ll do this all in one file.)</li>
+<li>Start a new RMarkdown notebook and save it as <code>01-intro-ggplot.Rmd</code>.</li>
+<li>Remove the boilerplate and create a setup section that loads <code>library(tidyverse)</code>, like we do with every notebook. The <code>ggplot</code> package is a part of <code>tidyverse</code>, so when you load <code>tidyverse</code>, you’ll load <code>ggplot</code>. We will also load <code>janitor</code>, which we will load to use the <code>clean_names()</code> function.</li>
+</ol>
+</section>
+<section id="the-layers-of-ggplot" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="the-layers-of-ggplot"><span class="header-section-number">7.4</span> The layers of ggplot</h2>
+<blockquote class="blockquote">
+<p>Much of this first plot explanation comes from Hadley Wickham’s <a href="https://r4ds.had.co.nz/data-visualisation.html?q=aes#data-visualisation">R for Data Science</a>, with edits to fit the lesson here.</p>
+</blockquote>
+<p>To explore how <code>ggplot</code> works, we’re going to work with some data that already comes with <code>tidyverse</code>. Let’s take a look at it now.</p>
+<ol type="1">
+<li>Start a new section “First plot” and add a code chunk.</li>
+<li>Add the code below and run it to see what the <code>mpg</code> dataset looks like.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>mpg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 234 × 11
+   manufacturer model      displ  year   cyl trans drv     cty   hwy fl    class
+   &lt;chr&gt;        &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+ 1 audi         a4           1.8  1999     4 auto… f        18    29 p     comp…
+ 2 audi         a4           1.8  1999     4 manu… f        21    29 p     comp…
+ 3 audi         a4           2    2008     4 manu… f        20    31 p     comp…
+ 4 audi         a4           2    2008     4 auto… f        21    30 p     comp…
+ 5 audi         a4           2.8  1999     6 auto… f        16    26 p     comp…
+ 6 audi         a4           2.8  1999     6 manu… f        18    26 p     comp…
+ 7 audi         a4           3.1  2008     6 auto… f        18    27 p     comp…
+ 8 audi         a4 quattro   1.8  1999     4 manu… 4        18    26 p     comp…
+ 9 audi         a4 quattro   1.8  1999     4 auto… 4        16    25 p     comp…
+10 audi         a4 quattro   2    2008     4 manu… 4        20    28 p     comp…
+# ℹ 224 more rows</code></pre>
+</div>
+</div>
+<p>The <code>mpg</code> data contains observations collected by the US Environmental Protection Agency on 38 models of cars. It’s a data set embedded into the tidyverse for lessons like this one.</p>
+<p>For this lesson, we’ll use (at least two) two specific variables in this data:</p>
+<ul>
+<li><code>displ</code>, a car’s engine size, in liters.</li>
+<li><code>hwy</code>, a car’s fuel efficiency on the highway, in miles per gallon (mpg).</li>
+</ul>
+<p>With these two variables, we can test the theory that cars with smaller engines (<code>displ</code>) get better gas mileage (<code>hwy</code>). To do this, we’ll make a plot.</p>
+<section id="build-the-base-layer" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="build-the-base-layer"><span class="header-section-number">7.4.1</span> Build the base layer</h3>
+<p>When working with the <code>ggplot2</code> package, you’ll start nearly every figure with the <code>ggplot()</code> function. In the <code>ggplot()</code> function, you’ll tell R what data you’re using, and the coordinate system you want to build based on the data.</p>
+<p>The first thing you’ll want to do is tell <code>ggplot</code> the dataset you want to use (in this case, <code>mpg</code>). Let’s do that now.</p>
+<p>Do this:</p>
+<ol type="1">
+<li>In your first plot section, add some text that you are building the mpg chart.</li>
+<li>Make a new code chunk and add the code below.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="plots_files/figure-html/mpg-prebase-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This tells us… absolutely nothing! But that’s not surprising: you haven’t even told <code>ggplot</code> what variables you want to focus on or the way you want to visualize the data. To do that, you’ll need a second argument (and the first official layer in your plot): the <code>aes()</code> (short for “aesthetic”). This is considered a <code>mapping</code> argument, because you use this argument to tell <code>ggplot</code> how you want to map your data (in our case, <code>mpg</code>).</p>
+<p>In an <code>aes()</code> argument, you want to indicate the variables that you will be mapping to the x and y axes. This is usually done with the <code>x</code> and <code>y</code> arguments, so your <code>aes()</code> argument will look something like this: <code>aes(x = some_variable, y = another_variable)</code>, where <code>some_variable</code> and <code>another_variable</code> are variables in your dataset.</p>
+<p>In our case, we’ll practice using <code>displ</code> (the car’s engine size) and <code>hwy</code> (the car’s highway efficiency). Let’s plug in our <code>aes()</code> layer now, directly into the <code>ggplot()</code> function.</p>
+<p>Do this:</p>
+<ol type="1">
+<li>In the code chunk you created above, add the following line of code.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(<span class="at">x =</span> displ, <span class="at">y =</span> hwy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="plots_files/figure-html/mpg-base-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Let’s work through the code above:</p>
+<ul>
+<li><code>ggplot()</code> is the function we use to make a chart.<br>
+</li>
+<li>The first argument <code>ggplot()</code> needs is the data. It could be specified as <code>data = mpg</code> but we don’t need the <code>data =</code> part as it is always the first item specified inside of (or piped into) <code>ggplot()</code><br>
+</li>
+<li>Next is the <strong>aesthetics</strong> or <code>aes()</code>. This is where tell ggplot what data to plot on the <code>x</code> and <code>y</code> axis. You might see this as <code>mapping = aes(&lt;VALUES&gt;)</code> but we can often get by without the <code>mapping =</code> part.</li>
+</ul>
+<p>This code tells us just a little bit more than nothing: instead of a blank box, we can now see the grid for the x and y axis. But we’ll need another layer to add data to this grid!</p>
+<p>A quick <a href="https://en.wikipedia.org/wiki/FYI">FYI</a>: The <code>aes()</code> that you put into <code>ggplot()</code> apply to the whole graph. Other (geom) layers that you write after this main layer can also take <code>aes()</code> arguments. We’ll do that in future charts.</p>
+<p>Now that we have our <code>ggplot()</code> argument and first layer done, let’s talk about how to add layers to this.</p>
+</section>
+<section id="layers-can-we-add-to-our-plots" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="layers-can-we-add-to-our-plots"><span class="header-section-number">7.4.2</span> Layers can we add to our plots</h3>
+<p>Our base layer is the starting point for every <code>ggplot</code> chart, but it’s certainly not the end. In the next section below, we’ll work with three <strong>types</strong> of layers. Don’t worry if this seems like a lot of information: we’ll go layer by layer so you can see the whole process.</p>
+<p>Below are some of the layers we will work with:</p>
+<ul>
+<li><strong>geometries</strong> (or “geoms” as we call them) are the way we plot data on the base grid. There are <a href="https://github.com/rstudio/cheatsheets/blob/master/data-visualization.pdf">many geoms</a>, but here are a few common ones:
+<ul>
+<li><code>geom_point()</code> adds dots onto the grid based on the data. Will will use these here to build a scatterplot graph.</li>
+<li><code>geom_line()</code> adds lines between data points on the grid. Basically a line chart.</li>
+<li><code>geom_col()</code> and <code>geom_bars()</code> adds bars to the grid based on values in the data. A bar chart. We’ll use <code>geom_col()</code> later in this lesson but you can read about the difference between the two in a later chapter.</li>
+<li><code>geom_text()</code> adds labels based on values in the data.</li>
+</ul></li>
+<li><strong>themes</strong> change the visual styles of the grids and axis. There are several available within ggplot and <a href="https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/">many other from the R community</a>.</li>
+<li><strong>labels</strong> (or labs, since we use the <code>labs()</code> function for them) are a series of text-based items we can layer onto our plots like titles, bylines and axis names.</li>
+</ul>
+<p>In addition to these layers, we’ll use the <code>+</code> at the end of each line. Think of the <code>+</code> as the <code>%&gt;%</code> of ggplot. So, your code will look something like this (don’t run this code chunk!):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> some_variable, <span class="at">y =</span> another_variable)) <span class="sc">+</span> <span class="co">#creates the base layer, with the + at the end</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  geom_layer <span class="co">#adds a geom</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Okay, now that we know what the code looks like, let’s proceed with the first <code>geom</code>.</p>
+</section>
+<section id="add-geom_point" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="add-geom_point"><span class="header-section-number">7.4.3</span> Add geom_point</h3>
+<p>The second layer we’ll add to our figure is a <code>geom</code> layer. “Geom” is short for geometries: these layers provide a lot of different ways to shape and visualize the data. Simply put, <code>geom</code> layers tell R what kind of chart you’d like to make.</p>
+<p>Let’s start with a straightforward <code>geom</code> layer, <code>geom_plot()</code>, which adds a layer of points to your plot (this type of plot is called a scatterplot).</p>
+<ol type="1">
+<li>EDIT your plot chunk to add the <code>+</code> and a new line for <code>geom_point()</code></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(<span class="at">x =</span> displ, <span class="at">y =</span> hwy)) <span class="sc">+</span> <span class="co"># don't forget the + at the end of this line</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="co"># the geom_point layer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="plots_files/figure-html/mpg-points-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#The geom_point() function will inherit the aes() values from the line above it.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we’re starting to get somewhere! With the <code>geom_point()</code> layer added, our data are now finally displayed as points. And, as you can see, the pattern is pretty obvious: the lower the car’s <code>displ</code> (their engine size, in liters), the higher the <code>hwy</code> (their gas milage on a highway).</p>
+</section>
+<section id="adding-other-mappings" class="level3" data-number="7.4.4">
+<h3 data-number="7.4.4" class="anchored" data-anchor-id="adding-other-mappings"><span class="header-section-number">7.4.4</span> Adding other mappings</h3>
+<p>As mentioned in the above section, there are aesthetics (<code>aes</code>) arguments that can apply to the plot as a whole (which we did with the x and y values above) and there are aesthetics we can write into specific <code>geom</code> layers (these aesthetics will not apply to other layers–just that <code>geom</code>). This can be useful if you wanted to incorporate a third variable into your figure, as we will demonstrate below, using <code>color</code>.</p>
+<ol type="1">
+<li>Edit your <code>geom_point()</code> function to add a color mapping to the points with <code>aes(color = class)</code>. <code>color</code> is the type of aesthetic, and <code>class</code> is another variable (column) in the data.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(<span class="at">x =</span> displ, <span class="at">y =</span> hwy)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> class)) <span class="co"># this is the line you are editing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="plots_files/figure-html/mpg-color-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>As you can see, the dots were given colors based on the values in the <code>class</code> column, and ggplot also added a legend to the graphic. These colors are the default color settings in <code>ggplot</code></p>
+<p>There are other aesthetics you can use.</p>
+<ol type="1">
+<li>Change the <code>color</code> aesthetic to one of these values and run it to see how it affects the chart: <code>alpha</code>, <code>size</code> and <code>shape</code>. (i.e., <code>alpha = class</code>.)<br>
+</li>
+<li>Once you’ve tried them, change it back to <code>color</code>.</li>
+</ol>
+<p>OK, enough of the basics … let’s build a chart you <em>might</em> care about.</p>
+</section>
+</section>
+<section id="lets-build-a-bar-chart" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="lets-build-a-bar-chart"><span class="header-section-number">7.5</span> Let’s build a bar chart</h2>
+<p>In our first week of class, we sent out a survey where you told us your favorite Disney Princess and favorite flavor of ice cream. Let’s now play around with some of this data.</p>
+<p>For this lesson, we’re not going to create a different notebook or download the data to our computer. Instead, we’re going to save the data directly into a tibble.</p>
+<ol type="1">
+<li>Start a new section: Princess chart data upload.</li>
+<li>In the text, note that we are importing the princess chart data.</li>
+<li>Add the code below to get the data.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read the data and create an tibble object called "class"</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>class <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://docs.google.com/spreadsheets/d/e/2PACX-1vQfwR6DBW5Qv6O5aEBFJl4V8itnlDxFEc1e_-fOAtBMDxXx1GeEGb8o5VSgi33oTYqeFhVCevGGbG5y/pub?gid=0&amp;single=true&amp;output=csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 37 Columns: 3
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (3): Name, Princess, Ice cream
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>class</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 37 × 3
+   Name      Princess   `Ice cream`        
+   &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;              
+ 1 Abbie     Cinderella Chocolate          
+ 2 Aislyn    Rapunzel   Coffee             
+ 3 Ana       Ariel      Chocolate          
+ 4 Ana Sofia Tiana      Cookie Dough       
+ 5 Ardynne   Belle      Cookies and Cream  
+ 6 Benton    Mulan      Coffee             
+ 7 Cheney    Merida     Rocky Road         
+ 8 Christy   Tiana      Rocky Road         
+ 9 Corey     Mulan      Mint Chocolate Chip
+10 Darren    Mulan      Coffee             
+# ℹ 27 more rows</code></pre>
+</div>
+</div>
+<p>So, now, you should have the data in your environment.</p>
+<section id="prepare-the-data" class="level3" data-number="7.5.1">
+<h3 data-number="7.5.1" class="anchored" data-anchor-id="prepare-the-data"><span class="header-section-number">7.5.1</span> Prepare the data</h3>
+<p>While there are ways for ggplot to calculate values from your data on the fly, I prefer to first build a table of the values I want, and then I will plot it on a chart. It’s helpful to think of these steps as separate so you have a good workflow (clean the data, prepare the data in a table form, and then plot the data).</p>
+<p>Today, our goal will be to make a bar chart, sometimes known as a column chart or histogram. This bar chart will show the number of votes for each princess from the data. So, we need to count the number of rows for each value … our typical <code>group_by</code>/<code>summarize</code>/<code>arrange</code> (GSA) process.</p>
+<p>For this lesson, I’m going to use the <code>count()</code> shortcut, since we haven’t used it much lately. Next, I’ll save the summarized data into a new dataframe called <code>princess_data</code>. Follow along in your notebook:</p>
+<ol type="1">
+<li>Add a section: Princess chart.</li>
+<li>Add text that you are creating a data frame to plot.</li>
+<li>Add the code below to create that data.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#library(janitor) #run this if you have not loaded the janitor package!</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>princess_data <span class="ot">&lt;-</span> class <span class="sc">%&gt;%</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> <span class="co">#remember, this is from the janitor packae!</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(princess, <span class="at">name =</span> <span class="st">"votes"</span>, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this above line counts the princess rows, sets the name and sorts</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>princess_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 2
+   princess   votes
+   &lt;chr&gt;      &lt;int&gt;
+ 1 Mulan         12
+ 2 Belle          7
+ 3 Pocahontas     4
+ 4 Ariel          3
+ 5 Rapunzel       3
+ 6 Tiana          3
+ 7 Jasmine        2
+ 8 Aurora         1
+ 9 Cinderella     1
+10 Merida         1</code></pre>
+</div>
+</div>
+<p>At this point, y’all should be plenty familiar with these summary functions, and the output should be easy to interpret: we’re just countin the number of rows for each princess.</p>
+<p>Now that we have our table data, let’s actually plot it.</p>
+</section>
+<section id="build-our-plot-with-geom_col" class="level3" data-number="7.5.2">
+<h3 data-number="7.5.2" class="anchored" data-anchor-id="build-our-plot-with-geom_col"><span class="header-section-number">7.5.2</span> Build our plot with geom_col</h3>
+<p>Like in the previous lesson, we’ll start our plot by creating the first layer: the <code>ggplot()</code> function, which takes the data as its first argument and the <code>aes()</code> mapping layer as its second argument.</p>
+<ol type="1">
+<li>Add some text noting that you’ll now plot.</li>
+<li>Add the following code chunk, which is the first layer</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)) <span class="co"># sets our x and y axes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="plots_files/figure-html/princess-base-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>You’ll see the grid and x/y axis of the data, but no geometries are applied yet, so you won’t see any data. But remember, we’re adding these all in gradual layers.</p>
+</section>
+<section id="add-the-geom_col-layer" class="level3" data-number="7.5.3">
+<h3 data-number="7.5.3" class="anchored" data-anchor-id="add-the-geom_col-layer"><span class="header-section-number">7.5.3</span> Add the geom_col layer</h3>
+<p>Now it is time to add our columns. To do this, we’ll use <code>geom_col()</code>. Similar to <code>geom_point()</code>, <code>geom_col()</code> adds a geometric layer that tells R how to display the data (in this case, with columns as opposed to points). Let’s write this code now.</p>
+<ol type="1">
+<li>Edit the plot code to add the ggplot pipe <code>+</code> and on the next line add <code>geom_col()</code>.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)) <span class="sc">+</span> <span class="co"># don't forget the + on this line</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="co"># adds the bars</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="plots_files/figure-html/princess-col-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Our two-layer chart is getting somewhere now. We’re able to see the data in the plot, but there are a couple issues:</p>
+<ul>
+<li>We can’t read the value names. We can fix this.</li>
+<li>The order of the bars is alphabetical instead of in vote order. Again, we can fix it.</li>
+</ul>
+</section>
+<section id="flip-the-axes" class="level3" data-number="7.5.4">
+<h3 data-number="7.5.4" class="anchored" data-anchor-id="flip-the-axes"><span class="header-section-number">7.5.4</span> Flip the axes</h3>
+<p>One way to fix the labels is to “flip” the axes, so the x axis becomes the y axis and vice versa. This is the equivalent of rotating the whole figure. When we do this, the axis will turn sideways, making it easier to read the labels. Worth noting: this can be a bit confusing later because the “x” axis is now going up/down (as opposed to left and right).</p>
+<p>Let’s learn how to flip the axes now. We’ll do this by adding a new layer, <code>coord_flip()</code>, which is a special layer that flips the axes. Just like we added the previous <code>geom_col()</code> layer using <code>+</code>, we’ll do the same thing here. Let’s do that now.</p>
+<ol type="1">
+<li>Edit your plot chunk to add the ggplot pipe <code>+</code>and <code>coord_flip()</code> on the next line.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)) <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span> <span class="co"># don't forget the +</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="co"># flips the axis</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="plots_files/figure-html/princess-flipped-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>As you can see, rather than having vertical bars, we now have horizontal bars, and the names of each princess are fully displayed and read-able. Much better!</p>
+<p>But the bars are still in an alphabetical order, as opposed to a vote order, so let’s fix that now.</p>
+</section>
+<section id="reorder-the-bars" class="level3" data-number="7.5.5">
+<h3 data-number="7.5.5" class="anchored" data-anchor-id="reorder-the-bars"><span class="header-section-number">7.5.5</span> Reorder the bars</h3>
+<p>The bars on our chart are in alphabetical order of the x axis (and reversed thanks to our flip.) We want to order the values based on the <code>votes</code> in the data.</p>
+<blockquote class="blockquote">
+<p>Complication alert: Categorical data can have <a href="https://r4ds.had.co.nz/factors.html">factors</a>, which are like an internal ordering system. Some categories, like months in a year, have an “order” that is not alphabetical.</p>
+</blockquote>
+<p>We can reorder our categorical values in a plot by editing the <code>x</code> values in our <code>aes()</code> using <code>reorder()</code>. (There is a tidyverse function called <code>fct_reorder()</code> that works the same way.</p>
+<p><code>reorder()</code> takes two arguments: The column to reorder, and the column to base that reorder on. It can happen in two different ways, and I’ll be honest and say I don’t know which is easier to comprehend.</p>
+<ul>
+<li><code>x = reorder(princess, votes)</code> says “set the x axis as <code>princess</code>, but order as <code>votes</code>. OR …</li>
+<li><code>x = princess %&gt;% reorder(votes)</code> says “set the x axis as <code>princess</code> <em>and then</em> reorder by <code>votes</code>.</li>
+</ul>
+<p>They both work. Even though I’m a fan of the tidyverse <code>%&gt;%</code> construct, I’m going with the first version.</p>
+<ol type="1">
+<li>Edit the first line of your chunk to reorder the bars.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> <span class="co"># this is the line you edit</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="plots_files/figure-html/princess-reorder-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>So now, our princess names are read-able, and the bars are organized in vote size. But what if we wanted to be clearer in our figure, so that we knew the exact number of votes for each princess? Let’s learn how to add this information.</p>
+</section>
+<section id="adding-a-geom_text-layer" class="level3" data-number="7.5.6">
+<h3 data-number="7.5.6" class="anchored" data-anchor-id="adding-a-geom_text-layer"><span class="header-section-number">7.5.6</span> Adding a geom_text layer</h3>
+<p>Now, we’re really starting to take advance of the grammar of graphics by including more than one geometric layer. Specifically, we’ll be using <code>geom_text()</code> to add some information to our bar charts.</p>
+<p>As we mentioned previously, <code>geom</code> layers can take individual aesthetics (that build on top of the global aesthetics you put in the first layer). When using <code>geom_text()</code>, we’ll include some local aesthetics using the <code>aes()</code> argument, to tell <code>ggplot</code> the label we’d like to add to the plot.</p>
+<ol type="1">
+<li>Edit your plot chunk to add the ggplot pipe <code>+</code>and <code>geom_text()</code> on the next line.</li>
+<li>Add the following line to the chunk <code>geom_text(aes(label = votes)</code>.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="co"># don't forget +</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> votes)) <span class="co"># plots votes text values on chart</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="plots_files/figure-html/princess-text-ugly-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Well that did… something. We’ve successfully added the numbers to this plot, but it’s not very pretty. First, the number sits at the end of the bar, making it harder to read. So we’ll want to <strong>horizontally</strong> adjust this by shifting the numbers a bit to the left. Second, black text is really hard to read against a dark grey background. So we’ll change the text of the number to white.</p>
+<p>We can make both of these edits directly in the <code>geom_text</code> layer.</p>
+<ol type="1">
+<li>Edit the last line of your plot chunk to add two new arguments.</li>
+<li>The first argument you will add is <code>hjust</code>, which moves the text left. (<code>hjust</code> stands for horizontal justification. <code>vjust</code>, or vertical justification, would move it up and down).</li>
+<li>The second argument you will add is <code>color</code>, which tells <code>ggplot</code> what the color of your text should be.</li>
+</ol>
+<p>As a reminder, you should always separate your arguments within a function using commas (<code>,</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="co"># don't forget +</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> votes), <span class="at">hjust =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="co"># plots read-able votes text values on chart</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="plots_files/figure-html/princess-text-clean-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Great! But we’re still not done. Even though we’ve added labels to each bar chart, we still haven’t added a title, and the titles of our x and y axes are not great. So let’s work on those now.</p>
+</section>
+<section id="add-some-titles-and-more-labels" class="level3" data-number="7.5.7">
+<h3 data-number="7.5.7" class="anchored" data-anchor-id="add-some-titles-and-more-labels"><span class="header-section-number">7.5.7</span> Add some titles and more labels</h3>
+<p>Now that we have a chart, with some information displayed in bars, flipped and arranged so we can see information, let’s add to this by giving the chart some labels. We’ll do this by adding a <strong>layer</strong> of labels to our chart using the the <code>labs()</code> function. We can add and change a number of things with <code>labs()</code>, including creating a title, and changing the x and y axis titles.</p>
+<ol type="1">
+<li>Edit the last line of your plot chunk to add the ggplot pipe <code>+</code> and <code>labs()</code> in the next line.</li>
+<li>Add a title using the <code>title =</code> argument</li>
+<li>Add a subtitle using the <code>subtitle =</code> argument. This is a great place to put information about your data (like when it was collected).</li>
+<li>Add a caption using the <code>caption =</code> argument. Put your byline here!</li>
+<li>Change the x and y axes titles using <code>x =</code> and <code>y =</code>.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="co"># don't forget +</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> votes), <span class="at">hjust =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span> <span class="co"># plots votes text values on chart</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># labs below has several settings</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Favored princess"</span>, <span class="co"># adds a title</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Disney Princess votes from Reporting with Data, Spring 2022."</span>, <span class="co"># adds a subtitle</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"By Jo Lukito"</span>, <span class="co"># adds the byline, replace this name with your own</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Princess choices"</span>, <span class="co"># renames the x axis label (which is really y since it is flipped)</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of votes"</span> <span class="co"># renames the y axis label (which is really x since it is flipped)</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="plots_files/figure-html/princess-labs-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>There you go! You’ve made a chart showing how our classes rated Disney Princesses.</p>
+</section>
+</section>
+<section id="on-your-own-ice-cream" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="on-your-own-ice-cream"><span class="header-section-number">7.6</span> On your own: Ice cream!</h2>
+<p>Now it is time for you to put these skills to work:</p>
+<ol type="1">
+<li>Build a chart about the favorite ice creams from RWD classes.</li>
+</ol>
+<p>Some things to consider:</p>
+<ul>
+<li>You need a new section, etc.</li>
+<li>You’re starting with the same <code>class</code> data</li>
+<li>You need to prepare the data based on <code>ice_cream</code> (which is the name of a variable in your <code>class</code> data frame)</li>
+<li>You need to build the chart</li>
+</ul>
+<p>It’s essentially the same process we used for the princess chart, but using <code>ice_cream</code> variable.</p>
+</section>
+<section id="what-weve-learned" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="what-weve-learned"><span class="header-section-number">7.7</span> What we’ve learned</h2>
+<p>There is a ton, really.</p>
+<ul>
+<li>ggplot2 (which is really the <code>ggplot()</code> function) is the charting library for the tidyverse. This whole lesson was about it.</li>
+</ul>
+<p>Here are some more references for ggplot:</p>
+<ul>
+<li><a href="http://ggplot2.tidyverse.org/reference/index.html">The ggplot2 documentation</a> and <a href="https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf">ggplot2 cheatsheets</a>.</li>
+<li><a href="https://r4ds.had.co.nz/data-visualisation.html">R for Data Science, Chap 3.</a> Hadley Wickam dives right into plots in his book.</li>
+<li><a href="https://r-graphics.org/">R Graphics Cookbook</a> has lots of example plots. Good to harvest code and see how to do things.</li>
+<li><a href="https://www.r-graph-gallery.com/">The R Graph Gallery</a> another place to see examples.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./sums-analysis.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Summarize: math - analysis</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./tidy-data.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tidy data</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

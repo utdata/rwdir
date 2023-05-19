@@ -1,0 +1,464 @@
+# Summarize: math - import {#sums-import}
+
+This chapter is by Prof. McDonald, who uses macOS.
+
+**Note: Because of data updates, your answers may differ slightly from what is presented here.**
+
+With our Billboard assignment, we went through some common data wrangling processes --- importing data, cleaning it and querying it for answers. All of our answers involved using `group_by`, `summmarize` and `arrange` (which I dub GSA) and we summarized with `n()` to count the number of rows within our groups.
+
+For this data story we need the GSA summary trio again, but we will use math operations within our summarize functions, mainly `sum()`.
+
+## About the story: Military surplus transfers
+
+After the 2014 death of Michael Brown and the unrest that followed, there was widespread criticism of Ferguson, Mo. police officers for their use of military-grade weapons and vehicles. There was also heightened scrutiny to a federal program that transfers unused military equipment to local law enforcement. Many news outlets, [including NPR](https://www.npr.org/2014/09/02/342494225/mraps-and-bayonets-what-we-know-about-the-pentagons-1033-program) and [Buzzfeed News](https://www.buzzfeednews.com/article/jimdalrympleii/war-zone-in-ferguson-how-billions-in-military-weapons-ended), did stories based on data from the "1033 program" handled through the [Law Enforcement Support Office](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/). Buzzfeed News also did a [followup report](https://www.buzzfeednews.com/article/johntemplon/police-departments-military-gear-1033-program) in 2020 where reporter John Templon published his [data analysis](https://github.com/BuzzFeedNews/2020-06-leso-1033-transfers-since-ferguson), which he did using Python.
+
+You will analyze the same dataset to see how Central Texas police agencies have used the program and write a short data drop about transfers to those agencies.
+
+### The 1033 program
+
+To work through this story we need to understand how this transfer program works. You can [read all about it here](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/ProgramFAQs/), but here is the gist:
+
+In 1997, Congress approved the "1033 program" that allows the U.S. military to give "surplus" equipment that they no longer need to law enforcement agencies like city police forces. The program is run by the [Law Enforcement Support Office](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/), which is part of the Defense Logistics Agency (which handles the global defense supply chain for all the branches of the military) within the Department of Defense. (The **program** is run by the **office** inside the **agency** that is part of the **department**.)
+
+All kinds of equipment moves between the military and these agencies, from boots and water bottles to assault rifles and cargo planes. The local agency only pays for shipping the equipment, but that isn't listed in the data. What is in the data is the "original value" of the equipment in dollars, but we can't say the agency paid for it, because they didn't.
+
+Property falls into two categories: controlled and non-controlled. **Controlled** property "consists of military items that are provided via a conditional transfer or 'loan' basis where title remains with DoD/DLA. This includes items such as small arms/personal weapons, demilitarized vehicles and aircraft and night vision equipment. This property always remains in the LESO property book because it still belongs to and is accountable to the Department of Defense. When a local law enforcement agency no longer wants the controlled property, it must be returned to Law Enforsement Support Office for proper disposition." This is explained in the [LESO FAQ](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/ProgramFAQs.aspx#q6).
+
+But most of the transfers to local agencies are for **non-controlled** property that can be sold to the general public, like boots and blankets. Those items are removed from the data after one year, unless it is deemed a special circumstance.
+
+The agency releases data quarterly, but it is really a "snapshot in time" and not a complete history. Those non-controlled items transferred more than a year prior are missing, as are any controlled items returned to the feds.
+
+### About the data
+
+![The raw data](images/leso-raw.png)
+
+The data comes in a spreadsheet that has a different tab for each state and territory. The data we'll use here was from **June 31, 2022** and I've done some initial work on the original data that is beyond the scope of this class, so we'll use my copy of the data. **I will supply a link to the combined data below.**
+
+There is no data dictionary or record layout included with the data but I have corresponded with the Defense Logistics Agency to get a decent understanding of what is included.
+
+-   **sheet**: Which sheet the data came from. This is an artifact from the data merging script.
+-   **state**: A two-letter designation for the state of the agency.
+-   **agency_name**: This is the agency that got the equipment.
+-   **nsn**: The National Stock Number, a special ID that identifies the item in a government supplies database.
+-   **item_name**: The item transferred. Googling the names can sometimes yield more info on specific items, or you can [search by `nsn`](https://nationalstocknumber.info/) for more info.
+-   **quantity**: The number of the "units" the agency received.
+-   **ui**: Unit of measurement (item, kit, etc.)
+-   **acquisition_value**: a cost *per unit* for the item.
+-   **demil_code**: Categories (as single letter key values) that indicate how the item should be disposed of. [Full details here](https://www.dla.mil/Working-With-DLA/Federal-and-International-Cataloging/DEMIL-Coding/DEMILCodes/).
+-   **demil_ic**: Also part of the disposal categorization.
+-   **ship_date**: The date the item(s) were sent to the agency.
+-   **station_type**: What kind of law enforcement agency made the request.
+
+```{r leso-setup, echo=F, message=F, warning=F}
+library(tidyverse)
+leso_sample <- read_rds("data-raw/leso-sample.rds")
+```
+
+Here is a glimpse of a sample of the data:
+
+```{r leso-print, echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
+leso_sample |>  glimpse()
+```
+
+And a look at just some of the more important columns:
+
+```{r sample-table}
+leso_sample |> 
+  select(agency_name, item_name, quantity, acquisition_value)
+```
+
+Each row of data is a transfer of a particular type of item from the U.S. Department of Defense to a local law enforcement agency. The row includes the name of the item, the quantity, and the value (\$) of a single unit.
+
+What the data doesn't have is the **total value** of the items in the shipment. If there are 5 generators as noted in the first row above and the cost of each one is \$4623.09, we have to multiply the `quantity` times the `acquisition_value` to get the total value of that equipment.
+
+The data also doesn't have any variable indicating if an item is controlled or non-controlled, but I've corresponded with the Defense Logistics Agency to gain a pretty good understanding of how to isolate them based on the **demil**itarization codes.
+
+These are things I learned about by talking to the agency and reading through documentation. This kind of reporting and understanding ABOUT your data is vital to avoid mistakes.
+
+## The questions we will answer
+
+All answers should be based on data about **Texas agencies** from **Jan. 1, 2010 to present**. All of these questions are for the "controlled" items, only.
+
+-   *How many total "controlled" items were transferred, and what are they all worth?* We'll summarize all the controlled items only to get the total quantity and total value of everything.
+-   *How many total "controlled" items did each agency get and how much was it all worth?* Which agency got the most stuff?
+    -   *How about local agencies?* I'll give you a list of those agencies.
+-   *What specific "controlled" items did each agency get and how much were they worth?* Now we're looking at the kinds of items.
+    -   *What did local agencies get?*
+
+You'll research some of the more interesting items the agencies received so you can include them in your data drop.
+
+## Getting started: Create your project
+
+We will build the same project structure that we did with the Billboard project. In fact, all our class projects will have this structure. Since we've done this before, some of the directions are less detailed.
+
+1.  With RStudio open, make sure you don't have a project open. Go to File \> Close project.
+2.  Use the create project button (or File \> New project) to create a new project in a "New Directory". Name the directory "yourname-military-surplus".
+3.  Create two folders: `data-raw` and `data-processed`.
+
+## Import/cleaning notebook
+
+Again, like Billboard, we'll create a notebook specifically for downloading, cleaning and prepping our data.
+
+1.  Create your RNotebook.
+2.  Rename the title "Military Surplus import/clean".
+3.  Remove the rest of the boilerplate template.
+4.  Save the file and name it `01-import.Rmd`.
+
+### The goals of the notebook
+
+As noted before, I separate cleaning into a separate notebook so that each subsequent analysis notebook can take advantage of that work. It's the DRY principal in programming: Don't Repeat Yourself. Often I will be in an analysis notebook realizing that it would be helpful to add a cleaning step to my import notebook, and I will. Because I've worked with and researched this data, I'm aware of cleaning steps that a newcomer to the data might not be aware of at this point. But here we will take advantage of my experience and do all this cleaning work up front even though you haven't seen the "need" for it yet.
+
+That's a long-winded opening to say let's add our notebook goals so you know what's going on here.
+
+1.  In Markdown, add a headline noting these are notebook goals.
+2.  Add the goals below:
+
+``` text
+- Download the data
+- Import the data
+- Check datatypes
+- Create a total_value variable
+- Create a control_type variable
+- Filter to Texas agencies
+- Filter the date range (since Jan. 1 2010)
+- Export the cleaned data
+```
+
+### Add a setup section
+
+This is the section in the notebook where we add our libraries and such. Again, every notebook has this section, though the packages may vary on need.
+
+1.  Add a headline and text about what we are doing: Our project setup.
+2.  Add a code chunk to load the libraries. You should only need `tidyverse` for this notebook because the data already has clean names (no need for janitor) and the dates will import correctly (no need for lubridate for this notebook, but will will use it for our analysis).
+
+```{r setup, message=FALSE}
+library(tidyverse)
+```
+
+## Download the data
+
+1.  A new section means a new headline and description. Add it. It is good practice to describe and link to the data you will be using. You can use the text below:
+
+> HINT: You might try triple-clicking on the text in the box below to select it all since it scrolls off the screen.
+
+``` text
+While the data we will use here if from Prof. McDonald, it is from the [Law Enforcement Support Office](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/). Find more information [about the program here](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/ProgramFAQs/).
+```
+
+1.  Use the `download.file()` function to download the date into your `data-raw` folder. Remember you need two arguments:
+
+``` r
+download.file("url_to_data", "path_to_folder/filename.csv")
+```
+
+Windows users might need to add an additional argument: `mode = "wb"`.
+
+-   The data can be found at this url: `https://raw.githubusercontent.com/utdata/rwdir/main/data-raw/leso.csv`
+-   It should be saved into your `data-raw` folder with a name for the file.
+
+Once you've built your code chunk and run it, you should make sure the file downloaded into the correct place: in your `data-raw` folder.
+
+<details>
+
+<summary>Try this on your own first, but the code is here if you need it.</summary>
+
+```{r download}
+# You can comment the line below once you have the data
+download.file("https://raw.githubusercontent.com/utdata/rwdir/main/data-raw/leso.csv",
+              "data-raw/leso.csv", mode = "wb")
+```
+
+</details>
+
+<br/>
+
+> HINT: If you get an error about the path, you might make sure you created the `data-raw` folder first.
+
+## Import the data
+
+We are again working with a CSV, or comma-separated-values text file.
+
+1.  Add a new section: Headline, text if needed, code chunk.
+
+I suggest you build the code chunk a bit at a time in this order:
+
+1.  Use `read_csv()` to read the file from our `data-raw` folder.
+2.  Edit that line to put the result into a tibble object using `<-`. Name your new tibble `leso`.
+3.  Print the tibble as a table to the screen again by putting the tibble object on a new line and running it. This allows you to see it in columnar form.
+
+<details>
+
+<summary>Try real hard first before clicking here for the answer. Note the book will also show the response.</summary>
+
+```{r import}
+# assigning the tibble
+leso <- read_csv("data-raw/leso.csv")
+# printing the tibble
+leso
+```
+
+</details>
+
+### Glimpse the data
+
+1.  In a new code block, print the tibble but pipe it into `glimpse()` so you can see all the column names.
+
+```{r leso-glimpse}
+leso |>  glimpse()
+```
+
+## Checking datatypes
+
+Take a look at your glimpse returns. These are the things to watch for:
+
+-   Are your variable names (column names) clean? All lowercase with `_` separating words?
+-   Are dates saved in a date format? `ship_date` looks good at `<dttm>`, which means "datetime".
+-   Are your numbers really numbers? `acquisition_value` is the column we are most concerned about here, and it looks good.
+
+This data set looks good (because I pre-prepared it fo you), but you always want to check and make corrections, like we did to fix the date in the Billboard assignment.
+
+## Remove unnecessary columns
+
+Sometimes at this point in a project, you might not know what columns you need to keep and which you could do without. The nice thing about doing this with code in a notebook is we can always go back, make corrections and run our notebook again. In this case, we will remove the `-sheet` column since we don't need it. (It's an artifact of the processing I've done on the file.)
+
+1.  Start a new section with a headline, text to explain you are removing unneeded columns.
+2.  Add a code chunk and the following code. I'll explain it below.
+
+```{r remove-cols}
+leso_tight <- leso |> 
+  select(-sheet)
+
+leso_tight |> glimpse()
+```
+
+In English, we are creating a new tibble `leso_tight` and then filling it with this: `leso` and then use select to remove the colunn called `sheet`. We then glimpse the new data.
+
+So now we have a tibble called `leso_tight` that we will work with in the next section.
+
+## Create a total_value column
+
+During my reporting about this data I learned that the `acquisition_value` noted in the data is for a single "unit" of each item. If the shipment item was a rifle with a `quantity` of "5" and `acquisition_value` of "200", then each rifle is worth \$200, but the total shipment would be 5 times \$200, or \$1,000. That \$1000 total value is not listed in the data, so we need to add it.
+
+Let's walk through how to do that with a different example.
+
+When we used `mutate()` to convert the date in the Billboard assignment, we were reassigning values in each row of a column back into the same column.
+
+In this assignment, we will use `mutate()` to create a **new** column with new values based on a calculation (`quantity` multiplied by the `acquisition_value`) for each row. Let's review the concept first.
+
+If you started with data like this:
+
+| item  | item_count | item_value |
+|-------|-----------:|-----------:|
+| Bread |          2 |        1.5 |
+| Milk  |          1 |       2.75 |
+| Beer  |          3 |          9 |
+
+And then wanted to create a total value of each item in the table, you would use `mutate()`:
+
+``` r
+data |> 
+  mutate(total_value = item_count * item_value)
+```
+
+You would get a return like this, with your new `total_value` column added at the end:
+
+| item  | item_count | item_value | total_value |
+|-------|-----------:|-----------:|------------:|
+| Bread |          2 |        1.5 |           3 |
+| Milk  |          1 |       2.75 |        2.75 |
+| Beer  |          3 |          9 |          27 |
+
+Other math operators work as well: `+`, `-`, `*` and `/`.
+
+So, now that we've talked about how it is done, I want you to:
+
+1.  Create a new section with headline, text and code chunk.
+2.  Use `mutate()` to create a new `total_value` column that multiplies `quantity` times `acquisition_value`.
+3.  Assign those results into a new tibble called `leso_total` so we can all be on the same page.
+4.  Glimpse the new tibble so you can check the results.
+
+<details>
+
+<summary>Try it on your own. You can figure it out!</summary>
+
+```{r create-total-value}
+leso_total <- leso_tight |> 
+  mutate(
+    total_value = quantity * acquisition_value
+  )
+
+leso_total |> glimpse()
+```
+
+</details>
+
+<br>
+
+**Check that it worked!!**. Use the glimpsed data to check the first item: For me, 10 \* 15871.59 = 158715.90, which is correct!
+
+Note that new columns are added at the end of the tibble. That is why I suggested you glimpse the data instead of printing the tibble so you can easily see results on one screen.
+
+## Controlled vs. non-controlled
+
+Again, by reading through the [documentation](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/) about this data I learned about controlled vs non-controlled property. Basically non-controlled generic stuff like boots and blankets are removed from the data after one year, but controlled items like guns and airplanes remain on the list until they are returned to the military for disposal. It is the mainly the controlled items we are concerned with.
+
+There isn't anything within the data that says it is "controlled" and really no clear indication in the documentation on how to tell what is what. So, I emailed the agency and asked them. Here was their answer, edited:
+
+> Property with the DEMIL codes A and Q6 are considered non-controlled general property and fall off the LESO property books after one year. All other Demil codes are considered controlled items and stay on the LESO property book until returned to DLA for disposition/disposal. However, there are some exceptions. For instance, aircraft are always controlled regardless of the demil code. Also, LESO has the discretion to keep items as controlled despite the demil code. This happens with some high value items. There isn't a standard minimum value. It also may also depend on the type of property.
+
+This actually took some back and forth to figure out, as I had noticed there were AIRPLANE, CARGO-TRANSPORT items in the data that were older than a year, along with some surveillance robots. That's when they replied about the airplanes, but it turns out the robots were simply an error. DATA IS DIRTY when humans get involved; somebody coded it wrong.
+
+These "DEMIL codes" they referenced are the `demil_code` and `demil_ic` columns in the data, so we can use those to mark which records are "non-controlled" (A and Q6) and then mark all the rest as "controlled". We know of one exception -- airplanes -- which we need to mark controlled. We can't do much with the "high value" items since there isn't logic available to find them. We'll just have to note that in our story, something like "the agency sometimes designates high value items like airplanes as controlled, but they are not categorized as such and may have been dropped from our analysis."
+
+But, we can catch most of them ... we just need to work through the logic. This is not an uncommon challenge in data science, so we have some tools to do this. Our workhorse is the `case_when()` function, where we can make decisions based on values in our data.
+
+I usually approach this by thinking of the logic first, then writing some code, then testing it. Sometimes my logic is faulty and I have to try again, which is why we test the results. Know this could go on for many cycles. In the interest of time and getting this done, I will just show the finished code and explain how it works.
+
+Here is the basic idea:
+
+-   We want to create a new column to denote if the item is controlled.
+-   In that column we want it to be TRUE when an item is controlled, and FALSE when it is not.
+-   We know that items with "AIRPLANE" are always controlled, no matter their demil designations.
+-   Otherwise we know that items that have a `demil_code` of "A", OR a `demil_code` of "Q" AND a `demil_id` of "6", are non-controlled.
+-   Everything else is controlled.
+
+I've noted this logic in a specific order for a reason: It's the order that we write the logic in the code based on how the function `case_when()` works.
+
+### Categorization logic with case_when()
+
+We will use the `mutate()` function to create a new column called `control_type`. We've done that before, so no problem.
+
+But this time we will fill in values in the new column based on other data inside each row. `case_when()` allows us to create a test (or number of tests) and then mark the new value based on the answer. Once new data has been written the function goes to the next row, so we write the most specific rules first.
+
+This process is powerful and can get complicated depending on the logic needed. This example is perhaps more complicated than I like to explain this process, but this is real data and we *need* this, so here we go.
+
+1.  Start a new section and explain that you are marking controlled items.
+2.  Copy/paste the code chunk below and run it
+3.  READ the explanation that follows, so you understand what is going on!
+
+```{r control-engine}
+leso_control <- leso_total |> 
+  mutate(
+    control_type = case_when(
+      str_detect(item_name, "AIRPLANE") ~ TRUE,
+      (demil_code == "A" | (demil_code == "Q" & demil_ic == 6)) ~ FALSE,
+      TRUE ~ TRUE
+    )
+  )
+
+leso_control |> glimpse()
+```
+
+OK, let's go through the code line-by-line.
+
+-   Our first line creates a new tibble and fills it with the result of the rest of our expression. We start with the `leso_total` tibble.
+-   We mutate the data and start with the name of new column: `control_type`. We are filling that column with the result of the `case_when()` function for each row.
+-   Within the `case_when()` we are making the determination if the item is controlled or not. The left side of the `~` is the test, and the right side of `~` is what we enter into the column. But we have more than one test:
+    -   The first test is we use the [`str_detect()`](https://stringr.tidyverse.org/reference/str_detect.html) function to look inside the `item_name` field looking for the term "AIRPLANE". If the test finds the term, then the `control_type` field gets a value of `TRUE` and we move to the next row. If not, it moves to the next rule to see if that is a match. (We could fill this column with any text or number we want, but we are using `TRUE` and `FALSE` because that is the most basic kind of data to keep. If the item is controlled, set the value is TRUE. If not, it should be set to FALSE.)
+    -   Our second rule has two complex tests and we want to mark the row FALSE if either are true. (Remember, this is based on what the DLA told me: items with A or Q6 are non-controlled.) Our `case_when()` logic first looks for the value "A" in the `demil_code` field. If it is yes, then it marks the row FALSE. If no it goes to the next part: Is there a "Q" in the `demil_code` field AND a "6" in the `demil_ic` field? Both "Q" and "6" have to be there to get marked as FALSE. If both fail, then we move to the next test.
+    -   The last test is our catch-all. If none of the other rules apply, then mark this row as `TRUE`, which means it is controlled. So our default in the end is to mark everything TRUE if any of the other rules don't mark it first.
+-   Lastly we glimpse at the data just so we can see the column was created.
+
+As I said, we skipped the process of figuring all that out line-by-line, but I'll show some tests here to show that we did what we were intending.
+
+This shows airplanes are marked as controlled with `TRUE`.
+
+```{r check-airplane}
+
+# showing the results and some columns that determined them
+leso_control |> 
+  select(item_name, demil_code, demil_ic, control_type) |> 
+  filter(str_detect(item_name, "AIRPLANE"))
+```
+
+This shows how many items are marked TRUE vs FALSE for each `demil_code` and `demil_ic` combination. Don't sweat over this code as we cover it in later chapters, but know I used it to check that most A records were FALSE, along with Q6.
+
+```{r check-type}
+leso_control |> 
+  count(demil_code, demil_ic, control_type, name = "cnt") |> 
+  pivot_wider(names_from = control_type, values_from = cnt) |> 
+  DT::datatable()
+```
+
+OK, onto the next task to get Texas data for specific dates.
+
+## Filtering our data
+
+You used `filter()` in the Billboard lesson to get No. 1 songs and to get a date range of data. We need to do something similar here to get only Texas data of a certain date range, but we'll build the filters one at a time so we can check the results.
+
+### Apply the TX filter
+
+1.  Create a new section with headlines and text that denote you are filtering the data to Texas and since Jan. 1, 2010.
+2.  Create the code chunk and start your filter process using the `leso_control` tibble.
+3.  Use `filter()` on the `state` column to keep all rows with "TX".
+
+<details>
+
+<summary>Try this on your own, but the code is here.</summary>
+
+```{r filter-tx}
+leso_control |> 
+  filter(
+    state == "TX"
+  )
+```
+
+</details>
+
+<br />
+
+How do you know if it worked? Well the first column in the data is the `state` column, so they should all start with "TX". Also note you started with nearly 130k observations (rows), and there are only 8,600+ in Texas.
+
+### Add the date filter
+
+1.  Now, **EDIT THAT SAME CHUNK** to add a new part to your filter to also get rows with a `ship_date` of 2010-01-01 or later.
+2.  Save the result into a new tibble called `leso_filtered`.
+3.  Print out the new tibble `leso_filtered`.
+
+<details>
+
+<summary>If you do this on your own, treat yourself to a cookie!</summary>
+
+```{r filer-date}
+leso_filtered <- leso_control |> 
+  filter(
+    state == "TX",
+    ship_date >= "2010-01-01"
+  )
+
+leso_filtered
+```
+
+</details>
+
+### Checking the results with summary()
+
+How do you know this date filter worked? Well, we went from 8600+ rows to 7400+ rows, so we did something. You might look at the results table and click over to the `ship_date` columns so you can see some of the results, but you can't be sure the top row is the oldest. We could use an `arrange()` to test that, but I have another suggestion: `summary()`.
+
+Now, `summary()` is different than `summarize()`, which we'll do plenty of in a minute. The `summary()` function will show you some results about each column in your data, and when it is a number or date, it will give you some basic stats like min, max and median values.
+
+1.  **Edit your chunk** to not just print out the tibble, but pipe that into `summary()`, like this:
+
+```{r filter-summary}
+leso_filtered |> summary()
+```
+
+Now look at the "Min." value of `ship_date` and make sure it is not older than 2010.
+
+## Export cleaned data
+
+Now that we have our data selected, mutated and filtered how we want it, we can export your `leso_filtered` tibble into an `.rds` file to use in our analysis notebook. If you recall, we use the `.rds` format because it will remember data types and such.
+
+1.  Create a new section with headline and text explaining that you are exporting the data.
+2.  Do it. The function you need is called `write_rds` and you need to give it a path/name that saves the file in the `data-processed` folder. Name it `01-leso-tx.rds` so you know it a) came from the first notebook b) is the Texas only data. **Well-formatted, descriptive file names are important to your future self and other colleagues**.
+
+```{r export}
+leso_filtered |> write_rds("data-processed/01-leso-tx.rds")
+```
+
+## Things we learned in this lesson
+
+This chapter was similar to when we imported data for Billboard, but we did introduce a couple of new concepts:
+
+-   [`case_when()`](https://dplyr.tidyverse.org/reference/case_when.html) allows you to categorize a new column based on logic within your data.
+-   `summary()` gives you descriptive statistics about your tibble. We used it to check the "min" date, but you can also see averages (mean), max and medians.

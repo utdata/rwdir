@@ -1,85 +1,32 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
-<head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 9 Tidy data | Reporting with Data in R</title>
-  <meta name="description" content="Chapter 9 Tidy data | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The course is taught by Christian McDonald and Jo Lukito." />
-  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
 
-  <meta property="og:title" content="Chapter 9 Tidy data | Reporting with Data in R" />
-  <meta property="og:type" content="book" />
-  
-  <meta property="og:description" content="Chapter 9 Tidy data | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The course is taught by Christian McDonald and Jo Lukito." />
-  <meta name="github-repo" content="utdata/rwdir" />
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 9 Tidy data | Reporting with Data in R" />
-  
-  <meta name="twitter:description" content="Chapter 9 Tidy data | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The course is taught by Christian McDonald and Jo Lukito." />
-  
-
-<meta name="author" content="Christian McDonald and Josephine Lukito" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<meta name="date" content="2023-05-19" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
-<link rel="prev" href="ggplot-more.html"/>
-<link rel="next" href="bind-join.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
-
-
-
-
-
-
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
-<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.27/datatables.js"></script>
-<link href="libs/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
-<style type="text/css">
-  p.caption {
-    color: #777;
-    margin-top: 10px;
-  }
-  p code, pre, pre code, li code {
-    background-color: #DCDCDC !important;
-  }
-  detail {
-    margin-bottom: 30px;
-  }
-</style>
-
-
-<style type="text/css">
+<title>Reporting with Data in R - 8&nbsp; Tidy data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
@@ -100,522 +47,272 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<style type="text/css">
-  
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./bind-join.html" rel="next">
+<link href="./plots.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
 
 </head>
 
-<body>
+<body class="nav-sidebar floating">
 
-
-
-  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
-
-    <div class="book-summary">
-      <nav role="navigation">
-
-<ul class="summary">
-<li><a href="./">Reporting with Data in R</a></li>
-
-<li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About this book</a>
-<ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#a-word-from-prof.-mcdonald"><i class="fa fa-check"></i>A word from Prof. McDonald</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#tips-on-the-book-style"><i class="fa fa-check"></i>Tips on the book style</a>
-<ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#things-to-do"><i class="fa fa-check"></i>Things to do</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#notes-some-important"><i class="fa fa-check"></i>Notes, some important</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#copy-code-blocks"><i class="fa fa-check"></i>Copy code blocks</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-authors"><i class="fa fa-check"></i>About the authors</a>
-<ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#christian-mcdonald"><i class="fa fa-check"></i>Christian McDonald</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#jo-lukito"><i class="fa fa-check"></i>Jo Lukito</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#versions"><i class="fa fa-check"></i>Versions</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-resources"><i class="fa fa-check"></i>Other resources</a></li>
-</ul></li>
-<li class="chapter" data-level="1" data-path="install.html"><a href="install.html"><i class="fa fa-check"></i><b>1</b> Install Party</a>
-<ul>
-<li class="chapter" data-level="1.1" data-path="install.html"><a href="install.html#mac-vs-pc"><i class="fa fa-check"></i><b>1.1</b> Mac vs PC</a></li>
-<li class="chapter" data-level="1.2" data-path="install.html"><a href="install.html#installing-r"><i class="fa fa-check"></i><b>1.2</b> Installing R</a></li>
-<li class="chapter" data-level="1.3" data-path="install.html"><a href="install.html#installing-rstudio"><i class="fa fa-check"></i><b>1.3</b> Installing RStudio</a>
-<ul>
-<li class="chapter" data-level="1.3.1" data-path="install.html"><a href="install.html#getting-git-errors-on-macs"><i class="fa fa-check"></i><b>1.3.1</b> Getting “Git” errors on Macs</a></li>
-</ul></li>
-<li class="chapter" data-level="1.4" data-path="install.html"><a href="install.html#class-project-folder"><i class="fa fa-check"></i><b>1.4</b> Class project folder</a></li>
-<li class="chapter" data-level="1.5" data-path="install.html"><a href="install.html#rstudio-cloud"><i class="fa fa-check"></i><b>1.5</b> RStudio Cloud</a></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#rstudio-tour"><i class="fa fa-check"></i><b>2.1</b> RStudio tour</a></li>
-<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#updating-preferences"><i class="fa fa-check"></i><b>2.2</b> Updating preferences</a></li>
-<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#starting-a-new-project"><i class="fa fa-check"></i><b>2.3</b> Starting a new Project</a></li>
-<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#using-r-notebooks"><i class="fa fa-check"></i><b>2.4</b> Using R Notebooks</a>
-<ul>
-<li class="chapter" data-level="2.4.1" data-path="intro.html"><a href="intro.html#create-your-first-notebook"><i class="fa fa-check"></i><b>2.4.1</b> Create your first notebook</a></li>
-<li class="chapter" data-level="2.4.2" data-path="intro.html"><a href="intro.html#save-the-.rmd-file"><i class="fa fa-check"></i><b>2.4.2</b> Save the .Rmd file</a></li>
-<li class="chapter" data-level="2.4.3" data-path="intro.html"><a href="intro.html#run-the-notebook"><i class="fa fa-check"></i><b>2.4.3</b> Run the notebook</a></li>
-<li class="chapter" data-level="2.4.4" data-path="intro.html"><a href="intro.html#a-note-about-rmarkdown"><i class="fa fa-check"></i><b>2.4.4</b> A note about RMarkdown</a></li>
-<li class="chapter" data-level="2.4.5" data-path="intro.html"><a href="intro.html#adding-new-code-chunks"><i class="fa fa-check"></i><b>2.4.5</b> Adding new code chunks</a></li>
-<li class="chapter" data-level="2.4.6" data-path="intro.html"><a href="intro.html#practice-adding-code-chunks"><i class="fa fa-check"></i><b>2.4.6</b> Practice adding code chunks</a></li>
-<li class="chapter" data-level="2.4.7" data-path="intro.html"><a href="intro.html#preview-the-report"><i class="fa fa-check"></i><b>2.4.7</b> Preview the report</a></li>
-<li class="chapter" data-level="2.4.8" data-path="intro.html"><a href="intro.html#the-toolbar"><i class="fa fa-check"></i><b>2.4.8</b> The toolbar</a></li>
-<li class="chapter" data-level="2.4.9" data-path="intro.html"><a href="intro.html#knit-the-final-workbook"><i class="fa fa-check"></i><b>2.4.9</b> Knit the final workbook</a></li>
-</ul></li>
-<li class="chapter" data-level="2.5" data-path="intro.html"><a href="intro.html#turning-in-our-projects"><i class="fa fa-check"></i><b>2.5</b> Turning in our projects</a></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="counts-import.html"><a href="counts-import.html"><i class="fa fa-check"></i><b>3</b> Summarize with count - import</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="counts-import.html"><a href="counts-import.html#learning-goals-of-this-lesson"><i class="fa fa-check"></i><b>3.1</b> Learning goals of this lesson</a></li>
-<li class="chapter" data-level="3.2" data-path="counts-import.html"><a href="counts-import.html#basic-steps-of-this-lesson"><i class="fa fa-check"></i><b>3.2</b> Basic steps of this lesson</a></li>
-<li class="chapter" data-level="3.3" data-path="counts-import.html"><a href="counts-import.html#create-a-new-project"><i class="fa fa-check"></i><b>3.3</b> Create a new project</a>
-<ul>
-<li class="chapter" data-level="3.3.1" data-path="counts-import.html"><a href="counts-import.html#describe-the-goals-of-the-notebook"><i class="fa fa-check"></i><b>3.3.1</b> Describe the goals of the notebook</a></li>
-<li class="chapter" data-level="3.3.2" data-path="counts-import.html"><a href="counts-import.html#the-r-package-environment"><i class="fa fa-check"></i><b>3.3.2</b> The R Package environment</a></li>
-<li class="chapter" data-level="3.3.3" data-path="counts-import.html"><a href="counts-import.html#installing-and-using-packages"><i class="fa fa-check"></i><b>3.3.3</b> Installing and using packages</a></li>
-<li class="chapter" data-level="3.3.4" data-path="counts-import.html"><a href="counts-import.html#load-the-libraries"><i class="fa fa-check"></i><b>3.3.4</b> Load the libraries</a></li>
-<li class="chapter" data-level="3.3.5" data-path="counts-import.html"><a href="counts-import.html#create-a-directory-for-your-data"><i class="fa fa-check"></i><b>3.3.5</b> Create a directory for your data</a></li>
-<li class="chapter" data-level="3.3.6" data-path="counts-import.html"><a href="counts-import.html#about-data-sources"><i class="fa fa-check"></i><b>3.3.6</b> About data sources</a></li>
-</ul></li>
-<li class="chapter" data-level="3.4" data-path="counts-import.html"><a href="counts-import.html#the-billboard-hot-100"><i class="fa fa-check"></i><b>3.4</b> The Billboard Hot 100</a>
-<ul>
-<li class="chapter" data-level="3.4.1" data-path="counts-import.html"><a href="counts-import.html#data-dictionary"><i class="fa fa-check"></i><b>3.4.1</b> Data dictionary</a></li>
-<li class="chapter" data-level="3.4.2" data-path="counts-import.html"><a href="counts-import.html#lets-download-our-data"><i class="fa fa-check"></i><b>3.4.2</b> Let’s download our data</a></li>
-<li class="chapter" data-level="3.4.3" data-path="counts-import.html"><a href="counts-import.html#consider-commenting-the-download"><i class="fa fa-check"></i><b>3.4.3</b> Consider commenting the download</a></li>
-</ul></li>
-<li class="chapter" data-level="3.5" data-path="counts-import.html"><a href="counts-import.html#import-the-data"><i class="fa fa-check"></i><b>3.5</b> Import the data</a></li>
-<li class="chapter" data-level="3.6" data-path="counts-import.html"><a href="counts-import.html#assign-our-import-to-an-r-object"><i class="fa fa-check"></i><b>3.6</b> Assign our import to an R object</a>
-<ul>
-<li class="chapter" data-level="3.6.1" data-path="counts-import.html"><a href="counts-import.html#print-a-peek-to-your-r-notebook"><i class="fa fa-check"></i><b>3.6.1</b> Print a peek to your R Notebook</a></li>
-<li class="chapter" data-level="3.6.2" data-path="counts-import.html"><a href="counts-import.html#glimpse-the-data"><i class="fa fa-check"></i><b>3.6.2</b> Glimpse the data</a></li>
-<li class="chapter" data-level="3.6.3" data-path="counts-import.html"><a href="counts-import.html#about-the-pipe"><i class="fa fa-check"></i><b>3.6.3</b> About the pipe |&gt;</a></li>
-<li class="chapter" data-level="" data-path="counts-import.html"><a href="counts-import.html#a-rabbit-dives-into-a-pipe"><i class="fa fa-check"></i>A rabbit dives into a pipe</a></li>
-</ul></li>
-<li class="chapter" data-level="3.7" data-path="counts-import.html"><a href="counts-import.html#cleaning-data"><i class="fa fa-check"></i><b>3.7</b> Cleaning data</a>
-<ul>
-<li class="chapter" data-level="3.7.1" data-path="counts-import.html"><a href="counts-import.html#cleaning-column-names"><i class="fa fa-check"></i><b>3.7.1</b> Cleaning column names</a></li>
-<li class="chapter" data-level="3.7.2" data-path="counts-import.html"><a href="counts-import.html#fixing-the-date"><i class="fa fa-check"></i><b>3.7.2</b> Fixing the date</a></li>
-</ul></li>
-<li class="chapter" data-level="3.8" data-path="counts-import.html"><a href="counts-import.html#arrange-the-data"><i class="fa fa-check"></i><b>3.8</b> Arrange the data</a>
-<ul>
-<li class="chapter" data-level="3.8.1" data-path="counts-import.html"><a href="counts-import.html#getting-summary-stats"><i class="fa fa-check"></i><b>3.8.1</b> Getting summary stats</a></li>
-</ul></li>
-<li class="chapter" data-level="3.9" data-path="counts-import.html"><a href="counts-import.html#selecting-columns"><i class="fa fa-check"></i><b>3.9</b> Selecting columns</a></li>
-<li class="chapter" data-level="3.10" data-path="counts-import.html"><a href="counts-import.html#exporting-data"><i class="fa fa-check"></i><b>3.10</b> Exporting data</a>
-<ul>
-<li class="chapter" data-level="3.10.1" data-path="counts-import.html"><a href="counts-import.html#single-notebook-philosophy"><i class="fa fa-check"></i><b>3.10.1</b> Single-notebook philosophy</a></li>
-<li class="chapter" data-level="3.10.2" data-path="counts-import.html"><a href="counts-import.html#exporting-as-rds"><i class="fa fa-check"></i><b>3.10.2</b> Exporting as rds</a></li>
-</ul></li>
-<li class="chapter" data-level="3.11" data-path="counts-import.html"><a href="counts-import.html#naming-chunks"><i class="fa fa-check"></i><b>3.11</b> Naming chunks</a></li>
-<li class="chapter" data-level="3.12" data-path="counts-import.html"><a href="counts-import.html#knit-your-page"><i class="fa fa-check"></i><b>3.12</b> Knit your page</a></li>
-<li class="chapter" data-level="3.13" data-path="counts-import.html"><a href="counts-import.html#review-of-what-weve-learned-so-far"><i class="fa fa-check"></i><b>3.13</b> Review of what we’ve learned so far</a></li>
-<li class="chapter" data-level="3.14" data-path="counts-import.html"><a href="counts-import.html#whats-next"><i class="fa fa-check"></i><b>3.14</b> What’s next</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="count-analysis.html"><a href="count-analysis.html"><i class="fa fa-check"></i><b>4</b> Summarize with count - analysis</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="count-analysis.html"><a href="count-analysis.html#goals-of-this-lesson"><i class="fa fa-check"></i><b>4.1</b> Goals of this lesson</a></li>
-<li class="chapter" data-level="4.2" data-path="count-analysis.html"><a href="count-analysis.html#the-questions-well-answer"><i class="fa fa-check"></i><b>4.2</b> The questions we’ll answer</a></li>
-<li class="chapter" data-level="4.3" data-path="count-analysis.html"><a href="count-analysis.html#setting-up-an-analysis-notebook"><i class="fa fa-check"></i><b>4.3</b> Setting up an analysis notebook</a>
-<ul>
-<li class="chapter" data-level="4.3.1" data-path="count-analysis.html"><a href="count-analysis.html#import-the-cleaned-data"><i class="fa fa-check"></i><b>4.3.1</b> Import the cleaned data</a></li>
-</ul></li>
-<li class="chapter" data-level="4.4" data-path="count-analysis.html"><a href="count-analysis.html#introducing-dplyr"><i class="fa fa-check"></i><b>4.4</b> Introducing dplyr</a></li>
-<li class="chapter" data-level="4.5" data-path="count-analysis.html"><a href="count-analysis.html#most-appearances"><i class="fa fa-check"></i><b>4.5</b> Most appearances</a>
-<ul>
-<li class="chapter" data-level="4.5.1" data-path="count-analysis.html"><a href="count-analysis.html#group-aggregate"><i class="fa fa-check"></i><b>4.5.1</b> Group &amp; Aggregate</a></li>
-<li class="chapter" data-level="4.5.2" data-path="count-analysis.html"><a href="count-analysis.html#summarize"><i class="fa fa-check"></i><b>4.5.2</b> Summarize</a></li>
-<li class="chapter" data-level="4.5.3" data-path="count-analysis.html"><a href="count-analysis.html#group-by"><i class="fa fa-check"></i><b>4.5.3</b> Group by</a></li>
-<li class="chapter" data-level="4.5.4" data-path="count-analysis.html"><a href="count-analysis.html#arrange-the-results"><i class="fa fa-check"></i><b>4.5.4</b> Arrange the results</a></li>
-<li class="chapter" data-level="4.5.5" data-path="count-analysis.html"><a href="count-analysis.html#get-the-top-of-the-list"><i class="fa fa-check"></i><b>4.5.5</b> Get the top of the list</a></li>
-</ul></li>
-<li class="chapter" data-level="4.6" data-path="count-analysis.html"><a href="count-analysis.html#titleperformer-combo-with-most-appearances"><i class="fa fa-check"></i><b>4.6</b> Title/performer combo with most appearances</a>
-<ul>
-<li class="chapter" data-level="4.6.1" data-path="count-analysis.html"><a href="count-analysis.html#introducing-filter"><i class="fa fa-check"></i><b>4.6.1</b> Introducing filter()</a></li>
-</ul></li>
-<li class="chapter" data-level="4.7" data-path="count-analysis.html"><a href="count-analysis.html#titleperformer-with-most-weeks-at-no.-1"><i class="fa fa-check"></i><b>4.7</b> Title/Performer with most weeks at No. 1</a></li>
-<li class="chapter" data-level="4.8" data-path="count-analysis.html"><a href="count-analysis.html#performer-with-most-titles-to-reach-no.-1"><i class="fa fa-check"></i><b>4.8</b> Performer with most titles to reach No. 1</a>
-<ul>
-<li class="chapter" data-level="4.8.1" data-path="count-analysis.html"><a href="count-analysis.html#using-distinct"><i class="fa fa-check"></i><b>4.8.1</b> Using distinct()</a></li>
-<li class="chapter" data-level="4.8.2" data-path="count-analysis.html"><a href="count-analysis.html#summarize-the-performers"><i class="fa fa-check"></i><b>4.8.2</b> Summarize the performers</a></li>
-<li class="chapter" data-level="4.8.3" data-path="count-analysis.html"><a href="count-analysis.html#filter-for-a-good-cutoff"><i class="fa fa-check"></i><b>4.8.3</b> Filter for a good cutoff</a></li>
-</ul></li>
-<li class="chapter" data-level="4.9" data-path="count-analysis.html"><a href="count-analysis.html#no.-1-hits-in-last-five-years"><i class="fa fa-check"></i><b>4.9</b> No. 1 hits in last five years</a></li>
-<li class="chapter" data-level="4.10" data-path="count-analysis.html"><a href="count-analysis.html#top-10-hits-overall-on-your-own"><i class="fa fa-check"></i><b>4.10</b> Top 10 hits overall (on your own)</a></li>
-<li class="chapter" data-level="4.11" data-path="count-analysis.html"><a href="count-analysis.html#complex-filters"><i class="fa fa-check"></i><b>4.11</b> Complex filters</a>
-<ul>
-<li class="chapter" data-level="4.11.1" data-path="count-analysis.html"><a href="count-analysis.html#multiple-truths"><i class="fa fa-check"></i><b>4.11.1</b> Multiple truths</a></li>
-<li class="chapter" data-level="4.11.2" data-path="count-analysis.html"><a href="count-analysis.html#either-is-true"><i class="fa fa-check"></i><b>4.11.2</b> Either is true</a></li>
-<li class="chapter" data-level="4.11.3" data-path="count-analysis.html"><a href="count-analysis.html#mixing-criteria"><i class="fa fa-check"></i><b>4.11.3</b> Mixing criteria</a></li>
-<li class="chapter" data-level="4.11.4" data-path="count-analysis.html"><a href="count-analysis.html#search-within-a-string"><i class="fa fa-check"></i><b>4.11.4</b> Search within a string</a></li>
-</ul></li>
-<li class="chapter" data-level="4.12" data-path="count-analysis.html"><a href="count-analysis.html#on-your-own"><i class="fa fa-check"></i><b>4.12</b> On your own</a></li>
-<li class="chapter" data-level="4.13" data-path="count-analysis.html"><a href="count-analysis.html#a-shortcut-count"><i class="fa fa-check"></i><b>4.13</b> A shortcut: count()</a></li>
-<li class="chapter" data-level="4.14" data-path="count-analysis.html"><a href="count-analysis.html#review-of-what-weve-learned"><i class="fa fa-check"></i><b>4.14</b> Review of what we’ve learned</a></li>
-<li class="chapter" data-level="4.15" data-path="count-analysis.html"><a href="count-analysis.html#turn-in-your-project"><i class="fa fa-check"></i><b>4.15</b> Turn in your project</a></li>
-<li class="chapter" data-level="4.16" data-path="count-analysis.html"><a href="count-analysis.html#soundtrack-for-this-assignment"><i class="fa fa-check"></i><b>4.16</b> Soundtrack for this assignment</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="sums-import.html"><a href="sums-import.html"><i class="fa fa-check"></i><b>5</b> Summarize with math - import</a>
-<ul>
-<li class="chapter" data-level="5.1" data-path="sums-import.html"><a href="sums-import.html#about-the-story-military-surplus-transfers"><i class="fa fa-check"></i><b>5.1</b> About the story: Military surplus transfers</a>
-<ul>
-<li class="chapter" data-level="5.1.1" data-path="sums-import.html"><a href="sums-import.html#the-1033-program"><i class="fa fa-check"></i><b>5.1.1</b> The 1033 program</a></li>
-<li class="chapter" data-level="5.1.2" data-path="sums-import.html"><a href="sums-import.html#about-the-data"><i class="fa fa-check"></i><b>5.1.2</b> About the data</a></li>
-</ul></li>
-<li class="chapter" data-level="5.2" data-path="sums-import.html"><a href="sums-import.html#the-questions-we-will-answer"><i class="fa fa-check"></i><b>5.2</b> The questions we will answer</a></li>
-<li class="chapter" data-level="5.3" data-path="sums-import.html"><a href="sums-import.html#getting-started-create-your-project"><i class="fa fa-check"></i><b>5.3</b> Getting started: Create your project</a></li>
-<li class="chapter" data-level="5.4" data-path="sums-import.html"><a href="sums-import.html#importcleaning-notebook"><i class="fa fa-check"></i><b>5.4</b> Import/cleaning notebook</a>
-<ul>
-<li class="chapter" data-level="5.4.1" data-path="sums-import.html"><a href="sums-import.html#the-goals-of-the-notebook"><i class="fa fa-check"></i><b>5.4.1</b> The goals of the notebook</a></li>
-<li class="chapter" data-level="5.4.2" data-path="sums-import.html"><a href="sums-import.html#add-a-setup-section"><i class="fa fa-check"></i><b>5.4.2</b> Add a setup section</a></li>
-</ul></li>
-<li class="chapter" data-level="5.5" data-path="sums-import.html"><a href="sums-import.html#download-the-data"><i class="fa fa-check"></i><b>5.5</b> Download the data</a></li>
-<li class="chapter" data-level="5.6" data-path="sums-import.html"><a href="sums-import.html#import-the-data-1"><i class="fa fa-check"></i><b>5.6</b> Import the data</a>
-<ul>
-<li class="chapter" data-level="5.6.1" data-path="sums-import.html"><a href="sums-import.html#glimpse-the-data-1"><i class="fa fa-check"></i><b>5.6.1</b> Glimpse the data</a></li>
-</ul></li>
-<li class="chapter" data-level="5.7" data-path="sums-import.html"><a href="sums-import.html#checking-datatypes"><i class="fa fa-check"></i><b>5.7</b> Checking datatypes</a></li>
-<li class="chapter" data-level="5.8" data-path="sums-import.html"><a href="sums-import.html#remove-unnecessary-columns"><i class="fa fa-check"></i><b>5.8</b> Remove unnecessary columns</a></li>
-<li class="chapter" data-level="5.9" data-path="sums-import.html"><a href="sums-import.html#create-a-total_value-column"><i class="fa fa-check"></i><b>5.9</b> Create a total_value column</a></li>
-<li class="chapter" data-level="5.10" data-path="sums-import.html"><a href="sums-import.html#controlled-vs.-non-controlled"><i class="fa fa-check"></i><b>5.10</b> Controlled vs. non-controlled</a>
-<ul>
-<li class="chapter" data-level="5.10.1" data-path="sums-import.html"><a href="sums-import.html#categorization-logic-with-case_when"><i class="fa fa-check"></i><b>5.10.1</b> Categorization logic with case_when()</a></li>
-</ul></li>
-<li class="chapter" data-level="5.11" data-path="sums-import.html"><a href="sums-import.html#filtering-our-data"><i class="fa fa-check"></i><b>5.11</b> Filtering our data</a>
-<ul>
-<li class="chapter" data-level="5.11.1" data-path="sums-import.html"><a href="sums-import.html#apply-the-tx-filter"><i class="fa fa-check"></i><b>5.11.1</b> Apply the TX filter</a></li>
-<li class="chapter" data-level="5.11.2" data-path="sums-import.html"><a href="sums-import.html#add-the-date-filter"><i class="fa fa-check"></i><b>5.11.2</b> Add the date filter</a></li>
-<li class="chapter" data-level="5.11.3" data-path="sums-import.html"><a href="sums-import.html#checking-the-results-with-summary"><i class="fa fa-check"></i><b>5.11.3</b> Checking the results with summary()</a></li>
-</ul></li>
-<li class="chapter" data-level="5.12" data-path="sums-import.html"><a href="sums-import.html#export-cleaned-data"><i class="fa fa-check"></i><b>5.12</b> Export cleaned data</a></li>
-<li class="chapter" data-level="5.13" data-path="sums-import.html"><a href="sums-import.html#things-we-learned-in-this-lesson"><i class="fa fa-check"></i><b>5.13</b> Things we learned in this lesson</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="sums-analyze.html"><a href="sums-analyze.html"><i class="fa fa-check"></i><b>6</b> Summarize with math - analysis</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="sums-analyze.html"><a href="sums-analyze.html#learning-goals-of-this-lesson-1"><i class="fa fa-check"></i><b>6.1</b> Learning goals of this lesson</a></li>
-<li class="chapter" data-level="6.2" data-path="sums-analyze.html"><a href="sums-analyze.html#questions-to-answer"><i class="fa fa-check"></i><b>6.2</b> Questions to answer</a></li>
-<li class="chapter" data-level="6.3" data-path="sums-analyze.html"><a href="sums-analyze.html#set-up-the-analysis-notebook"><i class="fa fa-check"></i><b>6.3</b> Set up the analysis notebook</a>
-<ul>
-<li class="chapter" data-level="6.3.1" data-path="sums-analyze.html"><a href="sums-analyze.html#load-the-data-into-a-tibble"><i class="fa fa-check"></i><b>6.3.1</b> Load the data into a tibble</a></li>
-</ul></li>
-<li class="chapter" data-level="6.4" data-path="sums-analyze.html"><a href="sums-analyze.html#filter-for-controlled-items"><i class="fa fa-check"></i><b>6.4</b> Filter for controlled items</a></li>
-<li class="chapter" data-level="6.5" data-path="sums-analyze.html"><a href="sums-analyze.html#building-summaries-with-math"><i class="fa fa-check"></i><b>6.5</b> Building summaries with math</a>
-<ul>
-<li class="chapter" data-level="6.5.1" data-path="sums-analyze.html"><a href="sums-analyze.html#summarize-across-the-data"><i class="fa fa-check"></i><b>6.5.1</b> Summarize across the data</a></li>
-<li class="chapter" data-level="6.5.2" data-path="sums-analyze.html"><a href="sums-analyze.html#na-values-in-a-sum-mean-and-median"><i class="fa fa-check"></i><b>6.5.2</b> NA values in a sum, mean and median</a></li>
-</ul></li>
-<li class="chapter" data-level="6.6" data-path="sums-analyze.html"><a href="sums-analyze.html#totals-by-agency"><i class="fa fa-check"></i><b>6.6</b> Totals by agency</a>
-<ul>
-<li class="chapter" data-level="6.6.1" data-path="sums-analyze.html"><a href="sums-analyze.html#group_by-then-summary-with-math"><i class="fa fa-check"></i><b>6.6.1</b> Group_by, then summary with math</a></li>
-<li class="chapter" data-level="6.6.2" data-path="sums-analyze.html"><a href="sums-analyze.html#add-the-total_value"><i class="fa fa-check"></i><b>6.6.2</b> Add the total_value</a></li>
-<li class="chapter" data-level="6.6.3" data-path="sums-analyze.html"><a href="sums-analyze.html#arrange-the-results-1"><i class="fa fa-check"></i><b>6.6.3</b> Arrange the results</a></li>
-<li class="chapter" data-level="6.6.4" data-path="sums-analyze.html"><a href="sums-analyze.html#consider-the-results"><i class="fa fa-check"></i><b>6.6.4</b> Consider the results</a></li>
-</ul></li>
-<li class="chapter" data-level="6.7" data-path="sums-analyze.html"><a href="sums-analyze.html#looking-a-local-agencies"><i class="fa fa-check"></i><b>6.7</b> Looking a local agencies</a>
-<ul>
-<li class="chapter" data-level="6.7.1" data-path="sums-analyze.html"><a href="sums-analyze.html#save-our-by-agency-list"><i class="fa fa-check"></i><b>6.7.1</b> Save our “by agency” list</a></li>
-<li class="chapter" data-level="6.7.2" data-path="sums-analyze.html"><a href="sums-analyze.html#filtering-within-a-vector"><i class="fa fa-check"></i><b>6.7.2</b> Filtering within a vector</a></li>
-<li class="chapter" data-level="6.7.3" data-path="sums-analyze.html"><a href="sums-analyze.html#create-a-vector-to-build-this-filter"><i class="fa fa-check"></i><b>6.7.3</b> Create a vector to build this filter</a></li>
-</ul></li>
-<li class="chapter" data-level="6.8" data-path="sums-analyze.html"><a href="sums-analyze.html#types-of-items-shipped-to-each-agency"><i class="fa fa-check"></i><b>6.8</b> Types of items shipped to each agency</a>
-<ul>
-<li class="chapter" data-level="6.8.1" data-path="sums-analyze.html"><a href="sums-analyze.html#items-for-local-agencies"><i class="fa fa-check"></i><b>6.8.1</b> Items for local agencies</a></li>
-<li class="chapter" data-level="6.8.2" data-path="sums-analyze.html"><a href="sums-analyze.html#research-some-interesting-items"><i class="fa fa-check"></i><b>6.8.2</b> Research some interesting items</a></li>
-</ul></li>
-<li class="chapter" data-level="6.9" data-path="sums-analyze.html"><a href="sums-analyze.html#write-a-data-drop"><i class="fa fa-check"></i><b>6.9</b> Write a data drop</a></li>
-<li class="chapter" data-level="6.10" data-path="sums-analyze.html"><a href="sums-analyze.html#what-we-learned-in-this-chapter"><i class="fa fa-check"></i><b>6.10</b> What we learned in this chapter</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="ggplot-intro.html"><a href="ggplot-intro.html"><i class="fa fa-check"></i><b>7</b> Data Viz - Intro to ggplot</a>
-<ul>
-<li class="chapter" data-level="7.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#goals-for-this-section"><i class="fa fa-check"></i><b>7.1</b> Goals for this section</a></li>
-<li class="chapter" data-level="7.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#introduction-to-ggplot"><i class="fa fa-check"></i><b>7.2</b> Introduction to ggplot</a>
-<ul>
-<li class="chapter" data-level="7.2.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#what-i-likedislike-about-ggplot"><i class="fa fa-check"></i><b>7.2.1</b> What I like/dislike about ggplot</a></li>
-<li class="chapter" data-level="7.2.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#the-grammar-of-graphics"><i class="fa fa-check"></i><b>7.2.2</b> The Grammar of Graphics</a></li>
-</ul></li>
-<li class="chapter" data-level="7.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#start-a-new-project"><i class="fa fa-check"></i><b>7.3</b> Start a new project</a></li>
-<li class="chapter" data-level="7.4" data-path="ggplot-intro.html"><a href="ggplot-intro.html#the-layers-of-ggplot"><i class="fa fa-check"></i><b>7.4</b> The layers of ggplot</a>
-<ul>
-<li class="chapter" data-level="7.4.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#build-the-base-layer"><i class="fa fa-check"></i><b>7.4.1</b> Build the base layer</a></li>
-<li class="chapter" data-level="7.4.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#layers-can-we-add-to-our-plots"><i class="fa fa-check"></i><b>7.4.2</b> Layers can we add to our plots</a></li>
-<li class="chapter" data-level="7.4.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-geom_point"><i class="fa fa-check"></i><b>7.4.3</b> Add geom_point</a></li>
-<li class="chapter" data-level="7.4.4" data-path="ggplot-intro.html"><a href="ggplot-intro.html#adding-other-mappings"><i class="fa fa-check"></i><b>7.4.4</b> Adding other mappings</a></li>
-</ul></li>
-<li class="chapter" data-level="7.5" data-path="ggplot-intro.html"><a href="ggplot-intro.html#lets-build-a-bar-chart"><i class="fa fa-check"></i><b>7.5</b> Let’s build a bar chart</a>
-<ul>
-<li class="chapter" data-level="7.5.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#prepare-the-data"><i class="fa fa-check"></i><b>7.5.1</b> Prepare the data</a></li>
-<li class="chapter" data-level="7.5.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#build-our-plot-with-geom_col"><i class="fa fa-check"></i><b>7.5.2</b> Build our plot with geom_col</a></li>
-<li class="chapter" data-level="7.5.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-the-geom_col-layer"><i class="fa fa-check"></i><b>7.5.3</b> Add the geom_col layer</a></li>
-<li class="chapter" data-level="7.5.4" data-path="ggplot-intro.html"><a href="ggplot-intro.html#flip-the-axes"><i class="fa fa-check"></i><b>7.5.4</b> Flip the axes</a></li>
-<li class="chapter" data-level="7.5.5" data-path="ggplot-intro.html"><a href="ggplot-intro.html#reorder-the-bars"><i class="fa fa-check"></i><b>7.5.5</b> Reorder the bars</a></li>
-<li class="chapter" data-level="7.5.6" data-path="ggplot-intro.html"><a href="ggplot-intro.html#adding-a-geom_text-layer"><i class="fa fa-check"></i><b>7.5.6</b> Adding a geom_text layer</a></li>
-<li class="chapter" data-level="7.5.7" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-some-titles-and-more-labels"><i class="fa fa-check"></i><b>7.5.7</b> Add some titles and more labels</a></li>
-</ul></li>
-<li class="chapter" data-level="7.6" data-path="ggplot-intro.html"><a href="ggplot-intro.html#on-your-own-ice-cream"><i class="fa fa-check"></i><b>7.6</b> On your own: Ice cream!</a></li>
-<li class="chapter" data-level="7.7" data-path="ggplot-intro.html"><a href="ggplot-intro.html#what-weve-learned"><i class="fa fa-check"></i><b>7.7</b> What we’ve learned</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="ggplot-more.html"><a href="ggplot-more.html"><i class="fa fa-check"></i><b>8</b> Deeper into ggplot</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="ggplot-more.html"><a href="ggplot-more.html#references"><i class="fa fa-check"></i><b>8.1</b> References</a></li>
-<li class="chapter" data-level="8.2" data-path="ggplot-more.html"><a href="ggplot-more.html#learning-goals-for-this-chapter"><i class="fa fa-check"></i><b>8.2</b> Learning goals for this chapter</a></li>
-<li class="chapter" data-level="8.3" data-path="ggplot-more.html"><a href="ggplot-more.html#set-up-your-notebook"><i class="fa fa-check"></i><b>8.3</b> Set up your notebook</a>
-<ul>
-<li class="chapter" data-level="8.3.1" data-path="ggplot-more.html"><a href="ggplot-more.html#lets-get-the-data"><i class="fa fa-check"></i><b>8.3.1</b> Let’s get the data</a></li>
-</ul></li>
-<li class="chapter" data-level="8.4" data-path="ggplot-more.html"><a href="ggplot-more.html#wrangle-the-data"><i class="fa fa-check"></i><b>8.4</b> Wrangle the data</a></li>
-<li class="chapter" data-level="8.5" data-path="ggplot-more.html"><a href="ggplot-more.html#make-a-line-chart-of-the-texas-data"><i class="fa fa-check"></i><b>8.5</b> Make a line chart of the Texas data</a>
-<ul>
-<li class="chapter" data-level="8.5.1" data-path="ggplot-more.html"><a href="ggplot-more.html#plot-the-chart"><i class="fa fa-check"></i><b>8.5.1</b> Plot the chart</a></li>
-<li class="chapter" data-level="8.5.2" data-path="ggplot-more.html"><a href="ggplot-more.html#cleaning-up"><i class="fa fa-check"></i><b>8.5.2</b> Cleaning Up</a></li>
-<li class="chapter" data-level="8.5.3" data-path="ggplot-more.html"><a href="ggplot-more.html#saving-plots-as-an-object"><i class="fa fa-check"></i><b>8.5.3</b> Saving plots as an object</a></li>
-</ul></li>
-<li class="chapter" data-level="8.6" data-path="ggplot-more.html"><a href="ggplot-more.html#themes"><i class="fa fa-check"></i><b>8.6</b> Themes</a>
-<ul>
-<li class="chapter" data-level="8.6.1" data-path="ggplot-more.html"><a href="ggplot-more.html#more-with-ggthemes"><i class="fa fa-check"></i><b>8.6.1</b> More with ggthemes</a></li>
-<li class="chapter" data-level="8.6.2" data-path="ggplot-more.html"><a href="ggplot-more.html#there-is-more-to-themes"><i class="fa fa-check"></i><b>8.6.2</b> There is more to themes</a></li>
-</ul></li>
-<li class="chapter" data-level="8.7" data-path="ggplot-more.html"><a href="ggplot-more.html#adding-more-information"><i class="fa fa-check"></i><b>8.7</b> Adding more information</a>
-<ul>
-<li class="chapter" data-level="8.7.1" data-path="ggplot-more.html"><a href="ggplot-more.html#prepare-the-data-1"><i class="fa fa-check"></i><b>8.7.1</b> Prepare the data</a></li>
-<li class="chapter" data-level="8.7.2" data-path="ggplot-more.html"><a href="ggplot-more.html#plot-multiple-line-chart"><i class="fa fa-check"></i><b>8.7.2</b> Plot multiple line chart</a></li>
-</ul></li>
-<li class="chapter" data-level="8.8" data-path="ggplot-more.html"><a href="ggplot-more.html#on-your-own-line-chart"><i class="fa fa-check"></i><b>8.8</b> On your own: Line chart</a></li>
-<li class="chapter" data-level="8.9" data-path="ggplot-more.html"><a href="ggplot-more.html#tour-of-some-other-adjustments"><i class="fa fa-check"></i><b>8.9</b> Tour of some other adjustments</a>
-<ul>
-<li class="chapter" data-level="8.9.1" data-path="ggplot-more.html"><a href="ggplot-more.html#line-width"><i class="fa fa-check"></i><b>8.9.1</b> Line width</a></li>
-<li class="chapter" data-level="8.9.2" data-path="ggplot-more.html"><a href="ggplot-more.html#line-type"><i class="fa fa-check"></i><b>8.9.2</b> Line type</a></li>
-<li class="chapter" data-level="8.9.3" data-path="ggplot-more.html"><a href="ggplot-more.html#adjust-axis"><i class="fa fa-check"></i><b>8.9.3</b> Adjust axis</a></li>
-</ul></li>
-<li class="chapter" data-level="8.10" data-path="ggplot-more.html"><a href="ggplot-more.html#facets"><i class="fa fa-check"></i><b>8.10</b> Facets</a>
-<ul>
-<li class="chapter" data-level="8.10.1" data-path="ggplot-more.html"><a href="ggplot-more.html#facet-wrap"><i class="fa fa-check"></i><b>8.10.1</b> Facet wrap</a></li>
-<li class="chapter" data-level="8.10.2" data-path="ggplot-more.html"><a href="ggplot-more.html#facet-grids"><i class="fa fa-check"></i><b>8.10.2</b> Facet grids</a></li>
-</ul></li>
-<li class="chapter" data-level="8.11" data-path="ggplot-more.html"><a href="ggplot-more.html#on-your-own-facet-wrap"><i class="fa fa-check"></i><b>8.11</b> On your own: Facet wrap</a></li>
-<li class="chapter" data-level="8.12" data-path="ggplot-more.html"><a href="ggplot-more.html#saving-plots"><i class="fa fa-check"></i><b>8.12</b> Saving plots</a></li>
-<li class="chapter" data-level="8.13" data-path="ggplot-more.html"><a href="ggplot-more.html#interactive-plots"><i class="fa fa-check"></i><b>8.13</b> Interactive plots</a></li>
-<li class="chapter" data-level="8.14" data-path="ggplot-more.html"><a href="ggplot-more.html#what-we-learned"><i class="fa fa-check"></i><b>8.14</b> What we learned</a></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="tidy-data.html"><a href="tidy-data.html"><i class="fa fa-check"></i><b>9</b> Tidy data</a>
-<ul>
-<li class="chapter" data-level="9.1" data-path="tidy-data.html"><a href="tidy-data.html#goals-for-this-section-1"><i class="fa fa-check"></i><b>9.1</b> Goals for this section</a></li>
-<li class="chapter" data-level="9.2" data-path="tidy-data.html"><a href="tidy-data.html#the-questions-well-answer-1"><i class="fa fa-check"></i><b>9.2</b> The questions we’ll answer</a></li>
-<li class="chapter" data-level="9.3" data-path="tidy-data.html"><a href="tidy-data.html#what-is-tidy-data"><i class="fa fa-check"></i><b>9.3</b> What is tidy data</a>
-<ul>
-<li class="chapter" data-level="9.3.1" data-path="tidy-data.html"><a href="tidy-data.html#wide-vs-long-data"><i class="fa fa-check"></i><b>9.3.1</b> Wide vs long data</a></li>
-<li class="chapter" data-level="9.3.2" data-path="tidy-data.html"><a href="tidy-data.html#why-we-might-want-different-shaped-data"><i class="fa fa-check"></i><b>9.3.2</b> Why we might want different shaped data</a></li>
-</ul></li>
-<li class="chapter" data-level="9.4" data-path="tidy-data.html"><a href="tidy-data.html#prepare-our-candy-project"><i class="fa fa-check"></i><b>9.4</b> Prepare our candy project</a>
-<ul>
-<li class="chapter" data-level="9.4.1" data-path="tidy-data.html"><a href="tidy-data.html#get-the-data"><i class="fa fa-check"></i><b>9.4.1</b> Get the data</a></li>
-<li class="chapter" data-level="9.4.2" data-path="tidy-data.html"><a href="tidy-data.html#drop-unneeded-columns"><i class="fa fa-check"></i><b>9.4.2</b> Drop unneeded columns</a></li>
-<li class="chapter" data-level="9.4.3" data-path="tidy-data.html"><a href="tidy-data.html#peek-at-the-wide-table"><i class="fa fa-check"></i><b>9.4.3</b> Peek at the wide table</a></li>
-<li class="chapter" data-level="9.4.4" data-path="tidy-data.html"><a href="tidy-data.html#where-are-we-going-with-this-data"><i class="fa fa-check"></i><b>9.4.4</b> Where are we going with this data</a></li>
-</ul></li>
-<li class="chapter" data-level="9.5" data-path="tidy-data.html"><a href="tidy-data.html#the-tidyr-verbs"><i class="fa fa-check"></i><b>9.5</b> The tidyr verbs</a></li>
-<li class="chapter" data-level="9.6" data-path="tidy-data.html"><a href="tidy-data.html#pivot-longer"><i class="fa fa-check"></i><b>9.6</b> Pivot longer</a>
-<ul>
-<li class="chapter" data-level="9.6.1" data-path="tidy-data.html"><a href="tidy-data.html#pivot-our-candy-data-longer"><i class="fa fa-check"></i><b>9.6.1</b> Pivot our candy data longer</a></li>
-<li class="chapter" data-level="9.6.2" data-path="tidy-data.html"><a href="tidy-data.html#get-average-candies-per-color"><i class="fa fa-check"></i><b>9.6.2</b> Get average candies per color</a></li>
-<li class="chapter" data-level="9.6.3" data-path="tidy-data.html"><a href="tidy-data.html#round-the-averages"><i class="fa fa-check"></i><b>9.6.3</b> Round the averages</a></li>
-<li class="chapter" data-level="9.6.4" data-path="tidy-data.html"><a href="tidy-data.html#on-your-own-plot-the-averages"><i class="fa fa-check"></i><b>9.6.4</b> On your own: Plot the averages</a></li>
-</ul></li>
-<li class="chapter" data-level="9.7" data-path="tidy-data.html"><a href="tidy-data.html#introducing-datawrapper"><i class="fa fa-check"></i><b>9.7</b> Introducing Datawrapper</a>
-<ul>
-<li class="chapter" data-level="9.7.1" data-path="tidy-data.html"><a href="tidy-data.html#review-how-to-make-a-bar-chart"><i class="fa fa-check"></i><b>9.7.1</b> Review how to make a bar chart</a></li>
-<li class="chapter" data-level="9.7.2" data-path="tidy-data.html"><a href="tidy-data.html#start-a-chart"><i class="fa fa-check"></i><b>9.7.2</b> Start a chart</a></li>
-<li class="chapter" data-level="9.7.3" data-path="tidy-data.html"><a href="tidy-data.html#export-your-data-for-datawrapper"><i class="fa fa-check"></i><b>9.7.3</b> Export your data for Datawrapper</a></li>
-<li class="chapter" data-level="9.7.4" data-path="tidy-data.html"><a href="tidy-data.html#build-the-datawrapper-graphic"><i class="fa fa-check"></i><b>9.7.4</b> Build the datawrapper graphic</a></li>
-</ul></li>
-<li class="chapter" data-level="9.8" data-path="tidy-data.html"><a href="tidy-data.html#pivot-wider"><i class="fa fa-check"></i><b>9.8</b> Pivot wider</a>
-<ul>
-<li class="chapter" data-level="9.8.1" data-path="tidy-data.html"><a href="tidy-data.html#pivot-wider-on-your-own"><i class="fa fa-check"></i><b>9.8.1</b> Pivot wider on your own</a></li>
-</ul></li>
-<li class="chapter" data-level="9.9" data-path="tidy-data.html"><a href="tidy-data.html#bonus-questions"><i class="fa fa-check"></i><b>9.9</b> Bonus questions</a>
-<ul>
-<li class="chapter" data-level="9.9.1" data-path="tidy-data.html"><a href="tidy-data.html#mostleast-candies"><i class="fa fa-check"></i><b>9.9.1</b> Most/least candies</a></li>
-<li class="chapter" data-level="9.9.2" data-path="tidy-data.html"><a href="tidy-data.html#average-total-candies-in-a-bag"><i class="fa fa-check"></i><b>9.9.2</b> Average total candies in a bag</a></li>
-</ul></li>
-<li class="chapter" data-level="9.10" data-path="tidy-data.html"><a href="tidy-data.html#turn-in-your-work"><i class="fa fa-check"></i><b>9.10</b> Turn in your work</a></li>
-<li class="chapter" data-level="9.11" data-path="tidy-data.html"><a href="tidy-data.html#what-we-learned-1"><i class="fa fa-check"></i><b>9.11</b> What we learned</a></li>
-</ul></li>
-<li class="chapter" data-level="10" data-path="bind-join.html"><a href="bind-join.html"><i class="fa fa-check"></i><b>10</b> Bind and join</a>
-<ul>
-<li class="chapter" data-level="10.1" data-path="bind-join.html"><a href="bind-join.html#goals-of-the-chapter"><i class="fa fa-check"></i><b>10.1</b> Goals of the chapter</a></li>
-<li class="chapter" data-level="10.2" data-path="bind-join.html"><a href="bind-join.html#the-story-an-update-to-denied"><i class="fa fa-check"></i><b>10.2</b> The story: An update to Denied</a></li>
-<li class="chapter" data-level="10.3" data-path="bind-join.html"><a href="bind-join.html#about-the-data-1"><i class="fa fa-check"></i><b>10.3</b> About the data</a>
-<ul>
-<li class="chapter" data-level="10.3.1" data-path="bind-join.html"><a href="bind-join.html#set-up-your-project"><i class="fa fa-check"></i><b>10.3.1</b> Set up your project</a></li>
-<li class="chapter" data-level="10.3.2" data-path="bind-join.html"><a href="bind-join.html#open-read-and-run"><i class="fa fa-check"></i><b>10.3.2</b> Open, read and run</a></li>
-</ul></li>
-<li class="chapter" data-level="10.4" data-path="bind-join.html"><a href="bind-join.html#merging-data-together"><i class="fa fa-check"></i><b>10.4</b> Merging data together</a></li>
-<li class="chapter" data-level="10.5" data-path="bind-join.html"><a href="bind-join.html#about-joins"><i class="fa fa-check"></i><b>10.5</b> About joins</a>
-<ul>
-<li class="chapter" data-level="10.5.1" data-path="bind-join.html"><a href="bind-join.html#joining-our-reference-table"><i class="fa fa-check"></i><b>10.5.1</b> Joining our reference table</a></li>
-</ul></li>
-<li class="chapter" data-level="10.6" data-path="bind-join.html"><a href="bind-join.html#some-cleanup-filter-and-select"><i class="fa fa-check"></i><b>10.6</b> Some cleanup: filter and select</a></li>
-<li class="chapter" data-level="10.7" data-path="bind-join.html"><a href="bind-join.html#create-an-audit-benchmark-column"><i class="fa fa-check"></i><b>10.7</b> Create an audit benchmark column</a></li>
-<li class="chapter" data-level="10.8" data-path="bind-join.html"><a href="bind-join.html#export-the-data"><i class="fa fa-check"></i><b>10.8</b> Export the data</a></li>
-</ul></li>
-<li class="chapter" data-level="11" data-path="answers.html"><a href="answers.html"><i class="fa fa-check"></i><b>11</b> Plotting for answers</a>
-<ul>
-<li class="chapter" data-level="11.1" data-path="answers.html"><a href="answers.html#goals-of-this-chapter"><i class="fa fa-check"></i><b>11.1</b> Goals of this chapter</a></li>
-<li class="chapter" data-level="11.2" data-path="answers.html"><a href="answers.html#project-setup"><i class="fa fa-check"></i><b>11.2</b> Project setup</a></li>
-<li class="chapter" data-level="11.3" data-path="answers.html"><a href="answers.html#import-cleaned-data"><i class="fa fa-check"></i><b>11.3</b> Import cleaned data</a></li>
-<li class="chapter" data-level="11.4" data-path="answers.html"><a href="answers.html#make-a-searchable-table"><i class="fa fa-check"></i><b>11.4</b> Make a searchable table</a>
-<ul>
-<li class="chapter" data-level="11.4.1" data-path="answers.html"><a href="answers.html#pivot-wider-1"><i class="fa fa-check"></i><b>11.4.1</b> Pivot wider</a></li>
-<li class="chapter" data-level="11.4.2" data-path="answers.html"><a href="answers.html#make-a-datatable"><i class="fa fa-check"></i><b>11.4.2</b> Make a datatable</a></li>
-</ul></li>
-<li class="chapter" data-level="11.5" data-path="answers.html"><a href="answers.html#choosing-a-chart-to-display-data"><i class="fa fa-check"></i><b>11.5</b> Choosing a chart to display data</a></li>
-<li class="chapter" data-level="11.6" data-path="answers.html"><a href="answers.html#plot-yearly-student-percentage"><i class="fa fa-check"></i><b>11.6</b> Plot yearly student percentage</a>
-<ul>
-<li class="chapter" data-level="11.6.1" data-path="answers.html"><a href="answers.html#build-the-statewide-percentage-by-year-data"><i class="fa fa-check"></i><b>11.6.1</b> Build the statewide percentage by year data</a></li>
-<li class="chapter" data-level="11.6.2" data-path="answers.html"><a href="answers.html#build-the-statewide-percentage-chart"><i class="fa fa-check"></i><b>11.6.2</b> Build the statewide percentage chart</a></li>
-</ul></li>
-<li class="chapter" data-level="11.7" data-path="answers.html"><a href="answers.html#districts-by-benchmark-and-year"><i class="fa fa-check"></i><b>11.7</b> Districts by benchmark and year</a>
-<ul>
-<li class="chapter" data-level="11.7.1" data-path="answers.html"><a href="answers.html#build-the-audit-flag-data"><i class="fa fa-check"></i><b>11.7.1</b> Build the audit flag data</a></li>
-<li class="chapter" data-level="11.7.2" data-path="answers.html"><a href="answers.html#build-the-audit-flag-chart"><i class="fa fa-check"></i><b>11.7.2</b> Build the audit flag chart</a></li>
-<li class="chapter" data-level="11.7.3" data-path="answers.html"><a href="answers.html#which-chart-is-best"><i class="fa fa-check"></i><b>11.7.3</b> Which chart is best?</a></li>
-</ul></li>
-<li class="chapter" data-level="11.8" data-path="answers.html"><a href="answers.html#local-districts"><i class="fa fa-check"></i><b>11.8</b> Local districts</a></li>
-<li class="chapter" data-level="11.9" data-path="answers.html"><a href="answers.html#the-assignments"><i class="fa fa-check"></i><b>11.9</b> The assignments</a></li>
-</ul></li>
-<li class="chapter" data-level="12" data-path="group-dates.html"><a href="group-dates.html"><i class="fa fa-check"></i><b>12</b> Grouping by dates</a>
-<ul>
-<li class="chapter" data-level="12.1" data-path="group-dates.html"><a href="group-dates.html#setting-up"><i class="fa fa-check"></i><b>12.1</b> Setting up</a></li>
-<li class="chapter" data-level="12.2" data-path="group-dates.html"><a href="group-dates.html#plucking-date-parts"><i class="fa fa-check"></i><b>12.2</b> Plucking date parts</a></li>
-<li class="chapter" data-level="12.3" data-path="group-dates.html"><a href="group-dates.html#grouping-by-a-date-part-on-the-fly"><i class="fa fa-check"></i><b>12.3</b> Grouping by a date part on the fly</a></li>
-<li class="chapter" data-level="12.4" data-path="group-dates.html"><a href="group-dates.html#making-reusable-date-parts"><i class="fa fa-check"></i><b>12.4</b> Making reusable date parts</a>
-<ul>
-<li class="chapter" data-level="12.4.1" data-path="group-dates.html"><a href="group-dates.html#lets-make-a-year"><i class="fa fa-check"></i><b>12.4.1</b> Let’s make a year</a></li>
-<li class="chapter" data-level="12.4.2" data-path="group-dates.html"><a href="group-dates.html#the-magical-month"><i class="fa fa-check"></i><b>12.4.2</b> The magical month</a></li>
-<li class="chapter" data-level="12.4.3" data-path="group-dates.html"><a href="group-dates.html#floor-dates"><i class="fa fa-check"></i><b>12.4.3</b> Floor dates</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="13" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>13</b> R Functions</a>
-<ul>
-<li class="chapter" data-level="13.1" data-path="functions.html"><a href="functions.html#importexport"><i class="fa fa-check"></i><b>13.1</b> Import/Export</a></li>
-<li class="chapter" data-level="13.2" data-path="functions.html"><a href="functions.html#data-manipulation"><i class="fa fa-check"></i><b>13.2</b> Data manipulation</a></li>
-<li class="chapter" data-level="13.3" data-path="functions.html"><a href="functions.html#aggregation"><i class="fa fa-check"></i><b>13.3</b> Aggregation</a></li>
-<li class="chapter" data-level="13.4" data-path="functions.html"><a href="functions.html#math"><i class="fa fa-check"></i><b>13.4</b> Math</a></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="troubleshooting.html"><a href="troubleshooting.html"><i class="fa fa-check"></i><b>14</b> Troubleshooting</a>
-<ul>
-<li class="chapter" data-level="14.1" data-path="troubleshooting.html"><a href="troubleshooting.html#when-things-break"><i class="fa fa-check"></i><b>14.1</b> When things break</a></li>
-<li class="chapter" data-level="14.2" data-path="troubleshooting.html"><a href="troubleshooting.html#learning-how-things-work"><i class="fa fa-check"></i><b>14.2</b> Learning how things work</a>
-<ul>
-<li class="chapter" data-level="14.2.1" data-path="troubleshooting.html"><a href="troubleshooting.html#help-docs"><i class="fa fa-check"></i><b>14.2.1</b> Help docs</a></li>
-<li class="chapter" data-level="14.2.2" data-path="troubleshooting.html"><a href="troubleshooting.html#good-googling"><i class="fa fa-check"></i><b>14.2.2</b> Good Googling</a></li>
-<li class="chapter" data-level="14.2.3" data-path="troubleshooting.html"><a href="troubleshooting.html#tidyverse-docs-and-cheatsheets"><i class="fa fa-check"></i><b>14.2.3</b> Tidyverse docs and cheatsheets</a></li>
-</ul></li>
-<li class="chapter" data-level="14.3" data-path="troubleshooting.html"><a href="troubleshooting.html#r-frequently-asked-questions"><i class="fa fa-check"></i><b>14.3</b> R Frequently asked Questions</a>
-<ul>
-<li class="chapter" data-level="14.3.1" data-path="troubleshooting.html"><a href="troubleshooting.html#functions-objects-and-variables"><i class="fa fa-check"></i><b>14.3.1</b> Functions, objects and variables</a></li>
-<li class="chapter" data-level="14.3.2" data-path="troubleshooting.html"><a href="troubleshooting.html#some-r-code-basics"><i class="fa fa-check"></i><b>14.3.2</b> Some R code basics</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="15" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>15</b> How to interview a new dataset</a>
-<ul>
-<li class="chapter" data-level="15.1" data-path="explore.html"><a href="explore.html#start-by-listing-questions"><i class="fa fa-check"></i><b>15.1</b> Start by listing questions</a></li>
-<li class="chapter" data-level="15.2" data-path="explore.html"><a href="explore.html#understand-your-data"><i class="fa fa-check"></i><b>15.2</b> Understand your data</a></li>
-<li class="chapter" data-level="15.3" data-path="explore.html"><a href="explore.html#pay-attention-to-the-shape-of-your-data"><i class="fa fa-check"></i><b>15.3</b> Pay attention to the shape of your data</a></li>
-<li class="chapter" data-level="15.4" data-path="explore.html"><a href="explore.html#counting-and-aggregation"><i class="fa fa-check"></i><b>15.4</b> Counting and aggregation</a>
-<ul>
-<li class="chapter" data-level="15.4.1" data-path="explore.html"><a href="explore.html#counting-rows-based-on-a-column"><i class="fa fa-check"></i><b>15.4.1</b> Counting rows based on a column</a></li>
-<li class="chapter" data-level="15.4.2" data-path="explore.html"><a href="explore.html#sum-mean-and-other-aggregations"><i class="fa fa-check"></i><b>15.4.2</b> Sum, mean and other aggregations</a></li>
-<li class="chapter" data-level="15.4.3" data-path="explore.html"><a href="explore.html#creating-columns-to-show-difference"><i class="fa fa-check"></i><b>15.4.3</b> Creating columns to show difference</a></li>
-</ul></li>
-<li class="chapter" data-level="15.5" data-path="explore.html"><a href="explore.html#cleaning-up-categorical-data"><i class="fa fa-check"></i><b>15.5</b> Cleaning up categorical data</a></li>
-<li class="chapter" data-level="15.6" data-path="explore.html"><a href="explore.html#time-as-a-variable"><i class="fa fa-check"></i><b>15.6</b> Time as a variable</a></li>
-<li class="chapter" data-level="15.7" data-path="explore.html"><a href="explore.html#explore-the-distributions-in-your-data"><i class="fa fa-check"></i><b>15.7</b> Explore the distributions in your data</a>
-<ul>
-<li class="chapter" data-level="15.7.1" data-path="explore.html"><a href="explore.html#more-on-histograms"><i class="fa fa-check"></i><b>15.7.1</b> More on histograms</a></li>
-</ul></li>
-<li class="chapter" data-level="15.8" data-path="explore.html"><a href="explore.html#same-ideas-using-spreadsheets"><i class="fa fa-check"></i><b>15.8</b> Same ideas using spreadsheets</a></li>
-</ul></li>
-<li class="chapter" data-level="16" data-path="charts.html"><a href="charts.html"><i class="fa fa-check"></i><b>16</b> Chart production tips</a>
-<ul>
-<li class="chapter" data-level="16.1" data-path="charts.html"><a href="charts.html#titles-descriptions-and-annotations"><i class="fa fa-check"></i><b>16.1</b> Titles, descriptions and annotations</a></li>
-<li class="chapter" data-level="16.2" data-path="charts.html"><a href="charts.html#other-considerations"><i class="fa fa-check"></i><b>16.2</b> Other considerations</a></li>
-</ul></li>
-<li class="divider"></li>
-<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-
-</ul>
-
-      </nav>
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tidy-data.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tidy data</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
-
-    <div class="book-body">
-      <div class="body-inner">
-        <div class="book-header" role="navigation">
-          <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Reporting with Data in R</a>
-          </h1>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Reporting with Data in R</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
         </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About this book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./install.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Install Party</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./counts-import.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarize: count - import</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./counts-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Summarize: count - analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./sums-import.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Summarize: math - import</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./sums-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Summarize: math - analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plots.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data Viz - Intro to ggplot</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tidy-data.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tidy data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bind-join.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bind and join</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./answers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Plotting for answers</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./group-dates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Grouping by dates</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">R Functions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Troubleshooting</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./explore.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Exploring a new dataset</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./charts-tips.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Chart production tips</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#goals-for-this-section" id="toc-goals-for-this-section" class="nav-link active" data-scroll-target="#goals-for-this-section"><span class="header-section-number">8.1</span> Goals for this section</a></li>
+  <li><a href="#the-questions-well-answer" id="toc-the-questions-well-answer" class="nav-link" data-scroll-target="#the-questions-well-answer"><span class="header-section-number">8.2</span> The questions we’ll answer</a></li>
+  <li><a href="#what-is-tidy-data" id="toc-what-is-tidy-data" class="nav-link" data-scroll-target="#what-is-tidy-data"><span class="header-section-number">8.3</span> What is tidy data</a>
+  <ul class="collapse">
+  <li><a href="#wide-vs-long-data" id="toc-wide-vs-long-data" class="nav-link" data-scroll-target="#wide-vs-long-data"><span class="header-section-number">8.3.1</span> Wide vs long data</a></li>
+  <li><a href="#why-we-might-want-different-shaped-data" id="toc-why-we-might-want-different-shaped-data" class="nav-link" data-scroll-target="#why-we-might-want-different-shaped-data"><span class="header-section-number">8.3.2</span> Why we might want different shaped data</a></li>
+  </ul></li>
+  <li><a href="#prepare-our-candy-project" id="toc-prepare-our-candy-project" class="nav-link" data-scroll-target="#prepare-our-candy-project"><span class="header-section-number">8.4</span> Prepare our candy project</a>
+  <ul class="collapse">
+  <li><a href="#get-the-data" id="toc-get-the-data" class="nav-link" data-scroll-target="#get-the-data"><span class="header-section-number">8.4.1</span> Get the data</a></li>
+  <li><a href="#drop-unneeded-columns" id="toc-drop-unneeded-columns" class="nav-link" data-scroll-target="#drop-unneeded-columns"><span class="header-section-number">8.4.2</span> Drop unneeded columns</a></li>
+  <li><a href="#peek-at-the-wide-table" id="toc-peek-at-the-wide-table" class="nav-link" data-scroll-target="#peek-at-the-wide-table"><span class="header-section-number">8.4.3</span> Peek at the wide table</a></li>
+  <li><a href="#where-are-we-going-with-this-data" id="toc-where-are-we-going-with-this-data" class="nav-link" data-scroll-target="#where-are-we-going-with-this-data"><span class="header-section-number">8.4.4</span> Where are we going with this data</a></li>
+  </ul></li>
+  <li><a href="#the-tidyr-verbs" id="toc-the-tidyr-verbs" class="nav-link" data-scroll-target="#the-tidyr-verbs"><span class="header-section-number">8.5</span> The tidyr verbs</a></li>
+  <li><a href="#pivot-longer" id="toc-pivot-longer" class="nav-link" data-scroll-target="#pivot-longer"><span class="header-section-number">8.6</span> Pivot longer</a>
+  <ul class="collapse">
+  <li><a href="#pivot-our-candy-data-longer" id="toc-pivot-our-candy-data-longer" class="nav-link" data-scroll-target="#pivot-our-candy-data-longer"><span class="header-section-number">8.6.1</span> Pivot our candy data longer</a></li>
+  <li><a href="#get-average-candies-per-color" id="toc-get-average-candies-per-color" class="nav-link" data-scroll-target="#get-average-candies-per-color"><span class="header-section-number">8.6.2</span> Get average candies per color</a></li>
+  <li><a href="#round-the-averages" id="toc-round-the-averages" class="nav-link" data-scroll-target="#round-the-averages"><span class="header-section-number">8.6.3</span> Round the averages</a></li>
+  <li><a href="#on-your-own-plot-the-averages" id="toc-on-your-own-plot-the-averages" class="nav-link" data-scroll-target="#on-your-own-plot-the-averages"><span class="header-section-number">8.6.4</span> On your own: Plot the averages</a></li>
+  </ul></li>
+  <li><a href="#introducing-datawrapper" id="toc-introducing-datawrapper" class="nav-link" data-scroll-target="#introducing-datawrapper"><span class="header-section-number">8.7</span> Introducing Datawrapper</a>
+  <ul class="collapse">
+  <li><a href="#review-how-to-make-a-bar-chart" id="toc-review-how-to-make-a-bar-chart" class="nav-link" data-scroll-target="#review-how-to-make-a-bar-chart"><span class="header-section-number">8.7.1</span> Review how to make a bar chart</a></li>
+  <li><a href="#start-a-chart" id="toc-start-a-chart" class="nav-link" data-scroll-target="#start-a-chart"><span class="header-section-number">8.7.2</span> Start a chart</a></li>
+  <li><a href="#export-your-data-for-datawrapper" id="toc-export-your-data-for-datawrapper" class="nav-link" data-scroll-target="#export-your-data-for-datawrapper"><span class="header-section-number">8.7.3</span> Export your data for Datawrapper</a></li>
+  <li><a href="#build-the-datawrapper-graphic" id="toc-build-the-datawrapper-graphic" class="nav-link" data-scroll-target="#build-the-datawrapper-graphic"><span class="header-section-number">8.7.4</span> Build the datawrapper graphic</a></li>
+  </ul></li>
+  <li><a href="#pivot-wider" id="toc-pivot-wider" class="nav-link" data-scroll-target="#pivot-wider"><span class="header-section-number">8.8</span> Pivot wider</a>
+  <ul class="collapse">
+  <li><a href="#pivot-wider-on-your-own" id="toc-pivot-wider-on-your-own" class="nav-link" data-scroll-target="#pivot-wider-on-your-own"><span class="header-section-number">8.8.1</span> Pivot wider on your own</a></li>
+  </ul></li>
+  <li><a href="#bonus-questions" id="toc-bonus-questions" class="nav-link" data-scroll-target="#bonus-questions"><span class="header-section-number">8.9</span> Bonus questions</a>
+  <ul class="collapse">
+  <li><a href="#mostleast-candies" id="toc-mostleast-candies" class="nav-link" data-scroll-target="#mostleast-candies"><span class="header-section-number">8.9.1</span> Most/least candies</a></li>
+  <li><a href="#average-total-candies-in-a-bag" id="toc-average-total-candies-in-a-bag" class="nav-link" data-scroll-target="#average-total-candies-in-a-bag"><span class="header-section-number">8.9.2</span> Average total candies in a bag</a></li>
+  </ul></li>
+  <li><a href="#turn-in-your-work" id="toc-turn-in-your-work" class="nav-link" data-scroll-target="#turn-in-your-work"><span class="header-section-number">8.10</span> Turn in your work</a></li>
+  <li><a href="#what-we-learned" id="toc-what-we-learned" class="nav-link" data-scroll-target="#what-we-learned"><span class="header-section-number">8.11</span> What we learned</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
 
-        <div class="page-wrapper" tabindex="-1" role="main">
-          <div class="page-inner">
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="tidy-data" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tidy data</span></span></h1>
+</div>
 
-            <section class="normal" id="section-">
-<div id="tidy-data" class="section level1 hasAnchor" number="9">
-<h1><span class="header-section-number">Chapter 9</span> Tidy data<a href="tidy-data.html#tidy-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
 <p>Data “shape” can be important when you are trying to work with and visualize data. In this chapter we’ll discuss “tidy data” and how it helps us with both ggplot and other charting tools like <a href="https://www.datawrapper.de/">Datawrapper</a>.</p>
-<p>This chapter was written by Prof. McDonald, who uses a Mac.</p>
-<div id="goals-for-this-section-1" class="section level2 hasAnchor" number="9.1">
-<h2><span class="header-section-number">9.1</span> Goals for this section<a href="tidy-data.html#goals-for-this-section-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This chapter was written by Prof.&nbsp;McDonald, who uses a Mac.</p>
+<section id="goals-for-this-section" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="goals-for-this-section"><span class="header-section-number">8.1</span> Goals for this section</h2>
 <ul>
 <li>Explore what it means to have “tidy” data.</li>
 <li>Learn about and use <code>pivot_longer()</code>, <code>pivot_wider()</code> to shape our data for different purposes.</li>
 <li>Use candy data to practice shaping data.</li>
 </ul>
-</div>
-<div id="the-questions-well-answer-1" class="section level2 hasAnchor" number="9.2">
-<h2><span class="header-section-number">9.2</span> The questions we’ll answer<a href="tidy-data.html#the-questions-well-answer-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</section>
+<section id="the-questions-well-answer" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="the-questions-well-answer"><span class="header-section-number">8.2</span> The questions we’ll answer</h2>
 <ul>
 <li>Are candy colors evenly distributed within a standard package of M&amp;M’s? (We’ll get the mean of candies by color over a collection of packages.)
 <ul>
@@ -624,86 +321,94 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Bonus 1: Who got the most candies in their bag?</li>
 <li>Bonus 2: What is the average number of candy in a bag?</li>
 </ul>
-</div>
-<div id="what-is-tidy-data" class="section level2 hasAnchor" number="9.3">
-<h2><span class="header-section-number">9.3</span> What is tidy data<a href="tidy-data.html#what-is-tidy-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</section>
+<section id="what-is-tidy-data" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="what-is-tidy-data"><span class="header-section-number">8.3</span> What is tidy data</h2>
 <p>“Tidy” data is well formatted so each variable is in a column, each observation is in a row and each value is a cell. Our first step in working with any data is to make sure we are “tidy”.</p>
-<p><img src="images/tidy-example.png" /></p>
+<p><img src="images/tidy-example.png" class="img-fluid"></p>
 <p>It’s easiest to see the difference through examples. The data frame below is of tuberculosis reports from the World Health Organization.</p>
 <ul>
 <li>Each row is a set of observations (or case) from a single country for a single year.</li>
 <li>Each column describes a unique variable. The year, the number of cases and the population of the country at that time.</li>
 </ul>
-<p><img src="images/tidy-table-tidy.png" /></p>
+<p><img src="images/tidy-table-tidy.png" class="img-fluid"></p>
 <p>Table2 below isn’t tidy. The <strong>count</strong> column contains two different type of values.</p>
-<p><img src="images/tidy-table-nottidy.png" /></p>
+<p><img src="images/tidy-table-nottidy.png" class="img-fluid"></p>
 <p>When our data is tidy, it is easy to manipulate. We can use functions like <code>mutate()</code> to calculate new values for each case.</p>
-<p><img src="images/tidy-table-manipulate.png" /></p>
+<p><img src="images/tidy-table-manipulate.png" class="img-fluid"></p>
 <p>When our data is tidy, we can use the <a href="https://tidyr.tidyverse.org/">tidyr</a> package to reshape the layout of our data to suit our needs. It gets loaded with <code>library(tidyverse)</code> so we won’t need to load it separately.</p>
-<div id="wide-vs-long-data" class="section level3 hasAnchor" number="9.3.1">
-<h3><span class="header-section-number">9.3.1</span> Wide vs long data<a href="tidy-data.html#wide-vs-long-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<section id="wide-vs-long-data" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="wide-vs-long-data"><span class="header-section-number">8.3.1</span> Wide vs long data</h3>
 <p>In the figure below, the table on the left is “wide”. There are are multiple year columns describing the same variable. It might be useful if we want to calculate the difference of the values for two different years. It’s less useful if we want plot on a graphic because we don’t have a single “year” column to map as an x or y axes.</p>
 <p>The table on the right is “long”, in that each column describes a single variable. It is this shape we need when we want to plot values on a chart in ggplot. We can then set our “Year” column as an x-axis, our “n” column on our y-axis, and group by the “Country”.</p>
-<div class="figure">
-<img src="images/tidy-wide-vs-long.png" alt="" />
-<p class="caption">Wide vs long</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/tidy-wide-vs-long.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Wide vs long</figcaption>
+</figure>
 </div>
 <p><strong>Neither shape is wrong</strong>, they are just useful for different purposes. In fact, you’ll find yourself pivoting the same data in different ways depending on your needs.</p>
-</div>
-<div id="why-we-might-want-different-shaped-data" class="section level3 hasAnchor" number="9.3.2">
-<h3><span class="header-section-number">9.3.2</span> Why we might want different shaped data<a href="tidy-data.html#why-we-might-want-different-shaped-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</section>
+<section id="why-we-might-want-different-shaped-data" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="why-we-might-want-different-shaped-data"><span class="header-section-number">8.3.2</span> Why we might want different shaped data</h3>
 <p>There are a myriad of reasons why you might need to reshape your data. Performing calculations on row-level data might be easier if it is wide. Grouping and summarizing calculations might be easier when it is long. ggplot graphics like long data, while Datawrapper sometimes wants wide data to make the same chart.</p>
 <p>I find myself shaping data back and forth depending on my needs.</p>
-</div>
-</div>
-<div id="prepare-our-candy-project" class="section level2 hasAnchor" number="9.4">
-<h2><span class="header-section-number">9.4</span> Prepare our candy project<a href="tidy-data.html#prepare-our-candy-project" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</section>
+</section>
+<section id="prepare-our-candy-project" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="prepare-our-candy-project"><span class="header-section-number">8.4</span> Prepare our candy project</h2>
 <p>We will use candy count data we’ve been collected in Reporting wth Data classes to explore this subject.</p>
 <p>Start a new project.</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>Create a new project and call it: <code>yourname-candy</code></li>
 <li>No need to create data folders as we’ll just load data directly into the notebook.</li>
 <li>Start a new R Notebook and edit the headline. Name it <strong>01-candy</strong>.</li>
 <li>Create your setup block and load the libraries below.</li>
 </ol>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="tidy-data.html#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb220-2"><a href="tidy-data.html#cb220-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code></pre></div>
-<div id="get-the-data" class="section level3 hasAnchor" number="9.4.1">
-<h3><span class="header-section-number">9.4.1</span> Get the data<a href="tidy-data.html#get-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="get-the-data" class="level3" data-number="8.4.1">
+<h3 data-number="8.4.1" class="anchored" data-anchor-id="get-the-data"><span class="header-section-number">8.4.1</span> Get the data</h3>
 <p>We’ll just load this data directly from Google Sheets into this notebook. We’re doing something a little different here in we save the URL to our data into an object, then use that object in our <code>read_csv()</code> function. This is just a convenience for me, really, so I can swap that url out as needed.</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>Add a Markdown section noting that you are importing data.</li>
 <li>Add this import chunk and run it.</li>
 </ol>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="tidy-data.html#cb221-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save the url</span></span>
-<span id="cb221-2"><a href="tidy-data.html#cb221-2" aria-hidden="true" tabindex="-1"></a>class_data <span class="ot">&lt;-</span> <span class="st">&quot;https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&amp;single=true&amp;output=csv&quot;</span></span>
-<span id="cb221-3"><a href="tidy-data.html#cb221-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb221-4"><a href="tidy-data.html#cb221-4" aria-hidden="true" tabindex="-1"></a><span class="co"># read the data, clean names and save into the object &quot;raw_data&quot;</span></span>
-<span id="cb221-5"><a href="tidy-data.html#cb221-5" aria-hidden="true" tabindex="-1"></a>raw_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(class_data) <span class="sc">|&gt;</span> <span class="fu">clean_names</span>()</span>
-<span id="cb221-6"><a href="tidy-data.html#cb221-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb221-7"><a href="tidy-data.html#cb221-7" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
-<span id="cb221-8"><a href="tidy-data.html#cb221-8" aria-hidden="true" tabindex="-1"></a>raw_data</span></code></pre></div>
-<pre><code>## # A tibble: 106 × 11
-##    timestamp  first_name last_name candy_type box_code   red green orange yellow
-##    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-##  1 2/21/2022… Christian  McDonald  Plain      140BSCL…     2    17     11      4
-##  2 2/28/2022… Andrew     Logan     Plain      140BSCL…     2     9     14      4
-##  3 2/28/2022… Gabby      Ybarra    Plain      140BSCL…     4    11     14      0
-##  4 2/28/2022… Veronica   Apodaca   Plain      140BSCL…     1    17     16      2
-##  5 2/28/2022… Cristela   Jones     Plain      140BSCL…     3    19     14      3
-##  6 2/28/2022… Marina     Garcia    Plain      140BSCL…     7    11     13      1
-##  7 2/28/2022… Samuel     Stark     Plain      140BSCL…     3     9     10      5
-##  8 2/28/2022… Kevin      Malcolm … Plain      140BSCL…     4    15     13      6
-##  9 2/28/2022… Alexa      Haverlah  Plain      140BSCL…     5    15      6      2
-## 10 2/28/2022… Zacharia   Washingt… Plain      140BSCL…     1    15     14      1
-## # ℹ 96 more rows
-## # ℹ 2 more variables: blue &lt;dbl&gt;, brown &lt;dbl&gt;</code></pre>
-<p>This data comes from a Google Sheets document fed by a form that students have filled out, counting the colors of candies in a standard size bag of plain M&amp;Ms.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save the url</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>class_data <span class="ot">&lt;-</span> <span class="st">"https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&amp;single=true&amp;output=csv"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># read the data, clean names and save into the object "raw_data"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>raw_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(class_data) <span class="sc">|&gt;</span> <span class="fu">clean_names</span>()</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>raw_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 106 × 11
+   timestamp  first_name last_name candy_type box_code   red green orange yellow
+   &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+ 1 2/21/2022… Christian  McDonald  Plain      140BSCL…     2    17     11      4
+ 2 2/28/2022… Andrew     Logan     Plain      140BSCL…     2     9     14      4
+ 3 2/28/2022… Gabby      Ybarra    Plain      140BSCL…     4    11     14      0
+ 4 2/28/2022… Veronica   Apodaca   Plain      140BSCL…     1    17     16      2
+ 5 2/28/2022… Cristela   Jones     Plain      140BSCL…     3    19     14      3
+ 6 2/28/2022… Marina     Garcia    Plain      140BSCL…     7    11     13      1
+ 7 2/28/2022… Samuel     Stark     Plain      140BSCL…     3     9     10      5
+ 8 2/28/2022… Kevin      Malcolm … Plain      140BSCL…     4    15     13      6
+ 9 2/28/2022… Alexa      Haverlah  Plain      140BSCL…     5    15      6      2
+10 2/28/2022… Zacharia   Washingt… Plain      140BSCL…     1    15     14      1
+# ℹ 96 more rows
+# ℹ 2 more variables: blue &lt;dbl&gt;, brown &lt;dbl&gt;</code></pre>
 </div>
-<div id="drop-unneeded-columns" class="section level3 hasAnchor" number="9.4.2">
-<h3><span class="header-section-number">9.4.2</span> Drop unneeded columns<a href="tidy-data.html#drop-unneeded-columns" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<p>This data comes from a Google Sheets document fed by a form that students have filled out, counting the colors of candies in a standard size bag of plain M&amp;Ms.</p>
+</section>
+<section id="drop-unneeded-columns" class="level3" data-number="8.4.2">
+<h3 data-number="8.4.2" class="anchored" data-anchor-id="drop-unneeded-columns"><span class="header-section-number">8.4.2</span> Drop unneeded columns</h3>
 <p>For this exercise we don’t need the <code>timestamp</code>, <code>candy_type</code> or <code>box_code</code> columns. We’ll drop them so we can keep things simple.</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>Create a Markdown section noting you’ll drop unneeded columns.</li>
 <li>Create an R chunk and use <code>select()</code> to remove the columns noted above and save the result into a new data frame called <code>candy</code>.</li>
 </ol>
@@ -712,178 +417,188 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <summary>
 You got this! (But, just in case …)
 </summary>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="tidy-data.html#cb223-1" aria-hidden="true" tabindex="-1"></a>candy <span class="ot">&lt;-</span> raw_data <span class="sc">|&gt;</span> </span>
-<span id="cb223-2"><a href="tidy-data.html#cb223-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb223-3"><a href="tidy-data.html#cb223-3" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>timestamp,</span>
-<span id="cb223-4"><a href="tidy-data.html#cb223-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>candy_type,</span>
-<span id="cb223-5"><a href="tidy-data.html#cb223-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>box_code</span>
-<span id="cb223-6"><a href="tidy-data.html#cb223-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>candy <span class="ot">&lt;-</span> raw_data <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>timestamp,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>candy_type,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>box_code</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </details>
-</div>
-<div id="peek-at-the-wide-table" class="section level3 hasAnchor" number="9.4.3">
-<h3><span class="header-section-number">9.4.3</span> Peek at the wide table<a href="tidy-data.html#peek-at-the-wide-table" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</section>
+<section id="peek-at-the-wide-table" class="level3" data-number="8.4.3">
+<h3 data-number="8.4.3" class="anchored" data-anchor-id="peek-at-the-wide-table"><span class="header-section-number">8.4.3</span> Peek at the wide table</h3>
 <p>Let’s look closer at this data:</p>
-<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="tidy-data.html#cb224-1" aria-hidden="true" tabindex="-1"></a>candy <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 8
-##   first_name last_name   red green orange yellow  blue brown
-##   &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 Christian  McDonald      2    17     11      4    16     4
-## 2 Andrew     Logan         2     9     14      4    17     9
-## 3 Gabby      Ybarra        4    11     14      0    19     7
-## 4 Veronica   Apodaca       1    17     16      2    13     8
-## 5 Cristela   Jones         3    19     14      3    13     3
-## 6 Marina     Garcia        7    11     13      1    14     6</code></pre>
-<p>This is pretty well-formed data. This format would be useful to create a “total” column for each bag, but there are better ways to do this with <strong>long</strong> data. Same with getting our averages for each color.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>candy <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 8
+  first_name last_name   red green orange yellow  blue brown
+  &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 Christian  McDonald      2    17     11      4    16     4
+2 Andrew     Logan         2     9     14      4    17     9
+3 Gabby      Ybarra        4    11     14      0    19     7
+4 Veronica   Apodaca       1    17     16      2    13     8
+5 Cristela   Jones         3    19     14      3    13     3
+6 Marina     Garcia        7    11     13      1    14     6</code></pre>
 </div>
-<div id="where-are-we-going-with-this-data" class="section level3 hasAnchor" number="9.4.4">
-<h3><span class="header-section-number">9.4.4</span> Where are we going with this data<a href="tidy-data.html#where-are-we-going-with-this-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<p>This is pretty well-formed data. This format would be useful to create a “total” column for each bag, but there are better ways to do this with <strong>long</strong> data. Same with getting our averages for each color.</p>
+</section>
+<section id="where-are-we-going-with-this-data" class="level3" data-number="8.4.4">
+<h3 data-number="8.4.4" class="anchored" data-anchor-id="where-are-we-going-with-this-data"><span class="header-section-number">8.4.4</span> Where are we going with this data</h3>
 <p>We have two goals here:</p>
 <ul>
 <li>Find the average distribution of candy by color, i.e., the average of each color column.</li>
 <li>We want to chart the results as a bar chart simliar to the one below (which uses Skittles data).</li>
 </ul>
-<p><img src="images/skittles-chart-example.png" /></p>
+<p><img src="images/skittles-chart-example.png" class="img-fluid"></p>
 <p>To plot a chart like that in Datawrapper or ggplot, the data needs to be the same shape, like this:</p>
-<table>
+<table class="table">
 <thead>
 <tr class="header">
-<th align="left">Color</th>
-<th align="right">Average</th>
+<th style="text-align: left;">Color</th>
+<th style="text-align: right;">Average</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Green</td>
-<td align="right">10.9</td>
+<td style="text-align: left;">Green</td>
+<td style="text-align: right;">10.9</td>
 </tr>
 <tr class="even">
-<td align="left">Orange</td>
-<td align="right">12.0</td>
+<td style="text-align: left;">Orange</td>
+<td style="text-align: right;">12.0</td>
 </tr>
 <tr class="odd">
-<td align="left">Purple</td>
-<td align="right">12.4</td>
+<td style="text-align: left;">Purple</td>
+<td style="text-align: right;">12.4</td>
 </tr>
 <tr class="even">
-<td align="left">Red</td>
-<td align="right">11.4</td>
+<td style="text-align: left;">Red</td>
+<td style="text-align: right;">11.4</td>
 </tr>
 <tr class="odd">
-<td align="left">Yellow</td>
-<td align="right">12</td>
+<td style="text-align: left;">Yellow</td>
+<td style="text-align: right;">12</td>
 </tr>
 </tbody>
 </table>
 <p>It will be easier to accomplish both of these tasks if our data were in the <strong>long</strong> format.</p>
 <p>So, instead of this:</p>
-<table>
+<table class="table">
 <colgroup>
-<col width="18%" />
-<col width="17%" />
-<col width="7%" />
-<col width="10%" />
-<col width="12%" />
-<col width="12%" />
-<col width="9%" />
-<col width="10%" />
+<col style="width: 18%">
+<col style="width: 17%">
+<col style="width: 7%">
+<col style="width: 10%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 9%">
+<col style="width: 10%">
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">first_name</th>
-<th align="left">last_name</th>
-<th align="right">red</th>
-<th align="right">green</th>
-<th align="right">orange</th>
-<th align="right">yellow</th>
-<th align="right">blue</th>
-<th align="right">brown</th>
+<th style="text-align: left;">first_name</th>
+<th style="text-align: left;">last_name</th>
+<th style="text-align: right;">red</th>
+<th style="text-align: right;">green</th>
+<th style="text-align: right;">orange</th>
+<th style="text-align: right;">yellow</th>
+<th style="text-align: right;">blue</th>
+<th style="text-align: right;">brown</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Christian</td>
-<td align="left">McDonald</td>
-<td align="right">2</td>
-<td align="right">17</td>
-<td align="right">11</td>
-<td align="right">4</td>
-<td align="right">16</td>
-<td align="right">4</td>
+<td style="text-align: left;">Christian</td>
+<td style="text-align: left;">McDonald</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">4</td>
 </tr>
 </tbody>
 </table>
 <p>We want this:</p>
-<table>
+<table class="table">
 <thead>
 <tr class="header">
-<th align="left">first_name</th>
-<th align="left">last_name</th>
-<th align="left">color</th>
-<th align="right">candies</th>
+<th style="text-align: left;">first_name</th>
+<th style="text-align: left;">last_name</th>
+<th style="text-align: left;">color</th>
+<th style="text-align: right;">candies</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Christian</td>
-<td align="left">McDonald</td>
-<td align="left">red</td>
-<td align="right">2</td>
+<td style="text-align: left;">Christian</td>
+<td style="text-align: left;">McDonald</td>
+<td style="text-align: left;">red</td>
+<td style="text-align: right;">2</td>
 </tr>
 <tr class="even">
-<td align="left">Christian</td>
-<td align="left">McDonald</td>
-<td align="left">green</td>
-<td align="right">17</td>
+<td style="text-align: left;">Christian</td>
+<td style="text-align: left;">McDonald</td>
+<td style="text-align: left;">green</td>
+<td style="text-align: right;">17</td>
 </tr>
 <tr class="odd">
-<td align="left">Christian</td>
-<td align="left">McDonald</td>
-<td align="left">orange</td>
-<td align="right">11</td>
+<td style="text-align: left;">Christian</td>
+<td style="text-align: left;">McDonald</td>
+<td style="text-align: left;">orange</td>
+<td style="text-align: right;">11</td>
 </tr>
 <tr class="even">
-<td align="left">Christian</td>
-<td align="left">McDonald</td>
-<td align="left">yellow</td>
-<td align="right">4</td>
+<td style="text-align: left;">Christian</td>
+<td style="text-align: left;">McDonald</td>
+<td style="text-align: left;">yellow</td>
+<td style="text-align: right;">4</td>
 </tr>
 <tr class="odd">
-<td align="left">Christian</td>
-<td align="left">McDonald</td>
-<td align="left">blue</td>
-<td align="right">16</td>
+<td style="text-align: left;">Christian</td>
+<td style="text-align: left;">McDonald</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">16</td>
 </tr>
 <tr class="even">
-<td align="left">Christian</td>
-<td align="left">McDonald</td>
-<td align="left">brown</td>
-<td align="right">4</td>
+<td style="text-align: left;">Christian</td>
+<td style="text-align: left;">McDonald</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: right;">4</td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div id="the-tidyr-verbs" class="section level2 hasAnchor" number="9.5">
-<h2><span class="header-section-number">9.5</span> The tidyr verbs<a href="tidy-data.html#the-tidyr-verbs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</section>
+</section>
+<section id="the-tidyr-verbs" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="the-tidyr-verbs"><span class="header-section-number">8.5</span> The tidyr verbs</h2>
 <p>The two functions we’ll use to reshape are data are:</p>
 <ul>
 <li><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a> which “lengthens” data, increasing the number of rows and decreasing the number of columns.</li>
 <li><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> which “widens” data, increasing the number of columns and decreasing the number of rows.</li>
 </ul>
 <p>Again, the best way to learn this is to present a problem and then solve it with explanation.</p>
-</div>
-<div id="pivot-longer" class="section level2 hasAnchor" number="9.6">
-<h2><span class="header-section-number">9.6</span> Pivot longer<a href="tidy-data.html#pivot-longer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</section>
+<section id="pivot-longer" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="pivot-longer"><span class="header-section-number">8.6</span> Pivot longer</h2>
 <p>This visualization gives you an idea how <code>pivot_longer()</code> works.</p>
-<div class="figure">
-<img src="images/pivot_longer_chart.png" alt="" />
-<p class="caption">Pivot longer</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pivot_longer_chart.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Pivot longer</figcaption>
+</figure>
 </div>
 <p>Each column of data chosen (the colored ones) is turned into it’s own row of data. Supporting data (the grey columns) are duplicated.</p>
 <p>The <code>pivot_longer()</code> function needs several arguments: <strong>cols=</strong>, <strong>names_to=</strong> and <strong>values_to</strong>. Below are two examples to pivot the example data shown above.</p>
-<div class="figure">
-<img src="images/pivot_longer_diagram.png" alt="" />
-<p class="caption">pivot_longer code</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pivot_longer_diagram.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">pivot_longer code</figcaption>
+</figure>
 </div>
 <ul>
 <li><strong><code>cols=</code></strong> is where you define a range of columns you want to pivot. <em>For our candy data we want the range <code>red:brown</code></em>.</li>
@@ -891,86 +606,98 @@ You got this! (But, just in case …)
 <li><strong><code>values_to=</code></strong> allows you to name the new column filled with the cell data. <em>For us we want to call this “candies” since these are the number of candies in each bag.</em></li>
 </ul>
 <p>There are a number of ways we can describe the <code>cols=</code> argument … anything in <a href="https://tidyr.tidyverse.org/reference/tidyr_tidy_select.html">tidy-select</a> works. You can see a bunch of <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html#ref-examples">examples here</a>.</p>
-<div id="pivot-our-candy-data-longer" class="section level3 hasAnchor" number="9.6.1">
-<h3><span class="header-section-number">9.6.1</span> Pivot our candy data longer<a href="tidy-data.html#pivot-our-candy-data-longer" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<section id="pivot-our-candy-data-longer" class="level3" data-number="8.6.1">
+<h3 data-number="8.6.1" class="anchored" data-anchor-id="pivot-our-candy-data-longer"><span class="header-section-number">8.6.1</span> Pivot our candy data longer</h3>
 <p>What we want here is six rows for each person’s entry, with a column for “color” and a column for “candies”.</p>
 <p>We are using a range, naming the first “red” and the last column “brown” with <code>:</code> in between. This only works because those columns are all together. We could also use <code>cols = !c(first_name, last_name)</code> to say everything but those two columns.</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>Add a note that you are pivoting the data</li>
 <li>Add the chunk below and run it</li>
 </ol>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="tidy-data.html#cb226-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="ot">&lt;-</span> candy <span class="sc">|&gt;</span> </span>
-<span id="cb226-2"><a href="tidy-data.html#cb226-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb226-3"><a href="tidy-data.html#cb226-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> red<span class="sc">:</span>brown, <span class="co"># sets which columns to pivot based on their names</span></span>
-<span id="cb226-4"><a href="tidy-data.html#cb226-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;color&quot;</span>, <span class="co"># sets column name for color</span></span>
-<span id="cb226-5"><a href="tidy-data.html#cb226-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;candies&quot;</span> <span class="co"># sets column name for candies</span></span>
-<span id="cb226-6"><a href="tidy-data.html#cb226-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb226-7"><a href="tidy-data.html#cb226-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb226-8"><a href="tidy-data.html#cb226-8" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 4
-##   first_name last_name color  candies
-##   &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt;
-## 1 Christian  McDonald  red          2
-## 2 Christian  McDonald  green       17
-## 3 Christian  McDonald  orange      11
-## 4 Christian  McDonald  yellow       4
-## 5 Christian  McDonald  blue        16
-## 6 Christian  McDonald  brown        4</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="ot">&lt;-</span> candy <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> red<span class="sc">:</span>brown, <span class="co"># sets which columns to pivot based on their names</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"color"</span>, <span class="co"># sets column name for color</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"candies"</span> <span class="co"># sets column name for candies</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  first_name last_name color  candies
+  &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt;
+1 Christian  McDonald  red          2
+2 Christian  McDonald  green       17
+3 Christian  McDonald  orange      11
+4 Christian  McDonald  yellow       4
+5 Christian  McDonald  blue        16
+6 Christian  McDonald  brown        4</code></pre>
 </div>
-<div id="get-average-candies-per-color" class="section level3 hasAnchor" number="9.6.2">
-<h3><span class="header-section-number">9.6.2</span> Get average candies per color<a href="tidy-data.html#get-average-candies-per-color" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+</section>
+<section id="get-average-candies-per-color" class="level3" data-number="8.6.2">
+<h3 data-number="8.6.2" class="anchored" data-anchor-id="get-average-candies-per-color"><span class="header-section-number">8.6.2</span> Get average candies per color</h3>
 <p>To get the average number of candies per each color, we can use our <code>candy_long</code> data and <code>group_by</code> color (which will consider all the <strong>red</strong> rows together, etc.) and use <code>summarize()</code> to get the mean.</p>
 <p>This is very similar to the <code>sum()</code>s we did with military surplus, but you use <code>mean()</code> instead. There is one trick with <code>mean()</code>, though, in that sometimes you have to add an argument <code>na.rm = TRUE</code> if there are missing or zero values, since you can’t divide by zero. We have that case here in some bags don’t have ANY candies of a color at all!</p>
 <p>Save the resulting summary table into a new tibble called <code>candy_avg</code>.</p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="tidy-data.html#cb228-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="ot">&lt;-</span> candy_long <span class="sc">|&gt;</span> </span>
-<span id="cb228-2"><a href="tidy-data.html#cb228-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(color) <span class="sc">|&gt;</span> </span>
-<span id="cb228-3"><a href="tidy-data.html#cb228-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candies, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb228-4"><a href="tidy-data.html#cb228-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># the na.rm bit takes into account some records where there are zero or blank values.</span></span>
-<span id="cb228-5"><a href="tidy-data.html#cb228-5" aria-hidden="true" tabindex="-1"></a>candy_avg</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 2
-##   color  avg_candies
-##   &lt;chr&gt;        &lt;dbl&gt;
-## 1 blue         12.6 
-## 2 brown         6.34
-## 3 green        12.6 
-## 4 orange       10.1 
-## 5 red           5.62
-## 6 yellow        8.31</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="ot">&lt;-</span> candy_long <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(color) <span class="sc">|&gt;</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candies, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># the na.rm bit takes into account some records where there are zero or blank values.</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>candy_avg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  color  avg_candies
+  &lt;chr&gt;        &lt;dbl&gt;
+1 blue         12.6 
+2 brown         6.34
+3 green        12.6 
+4 orange       10.1 
+5 red           5.62
+6 yellow        8.31</code></pre>
 </div>
-<div id="round-the-averages" class="section level3 hasAnchor" number="9.6.3">
-<h3><span class="header-section-number">9.6.3</span> Round the averages<a href="tidy-data.html#round-the-averages" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+</section>
+<section id="round-the-averages" class="level3" data-number="8.6.3">
+<h3 data-number="8.6.3" class="anchored" data-anchor-id="round-the-averages"><span class="header-section-number">8.6.3</span> Round the averages</h3>
 <p>Let’s <strong>modify this summary</strong> to round the averages to tenths so they will plot nicely on our chart.’</p>
 <p>The <code>round()</code> function needs the column to change, and then the number of digits past the decimal to include.</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>Edit your summarize function to add the <code>mutate()</code> functin below.</li>
 </ol>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="tidy-data.html#cb230-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="ot">&lt;-</span> candy_long <span class="sc">|&gt;</span> </span>
-<span id="cb230-2"><a href="tidy-data.html#cb230-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(color) <span class="sc">|&gt;</span> </span>
-<span id="cb230-3"><a href="tidy-data.html#cb230-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candies, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb230-4"><a href="tidy-data.html#cb230-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb230-5"><a href="tidy-data.html#cb230-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_candies =</span> <span class="fu">round</span>(avg_candies, <span class="dv">1</span>)</span>
-<span id="cb230-6"><a href="tidy-data.html#cb230-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb230-7"><a href="tidy-data.html#cb230-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb230-8"><a href="tidy-data.html#cb230-8" aria-hidden="true" tabindex="-1"></a>candy_avg</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 2
-##   color  avg_candies
-##   &lt;chr&gt;        &lt;dbl&gt;
-## 1 blue          12.6
-## 2 brown          6.3
-## 3 green         12.6
-## 4 orange        10.1
-## 5 red            5.6
-## 6 yellow         8.3</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="ot">&lt;-</span> candy_long <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(color) <span class="sc">|&gt;</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candies, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_candies =</span> <span class="fu">round</span>(avg_candies, <span class="dv">1</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>candy_avg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  color  avg_candies
+  &lt;chr&gt;        &lt;dbl&gt;
+1 blue          12.6
+2 brown          6.3
+3 green         12.6
+4 orange        10.1
+5 red            5.6
+6 yellow         8.3</code></pre>
+</div>
+</div>
 <p>BONUS POINT OPPORTUNITY: Using a similar method to rounding above, you can also capitalize the names of the colors. You don’t <em>have</em> to do this, but I’ll give you bonus points if you do:</p>
 <ul>
 <li>In your mutate, add a rule that updates <code>color</code> column using <code>str_to_title(color)</code>.</li>
 </ul>
 <p>You can read more about <a href="https://stringr.tidyverse.org/reference/case.html">converting the case of a string here</a>. It’s part of the <a href="https://stringr.tidyverse.org/index.html">stringr</a> package, which is loaded with tidyverse.</p>
-</div>
-<div id="on-your-own-plot-the-averages" class="section level3 hasAnchor" number="9.6.4">
-<h3><span class="header-section-number">9.6.4</span> On your own: Plot the averages<a href="tidy-data.html#on-your-own-plot-the-averages" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</section>
+<section id="on-your-own-plot-the-averages" class="level3" data-number="8.6.4">
+<h3 data-number="8.6.4" class="anchored" data-anchor-id="on-your-own-plot-the-averages"><span class="header-section-number">8.6.4</span> On your own: Plot the averages</h3>
 <p>Now I want you to use ggplot to create a bar chart that shows the average number of candies by color in a bag. This is very similar to the <a href="https://utdata.github.io/rwdir/ggplot-intro.html#lets-build-a-bar-chart">Disney Princesses bar chart in Chapter 7</a>.</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>Build a bar chart of average color using ggplot.</li>
 </ol>
 <p>Some things to consider:</p>
@@ -981,50 +708,56 @@ You got this! (But, just in case …)
 <li>Change the theme to something other than the default.</li>
 </ul>
 <p>Here is what it should more or less look like, but with good text, etc:</p>
-<p><img src="09-tidy-data_files/figure-html/avg-plot-1.png" width="672" /></p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="tidy-data_files/figure-html/avg-plot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 <p><strong>The numbers in the example above may not be up to date</strong>, so don’t let that throw you.</p>
-</div>
-</div>
-<div id="introducing-datawrapper" class="section level2 hasAnchor" number="9.7">
-<h2><span class="header-section-number">9.7</span> Introducing Datawrapper<a href="tidy-data.html#introducing-datawrapper" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</section>
+</section>
+<section id="introducing-datawrapper" class="level2" data-number="8.7">
+<h2 data-number="8.7" class="anchored" data-anchor-id="introducing-datawrapper"><span class="header-section-number">8.7</span> Introducing Datawrapper</h2>
 <p>There are some other great charting tools that journalists use. My favorite is <a href="https://www.datawrapper.de/">Datawrapper</a> and it is free for the level you need it.</p>
 <p>Datawrapper is so easy I don’t even have to teach you how to use it. They have <a href="https://academy.datawrapper.de/">excellent tutorials</a>.</p>
 <p>What you do need is the data to plot, but you’ve already “shaped” it the way you need it. Your <code>candy_avg</code> tibble is what you need.</p>
 <p>Here are the steps I want you to follow:</p>
-<div id="review-how-to-make-a-bar-chart" class="section level3 hasAnchor" number="9.7.1">
-<h3><span class="header-section-number">9.7.1</span> Review how to make a bar chart<a href="tidy-data.html#review-how-to-make-a-bar-chart" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<ol style="list-style-type: decimal">
+<section id="review-how-to-make-a-bar-chart" class="level3" data-number="8.7.1">
+<h3 data-number="8.7.1" class="anchored" data-anchor-id="review-how-to-make-a-bar-chart"><span class="header-section-number">8.7.1</span> Review how to make a bar chart</h3>
+<ol type="1">
 <li>In a web browser, go to the <a href="https://academy.datawrapper.de/">Datawrapper Academy</a></li>
 <li>Click on <strong>Bar charts</strong></li>
-<li>Choose <strong><a href="https://academy.datawrapper.de/article/7-bar-chart">How to create a bar chart</a></strong></li>
+<li>Choose <a href="https://academy.datawrapper.de/article/7-bar-chart"><strong>How to create a bar chart</strong></a></li>
 </ol>
 <p>The first thing to note there is they show you what they expect the data to look like. Your <code>candy_avg</code> tibble is just like this, but with Color and Candies.</p>
 <p>You’ll use these directions to create your charts so you might keep this open in its own tab.</p>
-</div>
-<div id="start-a-chart" class="section level3 hasAnchor" number="9.7.2">
-<h3><span class="header-section-number">9.7.2</span> Start a chart<a href="tidy-data.html#start-a-chart" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<ol style="list-style-type: decimal">
+</section>
+<section id="start-a-chart" class="level3" data-number="8.7.2">
+<h3 data-number="8.7.2" class="anchored" data-anchor-id="start-a-chart"><span class="header-section-number">8.7.2</span> Start a chart</h3>
+<ol type="1">
 <li>In a new browser tab, go to <a href="https://www.datawrapper.de/">datawrapper.de</a> and click the big <strong>Start creating</strong> button.</li>
 <li>Use the <strong>Login/Sign Up</strong> button along the top to create an account or log in if you have one.</li>
 <li>The first screen you have is where you can <strong>Upload data</strong> or paste it into the window. We are going to upload the data, but we have to write out the data to your computer first.</li>
 </ol>
-</div>
-<div id="export-your-data-for-datawrapper" class="section level3 hasAnchor" number="9.7.3">
-<h3><span class="header-section-number">9.7.3</span> Export your data for Datawrapper<a href="tidy-data.html#export-your-data-for-datawrapper" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<ol style="list-style-type: decimal">
+</section>
+<section id="export-your-data-for-datawrapper" class="level3" data-number="8.7.3">
+<h3 data-number="8.7.3" class="anchored" data-anchor-id="export-your-data-for-datawrapper"><span class="header-section-number">8.7.3</span> Export your data for Datawrapper</h3>
+<ol type="1">
 <li>Go back to RStudio.</li>
 <li>Create a new block and name it something about exporting</li>
 <li>Take your data and pipe it into <code>write_csv()</code>. As an argument to write_csv(), give it a path into your data-processed folder, and name the file <code>candy_avg.csv</code>.</li>
 </ol>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="tidy-data.html#cb232-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">&quot;candy_avg.csv&quot;</span>)</span></code></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"data-processed/candy_avg.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>This will save your data file onto your computer in your project folder.</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>Return to <strong>Datawrapper</strong> in your browser and click on the <strong>XLS/CSV upload</strong> button and go find your file to import it.</li>
 </ol>
-<div id="posit.cloud-export" class="section level4 hasAnchor" number="9.7.3.1">
-<h4><span class="header-section-number">9.7.3.1</span> posit.cloud export<a href="tidy-data.html#posit.cloud-export" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<section id="posit.cloud-export" class="level4" data-number="8.7.3.1">
+<h4 data-number="8.7.3.1" class="anchored" data-anchor-id="posit.cloud-export"><span class="header-section-number">8.7.3.1</span> posit.cloud export</h4>
 <p>If you are using posit.cloud, you will also need to <strong>Export</strong> your data from the cloud to get it onto your computer so you can import it into Datawrapper. Do this <strong>only</strong> if you are using the cloud version.</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>In the Files window (bottom right) go inside your <code>data-processed</code> folder.</li>
 <li>Click on the checkbox next to the <code>candy_avg.csv</code> file.</li>
 <li>Click on the <strong>More</strong> blue gear thing and choose <strong>Export</strong>.</li>
@@ -1032,43 +765,47 @@ You got this! (But, just in case …)
 <li>The file should go to your Downloads folder like anything else you download from the Internet.</li>
 <li>When you go back to <strong>Datawrapper</strong> click on the <strong>XLS/CSV upload</strong> button and go find your file to import.</li>
 </ol>
-</div>
-<div id="an-alternative-export-copy-your-data" class="section level4 hasAnchor" number="9.7.3.2">
-<h4><span class="header-section-number">9.7.3.2</span> An alternative export: “copy” your data<a href="tidy-data.html#an-alternative-export-copy-your-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<blockquote>
+</section>
+<section id="an-alternative-export-copy-your-data" class="level4" data-number="8.7.3.2">
+<h4 data-number="8.7.3.2" class="anchored" data-anchor-id="an-alternative-export-copy-your-data"><span class="header-section-number">8.7.3.2</span> An alternative export: “copy” your data</h4>
+<blockquote class="blockquote">
 <p>This is an alternative to exporting your data, but it only works in the desktop version of RStudio. It does <strong>NOT</strong> work for the online posit.cloud version of Rstudio. You either EXPORT or WRITE_CLIP, but you don’t need to do both.</p>
 </blockquote>
 <p>To do this, you’ll need to install a package called clipr.</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>In your R project <strong>in the R Console</strong> install the package clipr: <code>install.packages("clipr")</code>. Do NOT save this code inside your notebook.</li>
 <li>Start a section that says you are going to get data for Datawrapper.</li>
 <li>Create a chunk with the following and run it.</li>
 </ol>
-<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="tidy-data.html#cb233-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(clipr)</span>
-<span id="cb233-2"><a href="tidy-data.html#cb233-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb233-3"><a href="tidy-data.html#cb233-3" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="sc">|&gt;</span> <span class="fu">write_clip</span>(<span class="at">allow_non_interactive =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(clipr)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="sc">|&gt;</span> <span class="fu">write_clip</span>(<span class="at">allow_non_interactive =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>You won’t see anything happen, but all the data in <code>candy_avg</code> has been added to your clipboard as if you highlighted it and did <strong>Copy</strong>. You must have the <code>allow_non_interactive = TRUE</code> argument to allow your RMarkdown document to knit.</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>Return to your browser where you are making the chart, put your cursor into the “Paste your copied data here …” window and paste. (Like <em>Cmd-V</em> or use the menu Edit &gt; Paste.)</li>
 </ol>
-</div>
-</div>
-<div id="build-the-datawrapper-graphic" class="section level3 hasAnchor" number="9.7.4">
-<h3><span class="header-section-number">9.7.4</span> Build the datawrapper graphic<a href="tidy-data.html#build-the-datawrapper-graphic" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<ol style="list-style-type: decimal">
+</section>
+</section>
+<section id="build-the-datawrapper-graphic" class="level3" data-number="8.7.4">
+<h3 data-number="8.7.4" class="anchored" data-anchor-id="build-the-datawrapper-graphic"><span class="header-section-number">8.7.4</span> Build the datawrapper graphic</h3>
+<ol type="1">
 <li>Once your data is either uploaded or copied into Datawrapper, you can click <strong>Proceed</strong> to go to the next step.</li>
 </ol>
 <p>You can now follow the <a href="https://academy.datawrapper.de/article/7-bar-chart">Datawrapper Academy</a> directions to finish your chart.</p>
 <p>When you get to the Publish &amp; Embed window, I want you to click the <strong>Publish Now</strong> button and then add the resulting <em>Link to your visualization:</em> URL to your R Notebook so I can find it for grading.</p>
-</div>
-</div>
-<div id="pivot-wider" class="section level2 hasAnchor" number="9.8">
-<h2><span class="header-section-number">9.8</span> Pivot wider<a href="tidy-data.html#pivot-wider" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</section>
+</section>
+<section id="pivot-wider" class="level2" data-number="8.8">
+<h2 data-number="8.8" class="anchored" data-anchor-id="pivot-wider"><span class="header-section-number">8.8</span> Pivot wider</h2>
 <p>In this case we don’t have a real need to pivot our data wider, but I’d like to show you how it is done.</p>
 <p>As you can imagine, <code>pivot_wider()</code> does the opposite of <code>pivot_longer()</code>. When we pivot wider we move our data from a “long” format to a “wide” format. We create a new column based categories and values in the data.</p>
-<div class="figure">
-<img src="images/long_to_wide.png" alt="" />
-<p class="caption">Long to wide</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/long_to_wide.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Long to wide</figcaption>
+</figure>
 </div>
 <p>We’ll practice this by taking our long candy data and pivot it so there is a column for each person in the data.</p>
 <p><code>pivot_wider()</code> needs two arguments:</p>
@@ -1076,163 +813,356 @@ You got this! (But, just in case …)
 <li><code>names_from =</code> lets us define from which column (or columns) we are pulling values from to create the new column names. <em>In our case, we need two columns to combine the first and last names. We can do that with <code>c(first_name, last_name)</code></em>.</li>
 <li><code>values_from =</code> lets us say which column will be the values in the new arrangement. <em>In our case, we want the <code>candies</code> column</em>.</li>
 </ul>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="tidy-data.html#cb234-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">|&gt;</span> </span>
-<span id="cb234-2"><a href="tidy-data.html#cb234-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="fu">c</span>(first_name, last_name), <span class="at">values_from =</span> candies)</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 107
-##   color  Christian_McDonald Andrew_Logan Gabby_Ybarra Veronica_Apodaca
-##   &lt;chr&gt;               &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;            &lt;dbl&gt;
-## 1 red                     2            2            4                1
-## 2 green                  17            9           11               17
-## 3 orange                 11           14           14               16
-## 4 yellow                  4            4            0                2
-## 5 blue                   16           17           19               13
-## 6 brown                   4            9            7                8
-## # ℹ 102 more variables: Cristela_Jones &lt;dbl&gt;, Marina_Garcia &lt;dbl&gt;,
-## #   Samuel_Stark &lt;dbl&gt;, `Kevin_Malcolm Jr` &lt;dbl&gt;, Alexa_Haverlah &lt;dbl&gt;,
-## #   Zacharia_Washington &lt;dbl&gt;, Jose_Martinez &lt;dbl&gt;, Ana_Garza &lt;dbl&gt;,
-## #   Carolina_Cruz &lt;dbl&gt;, Anissa_Reyes &lt;dbl&gt;, Alaina_Bookman &lt;dbl&gt;,
-## #   Bryan_Baker &lt;dbl&gt;, Mckenna_Lucas &lt;dbl&gt;, Marissa_DeLeon &lt;dbl&gt;,
-## #   Claire_Stevens &lt;dbl&gt;, Katy_Vanatsky &lt;dbl&gt;, Vicente_Montalvo &lt;dbl&gt;,
-## #   Eric_Seow &lt;dbl&gt;, Brandon_Jenkins &lt;dbl&gt;, Luke_Skywalker &lt;dbl&gt;, …</code></pre>
-<div id="pivot-wider-on-your-own" class="section level3 hasAnchor" number="9.8.1">
-<h3><span class="header-section-number">9.8.1</span> Pivot wider on your own<a href="tidy-data.html#pivot-wider-on-your-own" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">|&gt;</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="fu">c</span>(first_name, last_name), <span class="at">values_from =</span> candies)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 107
+  color  Christian_McDonald Andrew_Logan Gabby_Ybarra Veronica_Apodaca
+  &lt;chr&gt;               &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;            &lt;dbl&gt;
+1 red                     2            2            4                1
+2 green                  17            9           11               17
+3 orange                 11           14           14               16
+4 yellow                  4            4            0                2
+5 blue                   16           17           19               13
+6 brown                   4            9            7                8
+# ℹ 102 more variables: Cristela_Jones &lt;dbl&gt;, Marina_Garcia &lt;dbl&gt;,
+#   Samuel_Stark &lt;dbl&gt;, `Kevin_Malcolm Jr` &lt;dbl&gt;, Alexa_Haverlah &lt;dbl&gt;,
+#   Zacharia_Washington &lt;dbl&gt;, Jose_Martinez &lt;dbl&gt;, Ana_Garza &lt;dbl&gt;,
+#   Carolina_Cruz &lt;dbl&gt;, Anissa_Reyes &lt;dbl&gt;, Alaina_Bookman &lt;dbl&gt;,
+#   Bryan_Baker &lt;dbl&gt;, Mckenna_Lucas &lt;dbl&gt;, Marissa_DeLeon &lt;dbl&gt;,
+#   Claire_Stevens &lt;dbl&gt;, Katy_Vanatsky &lt;dbl&gt;, Vicente_Montalvo &lt;dbl&gt;,
+#   Eric_Seow &lt;dbl&gt;, Brandon_Jenkins &lt;dbl&gt;, Luke_Skywalker &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+<section id="pivot-wider-on-your-own" class="level3" data-number="8.8.1">
+<h3 data-number="8.8.1" class="anchored" data-anchor-id="pivot-wider-on-your-own"><span class="header-section-number">8.8.1</span> Pivot wider on your own</h3>
 <p>Now I want you do apply the same <code>pivot_wider()</code> function to that same <code>candy_long</code> data, but to have the rows be people and the column be each color, basically like how our data started. (But, of course, I want to acdtually use <code>pivot_wider()</code> to do it!)</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>Start a new section and note this is pivot_wider on your own.</li>
 <li>Start with the <code>candy_long</code> data, and then …</li>
 <li>Use <code>pivot_wider()</code> to make the data shaped like this</li>
 </ol>
-<table>
+<table class="table">
 <colgroup>
-<col width="18%" />
-<col width="17%" />
-<col width="7%" />
-<col width="10%" />
-<col width="12%" />
-<col width="12%" />
-<col width="9%" />
-<col width="10%" />
+<col style="width: 18%">
+<col style="width: 17%">
+<col style="width: 7%">
+<col style="width: 10%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 9%">
+<col style="width: 10%">
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">first_name</th>
-<th align="left">last_name</th>
-<th align="right">red</th>
-<th align="right">green</th>
-<th align="right">orange</th>
-<th align="right">yellow</th>
-<th align="right">blue</th>
-<th align="right">brown</th>
+<th style="text-align: left;">first_name</th>
+<th style="text-align: left;">last_name</th>
+<th style="text-align: right;">red</th>
+<th style="text-align: right;">green</th>
+<th style="text-align: right;">orange</th>
+<th style="text-align: right;">yellow</th>
+<th style="text-align: right;">blue</th>
+<th style="text-align: right;">brown</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Christian</td>
-<td align="left">McDonald</td>
-<td align="right">2</td>
-<td align="right">17</td>
-<td align="right">11</td>
-<td align="right">4</td>
-<td align="right">16</td>
-<td align="right">4</td>
+<td style="text-align: left;">Christian</td>
+<td style="text-align: left;">McDonald</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">4</td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div id="bonus-questions" class="section level2 hasAnchor" number="9.9">
-<h2><span class="header-section-number">9.9</span> Bonus questions<a href="tidy-data.html#bonus-questions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</section>
+</section>
+<section id="bonus-questions" class="level2" data-number="8.9">
+<h2 data-number="8.9" class="anchored" data-anchor-id="bonus-questions"><span class="header-section-number">8.9</span> Bonus questions</h2>
 <p>More opportunities for bonus points on this assignment. These aren’t plots, just data wrangling to find answers.</p>
-<div id="mostleast-candies" class="section level3 hasAnchor" number="9.9.1">
-<h3><span class="header-section-number">9.9.1</span> Most/least candies<a href="tidy-data.html#mostleast-candies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<section id="mostleast-candies" class="level3" data-number="8.9.1">
+<h3 data-number="8.9.1" class="anchored" data-anchor-id="mostleast-candies"><span class="header-section-number">8.9.1</span> Most/least candies</h3>
 <p>Answer me this: Who got the most candies in their bag? Who got the least?</p>
 <p>I want a well-structured section (headline, text) with two chunks, one for the most and one for the least.</p>
-</div>
-<div id="average-total-candies-in-a-bag" class="section level3 hasAnchor" number="9.9.2">
-<h3><span class="header-section-number">9.9.2</span> Average total candies in a bag<a href="tidy-data.html#average-total-candies-in-a-bag" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</section>
+<section id="average-total-candies-in-a-bag" class="level3" data-number="8.9.2">
+<h3 data-number="8.9.2" class="anchored" data-anchor-id="average-total-candies-in-a-bag"><span class="header-section-number">8.9.2</span> Average total candies in a bag</h3>
 <p>Answer me this: What is the average number of candy in a bag?</p>
 <p>Again, well-structured section and include the code.</p>
 <p>Hint: You need a total number of candies per person before you can get an average.</p>
-</div>
-</div>
-<div id="turn-in-your-work" class="section level2 hasAnchor" number="9.10">
-<h2><span class="header-section-number">9.10</span> Turn in your work<a href="tidy-data.html#turn-in-your-work" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<ol style="list-style-type: decimal">
+</section>
+</section>
+<section id="turn-in-your-work" class="level2" data-number="8.10">
+<h2 data-number="8.10" class="anchored" data-anchor-id="turn-in-your-work"><span class="header-section-number">8.10</span> Turn in your work</h2>
+<ol type="1">
 <li>Make sure your notebook runs start-to-finish.</li>
 <li>Knit the notebook</li>
 <li>Stuff your project and turn it into the Candy assignment in Canvas.</li>
 </ol>
-</div>
-<div id="what-we-learned-1" class="section level2 hasAnchor" number="9.11">
-<h2><span class="header-section-number">9.11</span> What we learned<a href="tidy-data.html#what-we-learned-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</section>
+<section id="what-we-learned" class="level2" data-number="8.11">
+<h2 data-number="8.11" class="anchored" data-anchor-id="what-we-learned"><span class="header-section-number">8.11</span> What we learned</h2>
 <ul>
 <li>We learned what “tidy data” means and why it is important. It is the best shape for data wrangling and plotting.</li>
 <li>We learned about <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html"><code>pivot_longer()</code></a> and <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html"><code>pivot_wider()</code></a> and we used <code>pivot_longer()</code> on our candy data.</li>
 <li>We also used <a href="(http://www.cookbook-r.com/Numbers/Rounding_numbers/)"><code>round()</code></a> to round off some numbers, and you might have used <code>str_to_title()</code> to change the case of the color values.</li>
 </ul>
 
-</div>
-</div>
-            </section>
 
-          </div>
-        </div>
-      </div>
-<a href="ggplot-more.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="bind-join.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
-    </div>
-  </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
-<script>
-gitbook.require(["gitbook"], function(gitbook) {
-gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/09-tidy-data.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
-});
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./plots.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data Viz - Intro to ggplot</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./bind-join.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bind and join</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
 
-</body>
 
-</html>
+
+</body></html>
