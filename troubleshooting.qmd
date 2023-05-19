@@ -1,0 +1,120 @@
+# Troubleshooting {#troubleshooting}
+
+Programming in R (or any language) can be frustrating for beginners. Sometimes the expected does not happen and the unexpected does happen. Programming also breeds a constant state of learning because there are always new challenges and new solutions to find or adapt.
+
+This troubleshooting guide is a collaboration and combination of other sources. Some major hat tips to [Andrew Tran](http://learn.r-journalism.com/en/) and [Nick HK](https://nickch-k.github.io/DataCommSlides/Lecture_04_Common_R_Problems.html) among many others.
+
+Nick's [Common R Problems](https://nickch-k.github.io/DataCommSlides/Lecture_04_Common_R_Problems.html) is really worth reading.
+
+## When things break
+
+The first and best troubleshooting advice I can give it this:
+
+**WRITE ONE LINE OF CODE. RUN IT. CHECK THE RESULTS. REPEAT.**
+
+When you write and run code one line at a time, problems are easier to find.
+
+Beyond that there are generally two categories of problems: You _wrote_ "it" wrong, or you _used_ "it" wrong. The first can sometimes be hard to see just like any typo.
+
+Some tips:
+
+1. **Read the error message** and look for words you recognize. You may not understand the error exactly, but words can be clues to what part of your code is wrong.
+2. **Check the spelling** of variables, values and functions, especially if the error message says something like **object 'wahtever' not found**. If you are writing code that depends on matching strings and you are getting unexpected results, check those strings. Word case (as in Title case) can matter.
+3. **Check the code** for balanced parenthesis and other punctuation problems. RStudio will show you matching parenthesis with highlighting, and will indicate problems with red X icons and red underlines in your code. Writing beautiful, well-indenting can sometimes help avoid and spot these types of errors.
+
+Beyond that, here are some common things students come across:
+
+- **There is no package called 'packagename'**: You are trying to use a library that is named wrong or you don't have installed. You can install packages with `install.packages('packagename')` where 'packagename' is replaced with the name of the package you actually want.
+- **Forgetting to use quotation marks when they are needed**: `install.packages("gclus")` will work, while `install.packages(gclus)` will generate an error.
+- **Could not find function 'functionname'**: You either misspelled the function or you are missing a `library()` in your setup. It's best practice to have every `library()` loaded in a setup chunk near the top of the notebook.
+
+- **Using the wrong case**: `help()`, `Help()`, and `HELP()` are three different functions (and only the first one will work)
+- **Forgetting to include the parentheses in a function call**: `help()` rather than `help`. Even if there are no options, you still need the ().
+- **Using the `\` in a path name on Windows**" R sees the backlash character as an escape character. `setwd("c:\mydata")` will generate an error. Use `setwd("c:/mydata")` or `setwd("c:\\mydata")` instead.
+
+
+## Learning how things work
+
+There are infinite ways to write code incorrectly or use a function improperly. Documentation and experience (sometimes of others) are key to these challenges.
+
+### Help docs
+
+One way to find documentation is through the built-in **Help** function within RStudio. If you look at the pane at the bottom-right of RStudio, you'll see tabs for "Files", "Plots", "Packages" and "Help". Click on the **Help** tab.
+
+You can type in a function or part of a function and get a list of items. If you search for "count" and hit return you'll get documentation on how to use it. It takes some getting used to in reading the docs, but the examples at the bottom are often useful.
+
+There are also some Console commands to find things:
+
+| Function | Action |
+| ------ | -------------------------------------------------- |
+| `help.start()`   | General help |
+| `help("foo")` or `?foo` | Help on function foo (the quotation marks are optional) |
+| `help.search("foo")` or `??foo`    | Search the help system for instances of the string foo |
+| `example("foo")`    | Examples of function foo (the quotation marks are optional) |
+
+
+### Good Googling
+
+Another way to get help is to Google for it, but there is an art to it especially since there are other data science languages and programs with similar terms as R. Some tips:
+
+- Use "in R" in your search: *How to merge data frames in R*
+- Use the name of the package if you now it: *Add labels with ggplot*
+- Use "tidyverse" if appropriate: *convert text to date with tidyverse*
+
+There are plenty of Stack Overflow answers along with different tutorials from blogs and such. It is a well-used language, so there are lots of answers to help. Too many, sometimes.
+
+### Tidyverse docs and cheatsheets
+
+It is worth becoming familiar with the [tidyverse](https://www.tidyverse.org/) site. Click on each icon from the home page to learn what each package does. R is also big on [cheatsheets](https://rstudio.com/resources/cheatsheets/), which are printable pages that go through all the verbs. They can be a bit much at first, but useful once you use R more.
+
+We'll try to put together a list of other resources and tutorials. You can find some [I've collected already here](https://docs.google.com/document/d/1slMdrTLfxYt0mZO1G_Wlz1cOcGjCdgiJr7wzpcU9n1Y/edit?usp=sharing).
+
+## R Frequently asked Questions
+
+### Functions, objects and variables
+
+The names of things and how they are used are important in R, and can cause confusion. The term `date` could represent any number of things in R code depending on how you are using it, and that can be confusing. Knowing the difference between functions, objects and variables and how they are referenced in code helps.
+
+- **Variables** are like the column names from a spreadsheet table. If you think of a data frame (or tibble in R) as a spreadsheet table, then when you reference a "variable" name, it is that column. A data frame of police calls might have a `date` column that has the date/time of the call in each row, like "2021-01-06 17:29:38".
+- **Functions** are collections of code that solve specific problems. In R, they are always followed by parenthesis, like this: `date()`, which is a function to pull only the date from a date/time variable. There are often arguments inside a function, like `date(date)` could be a function pull the date "2021-01-06" from a date/time variable called `date`. Knowing that functions always have parenthesis is a good clue to help figure out how something is being used.
+- **Objects** are stored values in R. You can name objects anything you like, including unwise things like `date`, since that is already an object in R as well as the name of a function.
+
+That is all to prove it can be confusing. When you have a chance to name things, make good choices.
+
+#### Naming things
+
+Be thoughtfully obvious about the names you choose for objects and variable. 
+
+- Avoid naming things with what could be a function name.
+- Avoid spaces. Use an underscore `_` or dash `-` instead. I use underscores for naming things in code, but dashes for naming files or folders that could become URLs at some point.
+- Be descriptive. Name things what they are, like `police_calls`.
+- Be consistent. If you have multiple date variables like `open_date` and `close_date` then it is easy to know and [`select()`](https://dplyr.tidyverse.org/reference/select.html) them.
+
+### Some R code basics
+
+- `<-` is known as an "assignment operator" -- it means "Make the object named to the left equal to the output of the code to the right"
+- `&` means AND, in Boolean logic
+- `|` means OR, in Boolean logic
+- `!` means NOT, in Boolean logic
+- When referring to values entered as text, or to dates, put them in quote marks like this: `"United States"`, or `"2016-07-26"`. Numbers are not quoted
+- When entering two or more values as a list, combine them using the function `c`, for combine, with the values separated by commas, for example: `c("2017-07-26", "2017-08-04")`
+- As in a spreadsheet, you can specify a range of values with a colon, for example: `c(1:10)` creates a list of integers (whole numbers) from one to ten.
+- Some common operators:
+	* `+` `-` add, subtract
+	* `*` `/` multiply, divide
+	* `>` `<` greater than less than
+	* `>=` `<=` greater than or equal to, less than or equal to
+	* `!=` not equal to
+- **Equal signs can be confusing**
+	* `==` tests whether the objects on either end are equal. This is often used in filtering data
+	* `=` makes an object equal to a value, which is similar to `<-` but used within a function.
+- Handling null values:
+	* Nulls are designated as `NA`
+	* `is.na(x)` looks for nulls within variable `x`.
+	* `!is.na(x)` looks for non-null values within variable `x`
+
+Here, `is.na()` is a **function**. 
+
+
+	
+	

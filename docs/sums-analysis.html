@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Reporting with Data in R - 6&nbsp; Summarize: math - analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./plots.html" rel="next">
+<link href="./sums-import.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./sums-analysis.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Summarize: math - analysis</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Reporting with Data in R</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About this book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./install.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Install Party</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./counts-import.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarize: count - import</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./counts-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Summarize: count - analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./sums-import.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Summarize: math - import</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./sums-analysis.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Summarize: math - analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plots.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data Viz - Intro to ggplot</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tidy-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tidy data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bind-join.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bind and join</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./answers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Plotting for answers</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./group-dates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Grouping by dates</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">R Functions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Troubleshooting</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./explore.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Exploring a new dataset</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./charts-tips.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Chart production tips</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#learning-goals-of-this-lesson" id="toc-learning-goals-of-this-lesson" class="nav-link active" data-scroll-target="#learning-goals-of-this-lesson"><span class="header-section-number">6.1</span> Learning goals of this lesson</a></li>
+  <li><a href="#questions-to-answer" id="toc-questions-to-answer" class="nav-link" data-scroll-target="#questions-to-answer"><span class="header-section-number">6.2</span> Questions to answer</a></li>
+  <li><a href="#set-up-the-analysis-notebook" id="toc-set-up-the-analysis-notebook" class="nav-link" data-scroll-target="#set-up-the-analysis-notebook"><span class="header-section-number">6.3</span> Set up the analysis notebook</a>
+  <ul class="collapse">
+  <li><a href="#load-the-data-into-a-tibble" id="toc-load-the-data-into-a-tibble" class="nav-link" data-scroll-target="#load-the-data-into-a-tibble"><span class="header-section-number">6.3.1</span> Load the data into a tibble</a></li>
+  </ul></li>
+  <li><a href="#filter-for-controlled-items" id="toc-filter-for-controlled-items" class="nav-link" data-scroll-target="#filter-for-controlled-items"><span class="header-section-number">6.4</span> Filter for controlled items</a></li>
+  <li><a href="#building-summaries-with-math" id="toc-building-summaries-with-math" class="nav-link" data-scroll-target="#building-summaries-with-math"><span class="header-section-number">6.5</span> Building summaries with math</a>
+  <ul class="collapse">
+  <li><a href="#summarize-across-the-data" id="toc-summarize-across-the-data" class="nav-link" data-scroll-target="#summarize-across-the-data"><span class="header-section-number">6.5.1</span> Summarize across the data</a></li>
+  <li><a href="#na-values-in-a-sum-mean-and-median" id="toc-na-values-in-a-sum-mean-and-median" class="nav-link" data-scroll-target="#na-values-in-a-sum-mean-and-median"><span class="header-section-number">6.5.2</span> NA values in a sum, mean and median</a></li>
+  </ul></li>
+  <li><a href="#totals-by-agency" id="toc-totals-by-agency" class="nav-link" data-scroll-target="#totals-by-agency"><span class="header-section-number">6.6</span> Totals by agency</a>
+  <ul class="collapse">
+  <li><a href="#group_by-then-summary-with-math" id="toc-group_by-then-summary-with-math" class="nav-link" data-scroll-target="#group_by-then-summary-with-math"><span class="header-section-number">6.6.1</span> Group_by, then summary with math</a></li>
+  <li><a href="#add-the-total_value" id="toc-add-the-total_value" class="nav-link" data-scroll-target="#add-the-total_value"><span class="header-section-number">6.6.2</span> Add the total_value</a></li>
+  <li><a href="#arrange-the-results" id="toc-arrange-the-results" class="nav-link" data-scroll-target="#arrange-the-results"><span class="header-section-number">6.6.3</span> Arrange the results</a></li>
+  <li><a href="#consider-the-results" id="toc-consider-the-results" class="nav-link" data-scroll-target="#consider-the-results"><span class="header-section-number">6.6.4</span> Consider the results</a></li>
+  </ul></li>
+  <li><a href="#looking-a-local-agencies" id="toc-looking-a-local-agencies" class="nav-link" data-scroll-target="#looking-a-local-agencies"><span class="header-section-number">6.7</span> Looking a local agencies</a>
+  <ul class="collapse">
+  <li><a href="#save-our-by-agency-list" id="toc-save-our-by-agency-list" class="nav-link" data-scroll-target="#save-our-by-agency-list"><span class="header-section-number">6.7.1</span> Save our “by agency” list</a></li>
+  <li><a href="#filtering-within-a-vector" id="toc-filtering-within-a-vector" class="nav-link" data-scroll-target="#filtering-within-a-vector"><span class="header-section-number">6.7.2</span> Filtering within a vector</a></li>
+  <li><a href="#create-a-vector-to-build-this-filter" id="toc-create-a-vector-to-build-this-filter" class="nav-link" data-scroll-target="#create-a-vector-to-build-this-filter"><span class="header-section-number">6.7.3</span> Create a vector to build this filter</a></li>
+  </ul></li>
+  <li><a href="#types-of-items-shipped-to-each-agency" id="toc-types-of-items-shipped-to-each-agency" class="nav-link" data-scroll-target="#types-of-items-shipped-to-each-agency"><span class="header-section-number">6.8</span> Types of items shipped to each agency</a>
+  <ul class="collapse">
+  <li><a href="#items-for-local-agencies" id="toc-items-for-local-agencies" class="nav-link" data-scroll-target="#items-for-local-agencies"><span class="header-section-number">6.8.1</span> Items for local agencies</a></li>
+  <li><a href="#research-some-interesting-items" id="toc-research-some-interesting-items" class="nav-link" data-scroll-target="#research-some-interesting-items"><span class="header-section-number">6.8.2</span> Research some interesting items</a></li>
+  </ul></li>
+  <li><a href="#write-a-data-drop" id="toc-write-a-data-drop" class="nav-link" data-scroll-target="#write-a-data-drop"><span class="header-section-number">6.9</span> Write a data drop</a></li>
+  <li><a href="#what-we-learned-in-this-chapter" id="toc-what-we-learned-in-this-chapter" class="nav-link" data-scroll-target="#what-we-learned-in-this-chapter"><span class="header-section-number">6.10</span> What we learned in this chapter</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sums-analyze" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Summarize: math - analysis</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>This chapter is by Prof.&nbsp;McDonald, who uses macOS.</p>
+<p>In the last chapter, we learned about the LESO data … that local law enforcement agencies can get surplus military equipment from the U.S. Department of Defense. We downloaded a combined version of the data, modified it for our purposes (used <code>mutate()</code> to create a new column calculated from other variables in the data) and then filtered it to just Texas records over a specific time period.</p>
+<p>Throughout this lesson I’ll give you a chance to work out the code on your own, but then give you the answer and explain it. <strong>You won’t learn this if you just copy/paste.</strong> The key is not that the code runs, but that you understand what the code is doing.</p>
+<section id="learning-goals-of-this-lesson" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="learning-goals-of-this-lesson"><span class="header-section-number">6.1</span> Learning goals of this lesson</h2>
+<p>In this chapter we will start querying the data using <strong>summarize with math</strong>, basically using summarize to add values in a column instead of counting rows, which we did with the Billboard assignment.</p>
+<p>Our learning goals are:</p>
+<ul>
+<li>To use the combination of <code>group_by()</code>, <code>summarize()</code> and <code>arrange()</code> to add columns of data using <code>sum()</code>.</li>
+<li>To use different <code>group_by()</code> groupings in specific ways to get desired results.</li>
+<li>To practice using <code>filter()</code> on those summaries to better see certain results, including filtering with<em>in</em> a vector (or list of strings).</li>
+<li>We’ll research and write about some of the findings, practicing data-centric ledes and sentences describing data.</li>
+</ul>
+</section>
+<section id="questions-to-answer" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="questions-to-answer"><span class="header-section-number">6.2</span> Questions to answer</h2>
+<p>All answers should be based on data about <strong>Texas agencies</strong> from <strong>Jan.&nbsp;1, 2010 to present</strong>. All of these questions are for the “controlled” items, only.</p>
+<ul>
+<li><em>How many total “controlled” items were transferred, and what are they all worth?</em> We’ll summarize all the controlled items only to get the total quantity and total value of everything.</li>
+<li><em>How many total “controlled” items did each agency get and how much was it all worth?</em> Which agency got the most stuff?
+<ul>
+<li><em>How about local agencies?</em> I’ll give you a list.</li>
+</ul></li>
+<li><em>What specific “controlled” items did each agency get and how much were they worth?</em> Now we’re looking at the kinds of items.
+<ul>
+<li><em>What did local agencies get?</em></li>
+</ul></li>
+</ul>
+<p>You’ll research some of the more interesting items the agencies received so you can include them in your data drop.</p>
+</section>
+<section id="set-up-the-analysis-notebook" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="set-up-the-analysis-notebook"><span class="header-section-number">6.3</span> Set up the analysis notebook</h2>
+<p>Before we get into how to do this, let’s set up our analysis notebook.</p>
+<ol type="1">
+<li>Make sure you have your military surplus project open in RStudio. If you have your import notebook open, close it and use Run &gt; Restart R and Clear Output.</li>
+<li>Create a new RNotebook and edit the title as “Military surplus analysis”.</li>
+<li>Remove the boilerplate text.</li>
+<li>Create a setup section (headline, text and code chunk) that loads the tidyverse library.</li>
+<li>Save the notebook at <code>02-analysis.Rmd</code>.</li>
+</ol>
+<p>We’ve started each notebook like this, so you should be able to do this on your own now.</p>
+<details>
+<summary>
+Library setup
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.2     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+</div>
+</details>
+<section id="load-the-data-into-a-tibble" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="load-the-data-into-a-tibble"><span class="header-section-number">6.3.1</span> Load the data into a tibble</h3>
+<ol type="1">
+<li>Next create an import section (headline, text and chunk) that loads the data from the previous notebook and save it into a tibble called <code>tx</code>.</li>
+<li>Add a <code>glimpse()</code> of the data for your reference.</li>
+</ol>
+<p>We did this in Billboard and you should be able to do it. You’ll use <code>read_rds()</code> and find your data in your data-processed folder.</p>
+<details>
+<summary>
+Remember your data is in data-processed
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tx <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"data-processed/01-leso-tx.rds"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 6,698
+Columns: 13
+$ state             &lt;chr&gt; "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX", "TX"…
+$ agency_name       &lt;chr&gt; "ABERNATHY POLICE DEPT", "ABERNATHY POLICE DEPT", "A…
+$ nsn               &lt;chr&gt; "2320-01-371-9584", "1240-01-540-3690", "1240-01-411…
+$ item_name         &lt;chr&gt; "TRUCK,UTILITY", "SIGHT,REFLEX", "SIGHT,REFLEX", "SI…
+$ quantity          &lt;dbl&gt; 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ ui                &lt;chr&gt; "Each", "Each", "Each", "Each", "Each", "Each", "Eac…
+$ acquisition_value &lt;dbl&gt; 62627, 333, 396, 396, 396, 371680, 371680, 658000, 3…
+$ demil_code        &lt;chr&gt; "C", "D", "D", "D", "D", "Q", "Q", "C", "D", "D", "D…
+$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 6, 7, 7, 1, 1…
+$ ship_date         &lt;dttm&gt; 2016-03-07, 2016-02-02, 2013-09-13, 2013-09-13, 201…
+$ station_type      &lt;chr&gt; "State", "State", "State", "State", "State", "State"…
+$ total_value       &lt;dbl&gt; 62627, 1665, 396, 396, 396, 371680, 371680, 658000, …
+$ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE…</code></pre>
+</div>
+</div>
+</details>
+<p><br></p>
+<p>You should see the <code>tx</code> object in your Environment tab. You also have the glimpse that gives you an idea of what each variable in the data is.</p>
+</section>
+</section>
+<section id="filter-for-controlled-items" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="filter-for-controlled-items"><span class="header-section-number">6.4</span> Filter for controlled items</h2>
+<p>For this assignment we want to focus on “controlled” items vs the more generic non-controlled items we learned about in the documentation. Let’s filter to capture just the controlled data for our analysis.</p>
+<p>As you might recall from the Billboard project, the <code>filter()</code> function is our workhorse for focusing our data. In our import notebook we created our <code>control_type</code> column so we could do exactly this: Find only the rows of “controlled” items.</p>
+<ol type="1">
+<li>Start a new Markdown section and note you are getting controlled items.</li>
+<li>Start with your <code>tx</code> data, but then filter it to <code>control_type == TRUE</code>.</li>
+<li>Save the result into a new tibble called <code>tx_c</code>.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tx_c <span class="ot">&lt;-</span> tx <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(control_type <span class="sc">==</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>At this point you have a new tibble called <code>tx_c</code> that has only the weapons and other controlled property, so now we can take a closer look at that data.</p>
+</section>
+<section id="building-summaries-with-math" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="building-summaries-with-math"><span class="header-section-number">6.5</span> Building summaries with math</h2>
+<p>As we get into the first quest, let’s talk about “how” we go about these summaries.</p>
+<p>When I am querying my data, I start by envisioning what the result should look like. Let’s take the first question: <strong>How many total “controlled” items were transferred, and what are they all worth?</strong></p>
+<p>Let’s break this down:</p>
+<ul>
+<li>“How many total controlled items” is how many individual things were transferred. We have this <code>quantity</code> column that has the number of items in each row, so if we want the total for the data set, we can add together all the values in that column. We do this within a <code>summarize()</code> but instead of counting rows using <code>n()</code>, we’ll use the function <code>sum(quantity)</code> which will add all the values in <code>quantity</code> column together.</li>
+<li>“… what are they all worth” is very similar, but we want to add together all those values in our <code>total_value</code> column. (Remember, we don’t want to use <code>acquisition_value</code> because that is the value of only ONE item, not the total for the row.</li>
+</ul>
+<section id="summarize-across-the-data" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="summarize-across-the-data"><span class="header-section-number">6.5.1</span> Summarize across the data</h3>
+<p>So, let’s put this together with code.</p>
+<ol type="1">
+<li>Start a new Markdown section that you are getting total values.</li>
+<li>Add a code chunk like below and run it.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(quantity),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(total_value)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  `sum(quantity)` `sum(total_value)`
+            &lt;dbl&gt;              &lt;dbl&gt;
+1           22583         134445960.</code></pre>
+</div>
+</div>
+<p>Walking through the code …</p>
+<ul>
+<li>We start with the <code>tx_c</code> tibble of the controlled items.</li>
+<li>Then we pipe into <code>summarize()</code>. Because we are going to add multiple things, I put them on separate lines just to make this more readable.</li>
+</ul>
+<p>You’ll notice that the names of the columns are the function names. We can “name” our new columns just like we did in Billboard. We could call this whatever we want, but good practice is to name it what it is. We’ll use good naming techniques and split the words using <code>_</code>. I also use all lowercase characters.</p>
+<ol type="1">
+<li><strong>Edit your chunk</strong> to add in the new column names and run it.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_total_value =</span> <span class="fu">sum</span>(total_value)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  summed_quantity summed_total_value
+            &lt;dbl&gt;              &lt;dbl&gt;
+1           22583         134445960.</code></pre>
+</div>
+</div>
+<p>OK, from this we have learned something: <strong>Since Jan.&nbsp;1, 2010, Texas law enforcement agencies have received more than 26,000 controlled items worth nearly $140 million</strong>.</p>
+<p>We’re going to do this again below, so I’ll dive deeper into explanations there.</p>
+</section>
+<section id="na-values-in-a-sum-mean-and-median" class="level3" data-number="6.5.2">
+<h3 data-number="6.5.2" class="anchored" data-anchor-id="na-values-in-a-sum-mean-and-median"><span class="header-section-number">6.5.2</span> NA values in a sum, mean and median</h3>
+<p>When we do math like this within summarize we need to take special note if our column has any blank values, called <code>NA</code>, as in not available. If there are, then you will get <code>NA</code> for the result. R will NOT do the math on the remaining values unless you tell it so. This is true not only for <code>sum()</code>, but also for <code>mean()</code> which gets an average, and for <code>median()</code> which finds the middle number in a column.</p>
+<p>There is a way to get around this by including an argument within the mathy function: <code>sum(col_name, na.rm = TRUE)</code>.</p>
+<p>I can show this with the <code>demil_ic</code> column which is a number datatype with some NA values. To be clear, the <code>demil_ic</code> variable isn’t really designed to do math on it as it is really a category, but it will show what I’m talking about here.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dumb_sum =</span> <span class="fu">sum</span>(demil_ic),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">less_dumb_sum =</span> <span class="fu">sum</span>(demil_ic, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">dumb_avg =</span> <span class="fu">mean</span>(demil_ic),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">less_dumb_avg =</span> <span class="fu">mean</span>(demil_ic, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+  dumb_sum less_dumb_sum dumb_avg less_dumb_avg
+     &lt;dbl&gt;         &lt;dbl&gt;    &lt;dbl&gt;         &lt;dbl&gt;
+1       NA          7562       NA          1.41</code></pre>
+</div>
+</div>
+<p>So there you have examples of using <code>sum()</code> and <code>mean()</code> with and without <code>na.rm = TRUE</code>. OK, you’ve been warned.</p>
+</section>
+</section>
+<section id="totals-by-agency" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="totals-by-agency"><span class="header-section-number">6.6</span> Totals by agency</h2>
+<p>OK, your next question is this: <strong>For each agency, how many things did they get and how much was it all worth?</strong></p>
+<p>The key part of thinking about this logically is <strong>For each agency</strong>. That “for each” is a clue that we need <code>group_by()</code> for something. We basically need what we did above, but we first need to group_by the <code>agency_name</code>.</p>
+<p>Let’s break this question down:</p>
+<ul>
+<li>“For each agency” tells me I need to <strong>group_by</strong> the <code>agency_name</code> so I can summarize totals within each agency.</li>
+<li>“how many total things” means how many items. Like before, we have the <code>quantity</code> variable, so we need to add all those together within summarize like we did above.</li>
+<li>“how much was it worth” is another sum, but this time we want to sum the <code>total_value</code> column</li>
+</ul>
+<p>So I envision my result looking like this:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>agency_name</th>
+<th style="text-align: right;">summed_quantity</th>
+<th style="text-align: right;">summed_total_value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>AFAKE POLICE DEPT</td>
+<td style="text-align: right;">6419</td>
+<td style="text-align: right;">10825707.5</td>
+</tr>
+<tr class="even">
+<td>BFAKE SHERIFF’S OFFICE</td>
+<td style="text-align: right;">381</td>
+<td style="text-align: right;">3776291.52</td>
+</tr>
+<tr class="odd">
+<td>CFAKE SHERIFF’S OFFICE</td>
+<td style="text-align: right;">270</td>
+<td style="text-align: right;">3464741.36</td>
+</tr>
+<tr class="even">
+<td>DFAKE POLICE DEPT</td>
+<td style="text-align: right;">1082</td>
+<td style="text-align: right;">3100420.57</td>
+</tr>
+</tbody>
+</table>
+<p>The first columns in that summary will be our grouped values. This example is only grouping by one thing, <code>agency_name</code>. The other two columns are the summed values I’m looking to generate.</p>
+<section id="group_by-then-summary-with-math" class="level3" data-number="6.6.1">
+<h3 data-number="6.6.1" class="anchored" data-anchor-id="group_by-then-summary-with-math"><span class="header-section-number">6.6.1</span> Group_by, then summary with math</h3>
+<p>We’ll start with the <strong>total_quantity</strong>.</p>
+<ol type="1">
+<li>Add a new section (headline, text and chunk) that describes the second quest: For each agency in Texas, find the summed <strong>quantity</strong> and summed <strong>total value</strong> of the equipment they received.</li>
+<li>Add the code below into the chunk and run it.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">|&gt;</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 335 × 2
+   agency_name                     summed_quantity
+   &lt;chr&gt;                                     &lt;dbl&gt;
+ 1 ABERNATHY POLICE DEPT                         6
+ 2 ALLEN POLICE DEPT                            11
+ 3 ALVARADO ISD PD                               4
+ 4 ALVIN POLICE DEPT                           478
+ 5 ANDERSON COUNTY SHERIFFS OFFICE               7
+ 6 ANDREWS COUNTY SHERIFF OFFICE                12
+ 7 ANSON POLICE DEPT                             9
+ 8 ANTHONY POLICE DEPT                          10
+ 9 ARANSAS PASS POLICE DEPARTMENT               28
+10 ARCHER COUNTY SHERIFF OFFICE                  3
+# ℹ 325 more rows</code></pre>
+</div>
+</div>
+<p>Let’s break this down a little.</p>
+<ul>
+<li>We start with the <code>tx_c</code>, which is the “controlled” data, and then …</li>
+<li>We group by <code>agency_name</code>. This organizes our data (behind the scenes) so our summarize actions will happen <em>within each agency</em>. Now I normally say run your code one line at a time, but you would not be able to <em>see</em> the groupings at this point, so I usually write <code>group_by()</code> and <code>summarize()</code> together.</li>
+<li>In <code>summarize()</code> we first name our new column: <code>summed_quantity</code>, then we set that column to equal <code>=</code> the <strong>sum of all values in the <code>quantity</code> column</strong>. <code>sum()</code> is the function, and we feed it the column we want to add together: <code>quantity</code>.</li>
+<li>I put the inside of the summarize function in its own line because we will add to it. I enhances readability. RStudio will help you with the indenting, etc.</li>
+</ul>
+<p>If you look at the first line of the return, it is taking all the rows for the “ABERNATHY POLICE DEPT” and then adding together all the values in the <code>quantity</code> field.</p>
+<p>If you wanted to test this (and that is a real good idea), you might look at the data from one of the values and check the math. Here are the Abernathy rows. I usually do these tests in a code chunk of their own, and sometimes I delete them after I’m sure my logic works.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">==</span> <span class="st">"ABERNATHY POLICE DEPT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 13
+  state agency_name  nsn   item_name quantity ui    acquisition_value demil_code
+  &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt; &lt;chr&gt;     
+1 TX    ABERNATHY P… 2320… TRUCK,UT…        1 Each              62627 C         
+2 TX    ABERNATHY P… 1240… SIGHT,RE…        5 Each                333 D         
+# ℹ 5 more variables: demil_ic &lt;dbl&gt;, ship_date &lt;dttm&gt;, station_type &lt;chr&gt;,
+#   total_value &lt;dbl&gt;, control_type &lt;lgl&gt;</code></pre>
+</div>
+</div>
+<p>If we look at the <code>quantity</code> column there and eyeball all the rows, we see there 8 rows with a value of “1”, and one row with a value of “5”. 8 + 5 = 13, which matches our <code>summed_quantity</code> answer in our summary table. We’re good!</p>
+</section>
+<section id="add-the-total_value" class="level3" data-number="6.6.2">
+<h3 data-number="6.6.2" class="anchored" data-anchor-id="add-the-total_value"><span class="header-section-number">6.6.2</span> Add the total_value</h3>
+<p>We don’t have to stop at one summary. We can perform multiple summarize actions on the same or different columns within the same expression.</p>
+<p><strong>Edit your summary chunk</strong> to:</p>
+<ol type="1">
+<li>Add add a comma after the first summarize action.</li>
+<li>Add the new expression to give us the <code>summed_total_value</code> and run it.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">|&gt;</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity),</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_total_value =</span> <span class="fu">sum</span>(total_value)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 335 × 3
+   agency_name                     summed_quantity summed_total_value
+   &lt;chr&gt;                                     &lt;dbl&gt;              &lt;dbl&gt;
+ 1 ABERNATHY POLICE DEPT                         6             64292 
+ 2 ALLEN POLICE DEPT                            11           1404528 
+ 3 ALVARADO ISD PD                               4               480 
+ 4 ALVIN POLICE DEPT                           478           2436004.
+ 5 ANDERSON COUNTY SHERIFFS OFFICE               7            733720 
+ 6 ANDREWS COUNTY SHERIFF OFFICE                12              1476 
+ 7 ANSON POLICE DEPT                             9              5329 
+ 8 ANTHONY POLICE DEPT                          10              7490 
+ 9 ARANSAS PASS POLICE DEPARTMENT               28            515396.
+10 ARCHER COUNTY SHERIFF OFFICE                  3           1101000 
+# ℹ 325 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="arrange-the-results" class="level3" data-number="6.6.3">
+<h3 data-number="6.6.3" class="anchored" data-anchor-id="arrange-the-results"><span class="header-section-number">6.6.3</span> Arrange the results</h3>
+<p>OK, this gives us our answers, but in alphabetical order. We want to arrange the data so it gives us the most <code>summed_total_value</code> in <strong>desc</strong>ending order.</p>
+<ol type="1">
+<li>EDIT your block to add an <code>arrange()</code> function below</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">|&gt;</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_total_value =</span> <span class="fu">sum</span>(total_value)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(summed_total_value <span class="sc">|&gt;</span> <span class="fu">desc</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 335 × 3
+   agency_name                       summed_quantity summed_total_value
+   &lt;chr&gt;                                       &lt;dbl&gt;              &lt;dbl&gt;
+ 1 HOUSTON POLICE DEPT                          2384           7322064.
+ 2 JEFFERSON COUNTY SHERIFFS OFFICE              206           3412547.
+ 3 SAN MARCOS POLICE DEPT                        600           3200702.
+ 4 DPS SWAT- TEXAS RANGERS                       137           3015221 
+ 5 AUSTIN POLICE DEPT                           1392           2622087.
+ 6 ALVIN POLICE DEPT                             478           2436004.
+ 7 HARRIS COUNTY CONSTABLE PCT 3                 291           2321126.
+ 8 MILAM COUNTY SHERIFF DEPT                      83           2196952.
+ 9 HARRIS COUNTY SHERIFF'S OFFICE                 16           1834141 
+10 VAN ZANDT COUNTY SHERIFF'S OFFICE              45           1789636.
+# ℹ 325 more rows</code></pre>
+</div>
+</div>
+<p>So now we’ve sorted the results to put the highest <code>summed_total_value</code> at the top.</p>
+<p>Remember, there are two ways we can set up that <code>arrange()</code> function in descending order:</p>
+<ul>
+<li><code>arrange(summed_total_value |&gt; desc())</code></li>
+<li><code>arrange(desc(summed_total_value))</code></li>
+</ul>
+<p>Both work and are correct. It really is your preference.</p>
+</section>
+<section id="consider-the-results" class="level3" data-number="6.6.4">
+<h3 data-number="6.6.4" class="anchored" data-anchor-id="consider-the-results"><span class="header-section-number">6.6.4</span> Consider the results</h3>
+<p>Is there anything that sticks out in that list? It helps if you know a little bit about Texas cities and counties, but here are some thoughts to ponder:</p>
+<ul>
+<li>Houston is the largest city in the state (4th largest in the country, in fact). It makes sense that it tops the list. Same for Harris County or even the state police force. Austin being up there is also not crazy, as it’s almost a million people.</li>
+<li>But what about San Marcos (pop. 63,220)? Or Milam County (pop. 24,770)? Those are way smaller cities and law enforcement agencies. They might be worth looking into.</li>
+</ul>
+<p>Perhaps we should look some at the police agencies closest to us.</p>
+</section>
+</section>
+<section id="looking-a-local-agencies" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="looking-a-local-agencies"><span class="header-section-number">6.7</span> Looking a local agencies</h2>
+<p>Our second quest had a second part: <strong>How does this look for local police agencies?</strong></p>
+<p>We’ll take the summary above, but then filter it to show only local agencies of interest.</p>
+<section id="save-our-by-agency-list" class="level3" data-number="6.7.1">
+<h3 data-number="6.7.1" class="anchored" data-anchor-id="save-our-by-agency-list"><span class="header-section-number">6.7.1</span> Save our “by agency” list</h3>
+<p>Since we want to take an existing summary and add more filtering to it, it makes sense to go back into that chunk and save it into a new object so we can reuse it.</p>
+<ol type="1">
+<li>EDIT your existing summary chunk to save the result into a new tibble. Name it <code>tx_agency_totals</code> so we are all on the same page.</li>
+<li>Add a new line that prints the result to the screen so you can still see it.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adding the new tibble object in next line</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>tx_agency_totals <span class="ot">&lt;-</span> tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">|&gt;</span> </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity),</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_total_value =</span> <span class="fu">sum</span>(total_value)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(summed_total_value <span class="sc">|&gt;</span> <span class="fu">desc</span>())</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>tx_agency_totals</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 335 × 3
+   agency_name                       summed_quantity summed_total_value
+   &lt;chr&gt;                                       &lt;dbl&gt;              &lt;dbl&gt;
+ 1 HOUSTON POLICE DEPT                          2384           7322064.
+ 2 JEFFERSON COUNTY SHERIFFS OFFICE              206           3412547.
+ 3 SAN MARCOS POLICE DEPT                        600           3200702.
+ 4 DPS SWAT- TEXAS RANGERS                       137           3015221 
+ 5 AUSTIN POLICE DEPT                           1392           2622087.
+ 6 ALVIN POLICE DEPT                             478           2436004.
+ 7 HARRIS COUNTY CONSTABLE PCT 3                 291           2321126.
+ 8 MILAM COUNTY SHERIFF DEPT                      83           2196952.
+ 9 HARRIS COUNTY SHERIFF'S OFFICE                 16           1834141 
+10 VAN ZANDT COUNTY SHERIFF'S OFFICE              45           1789636.
+# ℹ 325 more rows</code></pre>
+</div>
+</div>
+<p>The result is the same, but we can reuse the <code>tx_agency_totals</code> tibble.</p>
+</section>
+<section id="filtering-within-a-vector" class="level3" data-number="6.7.2">
+<h3 data-number="6.7.2" class="anchored" data-anchor-id="filtering-within-a-vector"><span class="header-section-number">6.7.2</span> Filtering within a vector</h3>
+<p><strong>Let’s talk through the filter concepts before you try it with this data.</strong></p>
+<p>When we talked about filtering with the Billboard project, we discussed using the <code>|</code> operator as an “OR” function. If we were to apply that logic here, it would look like this:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(column_name <span class="sc">==</span> <span class="st">"Text to find"</span> <span class="sc">|</span> column_name <span class="sc">==</span> <span class="st">"More text to find"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>That can get pretty unwieldy if you have more than a couple of things to look for.</p>
+<p>There is another operator <code>%in%</code> where we can search for multiple items from a list. (This list of terms is officially called a vector, but whatever.) Think of it like this in plain English: <em>Filter</em> the <em>column</em> for things <em>in</em> this <em>list</em>.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"This string"</span>, <span class="st">"That string"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can take this a step further by saving the items in our list into an R object so we can reuse that list and not have to type out all the terms each time we use them.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>list_of_strings <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"This string"</span>,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"That string"</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_name <span class="sc">%in%</span> list_of_strings)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="create-a-vector-to-build-this-filter" class="level3" data-number="6.7.3">
+<h3 data-number="6.7.3" class="anchored" data-anchor-id="create-a-vector-to-build-this-filter"><span class="header-section-number">6.7.3</span> Create a vector to build this filter</h3>
+<p>In the interest of time, I’m going to give you the list of local police agencies to filter with. To be clear, I did considerable work to figure out the exact names of these agencies. I consulted a different data set that lists all law enforcement agencies in Texas and then I used some creative filtering to find their “official” names in the leso data. It also helps that I’m familiar with local cities and counties so I can recognize the names. <strong>I don’t want to get sidetracked on that process here so I’ll give you the list and show you how to use it.</strong></p>
+<ol type="1">
+<li>Create a new section (headline, text and chunk) and describe you are filtering the summed quantity/values for local agencies.</li>
+<li>Add the code below into that chunk.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>local_agencies <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"AUSTIN PARKS POLICE DEPT"</span>, <span class="co">#NI</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"AUSTIN POLICE DEPT"</span>,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"BASTROP COUNTY SHERIFF'S OFFICE"</span>,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"BASTROP POLICE DEPT"</span>,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"BEE CAVE POLICE DEPT"</span>,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"BUDA POLICE DEPT"</span>,</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"CALDWELL COUNTY SHERIFFS OFFICE"</span>,</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"CEDAR PARK POLICE DEPT"</span>,</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ELGIN POLICE DEPARTMENT"</span>,</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"FLORENCE POLICE DEPT"</span>, <span class="co">#NI</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"GEORGETOWN POLICE DEPT"</span>,</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"GRANGER POLICE DEPT"</span>, <span class="co">#NI</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"HAYS CO CONSTABLE PRECINCT 4"</span>,</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"HAYS COUNTY SHERIFFS OFFICE"</span>,</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"HUTTO POLICE DEPT"</span>,</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"JARRELL POLICE DEPT"</span>, <span class="co">#NI</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">"JONESTOWN POLICE DEPT"</span>, <span class="co">#NI</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">"KYLE POLICE DEPT"</span>,</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">"LAGO VISTA POLICE DEPT"</span>,</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">"LAKEWAY POLICE DEPT"</span>, <span class="co">#NI</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">"LEANDER POLICE DEPT"</span>,</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">"LIBERTY HILL POLICE DEPT"</span>, <span class="co">#NI</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">"LOCKHART POLICE DEPT"</span>,</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">"LULING POLICE DEPT"</span>,</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>  <span class="st">"MANOR POLICE DEPT"</span>,</span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>  <span class="st">"MARTINDALE POLICE DEPT"</span>, <span class="co">#NI</span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>  <span class="st">"PFLUGERVILLE POLICE DEPT"</span>,</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ROLLINGWOOD POLICE DEPT"</span>, <span class="co">#NI</span></span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SAN MARCOS POLICE DEPT"</span>,</span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SMITHVILLE POLICE DEPT"</span>, <span class="co">#NI</span></span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SUNSET VALLEY POLICE DEPT"</span>, <span class="co">#NI</span></span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>  <span class="st">"TAYLOR POLICE DEPT"</span>, <span class="co">#NI</span></span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>  <span class="st">"THRALL POLICE DEPT"</span>, <span class="co">#NI</span></span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>  <span class="co"># TEXAS STATE UNIVERSITY HI_ED</span></span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>  <span class="st">"TRAVIS COUNTY SHERIFFS OFFICE"</span>,</span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>  <span class="co"># TRAVIS CONSTABLE OFFICE,</span></span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>  <span class="co"># SOUTHWESTERN UNIVERSITY HI_ID</span></span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>  <span class="st">"WESTLAKE HILLS POLICE DEPT"</span>, <span class="co">#NI</span></span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>  <span class="st">"UNIV OF TEXAS SYSTEM POLICE HI_ED"</span>,</span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>  <span class="st">"WILLIAMSON COUNTY SHERIFF'S OFFICE"</span></span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>tx_agency_totals <span class="sc">|&gt;</span> </span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">%in%</span> local_agencies)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 19 × 3
+   agency_name                        summed_quantity summed_total_value
+   &lt;chr&gt;                                        &lt;dbl&gt;              &lt;dbl&gt;
+ 1 SAN MARCOS POLICE DEPT                         600           3200702.
+ 2 AUSTIN POLICE DEPT                            1392           2622087.
+ 3 UNIV OF TEXAS SYSTEM POLICE HI_ED                3           1305000 
+ 4 LEANDER POLICE DEPT                            212           1182083 
+ 5 GEORGETOWN POLICE DEPT                          41           1075807.
+ 6 CALDWELL COUNTY SHERIFFS OFFICE                339            977096.
+ 7 CEDAR PARK POLICE DEPT                         106            970222.
+ 8 TRAVIS COUNTY SHERIFFS OFFICE                   78            896006.
+ 9 BASTROP COUNTY SHERIFF'S OFFICE                263            712074.
+10 HAYS COUNTY SHERIFFS OFFICE                    384            442203.
+11 KYLE POLICE DEPT                               197            149673.
+12 WILLIAMSON COUNTY SHERIFF'S OFFICE             165             75460 
+13 LOCKHART POLICE DEPT                            16             54177.
+14 BEE CAVE POLICE DEPT                            38             51929.
+15 HUTTO POLICE DEPT                               90             13524.
+16 PFLUGERVILLE POLICE DEPT                         1             10747 
+17 BASTROP POLICE DEPT                             10              4990 
+18 LULING POLICE DEPT                              16              4700.
+19 BUDA POLICE DEPT                                16              1736.</code></pre>
+</div>
+</div>
+<p>Let’s walk through that code and my notes there.</p>
+<ul>
+<li>We start by giving our list of agencies a name: <code>local_agencies</code>. This creates an R object that we can reuse. We will need this list a number of times, and it makes sense to manage it in once place instead of each time we need it.</li>
+<li>Next we fill that object with a list of agency names. Again, I did some pre-work to figure out those names that we aren’t covering here, and in some cases there is a comment <code>#NI</code> next to them. That is a note to myself that the particular agency is NOT INCLUDED in our data, which means I haven’t confirmed the name spelling. It could be at a later date the Austin Parks department gets equipment, but they list their name as “CITY OF AUSTIN PARKS” instead of “AUSTIN PARKS POLICE DEPT” and it would not be filtered properly. This is another example that <strong>your most important audience for your code is your future self</strong>.</li>
+<li>Now that our list is created, we can use it to filter our <code>tx_agency_totals</code> data. So, we start with that data, and then …</li>
+<li>We pipe into <code>filter()</code>, but inside our filter we don’t set it <code>==</code> to a single thing, instead we say: <code>agency_name %in% local_agencies</code>, which says look inside that <code>agency_name</code> column and keep any row that has a value that is also in our <code>local_agencies</code> vector.</li>
+</ul>
+<p>This filters our list of agencies to just those in Central Texas.</p>
+</section>
+</section>
+<section id="types-of-items-shipped-to-each-agency" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="types-of-items-shipped-to-each-agency"><span class="header-section-number">6.8</span> Types of items shipped to each agency</h2>
+<p>Now that we have an overall idea of what local agencies are doing, let’s dive a little deeper. It’s time to figure out the specific items that they received.</p>
+<p>Our question is this: <strong>What specific “controlled” items did each agency get and how much were they worth?</strong></p>
+<p>In some cases an agency might get the same item shipped to them at different times. For instance, “AUSTIN POLICE DEPT” has multiple rows where they get a single “ILLUMINATOR,INTEGRATED,SMALL ARM” shipped to them on the same date, but then on other dates they have the same item but the quantity is 30. We want all of these “ILLUMINATOR,INTEGRATED,SMALL ARM” for the Austin police added together into a single record.</p>
+<p>The logic works like this:</p>
+<ul>
+<li>Start with the controlled data, and then …</li>
+<li>Group by the <code>agency_name</code> and <code>item_name</code>, which will group all the rows where those values are the same. All “AUSTIN POLICE DEPT” rows with “ILLUMINATOR,INTEGRATED,SMALL ARM” will be considered together, and then …</li>
+<li>Summarize to sum the <code>quantity</code>, and then do the same for <code>total_value</code>.</li>
+</ul>
+<p>The code for this is very similar to what we did above when we summaries agencies, except we are grouping by two things, the <strong>agency_name</strong> and the <strong>item_name</strong>. Let’s do it:</p>
+<ol type="1">
+<li>Create a new section (headline, text and code chunk) and describe that you are finding the sums for each item that each agency has received since 2010.</li>
+<li>Consult (or even copy) the code you wrote when you created the agency totals, but modify the <code>group_by()</code> to add the <code>item_name</code>, like this: <code>group_by(agency_name, item_name)</code>.</li>
+<li>Be sure you rename your created R objects, too, perhaps to <code>tx_agency_item_totals</code>.</li>
+</ol>
+<details>
+<summary>
+Give it a go on your own first, then check here
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adding the new tibble object in next line</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>tx_agency_item_totals <span class="ot">&lt;-</span> tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name, item_name) <span class="sc">|&gt;</span> </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity),</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_total_value =</span> <span class="fu">sum</span>(total_value)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(summed_total_value <span class="sc">|&gt;</span> <span class="fu">desc</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'agency_name'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>tx_agency_item_totals</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,548 × 4
+# Groups:   agency_name [335]
+   agency_name                      item_name summed_quantity summed_total_value
+   &lt;chr&gt;                            &lt;chr&gt;               &lt;dbl&gt;              &lt;dbl&gt;
+ 1 HOUSTON POLICE DEPT              AIRCRAFT…               1            5390000
+ 2 DPS SWAT- TEXAS RANGERS          MINE RES…               4            2611000
+ 3 DEPT OF CRIM JUSTICE OIG         TRUCK,CA…               4            1446516
+ 4 UNIV OF TEXAS SYSTEM POLICE HI_… MINE RES…               2            1228000
+ 5 JEFFERSON COUNTY SHERIFFS OFFICE HELICOPT…               1             922704
+ 6 ALVIN POLICE DEPT                HOIST,IN…               6             900420
+ 7 VAN ZANDT COUNTY SHERIFF'S OFFI… TRUCK,WR…               1             880674
+ 8 BURKBURNETT POLICE DEPT          MINE RES…               1             865000
+ 9 CLEBURNE POLICE DEPT             MINE RES…               1             865000
+10 CUERO POLICE DEPT                MINE RES…               1             865000
+# ℹ 1,538 more rows</code></pre>
+</div>
+</div>
+</details>
+<p><br></p>
+<p>This reuse of code like this – copying the agency grouping code and editing it to add the item_name value – is very common in coding, and there is nothing wrong with doing so as long as you are careful.</p>
+<p>When you reuse code, review it carefully so you don’t override things by accident. In this instance, our original code created an R object: <code>tx_agency_totals &lt;- tx_c |&gt; ...</code> that holds the result of our functions, and we call that later to view it. If we reuse this code and don’t update that object name, we’ll reset the values inside that already-existing object, which was not our intent. We wabt to create a NEW thing <code>tx_agency_item_totals</code> so we can use that later, too. And if we don’t update the “peek” at the object, we’ll be looking at the old one instead of the new one.</p>
+<p>OF NOTE: With that last code chunk you’ll see a warning in your R Console: <em><code>summarise()</code> has grouped output by ‘agency_name’. You can override using the <code>.groups</code> argument.</em> This is not a problem, it’s just a reminder that when we group by more than one thing, the first grouping is retained when future functions are applied to this result. It’s more confusing than helpful, to be honest. Just know if we wanted to do further manipulation, we might need to use <code>ungroup()</code> first.</p>
+<section id="items-for-local-agencies" class="level3" data-number="6.8.1">
+<h3 data-number="6.8.1" class="anchored" data-anchor-id="items-for-local-agencies"><span class="header-section-number">6.8.1</span> Items for local agencies</h3>
+<p>Just like we did for our agency totals, we want to filter this list of items to those sent to our local agencies. However, this time we’ve already created the list of local agencies so we don’t have to redo that part … we just need to filter by it.</p>
+<ol type="1">
+<li>Start a new section (headline, text) and explain that you are looking at items sent to local agencies.</li>
+<li>Use <code>filter()</code> to focus the data just on or <code>local_agencies</code>.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>tx_agency_item_totals <span class="sc">|&gt;</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">%in%</span> local_agencies)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 175 × 4
+# Groups:   agency_name [19]
+   agency_name                      item_name summed_quantity summed_total_value
+   &lt;chr&gt;                            &lt;chr&gt;               &lt;dbl&gt;              &lt;dbl&gt;
+ 1 UNIV OF TEXAS SYSTEM POLICE HI_… MINE RES…               2           1228000 
+ 2 AUSTIN POLICE DEPT               HELICOPT…               1            833400 
+ 3 TRAVIS COUNTY SHERIFFS OFFICE    MINE RES…               1            767360 
+ 4 CEDAR PARK POLICE DEPT           MINE RES…               1            733000 
+ 5 GEORGETOWN POLICE DEPT           MINE RES…               1            733000 
+ 6 LEANDER POLICE DEPT              MINE RES…               1            733000 
+ 7 SAN MARCOS POLICE DEPT           MINE RES…               1            733000 
+ 8 BASTROP COUNTY SHERIFF'S OFFICE  MINE RES…               1            658000 
+ 9 SAN MARCOS POLICE DEPT           CAPABILI…               1            494724 
+10 AUSTIN POLICE DEPT               IMAGE IN…              85            458831.
+# ℹ 165 more rows</code></pre>
+</div>
+</div>
+<p>Because our original list arranged the data by the most expensive items, we can see that here. But it might be easier to rearrange the data by agency name first, then the most expensive items.</p>
+<ol type="1">
+<li>EDIT your chunk to add an arrange function.</li>
+<li>Within the arrange, set it to <code>agency_name</code> first, then <code>summed_total_value</code> in descending order.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>tx_agency_item_totals <span class="sc">|&gt;</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">%in%</span> local_agencies) <span class="sc">|&gt;</span> </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(agency_name, <span class="fu">desc</span>(summed_total_value))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 175 × 4
+# Groups:   agency_name [19]
+   agency_name        item_name               summed_quantity summed_total_value
+   &lt;chr&gt;              &lt;chr&gt;                             &lt;dbl&gt;              &lt;dbl&gt;
+ 1 AUSTIN POLICE DEPT HELICOPTER,FLIGHT TRAI…               1            833400 
+ 2 AUSTIN POLICE DEPT IMAGE INTENSIFIER,NIGH…              85            458831.
+ 3 AUSTIN POLICE DEPT SIGHT,THERMAL                        29            442310 
+ 4 AUSTIN POLICE DEPT PACKBOT 510 WITH FASTA…               4            308000 
+ 5 AUSTIN POLICE DEPT SIGHT,REFLEX                        420            169256.
+ 6 AUSTIN POLICE DEPT ILLUMINATOR,INTEGRATED…             135            122302 
+ 7 AUSTIN POLICE DEPT RECON SCOUT XT                        8             92451.
+ 8 AUSTIN POLICE DEPT TEST SET,NIGHT VISION …               2             55610 
+ 9 AUSTIN POLICE DEPT SCOPE,NIGHT-POCKET                    5             20535 
+10 AUSTIN POLICE DEPT POWER SUPPLY ASSEMBLY                63             20086.
+# ℹ 165 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="research-some-interesting-items" class="level3" data-number="6.8.2">
+<h3 data-number="6.8.2" class="anchored" data-anchor-id="research-some-interesting-items"><span class="header-section-number">6.8.2</span> Research some interesting items</h3>
+<p>You’ll want a little more detail about some of these items for your data drop. I realize (and you should, too) that for a “real” story we would need to reach out to sources for more information, but you can get a general idea from what you find online to at least describe some of these items. There are a couple of ways to go about researching items.</p>
+<ol type="1">
+<li>Simply search for the items on Google, <a href="https://www.google.com/search?q=ILLUMINATOR%2CINTEGRATED%2CSMALL+ARMS&amp;oq=ILLUMINATOR%2CINTEGRATED%2CSMALL+ARMS">like this</a>.</li>
+<li>Each item has a “National Stock Number,” which is an ID for a government database of supplies. You can search the data for the <code>nsn</code> value and then look up that value online.</li>
+</ol>
+<p>Let do an example, looking up “ILLUMINATOR,INTEGRATED,SMALL ARMS”. First we filter the data to find the item. (I’m also using select so we can control the output and see it in this book, but you might not want that in your notebook so you can also check <code>ship_dates</code>, etc.)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    item_name <span class="sc">==</span> <span class="st">"ILLUMINATOR,INTEGRATED,SMALL ARMS"</span>,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    agency_name <span class="sc">==</span> <span class="st">"AUSTIN POLICE DEPT"</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(item_name, nsn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 100 × 2
+   item_name                         nsn             
+   &lt;chr&gt;                             &lt;chr&gt;           
+ 1 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
+ 2 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
+ 3 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-571-1258
+ 4 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
+ 5 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
+ 6 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
+ 7 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
+ 8 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
+ 9 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
+10 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
+# ℹ 90 more rows</code></pre>
+</div>
+</div>
+<p>It looks like most of these illuminators use this <code>nsn</code>: 5855-01-534-5931.</p>
+<p>Now we go to the website <a href="https://nationalstocknumber.info/" class="uri">https://nationalstocknumber.info/</a> and plug that number into the search bar. We get a couple of returns, and if we click on one we <a href="https://nationalstocknumber.info/national-stock-number/5855-01-534-5931">get this page</a>. It gives us a description of the item:</p>
+<blockquote class="blockquote">
+<p>“A device which is a combination of several lasers and white light illumination used to provide multiple capabilities for engaging targets and providing light. The device may contain a flashlight or other white light illumination source, an illuminator, infrared and stand alone aiming lasers/pointers. The device has the capability to mount on an individual weapon.”</p>
+</blockquote>
+<p>Not every item is in the database, but it is worth checking.</p>
+</section>
+</section>
+<section id="write-a-data-drop" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="write-a-data-drop"><span class="header-section-number">6.9</span> Write a data drop</h2>
+<p>Once you’ve found answers to all the questions listed, you may be asked to use that information in a writing assignment. See Canvas for details.</p>
+</section>
+<section id="what-we-learned-in-this-chapter" class="level2" data-number="6.10">
+<h2 data-number="6.10" class="anchored" data-anchor-id="what-we-learned-in-this-chapter"><span class="header-section-number">6.10</span> What we learned in this chapter</h2>
+<ul>
+<li>We used <code>sum()</code> within a <code>group_by()</code>/<code>summarize()</code> function to add values within a column.</li>
+<li>We used <code>summary()</code> to get descriptive statistics about our data, like the minimum and maximum values, or an average (mean).</li>
+<li>We learned how to use <code>c()</code> to <strong>combine</strong> a list of like values into a <em>vector</em>, and then used that vector to filter a column for values <code>%in%</code> that vector.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./sums-import.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Summarize: math - import</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./plots.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data Viz - Intro to ggplot</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
