@@ -1,22 +1,32 @@
 # About this book {.unnumbered}
 
-Reporting with Data in R is a series of lessons and instructions used for courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The first two versions of the book were written by Assistant Professor of Practice [Christian McDonald](https://moody.utexas.edu/faculty/christian-mcdonald). Assistant Professor [Jo Lukito](https://moody.utexas.edu/faculty/jo-lukito) joined in teaching sections of the Reporting with Data in spring 2022.
+::: callout-note
+**This work is under constant revision**. It is written using [Quarto](https://quarto.org/docs/guide/) and the source is available on [Github](https://github.com/utdata/rwdir).
+:::
 
-This means the book is morphing from the voice of a single author and that might get confusing at times. In addition, Prof. McDonald uses a Mac and Prof. Lukito uses a PC, so keyboard commands and screenshot examples may flip back and forth. We'll try to note the author and platform at the beginning of each chapter.
+Reporting with Data in R is a series of lessons and instructions used for courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The first two versions of the book were written by Associate Professor of Practice [Christian McDonald](https://moody.utexas.edu/faculty/christian-mcdonald). Assistant Professor [Jo Lukito](https://moody.utexas.edu/faculty/jo-lukito) began collaborating and teaching sections of the Reporting with Data in spring 2022 and Anastasia Goodwin is teaching from this material as an adjunct in fall 2023.
 
-> **This work is under constant revision**. It is written using [quarto](https://quarto.org/docs/guide/) and the source is available on [Github](https://github.com/utdata/rwdir).
+This means the writting voice or point of view may change or be confusing at times. For instance, Prof. McDonald uses a Mac and Prof. Lukito uses a PC, so keyboard commands and screenshot examples may flip back and forth. We'll try to note the author and platform at the beginning of each chapter.
 
-We are currently working on the fall 2023 version. Earlier versions are linked below.
+This version is being revised for fall 2023 version. Earlier versions are linked below.
 
-## A word from Prof. McDonald {.unnumbered}
+## Some words from Prof. McDonald {.unnumbered}
 
-I'm a strong proponent of what I call Scripted Journalism, a method of committing data-centric journalism in a programmatic, repeatable and transparent way. There are a myriad of programming languages that further this, including Python ([pandas](https://pandas.pydata.org/) using [Jupyter](https://jupyter.org/)) and JavaScript ([Observable](https://beta.observablehq.com/)), but we'll be using [R](https://www.r-project.org/), [RMarkdown](https://rmarkdown.rstudio.com/) and [RStudio](https://www.rstudio.com/).
+I'm a strong proponent of what I call Scripted Journalism, a method of committing data-centric journalism in a programmatic, repeatable and transparent way. There are a myriad of programming languages that further this, including Python ([pandas](https://pandas.pydata.org/) using [Jupyter](https://jupyter.org/)) and JavaScript ([Observable](https://beta.observablehq.com/)), but we'll be using [R](https://www.r-project.org/), [Quarto](https://quarto.org/docs/guide/) and [RStudio](https://www.rstudio.com/).
 
 R is a super powerful, open-source programming language for data that is deep with features and an awesome community of users who build upon it. No matter the challenge before you in your data storytelling, there is probably a package available to help you solve that challenge. Probably more than one.
 
-There is always more than one way to do things in R. This book is a [Tidyverse](https://www.tidyverse.org/)-oriented, opinionated collection of lessons intended to teach students new to programming and R for the expressed act of committing journalism. As a beginner course, we strive to make it as simple as possible, which means we may not go into detail about alternative (and possibly better) ways to accomplish tasks in favor of staying in the Tidyverse and reducing options to simplify understanding. We rarely even discuss differences from base R; Tidyverse is our default.
+There is always more than one way to do things in R. This book is a [Tidyverse](https://www.tidyverse.org/)-oriented, opinionated collection of lessons intended to teach students new to programming and R for the expressed act of committing journalism. As a beginner course, we strive to make it as simple as possible, which means we may not go into detail about alternative (and possibly better) ways to accomplish tasks in favor of staying in the Tidyverse and reducing options to simplify understanding. We rarely discuss differences from base R; Tidyverse is our default.
 
-## Tips on the book style {.unnumbered}
+Programming languages evolve constantly, and R has seen some significant changes in the past few years, many of them driven by Posit, the company that makes Rstudio and maintains the [Tidyverse](https://www.tidyverse.org/) packages.
+
+-   The introduction of [Quarto](https://quarto.org/docs/get-started/hello/rstudio.html) in mid-2022. This modern implementation of RMarkdown is a major shift for this edition of the book. Every lesson and video will need to be updated, and we may not get to all of them. The good news is RMarkdown still works inside Quarto documents.
+
+-   The introduction of the base R pipe `|>` in 2021. Posit developers began using the `|>` in favor of the magrittr pipe `%>%` in 2022, and this book follows their lead. The two implementations work interchangeably and you'll see plenty of `%>%` in the wild.
+
+-   The use of YAML code chunk options. I first noticed this style when I started using Quarto in 2023. It might not matter much for this book as we don't use that many code chunk options in our assignments, but we'll see.
+
+## Conventions and styles in this book {.unnumbered}
 
 We will try to be consistent in the way we write documentation and lessons. But we are human, so sometimes we break our own rules, but in general keep the following in mind.
 
@@ -34,25 +44,70 @@ Sometimes details will be explained in lists:
 -   This is the first thing I want you to know.
 -   This is the second. You don't have to DO these things, just know about them.
 
-### Notes, some important {.unnumbered}
+### Code blocks {.unnumbered}
 
-We will use the blockquote syntax to set off a less important aside:
+This book often runs the code that is shown, so you 'll see the code and the result of that code below it.
 
-> Markdown was developed by JOHN GRUBER, as outlined on his [Daring Fireball blog](https://daringfireball.net/projects/markdown/).
+```{r}
+1 + 1
+```
 
-But sometimes those asides are important. We usually indicate that:
+#### Copying code blocks
 
-> **IMPORTANT:** You really should learn how to use [Rmarkdown](https://rmarkdown.rstudio.com/) as you will use it the whole semester, and hopefully for the rest of your life.
-
-### Copy code blocks {.unnumbered}
-
-When you see R code in the instructions, you can roll your cursor over the right-corner and **click on the copy icon** to copy the code to your clipboard:
+When you see R code in the instructions, you can roll your cursor over the right-corner and **click on the copy icon** to copy the code clock content to your clipboard.
 
 ![](images/index-copy-clipboard.png)
 
 You can then paste the code inside your R chunk.
 
 That said, typing code yourself has many, many benefits. You learn better when you type yourself, make mistakes and have to fix them. **We encourage you to always type short code snippets.** Leave the copying to long ones.
+
+#### Fenced code
+
+Sometimes we need to show code chunk options that are added, like when explaining how to name chunks. In those cases, you may see the code chunk with all the tick marks, etc. like this:
+
+```{r block-named}
+#| echo: fenced
+1 + 1
+```
+
+or
+
+```{r}
+#| echo: fenced
+#| label: block-named-yaml
+
+1 + 1
+
+```
+
+You can still copy/paste these blocks, but you'll get the entire code block, not just the contents.
+
+#### Hidden code
+
+Sometimes we want to include code in the book but not display it so you can try the to write the code yourself first. When we do this, it will look like this:
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click here to show the code"
+1 + 1
+```
+
+If you click on the triangle or the words that follow, you'll reveal the code. Click again to hide it.
+
+### Notes, some important {.unnumbered}
+
+We will use callouts to set off a less important aside:
+
+::: callout
+Markdown was developed by JOHN GRUBER, as outlined on his [Daring Fireball blog](https://daringfireball.net/projects/markdown/).
+:::
+
+But sometimes those asides are important. We usually indicate that:
+
+::: callout-important
+You really should learn how to use [Markdown](https://rmarkdown.rstudio.com/) as you will use it the whole semester, and hopefully for the rest of your life.
+:::
 
 ## About the authors {.unnumbered}
 
@@ -92,11 +147,12 @@ Let's just say this is free on the internet. We don't make any money from it and
 
 This text stands upon the shoulders of giants and by design does not cover all aspects of using R. Here are some other useful books, tutorials and sites dedicated to R. There are other task-specific tutorials and articles sprinkled throughout the book in the Resources section of select chapters.
 
--   [R for Data Science](https://r4ds.had.co.nz/index.html) by Hadley Wickham and Garrett Grolemund.
+-   [R for Data Science](https://r4ds.hadley.nz/)
 -   The [Tidyverse](https://www.tidyverse.org/) site, which has tons of documentation and help.
--   The [RStudio Cheatsheets](https://www.rstudio.com/resources/cheatsheets/).
+-   The [RStudio Cheatsheets](https://posit.co/resources/cheatsheets/).
+-   [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/index.html)
 -   [R Graphics Cookbook](https://r-graphics.org/index.html)
--   [The R Graph Gallery](https://www.r-graph-gallery.com/) another place to see examples.
+-   [The R Graph Gallery](https://r-graph-gallery.com/) another place to see examples.
 -   [Practical R for Journalism](https://www.crcpress.com/Practical-R-for-Mass-Communication-and-Journalism/Machlis/p/book/9781138726918) by Sharon Machlis, an editor with PC World and related publications. Sharon is a longtime proponent of using R in journalism.
 -   [Sports Data Analysis and Visualization](http://mattwaite.github.io/sports/) and [Data Journalism with R and the Tidyverse](http://mattwaite.github.io/datajournalism/) by Matt Waite, a professor at the University of Nebraska-Lincoln.
 -   [R for Journalists](http://learn.r-journalism.com/en/) site by Andrew Tran, a reporter at the Washington Post and University of Texas alum. A series of videos and tutorials on using R in a journalism setting.
