@@ -1,6 +1,13 @@
 # Introduction to R {#intro}
 
-> This chapter was written by Prof. McDonald using macOS, with edits by Prof. Lukito
+::: callout-warning
+- This has been update for Quarto
+- I could use a section that links to a finished project so students can understand where are going with all this.
+:::
+
+::: callout-note
+This chapter was written by Prof. McDonald using macOS, with edits by Prof. Lukito
+:::
 
 ## RStudio tour
 
@@ -10,9 +17,9 @@ When you launch RStudio, you'll get a screen that looks like this:
 
 ## Updating preferences
 
-There is a preference in RStudio that I would like you to change. By default, the program wants to save a the state of your work (all the variables and such) when you close a project, [but that is not good practice](https://www.r-bloggers.com/2017/04/using-r-dont-save-your-workspace/). We'll change that.
+There are some preferences in RStudio that I would like you to change. By default, the program wants to save a the state of your work (all the variables and such) when you close a project, [but that is not good practice](https://www.r-bloggers.com/2017/04/using-r-dont-save-your-workspace/). We'll change that.
 
-1.  Go to the **RStudio** menu and choose **Preferences**
+1.  Go to the **Tools** menu and choose **Global Options**.
 2.  Under the **General** tab, uncheck the first four boxes.
 3.  On the option "Save Workspace to .Rdata on exit", change that to **Never**.
 4.  Click *Apply* to save the change (but don't close the box yet).
@@ -35,82 +42,131 @@ When we work in RStudio, we will create "Projects" to hold all the files related
 
 1.  Click on the second button that has a green `+R` sign.
 2.  That brings up a box to create the project with several options. You want **New Directory** (unless you already have a Project directory, which you don't for this.)
-3.  For **Project Type**, choose **New Project**.
+3.  For **Project Type**, choose **Quarto Project**.
 4.  Next, for the **Directory name**, choose a new name for your project folder. For this project, use "firstname-first-project" but use YOUR firstname.
 5.  For the subdirectory, you want to use the **Browse** button to find your new `rwd` folder we created earlier.
 
-I want you to be anal about naming your folders. It's a good programming habit.
+I want you to be anal retentive about naming your folders. It's a good programming habit.
 
 -   Use lowercase characters.
 -   Don't use spaces. Use dashes.
 -   For this class, start with your first name.
 
-![Rstudio project name, directory](images/intro-newproject.png)
+![Quarto project name, directory](images/create-quarto-project.png)
 
-When you hit **Create Project**, your RStudio window will refresh and you'll see the `yourfirstname-first-project.Rproj` file in your Files list.
+When you hit **Create Project**, your RStudio window will refresh and two things will happen:
 
-## Using R Notebooks
+- You'll see the three files listed in your **Files** window.
+- A new document window will open on the left.
 
-For this class, we will almost always use [RNotebooks](https://rmarkdown.rstudio.com/lesson-10.html). This format allows us to write text in between our blocks of code. The text is written in a language called [RMarkdown](https://rmarkdown.rstudio.com/lesson-1.html), a juiced-up version of the common documentation syntax used by programmers, Markdown. We'll learn that in a moment.
+### The files pane
 
-### Create your first notebook
+![New Quarto Project](images/quarto-project-new.png)
 
-1.  Click on the button at the top-left of RStudio that has just the green `+` sign.
-2.  Choose the item **R Notebook**.
 
-This will open a new file with some boilerplate R Markdown code. It serves as an example, explanation and template all in one.
+Let's walk through w the files here and explain what they are.
 
-1.  At the top between the `---` marks, is the **metadata**. This is written using YAML, and what is inside are commands for the R Notebook. Don't sweat the YAML syntax too much right now, as we won't be editing it often.
-2.  Next, you'll see a couple of paragraphs of text that describes how to use an RNotebook. It is written in RMarkdown, and has some inline links and bold commands, which you will learn,
-3.  Then you will see an R code chunk that looks like the figure below.
+- The `_quarto.yml` file is a YAML configuration file for your project. The file isn't really required for what we are doing here, and there isn't much inside of it now, but it allows us to apply Quarto settings across all your files. We might not get to much into that, but you can read more about it in the [Quarto Guide](https://quarto.org/docs/guide/) if you like.
+- The `christian-first-project.qmd` file **IS THE DOCUMENT YOU ARE WORKING FROM**. You will always do your editing from  `.qmd` files, which stands for Quarto Markdown. (We might also encounter and edit `.Rmd` files, which are very similar, but just a little less awesome.)
+- The `christian-first-project.Rproj` file is your **Project** file. It sets the *working directory* or what is essentially "home base" for your project. When you go to open your project again, this is the file you will open.
 
-![R code chunk](images/intro-rcodechunk.png)
+So, out these files the one we edit is the Quarto document with the `.qmd` suffix. Our projects will end up with multiple Quarto files.
 
-Let's take a closer look at this:
+### The Quarto document
 
--   The three back tick characters (the key found at the top left on your keyboard) followed by the `{r}` indicate that this is a chunk of R code. The last three back ticks say the code chunk is over.
--   The `{r}` bit can have some parameters added to it. We'll get into that later.
--   The line `plot(cars)` is R programming code. We'll see what those commands do in a bit.
--   The green right-arrow to the far right is a play button to run the code that is inside the chunk.
--   The green down-arrow and bar to the left of that runs all the code in the Notebook up to that point. That is useful as you make changes in your code and want to rerun what is above the chunk in question.
+The document that opened on the left is our Quarto document where we will do our work. The Quarto document is a cutting-edge way of authoring programming documents where the result can be output in a myriad of formats: As HTML, PDFs, slideshows, books, etc. In fact, this very book you are reading is written in R using Quarto.
 
-### Save the .Rmd file
+![New Quarto document](images/quarto-new-document.png)
 
-1.  Do *Cmd+S* (*ctrl+s* for a PC) or hit the floppy disk icon to save the file.
-2.  It will ask you what you want to name this file. Call it `01-first-file.Rmd`.
 
-When you do this, you may see another new file created in your Files directory. It's the pretty version of the notebook which we'll see in a minute.
 
-In the metadata portion of the file, give your notebook a better title.
+I could write reams of text about the evolution and birth of Quarto, but you won't really care. Let's break this down to what you need to know:
 
-1.  Replace "R Notebook" in the `title: "R Notebook"` code to be "Christian's first notebook", but use your name.
+-   These documents allow us to weave together our **thoughts** and our **code**. We'll use [Markdown](https://quarto.org/docs/authoring/markdown-basics.html) to record our thoughts, and R to write our code.
+-   We "write" the document and can "run" the code to see the results, but all the while we are **building** documents that we will *rendered* to share with others. Our goal with these documents is to explain to an "audience" what are doing with our data analysis. Often our most important audience is our future self.
 
-### Run the notebook
+Think of *Rendering* like exporting or publishing a pretty version of your work.
 
-There is only one chunk to run in this notebook, so:
+### Render the document
 
-1.  Click on the green right-arrow to run the code. The keyboard command (from somewhere within the chunk) is *Cmd+Shift+Return*.
+Let's see what this basic document looks like when when we Render it.
 
-You should get something like this:
+1.  In the toolbar of the document you'll see a blue arrow with **Render** after it.
+2.  Click on that button or word.
 
-![Cars plot](images/intro-defaultplot.png)
+What this should do is open up the Console below the document and you'll see a bunch of feedback, but on the right side of RStudio. You should end up with the **Viewer** pane that shows your document. Here is a tour of sorts:
 
-What you've done here is create a plot chart of a piece of sample data that is already inside R. (FWIW, It is the speed of cars and the distances taken to stop. Note that the data were recorded in the 1920s.)
+![Render Quarto](images/quarto-render.png)
 
-But that wasn't a whole lot of code to see there is a relationship with speed vs stopping distance, eh?
+Perhaps I have too much going on in that screenshot, but you'll be in this view a lot as you work with your code. You'll be writing and running code in your document at top left, and then periodically rendering it to see what the finished version looks like.
 
-This is a "base R" plot. We'll be using the tidyverse ggplot methods later in the semester.
+### The metadata
 
-### A note about RMarkdown
+The top of our document has what we call the **metadata** of our document written in YAML. These are commands to control the output of our document. Right now it only has the title of our document.
 
-We always want to annotate our code to explain what we are doing. To do that, we use a syntax called [RMarkdown](https://rmarkdown.rstudio.com/authoring_basics.html), which is an R-specific version of Markdown. We use this syntax because it both makes sense when you're typing up your code **and** because it makes a very pretty version in HTML when we "knit" our project. You can see how it to [write RMarkdown here](https://rmarkdown.rstudio.com/authoring_basics.html). Interesting tidbit: you can create [slidedecks](https://rmarkdown.rstudio.com/lesson-11.html), [websites](https://rmarkdown.rstudio.com/lesson-13.html), and [handouts](https://bookdown.org/yihui/rmarkdown/tufte-handouts.html) using RMarkdown, so it is useful in a lot of different ways.
+``` txt
+---
+title: "christian-first-project"
+---
+```
 
-This entire book is written in RMarkdown.
+When we created our project, RStudio added the name of our folder here, **which kinda sucks** because that is not what the title is for. It should describe what we are doing like the top of a Microsoft Word or Google Docs document.
 
-Here is an example:
+1.  Edit the text inside the quotes to be more like a title you would find in a Word or Google Doc document, like this:
 
-``` rmarkdown
-## My dating age
+``` txt
+---
+title: "Christian's First Quarto document"
+---
+```
+
+2.  **Re-render** the document so you can see the updates. (You can click on the **Render** button or do **Cmd-Shift-K** to update it.)
+
+### R code chunks
+
+The next bit of our document shows an R chunk:
+
+![R chunk](images/quarto-r-chunk.png)
+
+This is where we write and execute our programming code. Let's break down parts of this:
+
+-   The three tick marks \` at the beginning and end indicate where the code chunk starts and ends.
+-   The `{r}` part notes that this is R code. (Quarto supports other languages like `{python}`, but we'll stick with R.)
+-   The `1 + 1` part is the code. In this case, it is some basic math. We do cooler stuff later.
+-   The green triangle that points to the right will **run all the code in this chunk**.
+-   The gray triangle that points down with the green bar will **run all the code above this chunk**.
+
+Let's run this chunk of code to see what happens.
+
+1.  Click on the green triangle.
+
+![Code chunk has run](images/quarto-code-run.png)
+
+Doing this executes the code that is in the R block and it will print the result to your document below the chunk. You might have noticed something similar when you rendered your document earlier.
+
+::: callout-important
+There are about five keyboard commands that I will **implore** you to learn. Here are the first three. Remember if you are on a PC use **Cntl** instead of **Cmd**.
+
+- **Cmd+option+i** will insert a code block.
+- **Cmd+Return** will run a single line of code within a code block.
+- **Cmd+Shift+Return** will run a whole code chunk.
+:::
+
+## Let's do some data analysis
+
+Remember the goal of all our work here in this class is to explain to use data analysis to make sense of the world and then explain to others what we are doing. There are two parts to that:
+
+- What are we thinking?
+- Our code.
+
+Our goal with this notebook is to discover what is the [socially-acceptable age to date someone older or younger than ourselves](socially-acceptable maximum age of anyone you should date). Yes, this is a Seinfeld episode come to life in a data class.
+
+1. Copy the text below. Note you can use the copy-clipboard button in the book if you roll your cursor over the code and click on the clipboard icon at the top right.
+1. Paste the code at the bottom of your notebook.
+1. Re-render your document to see what it looks like.
+
+```txt
+## My upper dating age
 
 The following section details the [socially-acceptable maximum age of anyone you should date](https://www.psychologytoday.com/us/blog/meet-catch-and-keep/201405/who-is-too-young-or-too-old-you-date).
 
@@ -121,84 +177,80 @@ The math works like this:
 - Double the result
 ```
 
--   The `##` line is a headline. Add more `###` and you get a smaller headline, like subheads.
+Let's walk through this Markdown code. You might bookmark the [Markdown basics](https://quarto.org/docs/authoring/markdown-basics.html) so you can refer back to it as you learn.
+
+-   The `##` line is a "Header 2" headline, meaning it is the second biggest. (The title is an H1.) Add more hashmarks `###` and you get a smaller headline, like subheads, etc.
 -   There is a full blank return between each element, including paragraphs of text.
 -   In the first paragraph we have embedded a hyperlink. We put the words we want to show inside square brackets and the URL in parenthesis DIRECTLY after the closing square bracket: `[words to link](https://the_url.org)`.
 -   The `-` at the beginning of a line creates a bullet list. (You can also use `*`). Those lines need to be one after another without blank lines.
 
-1.  Go ahead and copy the code above and add it as text in the notebook so you can see it works later.
+::: callout-note
+I should note at this point there is a "Visual" editor where RStudio gives you more formatted look as your editing as it writes Markdown underneath the hood. I want you to use the "Source" editor so you can see and learn the underlying Markdown syntax. All my examples will be written in "Source" mode.
+:::
 
 ### Adding new code chunks
 
-The text after the chart describes how to insert a new code chunk. Let's do that.
+Let's add a new R chunk to add the code that will calculate the maximum age of someone we should date.
 
-1.  Add a couple of returns before the paragraph of text about code chunks.
-2.  Use the keys *Cmd+Option+i* to add the chunk.
-3.  Your cursor will be inserted into the middle of the chunk. Type in this code in the space provided:
+1.  Add a few blank lines after your Markdown text.
+1. Use the keyboard command *Cmd+Option+i* to add an R chunk.
+3.  Your cursor will be inserted into the middle of the chunk. Type or copy this code in the space provided:
 
 ```{r}
-# update 55 to your age
-age <- 55
+# update 57 to your actual age
+age <- 57
 (age - 7) * 2
 ```
 
-1.  Change for "55" to your real age.
+1.  Change the `57` to your real age.
 2.  With your cursor somewhere in the code block, use the key command *Cmd+Shift+Return*, which is the key command to RUN ALL LINES of code chunk.
 
-> NOTE: To run an individual line, use *Cmd+Return* while on that line.
-
-Congratulations! The answer given at the bottom of that code chunk is the [socially-acceptable maximum age of anyone you should date](https://www.psychologytoday.com/us/blog/meet-catch-and-keep/201405/who-is-too-young-or-too-old-you-date).
+Congratulations! The answer given at the bottom of that code chunk is the upper end age of someone socially acceptable for you to date.
 
 Throwing aside whether the formula is sound, let's break down the code.
 
--   `# update 55 to your age` is a comment. It's a way to explain what is happening in the code without being considered part of the code. We create comments by starting with `#`. You can also add a comment at the end of a line.
--   `age <- 55` is assigning a number (`55`) to an R object/variable called (`age`). A variable is a placeholder. It can hold numbers, text or even groups of numbers. Variables are key to programming because they allow you to change a value as you go along.
+-   `# update 57 to your age` is a comment. It's a way to explain what is happening in the code without being considered part of the code. We create comments inside code chunks by starting with `#`. You can also add a comment at the end of a line.
+-   `age <- 57` is assigning a number (`57`) to an R object/variable called (`age`). A variable is a placeholder. It can hold numbers, text or even groups of numbers. Variables are key to programming because they allow you to change a value as you go along.
 -   The next part is simple math: `(age - 7) * 2` takes the value of `age` and subtracts `7`, then multiplies by `2`.
--   When you run it, you get the result of the math equazion, `[1] 95` in my case. That means there was one observation, and the value was "96". For the record, my wife is *much* younger than that.
+-   When you run it, you get below it the result of the math equation, `[1] 100` in my case. That means there was one observation [1], and the value was "100". For the record, my wife is *much younger* than that. Perhaps this formula breaks down when you get older `¯\_(ツ)_/¯`.
 
 Now you can play with the number assigned to the age variable to test out different ages. Do that.
 
 ### Practice adding code chunks
 
-Now, on your own, add a similar section that calculates the **minimum** age of someone you should date, but using the formula `(age / 2) + 7`.
+Now, I want you to add a similar section that calculates the **minimum** age of someone you should date, but using the formula `(age / 2) + 7`.
 
-1.  Add a RMarkdown headline and text describing what you are doing.
-2.  Create a code chunk that that calculates the formula based on your age.
-3.  Include a comment within the code block.
+1.  Add a Markdown headline and text describing what you are doing.
+2.  Use the keyboard command to create a new code chunk.
+3.  Include a comment within the code block that explains you are using the `age` variable already established.
+4. Add the math statement `(age / 2) + 7` to the chunk.
+4. Run the chunk and re-render your document.
 
-You don't need (or want) to recreate the `age` variable. Use the one that is already in your notebook.
-
-### Preview the report
-
-The rest of the boilerplate text here describes how you can *Preview* and *Knit* a notebook. Let's do that now.
-
--   Press *Cmd+Shift+K* to open a Preview.
-
-This will open a new window and show you the "pretty" notebook that we are building.
-
-Preview is a little different than *Knit*, which runs all the code, then creates the new knitted HTML document. It's **Knit to HMTL** that you'll want to do before turning in your assignments. That is explained below.
+Now you know the youngest a person should be that you date, FWIW. We don't recreate the assignment of the `age` variable since we already have it. A Quarto document is designed to run from top to bottom so that all the pieces work together.
 
 ### The toolbar
 
-One last thing to point out before we turn this in: The toolbar that runs across the top of the R Notebook file window. The image below explains some of the more useful tools, but you *REALLY* should learn and use keyboard commands when they are available.
+One last thing to point out in the document window: The toolbar that runs across the top of the document window. The image below explains some of the more useful tools, but you *REALLY* should learn and use the keyboard commands instead.
 
-![R Notebook toolbar](images/intro-toolbar.png)
+![R Notebook toolbar](images/quarto-run-menu.png)
 
-### Knit the final workbook
+## A quick look back at files
 
-1.  Save your File with *Cmd+S*.
-2.  Click on the dropdown next to the **Run** menu item and choose *Restart R and Run All Chunks*. We do this to make sure everything still works.
-3.  Use the **Knit** button in the toolbar to choose **Knit to HTML**.
+We've been concentrating on editing the Quarto document, but let's peek back at the Files pane to note some new files that were created.
 
-This will open your knitted file. Isn't it pretty?
+1. In the window with the viewer, you'll notice several other tabs: Files, Plots, Packages, etc. Click on the **Files** tab.
+
+
+![Quarto files list](images/quarto-files-list.png)
+
+Note there are a few new files there now:
+
+- The `.html` file is the rendered version of your `.qmd` document.
+- the `_files` folder holds other resources created during rendering.
 
 ## Turning in our projects
 
-If you now look in your Files pane, you'll see you have four files in our project. (Note the only one you actually edited was the `.Rmd` file.)
-
-![Files list](images/intro-files.png)
-
-The best way to turn in all of those files into Canvas is to compress them into a single `.zip` file that you can upload to the assignment.
+The best way to turn in all of those files into Canvas is to compress the project folder into a single `.zip` file that you can upload to the assignment.
 
 1.  In your computer's Finder, open the `Documents/rwd` folder.
 2.  Follow the directions for your operating system linked below to create a compressed version of your `yourname-final-project` folder.
@@ -206,8 +258,8 @@ The best way to turn in all of those files into Canvas is to compress them into 
 4.  [Compress flies on Windows](https://www.laptopmag.com/articles/how-to-zip-files-windows-10).
 5.  Upload the resulting `.zip` file to the assignment for this week in Canvas.
 
-If you find you make changes to your R files after you've zipped your folder, you'll need to delete the `zip` file and compress it again.
+If you find you make changes to your R files after you've zipped your folder, you'll need to to `zip` it again. Make sure you get the new version (or delete the old one first).
 
 Because we are building "repeatable" code, I'll be able to download your `.zip` files, uncompress them, and the re-run them to get the same results.
 
-Well done! You've completed the first level and earned the *Beginner* badge.
+Well done!
