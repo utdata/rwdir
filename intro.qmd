@@ -1,7 +1,7 @@
 # Introduction to R {#intro}
 
 ::: callout-warning
-I think Quarto updates are done. 
+I might be done with Quarto here. Maybe. 
 :::
 
 ::: callout-note
@@ -16,11 +16,11 @@ The best way to explain this is to show you an example.
 
 1. Go to this link in a new browser window: [Major League Soccer salaries](https://christianmcdonald.quarto.pub/mls-salaries/).
 
-This is a website with all the code from a data journalism project. If you click on the links for [Cleaning](https://christianmcdonald.quarto.pub/mls-salaries/01-cleaning.html) you can read where the data come from and see all the steps I went through -- with code and explantion -- to process the data so I could work with it. And in the [Analysis 2023](https://christianmcdonald.quarto.pub/mls-salaries/02-analysis.html) you'll see me set out with some questions I had for the data, and then the code to find those answers, along with the explanations of how and why I did it that way.
+This is a website with all the code from a data journalism project. If you click on the links for [Cleaning](https://christianmcdonald.quarto.pub/mls-salaries/01-cleaning.html) you can read where the data come from and see all the steps I went through -- with code and explantion -- to process the data so I could work with it. And in the [Analysis 2023](https://christianmcdonald.quarto.pub/mls-salaries/02-analysis.html) notebook you'll see I set out with some questions for the data, and then I wrote the code to find my answers. Along with the way I wrote explanations of how and why I did what I did.
 
 ![Quarto Pub page](images/mls-analysis.png)
 
-This website was created using Quarto and R, and RStudio was the tool I used to write the code. Here's the crazy part: **I didn't have to write any HTML code,** I just wrote thoughts in text and my code in R. With few short lines of configuration and a two-word command `quarto publish` I was able to publish my work on quarto.pub for free.
+This website was created using Quarto and R, and the tool I used to write it was the RStudio IDE. Here's the crazy part: **I didn't have to write any HTML code,** I just wrote my thoughts in text and my code in R. With a few short lines of configuration and a two-word command `quarto publish` I was able to publish my work on quarto.pub for free.
 
 Keep this in mind:
 
@@ -56,16 +56,57 @@ Next we will set some value is the **Code** pane.
 
 We'll get into why we did this part later.
 
+## The R Package environment
+
+R is an open-source language, which means that other programmers can contribute to how it works. It is what makes R beautiful.
+
+What happens is developers will find it difficult to do a certain task, so they will write code that solves that problem and save it into an R "package" so they can use it later. They share that code with the community, and suddenly the R garage has an ["ultimate set of tools"](https://youtu.be/Y1En6FKd5Pk?t=24) that would make Spicoli's dad proud.
+
+One set of these tools is the [tidyverse](https://www.tidyverse.org/) developed by Hadley Wickham and his team at Posit. It's a set of R packages for data science that are designed to work together in similar ways. Prof. Lukito and I are worshipers of the tidyverse worldview and we'll use these tools extensively. While not required reading, I highly recommend Wickham's book [R for data science](https://r4ds.hadley.nz/), which is free.
+
+There are also a series of useful tidyverse [cheatsheets](https://posit.co/resources/cheatsheets/) that can help you as you use the packages and functions from the tidyverse. We'll refer to these throughout the course.
+
+### How we use packages
+
+There are two steps to using an R package:
+
+-   **Install the package** onto your computer by using `install.packages("package_name")`. You only have to do this once for each computer, so I usually do it using the R Console instead of in a notebook.
+-   **Include the library** using `library(package_name)`. This has to be done for each notebook or script that uses it, so it is usually one of the first things you'll see in a notebook.
+
+::: callout-note
+You use "quotes" around the package name when you are installing, but you DON'T need quotes when you load the library.
+:::
+
+### Install all our packages
+
+We will go ahead and install all the packages we'll use throughout the book. To do this, we will use the **Console**, which we haven't talked about much yet.
+
+![The Console and Terminal](images/import-console.png)
+
+1.  Use the image above to orient yourself to the R Console and Terminal.
+2.  Copy the code below and paste it into the Console, then hit **Return**.
+
+```r
+install.packages(c("quarto", "rmarkdown", "tidyverse", "janitor", "scales", "clipr", "ggthemes"))
+```
+
+You'll see a bunch of response fly by in the Console. It's probably all fine unless it ends the last response with an error.
+
+If you are using the RStudio IDE app on your computer,  you only have to do this `install.packages()` move once. However, if you are using the online posit.cloud version of RStudio, you'll have to do this for **each new project** because each project is a new virtual computer.
+
+When you install the "tidyverse" package you actually get a bunch of individual packages. In the wild you'll see references to "dplyr" and even some functions referenced as `dplyr::filter()` but they are all part of the tidyverse. You can explore the list at [tidyverse.org](https://www.tidyverse.org/).
+
+OK, we're done with all the computer setup. Let's get to work.
 
 ## Starting a new Quarto Website
 
 When we work in RStudio, we will create "Projects" to hold all the files related to one another. This sets the "working directory", which is a sort of home base for the project.
 
-1.  Click on the second button that has a green `+R` sign.
-2.  That brings up a box to create the project with several options. You want **New Directory** (unless you already have a Project directory, which you don't for this.)
+1.  Click on the second button that has a green `+R` hexagon sign.
+2.  That brings up a box to create the project with several options. You want **New Directory** in this case.
 3.  For **Project Type**, choose **Quarto Website**.
 4.  Next, for the **Directory name**, choose a new name for your project folder. For this project, use "firstname-first-project" but use YOUR firstname.
-5.  For the subdirectory, you want to use the **Browse** button to find your new `rwd` folder we created earlier.
+5.  For the subdirectory, you want to use the **Browse** button to find your `rwd` folder we created earlier.
 
 I want you to be anal retentive about naming your folders. It's a good programming habit.
 
@@ -85,10 +126,10 @@ When you hit **Create Project**, your RStudio window will refresh and two things
 ![New Quarto Project](images/quarto-project-new.png)
 
 
-Let's walk through the files here and explain what they are, though not in order shown.
+Let's walk through the files created and explain what they are in order of importance.
 
 - The `_quarto.yml` file is a YAML configuration file for your project. This allows us to set publishing rules for our Quarto project. We might not get too much into all the options, but you can read more about it in the [Quarto Guide](https://quarto.org/docs/guide/) if you like.
-- The `index.qmd` file **IS THE DOCUMENT YOU ARE WORKING FROM**. This is the "home page" of your website, and in this class you'll usually use it to describe a little about your assignment. You will always create and edit your documents in `.qmd` files, which stands for Quarto Markdown. (We might also encounter and edit `.Rmd` files, which are very similar, but just a little less awesome.) The `about.qmd` file is another Quarto document created as a placeholder. We'll usually rename/reuse that or delete it.
+- The `index.qmd` file is a Quarto document that makes the "home page" of your website. In this book you'll use the index to describe your project and record other important information related to it. Each Quarto file you create can become a new page in your website, and they all end in `.qmd`, which stands for Quarto Markdown. (We might also encounter and edit `.Rmd` files, which are very similar, but just a little less awesome.) The `about.qmd` file is another Quarto document created as a placeholder. We'll usually rename/reuse that or delete it.
 - The `christian-first-project.Rproj` file is your **Project** file. It sets the *working directory* or what is essentially "home base" for your project. When you go to open your project again, this is the file you will open.
 - `styles.css` is file where you can assert extra control on your website. We won't use it.
 
