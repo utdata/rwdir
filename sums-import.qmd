@@ -2,6 +2,7 @@
 
 ::: callout-warning
 Not yet updated for Quarto
+- Needs fixes for Datatables, which don't work in quarto
 :::
 
 This chapter is by Prof. McDonald, who uses macOS.
@@ -380,8 +381,10 @@ This shows how many items are marked TRUE vs FALSE for each `demil_code` and `de
 ```{r check-type}
 leso_control |> 
   count(demil_code, demil_ic, control_type, name = "cnt") |> 
-  pivot_wider(names_from = control_type, values_from = cnt) |> 
-  DT::datatable()
+  pivot_wider(names_from = control_type, values_from = cnt)
+
+# |> 
+#   DT::datatable()
 ```
 
 OK, onto the next task to get Texas data for specific dates.
