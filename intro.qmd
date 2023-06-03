@@ -1,13 +1,33 @@
 # Introduction to R {#intro}
 
 ::: callout-warning
-- This has been update for Quarto
-- I could use a section that links to a finished project so students can understand where are going with all this.
+I think Quarto updates are done. 
 :::
 
 ::: callout-note
 This chapter was written by Prof. McDonald using macOS, with edits by Prof. Lukito
 :::
+
+## About Quarto, R and scripted journalism
+
+Before we dive into RStudio and programming and all that, I want to show you where we are heading, so you can "visualize success". As I wrote in the book intro, I'm a believer in Scripted Journalism ... data journalism that is repeatable, transparent and annotated. As such, the whole purpose of this book is to train you **how to create documents to share your work**.
+
+The best way to explain this is to show you an example. 
+
+1. Go to this link in a new browser window: [Major League Soccer salaries](https://christianmcdonald.quarto.pub/mls-salaries/).
+
+This is a website with all the code from a data journalism project. If you click on the links for [Cleaning](https://christianmcdonald.quarto.pub/mls-salaries/01-cleaning.html) you can read where the data come from and see all the steps I went through -- with code and explantion -- to process the data so I could work with it. And in the [Analysis 2023](https://christianmcdonald.quarto.pub/mls-salaries/02-analysis.html) you'll see me set out with some questions I had for the data, and then the code to find those answers, along with the explanations of how and why I did it that way.
+
+![Quarto Pub page](images/mls-analysis.png)
+
+This website was created using Quarto and R, and RStudio was the tool I used to write the code. Here's the crazy part: **I didn't have to write any HTML code,** I just wrote thoughts in text and my code in R. With few short lines of configuration and a two-word command `quarto publish` I was able to publish my work on quarto.pub for free.
+
+Keep this in mind:
+
+- We can also easily publish our work in other formats, like PDF, Word or even a slide show.
+- We can also choose NOT to "publish" our work. We don't _have_ to share our work on the internet, we are just ready if we want to.
+
+Creating shareable work is our goal **for every project**. Let's get started.
 
 ## RStudio tour
 
@@ -36,13 +56,14 @@ Next we will set some value is the **Code** pane.
 
 We'll get into why we did this part later.
 
-## Starting a new Project
+
+## Starting a new Quarto Website
 
 When we work in RStudio, we will create "Projects" to hold all the files related to one another. This sets the "working directory", which is a sort of home base for the project.
 
 1.  Click on the second button that has a green `+R` sign.
 2.  That brings up a box to create the project with several options. You want **New Directory** (unless you already have a Project directory, which you don't for this.)
-3.  For **Project Type**, choose **Quarto Project**.
+3.  For **Project Type**, choose **Quarto Website**.
 4.  Next, for the **Directory name**, choose a new name for your project folder. For this project, use "firstname-first-project" but use YOUR firstname.
 5.  For the subdirectory, you want to use the **Browse** button to find your new `rwd` folder we created earlier.
 
@@ -52,7 +73,7 @@ I want you to be anal retentive about naming your folders. It's a good programmi
 -   Don't use spaces. Use dashes.
 -   For this class, start with your first name.
 
-![Quarto project name, directory](images/create-quarto-project.png)
+![Quarto project, directory](images/create-quarto-website.png)
 
 When you hit **Create Project**, your RStudio window will refresh and two things will happen:
 
@@ -64,13 +85,14 @@ When you hit **Create Project**, your RStudio window will refresh and two things
 ![New Quarto Project](images/quarto-project-new.png)
 
 
-Let's walk through w the files here and explain what they are.
+Let's walk through the files here and explain what they are, though not in order shown.
 
-- The `_quarto.yml` file is a YAML configuration file for your project. The file isn't really required for what we are doing here, and there isn't much inside of it now, but it allows us to apply Quarto settings across all your files. We might not get to much into that, but you can read more about it in the [Quarto Guide](https://quarto.org/docs/guide/) if you like.
-- The `christian-first-project.qmd` file **IS THE DOCUMENT YOU ARE WORKING FROM**. You will always do your editing from  `.qmd` files, which stands for Quarto Markdown. (We might also encounter and edit `.Rmd` files, which are very similar, but just a little less awesome.)
+- The `_quarto.yml` file is a YAML configuration file for your project. This allows us to set publishing rules for our Quarto project. We might not get too much into all the options, but you can read more about it in the [Quarto Guide](https://quarto.org/docs/guide/) if you like.
+- The `index.qmd` file **IS THE DOCUMENT YOU ARE WORKING FROM**. This is the "home page" of your website, and in this class you'll usually use it to describe a little about your assignment. You will always create and edit your documents in `.qmd` files, which stands for Quarto Markdown. (We might also encounter and edit `.Rmd` files, which are very similar, but just a little less awesome.) The `about.qmd` file is another Quarto document created as a placeholder. We'll usually rename/reuse that or delete it.
 - The `christian-first-project.Rproj` file is your **Project** file. It sets the *working directory* or what is essentially "home base" for your project. When you go to open your project again, this is the file you will open.
+- `styles.css` is file where you can assert extra control on your website. We won't use it.
 
-So, out these files the one we edit is the Quarto document with the `.qmd` suffix. Our projects will end up with multiple Quarto files.
+The big thing to remember is this: We edit files with the `.qmd` suffix.
 
 ### The Quarto document
 
@@ -79,13 +101,12 @@ The document that opened on the left is our Quarto document where we will do our
 ![New Quarto document](images/quarto-new-document.png)
 
 
-
-I could write reams of text about the evolution and birth of Quarto, but you won't really care. Let's break this down to what you need to know:
+I could write reams of text about the birth of Quarto and the evolution of what came before it, but you won't really care. Let's break this down to what you need to know:
 
 -   These documents allow us to weave together our **thoughts** and our **code**. We'll use [Markdown](https://quarto.org/docs/authoring/markdown-basics.html) to record our thoughts, and R to write our code.
--   We "write" the document and can "run" the code to see the results, but all the while we are **building** documents that we will *rendered* to share with others. Our goal with these documents is to explain to an "audience" what are doing with our data analysis. Often our most important audience is our future self.
+-   We _write_ the document and we _run_ the code to see the results, but all the while we are creating documents that we will be **rendered** to share with others. Our goal with these documents is to explain to an "audience" what are doing with our data analysis. Often our most important audience is our future self.
 
-Think of *Rendering* like exporting or publishing a pretty version of your work.
+Think of *Render* like exporting or publishing a pretty version of your work.
 
 ### Render the document
 
@@ -98,7 +119,6 @@ What this should do is open up the Console below the document and you'll see a b
 
 ![Render Quarto](images/quarto-render.png)
 
-Perhaps I have too much going on in that screenshot, but you'll be in this view a lot as you work with your code. You'll be writing and running code in your document at top left, and then periodically rendering it to see what the finished version looks like.
 
 ### The metadata
 
@@ -110,13 +130,13 @@ title: "christian-first-project"
 ---
 ```
 
-When we created our project, RStudio added the name of our folder here, **which kinda sucks** because that is not what the title is for. It should describe what we are doing like the top of a Microsoft Word or Google Docs document.
+When we created our project, RStudio added the name of our folder here, **which kinda sucks** because that is not what the title is for. It should describe a title for your project like the top of a Microsoft Word or Google Docs document.
 
-1.  Edit the text inside the quotes to be more like a title you would find in a Word or Google Doc document, like this:
+1.  Edit the text inside the quotes to be more like a title you would find in a Word or Google Doc document, like this, but your your name:
 
 ``` txt
 ---
-title: "Christian's First Quarto document"
+title: "Christian's First Quarto project"
 ---
 ```
 
@@ -145,21 +165,22 @@ Let's run this chunk of code to see what happens.
 Doing this executes the code that is in the R block and it will print the result to your document below the chunk. You might have noticed something similar when you rendered your document earlier.
 
 ::: callout-important
-There are about five keyboard commands that I will **implore** you to learn. Here are the first three. Remember if you are on a PC use **Cntl** instead of **Cmd**.
+There are about five keyboard commands that I will _**implore**_ you to learn. Here are the first three. Remember if you are on a PC use **Cntl** instead of **Cmd**.
 
 - **Cmd+option+i** will insert a code block.
-- **Cmd+Return** will run a single line of code within a code block.
+- **Cmd+Return** will run a single line (or selection) of code within a code block.
 - **Cmd+Shift+Return** will run a whole code chunk.
 :::
 
 ## Let's do some data analysis
 
-Remember the goal of all our work here in this class is to explain to use data analysis to make sense of the world and then explain to others what we are doing. There are two parts to that:
+Remember the goal of all our work here in this class is to explain to use data analysis to make sense of the world and then explain to others what we are doing. There are multiple parts to that:
 
 - What are we thinking?
 - Our code.
+- Our thoughts about the results, if any.
 
-Our goal with this notebook is to discover what is the [socially-acceptable age to date someone older or younger than ourselves](socially-acceptable maximum age of anyone you should date). Yes, this is a Seinfeld episode come to life in a data class.
+Our goal with this notebook is to discover what is the [socially-acceptable age to date someone older or younger than ourselves](https://www.psychologytoday.com/us/blog/meet-catch-and-keep/201405/who-is-too-young-or-too-old-you-date).
 
 1. Copy the text below. Note you can use the copy-clipboard button in the book if you roll your cursor over the code and click on the clipboard icon at the top right.
 1. Paste the code at the bottom of your notebook.
@@ -180,12 +201,12 @@ The math works like this:
 Let's walk through this Markdown code. You might bookmark the [Markdown basics](https://quarto.org/docs/authoring/markdown-basics.html) so you can refer back to it as you learn.
 
 -   The `##` line is a "Header 2" headline, meaning it is the second biggest. (The title is an H1.) Add more hashmarks `###` and you get a smaller headline, like subheads, etc.
--   There is a full blank return between each element, including paragraphs of text.
+-   There is a full blank return between each element, including paragraphs of text. The exception is the bullet list.
 -   In the first paragraph we have embedded a hyperlink. We put the words we want to show inside square brackets and the URL in parenthesis DIRECTLY after the closing square bracket: `[words to link](https://the_url.org)`.
 -   The `-` at the beginning of a line creates a bullet list. (You can also use `*`). Those lines need to be one after another without blank lines.
 
 ::: callout-note
-I should note at this point there is a "Visual" editor where RStudio gives you more formatted look as your editing as it writes Markdown underneath the hood. I want you to use the "Source" editor so you can see and learn the underlying Markdown syntax. All my examples will be written in "Source" mode.
+I should note at this point there is a "Visual" editor where RStudio gives you more formatted look as your editing as it writes Markdown underneath the hood. I want you to use the "Source" editor so you can see and learn the underlying Markdown syntax. All my examples will be written in "Source" mode. After you pass this class, you can use "Visual" mode.
 :::
 
 ### Adding new code chunks
@@ -226,7 +247,7 @@ Now, I want you to add a similar section that calculates the **minimum** age of 
 4. Add the math statement `(age / 2) + 7` to the chunk.
 4. Run the chunk and re-render your document.
 
-Now you know the youngest a person should be that you date, FWIW. We don't recreate the assignment of the `age` variable since we already have it. A Quarto document is designed to run from top to bottom so that all the pieces work together.
+Now you know the youngest a person should be that you date. FWIW, we don't recreate the assignment of the `age` variable since we already have one. A Quarto document is designed to run from top to bottom so that all the pieces work together.
 
 ### The toolbar
 
@@ -243,20 +264,19 @@ We've been concentrating on editing the Quarto document, but let's peek back at 
 
 ![Quarto files list](images/quarto-files-list.png)
 
-Note there are a few new files there now:
+Note there is a new folder there, `_site`. All your rendered versions to into the folder to make it easy to share or publish them.
 
-- The `.html` file is the rendered version of your `.qmd` document.
-- the `_files` folder holds other resources created during rendering.
+With our next project, we'll create some other folders to store our data and such.
 
 ## Turning in our projects
 
 The best way to turn in all of those files into Canvas is to compress the project folder into a single `.zip` file that you can upload to the assignment.
 
-1.  In your computer's Finder, open the `Documents/rwd` folder.
-2.  Follow the directions for your operating system linked below to create a compressed version of your `yourname-final-project` folder.
-3.  [Compress files on a Mac](https://www.macinstruct.com/tutorials/how-to-compress-zip-files-and-folders-on-a-mac/).
-4.  [Compress flies on Windows](https://www.laptopmag.com/articles/how-to-zip-files-windows-10).
-5.  Upload the resulting `.zip` file to the assignment for this week in Canvas.
+(@)  In your computer's Finder, open the `Documents/rwd` folder.
+(@)  Follow the directions for your operating system linked below to create a compressed version of your `yourname-final-project` folder.
+  a. [Compress files on a Mac](https://www.macinstruct.com/tutorials/how-to-compress-zip-files-and-folders-on-a-mac/).
+  a. [Compress flies on Windows](https://www.laptopmag.com/articles/how-to-zip-files-windows-10).
+(@)  Upload the resulting `.zip` file to the assignment for this week in Canvas.
 
 If you find you make changes to your R files after you've zipped your folder, you'll need to to `zip` it again. Make sure you get the new version (or delete the old one first).
 
