@@ -197,7 +197,7 @@ Take a look at the [current chart](https://www.billboard.com/charts/hot-100/). O
 
 Our data is stored on a code sharing website called Github, and it is formatted as a "comma-separated value" file, or `.csv`. That means it basically a text file where every line is a new row of data, and each field is separated by a comma.
 
-Because it is on the internet and has a URL, we could import it directly into our project from there, but there are benefits to downloading the file to your computer first. The hosted file could change later in ways you can't control, and you would need access to the file the next time you ran your notebook. If you download the file to keep your own copy, you have more control of your future.
+Because it is on the internet and has a URL, we could import it directly into our project from there, but there are benefits to getting the file onto your computer first. The hosted file could change later in ways you can't control, and you would need Internet access to the file the next time you ran your notebook. If you download the file to keep your own copy, you have more control of your future.
 
 Since this is a new "section" of our cleaning notebook, we'll note what we are doing and why in Markdown.
 
@@ -205,7 +205,11 @@ Since this is a new "section" of our cleaning notebook, we'll note what we are d
 2.  Create an R chunk and copy/paste the following inside it. (Given the long URL, go ahead and use the copy icon at the top right of the chunk):
 
 ``` r
-download.file("https://github.com/utdata/rwdir/blob/main/data-raw/hot100_assignment.csv?raw=true", "data-raw/hot100_assignment.csv", mode = "wb")
+download.file(
+  "https://github.com/utdata/rwdir/blob/main/data-raw/hot100_assignment.csv?raw=true",
+  "data-raw/hot100_assignment.csv",
+  mode = "wb"
+)
 ```
 
 Let's explain about this:
@@ -670,9 +674,9 @@ Here is mine, but yours will be different:
 
 ![RStudio bookmarks](images/bb-rstudio-bookmarks.png){width="400"}
 
-You'll notice that each Markdown headline you have is listed. My chunks also have names, but yours probably don't. It's optional to name chunks with a label but it helps you find them through the bookmarks. In addition, plots produced by the chunks will have useful names that make them easier to use elsewhere, but that's later lesson in the semester.
+You'll notice that each Markdown headline you have is listed. My chunks also have names, but yours probably don't. It's optional to name chunks with a label but it helps you find them through the bookmarks. In addition, plots produced by the chunks will have useful names that make them easier to reference elsewhere, but that's later lesson in the semester.
 
-Here is how you can name a chunk by using ["execution options"](https://quarto.org/docs/computations/execution-options.html), which can control your code output:
+Here is how you can name a chunk by using ["execution options"](https://quarto.org/docs/computations/execution-options.html), which can control your code output. (This example shows all of the R code chunk.)
 
 ```{r}
 #| echo: fenced
@@ -681,7 +685,7 @@ Here is how you can name a chunk by using ["execution options"](https://quarto.o
 hot100_clean |> select(title, performer) |> head()
 ```
 
-Your chunk labels should be short but evocative and should not contain spaces. Hadley Wickham recommend using dashes (-) to separate words (instead of underscores, _) and avoiding other special characters in chunk labels.
+Your chunk labels should be short but evocative and should not contain spaces. Hadley Wickham recommends using dashes `-` to separate words (instead of underscores `_`) and avoiding other special characters in chunk labels.
 
 You can read more execution options and chunks in [R for Data Science](https://r4ds.hadley.nz/quarto.html#chunk-label).
 
@@ -699,7 +703,7 @@ But note this version is only available on your computer. In a minute we'll publ
 
 ### Update navigation
 
-But, first, If you look at the website navigation you'll notice that while we have our _Home_ page and our _About_ pages, we don't have a link to the Cleaning notebook we've been working so hard on! We need to update our `_quarto.yml` file to include it.
+If you look at the navigation or our website you'll notice that while we have our _Home_ page and our _About_ page (which we don't need) and we don't have a link to the Cleaning notebook we've been working so hard on! We need to update our `_quarto.yml` file to include it.
 
 1. Go to your Files pane and open the `_quarto.yml` file.
 2. On what is probably line 10, update the text `- about.qmd` (which we aren't using) to `- 01-cleaning.qmd`.
@@ -751,7 +755,7 @@ Here are the functions we used and what they do. Most are linked to documentatio
 -   [`glimpse()`](https://www.rdocumentation.org/packages/dplyr/versions/0.3/topics/glimpse) is a view of your data where you can see all of the column names, their data type and a few examples of the data.
 -   `head()` prints the first 6 rows of your data unless you specify differently within the function.
 -   [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) changes data. You can create new columns or overwrite existing ones.
--   `mdy()` is a [lubridate](https://lubridate.tidyverse.org/) function to convert text into a date. There are other functions for different date orders.
+-   `mdy()` is a [lubridate](https://lubridate.tidyverse.org/) function to convert text into a date. There are other functions depending on the way your text is ordered.
 -   [`select()`](https://dplyr.tidyverse.org/reference/select.html) selects columns from your tibble. You can list all the columns to keep, or use `!` to remove columns. There are many variations.
 -   `summary()` gives you some quick summary statistics about your data like min, max, mean, median.
 -   [`write_rds()`](https://readr.tidyverse.org/reference/read_rds.html) writes data out to a file in a format that preserves data types.

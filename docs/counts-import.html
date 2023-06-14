@@ -524,13 +524,17 @@ Tip
 <section id="lets-download-our-data" class="level3" data-number="3.5.2">
 <h3 data-number="3.5.2" class="anchored" data-anchor-id="lets-download-our-data"><span class="header-section-number">3.5.2</span> Let’s download our data</h3>
 <p>Our data is stored on a code sharing website called Github, and it is formatted as a “comma-separated value” file, or <code>.csv</code>. That means it basically a text file where every line is a new row of data, and each field is separated by a comma.</p>
-<p>Because it is on the internet and has a URL, we could import it directly into our project from there, but there are benefits to downloading the file to your computer first. The hosted file could change later in ways you can’t control, and you would need access to the file the next time you ran your notebook. If you download the file to keep your own copy, you have more control of your future.</p>
+<p>Because it is on the internet and has a URL, we could import it directly into our project from there, but there are benefits to getting the file onto your computer first. The hosted file could change later in ways you can’t control, and you would need Internet access to the file the next time you ran your notebook. If you download the file to keep your own copy, you have more control of your future.</p>
 <p>Since this is a new “section” of our cleaning notebook, we’ll note what we are doing and why in Markdown.</p>
 <ol type="1">
 <li>Add a Markdown headline <code>## Downloading data</code> and some text explaining you are downloading data. <strong>Add a note about where the data comes from and include a link to the original source.</strong> (This way others and future self will know where the data came from.)</li>
 <li>Create an R chunk and copy/paste the following inside it. (Given the long URL, go ahead and use the copy icon at the top right of the chunk):</li>
 </ol>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://github.com/utdata/rwdir/blob/main/data-raw/hot100_assignment.csv?raw=true"</span>, <span class="st">"data-raw/hot100_assignment.csv"</span>, <span class="at">mode =</span> <span class="st">"wb"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://github.com/utdata/rwdir/blob/main/data-raw/hot100_assignment.csv?raw=true"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data-raw/hot100_assignment.csv"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"wb"</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Let’s explain about this:</p>
 <p>This <code>download.file()</code> code is function, or a bit of code that has been written to do a specific task. This one (surprise!) downloads files from the internet. As a function, it has some “arguments”, which are expected pieces of information that the function needs to do its job. Sometimes we just enter the arguments in the order that the function expects them, like we do here. Other times we well it the kind of argument, like <code>mode = "w"</code>. You can search for documenation about functions in the Help tab in the bottom-right pane of RStudio.</p>
 <p>In this case, we are supplying three arguments:</p>
@@ -1103,8 +1107,8 @@ Note
 <figcaption class="figure-caption">RStudio bookmarks</figcaption>
 </figure>
 </div>
-<p>You’ll notice that each Markdown headline you have is listed. My chunks also have names, but yours probably don’t. It’s optional to name chunks with a label but it helps you find them through the bookmarks. In addition, plots produced by the chunks will have useful names that make them easier to use elsewhere, but that’s later lesson in the semester.</p>
-<p>Here is how you can name a chunk by using <a href="https://quarto.org/docs/computations/execution-options.html">“execution options”</a>, which can control your code output:</p>
+<p>You’ll notice that each Markdown headline you have is listed. My chunks also have names, but yours probably don’t. It’s optional to name chunks with a label but it helps you find them through the bookmarks. In addition, plots produced by the chunks will have useful names that make them easier to reference elsewhere, but that’s later lesson in the semester.</p>
+<p>Here is how you can name a chunk by using <a href="https://quarto.org/docs/computations/execution-options.html">“execution options”</a>, which can control your code output. (This example shows all of the R code chunk.)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: select-rows</span></span>
@@ -1120,7 +1124,7 @@ Note
 </div>
 </div>
 </div>
-<p>Your chunk labels should be short but evocative and should not contain spaces. Hadley Wickham recommend using dashes (-) to separate words (instead of underscores, _) and avoiding other special characters in chunk labels.</p>
+<p>Your chunk labels should be short but evocative and should not contain spaces. Hadley Wickham recommends using dashes <code>-</code> to separate words (instead of underscores <code>_</code>) and avoiding other special characters in chunk labels.</p>
 <p>You can read more execution options and chunks in <a href="https://r4ds.hadley.nz/quarto.html#chunk-label">R for Data Science</a>.</p>
 </section>
 <section id="render-and-publish" class="level2" data-number="3.13">
@@ -1139,7 +1143,7 @@ Note
 <p>But note this version is only available on your computer. In a minute we’ll publish this to Quarto Pub so you have an online version that we’ll continue to update.</p>
 <section id="update-navigation" class="level3" data-number="3.13.1">
 <h3 data-number="3.13.1" class="anchored" data-anchor-id="update-navigation"><span class="header-section-number">3.13.1</span> Update navigation</h3>
-<p>But, first, If you look at the website navigation you’ll notice that while we have our <em>Home</em> page and our <em>About</em> pages, we don’t have a link to the Cleaning notebook we’ve been working so hard on! We need to update our <code>_quarto.yml</code> file to include it.</p>
+<p>If you look at the navigation or our website you’ll notice that while we have our <em>Home</em> page and our <em>About</em> page (which we don’t need) and we don’t have a link to the Cleaning notebook we’ve been working so hard on! We need to update our <code>_quarto.yml</code> file to include it.</p>
 <ol type="1">
 <li>Go to your Files pane and open the <code>_quarto.yml</code> file.</li>
 <li>On what is probably line 10, update the text <code>- about.qmd</code> (which we aren’t using) to <code>- 01-cleaning.qmd</code>.</li>
@@ -1182,7 +1186,7 @@ Note
 <li><a href="https://www.rdocumentation.org/packages/dplyr/versions/0.3/topics/glimpse"><code>glimpse()</code></a> is a view of your data where you can see all of the column names, their data type and a few examples of the data.</li>
 <li><code>head()</code> prints the first 6 rows of your data unless you specify differently within the function.</li>
 <li><a href="https://dplyr.tidyverse.org/reference/mutate.html"><code>mutate()</code></a> changes data. You can create new columns or overwrite existing ones.</li>
-<li><code>mdy()</code> is a <a href="https://lubridate.tidyverse.org/">lubridate</a> function to convert text into a date. There are other functions for different date orders.</li>
+<li><code>mdy()</code> is a <a href="https://lubridate.tidyverse.org/">lubridate</a> function to convert text into a date. There are other functions depending on the way your text is ordered.</li>
 <li><a href="https://dplyr.tidyverse.org/reference/select.html"><code>select()</code></a> selects columns from your tibble. You can list all the columns to keep, or use <code>!</code> to remove columns. There are many variations.</li>
 <li><code>summary()</code> gives you some quick summary statistics about your data like min, max, mean, median.</li>
 <li><a href="https://readr.tidyverse.org/reference/read_rds.html"><code>write_rds()</code></a> writes data out to a file in a format that preserves data types.</li>
