@@ -2,5 +2,93 @@
 title: "Using posit.cloud"
 ---
 
-I'll use this chapter to talk about posit.cloud and set up how to do a new project. It will be easier for students if it is all in one place.
+If you are using the online version of RStudio called [posit.cloud](https://posit.cloud/) then there are some things that work differently than with the desktop version. This chapter is to designed to help with that.
+
+## Setting up a new project
+
+Since posit.cloud works with projects be default, there are not templates with example files. Since we are working with the [Quarto Website](https://quarto.org/docs/websites/) project type in this class, you have to manually configure some files. It isn't hard.
+
+1. Start posit.cloud if you haven't already
+2. Start a new project
+3. At the top of the page, you should name your project something other than "Untitled Project"
+
+### Install packages
+
+This is a list of all the packages we use in the class. You might not need them for every project, but it doesn't hurt to install them all.
+
+1. In the Console, copy and paste this command and run it.
+
+
+```r
+install.packages(c(
+  "quarto",
+  "rmarkdown",
+  "tidyverse",
+  "janitor",
+  "scales",
+  "clipr",
+  "ggthemes")
+)
+```
+
+It will take some time to run. Your internet connection will have an impact on the speed.
+
+### Create the Quarto file
+
+
+1. Use the new document toolbar button to create a **Text file**
+2. Paste in the code below.
+3. Save the file and name it `_quarto.yml`.
+
+The name must be exact.
+
+```yml
+project:
+  type: website
+
+website:
+  title: "today"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - filename.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+```
+
+### Create your index file
+
+1. Use the new document toolbar button to create a new **Quarto Document**
+2. For the Title field, use your project name, like "Billboard project"
+3. Uncheck the visual editor button
+4. Immediately save the file and name it `index.qmd`
+
+At some point you'll replace the `filename.qmd` with your cleaning notebooks filename. You'll add other files there as you create them.
+
+**You should be good to go with a new project at this point.** You an Render your index to see what the site looks like at this point.
+
+## Exporting a project
+
+You can export your project as a `.zip` file to turn in to an assignment or share with others.
+
+1. In the **Files** pane, click the box next to the *Cloud* icon to select all your files.
+2. Under the **More** gear there is a dropdown. Click on that.
+3. Choose **Export** from the More menu.
+
+![Exporting a project](images/export-posit.png)
+
+This should download all your files as a `.zip` file, which you can upload to Canvas.
+
+## Share your project
+
+It is possible to share your posit.cloud project with another user on the service and they will get a copy of it.
+
+You can find [directions for that here](https://posit.cloud/learn/guide#intro-share).
+
+
 
