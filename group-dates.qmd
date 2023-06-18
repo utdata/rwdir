@@ -1,19 +1,16 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
+# Grouping by dates {#group-dates}
 
 ::: callout-warning
-Not yet updated for Quarto
+I think this is updated for Quarto.
 :::
 
-
-# Grouping by dates {#group-dates}
+::: callout-note
+This lesson was pulled out of the Billboard project because it was getting really long, but you'll need this skill when you are working on your mastery assignments.
+:::
 
 It is not uncommon in data journalism to count or sum records by year based on a date within your data. Or even by other date parts like month or week. There are some really nifty features within the [lubridate](https://lubridate.tidyverse.org/) package that make this pretty easy.
 
-We'll run through some of those scenarios here using the Billboard Hot 100 data we used in Chapters 3 & 4. If you want to follow along, you can create a new notebook in your Billboard project. Or you can just use this for reference.
+We'll run through some of those scenarios here using the Billboard Hot 100 data we used in Chapters 3 & 4. If you want to follow along, you can create a new Quarto Document in your Billboard project. Or you can just use this for reference.
 
 ## Setting up
 
@@ -22,6 +19,13 @@ We need to set up our notebook with libraries and data before we can talk specif
 ```{r setup, echo=T, message=F, warning=F}
 library(tidyverse)
 library(lubridate)
+```
+
+```{r}
+#| label: options
+#| echo: false
+
+options(dplyr.summarise.inform = FALSE)
 ```
 
 And we need our cleaned Billboard Hot 100 data.
@@ -63,9 +67,9 @@ hot100 |>
   arrange(desc(appearances))
 ```
 
-We can see here that The Beatles had the most hits in 1964 with 214 (at least as of this writing).
+It looks like Morgan Wallen has the most appearances and 2023 is only half over as of this running. When I ran this code last year The Beatles topped the list. There is definitely some kinda story here.
 
-But notice how the year column name is kinda shite? We would not be able to easily reference that variable later, so we should rename that AS we make the group:
+Anyway, notice how the year column name is kinda shite? We would not be able to easily reference that variable later, so we should rename that AS we make the group:
 
 ```{r grp-year-betta}
 hot100 |> 
@@ -150,13 +154,13 @@ You can see the resulting new columns are real dates, but they are normalized:
 - The `fl_month` gives you the first day of the month for that `chart_date`.
 - The `fl_year` gives you the first day of the year for that `chart_date`.
 
-Let's put this to use with an example. I'll create a `fl_month` on the fly to find **Taylor Swift appearances by month for 2020-2021**. I'll also do the `year()` on the fly in my filter.
+Let's put this to use with an example. I'll create a `fl_month` on the fly to find **Recent appearances by Taylor Swift**. I'll also do the `year()` on the fly in my filter.
 
 ```{r swift-month}
 swift_month <- hot100 |> 
   filter(
     performer == "Taylor Swift",
-    year(chart_date) %in% 2020:2021
+    chart_date >= "2020-07-01"
   ) |> 
   group_by(
     fl_month = floor_date(chart_date, unit = "month")
@@ -177,10 +181,10 @@ swift_month |>
   guides(x =  guide_axis(angle = 45)) +
   labs(
     x = "Month and Year",
-    y = "Hot 100 appearances",
-    title = "Taylor Swift's Billboard Hot 100 appearances by month, 2020-2021"
+    y = "Number of appearances",
+    title = "Appearances on Billboard Hot 100 by Taylor Swift since 'Folklore' release"
   )
 ```
 
-That tall bar with 28 appearances was right after "Folklore" [was released](https://en.wikipedia.org/wiki/Taylor_Swift_albums_discography#Studio_albums) in July 2020. There was another spike after "Evermore" was released in December 2020. We'll see what happened with "Midnights" once I update the data.
+Can you guess when she [released her albums](https://en.wikipedia.org/wiki/Taylor_Swift_albums_discography#Studio_albums)?
 

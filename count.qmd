@@ -1,0 +1,30 @@
+# A shortcut: count()
+
+> This was pulled from Billboard. I should include it somewhere else but not there as it is just extra confusion.
+
+In the interest of full disclosure but at the risk of confusing you, I must reveal this fact:
+
+We count stuff in data science (and journalism) all the time. So dplyr has a shortcut to group, count and arrange rows of data. We needed to use the long way above because a) we will use `group_by()` and `summarize()` with other math that isn't just counting rows, and b) you need to understand what is happening inside `count()`, which uses group_by/summarize/arrange under the hood.
+
+The [`count()`](https://dplyr.tidyverse.org/reference/count.html) function takes the columns you want to group and then does the summarize on `n()` for you:
+
+```{r count-short}
+hot100 |> 
+  count(performer)
+```
+
+To get the same pretty table you still have to rename the new column and reverse the sort, you just do it differently as arguments within the `count()` function. You can view the [`count()` options here.](https://dplyr.tidyverse.org/reference/count.html)
+
+-   Add this chunk to your notebook (with a note you are trying `count()`) so you have it to refer to.
+
+```{r count-expanded}
+hot100 |> 
+  count(performer, name = "appearances", sort = TRUE) |> 
+  filter(appearances > 600)
+```
+
+So the code above does the same things here as we did in our first quest, but with fewer lines.
+
+::: callout-important
+We will concentrate on using group_by/summarize/arrange because it can do SO MUCH MORE than `count()`. Count can ONLY count rows. It can't do any other kind of math in summarize.
+:::

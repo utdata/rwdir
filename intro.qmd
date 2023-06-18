@@ -1,7 +1,7 @@
 # Introduction to R {#intro}
 
 ::: callout-warning
-I might be done with Quarto here. Maybe. 
+Needs updates about posit.cloud.
 :::
 
 ::: callout-note
@@ -10,26 +10,32 @@ This chapter was written by Prof. McDonald using macOS, with edits by Prof. Luki
 
 ## About Quarto, R and scripted journalism
 
-Before we dive into RStudio and programming and all that, I want to show you where we are heading, so you can "visualize success". As I wrote in the book intro, I'm a believer in Scripted Journalism ... data journalism that is repeatable, transparent and annotated. As such, the whole purpose of this book is to train you **how to create documents to share your work**.
+Before we dive into RStudio and programming and all that, I want to show you where we are heading, so you can "visualize success". As I wrote in the book intro, I'm a believer in Scripted Journalism ... data journalism that is repeatable, transparent and annotated. As such, the whole purpose of this book is to train you **to create documents to share your work**.
 
 The best way to explain this is to show you an example. 
 
 1. Go to this link in a new browser window: [Major League Soccer salaries](https://christianmcdonald.quarto.pub/mls-salaries/).
 
-This is a website with all the code from a data journalism project. If you click on the links for [Cleaning](https://christianmcdonald.quarto.pub/mls-salaries/01-cleaning.html) you can read where the data come from and see all the steps I went through -- with code and explantion -- to process the data so I could work with it. And in the [Analysis 2023](https://christianmcdonald.quarto.pub/mls-salaries/02-analysis.html) notebook you'll see I set out with some questions for the data, and then I wrote the code to find my answers. Along with the way I wrote explanations of how and why I did what I did.
+This is a website with all the code from a data journalism project. If you click on the navigation link for [Cleaning](https://christianmcdonald.quarto.pub/mls-salaries/01-cleaning.html) you can read where the data come from and see all the steps I went through -- with code and explantion -- to process the data so I could work with it. And in the [Analysis 2023](https://christianmcdonald.quarto.pub/mls-salaries/02-analysis.html) notebook you'll see I set out with some questions for the data, and then I wrote the code to find my answers. Along with the way I wrote explanations of how and why I did what I did.
 
 ![Quarto Pub page](images/mls-analysis.png)
 
-This website was created using Quarto and R, and the tool I used to write it was the RStudio IDE. Here's the crazy part: **I didn't have to write any HTML code,** I just wrote my thoughts in text and my code in R. With a few short lines of configuration and a two-word command `quarto publish` I was able to publish my work on quarto.pub for free.
+This website was created using Quarto and R, and the tool I used to write it was the RStudio IDE. Here's the crazy part: **I didn't have to write any HTML code,** I just wrote my thoughts in text and my code in R. With a few short lines of configuration and a two-word command `quarto publish` I was able to publish my work on the Internet for free.
 
 Keep this in mind:
 
-- We can also easily publish our work in other formats, like PDF, Word or even a slide show.
+- We can also easily publish the same work in other formats, like PDF, Word or even a slide show.
 - We can also choose NOT to "publish" our work. We don't _have_ to share our work on the internet, we are just ready if we want to.
 
 Creating shareable work is our goal **for every project**. Let's get started.
 
 ## RStudio tour
+
+::: callout-warning
+If you are using the online posit.cloud version of RStudio, then some steps have to be done differently, mainly in dealing with project creation and exporting. I'll try to note when I'm aware of differences, but may not go into great detail in the book. Happy to do so in class.
+
+In this case, you need go to your posit.cloud account and then use the blue **New Project** button to launch a new RStudio project, and then continue below.
+:::
 
 When you launch RStudio, you'll get a screen that looks like this:
 
@@ -37,7 +43,7 @@ When you launch RStudio, you'll get a screen that looks like this:
 
 ## Updating preferences
 
-There are some preferences in RStudio that I would like you to change. By default, the program wants to save a the state of your work (all the variables and such) when you close a project, [but that is not good practice](https://www.r-bloggers.com/2017/04/using-r-dont-save-your-workspace/). We'll change that.
+There are some preferences in RStudio that I would like you to change. By default, the program wants to save a the state of your work (all the variables and such) when you close a project, [but that is typically not good practice](https://www.r-bloggers.com/2017/04/using-r-dont-save-your-workspace/). We'll change that.
 
 1.  Go to the **Tools** menu and choose **Global Options**.
 2.  Under the **General** tab, uncheck the first four boxes.
@@ -94,11 +100,17 @@ You'll see a bunch of response fly by in the Console. It's probably all fine unl
 
 If you are using the RStudio IDE app on your computer,  you only have to do this `install.packages()` move once. However, if you are using the online posit.cloud version of RStudio, you'll have to do this for **each new project** because each project is a new virtual computer.
 
+<!--
 When you install the "tidyverse" package you actually get a bunch of individual packages. In the wild you'll see references to "dplyr" and even some functions referenced as `dplyr::filter()` but they are all part of the tidyverse. You can explore the list at [tidyverse.org](https://www.tidyverse.org/).
+--> 
 
 OK, we're done with all the computer setup. Let's get to work.
 
 ## Starting a new Quarto Website
+
+::: callout-important
+This is a case where posit.cloud differs greatly. See section the below. 
+:::
 
 When we work in RStudio, we will create "Projects" to hold all the files related to one another. This sets the "working directory", which is a sort of home base for the project.
 
@@ -121,6 +133,47 @@ When you hit **Create Project**, your RStudio window will refresh and two things
 - You'll see the three files listed in your **Files** window.
 - A new document window will open on the left.
 
+### Quarto websites on posit.cloud
+
+::: callout-important
+This section is only for those using posit.cloud. If you are using RStudio locally, skip to the next section.
+:::
+
+If you are using posit.cloud there is no equivalent for creating a **Quarto Website** project, but we can build the files you need. You'll need to build these two files each time you make a project for this class.
+
+1. If you were following along above in the parts about preference and packages, you should already have a new project open and have installed the set of packages we'll use in this class. If not, do those steps.
+1. In the document toolbar, choose the first new file icon (the green + button with the document) to start a new document. Choose **Text file**.
+1. Save the file as `_quarto.yml`. The file name, including the underscore, is very important and must match that exactly.
+1. Copy the following code into that file:
+
+```txt
+project:
+  type: website
+
+website:
+  title: "Update title"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - about.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+```
+
+Now we'll create the `index.qmd` file.
+
+1. Use the document tool to create a new **Quarto Document**.
+1. For the `title:` update that text "First Project".
+1. Save the file with the name `index.qmd`. Again, the name is important.
+1. Create another **Quarto Document** and this time name it `about.qmd`. (We normally wouldn't need this, but we'll use it for some practice later.)
+
+OK, now you are back on track and can continue below.
+
 ### The files pane
 
 ![New Quarto Project](images/quarto-project-new.png)
@@ -133,9 +186,9 @@ Let's walk through the files created and explain what they are in order of impor
 - The `christian-first-project.Rproj` file is your **Project** file. It sets the *working directory* or what is essentially "home base" for your project. When you go to open your project again, this is the file you will open.
 - `styles.css` is file where you can assert extra control on your website. We won't use it.
 
-The big thing to remember is this: We edit files with the `.qmd` suffix.
+The big thing to remember is this: Most of our work is done in files with the `.qmd` suffix.
 
-### The Quarto document
+## The Quarto document
 
 The document that opened on the left is our Quarto document where we will do our work. The Quarto document is a cutting-edge way of authoring programming documents where the result can be output in a myriad of formats: As HTML, PDFs, slideshows, books, etc. In fact, this very book you are reading is written in R using Quarto.
 
@@ -160,6 +213,7 @@ What this should do is open up the Console below the document and you'll see a b
 
 ![Render Quarto](images/quarto-render.png)
 
+For the posit.cloud users, this will launch in a new web browser window. RStudio users can do that if you want though a button in the Viewer toolbar.
 
 ### The metadata
 
@@ -319,7 +373,7 @@ Let's publish our work to the Internet!!!!
 
 [^1]: The Terminal is where you can send commands to your computer using text vs. pointing and clicking through "normal" actions. It's super powerful and useful, but this is probably the only terminal command we'll use.
 
-A bunch of stuff will happen in your Terminal pane.
+A bunch of stuff will happen in your Terminal pane. Here is a video showing this:
 
 ![Quarto pub movie](images/quarto-pub.mov)
 
@@ -327,8 +381,6 @@ A couple of things about this the video clip above:
 
 - The first time you run this, you'll be asked to authenticate to quarto.pub, so it will be a little different.
 - In the last bit of that video, a browser window opens with your website. That's cool!
-
-### More about Quarto Pub
 
 You can learn more about [Quarto pub here](https://quarto.org/docs/publishing/quarto-pub.html), including how to configure your profile page.
 
@@ -341,13 +393,17 @@ Try some things on your own! Go into the `about.qmd` page and write some things 
 
 ## Turning in our projects
 
+::: callout-note
+This is a bit different for posit.cloud users. See below.
+:::
+
 The best way to turn in all of those files into Canvas is to compress the project folder into a single `.zip` file that you can upload to the assignment.
 
-(@)  In your computer's Finder, open the `Documents/rwd` folder.
-(@)  Follow the directions for your operating system linked below to create a compressed version of your `yourname-final-project` folder.
-  a. [Compress files on a Mac](https://www.macinstruct.com/tutorials/how-to-compress-zip-files-and-folders-on-a-mac/).
-  a. [Compress flies on Windows](https://www.laptopmag.com/articles/how-to-zip-files-windows-10).
-(@)  Upload the resulting `.zip` file to the assignment for this week in Canvas.
+1.  In your computer's Finder, open the `Documents/rwd` folder.
+1.  Follow the directions for your operating system linked below to create a compressed version of your `yourname-final-project` folder.
+    - [Compress files on a Mac](https://www.macinstruct.com/tutorials/how-to-compress-zip-files-and-folders-on-a-mac/).
+    - [Compress flies on Windows](https://www.laptopmag.com/articles/how-to-zip-files-windows-10).
+1.  Upload the resulting `.zip` file to the assignment for this week in Canvas.
 
 If you find you make changes to your R files after you've zipped your folder, you'll need to to `zip` it again. Make sure you get the new version (or delete the old one first).
 
@@ -355,10 +411,18 @@ Because we are building "repeatable" code, I'll be able to download your `.zip` 
 
 Well done!
 
+### Exporting for posit.cloud
+
+You can export your project as a zip file from posit.cloud pretty easily. Just follow the directions on this screenshot:
+
+![Export posit](images/export-posit.png)
+
+Then submit the downloaded `.zip` file to Canvas.
+
 ## Review of what we've learned so far
 
 - You've learned about the RStudio IDE and how you write and render R code with it.
-- You've learned to create a new
-- You used  `install.packages()` to download R packages to your computer. Typically executed from within the Console and only once per computer. We installed the [tidyverse](https://www.tidyverse.org/packages/) and [janitor](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html), among other packages.
+- You used  `install.packages()` to download R packages to your computer. Typically executed from within the Console and only once per computer. We installed a lot of packages including the [tidyverse](https://www.tidyverse.org/packages/).
+- You created a Quarto Website and related Quarto documents with code on them.
 - You published your work on Quarto Pub to share over the internet.
 

@@ -197,15 +197,19 @@ Take a look at the [current chart](https://www.billboard.com/charts/hot-100/). O
 
 Our data is stored on a code sharing website called Github, and it is formatted as a "comma-separated value" file, or `.csv`. That means it basically a text file where every line is a new row of data, and each field is separated by a comma.
 
-Because it is on the internet and has a URL, we could import it directly into our project from there, but there are benefits to downloading the file to your computer first. The hosted file could change later in ways you can't control, and you would need access to the file the next time you ran your notebook. If you download the file to keep your own copy, you have more control of your future.
+Because it is on the internet and has a URL, we could import it directly into our project from there, but there are benefits to getting the file onto your computer first. The hosted file could change later in ways you can't control, and you would need Internet access to the file the next time you ran your notebook. If you download the file to keep your own copy, you have more control of your future.
 
 Since this is a new "section" of our cleaning notebook, we'll note what we are doing and why in Markdown.
 
 1.  Add a Markdown headline `## Downloading data` and some text explaining you are downloading data. **Add a note about where the data comes from and include a link to the original source.** (This way others and future self will know where the data came from.)
 2.  Create an R chunk and copy/paste the following inside it. (Given the long URL, go ahead and use the copy icon at the top right of the chunk):
 
-``` r
-download.file("https://github.com/utdata/rwdir/blob/main/data-raw/hot100_assignment.csv?raw=true", "data-raw/hot100_assignment.csv", mode = "wb")
+```r
+download.file(
+  "https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_assignment.csv?raw=true",
+  "data-raw/hot100_assignment.csv",
+  mode = "wb"
+)
 ```
 
 Let's explain about this:
@@ -219,10 +223,10 @@ In this case, we are supplying three arguments:
 - The third argument `mode = "w"` gets into the weeds a little, but it helps Windows computers understand the file.
 
 ``` text
-trying URL 'https://github.com/utdata/rwdir/blob/main/data-raw/hot100_assignment.csv?raw=true'
-Content type 'text/plain; charset=utf-8' length 17960724 bytes (17.1 MB)
+trying URL 'https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_assignment.csv?raw=true'
+Content type 'text/plain; charset=utf-8' length 18364249 bytes (17.5 MB)
 ==================================================
-downloaded 17.1 MB
+downloaded 17.5 MB
 ```
 
 That's not a small file at 17 MB and 300,000 rows, but it's not a huge one, either.
@@ -231,12 +235,17 @@ You can check that this worked by going to your Files tab and clicking on the `d
 
 ![Check download](images/check-download.gif)
 
-### Consider commenting the download
+### Comment the download code
 
-Now that we've downloaded the data to our computer, we don't need to run this line of code again unless we know our data source has updated. We can "comment" the code to preserve it but keep it from running again if we re-run our notebook (and we will).
+::: callout-important
+The Hot 100 data updates each week. We'll not download it again so our results don't change mid-analysis!
+:::
+
+Now that we've downloaded the data to our computer, we don't need to run this line of code again unless we want to update our data from the source. We can "comment" the code to preserve it but keep it from running again if we re-run our notebook (and we will).
+
 
 2.  Above your code chunk, write in Markdown a note to your future self that you commented the download for now.
-1.  Inside your code chunk, put a `#` at the beginning of the line with the `download.file()` function.
+1.  Inside your code chunk, highlight the lines of code that include the `download.file()` function, then go under the **Code** menu to **Comment/Uncomment Lines**. (Note the keyboard command there *Cmd-Shift-C*, as it is another useful one!)
 
 Adding comments in programming is a common thing and every programming language has a way to do it. It is a way for the programmer to write notes to their future self, colleagues or --- like in this case --- comment out some code that you want to keep, but don't want to execute when the program is run.
 
@@ -582,6 +591,10 @@ hot100_date |> summary()
 
 These summary statistics can be informative for us. It is probably the easiest way to check what the newest and oldest dates are in your data (see the Min. and Max. returns for `chart_date`). You get an average (mean) and median for each number, too. You might notice potential problems in your data, like if we had a `this_week` number higher than "100" (we don't).
 
+### Note the max date
+
+Since this data updates each week, it is a good idea to note in your notebook what is the most recent chart date. You can find that as the **Max.** value for `chart_date` in your summary. You'll need this value when you write your story.
+
 ## Selecting columns
 
 Now that we have the fixed date column, we don't need the old `chart_week` version that is text. We'll use this opportunity to discuss `select()`, which is another concept in our Basic Data Journalism Functions series, so watch this:
@@ -670,9 +683,9 @@ Here is mine, but yours will be different:
 
 ![RStudio bookmarks](images/bb-rstudio-bookmarks.png){width="400"}
 
-You'll notice that each Markdown headline you have is listed. My chunks also have names, but yours probably don't. It's optional to name chunks with a label but it helps you find them through the bookmarks. In addition, plots produced by the chunks will have useful names that make them easier to use elsewhere, but that's later lesson in the semester.
+You'll notice that each Markdown headline you have is listed. My chunks also have names, but yours probably don't. It's optional to name chunks with a label but it helps you find them through the bookmarks. In addition, plots produced by the chunks will have useful names that make them easier to reference elsewhere, but that's later lesson in the semester.
 
-Here is how you can name a chunk by using ["execution options"](https://quarto.org/docs/computations/execution-options.html), which can control your code output:
+Here is how you can name a chunk by using ["execution options"](https://quarto.org/docs/computations/execution-options.html), which can control your code output. (This example shows all of the R code chunk.)
 
 ```{r}
 #| echo: fenced
@@ -681,7 +694,7 @@ Here is how you can name a chunk by using ["execution options"](https://quarto.o
 hot100_clean |> select(title, performer) |> head()
 ```
 
-Your chunk labels should be short but evocative and should not contain spaces. Hadley Wickham recommend using dashes (-) to separate words (instead of underscores, _) and avoiding other special characters in chunk labels.
+Your chunk labels should be short but evocative and should not contain spaces. Hadley Wickham recommends using dashes `-` to separate words (instead of underscores `_`) and avoiding other special characters in chunk labels.
 
 You can read more execution options and chunks in [R for Data Science](https://r4ds.hadley.nz/quarto.html#chunk-label).
 
@@ -699,7 +712,7 @@ But note this version is only available on your computer. In a minute we'll publ
 
 ### Update navigation
 
-But, first, If you look at the website navigation you'll notice that while we have our _Home_ page and our _About_ pages, we don't have a link to the Cleaning notebook we've been working so hard on! We need to update our `_quarto.yml` file to include it.
+If you look at the navigation or our website you'll notice that while we have our _Home_ page and our _About_ page (which we don't need) and we don't have a link to the Cleaning notebook we've been working so hard on! We need to update our `_quarto.yml` file to include it.
 
 1. Go to your Files pane and open the `_quarto.yml` file.
 2. On what is probably line 10, update the text `- about.qmd` (which we aren't using) to `- 01-cleaning.qmd`.
@@ -751,7 +764,7 @@ Here are the functions we used and what they do. Most are linked to documentatio
 -   [`glimpse()`](https://www.rdocumentation.org/packages/dplyr/versions/0.3/topics/glimpse) is a view of your data where you can see all of the column names, their data type and a few examples of the data.
 -   `head()` prints the first 6 rows of your data unless you specify differently within the function.
 -   [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) changes data. You can create new columns or overwrite existing ones.
--   `mdy()` is a [lubridate](https://lubridate.tidyverse.org/) function to convert text into a date. There are other functions for different date orders.
+-   `mdy()` is a [lubridate](https://lubridate.tidyverse.org/) function to convert text into a date. There are other functions depending on the way your text is ordered.
 -   [`select()`](https://dplyr.tidyverse.org/reference/select.html) selects columns from your tibble. You can list all the columns to keep, or use `!` to remove columns. There are many variations.
 -   `summary()` gives you some quick summary statistics about your data like min, max, mean, median.
 -   [`write_rds()`](https://readr.tidyverse.org/reference/read_rds.html) writes data out to a file in a format that preserves data types.
