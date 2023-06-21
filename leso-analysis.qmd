@@ -41,20 +41,20 @@ Before we get into how to do this, let's set up our analysis notebook.
 
 1.  Make sure you have your military surplus project open in RStudio. If you have your import notebook open, close it and use Run \> Restart R and Clear Output.
 2.  Create a new **Quarto Document** with the title "Texas Analysis".
+5.  Save the notebook at `02-analysis.qmd`.
+6. Update your `_quarto.yml` file to add the `02-analysis.qmd` to your navigation.
 3.  Remove the boilerplate text.
 4.  Create a setup section (headline, text and code chunk) that loads the tidyverse library. Include the same execution options we had in the cleaning notebook.
-5.  Save the notebook at `02-analysis.Rmd`.
 
-We've started each notebook like this, so you should be able to do this on your own now.
+We've started each notebook like this, so you should be able to do this on your own now. That said, here is the setup chunk with options:
 
 ```{r}
-#| code-fold: true
-#| code-summary: "Setup code"
-#| echo: fenced
 #| label: setup
 #| message: false
+#| echo: fenced
 
 library(tidyverse)
+library(janitor)
 ```
 
 
@@ -284,16 +284,6 @@ Let's break this down a little.
 
 If you look at the first line of the return, it is taking all the rows for the "ABERNATHY POLICE DEPT" and then adding together all the values in the `quantity` field.
 
-If you wanted to test this (and that is a real good idea), you might look at the data from one of the values and check the math. Here are the Abernathy rows. I usually do these tests in a code chunk of their own, and sometimes I delete them after I'm sure my logic works.
-
-```{r abernathy}
-leso_c_tx |> 
-  filter(agency_name == "ABERNATHY POLICE DEPT") |> 
-  select(agency_name, quantity)
-```
-
-If we look at the `quantity` column there we can eyeball all the rows and add them on a calculator. Our answer should match our `summed_quantity` in the summary table. We're good!
-
 ### Add the total_value
 
 We don't have to stop at one summary. We can perform multiple summarize actions on the same or different columns within the same expression.
@@ -312,6 +302,21 @@ leso_c_tx |>
   )
 
 ```
+
+
+### Check the math
+
+If you wanted to test this (and that is a real good idea), you might look at the data from one of the values and check the math. Here are the Abernathy rows. I usually do these tests in a code chunk of their own, and sometimes I delete them after I'm sure my logic works.
+
+```{r abernathy}
+leso_c_tx |> 
+  filter(agency_name == "ABERNATHY POLICE DEPT") |> 
+  select(agency_name, quantity, total_value)
+```
+
+If we look at the `quantity` column there we can eyeball all the rows and add them on a calculator. Our answer should match our `summed_quantity` in the summary table.
+
+If we add up the `total_value` rows then we should end up with the same number as `summed_total_value` above.
 
 ### Arrange the results
 
@@ -383,6 +388,7 @@ The result is the same, but we can reuse the `tx_agency_totals` tibble.
 When we talked about filtering with the Billboard project, we discussed using the `|` operator as an "OR" function. If we were to apply that logic here, it would look like this:
 
 ``` r
+# Just for explanation. Don't add to notebook.
 data |> 
   filter(column_name == "Text to find" | column_name == "More text to find")
 ```
@@ -392,6 +398,7 @@ That can get pretty unwieldy if you have more than a couple of things to look fo
 There is another operator `%in%` where we can search for multiple items from a list. (This list of terms is officially called a vector, but whatever.) Think of it like this in plain English: *Filter* the *column* for things *in* this *list*.
 
 ``` r
+# Just for explanation. Don't add to notebook.
 data |> 
   filter(col_name %in% c("This string", "That string"))
 ```
@@ -399,6 +406,7 @@ data |>
 We can take this a step further by saving the items in our list into an R object so we can reuse that list and not have to type out all the terms each time we use them.
 
 ``` r
+# Just for explanation. Don't add to notebook.
 list_of_strings <- c(
   "This string",
   "That string"

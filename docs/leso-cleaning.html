@@ -343,8 +343,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#filtering-our-data" id="toc-filtering-our-data" class="nav-link" data-scroll-target="#filtering-our-data"><span class="header-section-number">5.11</span> Filtering our data</a>
   <ul class="collapse">
-  <li><a href="#filter-by-date" id="toc-filter-by-date" class="nav-link" data-scroll-target="#filter-by-date"><span class="header-section-number">5.11.1</span> Filter by date</a></li>
-  <li><a href="#checking-the-results-with-summary" id="toc-checking-the-results-with-summary" class="nav-link" data-scroll-target="#checking-the-results-with-summary"><span class="header-section-number">5.11.2</span> Checking the results with summary()</a></li>
+  <li><a href="#checking-the-results-with-summary" id="toc-checking-the-results-with-summary" class="nav-link" data-scroll-target="#checking-the-results-with-summary"><span class="header-section-number">5.11.1</span> Checking the results with summary()</a></li>
   </ul></li>
   <li><a href="#export-cleaned-data" id="toc-export-cleaned-data" class="nav-link" data-scroll-target="#export-cleaned-data"><span class="header-section-number">5.12</span> Export cleaned data</a></li>
   <li><a href="#render-and-clean-up-your-notebook" id="toc-render-and-clean-up-your-notebook" class="nav-link" data-scroll-target="#render-and-clean-up-your-notebook"><span class="header-section-number">5.13</span> Render and clean up your notebook</a></li>
@@ -545,20 +544,20 @@ Note
 <li>In Markdown, add a headline noting these are notebook goals.</li>
 <li>Add the goals below:</li>
 </ol>
-<pre class="text"><code>- Download the data
-- Import the data
-- Check datatypes
-- Create a total_value variable
-- Create a control_type variable
-- Filter the date range (since Jan. 1 2010)
-- Export the cleaned data</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>- Download the data</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>- Import the data</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>- Check datatypes</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>- Create a total_value variable</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>- Create a control_type variable</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>- Filter the date range (since Jan. 1 2010)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>- Export the cleaned data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="add-a-setup-section" class="level3" data-number="5.4.2">
 <h3 data-number="5.4.2" class="anchored" data-anchor-id="add-a-setup-section"><span class="header-section-number">5.4.2</span> Add a setup section</h3>
 <p>This is the section in the notebook where we add our libraries and such. Again, every notebook has this section, though the packages used may vary on need. This time (and each time hense) we will add some “execution options” to our setup chunk.</p>
 <ol type="1">
 <li>Add a headline called “Setup” and text about what we are doing, adding our libraries.</li>
-<li>Add a code chunk formatted like below. I’ll explain after.</li>
+<li>Add your setup code chunk with the code below.</li>
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
@@ -568,15 +567,12 @@ Note
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>These two bits at the top starting with <code>#|</code> are special commands for the R chunk. The first word of each line is the command followed by a colon <code>:</code> and the bit after is the setting for that command.</p>
+<p>Some reminders:</p>
 <ul>
-<li><code>#| label: setup</code>: The <code>label</code> is a name for the R chunk and <code>setup</code> is a super special label.
-<ul>
-<li>Chunk labels are optional, but can be useful as they show up in your bookmarks. Some label names have special properties, like this one. A <code>setup</code> chunk will be run first no matter where we are in the notebook. Helpful to make sure your libraries are loaded.</li>
-</ul></li>
-<li><code>#| message: false</code>: This option stops the message about all the different packages in the tidyverse when the library is loaded. It just cleans up the notebook.</li>
+<li>The <code>#| label: setup</code> is special in that it will be run first no matter where we are in the notebook. Helpful to make sure your libraries are loaded.</li>
+<li>The <code>#| message: false</code> option silences the message about all the different packages in the tidyverse when the library is loaded. It just cleans up the notebook.</li>
 </ul>
-<p>One other note about this … we should only need the <code>tidyverse</code> library for this notebook because the data already has clean names (no need for <code>janitor</code>) and the dates will import correctly (no need for <code>lubridate</code> for this notebook, but will will use it for our analysis).</p>
+<p>One other note about this … we should only need the <code>tidyverse</code> library for this notebook because the data already has clean names (no need for <code>janitor</code>.)</p>
 </section>
 </section>
 <section id="download-the-data" class="level2" data-number="5.5">
@@ -708,7 +704,7 @@ $ station_type      &lt;chr&gt; "State", "State", "State", "State", "State", "St
 </section>
 <section id="remove-unnecessary-columns" class="level2" data-number="5.8">
 <h2 data-number="5.8" class="anchored" data-anchor-id="remove-unnecessary-columns"><span class="header-section-number">5.8</span> Remove unnecessary columns</h2>
-<p>Sometimes at this point in a project, you might not know what columns you need to keep and which you could do without. The nice thing about doing this with code in a notebook is we can always go back, make corrections and run our notebook again. In this case, we will remove the <code>-sheet</code> column since we don’t need it. (It’s an artifact of the processing I’ve done on the file.)</p>
+<p>Sometimes at this point in a project, you might not know what columns you need to keep and which you could do without. The nice thing about doing this with code in a notebook is we can always go back, make corrections and run our notebook again. In this case, we will remove the <code>sheet</code> variable since we don’t need it. (It’s an artifact of the processing I’ve done on the file.)</p>
 <ol type="1">
 <li>Start a new section with a headline and text to explain you are removing unneeded columns.</li>
 <li>Add a code chunk and the following code. I’ll explain it below.</li>
@@ -734,7 +730,13 @@ $ ship_date         &lt;dttm&gt; 2017-03-28, 2016-09-29, 2016-11-09, 2018-01-30,
 $ station_type      &lt;chr&gt; "State", "State", "State", "State", "State", "State"…</code></pre>
 </div>
 </div>
-<p>In English, we are creating a new tibble <code>leso_tight</code> and then filling it with this: The <code>leso</code> data AND THEN we use select to remove the column called <code>sheet</code>. We then glimpse the new data.</p>
+<p>In English, we are:</p>
+<ul>
+<li>creating a new tibble <code>leso_tight</code> and then ..</li>
+<li>filling it with this: The <code>leso</code> data AND THEN we use select to remove the column called <code>sheet</code>. We then glimpse the new data.</li>
+</ul>
+<p>Within the <code>select()</code> function, we use <code>!</code> to “negate” the column called “sheet”. If we wanted to remove more than one column — say both <code>sheet</code> and <code>station_type</code> — then we would use <code>!</code> negate in conjunction with the <code>c()</code> function to combine items into a new vector, like this: <code>select(!c(sheet, station_type))</code>.</p>
+<p>The use of <code>!</code> to remove things will come up in other places in R, as will using <code>c()</code> to combine things together.</p>
 <p>So now we have a tibble called <code>leso_tight</code> that we will work with in the next section.</p>
 </section>
 <section id="create-a-total_value-column" class="level2" data-number="5.9">
@@ -771,8 +773,9 @@ $ station_type      &lt;chr&gt; "State", "State", "State", "State", "State", "St
 </tbody>
 </table>
 <p>And then wanted to create a total value of each item in the table, you would use <code>mutate()</code>:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total_value =</span> item_count <span class="sc">*</span> item_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Don't put this in your notebook. It's just explanation.</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total_value =</span> item_count <span class="sc">*</span> item_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You would get a return like this, with your new <code>total_value</code> column added at the end:</p>
 <table class="table">
 <thead>
@@ -985,11 +988,9 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </section>
 <section id="filtering-our-data" class="level2" data-number="5.11">
 <h2 data-number="5.11" class="anchored" data-anchor-id="filtering-our-data"><span class="header-section-number">5.11</span> Filtering our data</h2>
-<p>In the Billboard lesson you used <code>filter()</code> to get No.&nbsp;1 songs and to get a date range of data. We need to do something similar here to get only data of a certain date range, and then only Texas data. We’ll build the filters one at a time so we can save the resulting objects separately.</p>
-<section id="filter-by-date" class="level3" data-number="5.11.1">
-<h3 data-number="5.11.1" class="anchored" data-anchor-id="filter-by-date"><span class="header-section-number">5.11.1</span> Filter by date</h3>
+<p>In the Billboard lesson you used <code>filter()</code> to get No.&nbsp;1 songs and to get a date range of data. We need to do something similar here to get only data of a certain date range. We’ll build the filters one at a time so we can save the resulting objects separately.</p>
 <ol type="1">
-<li>Create a new section with headlines and text that denote you are filtering the data to Texas and since Jan.&nbsp;1, 2010.</li>
+<li>Create a new section with headlines and text that denote you are filtering the data to records since Jan.&nbsp;1, 2010.</li>
 <li>Create a chunk and filter your <code>leso_control</code> data to get rows with a <code>ship_date</code> of 2010-01-01 or later.</li>
 <li>Save the result into a new tibble called <code>leso_dated</code>.</li>
 <li>Print out the new tibble <code>leso_dated</code>.</li>
@@ -1005,9 +1006,8 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>leso_dated</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section>
-<section id="checking-the-results-with-summary" class="level3" data-number="5.11.2">
-<h3 data-number="5.11.2" class="anchored" data-anchor-id="checking-the-results-with-summary"><span class="header-section-number">5.11.2</span> Checking the results with summary()</h3>
+<section id="checking-the-results-with-summary" class="level3" data-number="5.11.1">
+<h3 data-number="5.11.1" class="anchored" data-anchor-id="checking-the-results-with-summary"><span class="header-section-number">5.11.1</span> Checking the results with summary()</h3>
 <p>How do you know this date filter worked? Well, my data went from 107670 to 73152 rows, so we did something. You might look at the results table and click over to the <code>ship_date</code> columns so you can see some of the results, but you can’t be sure the top row is the oldest. We could use an <code>arrange()</code> to test that, but I have another suggestion: <code>summary()</code>.</p>
 <p>Now, <code>summary()</code> is different than <code>summarize()</code>, which we’ll do plenty of in a minute. The <code>summary()</code> function will show you some results about each column in your data, and when it is a number or date, it will give you some basic stats like min, max and median values.</p>
 <ol type="1">

@@ -334,8 +334,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#group_by-then-summary-with-math" id="toc-group_by-then-summary-with-math" class="nav-link" data-scroll-target="#group_by-then-summary-with-math"><span class="header-section-number">6.6.1</span> Group_by, then summary with math</a></li>
   <li><a href="#add-the-total_value" id="toc-add-the-total_value" class="nav-link" data-scroll-target="#add-the-total_value"><span class="header-section-number">6.6.2</span> Add the total_value</a></li>
-  <li><a href="#arrange-the-results" id="toc-arrange-the-results" class="nav-link" data-scroll-target="#arrange-the-results"><span class="header-section-number">6.6.3</span> Arrange the results</a></li>
-  <li><a href="#consider-the-results" id="toc-consider-the-results" class="nav-link" data-scroll-target="#consider-the-results"><span class="header-section-number">6.6.4</span> Consider the results</a></li>
+  <li><a href="#check-the-math" id="toc-check-the-math" class="nav-link" data-scroll-target="#check-the-math"><span class="header-section-number">6.6.3</span> Check the math</a></li>
+  <li><a href="#arrange-the-results" id="toc-arrange-the-results" class="nav-link" data-scroll-target="#arrange-the-results"><span class="header-section-number">6.6.4</span> Arrange the results</a></li>
+  <li><a href="#consider-the-results" id="toc-consider-the-results" class="nav-link" data-scroll-target="#consider-the-results"><span class="header-section-number">6.6.5</span> Consider the results</a></li>
   </ul></li>
   <li><a href="#looking-a-local-agencies" id="toc-looking-a-local-agencies" class="nav-link" data-scroll-target="#looking-a-local-agencies"><span class="header-section-number">6.7</span> Looking a local agencies</a>
   <ul class="collapse">
@@ -431,23 +432,20 @@ Warning
 <ol type="1">
 <li>Make sure you have your military surplus project open in RStudio. If you have your import notebook open, close it and use Run &gt; Restart R and Clear Output.</li>
 <li>Create a new <strong>Quarto Document</strong> with the title “Texas Analysis”.</li>
+<li>Save the notebook at <code>02-analysis.qmd</code>.</li>
+<li>Update your <code>_quarto.yml</code> file to add the <code>02-analysis.qmd</code> to your navigation.</li>
 <li>Remove the boilerplate text.</li>
 <li>Create a setup section (headline, text and code chunk) that loads the tidyverse library. Include the same execution options we had in the cleaning notebook.</li>
-<li>Save the notebook at <code>02-analysis.Rmd</code>.</li>
 </ol>
-<p>We’ve started each notebook like this, so you should be able to do this on your own now.</p>
+<p>We’ve started each notebook like this, so you should be able to do this on your own now. That said, here is the setup chunk with options:</p>
 <div class="cell">
-<details>
-<summary>Setup code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: "Setup code"</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="load-the-data-into-a-tibble" class="level3" data-number="6.3.1">
 <h3 data-number="6.3.1" class="anchored" data-anchor-id="load-the-data-into-a-tibble"><span class="header-section-number">6.3.1</span> Load the data into a tibble</h3>
@@ -750,21 +748,6 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <li>I put this inside of the summarize function in its own line because we will add to it. I enhances readability. RStudio will help you with the indenting, etc.</li>
 </ul>
 <p>If you look at the first line of the return, it is taking all the rows for the “ABERNATHY POLICE DEPT” and then adding together all the values in the <code>quantity</code> field.</p>
-<p>If you wanted to test this (and that is a real good idea), you might look at the data from one of the values and check the math. Here are the Abernathy rows. I usually do these tests in a code chunk of their own, and sometimes I delete them after I’m sure my logic works.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>leso_c_tx <span class="sc">|&gt;</span> </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">==</span> <span class="st">"ABERNATHY POLICE DEPT"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(agency_name, quantity)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-
-<div data-pagedtable="false">
-  <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["agency_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["quantity"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"ABERNATHY POLICE DEPT","2":"1"},{"1":"ABERNATHY POLICE DEPT","2":"5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-</div>
-</div>
-<p>If we look at the <code>quantity</code> column there we can eyeball all the rows and add them on a calculator. Our answer should match our <code>summed_quantity</code> in the summary table. We’re good!</p>
 </section>
 <section id="add-the-total_value" class="level3" data-number="6.6.2">
 <h3 data-number="6.6.2" class="anchored" data-anchor-id="add-the-total_value"><span class="header-section-number">6.6.2</span> Add the total_value</h3>
@@ -775,12 +758,12 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <li>Add the new expression to give us the <code>summed_total_value</code> and run it.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>leso_c_tx <span class="sc">|&gt;</span> </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">|&gt;</span> </span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity),</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_total_value =</span> <span class="fu">sum</span>(total_value)</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>leso_c_tx <span class="sc">|&gt;</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">|&gt;</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_total_value =</span> <span class="fu">sum</span>(total_value)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <div data-pagedtable="false">
@@ -791,8 +774,27 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </div>
 </div>
 </section>
-<section id="arrange-the-results" class="level3" data-number="6.6.3">
-<h3 data-number="6.6.3" class="anchored" data-anchor-id="arrange-the-results"><span class="header-section-number">6.6.3</span> Arrange the results</h3>
+<section id="check-the-math" class="level3" data-number="6.6.3">
+<h3 data-number="6.6.3" class="anchored" data-anchor-id="check-the-math"><span class="header-section-number">6.6.3</span> Check the math</h3>
+<p>If you wanted to test this (and that is a real good idea), you might look at the data from one of the values and check the math. Here are the Abernathy rows. I usually do these tests in a code chunk of their own, and sometimes I delete them after I’m sure my logic works.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>leso_c_tx <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">==</span> <span class="st">"ABERNATHY POLICE DEPT"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(agency_name, quantity, total_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["agency_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["quantity"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["total_value"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"ABERNATHY POLICE DEPT","2":"1","3":"62627"},{"1":"ABERNATHY POLICE DEPT","2":"5","3":"1855"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>If we look at the <code>quantity</code> column there we can eyeball all the rows and add them on a calculator. Our answer should match our <code>summed_quantity</code> in the summary table.</p>
+<p>If we add up the <code>total_value</code> rows then we should end up with the same number as <code>summed_total_value</code> above.</p>
+</section>
+<section id="arrange-the-results" class="level3" data-number="6.6.4">
+<h3 data-number="6.6.4" class="anchored" data-anchor-id="arrange-the-results"><span class="header-section-number">6.6.4</span> Arrange the results</h3>
 <p>OK, this gives us our answers, but in alphabetical order. We want to arrange the data so it gives us the most <code>summed_total_value</code> in <strong>desc</strong>ending order.</p>
 <ol type="1">
 <li><strong>EDIT your block</strong> to add an <code>arrange()</code> function below</li>
@@ -822,8 +824,8 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </ul>
 <p>Both work and are correct. It really is your preference.</p>
 </section>
-<section id="consider-the-results" class="level3" data-number="6.6.4">
-<h3 data-number="6.6.4" class="anchored" data-anchor-id="consider-the-results"><span class="header-section-number">6.6.4</span> Consider the results</h3>
+<section id="consider-the-results" class="level3" data-number="6.6.5">
+<h3 data-number="6.6.5" class="anchored" data-anchor-id="consider-the-results"><span class="header-section-number">6.6.5</span> Consider the results</h3>
 <p>Is there anything that sticks out in that list? It helps if you know a little bit about Texas cities and counties, but here are some thoughts to ponder:</p>
 <ul>
 <li>Houston is the largest city in the state (4th largest in the country, in fact). It makes sense that it tops the list. Same for Harris County or even the state police force. Austin being up there is also not crazy, as we have almost a million people.</li>
@@ -870,20 +872,23 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <h3 data-number="6.7.2" class="anchored" data-anchor-id="filtering-within-a-vector"><span class="header-section-number">6.7.2</span> Filtering within a vector</h3>
 <p><strong>Let’s talk through the filter concepts before you try it with this data.</strong></p>
 <p>When we talked about filtering with the Billboard project, we discussed using the <code>|</code> operator as an “OR” function. If we were to apply that logic here, it would look like this:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(column_name <span class="sc">==</span> <span class="st">"Text to find"</span> <span class="sc">|</span> column_name <span class="sc">==</span> <span class="st">"More text to find"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Just for explanation. Don't add to notebook.</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(column_name <span class="sc">==</span> <span class="st">"Text to find"</span> <span class="sc">|</span> column_name <span class="sc">==</span> <span class="st">"More text to find"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>That can get pretty unwieldy if you have more than a couple of things to look for.</p>
 <p>There is another operator <code>%in%</code> where we can search for multiple items from a list. (This list of terms is officially called a vector, but whatever.) Think of it like this in plain English: <em>Filter</em> the <em>column</em> for things <em>in</em> this <em>list</em>.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"This string"</span>, <span class="st">"That string"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Just for explanation. Don't add to notebook.</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"This string"</span>, <span class="st">"That string"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We can take this a step further by saving the items in our list into an R object so we can reuse that list and not have to type out all the terms each time we use them.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>list_of_strings <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"This string"</span>,</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"That string"</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_name <span class="sc">%in%</span> list_of_strings)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Just for explanation. Don't add to notebook.</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>list_of_strings <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"This string"</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"That string"</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_name <span class="sc">%in%</span> list_of_strings)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="create-a-vector-to-build-this-filter" class="level3" data-number="6.7.3">
 <h3 data-number="6.7.3" class="anchored" data-anchor-id="create-a-vector-to-build-this-filter"><span class="header-section-number">6.7.3</span> Create a vector to build this filter</h3>
