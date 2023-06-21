@@ -136,46 +136,53 @@ We want to start each notebook with a list like this so our future selves and ot
 
 We will also write Markdown like this to explain each new "section" or goal as we tackle them.
 
-### Load the libraries
+## The setup chunk
 
-Next, we'll define the R packages that we will use in this project. We **always** have to declare these and convention dictates we put it near the top of a notebook so everyone understands what is needed. We will almost always use these three libraries.
+In our previous chapter we installed several R packages onto our computer that we'll use in almost every lesson. There are others we'll install and use later.
+
+But to use these packages in our notebook (and the functions they provide us) we have to load them using the `library()` function. We **always** have to declare these and convention dictates we put it near the top of a notebook so everyone understands what is needed.
+
+### Load the libraries
 
 1.  In your notebook after the goals listing, create a new "section" by adding a headline called "Setup" using Markdown, like this: `## Setup`.
 1.  After the. headline use *Cmd+option+i* to insert an R code chunk.
 2.  Inside that chunk, I want you **to type ** the code shown below.
 
-I want you to **type the code** so you can see how RStudeio helps you type code with code completion. It's something you have to do to understand, but I'll show a video.
+I want you to **type the code** so you can see how RStudio helps you complete the code. It's something you have to see or do yourself to understand how RStudio helps you type commands, but as you type RStudio will give you valid options you can scroll through and hit `tab` key to choose.
 
+Here is a gif of me typing in the commands. I'm using keyboard commands like the up and down arrow to make selections, and the `tab` key to select them. This concept is called code completion.
+
+![Setup chunk](images/setup-chunk.gif)
+
+Here is the code:
 
 ```{r}
 #| echo: fenced
 #| label: setup
 #| message: false
-#| warning: false
 
 library(tidyverse)
 library(janitor)
-library(lubridate)
 ```
 
-Here is what it looks like when we do this in RStudio:
 
-{{< video https://vimeo.com/833722837 >}}
+### About the libraries
 
-<!-- ![gif](images/setup.gif) -->
+A little more about the two packages we are loading here. We use them a lot.
 
-Every time you see me pause, I'm looking at the options presented, using the up/down arrow keys to find the option I want, then I **type tab** to make the selection. This is called *tab completion* and a lot of programming applications offer this. Basically, RStudio knows what you want to do and gives you options to choose from.
+- The `tidyverse` package is actually a collection of packages for data science that are designed to work together. You can see the first time I run the chunk in the gif above that a bunch of libraries were loaded. By loading the whole tidyverse library we get `readr` functions for importing data, `dplyr` to manipulate data, `lubridate` to help work with dates, and `ggplot` to visualize data. [There are more](https://www.tidyverse.org/).
+- The [`janitor` package](https://www.rdocumentation.org/packages/janitor/) is not maintained by the same folks at Posit, but it has a couple of useful tools to clean and view data I use a lot, including the `clean_names()` that we'll use here.
 
-This code chunk we are building will be in every notebook so we include some special options called **execution options**. These are the parts like `#| label: setup`.
+### About the options
 
-Let's talk about each line:
+I go then go back and add some lines at the top of the chunk called **execution options**. Let's talk about each line:
 
-- We start with `#| label: setup` which is an execution option to "name" the code chunk. This is useful in several ways.
-  - When we name a code chunk it creates a bookmark of sorts, which I'll show you later
-  - When name a chunk `setup` it will be run first if it hasn't already been run.
-- The `#| message: false` and `#| warning: false` options suppress a bunch of feedback we don't need.
+- We start with `#| label: setup` which is an execution option to "name" the code chunk. Labeling chunks is optional but useful.
+  - The chunk label `setup` is special as it will be run first if it hasn't already been run.
+  - When we name a code chunk it creates a bookmark of sorts, which I'll show you later.
+- The `#| message: false` option suppress the message about all the packages loaded since we don't need to display that in our notebook. I usually only add that for my setup chunk.
 
-## The Billboard Hot 100
+## About the Billboard Hot 100
 
 The *Billboard* [Hot 100](https://www.billboard.com/charts/hot-100/) singles charts has been the music industry's standard record chart since its inception on Aug. 4th, 1958. The rankings, published by Billboard Media, are currently based on sales (physical and digital), radio play, and online streaming. The methods and policies of the chart have changed over time.
 
@@ -304,7 +311,7 @@ When we look at the data output in RStudio, there are several things to note:
 
 At this point we have only printed this data to the screen. We have not saved it in any way, but that is next.
 
-## Assign our import to an R object
+### Assign our import to an R object
 
 Now that we know how to find our data, we next need to assign it to an **R object** so it can be named thing we can reuse. We don't want to re-import the data over and over each time we need it.
 
@@ -531,7 +538,7 @@ This new `chart_date` column is added as the LAST column of our data. After doin
 
 Check your glimpse returns ... did your dates convert correctly?
 
-## Arrange the data
+### Arrange the data
 
 Just to be tidy, we want ensure our data is arranged to start with the oldest week and "top" of the chart and then work forward through time and rank.
 
@@ -578,7 +585,7 @@ This just prints the first 10 lines of the data.
 It's OK that the `last_week` columns has "NA" for those first rows because this is the first week ever for the chart. There was no `last_week`.
 :::
 
-### Getting summary stats
+#### Getting summary stats
 
 Printing your data to the notebook can only tell you so much. Yes, you can arrange by different columns to see the maximum and minimum values, but it's hard to get an overall sense of your data that way when there is 300,000 rows like we have here. Luckily there is a nice function called `summary()` that gives you some summary statistics for each column.
 
@@ -591,11 +598,11 @@ hot100_date |> summary()
 
 These summary statistics can be informative for us. It is probably the easiest way to check what the newest and oldest dates are in your data (see the Min. and Max. returns for `chart_date`). You get an average (mean) and median for each number, too. You might notice potential problems in your data, like if we had a `this_week` number higher than "100" (we don't).
 
-### Note the max date
+#### Note the max date
 
 Since this data updates each week, it is a good idea to note in your notebook what is the most recent chart date. You can find that as the **Max.** value for `chart_date` in your summary. You'll need this value when you write your story.
 
-## Selecting columns
+### Selecting columns
 
 Now that we have the fixed date column, we don't need the old `chart_week` version that is text. We'll use this opportunity to discuss `select()`, which is another concept in our Basic Data Journalism Functions series, so watch this:
 
