@@ -1,30 +1,93 @@
-# A shortcut: count()
+# A counting shortcut
 
-> This was pulled from Billboard. I should include it somewhere else but not there as it is just extra confusion.
+::: callout-warning
+Updated for Quarto
+:::
 
-In the interest of full disclosure but at the risk of confusing you, I must reveal this fact:
+We count stuff in data science (and journalism) all the time. In our Billboard project we used `summarize()` and the `n()` function to count rows because we needed to understand the concepts of group_by, summarize and arrange. It is perfectly valid and the best way to explain and understand grouping and summarizing.
 
-We count stuff in data science (and journalism) all the time. So dplyr has a shortcut to group, count and arrange rows of data. We needed to use the long way above because a) we will use `group_by()` and `summarize()` with other math that isn't just counting rows, and b) you need to understand what is happening inside `count()`, which uses group_by/summarize/arrange under the hood.
+But in the interest of full disclosure, know that dplyr has a shortcut to group, count and arrange rows of data. The [`count()`](https://dplyr.tidyverse.org/reference/count.html) function takes the columns you want to group and then does the summarize on `n()` for you. We'll demonstrate them with the Billboard data. You can create a new notebook to try this, or just use this for reference.
 
-The [`count()`](https://dplyr.tidyverse.org/reference/count.html) function takes the columns you want to group and then does the summarize on `n()` for you:
+::: callout
+We didn't start with `count()` because it can't do anything else other than count rows, and we needed to build our GSA knowledge to summarize all kinds of ways, like `sum()`, `mean()` or `slice()`.
+:::
 
-```{r count-short}
+## Setup and import
+
+We don't normally put these together, but we're just setting up a quick demonstration
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+hot100 <- read_rds("data-processed/01-hot100.rds")
+```
+
+## Basic count
+
+We're going to rework our first quest of the Billboard analysis:
+
+**Which performer had the most appearances on the Hot 100 chart at any position?**
+
+Our logic is we want to count the number of rows based on each performer. We do this by adding the variables we want to group as arguments to `count()`:
+
+```{r}
 hot100 |> 
   count(performer)
 ```
 
-To get the same pretty table you still have to rename the new column and reverse the sort, you just do it differently as arguments within the `count()` function. You can view the [`count()` options here.](https://dplyr.tidyverse.org/reference/count.html)
+### Sort the results
 
--   Add this chunk to your notebook (with a note you are trying `count()`) so you have it to refer to.
+If we want the highest counted row at the top (and we almost always do) then we can add an argument: `sort = TRUE`.
 
-```{r count-expanded}
+```{r}
 hot100 |> 
-  count(performer, name = "appearances", sort = TRUE) |> 
-  filter(appearances > 600)
+  count(performer, sort = TRUE)
 ```
 
-So the code above does the same things here as we did in our first quest, but with fewer lines.
 
-::: callout-important
-We will concentrate on using group_by/summarize/arrange because it can do SO MUCH MORE than `count()`. Count can ONLY count rows. It can't do any other kind of math in summarize.
-:::
+### Name the new column
+
+Notice the counted table is called `n`. We can rename that with another argument, `name =` and give it the name we want in quotes.
+
+```{r}
+hot100 |> 
+  count(performer, sort = TRUE, name = "appearances")
+```
+
+
+### Filter results as normal
+
+To cut off the results, we just filter as we normally would.
+
+```{r}
+hot100 |> 
+  count(performer, sort = TRUE, name = "appearances") |> 
+  filter(appearances > 650)
+```
+So the code above does the same things here as we did in our first Billboard quest, but with fewer lines.
+
+## Grouping on multiple variables
+
+We can group on multiple variables by adding them. We'll show this with the second quest:
+
+**Which song (title & performer) has been on the charts the most?**
+
+```{r}
+hot100 |> 
+  count(
+    title,
+    performer,
+    sort = TRUE,
+    name = "appearances") |> 
+  filter(appearances >= 70)
+```
+
+
+
+
+
+
+

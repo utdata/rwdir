@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Summarize with math - analysis | Reporting with Data in R</title>
+  <meta name="description" content="Chapter 6 Summarize with math - analysis | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The course is taught by Christian McDonald and Jo Lukito." />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Summarize with math - analysis | Reporting with Data in R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Chapter 6 Summarize with math - analysis | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The course is taught by Christian McDonald and Jo Lukito." />
+  <meta name="github-repo" content="utdata/rwdir" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Summarize with math - analysis | Reporting with Data in R" />
+  
+  <meta name="twitter:description" content="Chapter 6 Summarize with math - analysis | Reporting with Data in R is a series of lessons and instructions used in courses in the School of Journalism and Media, Moody College of Communication at the University of Texas at Austin. The course is taught by Christian McDonald and Jo Lukito." />
+  
+
+<meta name="author" content="Christian McDonald and Josephine Lukito" />
+
+
+<meta name="date" content="2022-10-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="sums-import.html"/>
+<link rel="next" href="ggplot-intro.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.25/datatables.js"></script>
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<style type="text/css">
+  p.caption {
+    color: #777;
+    margin-top: 10px;
+  }
+  p code, pre, pre code, li code {
+    background-color: #DCDCDC !important;
+  }
+  detail {
+    margin-bottom: 30px;
+  }
+</style>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Reporting with Data in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About this book</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#a-word-from-prof.-mcdonald"><i class="fa fa-check"></i>A word from Prof. McDonald</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#tips-on-the-book-style"><i class="fa fa-check"></i>Tips on the book style</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#things-to-do"><i class="fa fa-check"></i>Things to do</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#notes-some-important"><i class="fa fa-check"></i>Notes, some important</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#copy-code-blocks"><i class="fa fa-check"></i>Copy code blocks</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-authors"><i class="fa fa-check"></i>About the authors</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#christian-mcdonald"><i class="fa fa-check"></i>Christian McDonald</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#jo-lukito"><i class="fa fa-check"></i>Jo Lukito</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#versions"><i class="fa fa-check"></i>Versions</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-resources"><i class="fa fa-check"></i>Other resources</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="install.html"><a href="install.html"><i class="fa fa-check"></i><b>1</b> Install Party</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="install.html"><a href="install.html#mac-vs-pc"><i class="fa fa-check"></i><b>1.1</b> Mac vs PC</a></li>
+<li class="chapter" data-level="1.2" data-path="install.html"><a href="install.html#installing-r"><i class="fa fa-check"></i><b>1.2</b> Installing R</a></li>
+<li class="chapter" data-level="1.3" data-path="install.html"><a href="install.html#installing-rstudio"><i class="fa fa-check"></i><b>1.3</b> Installing RStudio</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="install.html"><a href="install.html#getting-git-errors-on-macs"><i class="fa fa-check"></i><b>1.3.1</b> Getting “Git” errors on Macs</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="install.html"><a href="install.html#class-project-folder"><i class="fa fa-check"></i><b>1.4</b> Class project folder</a></li>
+<li class="chapter" data-level="1.5" data-path="install.html"><a href="install.html#rstudio-cloud"><i class="fa fa-check"></i><b>1.5</b> RStudio Cloud</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#rstudio-tour"><i class="fa fa-check"></i><b>2.1</b> RStudio tour</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#updating-preferences"><i class="fa fa-check"></i><b>2.2</b> Updating preferences</a></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#starting-a-new-project"><i class="fa fa-check"></i><b>2.3</b> Starting a new Project</a></li>
+<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#using-r-notebooks"><i class="fa fa-check"></i><b>2.4</b> Using R Notebooks</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="intro.html"><a href="intro.html#create-your-first-notebook"><i class="fa fa-check"></i><b>2.4.1</b> Create your first notebook</a></li>
+<li class="chapter" data-level="2.4.2" data-path="intro.html"><a href="intro.html#save-the-.rmd-file"><i class="fa fa-check"></i><b>2.4.2</b> Save the .Rmd file</a></li>
+<li class="chapter" data-level="2.4.3" data-path="intro.html"><a href="intro.html#run-the-notebook"><i class="fa fa-check"></i><b>2.4.3</b> Run the notebook</a></li>
+<li class="chapter" data-level="2.4.4" data-path="intro.html"><a href="intro.html#a-note-about-rmarkdown"><i class="fa fa-check"></i><b>2.4.4</b> A note about RMarkdown</a></li>
+<li class="chapter" data-level="2.4.5" data-path="intro.html"><a href="intro.html#adding-new-code-chunks"><i class="fa fa-check"></i><b>2.4.5</b> Adding new code chunks</a></li>
+<li class="chapter" data-level="2.4.6" data-path="intro.html"><a href="intro.html#practice-adding-code-chunks"><i class="fa fa-check"></i><b>2.4.6</b> Practice adding code chunks</a></li>
+<li class="chapter" data-level="2.4.7" data-path="intro.html"><a href="intro.html#preview-the-report"><i class="fa fa-check"></i><b>2.4.7</b> Preview the report</a></li>
+<li class="chapter" data-level="2.4.8" data-path="intro.html"><a href="intro.html#the-toolbar"><i class="fa fa-check"></i><b>2.4.8</b> The toolbar</a></li>
+<li class="chapter" data-level="2.4.9" data-path="intro.html"><a href="intro.html#knit-the-final-workbook"><i class="fa fa-check"></i><b>2.4.9</b> Knit the final workbook</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="intro.html"><a href="intro.html#turning-in-our-projects"><i class="fa fa-check"></i><b>2.5</b> Turning in our projects</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="counts-import.html"><a href="counts-import.html"><i class="fa fa-check"></i><b>3</b> Summarize with count - import</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="counts-import.html"><a href="counts-import.html#learning-goals-of-this-lesson"><i class="fa fa-check"></i><b>3.1</b> Learning goals of this lesson</a></li>
+<li class="chapter" data-level="3.2" data-path="counts-import.html"><a href="counts-import.html#basic-steps-of-this-lesson"><i class="fa fa-check"></i><b>3.2</b> Basic steps of this lesson</a></li>
+<li class="chapter" data-level="3.3" data-path="counts-import.html"><a href="counts-import.html#create-a-new-project"><i class="fa fa-check"></i><b>3.3</b> Create a new project</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="counts-import.html"><a href="counts-import.html#describe-the-goals-of-the-notebook"><i class="fa fa-check"></i><b>3.3.1</b> Describe the goals of the notebook</a></li>
+<li class="chapter" data-level="3.3.2" data-path="counts-import.html"><a href="counts-import.html#the-r-package-environment"><i class="fa fa-check"></i><b>3.3.2</b> The R Package environment</a></li>
+<li class="chapter" data-level="3.3.3" data-path="counts-import.html"><a href="counts-import.html#installing-and-using-packages"><i class="fa fa-check"></i><b>3.3.3</b> Installing and using packages</a></li>
+<li class="chapter" data-level="3.3.4" data-path="counts-import.html"><a href="counts-import.html#load-the-libraries"><i class="fa fa-check"></i><b>3.3.4</b> Load the libraries</a></li>
+<li class="chapter" data-level="3.3.5" data-path="counts-import.html"><a href="counts-import.html#create-a-directory-for-your-data"><i class="fa fa-check"></i><b>3.3.5</b> Create a directory for your data</a></li>
+<li class="chapter" data-level="3.3.6" data-path="counts-import.html"><a href="counts-import.html#about-data-sources"><i class="fa fa-check"></i><b>3.3.6</b> About data sources</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="counts-import.html"><a href="counts-import.html#the-billboard-hot-100"><i class="fa fa-check"></i><b>3.4</b> The Billboard Hot 100</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="counts-import.html"><a href="counts-import.html#data-dictionary"><i class="fa fa-check"></i><b>3.4.1</b> Data dictionary</a></li>
+<li class="chapter" data-level="3.4.2" data-path="counts-import.html"><a href="counts-import.html#lets-download-our-data"><i class="fa fa-check"></i><b>3.4.2</b> Let’s download our data</a></li>
+<li class="chapter" data-level="3.4.3" data-path="counts-import.html"><a href="counts-import.html#consider-commenting-the-download"><i class="fa fa-check"></i><b>3.4.3</b> Consider commenting the download</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="counts-import.html"><a href="counts-import.html#import-the-data"><i class="fa fa-check"></i><b>3.5</b> Import the data</a></li>
+<li class="chapter" data-level="3.6" data-path="counts-import.html"><a href="counts-import.html#assign-our-import-to-an-r-object"><i class="fa fa-check"></i><b>3.6</b> Assign our import to an R object</a>
+<ul>
+<li class="chapter" data-level="3.6.1" data-path="counts-import.html"><a href="counts-import.html#print-a-peek-to-your-r-notebook"><i class="fa fa-check"></i><b>3.6.1</b> Print a peek to your R Notebook</a></li>
+<li class="chapter" data-level="3.6.2" data-path="counts-import.html"><a href="counts-import.html#glimpse-the-data"><i class="fa fa-check"></i><b>3.6.2</b> Glimpse the data</a></li>
+<li class="chapter" data-level="3.6.3" data-path="counts-import.html"><a href="counts-import.html#about-the-pipe"><i class="fa fa-check"></i><b>3.6.3</b> About the pipe |&gt;</a></li>
+<li class="chapter" data-level="" data-path="counts-import.html"><a href="counts-import.html#a-rabbit-dives-into-a-pipe"><i class="fa fa-check"></i>A rabbit dives into a pipe</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="counts-import.html"><a href="counts-import.html#cleaning-data"><i class="fa fa-check"></i><b>3.7</b> Cleaning data</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="counts-import.html"><a href="counts-import.html#cleaning-column-names"><i class="fa fa-check"></i><b>3.7.1</b> Cleaning column names</a></li>
+<li class="chapter" data-level="3.7.2" data-path="counts-import.html"><a href="counts-import.html#fixing-the-date"><i class="fa fa-check"></i><b>3.7.2</b> Fixing the date</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="counts-import.html"><a href="counts-import.html#arrange-the-data"><i class="fa fa-check"></i><b>3.8</b> Arrange the data</a>
+<ul>
+<li class="chapter" data-level="3.8.1" data-path="counts-import.html"><a href="counts-import.html#getting-summary-stats"><i class="fa fa-check"></i><b>3.8.1</b> Getting summary stats</a></li>
+</ul></li>
+<li class="chapter" data-level="3.9" data-path="counts-import.html"><a href="counts-import.html#selecting-columns"><i class="fa fa-check"></i><b>3.9</b> Selecting columns</a></li>
+<li class="chapter" data-level="3.10" data-path="counts-import.html"><a href="counts-import.html#exporting-data"><i class="fa fa-check"></i><b>3.10</b> Exporting data</a>
+<ul>
+<li class="chapter" data-level="3.10.1" data-path="counts-import.html"><a href="counts-import.html#single-notebook-philosophy"><i class="fa fa-check"></i><b>3.10.1</b> Single-notebook philosophy</a></li>
+<li class="chapter" data-level="3.10.2" data-path="counts-import.html"><a href="counts-import.html#exporting-as-rds"><i class="fa fa-check"></i><b>3.10.2</b> Exporting as rds</a></li>
+</ul></li>
+<li class="chapter" data-level="3.11" data-path="counts-import.html"><a href="counts-import.html#naming-chunks"><i class="fa fa-check"></i><b>3.11</b> Naming chunks</a></li>
+<li class="chapter" data-level="3.12" data-path="counts-import.html"><a href="counts-import.html#knit-your-page"><i class="fa fa-check"></i><b>3.12</b> Knit your page</a></li>
+<li class="chapter" data-level="3.13" data-path="counts-import.html"><a href="counts-import.html#review-of-what-weve-learned-so-far"><i class="fa fa-check"></i><b>3.13</b> Review of what we’ve learned so far</a></li>
+<li class="chapter" data-level="3.14" data-path="counts-import.html"><a href="counts-import.html#whats-next"><i class="fa fa-check"></i><b>3.14</b> What’s next</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="count-analysis.html"><a href="count-analysis.html"><i class="fa fa-check"></i><b>4</b> Summarize with count - analysis</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="count-analysis.html"><a href="count-analysis.html#goals-of-this-lesson"><i class="fa fa-check"></i><b>4.1</b> Goals of this lesson</a></li>
+<li class="chapter" data-level="4.2" data-path="count-analysis.html"><a href="count-analysis.html#the-questions-well-answer"><i class="fa fa-check"></i><b>4.2</b> The questions we’ll answer</a></li>
+<li class="chapter" data-level="4.3" data-path="count-analysis.html"><a href="count-analysis.html#setting-up-an-analysis-notebook"><i class="fa fa-check"></i><b>4.3</b> Setting up an analysis notebook</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="count-analysis.html"><a href="count-analysis.html#import-the-cleaned-data"><i class="fa fa-check"></i><b>4.3.1</b> Import the cleaned data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="count-analysis.html"><a href="count-analysis.html#introducing-dplyr"><i class="fa fa-check"></i><b>4.4</b> Introducing dplyr</a></li>
+<li class="chapter" data-level="4.5" data-path="count-analysis.html"><a href="count-analysis.html#most-appearances"><i class="fa fa-check"></i><b>4.5</b> Most appearances</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="count-analysis.html"><a href="count-analysis.html#group-aggregate"><i class="fa fa-check"></i><b>4.5.1</b> Group &amp; Aggregate</a></li>
+<li class="chapter" data-level="4.5.2" data-path="count-analysis.html"><a href="count-analysis.html#summarize"><i class="fa fa-check"></i><b>4.5.2</b> Summarize</a></li>
+<li class="chapter" data-level="4.5.3" data-path="count-analysis.html"><a href="count-analysis.html#group-by"><i class="fa fa-check"></i><b>4.5.3</b> Group by</a></li>
+<li class="chapter" data-level="4.5.4" data-path="count-analysis.html"><a href="count-analysis.html#arrange-the-results"><i class="fa fa-check"></i><b>4.5.4</b> Arrange the results</a></li>
+<li class="chapter" data-level="4.5.5" data-path="count-analysis.html"><a href="count-analysis.html#get-the-top-of-the-list"><i class="fa fa-check"></i><b>4.5.5</b> Get the top of the list</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="count-analysis.html"><a href="count-analysis.html#songperformer-with-most-appearances"><i class="fa fa-check"></i><b>4.6</b> Song/performer with most appearances</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="count-analysis.html"><a href="count-analysis.html#introducing-filter"><i class="fa fa-check"></i><b>4.6.1</b> Introducing filter()</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="count-analysis.html"><a href="count-analysis.html#songperformer-with-most-weeks-at-no.-1"><i class="fa fa-check"></i><b>4.7</b> Song/Performer with most weeks at No. 1</a></li>
+<li class="chapter" data-level="4.8" data-path="count-analysis.html"><a href="count-analysis.html#performer-with-most-songs-to-reach-no.-1"><i class="fa fa-check"></i><b>4.8</b> Performer with most songs to reach No. 1</a>
+<ul>
+<li class="chapter" data-level="4.8.1" data-path="count-analysis.html"><a href="count-analysis.html#using-distinct"><i class="fa fa-check"></i><b>4.8.1</b> Using distinct()</a></li>
+<li class="chapter" data-level="4.8.2" data-path="count-analysis.html"><a href="count-analysis.html#summarize-the-performers"><i class="fa fa-check"></i><b>4.8.2</b> Summarize the performers</a></li>
+<li class="chapter" data-level="4.8.3" data-path="count-analysis.html"><a href="count-analysis.html#filter-for-a-good-cutoff"><i class="fa fa-check"></i><b>4.8.3</b> Filter for a good cutoff</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="count-analysis.html"><a href="count-analysis.html#no.-1-hits-in-last-five-years"><i class="fa fa-check"></i><b>4.9</b> No. 1 hits in last five years</a></li>
+<li class="chapter" data-level="4.10" data-path="count-analysis.html"><a href="count-analysis.html#top-10-hits-overall-on-your-own"><i class="fa fa-check"></i><b>4.10</b> Top 10 hits overall (on your own)</a></li>
+<li class="chapter" data-level="4.11" data-path="count-analysis.html"><a href="count-analysis.html#complex-filters"><i class="fa fa-check"></i><b>4.11</b> Complex filters</a>
+<ul>
+<li class="chapter" data-level="4.11.1" data-path="count-analysis.html"><a href="count-analysis.html#multiple-truths"><i class="fa fa-check"></i><b>4.11.1</b> Multiple truths</a></li>
+<li class="chapter" data-level="4.11.2" data-path="count-analysis.html"><a href="count-analysis.html#either-is-true"><i class="fa fa-check"></i><b>4.11.2</b> Either is true</a></li>
+<li class="chapter" data-level="4.11.3" data-path="count-analysis.html"><a href="count-analysis.html#mixing-criteria"><i class="fa fa-check"></i><b>4.11.3</b> Mixing criteria</a></li>
+<li class="chapter" data-level="4.11.4" data-path="count-analysis.html"><a href="count-analysis.html#search-within-a-string"><i class="fa fa-check"></i><b>4.11.4</b> Search within a string</a></li>
+</ul></li>
+<li class="chapter" data-level="4.12" data-path="count-analysis.html"><a href="count-analysis.html#on-your-own"><i class="fa fa-check"></i><b>4.12</b> On your own</a></li>
+<li class="chapter" data-level="4.13" data-path="count-analysis.html"><a href="count-analysis.html#a-shortcut-count"><i class="fa fa-check"></i><b>4.13</b> A shortcut: count()</a></li>
+<li class="chapter" data-level="4.14" data-path="count-analysis.html"><a href="count-analysis.html#review-of-what-weve-learned"><i class="fa fa-check"></i><b>4.14</b> Review of what we’ve learned</a></li>
+<li class="chapter" data-level="4.15" data-path="count-analysis.html"><a href="count-analysis.html#turn-in-your-project"><i class="fa fa-check"></i><b>4.15</b> Turn in your project</a></li>
+<li class="chapter" data-level="4.16" data-path="count-analysis.html"><a href="count-analysis.html#soundtrack-for-this-assignment"><i class="fa fa-check"></i><b>4.16</b> Soundtrack for this assignment</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="sums-import.html"><a href="sums-import.html"><i class="fa fa-check"></i><b>5</b> Summarize with math - import</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="sums-import.html"><a href="sums-import.html#about-the-story-military-surplus-transfers"><i class="fa fa-check"></i><b>5.1</b> About the story: Military surplus transfers</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="sums-import.html"><a href="sums-import.html#the-1033-program"><i class="fa fa-check"></i><b>5.1.1</b> The 1033 program</a></li>
+<li class="chapter" data-level="5.1.2" data-path="sums-import.html"><a href="sums-import.html#about-the-data"><i class="fa fa-check"></i><b>5.1.2</b> About the data</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="sums-import.html"><a href="sums-import.html#the-questions-we-will-answer"><i class="fa fa-check"></i><b>5.2</b> The questions we will answer</a></li>
+<li class="chapter" data-level="5.3" data-path="sums-import.html"><a href="sums-import.html#getting-started-create-your-project"><i class="fa fa-check"></i><b>5.3</b> Getting started: Create your project</a></li>
+<li class="chapter" data-level="5.4" data-path="sums-import.html"><a href="sums-import.html#importcleaning-notebook"><i class="fa fa-check"></i><b>5.4</b> Import/cleaning notebook</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="sums-import.html"><a href="sums-import.html#the-goals-of-the-notebook"><i class="fa fa-check"></i><b>5.4.1</b> The goals of the notebook</a></li>
+<li class="chapter" data-level="5.4.2" data-path="sums-import.html"><a href="sums-import.html#add-a-setup-section"><i class="fa fa-check"></i><b>5.4.2</b> Add a setup section</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="sums-import.html"><a href="sums-import.html#download-the-data"><i class="fa fa-check"></i><b>5.5</b> Download the data</a></li>
+<li class="chapter" data-level="5.6" data-path="sums-import.html"><a href="sums-import.html#import-the-data-1"><i class="fa fa-check"></i><b>5.6</b> Import the data</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="sums-import.html"><a href="sums-import.html#glimpse-the-data-1"><i class="fa fa-check"></i><b>5.6.1</b> Glimpse the data</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="sums-import.html"><a href="sums-import.html#checking-datatypes"><i class="fa fa-check"></i><b>5.7</b> Checking datatypes</a></li>
+<li class="chapter" data-level="5.8" data-path="sums-import.html"><a href="sums-import.html#remove-unnecessary-columns"><i class="fa fa-check"></i><b>5.8</b> Remove unnecessary columns</a></li>
+<li class="chapter" data-level="5.9" data-path="sums-import.html"><a href="sums-import.html#create-a-total_value-column"><i class="fa fa-check"></i><b>5.9</b> Create a total_value column</a></li>
+<li class="chapter" data-level="5.10" data-path="sums-import.html"><a href="sums-import.html#controlled-vs.-non-controlled"><i class="fa fa-check"></i><b>5.10</b> Controlled vs. non-controlled</a>
+<ul>
+<li class="chapter" data-level="5.10.1" data-path="sums-import.html"><a href="sums-import.html#categorization-logic-with-case_when"><i class="fa fa-check"></i><b>5.10.1</b> Categorization logic with case_when()</a></li>
+</ul></li>
+<li class="chapter" data-level="5.11" data-path="sums-import.html"><a href="sums-import.html#filtering-our-data"><i class="fa fa-check"></i><b>5.11</b> Filtering our data</a>
+<ul>
+<li class="chapter" data-level="5.11.1" data-path="sums-import.html"><a href="sums-import.html#apply-the-tx-filter"><i class="fa fa-check"></i><b>5.11.1</b> Apply the TX filter</a></li>
+<li class="chapter" data-level="5.11.2" data-path="sums-import.html"><a href="sums-import.html#add-the-date-filter"><i class="fa fa-check"></i><b>5.11.2</b> Add the date filter</a></li>
+<li class="chapter" data-level="5.11.3" data-path="sums-import.html"><a href="sums-import.html#checking-the-results-with-summary"><i class="fa fa-check"></i><b>5.11.3</b> Checking the results with summary()</a></li>
+</ul></li>
+<li class="chapter" data-level="5.12" data-path="sums-import.html"><a href="sums-import.html#export-cleaned-data"><i class="fa fa-check"></i><b>5.12</b> Export cleaned data</a></li>
+<li class="chapter" data-level="5.13" data-path="sums-import.html"><a href="sums-import.html#things-we-learned-in-this-lesson"><i class="fa fa-check"></i><b>5.13</b> Things we learned in this lesson</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="sums-analyze.html"><a href="sums-analyze.html"><i class="fa fa-check"></i><b>6</b> Summarize with math - analysis</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="sums-analyze.html"><a href="sums-analyze.html#learning-goals-of-this-lesson-1"><i class="fa fa-check"></i><b>6.1</b> Learning goals of this lesson</a></li>
+<li class="chapter" data-level="6.2" data-path="sums-analyze.html"><a href="sums-analyze.html#questions-to-answer"><i class="fa fa-check"></i><b>6.2</b> Questions to answer</a></li>
+<li class="chapter" data-level="6.3" data-path="sums-analyze.html"><a href="sums-analyze.html#set-up-the-analysis-notebook"><i class="fa fa-check"></i><b>6.3</b> Set up the analysis notebook</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="sums-analyze.html"><a href="sums-analyze.html#load-the-data-into-a-tibble"><i class="fa fa-check"></i><b>6.3.1</b> Load the data into a tibble</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="sums-analyze.html"><a href="sums-analyze.html#filter-for-controlled-items"><i class="fa fa-check"></i><b>6.4</b> Filter for controlled items</a></li>
+<li class="chapter" data-level="6.5" data-path="sums-analyze.html"><a href="sums-analyze.html#building-summaries-with-math"><i class="fa fa-check"></i><b>6.5</b> Building summaries with math</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="sums-analyze.html"><a href="sums-analyze.html#summarize-across-the-data"><i class="fa fa-check"></i><b>6.5.1</b> Summarize across the data</a></li>
+<li class="chapter" data-level="6.5.2" data-path="sums-analyze.html"><a href="sums-analyze.html#na-values-in-a-sum-mean-and-median"><i class="fa fa-check"></i><b>6.5.2</b> NA values in a sum, mean and median</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="sums-analyze.html"><a href="sums-analyze.html#totals-by-agency"><i class="fa fa-check"></i><b>6.6</b> Totals by agency</a>
+<ul>
+<li class="chapter" data-level="6.6.1" data-path="sums-analyze.html"><a href="sums-analyze.html#group_by-then-summary-with-math"><i class="fa fa-check"></i><b>6.6.1</b> Group_by, then summary with math</a></li>
+<li class="chapter" data-level="6.6.2" data-path="sums-analyze.html"><a href="sums-analyze.html#add-the-total_value"><i class="fa fa-check"></i><b>6.6.2</b> Add the total_value</a></li>
+<li class="chapter" data-level="6.6.3" data-path="sums-analyze.html"><a href="sums-analyze.html#arrange-the-results-1"><i class="fa fa-check"></i><b>6.6.3</b> Arrange the results</a></li>
+<li class="chapter" data-level="6.6.4" data-path="sums-analyze.html"><a href="sums-analyze.html#consider-the-results"><i class="fa fa-check"></i><b>6.6.4</b> Consider the results</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="sums-analyze.html"><a href="sums-analyze.html#looking-a-local-agencies"><i class="fa fa-check"></i><b>6.7</b> Looking a local agencies</a>
+<ul>
+<li class="chapter" data-level="6.7.1" data-path="sums-analyze.html"><a href="sums-analyze.html#save-our-by-agency-list"><i class="fa fa-check"></i><b>6.7.1</b> Save our “by agency” list</a></li>
+<li class="chapter" data-level="6.7.2" data-path="sums-analyze.html"><a href="sums-analyze.html#filtering-within-a-vector"><i class="fa fa-check"></i><b>6.7.2</b> Filtering within a vector</a></li>
+<li class="chapter" data-level="6.7.3" data-path="sums-analyze.html"><a href="sums-analyze.html#create-a-vector-to-build-this-filter"><i class="fa fa-check"></i><b>6.7.3</b> Create a vector to build this filter</a></li>
+</ul></li>
+<li class="chapter" data-level="6.8" data-path="sums-analyze.html"><a href="sums-analyze.html#types-of-items-shipped-to-each-agency"><i class="fa fa-check"></i><b>6.8</b> Types of items shipped to each agency</a>
+<ul>
+<li class="chapter" data-level="6.8.1" data-path="sums-analyze.html"><a href="sums-analyze.html#items-for-local-agencies"><i class="fa fa-check"></i><b>6.8.1</b> Items for local agencies</a></li>
+<li class="chapter" data-level="6.8.2" data-path="sums-analyze.html"><a href="sums-analyze.html#research-some-interesting-items"><i class="fa fa-check"></i><b>6.8.2</b> Research some interesting items</a></li>
+</ul></li>
+<li class="chapter" data-level="6.9" data-path="sums-analyze.html"><a href="sums-analyze.html#write-a-data-drop"><i class="fa fa-check"></i><b>6.9</b> Write a data drop</a></li>
+<li class="chapter" data-level="6.10" data-path="sums-analyze.html"><a href="sums-analyze.html#what-we-learned-in-this-chapter"><i class="fa fa-check"></i><b>6.10</b> What we learned in this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ggplot-intro.html"><a href="ggplot-intro.html"><i class="fa fa-check"></i><b>7</b> Data Viz - Intro to ggplot</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#goals-for-this-section"><i class="fa fa-check"></i><b>7.1</b> Goals for this section</a></li>
+<li class="chapter" data-level="7.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#introduction-to-ggplot"><i class="fa fa-check"></i><b>7.2</b> Introduction to ggplot</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#what-i-likedislike-about-ggplot"><i class="fa fa-check"></i><b>7.2.1</b> What I like/dislike about ggplot</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#the-grammar-of-graphics"><i class="fa fa-check"></i><b>7.2.2</b> The Grammar of Graphics</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#start-a-new-project"><i class="fa fa-check"></i><b>7.3</b> Start a new project</a></li>
+<li class="chapter" data-level="7.4" data-path="ggplot-intro.html"><a href="ggplot-intro.html#the-layers-of-ggplot"><i class="fa fa-check"></i><b>7.4</b> The layers of ggplot</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#build-the-base-layer"><i class="fa fa-check"></i><b>7.4.1</b> Build the base layer</a></li>
+<li class="chapter" data-level="7.4.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#layers-can-we-add-to-our-plots"><i class="fa fa-check"></i><b>7.4.2</b> Layers can we add to our plots</a></li>
+<li class="chapter" data-level="7.4.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-geom_point"><i class="fa fa-check"></i><b>7.4.3</b> Add geom_point</a></li>
+<li class="chapter" data-level="7.4.4" data-path="ggplot-intro.html"><a href="ggplot-intro.html#adding-other-mappings"><i class="fa fa-check"></i><b>7.4.4</b> Adding other mappings</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="ggplot-intro.html"><a href="ggplot-intro.html#lets-build-a-bar-chart"><i class="fa fa-check"></i><b>7.5</b> Let’s build a bar chart</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="ggplot-intro.html"><a href="ggplot-intro.html#prepare-the-data"><i class="fa fa-check"></i><b>7.5.1</b> Prepare the data</a></li>
+<li class="chapter" data-level="7.5.2" data-path="ggplot-intro.html"><a href="ggplot-intro.html#build-our-plot-with-geom_col"><i class="fa fa-check"></i><b>7.5.2</b> Build our plot with geom_col</a></li>
+<li class="chapter" data-level="7.5.3" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-the-geom_col-layer"><i class="fa fa-check"></i><b>7.5.3</b> Add the geom_col layer</a></li>
+<li class="chapter" data-level="7.5.4" data-path="ggplot-intro.html"><a href="ggplot-intro.html#flip-the-axes"><i class="fa fa-check"></i><b>7.5.4</b> Flip the axes</a></li>
+<li class="chapter" data-level="7.5.5" data-path="ggplot-intro.html"><a href="ggplot-intro.html#reorder-the-bars"><i class="fa fa-check"></i><b>7.5.5</b> Reorder the bars</a></li>
+<li class="chapter" data-level="7.5.6" data-path="ggplot-intro.html"><a href="ggplot-intro.html#adding-a-geom_text-layer"><i class="fa fa-check"></i><b>7.5.6</b> Adding a geom_text layer</a></li>
+<li class="chapter" data-level="7.5.7" data-path="ggplot-intro.html"><a href="ggplot-intro.html#add-some-titles-and-more-labels"><i class="fa fa-check"></i><b>7.5.7</b> Add some titles and more labels</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="ggplot-intro.html"><a href="ggplot-intro.html#on-your-own-ice-cream"><i class="fa fa-check"></i><b>7.6</b> On your own: Ice cream!</a></li>
+<li class="chapter" data-level="7.7" data-path="ggplot-intro.html"><a href="ggplot-intro.html#what-weve-learned"><i class="fa fa-check"></i><b>7.7</b> What we’ve learned</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="ggplot-more.html"><a href="ggplot-more.html"><i class="fa fa-check"></i><b>8</b> Deeper into ggplot</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="ggplot-more.html"><a href="ggplot-more.html#references"><i class="fa fa-check"></i><b>8.1</b> References</a></li>
+<li class="chapter" data-level="8.2" data-path="ggplot-more.html"><a href="ggplot-more.html#learning-goals-for-this-chapter"><i class="fa fa-check"></i><b>8.2</b> Learning goals for this chapter</a></li>
+<li class="chapter" data-level="8.3" data-path="ggplot-more.html"><a href="ggplot-more.html#set-up-your-notebook"><i class="fa fa-check"></i><b>8.3</b> Set up your notebook</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="ggplot-more.html"><a href="ggplot-more.html#lets-get-the-data"><i class="fa fa-check"></i><b>8.3.1</b> Let’s get the data</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="ggplot-more.html"><a href="ggplot-more.html#wrangle-the-data"><i class="fa fa-check"></i><b>8.4</b> Wrangle the data</a></li>
+<li class="chapter" data-level="8.5" data-path="ggplot-more.html"><a href="ggplot-more.html#make-a-line-chart-of-the-texas-data"><i class="fa fa-check"></i><b>8.5</b> Make a line chart of the Texas data</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="ggplot-more.html"><a href="ggplot-more.html#plot-the-chart"><i class="fa fa-check"></i><b>8.5.1</b> Plot the chart</a></li>
+<li class="chapter" data-level="8.5.2" data-path="ggplot-more.html"><a href="ggplot-more.html#cleaning-up"><i class="fa fa-check"></i><b>8.5.2</b> Cleaning Up</a></li>
+<li class="chapter" data-level="8.5.3" data-path="ggplot-more.html"><a href="ggplot-more.html#saving-plots-as-an-object"><i class="fa fa-check"></i><b>8.5.3</b> Saving plots as an object</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="ggplot-more.html"><a href="ggplot-more.html#themes"><i class="fa fa-check"></i><b>8.6</b> Themes</a>
+<ul>
+<li class="chapter" data-level="8.6.1" data-path="ggplot-more.html"><a href="ggplot-more.html#more-with-ggthemes"><i class="fa fa-check"></i><b>8.6.1</b> More with ggthemes</a></li>
+<li class="chapter" data-level="8.6.2" data-path="ggplot-more.html"><a href="ggplot-more.html#there-is-more-to-themes"><i class="fa fa-check"></i><b>8.6.2</b> There is more to themes</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="ggplot-more.html"><a href="ggplot-more.html#adding-more-information"><i class="fa fa-check"></i><b>8.7</b> Adding more information</a>
+<ul>
+<li class="chapter" data-level="8.7.1" data-path="ggplot-more.html"><a href="ggplot-more.html#prepare-the-data-1"><i class="fa fa-check"></i><b>8.7.1</b> Prepare the data</a></li>
+<li class="chapter" data-level="8.7.2" data-path="ggplot-more.html"><a href="ggplot-more.html#plot-multiple-line-chart"><i class="fa fa-check"></i><b>8.7.2</b> Plot multiple line chart</a></li>
+</ul></li>
+<li class="chapter" data-level="8.8" data-path="ggplot-more.html"><a href="ggplot-more.html#on-your-own-line-chart"><i class="fa fa-check"></i><b>8.8</b> On your own: Line chart</a></li>
+<li class="chapter" data-level="8.9" data-path="ggplot-more.html"><a href="ggplot-more.html#tour-of-some-other-adjustments"><i class="fa fa-check"></i><b>8.9</b> Tour of some other adjustments</a>
+<ul>
+<li class="chapter" data-level="8.9.1" data-path="ggplot-more.html"><a href="ggplot-more.html#line-width"><i class="fa fa-check"></i><b>8.9.1</b> Line width</a></li>
+<li class="chapter" data-level="8.9.2" data-path="ggplot-more.html"><a href="ggplot-more.html#line-type"><i class="fa fa-check"></i><b>8.9.2</b> Line type</a></li>
+<li class="chapter" data-level="8.9.3" data-path="ggplot-more.html"><a href="ggplot-more.html#adjust-axis"><i class="fa fa-check"></i><b>8.9.3</b> Adjust axis</a></li>
+</ul></li>
+<li class="chapter" data-level="8.10" data-path="ggplot-more.html"><a href="ggplot-more.html#facets"><i class="fa fa-check"></i><b>8.10</b> Facets</a>
+<ul>
+<li class="chapter" data-level="8.10.1" data-path="ggplot-more.html"><a href="ggplot-more.html#facet-wrap"><i class="fa fa-check"></i><b>8.10.1</b> Facet wrap</a></li>
+<li class="chapter" data-level="8.10.2" data-path="ggplot-more.html"><a href="ggplot-more.html#facet-grids"><i class="fa fa-check"></i><b>8.10.2</b> Facet grids</a></li>
+</ul></li>
+<li class="chapter" data-level="8.11" data-path="ggplot-more.html"><a href="ggplot-more.html#on-your-own-facet-wrap"><i class="fa fa-check"></i><b>8.11</b> On your own: Facet wrap</a></li>
+<li class="chapter" data-level="8.12" data-path="ggplot-more.html"><a href="ggplot-more.html#saving-plots"><i class="fa fa-check"></i><b>8.12</b> Saving plots</a></li>
+<li class="chapter" data-level="8.13" data-path="ggplot-more.html"><a href="ggplot-more.html#interactive-plots"><i class="fa fa-check"></i><b>8.13</b> Interactive plots</a></li>
+<li class="chapter" data-level="8.14" data-path="ggplot-more.html"><a href="ggplot-more.html#what-we-learned"><i class="fa fa-check"></i><b>8.14</b> What we learned</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="tidy-data.html"><a href="tidy-data.html"><i class="fa fa-check"></i><b>9</b> Tidy data</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="tidy-data.html"><a href="tidy-data.html#goals-for-this-section-1"><i class="fa fa-check"></i><b>9.1</b> Goals for this section</a></li>
+<li class="chapter" data-level="9.2" data-path="tidy-data.html"><a href="tidy-data.html#the-questions-well-answer-1"><i class="fa fa-check"></i><b>9.2</b> The questions we’ll answer</a></li>
+<li class="chapter" data-level="9.3" data-path="tidy-data.html"><a href="tidy-data.html#what-is-tidy-data"><i class="fa fa-check"></i><b>9.3</b> What is tidy data</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="tidy-data.html"><a href="tidy-data.html#wide-vs-long-data"><i class="fa fa-check"></i><b>9.3.1</b> Wide vs long data</a></li>
+<li class="chapter" data-level="9.3.2" data-path="tidy-data.html"><a href="tidy-data.html#why-we-might-want-different-shaped-data"><i class="fa fa-check"></i><b>9.3.2</b> Why we might want different shaped data</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="tidy-data.html"><a href="tidy-data.html#prepare-our-candy-project"><i class="fa fa-check"></i><b>9.4</b> Prepare our candy project</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="tidy-data.html"><a href="tidy-data.html#get-the-data"><i class="fa fa-check"></i><b>9.4.1</b> Get the data</a></li>
+<li class="chapter" data-level="9.4.2" data-path="tidy-data.html"><a href="tidy-data.html#drop-unneeded-columns"><i class="fa fa-check"></i><b>9.4.2</b> Drop unneeded columns</a></li>
+<li class="chapter" data-level="9.4.3" data-path="tidy-data.html"><a href="tidy-data.html#peek-at-the-wide-table"><i class="fa fa-check"></i><b>9.4.3</b> Peek at the wide table</a></li>
+<li class="chapter" data-level="9.4.4" data-path="tidy-data.html"><a href="tidy-data.html#where-are-we-going-with-this-data"><i class="fa fa-check"></i><b>9.4.4</b> Where are we going with this data</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="tidy-data.html"><a href="tidy-data.html#the-tidyr-verbs"><i class="fa fa-check"></i><b>9.5</b> The tidyr verbs</a></li>
+<li class="chapter" data-level="9.6" data-path="tidy-data.html"><a href="tidy-data.html#pivot-longer"><i class="fa fa-check"></i><b>9.6</b> Pivot longer</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="tidy-data.html"><a href="tidy-data.html#pivot-our-candy-data-longer"><i class="fa fa-check"></i><b>9.6.1</b> Pivot our candy data longer</a></li>
+<li class="chapter" data-level="9.6.2" data-path="tidy-data.html"><a href="tidy-data.html#get-average-candies-per-color"><i class="fa fa-check"></i><b>9.6.2</b> Get average candies per color</a></li>
+<li class="chapter" data-level="9.6.3" data-path="tidy-data.html"><a href="tidy-data.html#round-the-averages"><i class="fa fa-check"></i><b>9.6.3</b> Round the averages</a></li>
+<li class="chapter" data-level="9.6.4" data-path="tidy-data.html"><a href="tidy-data.html#on-your-own-plot-the-averages"><i class="fa fa-check"></i><b>9.6.4</b> On your own: Plot the averages</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="tidy-data.html"><a href="tidy-data.html#introducing-datawrapper"><i class="fa fa-check"></i><b>9.7</b> Introducing Datawrapper</a>
+<ul>
+<li class="chapter" data-level="9.7.1" data-path="tidy-data.html"><a href="tidy-data.html#review-how-to-make-a-bar-chart"><i class="fa fa-check"></i><b>9.7.1</b> Review how to make a bar chart</a></li>
+<li class="chapter" data-level="9.7.2" data-path="tidy-data.html"><a href="tidy-data.html#start-a-chart"><i class="fa fa-check"></i><b>9.7.2</b> Start a chart</a></li>
+<li class="chapter" data-level="9.7.3" data-path="tidy-data.html"><a href="tidy-data.html#get-your-candies-data"><i class="fa fa-check"></i><b>9.7.3</b> Get your candies data</a></li>
+<li class="chapter" data-level="9.7.4" data-path="tidy-data.html"><a href="tidy-data.html#build-the-datawrapper-graphic"><i class="fa fa-check"></i><b>9.7.4</b> Build the datawrapper graphic</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="tidy-data.html"><a href="tidy-data.html#pivot-wider"><i class="fa fa-check"></i><b>9.8</b> Pivot wider</a>
+<ul>
+<li class="chapter" data-level="9.8.1" data-path="tidy-data.html"><a href="tidy-data.html#pivot-wider-on-your-own"><i class="fa fa-check"></i><b>9.8.1</b> Pivot wider on your own</a></li>
+</ul></li>
+<li class="chapter" data-level="9.9" data-path="tidy-data.html"><a href="tidy-data.html#bonus-questions"><i class="fa fa-check"></i><b>9.9</b> Bonus questions</a>
+<ul>
+<li class="chapter" data-level="9.9.1" data-path="tidy-data.html"><a href="tidy-data.html#mostleast-candies"><i class="fa fa-check"></i><b>9.9.1</b> Most/least candies</a></li>
+<li class="chapter" data-level="9.9.2" data-path="tidy-data.html"><a href="tidy-data.html#average-total-candies-in-a-bag"><i class="fa fa-check"></i><b>9.9.2</b> Average total candies in a bag</a></li>
+</ul></li>
+<li class="chapter" data-level="9.10" data-path="tidy-data.html"><a href="tidy-data.html#turn-in-your-work"><i class="fa fa-check"></i><b>9.10</b> Turn in your work</a></li>
+<li class="chapter" data-level="9.11" data-path="tidy-data.html"><a href="tidy-data.html#what-we-learned-1"><i class="fa fa-check"></i><b>9.11</b> What we learned</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="bind-join.html"><a href="bind-join.html"><i class="fa fa-check"></i><b>10</b> Bind and join</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="bind-join.html"><a href="bind-join.html#goals-of-the-chapter"><i class="fa fa-check"></i><b>10.1</b> Goals of the chapter</a></li>
+<li class="chapter" data-level="10.2" data-path="bind-join.html"><a href="bind-join.html#the-story-an-update-to-denied"><i class="fa fa-check"></i><b>10.2</b> The story: An update to Denied</a></li>
+<li class="chapter" data-level="10.3" data-path="bind-join.html"><a href="bind-join.html#about-the-data-1"><i class="fa fa-check"></i><b>10.3</b> About the data</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="bind-join.html"><a href="bind-join.html#set-up-your-project"><i class="fa fa-check"></i><b>10.3.1</b> Set up your project</a></li>
+<li class="chapter" data-level="10.3.2" data-path="bind-join.html"><a href="bind-join.html#open-read-and-run"><i class="fa fa-check"></i><b>10.3.2</b> Open, read and run</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="bind-join.html"><a href="bind-join.html#merging-data-together"><i class="fa fa-check"></i><b>10.4</b> Merging data together</a></li>
+<li class="chapter" data-level="10.5" data-path="bind-join.html"><a href="bind-join.html#about-joins"><i class="fa fa-check"></i><b>10.5</b> About joins</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="bind-join.html"><a href="bind-join.html#joining-our-reference-table"><i class="fa fa-check"></i><b>10.5.1</b> Joining our reference table</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="bind-join.html"><a href="bind-join.html#some-cleanup-filter-and-select"><i class="fa fa-check"></i><b>10.6</b> Some cleanup: filter and select</a></li>
+<li class="chapter" data-level="10.7" data-path="bind-join.html"><a href="bind-join.html#create-an-audit-benchmark-column"><i class="fa fa-check"></i><b>10.7</b> Create an audit benchmark column</a></li>
+<li class="chapter" data-level="10.8" data-path="bind-join.html"><a href="bind-join.html#export-the-data"><i class="fa fa-check"></i><b>10.8</b> Export the data</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="answers.html"><a href="answers.html"><i class="fa fa-check"></i><b>11</b> Plotting for answers</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="answers.html"><a href="answers.html#goals-of-this-chapter"><i class="fa fa-check"></i><b>11.1</b> Goals of this chapter</a></li>
+<li class="chapter" data-level="11.2" data-path="answers.html"><a href="answers.html#project-setup"><i class="fa fa-check"></i><b>11.2</b> Project setup</a></li>
+<li class="chapter" data-level="11.3" data-path="answers.html"><a href="answers.html#import-cleaned-data"><i class="fa fa-check"></i><b>11.3</b> Import cleaned data</a></li>
+<li class="chapter" data-level="11.4" data-path="answers.html"><a href="answers.html#make-a-searchable-table"><i class="fa fa-check"></i><b>11.4</b> Make a searchable table</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="answers.html"><a href="answers.html#pivot-wider-1"><i class="fa fa-check"></i><b>11.4.1</b> Pivot wider</a></li>
+<li class="chapter" data-level="11.4.2" data-path="answers.html"><a href="answers.html#make-a-datatable"><i class="fa fa-check"></i><b>11.4.2</b> Make a datatable</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="answers.html"><a href="answers.html#choosing-a-chart-to-display-data"><i class="fa fa-check"></i><b>11.5</b> Choosing a chart to display data</a></li>
+<li class="chapter" data-level="11.6" data-path="answers.html"><a href="answers.html#plot-yearly-student-percentage"><i class="fa fa-check"></i><b>11.6</b> Plot yearly student percentage</a>
+<ul>
+<li class="chapter" data-level="11.6.1" data-path="answers.html"><a href="answers.html#build-the-statewide-percentage-by-year-data"><i class="fa fa-check"></i><b>11.6.1</b> Build the statewide percentage by year data</a></li>
+<li class="chapter" data-level="11.6.2" data-path="answers.html"><a href="answers.html#build-the-statewide-percentage-chart"><i class="fa fa-check"></i><b>11.6.2</b> Build the statewide percentage chart</a></li>
+</ul></li>
+<li class="chapter" data-level="11.7" data-path="answers.html"><a href="answers.html#districts-by-benchmark-and-year"><i class="fa fa-check"></i><b>11.7</b> Districts by benchmark and year</a>
+<ul>
+<li class="chapter" data-level="11.7.1" data-path="answers.html"><a href="answers.html#build-the-audit-flag-data"><i class="fa fa-check"></i><b>11.7.1</b> Build the audit flag data</a></li>
+<li class="chapter" data-level="11.7.2" data-path="answers.html"><a href="answers.html#build-the-audit-flag-chart"><i class="fa fa-check"></i><b>11.7.2</b> Build the audit flag chart</a></li>
+<li class="chapter" data-level="11.7.3" data-path="answers.html"><a href="answers.html#which-chart-is-best"><i class="fa fa-check"></i><b>11.7.3</b> Which chart is best?</a></li>
+</ul></li>
+<li class="chapter" data-level="11.8" data-path="answers.html"><a href="answers.html#local-districts"><i class="fa fa-check"></i><b>11.8</b> Local districts</a></li>
+<li class="chapter" data-level="11.9" data-path="answers.html"><a href="answers.html#the-assignments"><i class="fa fa-check"></i><b>11.9</b> The assignments</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>12</b> R Functions</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="functions.html"><a href="functions.html#importexport"><i class="fa fa-check"></i><b>12.1</b> Import/Export</a></li>
+<li class="chapter" data-level="12.2" data-path="functions.html"><a href="functions.html#data-manipulation"><i class="fa fa-check"></i><b>12.2</b> Data manipulation</a></li>
+<li class="chapter" data-level="12.3" data-path="functions.html"><a href="functions.html#aggregation"><i class="fa fa-check"></i><b>12.3</b> Aggregation</a></li>
+<li class="chapter" data-level="12.4" data-path="functions.html"><a href="functions.html#math"><i class="fa fa-check"></i><b>12.4</b> Math</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="troubleshooting.html"><a href="troubleshooting.html"><i class="fa fa-check"></i><b>13</b> Troubleshooting</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="troubleshooting.html"><a href="troubleshooting.html#when-things-break"><i class="fa fa-check"></i><b>13.1</b> When things break</a></li>
+<li class="chapter" data-level="13.2" data-path="troubleshooting.html"><a href="troubleshooting.html#learning-how-things-work"><i class="fa fa-check"></i><b>13.2</b> Learning how things work</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="troubleshooting.html"><a href="troubleshooting.html#help-docs"><i class="fa fa-check"></i><b>13.2.1</b> Help docs</a></li>
+<li class="chapter" data-level="13.2.2" data-path="troubleshooting.html"><a href="troubleshooting.html#good-googling"><i class="fa fa-check"></i><b>13.2.2</b> Good Googling</a></li>
+<li class="chapter" data-level="13.2.3" data-path="troubleshooting.html"><a href="troubleshooting.html#tidyverse-docs-and-cheatsheets"><i class="fa fa-check"></i><b>13.2.3</b> Tidyverse docs and cheatsheets</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="troubleshooting.html"><a href="troubleshooting.html#r-frequently-asked-questions"><i class="fa fa-check"></i><b>13.3</b> R Frequently asked Questions</a>
+<ul>
+<li class="chapter" data-level="13.3.1" data-path="troubleshooting.html"><a href="troubleshooting.html#functions-objects-and-variables"><i class="fa fa-check"></i><b>13.3.1</b> Functions, objects and variables</a></li>
+<li class="chapter" data-level="13.3.2" data-path="troubleshooting.html"><a href="troubleshooting.html#some-r-code-basics"><i class="fa fa-check"></i><b>13.3.2</b> Some R code basics</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>14</b> How to interview a new dataset</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="explore.html"><a href="explore.html#start-by-listing-questions"><i class="fa fa-check"></i><b>14.1</b> Start by listing questions</a></li>
+<li class="chapter" data-level="14.2" data-path="explore.html"><a href="explore.html#understand-your-data"><i class="fa fa-check"></i><b>14.2</b> Understand your data</a></li>
+<li class="chapter" data-level="14.3" data-path="explore.html"><a href="explore.html#pay-attention-to-the-shape-of-your-data"><i class="fa fa-check"></i><b>14.3</b> Pay attention to the shape of your data</a></li>
+<li class="chapter" data-level="14.4" data-path="explore.html"><a href="explore.html#counting-and-aggregation"><i class="fa fa-check"></i><b>14.4</b> Counting and aggregation</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="explore.html"><a href="explore.html#counting-rows-based-on-a-column"><i class="fa fa-check"></i><b>14.4.1</b> Counting rows based on a column</a></li>
+<li class="chapter" data-level="14.4.2" data-path="explore.html"><a href="explore.html#sum-mean-and-other-aggregations"><i class="fa fa-check"></i><b>14.4.2</b> Sum, mean and other aggregations</a></li>
+<li class="chapter" data-level="14.4.3" data-path="explore.html"><a href="explore.html#creating-columns-to-show-difference"><i class="fa fa-check"></i><b>14.4.3</b> Creating columns to show difference</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="explore.html"><a href="explore.html#cleaning-up-categorical-data"><i class="fa fa-check"></i><b>14.5</b> Cleaning up categorical data</a></li>
+<li class="chapter" data-level="14.6" data-path="explore.html"><a href="explore.html#time-as-a-variable"><i class="fa fa-check"></i><b>14.6</b> Time as a variable</a></li>
+<li class="chapter" data-level="14.7" data-path="explore.html"><a href="explore.html#explore-the-distributions-in-your-data"><i class="fa fa-check"></i><b>14.7</b> Explore the distributions in your data</a>
+<ul>
+<li class="chapter" data-level="14.7.1" data-path="explore.html"><a href="explore.html#more-on-histograms"><i class="fa fa-check"></i><b>14.7.1</b> More on histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="14.8" data-path="explore.html"><a href="explore.html#same-ideas-using-spreadsheets"><i class="fa fa-check"></i><b>14.8</b> Same ideas using spreadsheets</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="charts.html"><a href="charts.html"><i class="fa fa-check"></i><b>15</b> Chart production tips</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="charts.html"><a href="charts.html#titles-descriptions-and-annotations"><i class="fa fa-check"></i><b>15.1</b> Titles, descriptions and annotations</a></li>
+<li class="chapter" data-level="15.2" data-path="charts.html"><a href="charts.html#other-considerations"><i class="fa fa-check"></i><b>15.2</b> Other considerations</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Reporting with Data in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sums-analyze" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Summarize with math - analysis<a href="sums-analyze.html#sums-analyze" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>This chapter is by Prof. McDonald, who uses macOS.</p>
+<p>In the last chapter, we learned about the LESO data … that local law enforcement agencies can get surplus military equipment from the U.S. Department of Defense. We downloaded a combined version of the data, modified it for our purposes (used <code>mutate()</code> to create a new column calculated from other variables in the data) and then filtered it to just Texas records over a specific time period.</p>
+<p>Throughout this lesson I’ll give you a chance to work out the code on your own, but then give you the answer and explain it. <strong>You won’t learn this if you just copy/paste.</strong> The key is not that the code runs, but that you understand what the code is doing.</p>
+<div id="learning-goals-of-this-lesson-1" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Learning goals of this lesson<a href="sums-analyze.html#learning-goals-of-this-lesson-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this chapter we will start querying the data using <strong>summarize with math</strong>, basically using summarize to add values in a column instead of counting rows, which we did with the Billboard assignment.</p>
+<p>Our learning goals are:</p>
+<ul>
+<li>To use the combination of <code>group_by()</code>, <code>summarize()</code> and <code>arrange()</code> to add columns of data using <code>sum()</code>.</li>
+<li>To use different <code>group_by()</code> groupings in specific ways to get desired results.</li>
+<li>To practice using <code>filter()</code> on those summaries to better see certain results, including filtering with<em>in</em> a vector (or list of strings).</li>
+<li>We’ll research and write about some of the findings, practicing data-centric ledes and sentences describing data.</li>
+</ul>
+</div>
+<div id="questions-to-answer" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Questions to answer<a href="sums-analyze.html#questions-to-answer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>All answers should be based on data about <strong>Texas agencies</strong> from <strong>Jan. 1, 2010 to present</strong>. All of these questions are for the “controlled” items, only.</p>
+<ul>
+<li><em>How many total “controlled” items were transferred, and what are they all worth?</em> We’ll summarize all the controlled items only to get the total quantity and total value of everything.</li>
+<li><em>How many total “controlled” items did each agency get and how much was it all worth?</em> Which agency got the most stuff?
+<ul>
+<li><em>How about local agencies?</em> I’ll give you a list.</li>
+</ul></li>
+<li><em>What specific “controlled” items did each agency get and how much were they worth?</em> Now we’re looking at the kinds of items.
+<ul>
+<li><em>What did local agencies get?</em></li>
+</ul></li>
+</ul>
+<p>You’ll research some of the more interesting items the agencies received so you can include them in your data drop.</p>
+</div>
+<div id="set-up-the-analysis-notebook" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Set up the analysis notebook<a href="sums-analyze.html#set-up-the-analysis-notebook" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Before we get into how to do this, let’s set up our analysis notebook.</p>
+<ol style="list-style-type: decimal">
+<li>Make sure you have your military surplus project open in RStudio. If you have your import notebook open, close it and use Run &gt; Restart R and Clear Output.</li>
+<li>Create a new RNotebook and edit the title as “Military surplus analysis”.</li>
+<li>Remove the boilerplate text.</li>
+<li>Create a setup section (headline, text and code chunk) that loads the tidyverse library.</li>
+<li>Save the notebook at <code>02-analysis.Rmd</code>.</li>
+</ol>
+<p>We’ve started each notebook like this, so you should be able to do this on your own now.</p>
+<details>
+<summary>
+Library setup
+</summary>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="sums-analyze.html#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.2.0     ✔ stringr 1.4.1
+## ✔ readr   2.1.2     ✔ forcats 0.5.1
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+</details>
+<div id="load-the-data-into-a-tibble" class="section level3 hasAnchor" number="6.3.1">
+<h3><span class="header-section-number">6.3.1</span> Load the data into a tibble<a href="sums-analyze.html#load-the-data-into-a-tibble" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ol style="list-style-type: decimal">
+<li>Next create an import section (headline, text and chunk) that loads the data from the previous notebook and save it into a tibble called <code>tx</code>.</li>
+<li>Add a <code>glimpse()</code> of the data for your reference.</li>
+</ol>
+<p>We did this in Billboard and you should be able to do it. You’ll use <code>read_rds()</code> and find your data in your data-processed folder.</p>
+<details>
+<summary>
+Remember your data is in data-processed
+</summary>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="sums-analyze.html#cb122-1" aria-hidden="true" tabindex="-1"></a>tx <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;data-processed/01-leso-tx.rds&quot;</span>)</span>
+<span id="cb122-2"><a href="sums-analyze.html#cb122-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-3"><a href="sums-analyze.html#cb122-3" aria-hidden="true" tabindex="-1"></a>tx <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 6,698
+## Columns: 13
+## $ state             &lt;chr&gt; &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;…
+## $ agency_name       &lt;chr&gt; &quot;ABERNATHY POLICE DEPT&quot;, &quot;ABERNATHY POLICE DEPT&quot;, &quot;A…
+## $ nsn               &lt;chr&gt; &quot;2320-01-371-9584&quot;, &quot;1240-01-540-3690&quot;, &quot;1240-01-411…
+## $ item_name         &lt;chr&gt; &quot;TRUCK,UTILITY&quot;, &quot;SIGHT,REFLEX&quot;, &quot;SIGHT,REFLEX&quot;, &quot;SI…
+## $ quantity          &lt;dbl&gt; 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ ui                &lt;chr&gt; &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Each&quot;, &quot;Eac…
+## $ acquisition_value &lt;dbl&gt; 62627, 333, 396, 396, 396, 371680, 371680, 658000, 3…
+## $ demil_code        &lt;chr&gt; &quot;C&quot;, &quot;D&quot;, &quot;D&quot;, &quot;D&quot;, &quot;D&quot;, &quot;Q&quot;, &quot;Q&quot;, &quot;C&quot;, &quot;D&quot;, &quot;D&quot;, &quot;D…
+## $ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 6, 7, 7, 1, 1…
+## $ ship_date         &lt;dttm&gt; 2016-03-07, 2016-02-02, 2013-09-13, 2013-09-13, 201…
+## $ station_type      &lt;chr&gt; &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;, &quot;State&quot;…
+## $ total_value       &lt;dbl&gt; 62627, 1665, 396, 396, 396, 371680, 371680, 658000, …
+## $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE…</code></pre>
+</details>
+<p><br/></p>
+<p>You should see the <code>tx</code> object in your Environment tab. You also have the glimpse that gives you an idea of what each variable in the data is.</p>
+</div>
+</div>
+<div id="filter-for-controlled-items" class="section level2 hasAnchor" number="6.4">
+<h2><span class="header-section-number">6.4</span> Filter for controlled items<a href="sums-analyze.html#filter-for-controlled-items" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>For this assignment we want to focus on “controlled” items vs the more generic non-controlled items we learned about in the documentation. Let’s filter to capture just the controlled data for our analysis.</p>
+<p>As you might recall from the Billboard project, the <code>filter()</code> function is our workhorse for focusing our data. In our import notebook we created our <code>control_type</code> column so we could do exactly this: Find only the rows of “controlled” items.</p>
+<ol style="list-style-type: decimal">
+<li>Start a new Markdown section and note you are getting controlled items.</li>
+<li>Start with your <code>tx</code> data, but then filter it to <code>control_type == TRUE</code>.</li>
+<li>Save the result into a new tibble called <code>tx_c</code>.</li>
+</ol>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="sums-analyze.html#cb124-1" aria-hidden="true" tabindex="-1"></a>tx_c <span class="ot">&lt;-</span> tx <span class="sc">|&gt;</span> </span>
+<span id="cb124-2"><a href="sums-analyze.html#cb124-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(control_type <span class="sc">==</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>At this point you have a new tibble called <code>tx_c</code> that has only the weapons and other controlled property, so now we can take a closer look at that data.</p>
+</div>
+<div id="building-summaries-with-math" class="section level2 hasAnchor" number="6.5">
+<h2><span class="header-section-number">6.5</span> Building summaries with math<a href="sums-analyze.html#building-summaries-with-math" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As we get into the first quest, let’s talk about “how” we go about these summaries.</p>
+<p>When I am querying my data, I start by envisioning what the result should look like. Let’s take the first question: <strong>How many total “controlled” items were transferred, and what are they all worth?</strong></p>
+<p>Let’s break this down:</p>
+<ul>
+<li>“How many total controlled items” is how many individual things were transferred. We have this <code>quantity</code> column that has the number of items in each row, so if we want the total for the data set, we can add together all the values in that column. We do this within a <code>summarize()</code> but instead of counting rows using <code>n()</code>, we’ll use the function <code>sum(quantity)</code> which will add all the values in <code>quantity</code> column together.</li>
+<li>“… what are they all worth” is very similar, but we want to add together all those values in our <code>total_value</code> column. (Remember, we don’t want to use <code>acquisition_value</code> because that is the value of only ONE item, not the total for the row.</li>
+</ul>
+<div id="summarize-across-the-data" class="section level3 hasAnchor" number="6.5.1">
+<h3><span class="header-section-number">6.5.1</span> Summarize across the data<a href="sums-analyze.html#summarize-across-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>So, let’s put this together with code.</p>
+<ol style="list-style-type: decimal">
+<li>Start a new Markdown section that you are getting total values.</li>
+<li>Add a code chunk like below and run it.</li>
+</ol>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="sums-analyze.html#cb125-1" aria-hidden="true" tabindex="-1"></a>tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb125-2"><a href="sums-analyze.html#cb125-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb125-3"><a href="sums-analyze.html#cb125-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(quantity),</span>
+<span id="cb125-4"><a href="sums-analyze.html#cb125-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(total_value)</span>
+<span id="cb125-5"><a href="sums-analyze.html#cb125-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 2
+##   `sum(quantity)` `sum(total_value)`
+##             &lt;dbl&gt;              &lt;dbl&gt;
+## 1           22583         134445960.</code></pre>
+<p>Walking through the code …</p>
+<ul>
+<li>We start with the <code>tx_c</code> tibble of the controlled items.</li>
+<li>Then we pipe into <code>summarize()</code>. Because we are going to add multiple things, I put them on separate lines just to make this more readable.</li>
+</ul>
+<p>You’ll notice that the names of the columns are the function names. We can “name” our new columns just like we did in Billboard. We could call this whatever we want, but good practice is to name it what it is. We’ll use good naming techniques and split the words using <code>_</code>. I also use all lowercase characters.</p>
+<ol style="list-style-type: decimal">
+<li><strong>Edit your chunk</strong> to add in the new column names and run it.</li>
+</ol>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="sums-analyze.html#cb127-1" aria-hidden="true" tabindex="-1"></a>tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb127-2"><a href="sums-analyze.html#cb127-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb127-3"><a href="sums-analyze.html#cb127-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity),</span>
+<span id="cb127-4"><a href="sums-analyze.html#cb127-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_total_value =</span> <span class="fu">sum</span>(total_value)</span>
+<span id="cb127-5"><a href="sums-analyze.html#cb127-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 2
+##   summed_quantity summed_total_value
+##             &lt;dbl&gt;              &lt;dbl&gt;
+## 1           22583         134445960.</code></pre>
+<p>OK, from this we have learned something: <strong>Since Jan. 1, 2010, Texas law enforcement agencies have received more than 26,000 controlled items worth nearly $140 million</strong>.</p>
+<p>We’re going to do this again below, so I’ll dive deeper into explanations there.</p>
+</div>
+<div id="na-values-in-a-sum-mean-and-median" class="section level3 hasAnchor" number="6.5.2">
+<h3><span class="header-section-number">6.5.2</span> NA values in a sum, mean and median<a href="sums-analyze.html#na-values-in-a-sum-mean-and-median" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>When we do math like this within summarize we need to take special note if our column has any blank values, called <code>NA</code>, as in not available. If there are, then you will get <code>NA</code> for the result. R will NOT do the math on the remaining values unless you tell it so. This is true not only for <code>sum()</code>, but also for <code>mean()</code> which gets an average, and for <code>median()</code> which finds the middle number in a column.</p>
+<p>There is a way to get around this by including an argument within the mathy function: <code>sum(col_name, na.rm = TRUE)</code>.</p>
+<p>I can show this with the <code>demil_ic</code> column which is a number datatype with some NA values. To be clear, the <code>demil_ic</code> variable isn’t really designed to do math on it as it is really a category, but it will show what I’m talking about here.</p>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="sums-analyze.html#cb129-1" aria-hidden="true" tabindex="-1"></a>tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb129-2"><a href="sums-analyze.html#cb129-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb129-3"><a href="sums-analyze.html#cb129-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dumb_sum =</span> <span class="fu">sum</span>(demil_ic),</span>
+<span id="cb129-4"><a href="sums-analyze.html#cb129-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">less_dumb_sum =</span> <span class="fu">sum</span>(demil_ic, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb129-5"><a href="sums-analyze.html#cb129-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">dumb_avg =</span> <span class="fu">mean</span>(demil_ic),</span>
+<span id="cb129-6"><a href="sums-analyze.html#cb129-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">less_dumb_avg =</span> <span class="fu">mean</span>(demil_ic, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb129-7"><a href="sums-analyze.html#cb129-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 4
+##   dumb_sum less_dumb_sum dumb_avg less_dumb_avg
+##      &lt;dbl&gt;         &lt;dbl&gt;    &lt;dbl&gt;         &lt;dbl&gt;
+## 1       NA          7562       NA          1.41</code></pre>
+<p>So there you have examples of using <code>sum()</code> and <code>mean()</code> with and without <code>na.rm = TRUE</code>. OK, you’ve been warned.</p>
+</div>
+</div>
+<div id="totals-by-agency" class="section level2 hasAnchor" number="6.6">
+<h2><span class="header-section-number">6.6</span> Totals by agency<a href="sums-analyze.html#totals-by-agency" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>OK, your next question is this: <strong>For each agency, how many things did they get and how much was it all worth?</strong></p>
+<p>The key part of thinking about this logically is <strong>For each agency</strong>. That “for each” is a clue that we need <code>group_by()</code> for something. We basically need what we did above, but we first need to group_by the <code>agency_name</code>.</p>
+<p>Let’s break this question down:</p>
+<ul>
+<li>“For each agency” tells me I need to <strong>group_by</strong> the <code>agency_name</code> so I can summarize totals within each agency.</li>
+<li>“how many total things” means how many items. Like before, we have the <code>quantity</code> variable, so we need to add all those together within summarize like we did above.</li>
+<li>“how much was it worth” is another sum, but this time we want to sum the <code>total_value</code> column</li>
+</ul>
+<p>So I envision my result looking like this:</p>
+<table>
+<thead>
+<tr class="header">
+<th>agency_name</th>
+<th align="right">summed_quantity</th>
+<th align="right">summed_total_value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>AFAKE POLICE DEPT</td>
+<td align="right">6419</td>
+<td align="right">10825707.5</td>
+</tr>
+<tr class="even">
+<td>BFAKE SHERIFF’S OFFICE</td>
+<td align="right">381</td>
+<td align="right">3776291.52</td>
+</tr>
+<tr class="odd">
+<td>CFAKE SHERIFF’S OFFICE</td>
+<td align="right">270</td>
+<td align="right">3464741.36</td>
+</tr>
+<tr class="even">
+<td>DFAKE POLICE DEPT</td>
+<td align="right">1082</td>
+<td align="right">3100420.57</td>
+</tr>
+</tbody>
+</table>
+<p>The first columns in that summary will be our grouped values. This example is only grouping by one thing, <code>agency_name</code>. The other two columns are the summed values I’m looking to generate.</p>
+<div id="group_by-then-summary-with-math" class="section level3 hasAnchor" number="6.6.1">
+<h3><span class="header-section-number">6.6.1</span> Group_by, then summary with math<a href="sums-analyze.html#group_by-then-summary-with-math" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We’ll start with the <strong>total_quantity</strong>.</p>
+<ol style="list-style-type: decimal">
+<li>Add a new section (headline, text and chunk) that describes the second quest: For each agency in Texas, find the summed <strong>quantity</strong> and summed <strong>total value</strong> of the equipment they received.</li>
+<li>Add the code below into the chunk and run it.</li>
+</ol>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="sums-analyze.html#cb131-1" aria-hidden="true" tabindex="-1"></a>tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb131-2"><a href="sums-analyze.html#cb131-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">|&gt;</span> </span>
+<span id="cb131-3"><a href="sums-analyze.html#cb131-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb131-4"><a href="sums-analyze.html#cb131-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity)</span>
+<span id="cb131-5"><a href="sums-analyze.html#cb131-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## # A tibble: 335 × 2
+##    agency_name                     summed_quantity
+##    &lt;chr&gt;                                     &lt;dbl&gt;
+##  1 ABERNATHY POLICE DEPT                         6
+##  2 ALLEN POLICE DEPT                            11
+##  3 ALVARADO ISD PD                               4
+##  4 ALVIN POLICE DEPT                           478
+##  5 ANDERSON COUNTY SHERIFFS OFFICE               7
+##  6 ANDREWS COUNTY SHERIFF OFFICE                12
+##  7 ANSON POLICE DEPT                             9
+##  8 ANTHONY POLICE DEPT                          10
+##  9 ARANSAS PASS POLICE DEPARTMENT               28
+## 10 ARCHER COUNTY SHERIFF OFFICE                  3
+## # … with 325 more rows</code></pre>
+<p>Let’s break this down a little.</p>
+<ul>
+<li>We start with the <code>tx_c</code>, which is the “controlled” data, and then …</li>
+<li>We group by <code>agency_name</code>. This organizes our data (behind the scenes) so our summarize actions will happen <em>within each agency</em>. Now I normally say run your code one line at a time, but you would not be able to <em>see</em> the groupings at this point, so I usually write <code>group_by()</code> and <code>summarize()</code> together.</li>
+<li>In <code>summarize()</code> we first name our new column: <code>summed_quantity</code>, then we set that column to equal <code>=</code> the <strong>sum of all values in the <code>quantity</code> column</strong>. <code>sum()</code> is the function, and we feed it the column we want to add together: <code>quantity</code>.</li>
+<li>I put the inside of the summarize function in its own line because we will add to it. I enhances readability. RStudio will help you with the indenting, etc.</li>
+</ul>
+<p>If you look at the first line of the return, it is taking all the rows for the “ABERNATHY POLICE DEPT” and then adding together all the values in the <code>quantity</code> field.</p>
+<p>If you wanted to test this (and that is a real good idea), you might look at the data from one of the values and check the math. Here are the Abernathy rows. I usually do these tests in a code chunk of their own, and sometimes I delete them after I’m sure my logic works.</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="sums-analyze.html#cb133-1" aria-hidden="true" tabindex="-1"></a>tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb133-2"><a href="sums-analyze.html#cb133-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">==</span> <span class="st">&quot;ABERNATHY POLICE DEPT&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 13
+##   state agency_name          nsn   item_…¹ quant…² ui    acqui…³ demil…⁴ demil…⁵
+##   &lt;chr&gt; &lt;chr&gt;                &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
+## 1 TX    ABERNATHY POLICE DE… 2320… TRUCK,…       1 Each    62627 C             1
+## 2 TX    ABERNATHY POLICE DE… 1240… SIGHT,…       5 Each      333 D             1
+## # … with 4 more variables: ship_date &lt;dttm&gt;, station_type &lt;chr&gt;,
+## #   total_value &lt;dbl&gt;, control_type &lt;lgl&gt;, and abbreviated variable names
+## #   ¹​item_name, ²​quantity, ³​acquisition_value, ⁴​demil_code, ⁵​demil_ic</code></pre>
+<p>If we look at the <code>quantity</code> column there and eyeball all the rows, we see there 8 rows with a value of “1”, and one row with a value of “5”. 8 + 5 = 13, which matches our <code>summed_quantity</code> answer in our summary table. We’re good!</p>
+</div>
+<div id="add-the-total_value" class="section level3 hasAnchor" number="6.6.2">
+<h3><span class="header-section-number">6.6.2</span> Add the total_value<a href="sums-analyze.html#add-the-total_value" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We don’t have to stop at one summary. We can perform multiple summarize actions on the same or different columns within the same expression.</p>
+<p><strong>Edit your summary chunk</strong> to:</p>
+<ol style="list-style-type: decimal">
+<li>Add add a comma after the first summarize action.</li>
+<li>Add the new expression to give us the <code>summed_total_value</code> and run it.</li>
+</ol>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="sums-analyze.html#cb135-1" aria-hidden="true" tabindex="-1"></a>tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb135-2"><a href="sums-analyze.html#cb135-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">|&gt;</span> </span>
+<span id="cb135-3"><a href="sums-analyze.html#cb135-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb135-4"><a href="sums-analyze.html#cb135-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity),</span>
+<span id="cb135-5"><a href="sums-analyze.html#cb135-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_total_value =</span> <span class="fu">sum</span>(total_value)</span>
+<span id="cb135-6"><a href="sums-analyze.html#cb135-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## # A tibble: 335 × 3
+##    agency_name                     summed_quantity summed_total_value
+##    &lt;chr&gt;                                     &lt;dbl&gt;              &lt;dbl&gt;
+##  1 ABERNATHY POLICE DEPT                         6             64292 
+##  2 ALLEN POLICE DEPT                            11           1404528 
+##  3 ALVARADO ISD PD                               4               480 
+##  4 ALVIN POLICE DEPT                           478           2436004.
+##  5 ANDERSON COUNTY SHERIFFS OFFICE               7            733720 
+##  6 ANDREWS COUNTY SHERIFF OFFICE                12              1476 
+##  7 ANSON POLICE DEPT                             9              5329 
+##  8 ANTHONY POLICE DEPT                          10              7490 
+##  9 ARANSAS PASS POLICE DEPARTMENT               28            515396.
+## 10 ARCHER COUNTY SHERIFF OFFICE                  3           1101000 
+## # … with 325 more rows</code></pre>
+</div>
+<div id="arrange-the-results-1" class="section level3 hasAnchor" number="6.6.3">
+<h3><span class="header-section-number">6.6.3</span> Arrange the results<a href="sums-analyze.html#arrange-the-results-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>OK, this gives us our answers, but in alphabetical order. We want to arrange the data so it gives us the most <code>summed_total_value</code> in <strong>desc</strong>ending order.</p>
+<ol style="list-style-type: decimal">
+<li>EDIT your block to add an <code>arrange()</code> function below</li>
+</ol>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="sums-analyze.html#cb137-1" aria-hidden="true" tabindex="-1"></a>tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb137-2"><a href="sums-analyze.html#cb137-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">|&gt;</span> </span>
+<span id="cb137-3"><a href="sums-analyze.html#cb137-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb137-4"><a href="sums-analyze.html#cb137-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity),</span>
+<span id="cb137-5"><a href="sums-analyze.html#cb137-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_total_value =</span> <span class="fu">sum</span>(total_value)</span>
+<span id="cb137-6"><a href="sums-analyze.html#cb137-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb137-7"><a href="sums-analyze.html#cb137-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(summed_total_value <span class="sc">|&gt;</span> <span class="fu">desc</span>())</span></code></pre></div>
+<pre><code>## # A tibble: 335 × 3
+##    agency_name                       summed_quantity summed_total_value
+##    &lt;chr&gt;                                       &lt;dbl&gt;              &lt;dbl&gt;
+##  1 HOUSTON POLICE DEPT                          2384           7322064.
+##  2 JEFFERSON COUNTY SHERIFFS OFFICE              206           3412547.
+##  3 SAN MARCOS POLICE DEPT                        600           3200702.
+##  4 DPS SWAT- TEXAS RANGERS                       137           3015221 
+##  5 AUSTIN POLICE DEPT                           1392           2622087.
+##  6 ALVIN POLICE DEPT                             478           2436004.
+##  7 HARRIS COUNTY CONSTABLE PCT 3                 291           2321126.
+##  8 MILAM COUNTY SHERIFF DEPT                      83           2196952.
+##  9 HARRIS COUNTY SHERIFF&#39;S OFFICE                 16           1834141 
+## 10 VAN ZANDT COUNTY SHERIFF&#39;S OFFICE              45           1789636.
+## # … with 325 more rows</code></pre>
+<p>So now we’ve sorted the results to put the highest <code>summed_total_value</code> at the top.</p>
+<p>Remember, there are two ways we can set up that <code>arrange()</code> function in descending order:</p>
+<ul>
+<li><code>arrange(summed_total_value |&gt; desc())</code></li>
+<li><code>arrange(desc(summed_total_value))</code></li>
+</ul>
+<p>Both work and are correct. It really is your preference.</p>
+</div>
+<div id="consider-the-results" class="section level3 hasAnchor" number="6.6.4">
+<h3><span class="header-section-number">6.6.4</span> Consider the results<a href="sums-analyze.html#consider-the-results" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Is there anything that sticks out in that list? It helps if you know a little bit about Texas cities and counties, but here are some thoughts to ponder:</p>
+<ul>
+<li>Houston is the largest city in the state (4th largest in the country, in fact). It makes sense that it tops the list. Same for Harris County or even the state police force. Austin being up there is also not crazy, as it’s almost a million people.</li>
+<li>But what about San Marcos (pop. 63,220)? Or Milam County (pop. 24,770)? Those are way smaller cities and law enforcement agencies. They might be worth looking into.</li>
+</ul>
+<p>Perhaps we should look some at the police agencies closest to us.</p>
+</div>
+</div>
+<div id="looking-a-local-agencies" class="section level2 hasAnchor" number="6.7">
+<h2><span class="header-section-number">6.7</span> Looking a local agencies<a href="sums-analyze.html#looking-a-local-agencies" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Our second quest had a second part: <strong>How does this look for local police agencies?</strong></p>
+<p>We’ll take the summary above, but then filter it to show only local agencies of interest.</p>
+<div id="save-our-by-agency-list" class="section level3 hasAnchor" number="6.7.1">
+<h3><span class="header-section-number">6.7.1</span> Save our “by agency” list<a href="sums-analyze.html#save-our-by-agency-list" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Since we want to take an existing summary and add more filtering to it, it makes sense to go back into that chunk and save it into a new object so we can reuse it.</p>
+<ol style="list-style-type: decimal">
+<li>EDIT your existing summary chunk to save the result into a new tibble. Name it <code>tx_agency_totals</code> so we are all on the same page.</li>
+<li>Add a new line that prints the result to the screen so you can still see it.</li>
+</ol>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="sums-analyze.html#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adding the new tibble object in next line</span></span>
+<span id="cb139-2"><a href="sums-analyze.html#cb139-2" aria-hidden="true" tabindex="-1"></a>tx_agency_totals <span class="ot">&lt;-</span> tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb139-3"><a href="sums-analyze.html#cb139-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name) <span class="sc">|&gt;</span> </span>
+<span id="cb139-4"><a href="sums-analyze.html#cb139-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb139-5"><a href="sums-analyze.html#cb139-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity),</span>
+<span id="cb139-6"><a href="sums-analyze.html#cb139-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_total_value =</span> <span class="fu">sum</span>(total_value)</span>
+<span id="cb139-7"><a href="sums-analyze.html#cb139-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb139-8"><a href="sums-analyze.html#cb139-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(summed_total_value <span class="sc">|&gt;</span> <span class="fu">desc</span>())</span>
+<span id="cb139-9"><a href="sums-analyze.html#cb139-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb139-10"><a href="sums-analyze.html#cb139-10" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
+<span id="cb139-11"><a href="sums-analyze.html#cb139-11" aria-hidden="true" tabindex="-1"></a>tx_agency_totals</span></code></pre></div>
+<pre><code>## # A tibble: 335 × 3
+##    agency_name                       summed_quantity summed_total_value
+##    &lt;chr&gt;                                       &lt;dbl&gt;              &lt;dbl&gt;
+##  1 HOUSTON POLICE DEPT                          2384           7322064.
+##  2 JEFFERSON COUNTY SHERIFFS OFFICE              206           3412547.
+##  3 SAN MARCOS POLICE DEPT                        600           3200702.
+##  4 DPS SWAT- TEXAS RANGERS                       137           3015221 
+##  5 AUSTIN POLICE DEPT                           1392           2622087.
+##  6 ALVIN POLICE DEPT                             478           2436004.
+##  7 HARRIS COUNTY CONSTABLE PCT 3                 291           2321126.
+##  8 MILAM COUNTY SHERIFF DEPT                      83           2196952.
+##  9 HARRIS COUNTY SHERIFF&#39;S OFFICE                 16           1834141 
+## 10 VAN ZANDT COUNTY SHERIFF&#39;S OFFICE              45           1789636.
+## # … with 325 more rows</code></pre>
+<p>The result is the same, but we can reuse the <code>tx_agency_totals</code> tibble.</p>
+</div>
+<div id="filtering-within-a-vector" class="section level3 hasAnchor" number="6.7.2">
+<h3><span class="header-section-number">6.7.2</span> Filtering within a vector<a href="sums-analyze.html#filtering-within-a-vector" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>Let’s talk through the filter concepts before you try it with this data.</strong></p>
+<p>When we talked about filtering with the Billboard project, we discussed using the <code>|</code> operator as an “OR” function. If we were to apply that logic here, it would look like this:</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="sums-analyze.html#cb141-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb141-2"><a href="sums-analyze.html#cb141-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(column_name <span class="sc">==</span> <span class="st">&quot;Text to find&quot;</span> <span class="sc">|</span> column_name <span class="sc">==</span> <span class="st">&quot;More text to find&quot;</span>)</span></code></pre></div>
+<p>That can get pretty unwieldy if you have more than a couple of things to look for.</p>
+<p>There is another operator <code>%in%</code> where we can search for multiple items from a list. (This list of terms is officially called a vector, but whatever.) Think of it like this in plain English: <em>Filter</em> the <em>column</em> for things <em>in</em> this <em>list</em>.</p>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="sums-analyze.html#cb142-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb142-2"><a href="sums-analyze.html#cb142-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;This string&quot;</span>, <span class="st">&quot;That string&quot;</span>))</span></code></pre></div>
+<p>We can take this a step further by saving the items in our list into an R object so we can reuse that list and not have to type out all the terms each time we use them.</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="sums-analyze.html#cb143-1" aria-hidden="true" tabindex="-1"></a>list_of_strings <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb143-2"><a href="sums-analyze.html#cb143-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;This string&quot;</span>,</span>
+<span id="cb143-3"><a href="sums-analyze.html#cb143-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;That string&quot;</span></span>
+<span id="cb143-4"><a href="sums-analyze.html#cb143-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb143-5"><a href="sums-analyze.html#cb143-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb143-6"><a href="sums-analyze.html#cb143-6" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb143-7"><a href="sums-analyze.html#cb143-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_name <span class="sc">%in%</span> list_of_strings)</span></code></pre></div>
+</div>
+<div id="create-a-vector-to-build-this-filter" class="section level3 hasAnchor" number="6.7.3">
+<h3><span class="header-section-number">6.7.3</span> Create a vector to build this filter<a href="sums-analyze.html#create-a-vector-to-build-this-filter" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In the interest of time, I’m going to give you the list of local police agencies to filter with. To be clear, I did considerable work to figure out the exact names of these agencies. I consulted a different data set that lists all law enforcement agencies in Texas and then I used some creative filtering to find their “official” names in the leso data. It also helps that I’m familiar with local cities and counties so I can recognize the names. <strong>I don’t want to get sidetracked on that process here so I’ll give you the list and show you how to use it.</strong></p>
+<ol style="list-style-type: decimal">
+<li>Create a new section (headline, text and chunk) and describe you are filtering the summed quantity/values for local agencies.</li>
+<li>Add the code below into that chunk.</li>
+</ol>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="sums-analyze.html#cb144-1" aria-hidden="true" tabindex="-1"></a>local_agencies <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb144-2"><a href="sums-analyze.html#cb144-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;AUSTIN PARKS POLICE DEPT&quot;</span>, <span class="co">#NI</span></span>
+<span id="cb144-3"><a href="sums-analyze.html#cb144-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;AUSTIN POLICE DEPT&quot;</span>,</span>
+<span id="cb144-4"><a href="sums-analyze.html#cb144-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;BASTROP COUNTY SHERIFF&#39;S OFFICE&quot;</span>,</span>
+<span id="cb144-5"><a href="sums-analyze.html#cb144-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;BASTROP POLICE DEPT&quot;</span>,</span>
+<span id="cb144-6"><a href="sums-analyze.html#cb144-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;BEE CAVE POLICE DEPT&quot;</span>,</span>
+<span id="cb144-7"><a href="sums-analyze.html#cb144-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;BUDA POLICE DEPT&quot;</span>,</span>
+<span id="cb144-8"><a href="sums-analyze.html#cb144-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;CALDWELL COUNTY SHERIFFS OFFICE&quot;</span>,</span>
+<span id="cb144-9"><a href="sums-analyze.html#cb144-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;CEDAR PARK POLICE DEPT&quot;</span>,</span>
+<span id="cb144-10"><a href="sums-analyze.html#cb144-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;ELGIN POLICE DEPARTMENT&quot;</span>,</span>
+<span id="cb144-11"><a href="sums-analyze.html#cb144-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;FLORENCE POLICE DEPT&quot;</span>, <span class="co">#NI</span></span>
+<span id="cb144-12"><a href="sums-analyze.html#cb144-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;GEORGETOWN POLICE DEPT&quot;</span>,</span>
+<span id="cb144-13"><a href="sums-analyze.html#cb144-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;GRANGER POLICE DEPT&quot;</span>, <span class="co">#NI</span></span>
+<span id="cb144-14"><a href="sums-analyze.html#cb144-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;HAYS CO CONSTABLE PRECINCT 4&quot;</span>,</span>
+<span id="cb144-15"><a href="sums-analyze.html#cb144-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;HAYS COUNTY SHERIFFS OFFICE&quot;</span>,</span>
+<span id="cb144-16"><a href="sums-analyze.html#cb144-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;HUTTO POLICE DEPT&quot;</span>,</span>
+<span id="cb144-17"><a href="sums-analyze.html#cb144-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;JARRELL POLICE DEPT&quot;</span>, <span class="co">#NI</span></span>
+<span id="cb144-18"><a href="sums-analyze.html#cb144-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;JONESTOWN POLICE DEPT&quot;</span>, <span class="co">#NI</span></span>
+<span id="cb144-19"><a href="sums-analyze.html#cb144-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;KYLE POLICE DEPT&quot;</span>,</span>
+<span id="cb144-20"><a href="sums-analyze.html#cb144-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;LAGO VISTA POLICE DEPT&quot;</span>,</span>
+<span id="cb144-21"><a href="sums-analyze.html#cb144-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;LAKEWAY POLICE DEPT&quot;</span>, <span class="co">#NI</span></span>
+<span id="cb144-22"><a href="sums-analyze.html#cb144-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;LEANDER POLICE DEPT&quot;</span>,</span>
+<span id="cb144-23"><a href="sums-analyze.html#cb144-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;LIBERTY HILL POLICE DEPT&quot;</span>, <span class="co">#NI</span></span>
+<span id="cb144-24"><a href="sums-analyze.html#cb144-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;LOCKHART POLICE DEPT&quot;</span>,</span>
+<span id="cb144-25"><a href="sums-analyze.html#cb144-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;LULING POLICE DEPT&quot;</span>,</span>
+<span id="cb144-26"><a href="sums-analyze.html#cb144-26" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;MANOR POLICE DEPT&quot;</span>,</span>
+<span id="cb144-27"><a href="sums-analyze.html#cb144-27" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;MARTINDALE POLICE DEPT&quot;</span>, <span class="co">#NI</span></span>
+<span id="cb144-28"><a href="sums-analyze.html#cb144-28" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;PFLUGERVILLE POLICE DEPT&quot;</span>,</span>
+<span id="cb144-29"><a href="sums-analyze.html#cb144-29" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;ROLLINGWOOD POLICE DEPT&quot;</span>, <span class="co">#NI</span></span>
+<span id="cb144-30"><a href="sums-analyze.html#cb144-30" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;SAN MARCOS POLICE DEPT&quot;</span>,</span>
+<span id="cb144-31"><a href="sums-analyze.html#cb144-31" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;SMITHVILLE POLICE DEPT&quot;</span>, <span class="co">#NI</span></span>
+<span id="cb144-32"><a href="sums-analyze.html#cb144-32" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;SUNSET VALLEY POLICE DEPT&quot;</span>, <span class="co">#NI</span></span>
+<span id="cb144-33"><a href="sums-analyze.html#cb144-33" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;TAYLOR POLICE DEPT&quot;</span>, <span class="co">#NI</span></span>
+<span id="cb144-34"><a href="sums-analyze.html#cb144-34" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;THRALL POLICE DEPT&quot;</span>, <span class="co">#NI</span></span>
+<span id="cb144-35"><a href="sums-analyze.html#cb144-35" aria-hidden="true" tabindex="-1"></a>  <span class="co"># TEXAS STATE UNIVERSITY HI_ED</span></span>
+<span id="cb144-36"><a href="sums-analyze.html#cb144-36" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;TRAVIS COUNTY SHERIFFS OFFICE&quot;</span>,</span>
+<span id="cb144-37"><a href="sums-analyze.html#cb144-37" aria-hidden="true" tabindex="-1"></a>  <span class="co"># TRAVIS CONSTABLE OFFICE,</span></span>
+<span id="cb144-38"><a href="sums-analyze.html#cb144-38" aria-hidden="true" tabindex="-1"></a>  <span class="co"># SOUTHWESTERN UNIVERSITY HI_ID</span></span>
+<span id="cb144-39"><a href="sums-analyze.html#cb144-39" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;WESTLAKE HILLS POLICE DEPT&quot;</span>, <span class="co">#NI</span></span>
+<span id="cb144-40"><a href="sums-analyze.html#cb144-40" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;UNIV OF TEXAS SYSTEM POLICE HI_ED&quot;</span>,</span>
+<span id="cb144-41"><a href="sums-analyze.html#cb144-41" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;WILLIAMSON COUNTY SHERIFF&#39;S OFFICE&quot;</span></span>
+<span id="cb144-42"><a href="sums-analyze.html#cb144-42" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb144-43"><a href="sums-analyze.html#cb144-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb144-44"><a href="sums-analyze.html#cb144-44" aria-hidden="true" tabindex="-1"></a>tx_agency_totals <span class="sc">|&gt;</span> </span>
+<span id="cb144-45"><a href="sums-analyze.html#cb144-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">%in%</span> local_agencies)</span></code></pre></div>
+<pre><code>## # A tibble: 19 × 3
+##    agency_name                        summed_quantity summed_total_value
+##    &lt;chr&gt;                                        &lt;dbl&gt;              &lt;dbl&gt;
+##  1 SAN MARCOS POLICE DEPT                         600           3200702.
+##  2 AUSTIN POLICE DEPT                            1392           2622087.
+##  3 UNIV OF TEXAS SYSTEM POLICE HI_ED                3           1305000 
+##  4 LEANDER POLICE DEPT                            212           1182083 
+##  5 GEORGETOWN POLICE DEPT                          41           1075807.
+##  6 CALDWELL COUNTY SHERIFFS OFFICE                339            977096.
+##  7 CEDAR PARK POLICE DEPT                         106            970222.
+##  8 TRAVIS COUNTY SHERIFFS OFFICE                   78            896006.
+##  9 BASTROP COUNTY SHERIFF&#39;S OFFICE                263            712074.
+## 10 HAYS COUNTY SHERIFFS OFFICE                    384            442203.
+## 11 KYLE POLICE DEPT                               197            149673.
+## 12 WILLIAMSON COUNTY SHERIFF&#39;S OFFICE             165             75460 
+## 13 LOCKHART POLICE DEPT                            16             54177.
+## 14 BEE CAVE POLICE DEPT                            38             51929.
+## 15 HUTTO POLICE DEPT                               90             13524.
+## 16 PFLUGERVILLE POLICE DEPT                         1             10747 
+## 17 BASTROP POLICE DEPT                             10              4990 
+## 18 LULING POLICE DEPT                              16              4700.
+## 19 BUDA POLICE DEPT                                16              1736.</code></pre>
+<p>Let’s walk through that code and my notes there.</p>
+<ul>
+<li>We start by giving our list of agencies a name: <code>local_agencies</code>. This creates an R object that we can reuse. We will need this list a number of times, and it makes sense to manage it in once place instead of each time we need it.</li>
+<li>Next we fill that object with a list of agency names. Again, I did some pre-work to figure out those names that we aren’t covering here, and in some cases there is a comment <code>#NI</code> next to them. That is a note to myself that the particular agency is NOT INCLUDED in our data, which means I haven’t confirmed the name spelling. It could be at a later date the Austin Parks department gets equipment, but they list their name as “CITY OF AUSTIN PARKS” instead of “AUSTIN PARKS POLICE DEPT” and it would not be filtered properly. This is another example that <strong>your most important audience for your code is your future self</strong>.</li>
+<li>Now that our list is created, we can use it to filter our <code>tx_agency_totals</code> data. So, we start with that data, and then …</li>
+<li>We pipe into <code>filter()</code>, but inside our filter we don’t set it <code>==</code> to a single thing, instead we say: <code>agency_name %in% local_agencies</code>, which says look inside that <code>agency_name</code> column and keep any row that has a value that is also in our <code>local_agencies</code> vector.</li>
+</ul>
+<p>This filters our list of agencies to just those in Central Texas.</p>
+</div>
+</div>
+<div id="types-of-items-shipped-to-each-agency" class="section level2 hasAnchor" number="6.8">
+<h2><span class="header-section-number">6.8</span> Types of items shipped to each agency<a href="sums-analyze.html#types-of-items-shipped-to-each-agency" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now that we have an overall idea of what local agencies are doing, let’s dive a little deeper. It’s time to figure out the specific items that they received.</p>
+<p>Our question is this: <strong>What specific “controlled” items did each agency get and how much were they worth?</strong></p>
+<p>In some cases an agency might get the same item shipped to them at different times. For instance, “AUSTIN POLICE DEPT” has multiple rows where they get a single “ILLUMINATOR,INTEGRATED,SMALL ARM” shipped to them on the same date, but then on other dates they have the same item but the quantity is 30. We want all of these “ILLUMINATOR,INTEGRATED,SMALL ARM” for the Austin police added together into a single record.</p>
+<p>The logic works like this:</p>
+<ul>
+<li>Start with the controlled data, and then …</li>
+<li>Group by the <code>agency_name</code> and <code>item_name</code>, which will group all the rows where those values are the same. All “AUSTIN POLICE DEPT” rows with “ILLUMINATOR,INTEGRATED,SMALL ARM” will be considered together, and then …</li>
+<li>Summarize to sum the <code>quantity</code>, and then do the same for <code>total_value</code>.</li>
+</ul>
+<p>The code for this is very similar to what we did above when we summaries agencies, except we are grouping by two things, the <strong>agency_name</strong> and the <strong>item_name</strong>. Let’s do it:</p>
+<ol style="list-style-type: decimal">
+<li>Create a new section (headline, text and code chunk) and describe that you are finding the sums for each item that each agency has received since 2010.</li>
+<li>Consult (or even copy) the code you wrote when you created the agency totals, but modify the <code>group_by()</code> to add the <code>item_name</code>, like this: <code>group_by(agency_name, item_name)</code>.</li>
+<li>Be sure you rename your created R objects, too, perhaps to <code>tx_agency_item_totals</code>.</li>
+</ol>
+<details>
+<summary>
+Give it a go on your own first, then check here
+</summary>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="sums-analyze.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adding the new tibble object in next line</span></span>
+<span id="cb146-2"><a href="sums-analyze.html#cb146-2" aria-hidden="true" tabindex="-1"></a>tx_agency_item_totals <span class="ot">&lt;-</span> tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb146-3"><a href="sums-analyze.html#cb146-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agency_name, item_name) <span class="sc">|&gt;</span> </span>
+<span id="cb146-4"><a href="sums-analyze.html#cb146-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb146-5"><a href="sums-analyze.html#cb146-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_quantity =</span> <span class="fu">sum</span>(quantity),</span>
+<span id="cb146-6"><a href="sums-analyze.html#cb146-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">summed_total_value =</span> <span class="fu">sum</span>(total_value)</span>
+<span id="cb146-7"><a href="sums-analyze.html#cb146-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb146-8"><a href="sums-analyze.html#cb146-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(summed_total_value <span class="sc">|&gt;</span> <span class="fu">desc</span>())</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;agency_name&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="sums-analyze.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
+<span id="cb148-2"><a href="sums-analyze.html#cb148-2" aria-hidden="true" tabindex="-1"></a>tx_agency_item_totals</span></code></pre></div>
+<pre><code>## # A tibble: 1,548 × 4
+## # Groups:   agency_name [335]
+##    agency_name                       item_name              summed_qua…¹ summe…²
+##    &lt;chr&gt;                             &lt;chr&gt;                         &lt;dbl&gt;   &lt;dbl&gt;
+##  1 HOUSTON POLICE DEPT               AIRCRAFT, FIXED WING              1 5390000
+##  2 DPS SWAT- TEXAS RANGERS           MINE RESISTANT VEHICLE            4 2611000
+##  3 DEPT OF CRIM JUSTICE OIG          TRUCK,CARGO                       4 1446516
+##  4 UNIV OF TEXAS SYSTEM POLICE HI_ED MINE RESISTANT VEHICLE            2 1228000
+##  5 JEFFERSON COUNTY SHERIFFS OFFICE  HELICOPTER,UTILITY                1  922704
+##  6 ALVIN POLICE DEPT                 HOIST,INTERNAL RESCUE             6  900420
+##  7 VAN ZANDT COUNTY SHERIFF&#39;S OFFICE TRUCK,WRECKER                     1  880674
+##  8 BURKBURNETT POLICE DEPT           MINE RESISTANT VEHICLE            1  865000
+##  9 CLEBURNE POLICE DEPT              MINE RESISTANT VEHICLE            1  865000
+## 10 CUERO POLICE DEPT                 MINE RESISTANT VEHICLE            1  865000
+## # … with 1,538 more rows, and abbreviated variable names ¹​summed_quantity,
+## #   ²​summed_total_value</code></pre>
+</details>
+<p><br/></p>
+<p>This reuse of code like this – copying the agency grouping code and editing it to add the item_name value – is very common in coding, and there is nothing wrong with doing so as long as you are careful.</p>
+<p>When you reuse code, review it carefully so you don’t override things by accident. In this instance, our original code created an R object: <code>tx_agency_totals &lt;- tx_c |&gt; ...</code> that holds the result of our functions, and we call that later to view it. If we reuse this code and don’t update that object name, we’ll reset the values inside that already-existing object, which was not our intent. We wabt to create a NEW thing <code>tx_agency_item_totals</code> so we can use that later, too. And if we don’t update the “peek” at the object, we’ll be looking at the old one instead of the new one.</p>
+<p>OF NOTE: With that last code chunk you’ll see a warning in your R Console: <em><code>summarise()</code> has grouped output by ‘agency_name’. You can override using the <code>.groups</code> argument.</em> This is not a problem, it’s just a reminder that when we group by more than one thing, the first grouping is retained when future functions are applied to this result. It’s more confusing than helpful, to be honest. Just know if we wanted to do further manipulation, we might need to use <code>ungroup()</code> first.</p>
+<div id="items-for-local-agencies" class="section level3 hasAnchor" number="6.8.1">
+<h3><span class="header-section-number">6.8.1</span> Items for local agencies<a href="sums-analyze.html#items-for-local-agencies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Just like we did for our agency totals, we want to filter this list of items to those sent to our local agencies. However, this time we’ve already created the list of local agencies so we don’t have to redo that part … we just need to filter by it.</p>
+<ol style="list-style-type: decimal">
+<li>Start a new section (headline, text) and explain that you are looking at items sent to local agencies.</li>
+<li>Use <code>filter()</code> to focus the data just on or <code>local_agencies</code>.</li>
+</ol>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="sums-analyze.html#cb150-1" aria-hidden="true" tabindex="-1"></a>tx_agency_item_totals <span class="sc">|&gt;</span> </span>
+<span id="cb150-2"><a href="sums-analyze.html#cb150-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">%in%</span> local_agencies)</span></code></pre></div>
+<pre><code>## # A tibble: 175 × 4
+## # Groups:   agency_name [19]
+##    agency_name                       item_name                   summe…¹ summe…²
+##    &lt;chr&gt;                             &lt;chr&gt;                         &lt;dbl&gt;   &lt;dbl&gt;
+##  1 UNIV OF TEXAS SYSTEM POLICE HI_ED MINE RESISTANT VEHICLE            2  1.23e6
+##  2 AUSTIN POLICE DEPT                HELICOPTER,FLIGHT TRAINER         1  8.33e5
+##  3 TRAVIS COUNTY SHERIFFS OFFICE     MINE RESISTANT VEHICLE            1  7.67e5
+##  4 CEDAR PARK POLICE DEPT            MINE RESISTANT VEHICLE            1  7.33e5
+##  5 GEORGETOWN POLICE DEPT            MINE RESISTANT VEHICLE            1  7.33e5
+##  6 LEANDER POLICE DEPT               MINE RESISTANT VEHICLE            1  7.33e5
+##  7 SAN MARCOS POLICE DEPT            MINE RESISTANT VEHICLE            1  7.33e5
+##  8 BASTROP COUNTY SHERIFF&#39;S OFFICE   MINE RESISTANT VEHICLE            1  6.58e5
+##  9 SAN MARCOS POLICE DEPT            CAPABILITIES SET,NON-LETHAL       1  4.95e5
+## 10 AUSTIN POLICE DEPT                IMAGE INTENSIFIER,NIGHT VI…      85  4.59e5
+## # … with 165 more rows, and abbreviated variable names ¹​summed_quantity,
+## #   ²​summed_total_value</code></pre>
+<p>Because our original list arranged the data by the most expensive items, we can see that here. But it might be easier to rearrange the data by agency name first, then the most expensive items.</p>
+<ol style="list-style-type: decimal">
+<li>EDIT your chunk to add an arrange function.</li>
+<li>Within the arrange, set it to <code>agency_name</code> first, then <code>summed_total_value</code> in descending order.</li>
+</ol>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="sums-analyze.html#cb152-1" aria-hidden="true" tabindex="-1"></a>tx_agency_item_totals <span class="sc">|&gt;</span> </span>
+<span id="cb152-2"><a href="sums-analyze.html#cb152-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(agency_name <span class="sc">%in%</span> local_agencies) <span class="sc">|&gt;</span> </span>
+<span id="cb152-3"><a href="sums-analyze.html#cb152-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(agency_name, <span class="fu">desc</span>(summed_total_value))</span></code></pre></div>
+<pre><code>## # A tibble: 175 × 4
+## # Groups:   agency_name [19]
+##    agency_name        item_name                                  summe…¹ summe…²
+##    &lt;chr&gt;              &lt;chr&gt;                                        &lt;dbl&gt;   &lt;dbl&gt;
+##  1 AUSTIN POLICE DEPT HELICOPTER,FLIGHT TRAINER                        1 833400 
+##  2 AUSTIN POLICE DEPT IMAGE INTENSIFIER,NIGHT VISION                  85 458831.
+##  3 AUSTIN POLICE DEPT SIGHT,THERMAL                                   29 442310 
+##  4 AUSTIN POLICE DEPT PACKBOT 510 WITH FASTAC REMOTELY CONTROLL…       4 308000 
+##  5 AUSTIN POLICE DEPT SIGHT,REFLEX                                   420 169256.
+##  6 AUSTIN POLICE DEPT ILLUMINATOR,INTEGRATED,SMALL ARMS              135 122302 
+##  7 AUSTIN POLICE DEPT RECON SCOUT XT                                   8  92451.
+##  8 AUSTIN POLICE DEPT TEST SET,NIGHT VISION VIEWER                     2  55610 
+##  9 AUSTIN POLICE DEPT SCOPE,NIGHT-POCKET                               5  20535 
+## 10 AUSTIN POLICE DEPT POWER SUPPLY ASSEMBLY                           63  20086.
+## # … with 165 more rows, and abbreviated variable names ¹​summed_quantity,
+## #   ²​summed_total_value</code></pre>
+</div>
+<div id="research-some-interesting-items" class="section level3 hasAnchor" number="6.8.2">
+<h3><span class="header-section-number">6.8.2</span> Research some interesting items<a href="sums-analyze.html#research-some-interesting-items" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>You’ll want a little more detail about some of these items for your data drop. I realize (and you should, too) that for a “real” story we would need to reach out to sources for more information, but you can get a general idea from what you find online to at least describe some of these items. There are a couple of ways to go about researching items.</p>
+<ol style="list-style-type: decimal">
+<li>Simply search for the items on Google, <a href="https://www.google.com/search?q=ILLUMINATOR%2CINTEGRATED%2CSMALL+ARMS&amp;oq=ILLUMINATOR%2CINTEGRATED%2CSMALL+ARMS">like this</a>.</li>
+<li>Each item has a “National Stock Number,” which is an ID for a government database of supplies. You can search the data for the <code>nsn</code> value and then look up that value online.</li>
+</ol>
+<p>Let do an example, looking up “ILLUMINATOR,INTEGRATED,SMALL ARMS”. First we filter the data to find the item. (I’m also using select so we can control the output and see it in this book, but you might not want that in your notebook so you can also check <code>ship_dates</code>, etc.)</p>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="sums-analyze.html#cb154-1" aria-hidden="true" tabindex="-1"></a>tx_c <span class="sc">|&gt;</span> </span>
+<span id="cb154-2"><a href="sums-analyze.html#cb154-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb154-3"><a href="sums-analyze.html#cb154-3" aria-hidden="true" tabindex="-1"></a>    item_name <span class="sc">==</span> <span class="st">&quot;ILLUMINATOR,INTEGRATED,SMALL ARMS&quot;</span>,</span>
+<span id="cb154-4"><a href="sums-analyze.html#cb154-4" aria-hidden="true" tabindex="-1"></a>    agency_name <span class="sc">==</span> <span class="st">&quot;AUSTIN POLICE DEPT&quot;</span></span>
+<span id="cb154-5"><a href="sums-analyze.html#cb154-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb154-6"><a href="sums-analyze.html#cb154-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(item_name, nsn)</span></code></pre></div>
+<pre><code>## # A tibble: 100 × 2
+##    item_name                         nsn             
+##    &lt;chr&gt;                             &lt;chr&gt;           
+##  1 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
+##  2 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
+##  3 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-571-1258
+##  4 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
+##  5 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
+##  6 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
+##  7 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
+##  8 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
+##  9 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
+## 10 ILLUMINATOR,INTEGRATED,SMALL ARMS 5855-01-534-5931
+## # … with 90 more rows</code></pre>
+<p>It looks like most of these illuminators use this <code>nsn</code>: 5855-01-534-5931.</p>
+<p>Now we go to the website <a href="https://nationalstocknumber.info/" class="uri">https://nationalstocknumber.info/</a> and plug that number into the search bar. We get a couple of returns, and if we click on one we <a href="https://nationalstocknumber.info/national-stock-number/5855-01-534-5931">get this page</a>. It gives us a description of the item:</p>
+<blockquote>
+<p>“A device which is a combination of several lasers and white light illumination used to provide multiple capabilities for engaging targets and providing light. The device may contain a flashlight or other white light illumination source, an illuminator, infrared and stand alone aiming lasers/pointers. The device has the capability to mount on an individual weapon.”</p>
+</blockquote>
+<p>Not every item is in the database, but it is worth checking.</p>
+</div>
+</div>
+<div id="write-a-data-drop" class="section level2 hasAnchor" number="6.9">
+<h2><span class="header-section-number">6.9</span> Write a data drop<a href="sums-analyze.html#write-a-data-drop" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Once you’ve found answers to all the questions listed, you may be asked to use that information in a writing assignment. See Canvas for details.</p>
+</div>
+<div id="what-we-learned-in-this-chapter" class="section level2 hasAnchor" number="6.10">
+<h2><span class="header-section-number">6.10</span> What we learned in this chapter<a href="sums-analyze.html#what-we-learned-in-this-chapter" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li>We used <code>sum()</code> within a <code>group_by()</code>/<code>summarize()</code> function to add values within a column.</li>
+<li>We used <code>summary()</code> to get descriptive statistics about our data, like the minimum and maximum values, or an average (mean).</li>
+<li>We learned how to use <code>c()</code> to <strong>combine</strong> a list of like values into a <em>vector</em>, and then used that vector to filter a column for values <code>%in%</code> that vector.</li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="sums-import.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ggplot-intro.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/06-sums-analysis.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
