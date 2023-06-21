@@ -130,7 +130,7 @@ That's a long-winded opening to say let's add our notebook goals so you know wha
 1.  In Markdown, add a headline noting these are notebook goals.
 2.  Add the goals below:
 
-``` text
+```txt
 - Download the data
 - Import the data
 - Check datatypes
@@ -146,7 +146,7 @@ This is the section in the notebook where we add our libraries and such. Again, 
 
 
 1.  Add a headline called "Setup" and text about what we are doing, adding our libraries.
-2.  Add a code chunk formatted like below. I'll explain after. 
+2.  Add your setup code chunk with the code below. 
 
 ```{r}
 #| echo: fenced
@@ -156,14 +156,12 @@ This is the section in the notebook where we add our libraries and such. Again, 
 library(tidyverse)
 ```
 
+Some reminders:
 
-These two bits at the top starting with `#|` are special commands for the R chunk. The first word of each line is the command followed by a colon `:` and the bit after is the setting for that command.
+- The `#| label: setup` is special in that it will be run first no matter where we are in the notebook. Helpful to make sure your libraries are loaded.
+- The `#| message: false` option silences the message about all the different packages in the tidyverse when the library is loaded. It just cleans up the notebook.
 
-- `#| label: setup`: The `label` is a name for the R chunk and `setup` is a super special label. 
-    - Chunk labels are optional, but can be useful as they show up in your bookmarks. Some label names have special properties, like this one. A `setup` chunk will be run first no matter where we are in the notebook. Helpful to make sure your libraries are loaded.
-- `#| message: false`: This option stops the message about all the different packages in the tidyverse when the library is loaded. It just cleans up the notebook.
-
-One other note about this ... we should only need the `tidyverse` library for this notebook because the data already has clean names (no need for `janitor`) and the dates will import correctly (no need for `lubridate` for this notebook, but will will use it for our analysis).
+One other note about this ... we should only need the `tidyverse` library for this notebook because the data already has clean names (no need for `janitor`.)
 
 ## Download the data
 
@@ -271,7 +269,7 @@ This data set looks good (because I pre-prepared it fo you), but you always want
 
 ## Remove unnecessary columns
 
-Sometimes at this point in a project, you might not know what columns you need to keep and which you could do without. The nice thing about doing this with code in a notebook is we can always go back, make corrections and run our notebook again. In this case, we will remove the `-sheet` column since we don't need it. (It's an artifact of the processing I've done on the file.)
+Sometimes at this point in a project, you might not know what columns you need to keep and which you could do without. The nice thing about doing this with code in a notebook is we can always go back, make corrections and run our notebook again. In this case, we will remove the `sheet` variable since we don't need it. (It's an artifact of the processing I've done on the file.)
 
 1.  Start a new section with a headline and text to explain you are removing unneeded columns.
 2.  Add a code chunk and the following code. I'll explain it below.
@@ -283,7 +281,14 @@ leso_tight <- leso |>
 leso_tight |> glimpse()
 ```
 
-In English, we are creating a new tibble `leso_tight` and then filling it with this: The `leso` data AND THEN we use select to remove the column called `sheet`. We then glimpse the new data.
+In English, we are:
+
+- creating a new tibble `leso_tight` and then ..
+- filling it with this: The `leso` data AND THEN we use select to remove the column called `sheet`. We then glimpse the new data.
+
+Within the `select()` function, we use `!` to "negate" the column called "sheet". If we wanted to remove more than one column — say both `sheet` and `station_type` — then we would use `!` negate in conjunction with the `c()` function to combine items into a new vector, like this: `select(!c(sheet, station_type))`.
+
+The use of `!` to remove things will come up in other places in R, as will using `c()` to combine things together.
 
 So now we have a tibble called `leso_tight` that we will work with in the next section.
 
@@ -308,6 +313,7 @@ If you started with data like this:
 And then wanted to create a total value of each item in the table, you would use `mutate()`:
 
 ``` r
+# Don't put this in your notebook. It's just explanation.
 data |> 
   mutate(total_value = item_count * item_value)
 ```
@@ -454,11 +460,9 @@ OK, onto the next task to get data for specific dates.
 
 ## Filtering our data
 
-In the Billboard lesson you used `filter()` to get No. 1 songs and to get a date range of data. We need to do something similar here to get only data of a certain date range, and then only Texas data. We'll build the filters one at a time so we can save the resulting objects separately.
+In the Billboard lesson you used `filter()` to get No. 1 songs and to get a date range of data. We need to do something similar here to get only data of a certain date range. We'll build the filters one at a time so we can save the resulting objects separately.
 
-### Filter by date
-
-1.  Create a new section with headlines and text that denote you are filtering the data to Texas and since Jan. 1, 2010.
+1.  Create a new section with headlines and text that denote you are filtering the data to records since Jan. 1, 2010.
 1.  Create a chunk and filter your `leso_control` data to get rows with a `ship_date` of 2010-01-01 or later.
 2.  Save the result into a new tibble called `leso_dated`.
 3.  Print out the new tibble `leso_dated`.
