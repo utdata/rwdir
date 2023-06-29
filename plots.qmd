@@ -1,12 +1,11 @@
 # Intro to ggplot
 
 ::: callout-warning
-- Mid-update for Quarto
-- Could use an edit update
+- Quarto draft is finished
 :::
 
 ::: callout
-The chapter is by Prof. Lukito, who uses a PC, but has some Prof. McDonald edits.
+The chapter is by Prof. Lukito with some updates by Prof. McDonald.
 :::
 
 This week, we'll move on from summaries to talking about data visualizations ("data viz"), an essential skill for any data journalist. While there are a lot of different ways to make figures and graphs, this chapter will focus on one popular R package for data viz: `ggplot`.
@@ -23,7 +22,7 @@ Our learning goals are:
 
 ## Introduction to ggplot
 
-[ggplot2](https://ggplot2.tidyverse.org/) is the data visualization library within Hadley Wickham's [tidyverse](https://www.tidyverse.org/). It is **a beast** of a package because it supports a whole variety of different types of data visualizations, from [bar charts](https://www.r-graph-gallery.com/histogram.html) and [line charts](https://www.r-graph-gallery.com/connected-scatterplot.html) to fancy [choropleth maps](https://www.r-graph-gallery.com/choropleth-map.html) and [animated figures](https://www.r-graph-gallery.com/animation.html).  
+[ggplot2](https://ggplot2.tidyverse.org/) is the data visualization library within Hadley Wickham's [tidyverse](https://www.tidyverse.org/). It is **a beast** of a package because it supports a whole variety of different types of data visualizations, from [bar charts](https://r-graph-gallery.com/barplot.html) and [line charts](https://r-graph-gallery.com/line-plot.html) to fancy [choropleth maps](https://www.r-graph-gallery.com/choropleth-map.html) and [animated figures](https://www.r-graph-gallery.com/animation.html).  
 
 Even though the package is called `ggplot2`, the function to make graphs is just `ggplot()`. So, for simplicity, we'll just call everything `ggplot`.
 
@@ -41,157 +40,361 @@ That being said, there are less complicated ways of creating publishable graphic
 
 This section was inspired by [Matt Waite](http://www.mattwaite.com/) and the [BBC Visual Cookbook](https://bbc.github.io/rcookbook/).
 
-As I said above, the `gg` in `ggplot` stands for "Grammar of Graphics," which is a fancy way of saying we'll build our charts layer by layer. Once you know what data you are using, there are three main layers to any `ggplot` chart:
+As I said above, the `gg` in `ggplot` stands for "Grammar of Graphics," which is a fancy way of saying we'll build our charts layer by layer. There are three main things you need to make a plot:
 
-- **aesthetics** ("aes"): this is where you put information about the dataset, including specifics about what fields/variables should  be on the x-axis and y-axis.
-- **geometries** ("geom"): this is where you tell R the shape of your visualization, whether it's lines, bars, points, or something else.
+- **data**: You have to tell ggplot the name of the object with your data.
+- **mapping**: Defines how variables in your dataset are mapped to visual properties (**aesthetics**) of your plot. i.e., which columns are on the x or y axis. We use the function `aes()` to describe these aesthetics.
+- **geometries**: This how you describe the shape of your visualization, whether it's lines, bars, points, or something else. We do this through different `goem_()` functions.
+
+In addition to these three things, there are lots of helper layers we'll learn about along the way, including:  
+
 - **themes** ("theme"): this is where you tell R the font you'd like to use, the background color, and other things you want to "pretty up" the data viz.
-
-In addition to these three main layers, there are lots of helper layers we'll learn about along the way, including:  
-
 - **coord_flip**: a special layer for flipping the chart  
 - **scales**: transforming the data to make the plot more read-able  
 - **labels** ("labs"): for making titles and labels   
 - **facets**: For graphing many elements of the same data set in the same space (one dataset, multiple figures)  
 
-  This all may seem complicated now, but it'll make sense once we start putting together these layers together, one at a time. After all, the best way to learn any R package is to **do it**.
-
+This all may seem complicated now, but it'll make sense once we start putting together these layers together, one at a time. After all, the best way to learn any R package is to **do it**.
 
 ## Start a new project
 
 1. Get into RStudio and make sure you don't have any other files or projects open.
 2. Create a new **Quarto Website** project, name it `yourname-ggplot` and save it in your rwd folder.
 3. (No need for a folder structure, we'll do this all in one file.)
-4. In you `index.qmd` file, remove the boilerplate and create a setup section that loads `library(tidyverse)`, like we do with every notebook. The `ggplot` package is a part of `tidyverse`, so when you load `tidyverse`, you'll load `ggplot`. We will also load `janitor`, which we will load to use the `clean_names()` function.
+4. We'll use our `index.qmd` file for everything for this project, so update the title as "ggplot practice", remove the boilerplate and create a setup section that loads `library(tidyverse)` and `library(janitor)`, like we do with every notebook.
+
+The `ggplot` package is a part of `tidyverse`, so we don't need to do anything special there.
 
 ```{r setup, echo=F, message=F, warning=F}
 library(tidyverse)
 library(janitor)
 ```
 
-## The layers of ggplot
 
-> Much of this first plot explanation comes from Hadley Wickham's [R for Data Science](https://r4ds.had.co.nz/data-visualisation.html?q=aes#data-visualisation), with edits to fit the lesson here.
+### Install palmerpenguins
 
-To explore how `ggplot` works, we're going to work with some data that already comes with `tidyverse`. Let's take a look at it now.
+For this lesson, we will install a new R package, which will give us access to some data to work through some visualization techniques. I'd like you to meet the Palmer Penguins ...
 
-1. Start a new section "First plot" and add a code chunk.
-2. Add the code below and run it to see what the `mpg` dataset looks like.
+![Artwork by @allison_horst](https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png)
 
-```{r mpg-view}
-mpg
+We don't _need_ this dataset to plot charts, but it is a great one for data exploration & visualization so we'll use it to learn about ggplot.
+
+The [palmerpenguins](https://allisonhorst.github.io/palmerpenguins/) package includes scientific measurements of penguins observed on islands in the Palmer Archipelago near Palmer Station, Antarctica. The package and the awesome artwork is maintained by Allison Horst.
+
+Let's install and load it.
+
+1. In your Console, run `install.packages("palmerpenguins")`.
+2. In your setup section, add the library and rerun the chunk: `library(palmerpenguins)`
+
+Remember you only have to **install** a package once on your computer, but you should load the **library** at the top of each notebook that uses it. (i.e., don't leave the `install.packages()` part in your notebook.)
+
+```{r}
+#| echo: false
+#| label: palmerpenguins
+
+library(palmerpenguins)
 ```
 
-The `mpg` data contains observations collected by the US Environmental Protection Agency on 38 models of cars. It's a data set embedded into the tidyverse for lessons like this one.
 
-For this lesson, we'll use (at least two) two specific variables in this data:
+## The layers of ggplot
 
-- `displ`, a car’s engine size, in liters.
-- `hwy`, a car’s fuel efficiency on the highway, in miles per gallon (mpg).
+> Much of this first plot explanation comes from Hadley Wickham's [R for Data Science](https://r4ds.hadley.nz/data-visualize.html), with edits to fit the lesson here.
 
-With these two variables, we can test the theory that cars with smaller engines (`displ`) get better gas mileage (`hwy`). To do this, we'll make a plot.
+Before we dive into `ggplot`, let's peek at our data.
 
-### Build the base layer
+1. Start a new section "First plot"
+1. Add some text that you are studying pretty penguins.
+2. Add a code chunk like below and run it to see what the `penguins` dataset looks like.
+
+```{r}
+#| label: p-data
+
+penguins
+```
+
+As noted above, the data is measurements from a number or penguins, things like species, sex, bill length, etc.
+
+Among the variables in penguins are:
+
+- `flipper_length_mm`: length of a penguin’s flipper, in millimeters.
+- `body_mass_g`: body mass of a penguin, in grams.
+- `species`: a penguin’s species (Adelie, Chinstrap, or Gentoo).
+
+With these variables, we'll explore the relationship between flipper lengths and body masses of these penguins, taking into consideration the species of the penguin.
+
+### Our goal chart {#sec-goal-chart}
+
+Our goal is to recreate this chart:
+
+```{r}
+#| label: fig-penguin-example
+#| fig-cap: "Our goal graphic"
+#| echo: false
+#| warning: false
+#| message: false
+
+penguins |> 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(aes(color = species, shape = species)) +
+  geom_smooth(method = "lm") +
+  labs(
+    title = "Body mass and flipper length",
+    subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+    x = "Flipper length (mm)", y = "Body mass (g)",
+    color = "Species", shape = "Species"
+  )
+# +
+#   scale_color_colorblind()
+```
+
+### 1st: the data
 
 When working with the `ggplot2` package, you'll start nearly every figure with the `ggplot()` function. In the `ggplot()` function, you'll tell R what data you're using, and the coordinate system you want to build based on the data.
 
-The first thing you'll want to do is tell `ggplot` the dataset you want to use (in this case, `mpg`). Let's do that now.
+The first thing you'll want to do is tell `ggplot` the dataset you want to use (in this case, `penguins`). Let's do that now.
 
-Do this:
-
-1. In your first plot section, add some text that you are building the mpg chart.
+1. **Edit** your first plot section, 
 2. Make a new code chunk and add the code below.
 
-```{r mpg-prebase}
-ggplot(mpg)
+```{r base-plot}
+ggplot(penguins)
 ```
 
-This tells us... absolutely nothing! But that's not surprising: you haven't even told `ggplot` what variables you want to focus on or the way you want to visualize the data. To do that, you'll need a second argument (and the first official layer in your plot): the `aes()` (short for "aesthetic"). This is considered a `mapping` argument, because you use this argument to tell `ggplot` how you want to map your data (in our case, `mpg`).
+This tells us... absolutely nothing! But that's not surprising: you haven't even told `ggplot` what variables you want to focus on or the way you want to visualize the data. To do that, you'll need a mapping argument.
 
-In an `aes()` argument, you want to indicate the variables that you will be mapping to the x and y axes. This is usually done with the `x` and `y` arguments, so your `aes()` argument will look something like this: `aes(x = some_variable, y = another_variable)`, where `some_variable` and `another_variable` are variables in your dataset.
+### 2nd: Map the data
 
-In our case, we'll practice using `displ` (the car's engine size) and `hwy` (the car's highway efficiency). Let's plug in our `aes()` layer now, directly into the `ggplot()` function.
+We use the `aes()` (short for "aesthetic") to describe which data to plot and where. This is considered a _mapping_ argument, because you use this argument to tell `ggplot` how you want to map your data.
 
-Do this:
+The workhors of `aes()` is to indicate the variable to plot horizontally (the `x` axis) and vertically (the `y` axis). So your `aes()` argument will look something like this: `aes(x = some_variable, y = another_variable)`.
 
-1. In the code chunk you created above, add the following line of code.
+In our case, set our `flipper_length_mm` (the flipper length) for `x` and `body_mass_g` for `y`:
 
-```{r mpg-base}
-ggplot(mpg, aes(x = displ, y = hwy))
+1. **Edit** your code to add the following line of code.
+
+```{r p-aes}
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g))
 ```
 
-Let's work through the code above:
+We are getting closer! The plot knows what data we are using and the "range" of that data, so it has added tick marks and values along our `x` and `y` axes.
 
-- `ggplot()` is the function we use to make a chart.  
-- The first argument `ggplot()` needs is the data. It could be specified as `data = mpg` but we don't need the `data = ` part as it is always the first item specified inside of (or piped into) `ggplot()`  
-- Next is the **aesthetics** or `aes()`. This is where tell ggplot what data to plot on the `x` and `y` axis. You might see this as `mapping = aes(<VALUES>)` but we can often get by without the `mapping =` part.  
+### 3rd: geometries
 
-This code tells us just a little bit more than nothing: instead of a blank box, we can now see the grid for the x and y axis. But we'll need another layer to add data to this grid!
+Now that we know which data to apply, we have to make a choice on how we want to show the shape of that data on our plot, and we do that through **geometries** (or "geoms" as we call them.) We'll talk about different ones in a minute, but we'll start with plotting our data as points.
 
-A quick [FYI](https://en.wikipedia.org/wiki/FYI): The `aes()` that you put into `ggplot()` apply to the whole graph. Other (geom) layers that you write after this main layer can also take `aes()` arguments. We'll do that in future charts.
+This is our first _added_ layer on our chart, and therefore introduction of the `+` option within ggplot. We use `+` to add on layers of information in our grammar of graphics. It's _sort of_ like the pipe `|>` in the way it works, but we use `+` when adding ggplot layers.
 
-Now that we have our `ggplot()` argument and first layer done, let's talk about how to add layers to this.
+1. **Edit** your chunk to add the `+` and the `geom_point()` functions as noted below.
 
-### Layers can we add to our plots
+(I _really_ recommend you type the additions so you can see how RStudio helps fill the code.)
 
-Our base layer is the starting point for every `ggplot` chart, but it's certainly not the end. In the next section below, we'll work with three **types** of layers. Don't worry if this seems like a lot of information: we'll go layer by layer so you can see the whole process. 
+```{r}
+#| label: p-point
 
-Below are some of the layers we will work with:
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point()
+```
 
-- **geometries** (or "geoms" as we call them) are the way we plot data on the base grid. There are [many geoms](https://github.com/rstudio/cheatsheets/blob/master/data-visualization.pdf), but here are a few common ones:
-    - `geom_point()` adds dots onto the grid based on the data. Will will use these here to build a scatterplot graph.
+OK, now we are getting somewhere. We can **see** each penguin plotted on the chart, and we can generally see that as the birds get heavier (higher on vertical axis) their flippers are also longer (to the right on the horizontal axis.)
+
+::: callout-note
+We do get this warning: `Warning: Removed 2 rows containing missing values geom_point()`. This is telling us there are two rows of data that don't have one of the two values, so they were dropped. Like R, ggplot2 subscribes to the philosophy that missing values should never silently go missing. As journalists, we just need to make sure we know why something is missing and note if it is important.
+:::
+
+#### Other geometries
+
+There are [many geoms](https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf), but here are a few common ones:
+    - `geom_point()` adds dots onto the grid based on the data. We used them above.
     - `geom_line()` adds lines between data points on the grid. Basically a line chart.
     - `geom_col()` and `geom_bars()` adds bars to the grid based on values in the data. A bar chart. We'll use `geom_col()` later in this lesson but you can read about the difference between the two in a later chapter.
     - `geom_text()` adds labels based on values in the data.
-- **themes** change the visual styles of the grids and axis. There are several available within ggplot and [many other from the R community](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/).
+
+### Chart code review
+
+Let's review the different parts of this code. Note I've rewritten it a bit here to put some arguments on their own line so it is more readable.
+
+```r
+ggplot(
+  penguins,
+  aes(x = flipper_length_mm, y = body_mass_g)
+) +
+  geom_point()
+```
+
+Think of this like painting a chart:
+
+- `ggplot()` is the function we use to make a chart.
+- Inside of `ggplot()` the first argument is the data, in this case the `penguins` data.
+- The second argument is the `aes()` function, where we apply our **aesthetics**. Aesthetics describe how we will paint our data onto the plot. Inside of this function, we set values for the `x` and `y` axis so we know WHERE to paint. There are some other aesthetic values we can paint with data, and we will.
+- Lastly we add on a layer (with `+`) to add `geom_point()` to paint "points" on top of the plot based on the set aesthetics. (It's like [pointillism](https://www.sothebys.com/en/articles/pointillism-7-things-you-need-to-know!).)
+
+::: callout-note
+You might see this same code written different ways. Let's talk about why.
+
+#### Verbose arguments {.unnumbered}
+
+```r
+ggplot(data = penguins,
+       mapping = aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point()
+```
+
+The above version adds `data = ` and `mapping =` to the first two arguments. It is the official descriptive way to do this, and how Hadley Wickham describes it in R for Data Science. But, since the first argument can assumed to be the data we often don't include it unless it unless we are trying to differentiate with different data used later. Same goes for `mapping =` ... we don't specify it unless necessary.
+
+#### Piping into ggplot {.unnumbered}
+
+```r
+penguins |> 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point()
+```
+
+In this case we start with the data AND THEN pipes it into `ggplot()` as the first argument. Prof. McDonald often does it this way. Scoundrel.
+:::
+
+### Aesthetics & layers
+
+Our initial plot appears to show that flipper length is related to the weight of the penguin, but it’s always a good idea to be skeptical of any apparent relationship between two variables and ask if there may be other variables that explain or change the nature of this apparent relationship. For example, does this relationship exist for all three species?
+
+Let's color our points based on the species to see.
+
+1. **Edit** your plot and add the color mapping to the `aes()` function, like below. **NOTE** I've also rearranged some of the code to make it more readable.
+
+```{r}
+#| label: p-color
+#| warning: false
+ggplot(
+  penguins,
+  aes(x = flipper_length_mm, y = body_mass_g, color = species)
+) +
+  geom_point()
+```
+
+When a categorical variable like the `species` is mapped to an aesthetic, ggplot will assign a color to each unique value and add a legend so you can tell them apart.
+
+Let's add another layer: a smooth curve displaying the relationship between body mass and flipper length. Since this is a new geometric object representing our data, we will add a new geom as a layer on top of our point geom: geom_smooth(). And we will specify that we want to draw the line of best fit based on a linear model with `method = "lm"`.
+
+2. **Edit** your code to add on the last layer shown here:
+
+```{r}
+#| label: p-smooth
+#| warning: false
+ggplot(
+  penguins,
+  aes(x = flipper_length_mm, y = body_mass_g, color = species)
+) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+We've added the lines, but it doesn't look like our "goal" graphic we started with in @sec-goal-chart, which only has one line instead of three separate lines for each of the penguin species.
+
+When we set the `x`, `y` and `color` aesthetics in our code, we set them at the _global_ level. All those characteristics apply to every added layer. However, each geom function can have it's own aesthetics, setting them at the _local_ level, applying to only that layer.
+
+Let's show this by moving our color aesthetic from the global level to apply just at the point level.
+
+3. **Edit** your code to move the `color = species` bit from the _global_ aesthetics to a _local_ aesthetic within `geom_point()`, as shown below.
+
+```{r}
+#| label: p-local
+#| warning: false
+#| message: false
+ggplot(
+  penguins,
+  aes(x = flipper_length_mm, y = body_mass_g)
+) +
+  geom_point(aes(color = species)) +
+  geom_smooth(method = "lm")
+```
+
+OK, this is looking pretty good, but it is not a great idea to represent information using only colors on a plot, as people perceive colors differently due to color blindness or other color vision differences. We can improve readability of this chart of we also map species based on the shape aesthetic.
+
+4. **Edit** your code to add `shape = species` aesthetic to the `geom_point()` function, as shown below.
+
+```{r}
+#| label: p-shape
+#| warning: false
+#| message: false
+ggplot(
+  penguins,
+  aes(x = flipper_length_mm, y = body_mass_g)
+) +
+  geom_point(aes(color = species, shape = species)) +
+  geom_smooth(method = "lm")
+```
+
+### Labels
+
+<div style="width:100%;height:0;padding-bottom:56%;position:relative;"><iframe src="https://giphy.com/embed/22eVpVYpRhaE0" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><br>
+
+In addition to geoms, there are other layers we can use to change or add to our plot.
+
 - **labels** (or labs, since we use the `labs()` function for them) are a series of text-based items we can layer onto our plots like titles, bylines and axis names.
+- **themes** change the visual styles of the grids and axis. There are several available within ggplot and [many other from the R community](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/).
 
-In addition to these layers, we'll use the `+` at the end of each line. Think of the `+` as the ` %>% ` of ggplot. So, your code will look something like this (don't run this code chunk!):
+Like `geom_point()` above, we'll use the `+` at the end of each line before we add another layer.
 
-```{r toyexample, eval = FALSE}
-ggplot(data, aes(x = some_variable, y = another_variable)) + #creates the base layer, with the + at the end
-  geom_layer #adds a geom
+Let's add a labels layer so we can describe our chart to our readers.
+
+1. **Edit** your code to add the `labs()` layer indicated below:
+
+
+```{r}
+#| label: p-labs
+#| warning: false
+#| message: false
+ggplot(
+  penguins,
+  aes(x = flipper_length_mm, y = body_mass_g)
+) +
+  geom_point(aes(color = species, shape = species)) +
+  geom_smooth(method = "lm") +
+  labs(
+    title = "Body mass and flipper length",
+    subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+    x = "Flipper length (mm)", y = "Body mass (g)",
+    color = "Species", shape = "Species"
+  )
 ```
 
-Okay, now that we know what the code looks like, let's proceed with the first `geom`.
+Note that there are several arguments within the `labs()` function:
 
-### Add geom_point
+- `title` gives us a headline
+- `subtitle` is a readout under the headline.
+- The `x` axis already had a label on our chart by default, but it was the name of the variable. Find for us, because we know what it is, but here we are replacing that with text more appropriate for a reader. The same with the `y` value we reset.
+- The `color` and `shape` arguments are similar in that we are replacing the existing label above the legend, resetting those to capitalize "Species". We need to change the both so they are the same. (You might experiment by removing the `shape` argument and re-running it to see what happens.)
 
-The second layer we'll add to our figure is a `geom` layer. "Geom" is short for geometries: these layers provide a lot of different ways to shape and visualize the data. Simply put, `geom` layers tell R what kind of chart you'd like to make.
+### Themes
 
-Let's start with a straightforward `geom` layer, `geom_plot()`, which adds a layer of points to your plot (this type of plot is called a scatterplot).
+You can change just about  _anything_ on a ggplot chart if you know the function and arguments to describe it. The [cheetsheet](https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf) shows a lot of them, but it can get really dense.
 
-1. EDIT your plot chunk to add the `+` and a new line for `geom_point()`
+Folks have saved combinations of these arguments into **themes** that allow you to radicaly change the appearance of a plot with a single layer. Let's how that here.
 
-```{r mpg-points}
-ggplot(mpg, aes(x = displ, y = hwy)) + # don't forget the + at the end of this line
-  geom_point() # the geom_point layer
+1. **Edit** your code chunk to add on the last `+ theme_minimal()` function.
 
-#The geom_point() function will inherit the aes() values from the line above it.
+```{r}
+#| label: p-theme
+#| warning: false
+#| message: false
+ggplot(
+  penguins,
+  aes(x = flipper_length_mm, y = body_mass_g)
+) +
+  geom_point(aes(color = species, shape = species)) +
+  geom_smooth(method = "lm") +
+  labs(
+    title = "Body mass and flipper length",
+    subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+    x = "Flipper length (mm)", y = "Body mass (g)",
+    color = "Species", shape = "Species"
+  ) +
+  theme_minimal()
+
 ```
 
-Now we're starting to get somewhere! With the `geom_point()` layer added, our data are now finally displayed as points. And, as you can see, the pattern is pretty obvious: the lower the car's `displ` (their engine size, in liters), the higher the `hwy` (their gas milage on a highway).
+This changes the grid and gridline colors to make the data pop a little better. There are other themes that create more radical change, some in their own packages. We'll play more later.
 
-### Adding other mappings
-
-As mentioned in the above section, there are aesthetics (`aes`) arguments that can apply to the plot as a whole (which we did with the x and y values above) and there are aesthetics we can write into specific `geom` layers (these aesthetics will not apply to other layers--just that `geom`). This can be useful if you wanted to incorporate a third variable into your figure, as we will demonstrate below, using `color`.
-
-1. Edit your `geom_point()` function to add a color mapping to the points with `aes(color = class)`. `color` is the type of aesthetic, and `class` is another variable (column) in the data.
-
-```{r mpg-color}
-ggplot(mpg, aes(x = displ, y = hwy)) +
-  geom_point(aes(color = class)) # this is the line you are editing
-
-```
-
-As you can see, the dots were given colors based on the values in the `class` column, and ggplot also added a legend to the graphic. These colors are the default color settings in `ggplot`
-
-There are other aesthetics you can use.
-
-1. Change the `color` aesthetic to one of these values and run it to see how it affects the chart: `alpha`, `size` and `shape`. (i.e., `alpha = class`.)  
-2. Once you've tried them, change it back to `color`.
-
-OK, enough of the basics ... let's build a chart you _might_ care about.
+OK, you've made your first ggplot chart! Are you ready to make another?
 
 ## Let's build a bar chart
 
@@ -199,13 +402,18 @@ In our first week of class, we sent out a survey where you told us your favorite
 
 For this lesson, we're not going to create a different notebook or download the data to our computer. Instead, we're going to save the data directly into a tibble.
 
-1. Start a new section: Princess chart data upload.
-1. In the text, note that we are importing the princess chart data.
+1. Start a new section: Importing class data
+1. In the text, note that we are importing the chart data.
 1. Add the code below to get the data.
 
-```{r class-data}
+```{r}
+#| label: class-data
+#| warning: false
+#| message: false
 # read the data and create an tibble object called "class"
-class <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQfwR6DBW5Qv6O5aEBFJl4V8itnlDxFEc1e_-fOAtBMDxXx1GeEGb8o5VSgi33oTYqeFhVCevGGbG5y/pub?gid=0&single=true&output=csv")
+class <- read_csv(
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfwR6DBW5Qv6O5aEBFJl4V8itnlDxFEc1e_-fOAtBMDxXx1GeEGb8o5VSgi33oTYqeFhVCevGGbG5y/pub?gid=0&single=true&output=csv"
+)
 
 # peek at the data
 class
@@ -213,23 +421,21 @@ class
 
 So, now, you should have the data in your environment. 
 
-### Prepare the data
+### Prep princess data
 
 While there are ways for ggplot to calculate values from your data on the fly, I prefer to first build a table of the values I want, and then I will plot it on a chart. It's helpful to think of these steps as separate so you have a good workflow (clean the data, prepare the data in a table form, and then plot the data).
 
-Today, our goal will be to make a bar chart, sometimes known as a column chart or histogram. This bar chart will show the number of votes for each princess from the data. So, we need to count the number of rows for each value ... our typical `group_by`/`summarize`/`arrange` (GSA) process. 
+Today, our goal will be to make a bar chart, sometimes known as a column chart. This bar chart will show the number of votes for each princess from the data. So, we need to count the number of rows for each value ... our typical `group_by`/`summarize`/`arrange` (GSA) process. 
 
 For this lesson, I'm going to use the `count()` shortcut, since we haven't used it much lately. Next, I'll save the summarized data into a new dataframe called `princess_data`. Follow along in your notebook:
 
-1. Add a section: Princess chart.
+1. Add a section: Princess data
 1. Add text that you are creating a data frame to plot.
 2. Add the code below to create that data.
 
 ```{r princess-summarize}
-#library(janitor) #run this if you have not loaded the janitor package!
-
-princess_data <- class %>% 
-  clean_names() %>% #remember, this is from the janitor packae!
+princess_data <- class |> 
+  clean_names() |> #remember, this is from the janitor package!
   count(princess, name = "votes", sort = TRUE)
   # this above line counts the princess rows, sets the name and sorts
 
@@ -237,7 +443,7 @@ princess_data <- class %>%
 princess_data
 ```
 
-At this point, y'all should be plenty familiar with these summary functions, and the output should be easy to interpret: we're just countin the number of rows for each princess.
+At this point, y'all should be plenty familiar with these summary functions, and the output should be easy to interpret: we're just counting the number of rows for each princess.
 
 Now that we have our table data, let's actually plot it.
 
@@ -249,25 +455,31 @@ Like in the previous lesson, we'll start our plot by creating the first layer: t
 1. Add the following code chunk, which is the first layer
 
 ```{r princess-base}
-ggplot(princess_data, aes(x = princess, y = votes)) # sets our x and y axes
+ggplot(
+  princess_data,
+  aes(x = princess, y = votes)
+) # sets our x and y axes
 ```
 
-You'll see the grid and x/y axis of the data, but no geometries are applied yet, so you won't see any data. But remember, we're adding these all in gradual layers.
+You'll see the grid and x/y axis of the data, but no geometries are applied yet, so you won't see any data. But remember, we're adding these all in layers.
 
 ### Add the geom_col layer
 
 Now it is time to add our columns. To do this, we'll use `geom_col()`. Similar to `geom_point()`, `geom_col()` adds a geometric layer that tells R how to display the data (in this case, with columns as opposed to points). Let's write this code now.
 
-1. Edit the plot code to add the ggplot pipe `+` and on the next line add `geom_col()`.
+1. **Edit** the plot code to add the ggplot pipe `+` and on the next line add `geom_col()`.
 
 ```{r princess-col}
-ggplot(princess_data, aes(x = princess, y = votes)) + # don't forget the + on this line
+ggplot(
+  princess_data,
+  aes(x = princess, y = votes)
+) + # don't forget the + on this line
   geom_col() # adds the bars
 ```
 
 Our two-layer chart is getting somewhere now. We're able to see the data in the plot, but there are a couple issues:
 
-- We can't read the value names. We can fix this.
+- Depending on the width of our notebook, the princess names might collide with each other. We can fix this.
 - The order of the bars is alphabetical instead of in vote order. Again, we can fix it.
 
 ### Flip the axes
@@ -276,10 +488,12 @@ One way to fix the labels is to "flip" the axes, so the x axis becomes the y axi
 
 Let's learn how to flip the axes now. We'll do this by adding a new layer, `coord_flip()`, which is a special layer that flips the axes. Just like we added the previous `geom_col()` layer using `+`, we'll do the same thing here. Let's do that now.
 
-1. Edit your plot chunk to add the ggplot pipe `+`and `coord_flip()` on the next line.
+1. **Edit** your plot chunk to add the ggplot pipe `+`and `coord_flip()` on the next line.
 
 ```{r princess-flipped}
-ggplot(princess_data, aes(x = princess, y = votes)) +
+ggplot(
+  princess_data, aes(x = princess, y = votes)
+) +
   geom_col() + # don't forget the +
   coord_flip() # flips the axis
 ```
@@ -292,33 +506,39 @@ But the bars are still in an alphabetical order, as opposed to a vote order, so 
 
 The bars on our chart are in alphabetical order of the x axis (and reversed thanks to our flip.) We want to order the values based on the `votes` in the data.
 
-> Complication alert: Categorical data can have [factors](https://r4ds.had.co.nz/factors.html), which are like an internal ordering system. Some categories, like months in a year, have an "order" that is not alphabetical.
+::: callout-note
+Complication alert: Categorical data can have [factors](https://r4ds.hadley.nz/factors.html), which are like an internal ordering system. Some categories, like months in a year, have an "order" that is not alphabetical.
+:::
 
-We can reorder our categorical values in a plot by editing the `x` values in our `aes()` using `reorder()`. (There is a tidyverse function called `fct_reorder()` that works the same way.
+We can reorder our categorical values in a plot by editing the `x` values in our `aes()` using `reorder()`. (There is a tidyverse function called `fct_reorder()` that works the same way for factors.)
 
 `reorder()` takes two arguments: The column to reorder, and the column to base that reorder on. It can happen in two different ways, and I'll be honest and say I don't know which is easier to comprehend.
 
-- `x = reorder(princess, votes)` says "set the x axis as `princess`, but order as `votes`. OR ...
-- `x = princess %>% reorder(votes)` says "set the x axis as `princess` _and then_ reorder by `votes`.
+- `x = reorder(princess, votes)` says "we shall set x as reordered values of `princess` based on the order of  `votes`. OR ...
+- `x = princess |> reorder(votes)` says "set the x axis as `princess` _and then_ reorder by `votes`.
 
-They both work. Even though I'm a fan of the tidyverse ` %>% ` construct, I'm going with the first version.
+They both work. Even though I'm a fan of the tidyverse ` |> ` construct, I'm going with the first version.
 
-1. Edit the first line of your chunk to reorder the bars.
+1. **Edit** the first line of your chunk to reorder the bars.
 
 ```{r princess-reorder}
-ggplot(princess_data, aes(x = reorder(princess, votes), y = votes)) + # this is the line you edit
+ggplot(
+  princess_data,
+  aes(x = reorder(princess, votes), y = votes) # this is the line you edit
+) + 
   geom_col() +
   coord_flip()
 ```
+
 So now, our princess names are read-able, and the bars are organized in vote size. But what if we wanted to be clearer in our figure, so that we knew the exact number of votes for each princess? Let's learn how to add this information.
 
 ### Adding a geom_text layer
 
-Now, we're really starting to take advance of the grammar of graphics by including more than one geometric layer. Specifically, we'll be using `geom_text()` to add some information to our bar charts. 
+Now, we're really starting to take advantage of the grammar of graphics by including more than one geometric layer. Specifically, we'll be using `geom_text()` to add some information to our bar charts. 
 
 As we mentioned previously, `geom` layers can take individual aesthetics (that build on top of the global aesthetics you put in the first layer). When using `geom_text()`, we'll include some local aesthetics using the `aes()` argument, to tell `ggplot` the label we'd like to add to the plot.
 
-1. Edit your plot chunk to add the ggplot pipe `+`and `geom_text()` on the next line.
+1. **Edit** your plot chunk to add the ggplot pipe `+`and `geom_text()` on the next line.
 2. Add the following line to the chunk `geom_text(aes(label = votes)`.
 
 ```{r princess-text-ugly}
@@ -327,11 +547,12 @@ ggplot(princess_data, aes(x = reorder(princess, votes), y = votes)) +
   coord_flip() + # don't forget +
   geom_text(aes(label = votes)) # plots votes text values on chart
 ```
-Well that did... something. We've successfully added the numbers to this plot, but it's not very pretty. First, the number sits at the end of the bar, making it harder to read. So we'll want to **horizontally** adjust this by shifting the numbers a bit to the left. Second, black text is really hard to read against a dark grey background. So we'll change the text of the number to white.
+
+Well that did... something. We've successfully added the numbers to this plot, but it's not very pretty. First, the number is plotted at the end of the bar, making it harder to read. So we'll want to **horizontally** adjust this by shifting the numbers a bit to the left. Second, black text is really hard to read against a dark grey background. So we'll change the text of the number to white.
 
 We can make both of these edits directly in the `geom_text` layer. 
 
-1. Edit the last line of your plot chunk to add two new arguments.
+1. **Edit** the last line of your plot chunk to add two new arguments.
 2. The first argument you will add is `hjust`, which moves the text left. (`hjust` stands for horizontal justification. `vjust`, or vertical justification, would move it up and down).
 3. The second argument you will add is `color`, which tells `ggplot` what the color of your text should be.
 
@@ -350,7 +571,7 @@ Great! But we're still not done. Even though we've added labels to each bar char
 
 Now that we have a chart, with some information displayed in bars, flipped and arranged so we can see information, let's add to this by giving the chart some labels. We'll do this by adding a **layer** of labels to our chart using the the `labs()` function. We can add and change a number of things with `labs()`, including creating a title, and changing the x and y axis titles.
 
-1. Edit the last line of your plot chunk to add the ggplot pipe `+` and `labs()` in the next line.
+1. **Edit** the last line of your plot chunk to add the ggplot pipe `+` and `labs()` in the next line.
 2. Add a title using the `title = ` argument
 3. Add a subtitle using the `subtitle = ` argument. This is a great place to put information about your data (like when it was collected).
 4. Add a caption using the `caption = ` argument. Put your byline here!
@@ -386,17 +607,18 @@ Some things to consider:
 - You need to prepare the data based on `ice_cream` (which is the name of a variable in your `class` data frame)
 - You need to build the chart
 
-It's essentially the same process we used for the princess chart, but using `ice_cream` variable.
+It's essentially the same process we used for the princess chart, but using `ice_cream` variable. That said, I really recommend you write all the code from scratch, ONE LINE AT A TIME, so you can soak in what each line does.
 
 ## What we've learned
 
 There is a ton, really.
 
 - ggplot2 (which is really the `ggplot()` function) is the charting library for the tidyverse. This whole lesson was about it.
+- We also covered `reorder()`, which can reorder a variable based on the values in a different variable.
 
 Here are some more references for ggplot:
 
-- [The ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html) and [ggplot2 cheatsheets](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf).
-- [R for Data Science, Chap 3.](https://r4ds.had.co.nz/data-visualisation.html) Hadley Wickam dives right into plots in his book.
+- [The ggplot2 documentation](https://ggplot2.tidyverse.org/reference/index.html) and [ggplot2 cheatsheets](https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf).
+- [R for Data Science, Chap 3.](https://r4ds.hadley.nz/data-visualize.html) Hadley Wickham dives right into plots in his book.
 - [R Graphics Cookbook](https://r-graphics.org/) has lots of example plots. Good to harvest code and see how to do things.
 - [The R Graph Gallery](https://www.r-graph-gallery.com/) another place to see examples.
