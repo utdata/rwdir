@@ -332,12 +332,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#rd-geometries" id="toc-rd-geometries" class="nav-link" data-scroll-target="#rd-geometries"><span class="header-section-number">7.4.4</span> 3rd: geometries</a></li>
   <li><a href="#chart-code-review" id="toc-chart-code-review" class="nav-link" data-scroll-target="#chart-code-review"><span class="header-section-number">7.4.5</span> Chart code review</a></li>
   <li><a href="#aesthetics-layers" id="toc-aesthetics-layers" class="nav-link" data-scroll-target="#aesthetics-layers"><span class="header-section-number">7.4.6</span> Aesthetics &amp; layers</a></li>
-  <li><a href="#labs-themes" id="toc-labs-themes" class="nav-link" data-scroll-target="#labs-themes"><span class="header-section-number">7.4.7</span> Labs &amp; themes</a></li>
-  <li><a href="#other-geometries" id="toc-other-geometries" class="nav-link" data-scroll-target="#other-geometries"><span class="header-section-number">7.4.8</span> Other geometries</a></li>
+  <li><a href="#labels" id="toc-labels" class="nav-link" data-scroll-target="#labels"><span class="header-section-number">7.4.7</span> Labels</a></li>
+  <li><a href="#themes" id="toc-themes" class="nav-link" data-scroll-target="#themes"><span class="header-section-number">7.4.8</span> Themes</a></li>
   </ul></li>
   <li><a href="#lets-build-a-bar-chart" id="toc-lets-build-a-bar-chart" class="nav-link" data-scroll-target="#lets-build-a-bar-chart"><span class="header-section-number">7.5</span> Let’s build a bar chart</a>
   <ul class="collapse">
-  <li><a href="#prepare-the-data" id="toc-prepare-the-data" class="nav-link" data-scroll-target="#prepare-the-data"><span class="header-section-number">7.5.1</span> Prepare the data</a></li>
+  <li><a href="#prep-princess-data" id="toc-prep-princess-data" class="nav-link" data-scroll-target="#prep-princess-data"><span class="header-section-number">7.5.1</span> Prep princess data</a></li>
   <li><a href="#build-our-plot-with-geom_col" id="toc-build-our-plot-with-geom_col" class="nav-link" data-scroll-target="#build-our-plot-with-geom_col"><span class="header-section-number">7.5.2</span> Build our plot with geom_col</a></li>
   <li><a href="#add-the-geom_col-layer" id="toc-add-the-geom_col-layer" class="nav-link" data-scroll-target="#add-the-geom_col-layer"><span class="header-section-number">7.5.3</span> Add the geom_col layer</a></li>
   <li><a href="#flip-the-axes" id="toc-flip-the-axes" class="nav-link" data-scroll-target="#flip-the-axes"><span class="header-section-number">7.5.4</span> Flip the axes</a></li>
@@ -381,12 +381,7 @@ Warning
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>Mid-update for Quarto</li>
-<li>Could use an edit update</li>
-<li>Might send students to R4DS chapter to explain ggplot first time.
-<ul>
-<li>If not that, then at least use penguins like he does</li>
-</ul></li>
+<li>Quarto draft is finished</li>
 </ul>
 </div>
 </div>
@@ -396,7 +391,7 @@ Warning
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>The chapter is by Prof.&nbsp;Lukito, who uses a PC, but has some Prof.&nbsp;McDonald edits.</p>
+<p>The chapter is by Prof.&nbsp;Lukito with some updates by Prof.&nbsp;McDonald.</p>
 </div>
 </div>
 </div>
@@ -551,7 +546,7 @@ Warning
 </section>
 <section id="rd-geometries" class="level3" data-number="7.4.4">
 <h3 data-number="7.4.4" class="anchored" data-anchor-id="rd-geometries"><span class="header-section-number">7.4.4</span> 3rd: geometries</h3>
-<p>Now that we know which data to apply, we have to make a choice on how we want to show the shape of that data on our plot, and we do that through <strong>geometries</strong>. We’ll talk about different ones in a minute, but we’ll start with plotting our data as points.</p>
+<p>Now that we know which data to apply, we have to make a choice on how we want to show the shape of that data on our plot, and we do that through <strong>geometries</strong> (or “geoms” as we call them.) We’ll talk about different ones in a minute, but we’ll start with plotting our data as points.</p>
 <p>This is our first <em>added</em> layer on our chart, and therefore introduction of the <code>+</code> option within ggplot. We use <code>+</code> to add on layers of information in our grammar of graphics. It’s <em>sort of</em> like the pipe <code>|&gt;</code> in the way it works, but we use <code>+</code> when adding ggplot layers.</p>
 <ol type="1">
 <li><strong>Edit</strong> your chunk to add the <code>+</code> and the <code>geom_point()</code> functions as noted below.</li>
@@ -567,7 +562,7 @@ Warning
 <p><img src="plots_files/figure-html/p-point-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>OK, now we are getting somewhere. We can <strong>see</strong> each penguin plotted on the chart, and we can generally see that as they get heavier (higher on vertical axis) their flippers are also longer (to the right on the horizontal axis.)</p>
+<p>OK, now we are getting somewhere. We can <strong>see</strong> each penguin plotted on the chart, and we can generally see that as the birds get heavier (higher on vertical axis) their flippers are also longer (to the right on the horizontal axis.)</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -581,6 +576,10 @@ Note
 <p>We do get this warning: <code>Warning: Removed 2 rows containing missing values geom_point()</code>. This is telling us there are two rows of data that don’t have one of the two values, so they were dropped. Like R, ggplot2 subscribes to the philosophy that missing values should never silently go missing. As journalists, we just need to make sure we know why something is missing and note if it is important.</p>
 </div>
 </div>
+<section id="other-geometries" class="level4" data-number="7.4.4.1">
+<h4 data-number="7.4.4.1" class="anchored" data-anchor-id="other-geometries"><span class="header-section-number">7.4.4.1</span> Other geometries</h4>
+<p>There are <a href="https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf">many geoms</a>, but here are a few common ones: - <code>geom_point()</code> adds dots onto the grid based on the data. We used them above. - <code>geom_line()</code> adds lines between data points on the grid. Basically a line chart. - <code>geom_col()</code> and <code>geom_bars()</code> adds bars to the grid based on values in the data. A bar chart. We’ll use <code>geom_col()</code> later in this lesson but you can read about the difference between the two in a later chapter. - <code>geom_text()</code> adds labels based on values in the data.</p>
+</section>
 </section>
 <section id="chart-code-review" class="level3" data-number="7.4.5">
 <h3 data-number="7.4.5" class="anchored" data-anchor-id="chart-code-review"><span class="header-section-number">7.4.5</span> Chart code review</h3>
@@ -639,7 +638,7 @@ Note
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="plots_files/figure-html/color-added-1.png" class="img-fluid" width="672"></p>
+<p><img src="plots_files/figure-html/p-color-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>When a categorical variable like the <code>species</code> is mapped to an aesthetic, ggplot will assign a color to each unique value and add a legend so you can tell them apart.</p>
@@ -655,7 +654,7 @@ Note
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="plots_files/figure-html/smooth-added-1.png" class="img-fluid" width="672"></p>
+<p><img src="plots_files/figure-html/p-smooth-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>We’ve added the lines, but it doesn’t look like our “goal” graphic we started with in <a href="#sec-goal-chart"><span>Section&nbsp;7.4.1</span></a>, which only has one line instead of three separate lines for each of the penguin species.</p>
@@ -672,7 +671,7 @@ Note
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> species)) <span class="sc">+</span></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="plots_files/figure-html/smooth-color-1.png" class="img-fluid" width="672"></p>
+<p><img src="plots_files/figure-html/p-local-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>OK, this is looking pretty good, but it is not a great idea to represent information using only colors on a plot, as people perceive colors differently due to color blindness or other color vision differences. We can improve readability of this chart of we also map species based on the shape aesthetic.</p>
@@ -687,17 +686,12 @@ Note
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> species, <span class="at">shape =</span> species)) <span class="sc">+</span></span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="plots_files/figure-html/smooth-shape-1.png" class="img-fluid" width="672"></p>
+<p><img src="plots_files/figure-html/p-shape-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
-<section id="labs-themes" class="level3" data-number="7.4.7">
-<h3 data-number="7.4.7" class="anchored" data-anchor-id="labs-themes"><span class="header-section-number">7.4.7</span> Labs &amp; themes</h3>
-<blockquote class="blockquote">
-<blockquote class="blockquote">
-<p>THIS IS WHERE I STOPPED - CRIT</p>
-</blockquote>
-</blockquote>
+<section id="labels" class="level3" data-number="7.4.7">
+<h3 data-number="7.4.7" class="anchored" data-anchor-id="labels"><span class="header-section-number">7.4.7</span> Labels</h3>
 <div style="width:100%;height:0;padding-bottom:56%;position:relative;">
 <iframe src="https://giphy.com/embed/22eVpVYpRhaE0" width="100%" height="100%" style="position:absolute" frameborder="0" class="giphy-embed" allowfullscreen="">
 </iframe>
@@ -709,6 +703,10 @@ Note
 <li><strong>themes</strong> change the visual styles of the grids and axis. There are several available within ggplot and <a href="https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/">many other from the R community</a>.</li>
 </ul>
 <p>Like <code>geom_point()</code> above, we’ll use the <code>+</code> at the end of each line before we add another layer.</p>
+<p>Let’s add a labels layer so we can describe our chart to our readers.</p>
+<ol type="1">
+<li><strong>Edit</strong> your code to add the <code>labs()</code> layer indicated below:</li>
+</ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  penguins,</span>
@@ -723,13 +721,44 @@ Note
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Species"</span>, <span class="at">shape =</span> <span class="st">"Species"</span></span>
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="plots_files/figure-html/smooth-labs-1.png" class="img-fluid" width="672"></p>
+<p><img src="plots_files/figure-html/p-labs-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Note that there are several arguments within the <code>labs()</code> function:</p>
+<ul>
+<li><code>title</code> gives us a headline</li>
+<li><code>subtitle</code> is a readout under the headline.</li>
+<li>The <code>x</code> axis already had a label on our chart by default, but it was the name of the variable. Find for us, because we know what it is, but here we are replacing that with text more appropriate for a reader. The same with the <code>y</code> value we reset.</li>
+<li>The <code>color</code> and <code>shape</code> arguments are similar in that we are replacing the existing label above the legend, resetting those to capitalize “Species”. We need to change the both so they are the same. (You might experiment by removing the <code>shape</code> argument and re-running it to see what happens.)</li>
+</ul>
 </section>
-<section id="other-geometries" class="level3" data-number="7.4.8">
-<h3 data-number="7.4.8" class="anchored" data-anchor-id="other-geometries"><span class="header-section-number">7.4.8</span> Other geometries</h3>
-<p><strong>geometries</strong> (or “geoms” as we call them) are the way we plot data on the base grid. There are <a href="https://github.com/rstudio/cheatsheets/blob/master/data-visualization.pdf">many geoms</a>, but here are a few common ones: - <code>geom_point()</code> adds dots onto the grid based on the data. We used them above. - <code>geom_line()</code> adds lines between data points on the grid. Basically a line chart. - <code>geom_col()</code> and <code>geom_bars()</code> adds bars to the grid based on values in the data. A bar chart. We’ll use <code>geom_col()</code> later in this lesson but you can read about the difference between the two in a later chapter. - <code>geom_text()</code> adds labels based on values in the data.</p>
+<section id="themes" class="level3" data-number="7.4.8">
+<h3 data-number="7.4.8" class="anchored" data-anchor-id="themes"><span class="header-section-number">7.4.8</span> Themes</h3>
+<p>You can change just about <em>anything</em> on a ggplot chart if you know the function and arguments to describe it. The <a href="https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf">cheetsheet</a> shows a lot of them, but it can get really dense.</p>
+<p>Folks have saved combinations of these arguments into <strong>themes</strong> that allow you to radicaly change the appearance of a plot with a single layer. Let’s how that here.</p>
+<ol type="1">
+<li><strong>Edit</strong> your code chunk to add on the last <code>+ theme_minimal()</code> function.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  penguins,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> flipper_length_mm, <span class="at">y =</span> body_mass_g)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> species, <span class="at">shape =</span> species)) <span class="sc">+</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Body mass and flipper length"</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Dimensions for Adelie, Chinstrap, and Gentoo Penguins"</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Flipper length (mm)"</span>, <span class="at">y =</span> <span class="st">"Body mass (g)"</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Species"</span>, <span class="at">shape =</span> <span class="st">"Species"</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="plots_files/figure-html/p-theme-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This changes the grid and gridline colors to make the data pop a little better. There are other themes that create more radical change, some in their own packages. We’ll play more later.</p>
+<p>OK, you’ve made your first ggplot chart! Are you ready to make another?</p>
 </section>
 </section>
 <section id="lets-build-a-bar-chart" class="level2" data-number="7.5">
@@ -737,24 +766,18 @@ Note
 <p>In our first week of class, we sent out a survey where you told us your favorite Disney Princess and favorite flavor of ice cream. Let’s now play around with some of this data.</p>
 <p>For this lesson, we’re not going to create a different notebook or download the data to our computer. Instead, we’re going to save the data directly into a tibble.</p>
 <ol type="1">
-<li>Start a new section: Princess chart data upload.</li>
-<li>In the text, note that we are importing the princess chart data.</li>
+<li>Start a new section: Importing class data</li>
+<li>In the text, note that we are importing the chart data.</li>
 <li>Add the code below to get the data.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read the data and create an tibble object called "class"</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>class <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://docs.google.com/spreadsheets/d/e/2PACX-1vQfwR6DBW5Qv6O5aEBFJl4V8itnlDxFEc1e_-fOAtBMDxXx1GeEGb8o5VSgi33oTYqeFhVCevGGbG5y/pub?gid=0&amp;single=true&amp;output=csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 37 Columns: 3
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (3): Name, Princess, Ice cream
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>class</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read the data and create an tibble object called "class"</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>class <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://docs.google.com/spreadsheets/d/e/2PACX-1vQfwR6DBW5Qv6O5aEBFJl4V8itnlDxFEc1e_-fOAtBMDxXx1GeEGb8o5VSgi33oTYqeFhVCevGGbG5y/pub?gid=0&amp;single=true&amp;output=csv"</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>class</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <div data-pagedtable="false">
@@ -765,26 +788,24 @@ chr (3): Name, Princess, Ice cream
 </div>
 </div>
 <p>So, now, you should have the data in your environment.</p>
-<section id="prepare-the-data" class="level3" data-number="7.5.1">
-<h3 data-number="7.5.1" class="anchored" data-anchor-id="prepare-the-data"><span class="header-section-number">7.5.1</span> Prepare the data</h3>
+<section id="prep-princess-data" class="level3" data-number="7.5.1">
+<h3 data-number="7.5.1" class="anchored" data-anchor-id="prep-princess-data"><span class="header-section-number">7.5.1</span> Prep princess data</h3>
 <p>While there are ways for ggplot to calculate values from your data on the fly, I prefer to first build a table of the values I want, and then I will plot it on a chart. It’s helpful to think of these steps as separate so you have a good workflow (clean the data, prepare the data in a table form, and then plot the data).</p>
-<p>Today, our goal will be to make a bar chart, sometimes known as a column chart or histogram. This bar chart will show the number of votes for each princess from the data. So, we need to count the number of rows for each value … our typical <code>group_by</code>/<code>summarize</code>/<code>arrange</code> (GSA) process.</p>
+<p>Today, our goal will be to make a bar chart, sometimes known as a column chart. This bar chart will show the number of votes for each princess from the data. So, we need to count the number of rows for each value … our typical <code>group_by</code>/<code>summarize</code>/<code>arrange</code> (GSA) process.</p>
 <p>For this lesson, I’m going to use the <code>count()</code> shortcut, since we haven’t used it much lately. Next, I’ll save the summarized data into a new dataframe called <code>princess_data</code>. Follow along in your notebook:</p>
 <ol type="1">
-<li>Add a section: Princess chart.</li>
+<li>Add a section: Princess data</li>
 <li>Add text that you are creating a data frame to plot.</li>
 <li>Add the code below to create that data.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#library(janitor) #run this if you have not loaded the janitor package!</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>princess_data <span class="ot">&lt;-</span> class <span class="sc">%&gt;%</span> </span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> <span class="co">#remember, this is from the janitor packae!</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(princess, <span class="at">name =</span> <span class="st">"votes"</span>, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this above line counts the princess rows, sets the name and sorts</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>princess_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>princess_data <span class="ot">&lt;-</span> class <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">|&gt;</span> <span class="co">#remember, this is from the janitor package!</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(princess, <span class="at">name =</span> <span class="st">"votes"</span>, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this above line counts the princess rows, sets the name and sorts</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>princess_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <div data-pagedtable="false">
@@ -794,7 +815,7 @@ chr (3): Name, Princess, Ice cream
 </div>
 </div>
 </div>
-<p>At this point, y’all should be plenty familiar with these summary functions, and the output should be easy to interpret: we’re just countin the number of rows for each princess.</p>
+<p>At this point, y’all should be plenty familiar with these summary functions, and the output should be easy to interpret: we’re just counting the number of rows for each princess.</p>
 <p>Now that we have our table data, let’s actually plot it.</p>
 </section>
 <section id="build-our-plot-with-geom_col" class="level3" data-number="7.5.2">
@@ -805,29 +826,35 @@ chr (3): Name, Princess, Ice cream
 <li>Add the following code chunk, which is the first layer</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)) <span class="co"># sets our x and y axes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  princess_data,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>) <span class="co"># sets our x and y axes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="plots_files/figure-html/princess-base-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>You’ll see the grid and x/y axis of the data, but no geometries are applied yet, so you won’t see any data. But remember, we’re adding these all in gradual layers.</p>
+<p>You’ll see the grid and x/y axis of the data, but no geometries are applied yet, so you won’t see any data. But remember, we’re adding these all in layers.</p>
 </section>
 <section id="add-the-geom_col-layer" class="level3" data-number="7.5.3">
 <h3 data-number="7.5.3" class="anchored" data-anchor-id="add-the-geom_col-layer"><span class="header-section-number">7.5.3</span> Add the geom_col layer</h3>
 <p>Now it is time to add our columns. To do this, we’ll use <code>geom_col()</code>. Similar to <code>geom_point()</code>, <code>geom_col()</code> adds a geometric layer that tells R how to display the data (in this case, with columns as opposed to points). Let’s write this code now.</p>
 <ol type="1">
-<li>Edit the plot code to add the ggplot pipe <code>+</code> and on the next line add <code>geom_col()</code>.</li>
+<li><strong>Edit</strong> the plot code to add the ggplot pipe <code>+</code> and on the next line add <code>geom_col()</code>.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)) <span class="sc">+</span> <span class="co"># don't forget the + on this line</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="co"># adds the bars</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  princess_data,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> <span class="co"># don't forget the + on this line</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="co"># adds the bars</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="plots_files/figure-html/princess-col-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Our two-layer chart is getting somewhere now. We’re able to see the data in the plot, but there are a couple issues:</p>
 <ul>
-<li>We can’t read the value names. We can fix this.</li>
+<li>Depending on the width of our notebook, the princess names might collide with each other. We can fix this.</li>
 <li>The order of the bars is alphabetical instead of in vote order. Again, we can fix it.</li>
 </ul>
 </section>
@@ -836,12 +863,14 @@ chr (3): Name, Princess, Ice cream
 <p>One way to fix the labels is to “flip” the axes, so the x axis becomes the y axis and vice versa. This is the equivalent of rotating the whole figure. When we do this, the axis will turn sideways, making it easier to read the labels. Worth noting: this can be a bit confusing later because the “x” axis is now going up/down (as opposed to left and right).</p>
 <p>Let’s learn how to flip the axes now. We’ll do this by adding a new layer, <code>coord_flip()</code>, which is a special layer that flips the axes. Just like we added the previous <code>geom_col()</code> layer using <code>+</code>, we’ll do the same thing here. Let’s do that now.</p>
 <ol type="1">
-<li>Edit your plot chunk to add the ggplot pipe <code>+</code>and <code>coord_flip()</code> on the next line.</li>
+<li><strong>Edit</strong> your plot chunk to add the ggplot pipe <code>+</code>and <code>coord_flip()</code> on the next line.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)) <span class="sc">+</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span> <span class="co"># don't forget the +</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="co"># flips the axis</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  princess_data, <span class="fu">aes</span>(<span class="at">x =</span> princess, <span class="at">y =</span> votes)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span> <span class="co"># don't forget the +</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="co"># flips the axis</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="plots_files/figure-html/princess-flipped-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -852,23 +881,36 @@ chr (3): Name, Princess, Ice cream
 <section id="reorder-the-bars" class="level3" data-number="7.5.5">
 <h3 data-number="7.5.5" class="anchored" data-anchor-id="reorder-the-bars"><span class="header-section-number">7.5.5</span> Reorder the bars</h3>
 <p>The bars on our chart are in alphabetical order of the x axis (and reversed thanks to our flip.) We want to order the values based on the <code>votes</code> in the data.</p>
-<blockquote class="blockquote">
-<p>Complication alert: Categorical data can have <a href="https://r4ds.had.co.nz/factors.html">factors</a>, which are like an internal ordering system. Some categories, like months in a year, have an “order” that is not alphabetical.</p>
-</blockquote>
-<p>We can reorder our categorical values in a plot by editing the <code>x</code> values in our <code>aes()</code> using <code>reorder()</code>. (There is a tidyverse function called <code>fct_reorder()</code> that works the same way.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Complication alert: Categorical data can have <a href="https://r4ds.hadley.nz/factors.html">factors</a>, which are like an internal ordering system. Some categories, like months in a year, have an “order” that is not alphabetical.</p>
+</div>
+</div>
+<p>We can reorder our categorical values in a plot by editing the <code>x</code> values in our <code>aes()</code> using <code>reorder()</code>. (There is a tidyverse function called <code>fct_reorder()</code> that works the same way for factors.)</p>
 <p><code>reorder()</code> takes two arguments: The column to reorder, and the column to base that reorder on. It can happen in two different ways, and I’ll be honest and say I don’t know which is easier to comprehend.</p>
 <ul>
-<li><code>x = reorder(princess, votes)</code> says “set the x axis as <code>princess</code>, but order as <code>votes</code>. OR …</li>
-<li><code>x = princess %&gt;% reorder(votes)</code> says “set the x axis as <code>princess</code> <em>and then</em> reorder by <code>votes</code>.</li>
+<li><code>x = reorder(princess, votes)</code> says “we shall set x as reordered values of <code>princess</code> based on the order of <code>votes</code>. OR …</li>
+<li><code>x = princess |&gt; reorder(votes)</code> says “set the x axis as <code>princess</code> <em>and then</em> reorder by <code>votes</code>.</li>
 </ul>
-<p>They both work. Even though I’m a fan of the tidyverse <code>%&gt;%</code> construct, I’m going with the first version.</p>
+<p>They both work. Even though I’m a fan of the tidyverse <code>|&gt;</code> construct, I’m going with the first version.</p>
 <ol type="1">
-<li>Edit the first line of your chunk to reorder the bars.</li>
+<li><strong>Edit</strong> the first line of your chunk to reorder the bars.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> <span class="co"># this is the line you edit</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  princess_data,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes) <span class="co"># this is the line you edit</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="plots_files/figure-html/princess-reorder-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -877,34 +919,34 @@ chr (3): Name, Princess, Ice cream
 </section>
 <section id="adding-a-geom_text-layer" class="level3" data-number="7.5.6">
 <h3 data-number="7.5.6" class="anchored" data-anchor-id="adding-a-geom_text-layer"><span class="header-section-number">7.5.6</span> Adding a geom_text layer</h3>
-<p>Now, we’re really starting to take advance of the grammar of graphics by including more than one geometric layer. Specifically, we’ll be using <code>geom_text()</code> to add some information to our bar charts.</p>
+<p>Now, we’re really starting to take advantage of the grammar of graphics by including more than one geometric layer. Specifically, we’ll be using <code>geom_text()</code> to add some information to our bar charts.</p>
 <p>As we mentioned previously, <code>geom</code> layers can take individual aesthetics (that build on top of the global aesthetics you put in the first layer). When using <code>geom_text()</code>, we’ll include some local aesthetics using the <code>aes()</code> argument, to tell <code>ggplot</code> the label we’d like to add to the plot.</p>
 <ol type="1">
-<li>Edit your plot chunk to add the ggplot pipe <code>+</code>and <code>geom_text()</code> on the next line.</li>
+<li><strong>Edit</strong> your plot chunk to add the ggplot pipe <code>+</code>and <code>geom_text()</code> on the next line.</li>
 <li>Add the following line to the chunk <code>geom_text(aes(label = votes)</code>.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="co"># don't forget +</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> votes)) <span class="co"># plots votes text values on chart</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="co"># don't forget +</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> votes)) <span class="co"># plots votes text values on chart</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="plots_files/figure-html/princess-text-ugly-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Well that did… something. We’ve successfully added the numbers to this plot, but it’s not very pretty. First, the number sits at the end of the bar, making it harder to read. So we’ll want to <strong>horizontally</strong> adjust this by shifting the numbers a bit to the left. Second, black text is really hard to read against a dark grey background. So we’ll change the text of the number to white.</p>
+<p>Well that did… something. We’ve successfully added the numbers to this plot, but it’s not very pretty. First, the number is plotted at the end of the bar, making it harder to read. So we’ll want to <strong>horizontally</strong> adjust this by shifting the numbers a bit to the left. Second, black text is really hard to read against a dark grey background. So we’ll change the text of the number to white.</p>
 <p>We can make both of these edits directly in the <code>geom_text</code> layer.</p>
 <ol type="1">
-<li>Edit the last line of your plot chunk to add two new arguments.</li>
+<li><strong>Edit</strong> the last line of your plot chunk to add two new arguments.</li>
 <li>The first argument you will add is <code>hjust</code>, which moves the text left. (<code>hjust</code> stands for horizontal justification. <code>vjust</code>, or vertical justification, would move it up and down).</li>
 <li>The second argument you will add is <code>color</code>, which tells <code>ggplot</code> what the color of your text should be.</li>
 </ol>
 <p>As a reminder, you should always separate your arguments within a function using commas (<code>,</code>).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="co"># don't forget +</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> votes), <span class="at">hjust =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="co"># plots read-able votes text values on chart</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="co"># don't forget +</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> votes), <span class="at">hjust =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="co"># plots read-able votes text values on chart</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="plots_files/figure-html/princess-text-clean-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -915,25 +957,25 @@ chr (3): Name, Princess, Ice cream
 <h3 data-number="7.5.7" class="anchored" data-anchor-id="add-some-titles-and-more-labels"><span class="header-section-number">7.5.7</span> Add some titles and more labels</h3>
 <p>Now that we have a chart, with some information displayed in bars, flipped and arranged so we can see information, let’s add to this by giving the chart some labels. We’ll do this by adding a <strong>layer</strong> of labels to our chart using the the <code>labs()</code> function. We can add and change a number of things with <code>labs()</code>, including creating a title, and changing the x and y axis titles.</p>
 <ol type="1">
-<li>Edit the last line of your plot chunk to add the ggplot pipe <code>+</code> and <code>labs()</code> in the next line.</li>
+<li><strong>Edit</strong> the last line of your plot chunk to add the ggplot pipe <code>+</code> and <code>labs()</code> in the next line.</li>
 <li>Add a title using the <code>title =</code> argument</li>
 <li>Add a subtitle using the <code>subtitle =</code> argument. This is a great place to put information about your data (like when it was collected).</li>
 <li>Add a caption using the <code>caption =</code> argument. Put your byline here!</li>
 <li>Change the x and y axes titles using <code>x =</code> and <code>y =</code>.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="co"># don't forget +</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> votes), <span class="at">hjust =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span> <span class="co"># plots votes text values on chart</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># labs below has several settings</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Favored princess"</span>, <span class="co"># adds a title</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Disney Princess votes from Reporting with Data, Spring 2022."</span>, <span class="co"># adds a subtitle</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"By Jo Lukito"</span>, <span class="co"># adds the byline, replace this name with your own</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Princess choices"</span>, <span class="co"># renames the x axis label (which is really y since it is flipped)</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of votes"</span> <span class="co"># renames the y axis label (which is really x since it is flipped)</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(princess_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(princess, votes), <span class="at">y =</span> votes)) <span class="sc">+</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="co"># don't forget +</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> votes), <span class="at">hjust =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span> <span class="co"># plots votes text values on chart</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># labs below has several settings</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Favored princess"</span>, <span class="co"># adds a title</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Disney Princess votes from Reporting with Data, Spring 2022."</span>, <span class="co"># adds a subtitle</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"By Jo Lukito"</span>, <span class="co"># adds the byline, replace this name with your own</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Princess choices"</span>, <span class="co"># renames the x axis label (which is really y since it is flipped)</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of votes"</span> <span class="co"># renames the y axis label (which is really x since it is flipped)</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="plots_files/figure-html/princess-labs-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -954,18 +996,19 @@ chr (3): Name, Princess, Ice cream
 <li>You need to prepare the data based on <code>ice_cream</code> (which is the name of a variable in your <code>class</code> data frame)</li>
 <li>You need to build the chart</li>
 </ul>
-<p>It’s essentially the same process we used for the princess chart, but using <code>ice_cream</code> variable.</p>
+<p>It’s essentially the same process we used for the princess chart, but using <code>ice_cream</code> variable. That said, I really recommend you write all the code from scratch, ONE LINE AT A TIME, so you can soak in what each line does.</p>
 </section>
 <section id="what-weve-learned" class="level2" data-number="7.7">
 <h2 data-number="7.7" class="anchored" data-anchor-id="what-weve-learned"><span class="header-section-number">7.7</span> What we’ve learned</h2>
 <p>There is a ton, really.</p>
 <ul>
 <li>ggplot2 (which is really the <code>ggplot()</code> function) is the charting library for the tidyverse. This whole lesson was about it.</li>
+<li>We also covered <code>reorder()</code>, which can reorder a variable based on the values in a different variable.</li>
 </ul>
 <p>Here are some more references for ggplot:</p>
 <ul>
-<li><a href="http://ggplot2.tidyverse.org/reference/index.html">The ggplot2 documentation</a> and <a href="https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf">ggplot2 cheatsheets</a>.</li>
-<li><a href="https://r4ds.had.co.nz/data-visualisation.html">R for Data Science, Chap 3.</a> Hadley Wickam dives right into plots in his book.</li>
+<li><a href="https://ggplot2.tidyverse.org/reference/index.html">The ggplot2 documentation</a> and <a href="https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf">ggplot2 cheatsheets</a>.</li>
+<li><a href="https://r4ds.hadley.nz/data-visualize.html">R for Data Science, Chap 3.</a> Hadley Wickham dives right into plots in his book.</li>
 <li><a href="https://r-graphics.org/">R Graphics Cookbook</a> has lots of example plots. Good to harvest code and see how to do things.</li>
 <li><a href="https://www.r-graph-gallery.com/">The R Graph Gallery</a> another place to see examples.</li>
 </ul>
