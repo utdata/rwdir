@@ -99,7 +99,9 @@ library(palmerpenguins)
 
 ## The layers of ggplot
 
-> Much of this first plot explanation comes from Hadley Wickham's [R for Data Science](https://r4ds.hadley.nz/data-visualize.html), with edits to fit the lesson here.
+::: callout-note
+Much of this first plot explanation comes from Hadley Wickham's [R for Data Science](https://r4ds.hadley.nz/data-visualize.html), with edits to fit the lesson here.
+:::
 
 Before we dive into `ggplot`, let's peek at our data.
 
@@ -171,10 +173,13 @@ The workhors of `aes()` is to indicate the variable to plot horizontally (the `x
 
 In our case, set our `flipper_length_mm` (the flipper length) for `x` and `body_mass_g` for `y`:
 
-1. **Edit** your code to add the following line of code.
+1. **Edit** your code to add the following line of code. Note I've rearranged the indenting, too.
 
 ```{r p-aes}
-ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g))
+ggplot(
+  penguins,
+  aes(x = flipper_length_mm, y = body_mass_g)
+)
 ```
 
 We are getting closer! The plot knows what data we are using and the "range" of that data, so it has added tick marks and values along our `x` and `y` axes.
@@ -192,9 +197,15 @@ This is our first _added_ layer on our chart, and therefore introduction of the 
 ```{r}
 #| label: p-point
 
-ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
-  geom_point()
+ggplot(
+  penguins,
+  aes(x = flipper_length_mm, y = body_mass_g)
+) + #<1>
+  geom_point() #<2>
 ```
+
+1. Don't forget the `+` here
+2. The `geom_point()` plotted dots based on the values set in our `aes()` function.
 
 OK, now we are getting somewhere. We can **see** each penguin plotted on the chart, and we can generally see that as the birds get heavier (higher on vertical axis) their flippers are also longer (to the right on the horizontal axis.)
 
@@ -229,7 +240,7 @@ Think of this like painting a chart:
 - The second argument is the `aes()` function, where we apply our **aesthetics**. Aesthetics describe how we will paint our data onto the plot. Inside of this function, we set values for the `x` and `y` axis so we know WHERE to paint. There are some other aesthetic values we can paint with data, and we will.
 - Lastly we add on a layer (with `+`) to add `geom_point()` to paint "points" on top of the plot based on the set aesthetics. (It's like [pointillism](https://www.sothebys.com/en/articles/pointillism-7-things-you-need-to-know!).)
 
-::: callout-note
+::: callout-important
 You might see this same code written different ways. Let's talk about why.
 
 #### Verbose arguments {.unnumbered}
@@ -240,7 +251,7 @@ ggplot(data = penguins,
   geom_point()
 ```
 
-The above version adds `data = ` and `mapping =` to the first two arguments. It is the official descriptive way to do this, and how Hadley Wickham describes it in R for Data Science. But, since the first argument can assumed to be the data we often don't include it unless it unless we are trying to differentiate with different data used later. Same goes for `mapping =` ... we don't specify it unless necessary.
+The above version adds `data = ` and `mapping =` to the first two arguments. It is the official descriptive way to do this, and how Hadley Wickham describes it in [R for Data Science](https://r4ds.hadley.nz/data-visualize.html). But, since the first argument can assumed to be the data we often don't include it unless it unless we are trying to differentiate with different data used later. Same goes for `mapping =` ... we don't specify it unless necessary.
 
 #### Piping into ggplot {.unnumbered}
 
@@ -250,7 +261,7 @@ penguins |>
   geom_point()
 ```
 
-In this case we start with the data AND THEN pipes it into `ggplot()` as the first argument. Prof. McDonald often does it this way. Scoundrel.
+In this case we start with the data AND THEN pipes it into `ggplot()` as the first argument. Prof. McDonald often does it this way. The scoundrel.
 :::
 
 ### Aesthetics & layers
@@ -266,10 +277,12 @@ Let's color our points based on the species to see.
 #| warning: false
 ggplot(
   penguins,
-  aes(x = flipper_length_mm, y = body_mass_g, color = species)
+  aes(x = flipper_length_mm, y = body_mass_g, color = species) # <1>
 ) +
   geom_point()
 ```
+
+1. This is the line were yo uare adding color.
 
 When a categorical variable like the `species` is mapped to an aesthetic, ggplot will assign a color to each unique value and add a legend so you can tell them apart.
 
@@ -302,11 +315,14 @@ Let's show this by moving our color aesthetic from the global level to apply jus
 #| message: false
 ggplot(
   penguins,
-  aes(x = flipper_length_mm, y = body_mass_g)
+  aes(x = flipper_length_mm, y = body_mass_g) # <1>
 ) +
-  geom_point(aes(color = species)) +
+  geom_point(aes(color = species)) + # <2>
   geom_smooth(method = "lm")
 ```
+
+1. This is the line where we remove the `color = species` function.
+2. This is where we add it back, creating an `aes()` function inside `geom_point()` so it only applies to that geom.
 
 OK, this is looking pretty good, but it is not a great idea to represent information using only colors on a plot, as people perceive colors differently due to color blindness or other color vision differences. We can improve readability of this chart of we also map species based on the shape aesthetic.
 
@@ -320,9 +336,11 @@ ggplot(
   penguins,
   aes(x = flipper_length_mm, y = body_mass_g)
 ) +
-  geom_point(aes(color = species, shape = species)) +
+  geom_point(aes(color = species, shape = species)) + #<1>
   geom_smooth(method = "lm")
 ```
+
+1. We add the `shape = species` argument here inside the `aes()` function.
 
 ### Labels
 
@@ -335,10 +353,9 @@ In addition to geoms, there are other layers we can use to change or add to our 
 
 Like `geom_point()` above, we'll use the `+` at the end of each line before we add another layer.
 
-Let's add a labels layer so we can describe our chart to our readers.
+Let's add a labels layer so we can describe our chart to our readers. Note there are a number of arguments available in `labs()`, even more than those listed here.
 
-1. **Edit** your code to add the `labs()` layer indicated below:
-
+1. **Edit** your code to add the `labs()` layer indicated below.
 
 ```{r}
 #| label: p-labs
@@ -358,12 +375,13 @@ ggplot(
   )
 ```
 
-Note that there are several arguments within the `labs()` function:
+Walking through that a bit
 
-- `title` gives us a headline
-- `subtitle` is a readout under the headline.
-- The `x` axis already had a label on our chart by default, but it was the name of the variable. Find for us, because we know what it is, but here we are replacing that with text more appropriate for a reader. The same with the `y` value we reset.
-- The `color` and `shape` arguments are similar in that we are replacing the existing label above the legend, resetting those to capitalize "Species". We need to change the both so they are the same. (You might experiment by removing the `shape` argument and re-running it to see what happens.)
+1. We start with the `labs()` function and open it up to write many arguments inside.
+2. `title` gives us a headline.
+3. `subtitle` is a readout under the headline. We sometimes need to wrap the text in a `str_wrap()` function to keep it from running out of the chart.
+4. The `x` axis already had a label on our chart by default, but it was the non-very-print-friendly name of the variable. Fine for us because we know what it is, but here we are replacing that with text more appropriate for a reader. We do the same with the the `y` label.
+5. The `color` and `shape` arguments are similar in that we are replacing the existing label above the legend, resetting those to capitalize "Species". We need to change them both so they are the same. (You might experiment by removing the `shape` argument and re-running it to see what happens.)
 
 ### Themes
 
@@ -411,16 +429,39 @@ For this lesson, we're not going to create a different notebook or download the 
 #| label: class-data
 #| warning: false
 #| message: false
-# read the data and create an tibble object called "class"
-class <- read_csv(
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfwR6DBW5Qv6O5aEBFJl4V8itnlDxFEc1e_-fOAtBMDxXx1GeEGb8o5VSgi33oTYqeFhVCevGGbG5y/pub?gid=0&single=true&output=csv"
-)
+class <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQfwR6DBW5Qv6O5aEBFJl4V8itnlDxFEc1e_-fOAtBMDxXx1GeEGb8o5VSgi33oTYqeFhVCevGGbG5y/pub?gid=0&single=true&output=csv") |> # <1>
+  clean_names() # <2>
 
-# peek at the data
-class
+class # <3>
 ```
 
+1. We create a new object and then fill it by reading the data directly from the web.
+2. We lowercase the variable names using `clean_names()` from the janitor package.
+2. Print the new object to peek at it.
+
 So, now, you should have the data in your environment. 
+
+And with this data, we want to build a chart like this:
+
+```{r}
+#| label: princess-example
+#| echo: false
+
+class |> clean_names() |>
+  count(princess, name = "votes", sort = TRUE) |> 
+  ggplot(aes(x = reorder(princess, votes), y = votes)) + 
+  geom_col() +
+  coord_flip() +
+  geom_text(aes(label = votes), hjust = 2, color = "white") +
+  labs(
+    title = "Pick of the princesses",
+    subtitle = str_wrap("Students in Reporting with Data each voted for their favorite Disney Princess. Some complained that Princess Leia was not an option."),
+    caption = "By Jo Lukito",
+    x = "Princess choices",
+    y = "Number of votes"
+  )
+```
+
 
 ### Prep princess data
 
@@ -435,14 +476,15 @@ For this lesson, I'm going to use the `count()` shortcut, since we haven't used 
 2. Add the code below to create that data.
 
 ```{r princess-summarize}
-princess_data <- class |> 
-  clean_names() |> #remember, this is from the janitor package!
-  count(princess, name = "votes", sort = TRUE)
-  # this above line counts the princess rows, sets the name and sorts
-
-# peek at the data
-princess_data
+princess_data <- class |> # <1>
+  count(princess, name = "votes", sort = TRUE) # <2>
+  
+princess_data # <3>
 ```
+
+1. Start with a new object and start filling it with class data.
+2. Here we use the `count()` function to count the number of rows based on the `princess` column. The argument `name =` just names the new columns something other than `n`, and the `sort =` argument sorts the data in descending order based on the counted column.
+3. Print it out so we can see it.
 
 At this point, y'all should be plenty familiar with these summary functions, and the output should be easy to interpret: we're just counting the number of rows for each princess.
 
@@ -458,9 +500,11 @@ Like in the previous lesson, we'll start our plot by creating the first layer: t
 ```{r princess-base}
 ggplot(
   princess_data,
-  aes(x = princess, y = votes)
-) # sets our x and y axes
+  aes(x = princess, y = votes) # <1>
+)
 ```
+
+1. sets our x and y axes values.
 
 You'll see the grid and x/y axis of the data, but no geometries are applied yet, so you won't see any data. But remember, we're adding these all in layers.
 
@@ -474,9 +518,12 @@ Now it is time to add our columns. To do this, we'll use `geom_col()`. Similar t
 ggplot(
   princess_data,
   aes(x = princess, y = votes)
-) + # don't forget the + on this line
-  geom_col() # adds the bars
+) + # <1>
+  geom_col() # <2>
 ```
+
+1. Don't forget to add the `+` at the end of the previous line
+2. The `geom_col()` function adds the bars based on the global aesthetics we've already set.
 
 Our two-layer chart is getting somewhere now. We're able to see the data in the plot, but there are a couple issues:
 
@@ -495,9 +542,11 @@ Let's learn how to flip the axes now. We'll do this by adding a new layer, `coor
 ggplot(
   princess_data, aes(x = princess, y = votes)
 ) +
-  geom_col() + # don't forget the +
-  coord_flip() # flips the axis
+  geom_col() + 
+  coord_flip() # <1>
 ```
+
+1. Adding `coord_flip()` swaps the x and y axes.
 
 As you can see, rather than having vertical bars, we now have horizontal bars, and the names of each princess are fully displayed and read-able. Much better!
 
@@ -525,11 +574,13 @@ They both work. Even though I'm a fan of the tidyverse ` |> ` construct, I'm goi
 ```{r princess-reorder}
 ggplot(
   princess_data,
-  aes(x = reorder(princess, votes), y = votes) # this is the line you edit
+  aes(x = reorder(princess, votes), y = votes) # <1>
 ) + 
   geom_col() +
   coord_flip()
 ```
+
+1. This is the line where `reorder()` is added.
 
 So now, our princess names are read-able, and the bars are organized in vote size. But what if we wanted to be clearer in our figure, so that we knew the exact number of votes for each princess? Let's learn how to add this information.
 
@@ -539,15 +590,19 @@ Now, we're really starting to take advantage of the grammar of graphics by inclu
 
 As we mentioned previously, `geom` layers can take individual aesthetics (that build on top of the global aesthetics you put in the first layer). When using `geom_text()`, we'll include some local aesthetics using the `aes()` argument, to tell `ggplot` the label we'd like to add to the plot.
 
-1. **Edit** your plot chunk to add the ggplot pipe `+`and `geom_text()` on the next line.
-2. Add the following line to the chunk `geom_text(aes(label = votes)`.
+1. **Edit** your plot chunk to add the `+` and `geom_text()` layer on the end of your code.
+2. Set the aesthetics of the `geom_text()` function to plot the labels onto the chart based on the number of `votes`: `aes(label = votes)`, as noted below.
 
 ```{r princess-text-ugly}
-ggplot(princess_data, aes(x = reorder(princess, votes), y = votes)) + 
+ggplot(princess_data,
+       aes(x = reorder(princess, votes), y = votes)
+) + 
   geom_col() +
-  coord_flip() + # don't forget +
-  geom_text(aes(label = votes)) # plots votes text values on chart
+  coord_flip() + 
+  geom_text(aes(label = votes)) # <1>
 ```
+
+1. This plots a text layer onto the chart based on both the position and values in `votes`.
 
 Well that did... something. We've successfully added the numbers to this plot, but it's not very pretty. First, the number is plotted at the end of the bar, making it harder to read. So we'll want to **horizontally** adjust this by shifting the numbers a bit to the left. Second, black text is really hard to read against a dark grey background. So we'll change the text of the number to white.
 
@@ -560,11 +615,16 @@ We can make both of these edits directly in the `geom_text` layer.
 As a reminder, you should always separate your arguments within a function using commas (`,`).
 
 ```{r princess-text-clean}
-ggplot(princess_data, aes(x = reorder(princess, votes), y = votes)) + 
+ggplot(
+  princess_data,
+  aes(x = reorder(princess, votes), y = votes)
+) + 
   geom_col() +
-  coord_flip() + # don't forget +
-  geom_text(aes(label = votes), hjust = 2, color = "white") # plots read-able votes text values on chart
+  coord_flip() + 
+  geom_text(aes(label = votes), hjust = 2, color = "white") # <1>
 ```
+
+1. Note that both `hjust` and `color` are NOT inside the `aes()` function because we are not using the data to control them.
 
 Great! But we're still not done. Even though we've added labels to each bar chart, we still haven't added a title, and the titles of our x and y axes are not great. So let's work on those now.
 
@@ -579,19 +639,27 @@ Now that we have a chart, with some information displayed in bars, flipped and a
 5. Change the x and y axes titles using `x = ` and `y = `.
 
 ```{r princess-labs}
-ggplot(princess_data, aes(x = reorder(princess, votes), y = votes)) + 
+ggplot(
+  princess_data,
+  aes(x = reorder(princess, votes), y = votes)
+) + 
   geom_col() +
-  coord_flip() + # don't forget +
-  geom_text(aes(label = votes), hjust = 2, color = "white") + # plots votes text values on chart
-  # labs below has several settings
+  coord_flip() +
+  geom_text(aes(label = votes), hjust = 2, color = "white") + 
   labs(
-    title = "Favored princess", # adds a title
-    subtitle = "Disney Princess votes from Reporting with Data, Spring 2022.", # adds a subtitle
-    caption = "By Jo Lukito", # adds the byline, replace this name with your own
-    x = "Princess choices", # renames the x axis label (which is really y since it is flipped)
-    y = "Number of votes" # renames the y axis label (which is really x since it is flipped)
+    title = "Pick of the princesses", # <1>
+    subtitle = str_wrap("Students in Reporting with Data each voted for their favorite Disney Princess. Some complained that Princess Leia was not an option."), # <2>
+    caption = "By Jo Lukito", # <3>
+    x = "Princess choices", # <4>
+    y = "Number of votes" # <5>
   )
 ```
+
+1. A title to draw you in or communicate your goal.
+2. The subtitle is the place to explain what is needed to understand the chart. In this case we wrap the text in a `str_wrap()` function so the words don't run off the chart.
+3. A `caption` is a cood place to add your byline.
+4. Because we use `coord_flip()` it is actually the `x` axis that is vertical.
+5. Again, x and y are flipped.
 
 There you go! You've made a chart showing how our classes rated Disney Princesses.
 

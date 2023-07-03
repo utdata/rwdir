@@ -10,16 +10,6 @@ The chapter is by Prof. Lukito, with edits from Prof. McDonald.
 
 In the last chapter, you were introduced to [ggplot2](https://ggplot2.tidyverse.org/index.html), the `tidyverse` package that helps you build graphics, charts, and figures. In this chapter, we'll take your `ggplot` knowledge to the next level. We encourage you to treat this chapter as a reference.
 
-## References
-
-`ggplot2` has a LOT to it and we'll cover only the basics. Here are some references you might use:
-
-- [The ggplot2 documentation](https://ggplot2.tidyverse.org/reference/index.html) and [ggplot2 cheatsheets](https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf).
-- [R for Data Science, Chap 3.](https://r4ds.hadley.nz/data-visualize.html) Hadley Wickham dives right into plots in his book.
-- [ggplot2: Elegant graphics for Data Analysis](https://ggplot2-book.org/index.html) by Wickham.
-- [R Graphics Cookbook](https://r-graphics.org/) has lots of example plots. Good to harvest code and see how to do things.
-- [The R Graph Gallery](https://www.r-graph-gallery.com/) another place to see examples.
-
 ## Learning goals for this chapter
 
 In this chapter, we will cover the following topics:
@@ -29,6 +19,16 @@ In this chapter, we will cover the following topics:
 - More about aesthetics in layers!  
 - Faceting, or making multiple charts from the same data  
 - How to make interactive plots with `Plotly`  
+
+## References
+
+`ggplot2` has a LOT to it and we'll cover only the basics. Here are some references you might use:
+
+- [The ggplot2 documentation](https://ggplot2.tidyverse.org/reference/index.html) and [ggplot2 cheatsheets](https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf).
+- [R for Data Science, Chap 3.](https://r4ds.hadley.nz/data-visualize.html) Hadley Wickham dives right into plots in his book.
+- [ggplot2: Elegant graphics for Data Analysis](https://ggplot2-book.org/index.html) by Wickham.
+- [R Graphics Cookbook](https://r-graphics.org/) has lots of example plots. Good to harvest code and see how to do things.
+- [The R Graph Gallery](https://www.r-graph-gallery.com/) another place to see examples.
 
 ## Set up your notebook
 
@@ -178,15 +178,19 @@ In this new plot, we'll learn about a new `geom` layer: `geom_line()` (recall th
 
 ```{r}
 #| label: t-plot
-ggplot(tx_values, aes(x = year, y = yearly_value)) + #we create the graph
-  geom_point() + #adding the points
-  geom_line() + #adding the lines between the points
+ggplot(tx_values, aes(x = year, y = yearly_value)) + # <1>
+  geom_point() + # <2>
+  geom_line() + # <3>
   labs(
     title = "Yearly value of military surplus acquisitions in Texas", 
     x = "Year", y = "Cost of acquisitions",
     caption = "Source: Law Enforcement Support Office"
   )
 ```
+
+1. we create the graph
+2. adding the points
+3. adding the lines between the points
 
 ### Cleaning Up
 
@@ -203,13 +207,15 @@ Using functions from the scales package can be esoteric and unintuitive, but mos
 ggplot(tx_values, aes(x = year, y = yearly_value)) +
   geom_point() +
   geom_line() +
-  scale_y_continuous(labels = label_dollar()) + # added scale here
+  scale_y_continuous(labels = label_dollar()) + # <1> 
   labs(
     title = "Yearly value of military surplus acquisitions in Texas", 
     x = "Year", y = "Cost of acquisitions",
     caption = "Source: Law Enforcement Support Office"
   )
 ```
+
+1. This is the added line for the scale
 
 I added this in the middle of the code because I like to keep the `labs()` at the bottom of the chart. It doesn't really matter. What it did was change the labels on the Y axis to use a currency format. Let's walk through it:
 
@@ -227,14 +233,15 @@ To show just how much granularity you have with ggplot, let's make one more chan
 ggplot(tx_values, aes(x = year, y = yearly_value)) +
   geom_point() +
   geom_line() +
-  # scale_cut add in next line
-  scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
+  scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) + # <1>
   labs(
     title = "Yearly value of military surplus acquisitions in Texas", 
     x = "Year", y = "Cost of acquisitions",
     caption = "Source: Law Enforcement Support Office"
   )
 ```
+
+1. We're editing this line to add the `scale_cut` argument to `label_dollar()`.
 
 Let's show one more change. Notice how the grid lines along the X axis don't fall along every year? We are getting our "breaks" set every five years, but our "minor breaks" (the fainter lines between the five year increments) sit in the middle of a year. That makes it a little harder to read each year, or even to understand each of those dots fall on a year. We can use the `scale_x_date()` function to change those by adjust those minor breaks.
 
@@ -244,13 +251,11 @@ Let's show one more change. Notice how the grid lines along the X axis don't fal
 ```{r}
 #| label: t-minor-breaks
 tx_values |> 
-  # surround "year" with date()
-  ggplot(aes(x = date(year), y = yearly_value)) +
+  ggplot(aes(x = date(year), y = yearly_value)) + # <1>
   geom_point() +
   geom_line() +
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
-  # scale_x_date added below
-  scale_x_date(minor_breaks = breaks_width("1 year")) +
+  scale_x_date(minor_breaks = breaks_width("1 year")) + # <2>
   labs(
     title = "Yearly value of military surplus acquisitions in Texas", 
     x = "Year", y = "Cost of acquisitions",
@@ -258,6 +263,9 @@ tx_values |>
   )
 
 ```
+
+1. Surround "year" with `date()` function.
+2. This is the added later for `scale_x_date()`.
 
 OK, now the fainter "minor breaks" lines fall on each year, making them a little easier for the eye to track. Again, I had to [do some digging](https://ggplot2-book.org/scales-position.html#sec-date-minor-breaks) to figure that out.
 
@@ -265,13 +273,13 @@ OK, now the fainter "minor breaks" lines fall on each year, making them a little
 
 Sometimes it is helpful to push the results of a plot into an R object to "save" those configurations. You can continue to add layers to this object, but you won't need to rebuild the main portions of the chart each time. We'll do that here so we can explore themes next.
 
-1. **Edit** your Texas plot chunk to save it into an R object called `tx_plot`, then call it after it so you can see it.
+1. **Edit** your Texas plot chunk to save it into an R object called `tx_plot`.
+2. Then call it after the code so you can see it.
 
 ```{r tx-plot-create}
 #| label: t-object
 
-# the line below saves the graph results into tx_plot
-tx_plot <- ggplot(tx_values, aes(x = date(year), y = yearly_value)) +
+tx_plot <- ggplot(tx_values, aes(x = date(year), y = yearly_value)) + # <1> 
   geom_point() +
   geom_line() +
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
@@ -282,10 +290,11 @@ tx_plot <- ggplot(tx_values, aes(x = date(year), y = yearly_value)) +
     caption = "Source: Law Enforcement Support Office"
   )
 
-# Since we saved the plot into an R object above, we have to call it again to see it.
-# We save graphs like this so we can reuse them.
-tx_plot
+tx_plot # <2>
 ```
+
+1. We edit this line to add the object at the beginning.
+2. Since we saved the plot into an R object above, we have to call it again to see it. We save graphs like this so we can reuse them.
 
 We can continue to build upon the `tx_plot` object like we do below with themes, but those changes won't be "saved" into the R environment unless you assign it to an R object.
 
@@ -330,8 +339,6 @@ tx_plot +
 tx_plot +
   theme_stata()
 ```
-
-### There is more to themes {thingy}
 
 There is also a `theme()` function that allows you individually [adjust about every visual element](https://ggplot2.tidyverse.org/reference/theme.html) on your plot.
 
@@ -411,18 +418,24 @@ For our next plot, we'll add a different line for each state. To do this you wou
 
 ```{r}
 #| label: region-lcolor
-ggplot(region_data_exp,
-       aes(x = year, y = yearly_value)) + 
-  geom_point() +
-  geom_line(aes(color = state)) + #<1>
-  scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
-  scale_x_date(minor_breaks = breaks_width("1 year")) +
+ggplot(region_data, # <1>
+       aes(x = year, y = yearly_value)) + # <2>
+  geom_point() + # <3>
+  geom_line(aes(color = state)) + # <4>
+  scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) + # <5>
+  scale_x_date(minor_breaks = breaks_width("1 year")) + # <6>
   labs(title = "Yearly military surplus acquisitions in Texas and bordering states", 
        x = "Year", y = "Cost of acquisitions",
-       caption = "Source: Law Enforcement Support Office")
+       caption = "Source: Law Enforcement Support Office") # <7>
 ```
 
-1. We add the color aesthetic here to differentiate the lines
+1. Plotting the `region_data` object
+2. Set set the x and y axis
+3. Adds the points
+4. Adds the line, coloring them based on the `state` values
+5. Fixes our labels on the y axis.
+6. Fixes our minor breaks on the x axis.
+7. Adding all our labels with `labs()` arguments.
 
 Adding this aesthetic not only added color to the lines, it added a legend so we can tell which is which. If we had tried to build this plot without the added color aesthetic, it wouldn't plot right because it wouldn't how how to split the lines.
 
@@ -434,7 +447,7 @@ Notice that only the lines changed colors, and not the points? This is because w
 ```{r}
 #| label: region-pcolor
 
-ggplot(region_data_exp,
+ggplot(region_data,
        aes(x = year, y = yearly_value)) + 
   geom_point(aes(color = state)) +#<1>
   geom_line(aes(color = state)) +
@@ -449,7 +462,7 @@ ggplot(region_data_exp,
 1. Color aesthetic added here.
 2. Adding `color = "State"` here redraws the title above the color legend.
 
-OK, you have your second chart!
+OK, you have a line chart for reference!
 
 ## On your own
 
@@ -468,7 +481,7 @@ You don't have to add these examples below to your own notebook, but here are so
 ### Line width
 
 ```{r line-width}
-ggplot(region_data_exp,
+ggplot(region_data,
        aes(x = year, y = yearly_value)) + 
   geom_point(aes(color = state)) +
   geom_line(aes(color = state), size = 1.5) + #<1>
@@ -484,11 +497,11 @@ ggplot(region_data_exp,
 
 ### Line type
 
-This example removes the points and adds a `linetype = state` to the ggplot aesthetic. This gives each state a different type of line. We also set the color in the `geom_line()`
+This example adds a `linetype = state` to the ggplot aesthetic. This gives each state a different type of line.
 
 ```{r}
 #| label: linetype
-ggplot(region_data_exp,
+ggplot(region_data,
        aes(x = year, y = yearly_value)) + 
   geom_point(aes(color = state)) +
   geom_line(aes(color = state, linetype = state), size = .5) + #<1>
@@ -506,7 +519,7 @@ But note that ggplot added a new legend because it takes the name from the varia
 
 ```{r}
 #| label: linetype-lab
-ggplot(region_data_exp,
+ggplot(region_data,
        aes(x = year, y = yearly_value)) + 
   geom_point(aes(color = state)) +
   geom_line(aes(color = state, linetype = state), size = .5) +
@@ -532,7 +545,7 @@ We'll start with the chart we have already, and then split it into facets by sta
 ```{r facet-data}
 #| label: facet-wrap
 
-ggplot(region_data_exp,
+ggplot(region_data,
        aes(x = year, y = yearly_value)) + 
   geom_point(aes(color = state)) +
   geom_line(aes(color = state, linetype = state), size = .5) +
@@ -554,7 +567,7 @@ Since each state facet is labeled, we don't really need the color legend, so we 
 ```{r}
 #| label: facet-legend
 
-ggplot(region_data_exp,
+ggplot(region_data,
        aes(x = year, y = yearly_value)) + 
   geom_point(aes(color = state)) +
   geom_line(aes(color = state, linetype = state), size = .5) +
@@ -572,9 +585,9 @@ ggplot(region_data_exp,
 
 ### Facet grids
 
-A `facet_grid()` allows you to plot on a combination of variables. We don't really enough to compare with our leso data but we can show this with the `penguins` data we used in the last chapter.
+A `facet_grid()` allows you to plot on a combination of variables. We don't really have enough variables to compare with our leso data but we can show this with the `penguins` data we used in the last chapter.
 
-This chart compares the filpper length and body mass, but it does it for each species of bird by their gender.
+This chart compares the filpper length and body mass, but it does so for each species of bird by their gender.
 
 ```{r}
 #| label: facet-grid
@@ -609,7 +622,7 @@ To use plotly, you’ll want to install the plotly package, add the library, and
 #| warning: false
 library(plotly)
 
-region_plot <- ggplot(region_data_exp, #<1>
+region_plot <- ggplot(region_data, #<1>
        aes(x = year, y = yearly_value)) + 
   geom_point(aes(color = state)) +#<1>
   geom_line(aes(color = state)) +
@@ -629,7 +642,7 @@ region_plot |>
 
 Now you have tool tips on your points when you hover over them.
 
-The `ggplotly()` function is not perfect. For instance, I've shortened the title to the point uselessness because it ran on top of the controls. I'm sure that could be overcome with some effort. Alternatively, you can use plotly's own syntax to build some quite interesting charts, but it's a whole [new syntax to master](https://plotly.com/r/).
+The `ggplotly()` function is not perfect. For instance, I've shortened the title to the point of uselessness because it ran on top of the controls. I'm sure that could be overcome with some effort. Alternatively, you can use plotly's own syntax to build some quite interesting charts, but it's a whole [new syntax to master](https://plotly.com/r/).
 
 ## What we learned
 
