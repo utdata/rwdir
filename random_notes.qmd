@@ -1,0 +1,81 @@
+---
+title: "Random notes"
+---
+
+## Combine values during a pivot
+
+We'll practice this by taking our long candy data and pivot it so there is a column for each person in the data.
+
+
+```{r pivot-wider}
+candy_raw <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&single=true&output=csv") |> clean_names()
+
+
+candy_long <- candy_raw |> 
+  select(!c(timestamp, candy_type, box_code)) |> 
+  pivot_longer(
+    cols = red:brown, # <1> 
+    names_to = "color", # <2>
+    values_to = "count_candies" # <3>
+  )
+
+candy_long |> 
+  pivot_wider(names_from = c(first_name, last_name), values_from = count_candies)
+```
+
+## Grouped column chart
+
+
+```{r}
+candy_box <- candy_raw |> select(!c(ends_with("name"), timestamp, candy_type)) |> 
+  filter(box_code != "1524976SE" & box_code != "130FXWAC0336")
+
+candy_box_avg <- candy_box |> 
+  pivot_longer(cols = 2:7, names_to = "candy_color", values_to = "candy_cnt") |> 
+  group_by(box_code, candy_color) |> 
+  summarise(avg_candy = mean(candy_cnt))
+
+candy_box_avg
+
+candy_box_avg |> 
+  ggplot(aes(x = box_code, y = avg_candy)) +
+  geom_col(aes(fill = candy_color), position = "dodge", color = "grey", size = .1) +
+  scale_fill_manual(
+    values = c("blue" = "blue3",
+               "brown" = "brown4",
+               "green" = "green3",
+               "orange" = "darkorange",
+               "red" = "red2",
+               "yellow" = "yellow2"
+               )
+  ) +
+  labs(
+    title = "Good title about candy",
+    subtitle = "Explain about how counts were collected. Wrap text in str_wrap() if needed.",
+    caption = "By Your Name",
+    fill = "Candy color",
+    x = "A good axis title", y = "A good axis title"
+  ) +
+  theme_minimal()
+
+```
+
+## Copy & paste your data
+
+::: callout-warning
+This only works in the desktop version of RStudio. It does **NOT** work for the online posit.cloud version of Rstudio. You either EXPORT or WRITE_CLIP, but you don't need to do both.
+:::
+
+To do this, you'll need to install a package called clipr.
+
+1.  In your R project **in the R Console** install the package clipr: `install.packages("clipr")`. Do NOT save this code inside your notebook.
+2.  Start a section that says you are going to get data for Datawrapper.
+3.  Create a chunk with the following and run it.
+
+```r
+your_data |> clipr::write_clip(allow_non_interactive = TRUE)
+```
+
+You won't see anything happen, but all the data in your object (denoted as `your_data` above) has been added to your clipboard as if you highlighted it and did **Edit \> Copy** of *Cmd-C*. You must have the `allow_non_interactive = TRUE` argument to allow your Quarto document to knit.
+
+1.  Return to your browser where you are making the chart, put your cursor into the "Paste your copied data here ..." window and paste. (Like *Cmd-V* or use the menu Edit \> Paste.)

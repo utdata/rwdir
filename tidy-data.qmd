@@ -1,12 +1,15 @@
 # Tidy data {#tidy-data}
 
 ::: callout-warning
-Not yet updated for Quarto
+Quarto draft is done
+:::
+
+::: callout
+This chapter was written by Prof. McDonald, who uses a Mac.
 :::
 
 Data "shape" can be important when you are trying to work with and visualize data. In this chapter we'll discuss "tidy data" and how it helps us with both ggplot and other charting tools like [Datawrapper](https://www.datawrapper.de/).
 
-This chapter was written by Prof. McDonald, who uses a Mac.
 
 ## Goals for this section
 
@@ -16,7 +19,7 @@ This chapter was written by Prof. McDonald, who uses a Mac.
 
 ## The questions we'll answer
 
--   Are candy colors evenly distributed within a standard package of M&M's? (We'll get the mean of candies by color over a collection of packages.)
+-   Are candy colors evenly distributed within a standard package of M&M's? (i.e., average per color in a standard package)
     -   We'll plot the result as a column chart to show the average number of colored candies. We'll do it first in ggplot, then Datawrapper.
 -   Bonus 1: Who got the most candies in their bag?
 -   Bonus 2: What is the average number of candy in a bag?
@@ -60,7 +63,19 @@ There are a myriad of reasons why you might need to reshape your data. Performin
 
 I find myself shaping data back and forth depending on my needs.
 
-## Prepare our candy project
+## The candy project
+
+Let's visualize our goal here before we jump into the candy bowl.
+
+Our first question is this: **Are there equal numbers of different-colored candies in a bag of M&M's?**
+
+To visually communicate this, we'll build a chart similar to this one (though this one is about Skittles instead of M&M's.)
+
+![Skittles example](images/skittles-chart-example.png)
+
+We'll build this chart in both ggplot and Datawrapper.
+
+### Prepare our candy project
 
 We will use candy count data we've been collected in Reporting wth Data classes to explore this subject.
 
@@ -68,36 +83,40 @@ Start a new project.
 
 1.  Create a new project and call it: `yourname-candy`
 2.  No need to create data folders as we'll just load data directly into the notebook.
-3.  Start a new R Notebook and edit the headline. Name it **01-candy**.
-4.  Create your setup block and load the libraries below.
+3.  You can use your `index.qmd` file ... just change the title to "Tidy data: Candy".
+4.  Create your setup block and load the `tidyverse` and `janitor`.
 
-```{r setup, echo=T, message=F, warning=F}
+```{r setup}
+#| echo: false
+#| message: false
+options(dplyr.summarise.inform = FALSE)
 library(tidyverse)
 library(janitor)
 ```
 
-```{r test-data, include=FALSE}
+```{r}
+#| label: test-data
+#| include: false
 # Using random test data until we get some from class
 # This is hidden from printing (or should be)
-test_data <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vTlrXKADzSsFeARpgcmtIu_5ngT5iiylqrgqua9CelFgzL8XMLXViSaqb8mTInc5K2JyIKF6oGOAAQ2/pub?gid=0&single=true&output=csv"
+# test_data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTlrXKADzSsFeARpgcmtIu_5ngT5iiylqrgqua9CelFgzL8XMLXViSaqb8mTInc5K2JyIKF6oGOAAQ2/pub?gid=0&single=true&output=csv")
 ```
 
 ### Get the data
 
-We'll just load this data directly from Google Sheets into this notebook. We're doing something a little different here in we save the URL to our data into an object, then use that object in our `read_csv()` function. This is just a convenience for me, really, so I can swap that url out as needed.
+We'll just load this data directly from Google Sheets into this notebook. 
 
 1.  Add a Markdown section noting that you are importing data.
 2.  Add this import chunk and run it.
 
-```{r load-data, echo=T, message=F, warning=F}
-# save the url
-class_data <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&single=true&output=csv"
-
-# read the data, clean names and save into the object "raw_data"
-raw_data <- read_csv(class_data) |> clean_names()
+```{r}
+#| label: load-data
+#| message: false
+#| warning: false
+candy_raw <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&single=true&output=csv") |> clean_names()
 
 # peek at the data
-raw_data
+candy_raw
 ```
 
 This data comes from a Google Sheets document fed by a form that students have filled out, counting the colors of candies in a standard size bag of plain M&Ms.
@@ -106,29 +125,23 @@ This data comes from a Google Sheets document fed by a form that students have f
 
 For this exercise we don't need the `timestamp`, `candy_type` or `box_code` columns. We'll drop them so we can keep things simple.
 
-1.  Create a Markdown section noting you'll drop unneeded columns.
-2.  Create an R chunk and use `select()` to remove the columns noted above and save the result into a new data frame called `candy`.
+1.  Create new section noting you'll drop unneeded columns.
+2.  Create an R chunk and use `select()` to remove the columns noted above and save the result into a new data frame called `candy`. Remember you can negate a list of columns like this: `!c(col1, col2)`.
 
 You've done this in the past, so you should be able to do it on your own.
 
-<details>
-
-<summary>You got this! (But, just in case ...)</summary>
-
 ```{r drop-cols}
-candy <- raw_data |> 
-  select(
-    -timestamp,
-    -candy_type,
-    -box_code
-  )
-```
+#| label: drop-cols
+#| code-fold: true
+#| code-summary: "You got this! (But, just in case …)"
 
-</details>
+candy <- candy_raw |> 
+  select(!c(timestamp, candy_type, box_code))
+```
 
 ### Peek at the wide table
 
-Let's look closer at this data:
+Let's take look closer at this data:
 
 ```{r peek}
 candy |> head()
@@ -138,14 +151,13 @@ This is pretty well-formed data. This format would be useful to create a "total"
 
 ### Where are we going with this data
 
-We have two goals here:
+Let's look at our plotting goal again:
 
--   Find the average distribution of candy by color, i.e., the average of each color column.
--   We want to chart the results as a bar chart simliar to the one below (which uses Skittles data).
+![Skittle example](images/skittles-chart-example.png)
 
-![](images/skittles-chart-example.png)
+Where we want one axis to have the candy color and the other to have the average number of candy.
 
-To plot a chart like that in Datawrapper or ggplot, the data needs to be the same shape, like this:
+To plot a chart like this in ggplot or Datawrapper, the data needs to be the same shape, like this:
 
 | Color  | Average |
 |:-------|--------:|
@@ -197,15 +209,15 @@ The `pivot_longer()` function needs several arguments: **cols=**, **names_to=** 
 
 -   **`cols=`** is where you define a range of columns you want to pivot. *For our candy data we want the range `red:brown`*.
 -   **`names_to=`** allows you to name the new column filled by the column names. *For our candy data we want to name this "color" since that's what those columns described.*
--   **`values_to=`** allows you to name the new column filled with the cell data. *For us we want to call this "candies" since these are the number of candies in each bag.*
+-   **`values_to=`** allows you to name the new column filled with the cell data. *For us we want to call this "count_candies" since these are the number of candies in each bag.*
 
 There are a number of ways we can describe the `cols=` argument ... anything in [tidy-select](https://tidyr.tidyverse.org/reference/tidyr_tidy_select.html) works. You can see a bunch of [examples here](https://tidyr.tidyverse.org/reference/pivot_longer.html#ref-examples).
 
 ### Pivot our candy data longer
 
-What we want here is six rows for each person's entry, with a column for "color" and a column for "candies".
+What we want here is six rows for each person's entry, with a column for "color" and a column for "count_candies".
 
-We are using a range, naming the first "red" and the last column "brown" with `:` in between. This only works because those columns are all together. We could also use `cols = !c(first_name, last_name)` to say everything but those two columns.
+We are using a range, naming the first "red" and the last column "brown" with `:` in between. This only works because those columns are all together. Otherwise we could list the all with `c(red, blue, green)` etc.
 
 1.  Add a note that you are pivoting the data
 2.  Add the chunk below and run it
@@ -213,42 +225,47 @@ We are using a range, naming the first "red" and the last column "brown" with `:
 ```{r candy-pivot-long}
 candy_long <- candy |> 
   pivot_longer(
-    cols = red:brown, # sets which columns to pivot based on their names
-    names_to = "color", # sets column name for color
-    values_to = "candies" # sets column name for candies
+    cols = red:brown, # <1> 
+    names_to = "color", # <2>
+    values_to = "count_candies" # <3>
   )
 
 candy_long |> head()
 ```
 
+1. Sets which columns to pivot based on their names.
+2. Sets the new column name for the former column names. This would default to "name" if we didn't set it.
+3. Sets the new column name for the former values. This would default to "value" if we didn't set it.
+
 ### Get average candies per color
 
 To get the average number of candies per each color, we can use our `candy_long` data and `group_by` color (which will consider all the **red** rows together, etc.) and use `summarize()` to get the mean.
 
-This is very similar to the `sum()`s we did with military surplus, but you use `mean()` instead. There is one trick with `mean()`, though, in that sometimes you have to add an argument `na.rm = TRUE` if there are missing or zero values, since you can't divide by zero. We have that case here in some bags don't have ANY candies of a color at all!
+This is very similar to the `sum()`s we did with military surplus, but you use `mean()` instead. One thing you have to watch for with `mean()` is you might need the argument `na.rm = TRUE` if there are missing or zero values, since you can't divide by zero. We'll include that here in case there are bags that don't have any of a specific color.
 
 Save the resulting summary table into a new tibble called `candy_avg`.
 
 ```{r avg-bag}
 candy_avg <- candy_long |> 
   group_by(color) |> 
-  summarize(avg_candies = mean(candies, na.rm = TRUE))
-  # the na.rm bit takes into account some records where there are zero or blank values.
+  summarize(avg_candies = mean(count_candies, na.rm = TRUE)) # <1>
 candy_avg
 ```
 
+1. The na.rm hedges our bets in case some bags are missing a color.
+
 ### Round the averages
 
-Let's **modify this summary** to round the averages to tenths so they will plot nicely on our chart.'
+Let's **modify this summary** to round the averages to tenths so they will plot nicely on our chart.
 
 The `round()` function needs the column to change, and then the number of digits past the decimal to include.
 
-1.  Edit your summarize function to add the `mutate()` functin below.
+1.  **Edit** your summarize function to add the `mutate()` function below.
 
 ```{r summary-mutate}
 candy_avg <- candy_long |> 
   group_by(color) |> 
-  summarize(avg_candies = mean(candies, na.rm = TRUE)) |> 
+  summarize(avg_candies = mean(count_candies, na.rm = TRUE)) |> 
   mutate(
     avg_candies = round(avg_candies, 1)
   )
@@ -256,7 +273,7 @@ candy_avg <- candy_long |>
 candy_avg
 ```
 
-BONUS POINT OPPORTUNITY: Using a similar method to rounding above, you can also capitalize the names of the colors. You don't *have* to do this, but I'll give you bonus points if you do:
+BONUS POINT OPPORTUNITY: Using a similar method to rounding above, you can also capitalize the names of the colors. You don't *have* to do this, but I'll give you a bonus point if you do:
 
 -   In your mutate, add a rule that updates `color` column using `str_to_title(color)`.
 
@@ -277,9 +294,13 @@ Some things to consider:
 
 Here is what it should more or less look like, but with good text, etc:
 
-```{r avg-plot, echo=F, message=FALSE, warning=FALSE}
-candy_avg <- candy_avg |> mutate(color = str_to_title(color))
-ggplot(candy_avg, aes(x = reorder(color, avg_candies), y = avg_candies)) +
+```{r}
+#| label: avg-plot
+#| echo: false
+#| message: false
+#| warning: false
+candy_avg |> mutate(color = str_to_title(color)) |> 
+  ggplot(aes(x = reorder(color, avg_candies), y = avg_candies)) +
   geom_col() +
   coord_flip() +
   geom_text(aes(label = avg_candies), hjust = 1.5, color = "white") + # plots votes text values on chart
@@ -324,15 +345,13 @@ You'll use these directions to create your charts so you might keep this open in
 
 1.  Go back to RStudio.
 2.  Create a new block and name it something about exporting
-3.  Take your data and pipe it into `write_csv()`. As an argument to write_csv(), give it a path into your data-processed folder, and name the file `candy_avg.csv`.
+3.  Take your data and pipe it into `write_csv()`. As an argument to write_csv(), give it a path and name of the file: We can write directly to our project folder as  `candy_avg.csv`.
 
 ```{r write-candy}
-candy_avg |> write_csv("data-processed/candy_avg.csv")
+candy_avg |> write_csv("candy_avg.csv")
 ```
 
 This will save your data file onto your computer in your project folder.
-
-1.  Return to **Datawrapper** in your browser and click on the **XLS/CSV upload** button and go find your file to import it.
 
 #### posit.cloud export
 
@@ -345,71 +364,128 @@ If you are using posit.cloud, you will also need to **Export** your data from th
 5.  The file should go to your Downloads folder like anything else you download from the Internet.
 6.  When you go back to **Datawrapper** click on the **XLS/CSV upload** button and go find your file to import.
 
-#### An alternative export: "copy" your data
-
-> This is an alternative to exporting your data, but it only works in the desktop version of RStudio. It does **NOT** work for the online posit.cloud version of Rstudio. You either EXPORT or WRITE_CLIP, but you don't need to do both.
-
-To do this, you'll need to install a package called clipr.
-
-1.  In your R project **in the R Console** install the package clipr: `install.packages("clipr")`. Do NOT save this code inside your notebook.
-2.  Start a section that says you are going to get data for Datawrapper.
-3.  Create a chunk with the following and run it.
-
-```{r get-clip, warning=F, message=F}
-library(clipr)
-
-candy_avg |> write_clip(allow_non_interactive = TRUE)
-```
-
-You won't see anything happen, but all the data in `candy_avg` has been added to your clipboard as if you highlighted it and did **Copy**. You must have the `allow_non_interactive = TRUE` argument to allow your RMarkdown document to knit.
-
-1.  Return to your browser where you are making the chart, put your cursor into the "Paste your copied data here ..." window and paste. (Like *Cmd-V* or use the menu Edit \> Paste.)
-
 ### Build the datawrapper graphic
 
+1.  Return to **Datawrapper** in your browser and click on the **XLS/CSV upload** button and go find your file to import it.
 1.  Once your data is either uploaded or copied into Datawrapper, you can click **Proceed** to go to the next step.
 
 You can now follow the [Datawrapper Academy](https://academy.datawrapper.de/article/7-bar-chart) directions to finish your chart.
 
 When you get to the Publish & Embed window, I want you to click the **Publish Now** button and then add the resulting *Link to your visualization:* URL to your R Notebook so I can find it for grading.
 
+
 ## Pivot wider
 
-In this case we don't have a real need to pivot our data wider, but I'd like to show you how it is done.
+Now that you've pivoted data longer, I'd also like to show how you can pivot your table into a wide format. I'll sometimes do this to make an easier to read display or to shape data a specific way for Datawrapper or some other visualization software. Let's walk through he concept first.
 
 As you can imagine, `pivot_wider()` does the opposite of `pivot_longer()`. When we pivot wider we move our data from a "long" format to a "wide" format. We create a new column based categories and values in the data.
 
 ![Long to wide](images/long_to_wide.png)
 
-We'll practice this by taking our long candy data and pivot it so there is a column for each person in the data.
-
 `pivot_wider()` needs two arguments:
 
--   `names_from =` lets us define from which column (or columns) we are pulling values from to create the new column names. *In our case, we need two columns to combine the first and last names. We can do that with `c(first_name, last_name)`*.
--   `values_from =` lets us say which column will be the values in the new arrangement. *In our case, we want the `candies` column*.
+-   `names_from =` lets us define from which column (or columns) we are pulling values from to create the new column names. In the example above, this would be "V1".
+-   `values_from =` lets us say which column will be the values in the new arrangement. In the example above this would be "V2".
 
-```{r pivot-wider}
+So the code to flip the data above would be:
+
+```r
+df |> 
+  pivot_wider(names_from = V1, values_from = V2)
+```
+
+### Pivot wider example
+
+Let's do this with our data, taking our "long" data and making it "wide" again.
+
+Here is our "long" data:
+
+```{r}
+#| label: candy-long-example
+candy_long
+```
+
+... and now we flip it back to having a column for each color:
+
+```{r}
+#| label: candy-wide-example
 candy_long |> 
-  pivot_wider(names_from = c(first_name, last_name), values_from = candies)
+  pivot_wider(
+    names_from = color, # <1>
+    values_from = count_candies # <2>
+  )
+```
+
+1. Within `pivot_wider()` we need to tell it from which column to pull the new column headers. i.e., where do we get the "names_from"?
+2. The second thing it needs to know which variable has the data to fill these new columns. i.e., where do we get the "values_from"?
+
+Let's practice some more.
+
+### Choosing what to flip
+
+Lets create a different look at our data that we can spin it around different ways.
+
+When I buy candy for the class, we buy big boxes with many bags in it. There is a "box code" stamped on each package that denotes which box it was packaged in. We'll re-summarize our data so we get the color averages within each box. I do some other cleanup here, too, to remove bags that came from the wild.
+
+1. Create a new section and note you are pivoting wider
+1. Add a new chunk with the code below and run it
+
+See annotations below the code to explain what is going on, in case you are interested.
+
+```{r}
+#| label: candy-box-color-prep
+candy_box_color <- candy_raw |> # <1> 
+  filter(box_code != "130FXWAC0336", box_code != "1524976SE") |> # <2>
+  select(!c(timestamp, candy_type)) |> # <3> 
+  pivot_longer(cols = red:brown, names_to = "candy_color", values_to = "candy_count") |> # <4>
+  group_by(box_code, candy_color) |> # <5>
+  summarise(avg_candies = mean(candy_count) |> round(1)) # <6>
+
+candy_box_color
+```
+
+1. We create a new object to put everything in, then go back to the original data to get the box code.
+2. Removing some rows where there were only one or two bags. Not shown here is the research to find their values.
+3. Removing the `timestamp` and `candy_type` variables.
+4. Pivoting the data longer so we can group and summarize.
+5. Group by the box and color before we ...
+6. Summarize to get the average number of candies in each bag, within each box. We also round the result.
+
+
+OK, now you have a new object called `candy_box_color`.
+
+Let's pivot this data so shows a column for each box, which means that is where we draw our "names_from":
+
+1. Add a note that you'll pivot our new data
+2. Add the code below and run it
+
+```{r}
+#| label: pivot-box
+
+candy_box_color |> 
+  pivot_wider(names_from = box_code, values_from = avg_candies)
 ```
 
 ### Pivot wider on your own
 
-Now I want you do apply the same `pivot_wider()` function to that same `candy_long` data, but to have the rows be people and the column be each color, basically like how our data started. (But, of course, I want to acdtually use `pivot_wider()` to do it!)
+Now I want you do apply the same `pivot_wider()` function to that same `candy_box_color` data, but to have a column for each color and a row for each box.
 
 1.  Start a new section and note this is pivot_wider on your own.
-2.  Start with the `candy_long` data, and then ...
+2.  Start with the `candy_box_color` data, and then ...
 3.  Use `pivot_wider()` to make the data shaped like this
 
-```{r message=TRUE, warning=TRUE, include=FALSE}
-candy_long |> 
-  pivot_wider(names_from = color, values_from = candies) |> 
-  head()
+```{r}
+#| label: wide-own-answer
+#| include: false
+
+candy_box_color |> 
+  pivot_wider(names_from = candy_color, values_from = avg_candies)
 ```
 
-| first_name | last_name | red | green | orange | yellow | blue | brown |
-|:-----------|:----------|----:|------:|-------:|-------:|-----:|------:|
-| Christian  | McDonald  |   2 |    17 |     11 |      4 |   16 |     4 |
+| box_code | blue | brown | green | orange | red | yellow |
+|:-----------|-------:|-------:|-----:|------:|------:|------:|
+| [box name]  |   # |    # |     # |      # |   # |     # |
+
 
 ## Bonus questions
 
@@ -421,6 +497,28 @@ Answer me this: Who got the most candies in their bag? Who got the least?
 
 I want a well-structured section (headline, text) with two chunks, one for the most and one for the least.
 
+```{r}
+#| label: most-candy-answer
+#| echo: false
+#| output: false
+candy_long |> 
+  group_by(first_name, last_name) |> 
+  summarise(total_candy = sum(count_candies)) |> 
+  arrange(total_candy |> desc()) |> 
+  filter(total_candy > 60)
+```
+
+```{r}
+#| label: least-candy-answer
+#| echo: false
+#| output: false
+candy_long |> 
+  group_by(first_name, last_name) |> 
+  summarise(total_candy = sum(count_candies)) |> 
+  arrange(total_candy) |> 
+  filter(total_candy < 53)
+```
+
 ### Average total candies in a bag
 
 Answer me this: What is the average number of candy in a bag?
@@ -429,14 +527,33 @@ Again, well-structured section and include the code.
 
 Hint: You need a total number of candies per person before you can get an average.
 
+```{r}
+#| label: avg-candy-bag-answer
+#| echo: false
+#| output: false
+
+total_candies <- candy_long |> 
+  group_by(first_name, last_name) |> 
+  summarise(total_candy = sum(count_candies))
+
+# hard way
+total_candies |> 
+  ungroup() |> 
+  summarise(avg_bag = mean(total_candy))
+
+# easier
+total_candies |> 
+  summary()
+```
+
 ## Turn in your work
 
-1.  Make sure your notebook runs start-to-finish.
-2.  Knit the notebook
+1.  Make sure your notebook Renders.
+2.  Publish it to Quarto Publish. Include the published link at the top of your notebook.
 3.  Stuff your project and turn it into the Candy assignment in Canvas.
 
 ## What we learned
 
 -   We learned what "tidy data" means and why it is important. It is the best shape for data wrangling and plotting.
--   We learned about [`pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html) and [`pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.html) and we used `pivot_longer()` on our candy data.
+-   We learned about [`pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html) and [`pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.html) and we used them to transpose our data.
 -   We also used [`round()`]((http://www.cookbook-r.com/Numbers/Rounding_numbers/)) to round off some numbers, and you might have used `str_to_title()` to change the case of the color values.
