@@ -1,12 +1,14 @@
 # Denied Cleaning
 
 ::: callout-warning
-Not yet updated for Quarto
+Quarto draft done
 :::
 
 So far all of our lessons have come from a single data source, but that's not always the case in the real world. With this lesson we'll learn how to "bind" and "join" data, which are different ways to bring multiple data frames together into a single object. 
 
-This is the first of a two-chapter project. It is by Prof. McDonald, using a Mac.
+::: callout
+This is the first of a two-chapter project. It is by Prof. McDonald, using macOS.
+:::
 
 ## Goals of the chapter
 
@@ -55,27 +57,34 @@ I will save you the hassle of going through the TAPR database to find and downlo
 
 ### Set up your project
 
+With this project you'll start with a copy I have prepared for you. How you do that differs a little depending on the RStudio platform you are using.
+
+#### If you are using RStudio Desktop
+
+You will download a project that is already set up for you and then open it.
+
+**Use the link below to download the project**.
+
+::: {.callout-note appearance="minimal"}
+<i class="bi bi-download"></i> [Download rwdir-sped-template-main.zip](_resources/rwdir-sped-template-main.zip){download="rwdir-sped-template-main.zip"}
+:::
+
+1. Find that file on your computer and uncompress it.
+1. Rename the project folder to `yourname-sped` **but use your name**.
+1. Move the project folder to your `rwd` folder or wherever you've been saving your class projects.
+1. In RStudio, choose File > New Project. Choose **EXISTING Directory** at the next step and then find the folder you saved. Use that to create your project.
+
 #### If you are a posit.cloud user
 
 1. From your posit.cloud account, go to [this shared project](https://posit.cloud/content/3753507)
 1. Click **Save a permanent copy** so you have your own version.
 1. Rename the project `yourname-sped` **but use your name**.
-1. You can skip to the **Open, read and run** section below.
-
-#### If you are using RStudio Desktop
-
-1. Go to [this page](https://github.com/utdata/rwdir/blob/main/resources/rwdir-sped-template.zip). Yes, it looks like you can't see anything, but ...
-1. Look for the **Download** button and download the zip file.
-1. Find that on your computer and uncompress it.
-1. Rename the folder to `yourname-sped` **but use your name**.
-1. Move the folder to your `rwd` folder or wherever you've been saving your class projects.
-1. In RStudio, choose File > New Project. **Choose EXISTING Directory** at the next step and then find the folder you just moved. Use that to create your project.
 
 ### Open, read and run
 
 Once you have your project set up ...
 
-1. Open up the `01-import` notebook.
+1. Open up the `index.qmd` and `01-import.qmd` notebooks and Render them.
 2. Read every line
 3. Run each chunk as you do.
 
@@ -139,7 +148,7 @@ dstud22 <- read_csv("data-raw/DSTUD_22.csv") |> clean_names() |>
 
 OK, so we have all these different yearly files. Wouldn't it be a lot easier if these were ONE thing? Indeed, we can **merge** these files together by stacking them on top of each other. Let's review the concept using Starburst data:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/9WA8YxMjpnI" title="Merge" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+{{< video https://vimeo.com/435910331 >}}
 
 Here's another representation of the concept. You have two data sets and you stack them on top of each other where the column names match. (Note here that identical rows in both data sets remain).
 
@@ -198,8 +207,6 @@ sped_merged <- dstud13 |>
 sped_merged |> count(year)
 ```
 
-(In the screencast video you might also see each new datatable added in their own `bind_rows()` function instead of all in one. Either works.)
-
 We are NOT saving the `count()` result into a new object; We are just printing it to our screen to make sure we get all the years.
 
 Now that we know this is working, you'll finish this out on your own.
@@ -207,7 +214,13 @@ Now that we know this is working, you'll finish this out on your own.
 1. **Edit your chunk** to add `bind_rows()` for the rest of the files `dstud16` through `dstud22`. You just keep tacking them on like we did with `dstud15`.
 2. After you are done, make sure you look at the `sped_merged` listing in your environment to make sure you end up with a count for each year of data.
 
+<!-- UPDATE THIS WHEN WE GET NEW DATA -->
+
 ```{r merged, include=FALSE}
+#| label: merged
+#| code-fold: true
+#| code-summary: "Try it on your own, first"
+
 sped_merged <- dstud13 |> 
   bind_rows(
     dstud14,
@@ -224,13 +237,16 @@ sped_merged <- dstud13 |>
 sped_merged |> count(year)
 ```
 
+
+You should end up with **`r sped_merged |> nrow()`** rows.
+
 OK, we have all our data in one file, but we still don't know the district names. It's time to **Join** our data with our reference file.
 
 ## About joins
 
 OK, before we go further we need to talk about joining data. It's one of those [Basic Data Journalism Functions](https://vimeo.com/showcase/7320305) ...
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/T6PPd-ukFyk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+{{< video https://vimeo.com/435910338?share=copy >}}
 
 What joins do is match rows from two data sets that have a column of common values, like an ID or county name. (The `district` ID column in our case). Columns from the second data set will be added based on where the ID's match.
 
@@ -265,12 +281,6 @@ sped_joined <- dref |>
 sped_joined |> head()
 ```
 
-You might also `glimpse()` it so you can see all the columns have been added.
-
-```{r join_glimpse}
-sped_joined |> glimpse()
-```
-
 Let's explain what is going on here:
 
 - We are creating a new bucket `sped_joined` to save our data.
@@ -279,6 +289,13 @@ Let's explain what is going on here:
 - The `by = "district"` argument ensures that we are matching based on the `district` column in both data sets.
 
 We could've left out the `by =` argument and R would match columns of the same name, but it is best practice to specify your joining columns so it is clear what is happening. You wouldn't want to be surprised by other columns of the same name that you didn't want to join on. If you wanted to specify join columns of different names it would look like this: `df1 |> inner_join(df2, by = c("df1_id" = "df2_id"))`
+
+You might also `glimpse()` it so you can see all the columns have been added.
+
+```{r join_glimpse}
+sped_joined |> glimpse()
+```
+
 
 ```{r include=FALSE}
 joined_rows <- sped_joined |> nrow()
@@ -310,9 +327,10 @@ You'll also remove and rename columns to make the more descriptive.
 
 I really, really suggest you don't try to write that all at once. Build it one line at a time so you can see the result as you build your code.
 
-<details>
-  <summary>I'm being too nice here</summary>
 ```{r cleaned-data}
+#| label: cleaned-data
+#| code-fold: true
+#| code-summary: "I'm being too nice here"
 sped_cleaned <- sped_joined |> 
   filter(dflalted == "N" & dflchart == "N") |> 
   select(
@@ -325,8 +343,6 @@ sped_cleaned <- sped_joined |>
     sped_percent = dpetspep
   )
 ```
-</details>
-<br>
 
 ```{r cleaned-values, include=FALSE}
 clean_rows <- sped_cleaned |> nrow()
@@ -352,7 +368,7 @@ We want to add a column called `audit_flag` that says **ABOVE** if the `sped_per
 2. Create an r chunk that and run it and I'll explain after.
 
 ```{r add-flag}
-sped_flag <- sped_cleaned |> 
+sped_flag <- sped_cleaned |>
   mutate(audit_flag = if_else(sped_percent > 8.5, "ABOVE", "BELOW"))
 
 # this pulls 30 random rows so I can check results

@@ -1,13 +1,12 @@
 # Denied analysis
 
 ::: callout-warning
-Not yet updated for Quarto
-- Need to remove datatable
+Quarto draft is done
 :::
 
 This is the second of of a two-chapter project. Now that we have assembled and cleaned our data, we need to answer these questions in our followup to the [Denied](https://www.houstonchronicle.com/denied/) series:
 
-- Has the percentage of special education students in Texas changed since the benchmarking policy was dropped??
+- Has the percentage of special education students in Texas changed since the benchmarking policy was dropped?
 - How many districts were above that arbitrary 8.5% benchmark before and after the changes?
 - How have local districts changed?
 
@@ -24,11 +23,15 @@ When a new concept is introduced, it's shown and explained here. However, there 
 
 ## Project setup
 
-1. Within the same project you've been working, create a new R Notebook. You might call it `02-analysis`.
+1. Within the same project you've been working, create a new Quarto Notebook. You might call it `02-analysis.qmd`.
 1. We will be using a new package so you'll need to install it. **Use your Console** to run `install.packages("DT")`.
 1. Include the libraries below and run them.
 
-```{r setup, results='hide', message=F, warning=F}
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
 library(tidyverse)
 library(scales)
 library(DT)
@@ -41,7 +44,12 @@ library(DT)
 
 You should know how to do all that and I don't know what you called your export file anyway.
 
-```{r import, include=FALSE}
+```{r}
+#| label: import
+#| include: false
+#| code-fold: true
+#| code-summary: "The import code"
+
 sped <- read_rds("data-processed/01-sped-districts.rds")
 
 sped |> head()
@@ -74,22 +82,22 @@ We can do this by first reshaping our data using `pivot_wider()` and then applyi
 
 ### Pivot wider
 
-You used [`pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.html) with the candy data [in Chapter 9](https://utdata.github.io/rwdir/tidy-data.html#pivot-wider), so you can look back at how that was done, but here are some hints:
+You used [`pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.html) with the candy data [in Chapter 9](tidy-data.qmd), so you can look back at how that was done, but here are some hints:
 
 1. Create a new section that notes you are creating a table of district percents.
 1. First use `select()` to get just the columns you need: `distname`, `cntyname`, `year` and `sped_percent.`
 1. Then use `pivot_wider()`to make a tibble like the one above. Remember that the `names_from =` argument wants to know which column you want to use to create the names of the new columns. The `values_from = ` argument wants to know which column to pull the cell values from.
 1. Save the result into a new tibble and call it `district_percents_data`
 
-<details>
-  <summary>You won't need this because I believe in you</summary>
 ```{r select-pivot-wider}
+#| label: select-pivot-wider
+#| code-fold: true
+#| code-summary: "You won't need this because I believe in you"
 
 district_percents_data <- sped |> 
   select(distname, cntyname, year, sped_percent) |> 
   pivot_wider(names_from = year, values_from = sped_percent)
 ```
-</details>
 
 
 ### Make a datatable
@@ -99,10 +107,10 @@ Now comes the magic.
 1. In a new R chunk take your `district_percents_data` and then pipe it into a function called `datatable()`
 
 ```{r datatable}
-district_percents_data
-# |> 
-#   datatable()
+district_percents_data |>
+  datatable()
 ```
+<br/>
 
 That's kinda brilliant, isn't it? You know can search by any value in the table.
 
@@ -116,7 +124,7 @@ Our first question about this data was this: **Has the percentage of special edu
 
 Given the data we have, can we answer this?
 
-Let's think about the charts that might be able to show two related variables like that. Choosing the chart type to display that takes experimentation and exploration.  Chapter 4 of Nathan Yau's _Data Points_ book is an excellent look at which chart types help show different data.
+Let's think about the charts that might be able to show two related variables like that. Choosing the chart type to display takes experimentation and exploration.  Chapter 4 of Nathan Yau's _Data Points_ book is an excellent look at which chart types help show different data.
 
 This decision tree option might also help you think through it.
 
@@ -132,13 +140,13 @@ For this question **Has the percentage of special education students in Texas ch
 
 ![](images/chart-example.png)
 
-We have the percent of students in special education for each district in each year. We _could_ get an average of those percentages for each year, but that won't take into account the size of each district. Some districts have a single-digit number of students while others have hundreds of thousands of students.
+We have the percentage of students in special education for each district in each year. We _could_ get an average of those percentages for each year, but that won't take into account the size of each district. Some districts have a single-digit number of students while others have hundreds of thousands of students.
 
 But we also have the number of all students in a district with `all_count` and the number of special education students `sped_count`. With these, we can build a more accurate percentage across _all_ the districts. This allows us to calculate our student groups by year.
 
 ### Build the statewide percentage by year data
 
-So, let's summarize our data. This is a "simple" group_by and summarize to get yearly totals, then a mutate to build our percentage. I'll supply the logic so you can try writing it yourself.
+So, let's summarize our data. This is a "simple" `group_by()` and `summarize()` to get yearly totals, then a `mutate()` to build our percentage. I'll supply the logic so you can try writing it yourself.
 
 1. Start a new notebook section and note you are getting yearly percentages
 1. In an R chunk, start with your `sped` data.
@@ -149,9 +157,11 @@ So, let's summarize our data. This is a "simple" group_by and summarize to get y
 1. Next use `mutate()` to create a percentage called `sped_percent` from your `total_students` and `total_sped` summaries. The math for percentage is: (part / whole) * 100. You might want to round that resulting value to tenths as well.
 1. I suggest you save all that into a new tibble called `yearly_percent` (because that's what I'm gonna do).
 
-<details>
-  <summary>My version</summary>
-```{r yearly-percent-data}
+```{r}
+#| label: yearly-percent-data
+#| code-fold: true
+#| code-summary: "My version"
+
 yearly_percent <- sped |> 
   group_by(year) |> 
   summarise(
@@ -162,30 +172,35 @@ yearly_percent <- sped |>
 
 yearly_percent
 ```
-</details>
+
 
 ### Build the statewide percentage chart
 
 And with that table, you can plot your chart using the `year` and `sped_percent`.
 
 ```{r yearly-percent-plot}
-yearly_percent |> 
-  ggplot(aes(x = year, y = sped_percent)) + 
-  geom_col() +
-  geom_text(aes(label = sped_percent, vjust = -.5))
+yearly_percent |> # <1>
+  ggplot(aes(x = year, y = sped_percent)) + # <2>
+  geom_col() + # <3>
+  geom_text(aes(label = sped_percent, vjust = -.5)) # <4>
 ```
+
+1. I start with the data AND THEN pipe into ggplot.
+2. Within ggplot, set the aesthetics for the x and y axis.
+3. Add `geom_col()` to build the chart. This is better than `geom_bar()` because it assumes one number and one categorical datum.
+4. The `geom_text()` plots the labels on top of the bars based `sped_percent` but we need to adjust them with `vjust =` to move them above the bar.
 
 This definitely shows us that the percentage of students in special education (in traditional public schools) has increased each year since 2017 when the benchmark was dropped and then outlawed by the legislature.
 
 I would be careful about saying the increase is _because_ of the changes (though that is likely true), but you can certainly say with authority that it has gone up, and interview other people to pontificate on the reasons why.
 
-BTW, if you wanted to make that chart in [datawrapper](https://academy.datawrapper.de/article/20-how-to-create-a-column-chart), you could use the same tibble, select just the `year` and `sped_percent` columns and then use the `clipr::write_clip()` function to copy your data.
+BTW, if you wanted to make that chart in [datawrapper](https://academy.datawrapper.de/article/20-how-to-create-a-column-chart), you could use the same tibble data.
 
 ## Districts by benchmark and year
 
 Our second question is this: **How many districts were above that arbitrary 8.5% benchmark before and after the changes?**
 
-It was in anticipation for this that we built the `audit_flag` field in our data. With that we can count how many rows have the "ABOVE" or "BELOW" value. (In reality, it's probably at this point we would discover it useful to create, instead of at the data cleaning phase, but I wanted to get that part out of the way so we can concentrate on the charts.)
+It was in anticipation for this that we built the `audit_flag` field in our data. With that we can count how many rows have the "ABOVE" or "BELOW" value. (In reality, it's probably at this point we would discover that might be useful that field is and have to go back to the cleaning notebook to create it. I wanted to get that part out of the way so we can concentrate on the charts.)
 
 To decide on which chart to build, we can go back to our chart decision workflow or consult the ggplot cheetsheet. Given we have the discrete values of `audit_flag` and `years`, and we want to plot how many districts are counted (which is a continuous value), we're looking at a stacked or grouped column/bar chart or a line chart.
 
@@ -199,15 +214,16 @@ Before we can build the chart, we need to summarize our data. The logic is this:
 1. Summarize your data by counting `n()` the results. Name the variable `count_districts`.
 1. Save the resulting data into a tibble called `flag_count_districts`. You might print that result out so you can refer to it.
 
-<details>
-  <summary>Use GSA or the `count()` shortcut</summary> 
-```{r count-districts-code}
-# I used the count() shortcut instead of GSA
+```{r}
+#| label: count-districts-code
+#| code-fold: true
+#| code-summary: "Use GSA or the `count()` shortcut"
 flag_count_districts <- sped |> 
   count(year, audit_flag, name = "count_districts")
+
+# I used count()
 ```
-</details>
-<br>
+
 The data should look like this:
 
 ```{r count-districts-show, echo=FALSE}
@@ -240,8 +256,10 @@ Leave that chart there for reference, but let's build a new one that is almost t
 ```{r audit-col-grouped}
 flag_count_districts |> 
   ggplot(aes(x = year, y = count_districts, fill = audit_flag)) +
-  geom_col(position = "dodge")
+  geom_col(position = "dodge") # <1>
 ```
+
+1. This is where we add `position = "dodge"` to set the bars side-by-side.
 
 That's not bad at all ... it might be the winner.
 
@@ -254,10 +272,10 @@ Lastly, let's chart this data as a line chart to see if that looks any better or
 flag_count_districts |> 
   ggplot(aes(x = year, y = count_districts, group = audit_flag)) +
   geom_line(aes(color = audit_flag)) +
-  ylim(0,1000)
+  ylim(0,1000) # <1>
 ```
 
-The chart above has `ylim()` added because the default didn't start the y axis at zero. `ylim` is a shortcut for `scale_y_continuous(limits = c(0,1000))`.
+1. We added `ylim()` here because the default didn't start the y axis at zero. `ylim` is a shortcut for `scale_y_continuous(limits = c(0,1000))`.
 
 ### Which chart is best?
 
@@ -291,12 +309,18 @@ We just need to filter that down to a single county `cntyname == "BASTROP"` to s
 
 It should look like this:
 
-```{r echo=FALSE}
+```{r}
+#| label: local-line-chart
+#| code-fold: true
+#| code-summary: "My version"
+
 sped |> 
   filter(cntyname == "BASTROP") |> 
   ggplot(aes(x = year, y = sped_percent, group = distname)) +
   geom_line(aes(color = distname))
 ```
+
+### On your own
 
 1. Now do the same for the other three counties, each in their own code chunk: Hays, Travis and Williamson.
 
@@ -304,7 +328,7 @@ These charts give you some reference for the local districts. You'll see the mor
 
 ## The assignments
 
-Now that you have looked at this data, you should be able to describe what has happened to the share of special education students across the state. You'll do this in three parts: a written piece, a published Datawrapper chart, and you'll turn in this analysis.
+Now that you have looked at this data, you should be able to describe what has happened to the share of special education students across the state. You'll likely do this in three parts: a written piece, a published Datawrapper chart, and you'll turn in this analysis.
 
 See Canvas for details on each of these.
 
