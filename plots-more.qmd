@@ -76,7 +76,7 @@ Above we can see the columns were working with.
 
 For our first chart here we are looking to plot the total acquisitions value for each year in the state of Texas. It can sometimes help to draw on paper the chart you are hoping to make so you can see how to format the data to make it.
 
-In our case, we'll need to summarize our data by the year of the shipping date, then add together all the value of the equipment. Here is how we'll want to structure out data and the chart we'll make from it.
+In our case, we'll need to summarize our data by the year of the shipping date, then add together all the value of the equipment. Here is how we'll want to structure our data and the chart we'll make from it.
 
 ```{r}
 #| label: t-example
@@ -122,7 +122,7 @@ To kinda walk through this with the chart first:
 - Along the X axis we want to plot each year. Since our data starts as individual transfers and their date, this is a clue that we need to group by the year of that shipping date.
 - Along the Y axis we want to plot the value of all the equipment in Texas. That's a clue that we need to summarize our data to add up the value of the equipment.
 
-The most exploration came around how I grouped this data by year. There are a myriad of ways to do this, like using `year()` to pluck the year from the shipping dateto make a number like `2023` or to then convert that to text as "2023". I chose to create a "floor date" so I end up with a real date because it gives me more flexibility with plotting. ggplot has some tools where I can format the date the way I want, though I admit I had to go learn about them to do this lesson!
+The most exploration came around how I grouped this data by year. There are a myriad of ways to do this, like using `year()` to pluck the year from the shipping date to make a number like `2023` or to then convert that to text as "2023". I chose to create a "floor date" so I end up with a real date because it gives me more flexibility with plotting. ggplot has some tools where I can format the date the way I want, though I admit I had to go learn about them to do this lesson!
 
 The function [`floor_date()`](https://lubridate.tidyverse.org/reference/round_date.html) rounds a date _down_ to a common value, but it remains a real date. If I convert both "2023-10-18" and "2023-10-28" to a floor_date unit of "year" then they both end up as "2023-01-01", the first day of the year. If I choose to set floor_date as a unit of "month" then both dates end up as "2023-10-01", the first day of the month in each year. It's like we are rounding the date down to a specific unit. The key here is it remains a real date with properties like year, month, week and day. I'll draw upon those properties later.
 
@@ -215,8 +215,10 @@ ggplot(tx_values, aes(x = year, y = yearly_value)) +
 
 I added this in the middle of the code because I like to keep the `labs()` at the bottom of the chart. It doesn't really matter. What it did was change the labels on the Y axis to use a currency format. Let's walk through it:
 
-- The [`scale_y_continous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html) function allows modification to the Y axis, and there is a companion for the X axis. The term "continuous" refers to the values being numbers. There are similar functions for categories ([`scale_*_discrete()`](https://ggplot2.tidyverse.org/reference/scale_discrete.html)) and dates ([`scale_*_date()`](https://ggplot2.tidyverse.org/reference/scale_date.html)). They all allow modification of things like the labels, grid lines and axis names.
+- The [`scale_y_continous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html) function allows modification to the Y axis, and there is a companion for the X axis. The term "continuous" refers to the values being numbers. There are similar functions for categories ([`scale_*_discrete()`](https://ggplot2.tidyverse.org/reference/scale_discrete.html)) and dates ([`scale_*_date()`](https://ggplot2.tidyverse.org/reference/scale_date.html)). They all allow modification of things like the labels, grid lines and axis names. (The `*` there is placeholder for `x` or `y`.)
 - We use that function to set our "labels" with another function from the scales pacakge, `label_dollar()`.
+
+You can 
 
 Again, the best resource for these type of things is the [Scales](https://ggplot2-book.org/scales.html) chapters in the ggplot2 book.
 
@@ -342,7 +344,7 @@ We do a wee bit of that later.
 
 ## Goal 2: Multiple line chart
 
-OK, our Texas military surplus information is fine ... but how does that compare to neighboring states? Let's work through building a new chart that shows all those steps. It's ssentially the same chart as we did above, but adding the bordering states along with Texas.
+OK, our Texas military surplus information is fine ... but how does that compare to neighboring states? Let's work through building a new chart that shows all those steps. It's essentially the same chart as we did above, but adding the bordering states along with Texas.
 
 Here is the data and image we are trying to make:
 
