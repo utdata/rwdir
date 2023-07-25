@@ -83,10 +83,9 @@ As a review, here is what the glimpse looks like:
 leso |> glimpse()
 ```
 
-
 ## Filter to data of interest
 
-For this analysis we only want to look at "controlled" items, and only those items given to Texas agencies. We'll do some filtering to get to that data.
+For this analysis we only want to look at "controlled" items, and only those items given to Texas agencies. We'll build these filters separately so we can save the data at each step.
 
 ### Get the controlled items
 
@@ -111,7 +110,7 @@ leso |>
 
 We can see from this result that there are `r leso |> filter(control_type == F) |> nrow()` items that are not controlled, and `r leso |> filter(control_type == T) |> nrow()` that are. When we write our filter, we should end up with `r leso |> filter(control_type == T) |> nrow()` observations, which is only the `TRUE` ones.
 
-3.  Start with your `tx` data, but then filter it to `control_type == TRUE`.
+3.  Start with your `leso` data, but then filter it to `control_type == TRUE`.
 4.  Save the result into a new tibble called `leso_c`.
 
 ```{r}
@@ -123,7 +122,7 @@ leso_c <- leso |>
 
 To test that this worked you could do the same GSA on `control_type` we used above, or even `glimpse()` which shows the number of rows.
 
-If you really wanted to just count the number of rows, there is another function, [nrow()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/nrow)
+If you really wanted to just count the number of rows, there is another function, [nrow()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/nrow).
 
 ```{r}
 leso_c |> nrow()
@@ -133,13 +132,13 @@ At this point you have a new tibble called `leso_c` that has only the weapons an
 
 ### Filter for Texas
 
-Since we want to initially look at just Texas data, we'll make a new object with just that. Remember, you want to do each step and run it to make sure it is working.
+In this analysis we only want to look at Texas data so we'll make a new object with just that. Remember, you want to do each step and run it to make sure it is working.
 
 1.  Create a new section with headlines and text that denote you are filtering the data to Texas.
-2.  Create the code chunk and start your filter process using the `leso` tibble.
+2.  Create the code chunk and start your filter process using the `leso_c` tibble.
 3.  Use `filter()` on the `state` column to keep all rows with "TX".
-4.  Edit the chunk to put all that into a new object called `tx`.
-4. Print out the tibble.
+4.  Edit the chunk to put all that into a new object called `leso_c_tx`.
+4.    Print out the tibble.
 
 
 ```{r filter-tx}
@@ -206,11 +205,13 @@ leso_c_tx |>
 
 OK, from this we have learned something: The `summed_quantity` value there is the number of items all Texas law enforcement agencies have received, and the `summed_total_value` is how much they were worth.
 
-We're going to do this again below, so I'll dive deeper into explanations there.
+4. Write a sentence in your notebook summing up the totals in a way that you could drop into a story.
+
+We'll do this again below with grouping, but first we need to talk about `NA` values.
 
 ### NA values in a sum, mean and median
 
-When we do math like this within summarize we need to take special note if our column has any blank values, called `NA`, as in not available. If there are, then you will get `NA` for the result. R will NOT do the math on the remaining values unless you tell it so. This is true not only for `sum()`, but also for `mean()` which gets an average, and for `median()` which finds the middle number in a column.
+When we do math like this within summarize we need to take special note if our column has any blank values, called `NA`, as in "Not Available". If there are, then you will get `NA` for the result. R will NOT do the math on the remaining values unless you tell it so. This is true not only for `sum()`, but also for `mean()` which gets an average, and for `median()` which finds the middle number in a column.
 
 There is a way to get around this by including an argument within the mathy function: `sum(col_name, na.rm = TRUE)`.
 

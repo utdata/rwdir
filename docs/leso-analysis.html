@@ -475,7 +475,7 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </section>
 <section id="filter-to-data-of-interest" class="level2" data-number="6.4">
 <h2 data-number="6.4" class="anchored" data-anchor-id="filter-to-data-of-interest"><span class="header-section-number">6.4</span> Filter to data of interest</h2>
-<p>For this analysis we only want to look at “controlled” items, and only those items given to Texas agencies. We’ll do some filtering to get to that data.</p>
+<p>For this analysis we only want to look at “controlled” items, and only those items given to Texas agencies. We’ll build these filters separately so we can save the data at each step.</p>
 <section id="get-the-controlled-items" class="level3" data-number="6.4.1">
 <h3 data-number="6.4.1" class="anchored" data-anchor-id="get-the-controlled-items"><span class="header-section-number">6.4.1</span> Get the controlled items</h3>
 <p>For this analysis we want to focus on “controlled” items vs the more generic non-controlled items we learned about in the documentation. Let’s filter to capture just the controlled data for our analysis.</p>
@@ -505,7 +505,7 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </div>
 <p>We can see from this result that there are 7008 items that are not controlled, and 60595 that are. When we write our filter, we should end up with 60595 observations, which is only the <code>TRUE</code> ones.</p>
 <ol start="3" type="1">
-<li>Start with your <code>tx</code> data, but then filter it to <code>control_type == TRUE</code>.</li>
+<li>Start with your <code>leso</code> data, but then filter it to <code>control_type == TRUE</code>.</li>
 <li>Save the result into a new tibble called <code>leso_c</code>.</li>
 </ol>
 <div class="cell">
@@ -516,7 +516,7 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </details>
 </div>
 <p>To test that this worked you could do the same GSA on <code>control_type</code> we used above, or even <code>glimpse()</code> which shows the number of rows.</p>
-<p>If you really wanted to just count the number of rows, there is another function, <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/nrow">nrow()</a></p>
+<p>If you really wanted to just count the number of rows, there is another function, <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/nrow">nrow()</a>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>leso_c <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -527,12 +527,12 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </section>
 <section id="filter-for-texas" class="level3" data-number="6.4.2">
 <h3 data-number="6.4.2" class="anchored" data-anchor-id="filter-for-texas"><span class="header-section-number">6.4.2</span> Filter for Texas</h3>
-<p>Since we want to initially look at just Texas data, we’ll make a new object with just that. Remember, you want to do each step and run it to make sure it is working.</p>
+<p>In this analysis we only want to look at Texas data so we’ll make a new object with just that. Remember, you want to do each step and run it to make sure it is working.</p>
 <ol type="1">
 <li>Create a new section with headlines and text that denote you are filtering the data to Texas.</li>
-<li>Create the code chunk and start your filter process using the <code>leso</code> tibble.</li>
+<li>Create the code chunk and start your filter process using the <code>leso_c</code> tibble.</li>
 <li>Use <code>filter()</code> on the <code>state</code> column to keep all rows with “TX”.</li>
-<li>Edit the chunk to put all that into a new object called <code>tx</code>.</li>
+<li>Edit the chunk to put all that into a new object called <code>leso_c_tx</code>.</li>
 <li>Print out the tibble.</li>
 </ol>
 <div class="cell">
@@ -634,11 +634,14 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </div>
 </div>
 <p>OK, from this we have learned something: The <code>summed_quantity</code> value there is the number of items all Texas law enforcement agencies have received, and the <code>summed_total_value</code> is how much they were worth.</p>
-<p>We’re going to do this again below, so I’ll dive deeper into explanations there.</p>
+<ol start="4" type="1">
+<li>Write a sentence in your notebook summing up the totals in a way that you could drop into a story.</li>
+</ol>
+<p>We’ll do this again below with grouping, but first we need to talk about <code>NA</code> values.</p>
 </section>
 <section id="na-values-in-a-sum-mean-and-median" class="level3" data-number="6.5.2">
 <h3 data-number="6.5.2" class="anchored" data-anchor-id="na-values-in-a-sum-mean-and-median"><span class="header-section-number">6.5.2</span> NA values in a sum, mean and median</h3>
-<p>When we do math like this within summarize we need to take special note if our column has any blank values, called <code>NA</code>, as in not available. If there are, then you will get <code>NA</code> for the result. R will NOT do the math on the remaining values unless you tell it so. This is true not only for <code>sum()</code>, but also for <code>mean()</code> which gets an average, and for <code>median()</code> which finds the middle number in a column.</p>
+<p>When we do math like this within summarize we need to take special note if our column has any blank values, called <code>NA</code>, as in “Not Available”. If there are, then you will get <code>NA</code> for the result. R will NOT do the math on the remaining values unless you tell it so. This is true not only for <code>sum()</code>, but also for <code>mean()</code> which gets an average, and for <code>median()</code> which finds the middle number in a column.</p>
 <p>There is a way to get around this by including an argument within the mathy function: <code>sum(col_name, na.rm = TRUE)</code>.</p>
 <p>I can show this with the <code>demil_ic</code> column which is a number datatype with some NA values. To be clear, the <code>demil_ic</code> variable isn’t really designed to do math on it as it is really a category, but it will show what I’m talking about here.</p>
 <div class="cell" data-code-tools="false">
