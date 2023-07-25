@@ -112,7 +112,7 @@ leso |>
 We can see from this result that there are `r leso |> filter(control_type == F) |> nrow()` items that are not controlled, and `r leso |> filter(control_type == T) |> nrow()` that are. When we write our filter, we should end up with `r leso |> filter(control_type == T) |> nrow()` observations, which is only the `TRUE` ones.
 
 3.  Start with your `tx` data, but then filter it to `control_type == TRUE`.
-4.  Save the result into a new tibble called `leso_c_tx`.
+4.  Save the result into a new tibble called `leso_c`.
 
 ```{r}
 #| code-fold: true
@@ -128,7 +128,6 @@ If you really wanted to just count the number of rows, there is another function
 ```{r}
 leso_c |> nrow()
 ```
-
 
 At this point you have a new tibble called `leso_c` that has only the weapons and other controlled property, so now we can take a closer look at that data.
 
@@ -169,7 +168,6 @@ leso_c_tx |> glimpse()
 ```
 
 ... and then talk through the logic:
-
 
 -   "How many total controlled items" is how many individual things were transferred. We have this `quantity` column that has the number of items in each row, so if we want the total for the data set, we can add together all the values in that column. We do this within a `summarize()` but instead of counting rows using `n()`, we'll use the function `sum(quantity)` which will add all the values in `quantity` column together.
 -   "... what are they all worth" is very similar, but we want to add together all those values in our `total_value` column. (Remember, we don't want to use `acquisition_value` because that is the value of only ONE item, not the total for the row.
