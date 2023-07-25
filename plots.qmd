@@ -1,7 +1,7 @@
 # Intro to ggplot
 
 ::: callout
-The chapter is by Prof. Lukito with some updates by Prof. McDonald.
+The chapter is by Prof. Lukito with some updates by Prof. McDonald. We don't remember who wrote what, so perhaps it's the McLuk version.
 :::
 
 This week, we'll move on from summaries to talking about data visualizations ("data viz"), an essential skill for any data journalist. While there are a lot of different ways to make figures and graphs, this chapter will focus on one popular R package for data viz: `ggplot`.
@@ -94,6 +94,8 @@ library(palmerpenguins)
 
 ## The layers of ggplot
 
+<div style="width:100%;height:0;padding-bottom:56%;position:relative;"><iframe src="https://giphy.com/embed/22eVpVYpRhaE0" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><br>
+
 ::: callout-note
 Much of this first plot explanation comes from Hadley Wickham's [R for Data Science](https://r4ds.hadley.nz/data-visualize.html), with edits to fit the lesson here.
 :::
@@ -110,7 +112,7 @@ Before we dive into `ggplot`, let's peek at our data.
 penguins
 ```
 
-As noted above, the data is measurements from a number or penguins, things like species, sex, bill length, etc.
+As noted above, the data are measurements from a number or penguins, things like species, sex, bill length, etc.
 
 Among the variables in penguins are:
 
@@ -211,10 +213,11 @@ We do get this warning: `Warning: Removed 2 rows containing missing values geom_
 #### Other geometries
 
 There are [many geoms](https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf), but here are a few common ones:
-    - `geom_point()` adds dots onto the grid based on the data. We used them above.
-    - `geom_line()` adds lines between data points on the grid. Basically a line chart.
-    - `geom_col()` and `geom_bars()` adds bars to the grid based on values in the data. A bar chart. We'll use `geom_col()` later in this lesson but you can read about the difference between the two in a later chapter.
-    - `geom_text()` adds labels based on values in the data.
+
+- `geom_point()` adds dots onto the grid based on the data. We used them above.
+- `geom_line()` adds lines between data points on the grid. Basically a line chart.
+- `geom_col()` and `geom_bars()` adds bars to the grid based on values in the data. A bar chart. We'll use `geom_col()` later in this lesson but you can read about the difference between the two in a later chapter.
+- `geom_text()` adds labels based on values in the data.
 
 ### Chart code review
 
@@ -259,7 +262,7 @@ penguins |>
 In this case we start with the data AND THEN pipes it into `ggplot()` as the first argument. Prof. McDonald often does it this way. The scoundrel.
 :::
 
-### Aesthetics & layers
+### Global vs local aesthetics
 
 Our initial plot appears to show that flipper length is related to the weight of the penguin, but it’s always a good idea to be skeptical of any apparent relationship between two variables and ask if there may be other variables that explain or change the nature of this apparent relationship. For example, does this relationship exist for all three species?
 
@@ -339,12 +342,9 @@ ggplot(
 
 ### Labels
 
-<div style="width:100%;height:0;padding-bottom:56%;position:relative;"><iframe src="https://giphy.com/embed/22eVpVYpRhaE0" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><br>
+In addition to geoms, you can adjust and add labels (text layers) to our plot.
 
-In addition to geoms, there are other layers we can use to change or add to our plot.
-
-- **labels** (or labs, since we use the `labs()` function for them) are a series of text-based items we can layer onto our plots like titles, bylines and axis names.
-- **themes** change the visual styles of the grids and axis. There are several available within ggplot and [many other from the R community](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/).
+**Labels** (or labs, since we use the `labs()` function for them) are a series of text-based items we can layer onto our plots like titles, bylines and axis names.
 
 Like `geom_point()` above, we'll use the `+` at the end of each line before we add another layer.
 
@@ -382,7 +382,9 @@ Walking through that a bit
 
 You can change just about  _anything_ on a ggplot chart if you know the function and arguments to describe it. The [cheetsheet](https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf) shows a lot of them, but it can get really dense.
 
-Folks have saved combinations of these arguments into **themes** that allow you to radicaly change the appearance of a plot with a single layer. Let's how that here.
+**Themes** are collections of these visual changes saved into a single function. There are several available within ggplot and [many others from the R community](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/).
+
+Let's how that here.
 
 1. **Edit** your code chunk to add on the last `+ theme_minimal()` function.
 
@@ -406,7 +408,7 @@ ggplot(
 
 ```
 
-This changes the grid and gridline colors to make the data pop a little better. There are other themes that create more radical change, some in their own packages. We'll play more later.
+This changes the background color and grid lines to make the data pop a little better. There are other themes that create more radical change, some in their own packages. We'll play more later.
 
 OK, you've made your first ggplot chart! Are you ready to make another?
 
@@ -464,7 +466,7 @@ While there are ways for ggplot to calculate values from your data on the fly, I
 
 Today, our goal will be to make a bar chart, sometimes known as a column chart. This bar chart will show the number of votes for each princess from the data. So, we need to count the number of rows for each value ... our typical `group_by`/`summarize`/`arrange` (GSA) process. 
 
-For this lesson, I'm going to use the `count()` shortcut, since we haven't used it much lately. Next, I'll save the summarized data into a new dataframe called `princess_data`. Follow along in your notebook:
+For this lesson, I'll use the `count()` shortcut, since we haven't used it much. Next, I'll save the summarized data into a new dataframe called `princess_data`. Follow along in your notebook:
 
 1. Add a section: Princess data
 1. Add text that you are creating a data frame to plot.
@@ -552,7 +554,7 @@ But the bars are still in an alphabetical order, as opposed to a vote order, so 
 The bars on our chart are in alphabetical order of the x axis (and reversed thanks to our flip.) We want to order the values based on the `votes` in the data.
 
 ::: callout-note
-Complication alert: Categorical data can have [factors](https://r4ds.hadley.nz/factors.html), which are like an internal ordering system. Some categories, like months in a year, have an "order" that is not alphabetical.
+Complication alert: Categorical data can have [factors](https://r4ds.hadley.nz/factors.html), which are like an internal ordering system. Some categories, like months in a year, have an "order" that is not alphabetical. We don't have that here, but know it is a thing.
 :::
 
 We can reorder our categorical values in a plot by editing the `x` values in our `aes()` using `reorder()`. (There is a tidyverse function called `fct_reorder()` that works the same way for factors.)
