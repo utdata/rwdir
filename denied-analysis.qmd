@@ -209,7 +209,7 @@ It was in anticipation for this that we built the `audit_flag` field in our data
 
 To decide on which chart to build, we can go back to our chart decision workflow or consult the ggplot cheetsheet. Given we have the discrete values of `audit_flag` and `years`, and we want to plot how many districts are counted (which is a continuous value), we're looking at a stacked or grouped column/bar chart or a line chart.
 
-### Build the audit flag data
+### Summarize the audit flag data
 
 Before we can build the chart, we need to summarize our data. The logic is this: We need to group our data by both the `year` and the `audit_flag`, and then count the number of rows for those values.
 
@@ -280,7 +280,7 @@ flag_count_districts |>
   ylim(0,1000) # <1>
 ```
 
-1. We added `ylim()` here because the default didn't start the y axis at zero. `ylim` is a shortcut for `scale_y_continuous(limits = c(0,1000))`.
+1. We added `ylim()` here because the default didn't start the y axis at zero. `ylim` is used here as a shortcut for `scale_y_continuous(limits = c(0,1000))`.
 
 ### Which chart is best?
 
@@ -330,6 +330,50 @@ sped |>
 1. Now do the same for the other three counties, each in their own code chunk: Hays, Travis and Williamson.
 
 These charts give you some reference for the local districts. You'll see the more districts there are within a county, the less effective the line chart becomes. But at least it gives you an idea of which districts are following the trend.
+
+## Special Education change since 2015
+
+We can see the changes in special education percentages in our chart, but how do we best describe in prose the change from before the law changes (2015) to our current year?
+
+We have two values for each year to work with: The "Count" of special education students in each district, which is the actual number of students in the program; and the "Percentage" of students in special education out of the total in that district
+
+To describe change from one year to the next you might review the Numbers in the Newsroom chapter on Measuring Change (p26). We'll use Austin ISD numbers from 2015 and 2022 in our examples:
+
+```{r}
+#| echo: false
+sped |> filter(distname == "AUSTIN ISD", year %in% c(2015, 2022)) |> 
+  select(distname, year, ends_with("count"), ends_with("percent"))
+```
+
+### Describing the count changes
+
+- We can show the **simple difference** (or actual change) in the *count* of students from one year to the next. There were `8354` students in 2015 and `9396` in 2022:
+  - New Count - Old Count = Simple Difference
+  - Example: `9396 - 8354 = 1042`
+  - "Austin ISD served 1,000 more special education students in 2023 (9,396 students) compared to 2015 (8,354 students)". (I rounded at the beginning for simplicity.)
+- We can show the **percent change** in the *count* of students from one year to the next:
+  - ((New Count - Old Count) / Old Count) * 100 = Percent change
+  - Example: `((9396 - 8354) \ 8354) * 100 = 12.5%`
+  - "The number of special education students served increased 12% from 8,354 in 2015 to 9,396 in 2022." (Again, I rounded the percent change, but kept the actual counts. The counts could be rounded as well.)
+  
+This is accurate, but the percent change can be blown out of proportion when you are dealing with small number. In a small district, moving from 2 to 4 students is a 200% change.
+
+### Describing percentage differences
+
+We also have the *percentage* of special education students in the school, which could be important. This is the share of students that are in the program compared to the total students in the school.
+
+- We can find the **percentage point difference** from one year to the next using simple difference again, but we have the describe the change as the difference in percentage points:
+  - New Percentage - Old Percentage = Percentage Point Difference
+  - Example: `13.1% - 9.9% = 3.2 percentage points` (NOT 3.2%).
+  - "The share of students in special education grew by 3.2 percentage points, from 9.9% in 2015 to 13.1% in 2022."
+- We can find the **percent change of share** from one year to the next, but we have to again be very specific about what we are talking about ... the growth (or decrease) of the _share_ of students in special education.
+  - ((New Percentage - Old Percentage) / Old Percentage * 100) = Change in share of students
+  - Example: `((13.1 - 9.9) / 9.9) * 100 = 32.3`.
+  - "The share of students in special education grew by a third from 10% of students in 2015 to 13% of students in 2020." This describes the growth in the share of students in the program, not the number of special education students overall. I also rounded the percentages.
+
+Describing a "percentage point difference" to readers can be difficult, but perhaps less confusing than describing the "percent change of a percent".
+
+Great, so which do we use for this story? That depends on what you want to describe. Districts that have fewer special education students to begin with will show a more pronounced percent change with any fluctuation. Then again, a district that has a large percentage of students could be gaining a lot of students with a small percentage change. In the end, we might need to use all of these values to describe different kinds of school districts. We are talking about human beings, so perhaps the counts are important.
 
 ## Turn in your project
 
