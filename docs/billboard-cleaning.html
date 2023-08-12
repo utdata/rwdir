@@ -1148,15 +1148,15 @@ Note
 <!-- https://www.youtube.com/embed/L0FYEy1W8Wc -->
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://player.vimeo.com/video/435910324" frameborder="0" allow="autoplay; title=" "="" fullscreen;="" picture-in-picture"="" allowfullscreen=""></iframe></div>
 <p>In R, the workhorse of the select concept is the function called — you guessed it — <a href="https://dplyr.tidyverse.org/reference/select.html"><code>select()</code></a>. In short, the function allows us to choose a subset of our columns. We can either list the ones we want to keep or the ones we don’t want.</p>
-<p>Like a lot of things in R, <code>select()</code> is really easy at its most basic level: List the columns you want to keep. But <code>select()</code> can also be very powerful as you learn more options. There are a bunch of <a href="https://dplyr.tidyverse.org/reference/select.html">selection helpers</a> like <code>starts_with()</code> and <code>ends_with()</code> and <code>everything()</code>. You can choose ranges with numbers <code>1:3</code> or column names <code>col_name1:col_name9</code>, or a combination <code>c(col_nam1, col_name3)</code>. You can specify what NOT to keep with the negate symbol <code>!</code> like this <code>!c(col_nam1, col_name3)</code>. You can even rename columns as you select them, which we’ll do below.</p>
-<p>In our case we will select the columns want to keep, and we’ll rename <strong>some</strong> as we do.</p>
+<p>Like a lot of things in R, <code>select()</code> is both easy and complex. It’s really easy to just list the columns you want to keep. But <code>select()</code> can also be very powerful as you <a href="https://dplyr.tidyverse.org/reference/select.html">learn more options</a>.</p>
+<p>Let’s just add one complexity: We’ll <strong>rename some columns</strong> as we list them.</p>
 <ol type="1">
 <li>Add a Markdown headline: <code>## Selecting columns</code>.</li>
 <li>Explain in text we are dropping the text date column and renaming others.</li>
 <li>Add the code below and then I’ll explain it. We again are setting this up to create a new object and view the changes.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>hot100_clean <span class="ot">&lt;-</span> hot100_date <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>hot100_clean <span class="ot">&lt;-</span> hot100_date <span class="sc">|&gt;</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    chart_date,</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this renames a column with new name first</span></span>
@@ -1183,11 +1183,11 @@ $ wks_on_chart  &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 </div>
 <p>Line by line, it goes like this:</p>
 <ul>
-<li>Name our new object <code>hot100_clean</code> and fill it with the result of <code>hot100_date</code> <em>and then</em> the modifications that follow.</li>
+<li>Name our new object <code>hot100_clean</code> and fill it with the result of <code>hot100_date</code> <em>and then</em> include the modifications that follow.</li>
 <li>We use the <code>select()</code> function to choose our columns to keep, renaming some of them along the way:
 <ul>
 <li>We start with <code>chart_date</code> which is our <em>real date</em>. We just won’t ever name the text version so we won’t keep it.</li>
-<li>When we get to our <code>this_week</code> column, we rename it to <code>current_rank</code>. We’re doing this because we’ll rename all the “ranking” columns with something that includes <code>_rank</code> at the end. We’re being (too) clever here so later we can use <code>select(ends_with("_rank"))</code> to get those ranking columns together. Note the R concept of naming the new thing first before filling it.</li>
+<li>When we get to our <code>this_week</code> column, we rename it to <code>current_rank</code>. We’re doing this because we’ll rename all the “ranking” columns with something that includes <code>_rank</code> at the end. (While this is good practice, the reasons get into the weeds).</li>
 <li>For <code>title</code> and <code>performer</code> we just list them because we want them to come next but we don’t need to change the names at all.</li>
 <li>For the other columns we rename or not as needed.</li>
 </ul></li>

@@ -662,16 +662,16 @@ Now that we have the fixed date column, we don't need the old `chart_week` versi
 
 In R, the workhorse of the select concept is the function called --- you guessed it --- [`select()`](https://dplyr.tidyverse.org/reference/select.html). In short, the function allows us to choose a subset of our columns. We can either list the ones we want to keep or the ones we don't want.
 
-Like a lot of things in R, `select()` is really easy at its most basic level: List the columns you want to keep. But `select()` can also be very powerful as you learn more options. There are a bunch of [selection helpers](https://dplyr.tidyverse.org/reference/select.html) like `starts_with()` and `ends_with()` and `everything()`. You can choose ranges with numbers `1:3` or column names `col_name1:col_name9`, or a combination `c(col_nam1, col_name3)`. You can specify what NOT to keep with the negate symbol `!` like this `!c(col_nam1, col_name3)`. You can even rename columns as you select them, which we'll do below.
+Like a lot of things in R, `select()` is both easy and complex. It's really easy to just list the columns you want to keep. But `select()` can also be very powerful as you [learn more options](https://dplyr.tidyverse.org/reference/select.html).
 
-In our case we will select the columns want to keep, and we'll rename **some** as we do.
+Let's just add one complexity: We'll **rename some columns** as we list them.
 
 1.  Add a Markdown headline: `## Selecting columns`.
 2.  Explain in text we are dropping the text date column and renaming others.
 3.  Add the code below and then I'll explain it. We again are setting this up to create a new object and view the changes.
 
 ```{r select}
-hot100_clean <- hot100_date |> 
+hot100_clean <- hot100_date |>
   select(
     chart_date,
     # this renames a column with new name first
@@ -688,10 +688,10 @@ hot100_clean |> glimpse()
 
 Line by line, it goes like this:
 
--   Name our new object `hot100_clean` and fill it with the result of `hot100_date` *and then* the modifications that follow.
+-   Name our new object `hot100_clean` and fill it with the result of `hot100_date` *and then* include the modifications that follow.
 -   We use the `select()` function to choose our columns to keep, renaming some of them along the way:
     -   We start with `chart_date` which is our *real date*. We just won't ever name the text version so we won't keep it.
-    -   When we get to our `this_week` column, we rename it to `current_rank`. We're doing this because we'll rename all the "ranking" columns with something that includes `_rank` at the end. We're being (too) clever here so later we can use `select(ends_with("_rank"))` to get those ranking columns together. Note the R concept of naming the new thing first before filling it.
+    -   When we get to our `this_week` column, we rename it to `current_rank`. We're doing this because we'll rename all the "ranking" columns with something that includes `_rank` at the end. (While this is good practice, the reasons get into the weeds).
     -   For `title` and `performer` we just list them because we want them to come next but we don't need to change the names at all.
     -   For the other columns we rename or not as needed.
 -   Lastly, we glimpse the new object to check it.
