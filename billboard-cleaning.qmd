@@ -726,9 +726,31 @@ hot100_clean |>
    write_rds("data-processed/01-hot100.rds")
 ```
 
-So, here we are starting with the `hot100_clean` tibble that we saved earlier. We then pipe `|>` the result of that into a new function `write_rds()`. In addition to the data, the function needs to know where to save the file, so in quotes we give the path to where and what we want to call the file: `"data-processed/01-hot100.rds"`.
+So, here we are starting with the `hot100_clean` tibble that we saved earlier. We then pipe `|>` the result of that into a new function `write_rds()`. In addition to the data, the function needs to know where to save the file, so in quotes we give it the path to where we want to save the file: `"data-processed/01-hot100.rds"`.
 
 Remember, we are saving in data-processed because we never export into data-raw. We are naming the file starting with `01-` to indicate to our future selves that this output came from our first notebook. We then name it, and use the `.rds` extension.
+
+### About paths
+
+When I say "path to where we want to save the file" what I'm talking about is the folder structure on your computer. The frame of reference is where your notebook is stored, which is typically in your project folder. When we want to reference other files from within our notebook, we have to provide the **path** (or folder structure) to where that file is, including its name. We use `/` in the path to designate we are going inside a folder.
+
+Here is the file structure inside your project folder:
+
+``` pre
+├── 01-cleaning.qmd
+├── 02-analysis.qmd
+├── _quarto.yml
+├── christian-billboard.Rproj
+├── data-processed
+│   └── 01-hot100.rds
+├── data-raw
+│   └── hot100_assignment.csv
+└── index.qmd
+```
+
+To get from `01-cleaning.qmd` we need to provide a **relative** path to where we are saving the file, including the folder name and the name of the file: `data-processed/01-hot100.rds`.
+
+We'll need to do a similar thing when import data in the next notebook.
 
 ## Bookmarks
 
