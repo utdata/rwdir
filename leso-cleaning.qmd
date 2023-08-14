@@ -372,9 +372,17 @@ Something to note about this process: In the first part of this chunk we are tak
 
 In the last part of the chunk, we are taking `leso_total` object and we are peeking at some rows and some columns, but we are **not saving** those changes into a new object. There is no `<-` operator here. We are just printing the results to the screen so we can _see_ parts of the data more clearly.
 
+```{r}
+#| include: false
+
+# Exporting data to be used in an appendix
+leso_total |> write_rds("data-processed/rwdir-leso-total.rds")
+```
+
+
 ## Controlled vs. non-controlled
 
-Again, by reading through the [documentation](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/) about this data I learned about controlled vs non-controlled property. Basically non-controlled generic stuff like boots and blankets are removed from the data after one year, but controlled items like guns and airplanes remain on the list until they are returned to the military for disposal. We are only concerned with the controlled items.
+Again, by reading through the [documentation](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/) about this data I learned about controlled vs non-controlled property. Basically non-controlled generic items like boots and blankets are removed from the data after one year, but controlled items like guns and airplanes remain on the list until they are returned to the military for disposal. We are only concerned with the controlled items.
 
 There isn't anything within the data that says it is "controlled" and really no clear indication in the documentation on how to tell what is what. So, I emailed the agency and asked them. Here is an edited version of their answer:
 
@@ -382,32 +390,11 @@ There isn't anything within the data that says it is "controlled" and really no 
 
 This actually took some back and forth to figure out, as I had noticed there were AIRPLANE, CARGO-TRANSPORT items in the data that were older than a year, along with some surveillance robots. That's when they replied about the airplanes, but it turns out the robots were simply an error. ***Data is dirty*** when humans get involved; somebody coded it wrong.
 
-These "DEMIL codes" they referenced are the `demil_code` and `demil_ic` columns in the data, so we can use those to mark which records are "non-controlled" (A and Q6) and then mark all the rest as "controlled". We know of one exception -- airplanes -- which we need to mark controlled. We can't do much with the "high value" items since there isn't logic available to find them. We'll just have to note that in our story, something like "the agency has discretion to designate as as controlled, such as high value items, but they are not categorized as such and may have been dropped from our analysis."
+These "DEMIL codes" they referenced are the `demil_code` and `demil_ic` columns in the data, so we can use those to mark which records are "non-controlled" (A and Q6) and then mark all the rest as "controlled". We know of one exception -- airplanes -- which we need to mark controlled. We can't do much with the "high value" items since there isn't a specific maximum value to test. We'll just have to note that in our story, something like "the agency has discretion to designate as as controlled, such as high value items, but they are not categorized as such and may have been dropped from our analysis."
 
 But, we can catch most of them ... we just need to work through the logic. This is not an uncommon challenge in data science, so we have some tools to do this. Our workhorse here is the `case_when()` function, where we can make decisions based on values in our data.
 
-I usually approach this by thinking of the logic first, then writing some code, then testing it. Sometimes my logic is faulty and I have to try again, which is why we test the results. Know this could go on for many cycles. In the interest of time and getting this done, I will just show the finished code and explain how it works.
-
-Here is the basic idea:
-
--   We want to create a new column to denote if the item is controlled. In that column we want it to be TRUE when an item is controlled, and FALSE when it is not.
--   We know that items with "AIRPLANE" are always controlled, no matter their demil designations.
--   Otherwise we know that items that have a `demil_code` of "A", OR a `demil_code` of "Q" AND a `demil_id` of "6", are non-controlled.
--   Everything else is controlled.
-
-I've noted this logic in a specific order for a reason: It's the order that we write the logic in the code based on how the function `case_when()` works.
-
-### Categorization logic with case_when()
-
-We will use the `mutate()` function to create a new column called `control_type`. We've done that before, so no problem.
-
-But this time we will fill in values in the new column based on other data inside each row. `case_when()` allows us to create a test (or number of tests) and then mark the new value based on the answer. Once new data has been written the function goes to the next row, so we write the most specific rules first.
-
-This process is powerful and can get complicated depending on the logic needed. This example is perhaps more complicated than I like to use when explaining this concept, but this is real data and we *need* this, so here we go.
-
-1.  Start a new section and explain that you are marking controlled items.
-2.  Copy/paste the code chunk below and run it
-3.  READ the explanation that follows, so you understand what is going on!
+In the interest of time and getting this done, I will just provide the code.
 
 ```{r control-engine}
 leso_control <- leso_total |> 
@@ -422,37 +409,7 @@ leso_control <- leso_total |>
 leso_control |> glimpse()
 ```
 
-OK, let's go through the code line-by-line.
-
--   Our first line creates a new tibble `leso_control` and fills it with the result of the rest of our expression. We start with the `leso_total` tibble.
--   We mutate the data and start with the name of new column: `control_type`. We are filling that column with the result of the `case_when()` function for each row.
--   Within the `case_when()` we are making the determination if the item is controlled or not. The left side of the `~` is the test, and the right side of `~` is what we enter into the column. But we have more than one test:
-    -   The first test is we use the [`str_detect()`](https://stringr.tidyverse.org/reference/str_detect.html) function to look inside the `item_name` field looking for the term "AIRPLANE". If the test finds the term, then the `control_type` field gets a value of `TRUE` and we move to the next row. If not, it moves to the next rule to see if that is a match. (We could fill this column with any text or number we want, but we are using `TRUE` and `FALSE` because that is the most basic kind of data to keep. If the item is controlled, set the value is TRUE. If not, it should be set to FALSE.)
-    -   Our second rule has two complex tests and we want to mark the row FALSE if either are true. (Remember, this is based on what the DLA told me: items with A or Q6 are non-controlled.) Our `case_when()` logic first looks for the value "A" in the `demil_code` field. If it is yes, then it marks the row FALSE. If no it goes to the next part: Is there a "Q" in the `demil_code` field AND a "6" in the `demil_ic` field? Both "Q" and "6" have to be there to get marked as FALSE. If both fail, then we move to the next test.
-    -   The last test is our catch-all. If none of the other rules apply, then mark this row as `TRUE`, which means it is controlled. So our default in the end is to mark everything TRUE if any of the other rules don't mark it first.
--   Lastly we glimpse at the data just so we can see the column was created.
-
-As I said, we skipped the process of figuring all that out line-by-line, but I'll show some tests here to show that we did what we were intending.
-
-This shows airplanes are marked as controlled with `TRUE`.
-
-```{r check-airplane}
-
-# showing the results and some columns that determined them
-leso_control |> 
-  select(item_name, demil_code, demil_ic, control_type) |> 
-  filter(str_detect(item_name, "AIRPLANE"))
-```
-
-This shows how many items are marked TRUE vs FALSE for each `demil_code` and `demil_ic` combination. Don't sweat over this code as we cover it in later chapters, but know I used it to check that most A records were FALSE, along with Q6.
-
-```{r check-type}
-leso_control |> 
-  count(demil_code, demil_ic, control_type, name = "cnt") |> 
-  pivot_wider(names_from = control_type, values_from = cnt)
-```
-
-OK, onto the next task to get data for specific dates.
+If you want to learn more about the code in that block, read the Appendix chapter titled *Using case_when*.
 
 ## Filtering our data
 

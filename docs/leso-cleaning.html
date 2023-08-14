@@ -287,20 +287,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./case-when.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Using case_when</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./troubleshooting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Troubleshooting</span></span></a>
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Troubleshooting</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./explore.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Exploring a new dataset</span></span></a>
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Exploring a new dataset</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./charts-tips.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Chart production tips</span></span></a>
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">Chart production tips</span></span></a>
   </div>
 </li>
       </ul>
@@ -338,10 +344,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#check-that-it-worked" id="toc-check-that-it-worked" class="nav-link" data-scroll-target="#check-that-it-worked"><span class="header-section-number">5.9.1</span> Check that it worked!!</a></li>
   </ul></li>
-  <li><a href="#controlled-vs.-non-controlled" id="toc-controlled-vs.-non-controlled" class="nav-link" data-scroll-target="#controlled-vs.-non-controlled"><span class="header-section-number">5.10</span> Controlled vs.&nbsp;non-controlled</a>
-  <ul class="collapse">
-  <li><a href="#categorization-logic-with-case_when" id="toc-categorization-logic-with-case_when" class="nav-link" data-scroll-target="#categorization-logic-with-case_when"><span class="header-section-number">5.10.1</span> Categorization logic with case_when()</a></li>
-  </ul></li>
+  <li><a href="#controlled-vs.-non-controlled" id="toc-controlled-vs.-non-controlled" class="nav-link" data-scroll-target="#controlled-vs.-non-controlled"><span class="header-section-number">5.10</span> Controlled vs.&nbsp;non-controlled</a></li>
   <li><a href="#filtering-our-data" id="toc-filtering-our-data" class="nav-link" data-scroll-target="#filtering-our-data"><span class="header-section-number">5.11</span> Filtering our data</a>
   <ul class="collapse">
   <li><a href="#checking-the-results-with-summary" id="toc-checking-the-results-with-summary" class="nav-link" data-scroll-target="#checking-the-results-with-summary"><span class="header-section-number">5.11.1</span> Checking the results with summary()</a></li>
@@ -873,33 +876,15 @@ $ total_value       &lt;dbl&gt; 658000.00, 16260.00, 3339.00, 158715.90, 10000.0
 </section>
 <section id="controlled-vs.-non-controlled" class="level2" data-number="5.10">
 <h2 data-number="5.10" class="anchored" data-anchor-id="controlled-vs.-non-controlled"><span class="header-section-number">5.10</span> Controlled vs.&nbsp;non-controlled</h2>
-<p>Again, by reading through the <a href="https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/">documentation</a> about this data I learned about controlled vs non-controlled property. Basically non-controlled generic stuff like boots and blankets are removed from the data after one year, but controlled items like guns and airplanes remain on the list until they are returned to the military for disposal. We are only concerned with the controlled items.</p>
+<p>Again, by reading through the <a href="https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/">documentation</a> about this data I learned about controlled vs non-controlled property. Basically non-controlled generic items like boots and blankets are removed from the data after one year, but controlled items like guns and airplanes remain on the list until they are returned to the military for disposal. We are only concerned with the controlled items.</p>
 <p>There isn’t anything within the data that says it is “controlled” and really no clear indication in the documentation on how to tell what is what. So, I emailed the agency and asked them. Here is an edited version of their answer:</p>
 <blockquote class="blockquote">
 <p>Property with the DEMIL codes A and Q6 are considered non-controlled general property and fall off the LESO property books after one year. All other Demil codes are considered controlled items and stay on the LESO property book until returned to DLA for disposition/disposal. However, there are some exceptions. For instance, aircraft are always controlled regardless of the demil code. Also, LESO has the discretion to keep items as controlled despite the demil code. This happens with some high value items. There isn’t a standard minimum value. It also may also depend on the type of property.</p>
 </blockquote>
 <p>This actually took some back and forth to figure out, as I had noticed there were AIRPLANE, CARGO-TRANSPORT items in the data that were older than a year, along with some surveillance robots. That’s when they replied about the airplanes, but it turns out the robots were simply an error. <strong><em>Data is dirty</em></strong> when humans get involved; somebody coded it wrong.</p>
-<p>These “DEMIL codes” they referenced are the <code>demil_code</code> and <code>demil_ic</code> columns in the data, so we can use those to mark which records are “non-controlled” (A and Q6) and then mark all the rest as “controlled”. We know of one exception – airplanes – which we need to mark controlled. We can’t do much with the “high value” items since there isn’t logic available to find them. We’ll just have to note that in our story, something like “the agency has discretion to designate as as controlled, such as high value items, but they are not categorized as such and may have been dropped from our analysis.”</p>
+<p>These “DEMIL codes” they referenced are the <code>demil_code</code> and <code>demil_ic</code> columns in the data, so we can use those to mark which records are “non-controlled” (A and Q6) and then mark all the rest as “controlled”. We know of one exception – airplanes – which we need to mark controlled. We can’t do much with the “high value” items since there isn’t a specific maximum value to test. We’ll just have to note that in our story, something like “the agency has discretion to designate as as controlled, such as high value items, but they are not categorized as such and may have been dropped from our analysis.”</p>
 <p>But, we can catch most of them … we just need to work through the logic. This is not an uncommon challenge in data science, so we have some tools to do this. Our workhorse here is the <code>case_when()</code> function, where we can make decisions based on values in our data.</p>
-<p>I usually approach this by thinking of the logic first, then writing some code, then testing it. Sometimes my logic is faulty and I have to try again, which is why we test the results. Know this could go on for many cycles. In the interest of time and getting this done, I will just show the finished code and explain how it works.</p>
-<p>Here is the basic idea:</p>
-<ul>
-<li>We want to create a new column to denote if the item is controlled. In that column we want it to be TRUE when an item is controlled, and FALSE when it is not.</li>
-<li>We know that items with “AIRPLANE” are always controlled, no matter their demil designations.</li>
-<li>Otherwise we know that items that have a <code>demil_code</code> of “A”, OR a <code>demil_code</code> of “Q” AND a <code>demil_id</code> of “6”, are non-controlled.</li>
-<li>Everything else is controlled.</li>
-</ul>
-<p>I’ve noted this logic in a specific order for a reason: It’s the order that we write the logic in the code based on how the function <code>case_when()</code> works.</p>
-<section id="categorization-logic-with-case_when" class="level3" data-number="5.10.1">
-<h3 data-number="5.10.1" class="anchored" data-anchor-id="categorization-logic-with-case_when"><span class="header-section-number">5.10.1</span> Categorization logic with case_when()</h3>
-<p>We will use the <code>mutate()</code> function to create a new column called <code>control_type</code>. We’ve done that before, so no problem.</p>
-<p>But this time we will fill in values in the new column based on other data inside each row. <code>case_when()</code> allows us to create a test (or number of tests) and then mark the new value based on the answer. Once new data has been written the function goes to the next row, so we write the most specific rules first.</p>
-<p>This process is powerful and can get complicated depending on the logic needed. This example is perhaps more complicated than I like to use when explaining this concept, but this is real data and we <em>need</em> this, so here we go.</p>
-<ol type="1">
-<li>Start a new section and explain that you are marking controlled items.</li>
-<li>Copy/paste the code chunk below and run it</li>
-<li>READ the explanation that follows, so you understand what is going on!</li>
-</ol>
+<p>In the interest of time and getting this done, I will just provide the code.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>leso_control <span class="ot">&lt;-</span> leso_total <span class="sc">|&gt;</span> </span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -929,50 +914,7 @@ $ total_value       &lt;dbl&gt; 658000.00, 16260.00, 3339.00, 158715.90, 10000.0
 $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE…</code></pre>
 </div>
 </div>
-<p>OK, let’s go through the code line-by-line.</p>
-<ul>
-<li>Our first line creates a new tibble <code>leso_control</code> and fills it with the result of the rest of our expression. We start with the <code>leso_total</code> tibble.</li>
-<li>We mutate the data and start with the name of new column: <code>control_type</code>. We are filling that column with the result of the <code>case_when()</code> function for each row.</li>
-<li>Within the <code>case_when()</code> we are making the determination if the item is controlled or not. The left side of the <code>~</code> is the test, and the right side of <code>~</code> is what we enter into the column. But we have more than one test:
-<ul>
-<li>The first test is we use the <a href="https://stringr.tidyverse.org/reference/str_detect.html"><code>str_detect()</code></a> function to look inside the <code>item_name</code> field looking for the term “AIRPLANE”. If the test finds the term, then the <code>control_type</code> field gets a value of <code>TRUE</code> and we move to the next row. If not, it moves to the next rule to see if that is a match. (We could fill this column with any text or number we want, but we are using <code>TRUE</code> and <code>FALSE</code> because that is the most basic kind of data to keep. If the item is controlled, set the value is TRUE. If not, it should be set to FALSE.)</li>
-<li>Our second rule has two complex tests and we want to mark the row FALSE if either are true. (Remember, this is based on what the DLA told me: items with A or Q6 are non-controlled.) Our <code>case_when()</code> logic first looks for the value “A” in the <code>demil_code</code> field. If it is yes, then it marks the row FALSE. If no it goes to the next part: Is there a “Q” in the <code>demil_code</code> field AND a “6” in the <code>demil_ic</code> field? Both “Q” and “6” have to be there to get marked as FALSE. If both fail, then we move to the next test.</li>
-<li>The last test is our catch-all. If none of the other rules apply, then mark this row as <code>TRUE</code>, which means it is controlled. So our default in the end is to mark everything TRUE if any of the other rules don’t mark it first.</li>
-</ul></li>
-<li>Lastly we glimpse at the data just so we can see the column was created.</li>
-</ul>
-<p>As I said, we skipped the process of figuring all that out line-by-line, but I’ll show some tests here to show that we did what we were intending.</p>
-<p>This shows airplanes are marked as controlled with <code>TRUE</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># showing the results and some columns that determined them</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>leso_control <span class="sc">|&gt;</span> </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(item_name, demil_code, demil_ic, control_type) <span class="sc">|&gt;</span> </span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(item_name, <span class="st">"AIRPLANE"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-
-<div data-pagedtable="false">
-  <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["item_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["demil_code"],"name":[2],"type":["chr"],"align":["left"]},{"label":["demil_ic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["control_type"],"name":[4],"type":["lgl"],"align":["right"]}],"data":[{"1":"AIRPLANE,CARGO-TRANSPORT","2":"Q","3":"6","4":"TRUE"},{"1":"AIRPLANE,CARGO-TRANSPORT","2":"Q","3":"6","4":"TRUE"},{"1":"AIRPLANE,CARGO-TRANSPORT","2":"Q","3":"6","4":"TRUE"},{"1":"AIRPLANE,CARGO-TRANSPORT","2":"Q","3":"6","4":"TRUE"},{"1":"AIRPLANE,CARGO-TRANSPORT","2":"Q","3":"6","4":"TRUE"},{"1":"AIRPLANE,CARGO-TRANSPORT","2":"A","3":"1","4":"TRUE"},{"1":"AIRPLANE,CARGO-TRANSPORT","2":"Q","3":"6","4":"TRUE"},{"1":"AIRPLANE,CARGO-TRANSPORT","2":"Q","3":"6","4":"TRUE"},{"1":"AIRPLANE,CARGO-TRANSPORT","2":"Q","3":"6","4":"TRUE"},{"1":"AIRPLANE,CARGO-TRANSPORT","2":"Q","3":"6","4":"TRUE"},{"1":"AIRPLANE,CARGO-TRANSPORT","2":"Q","3":"6","4":"TRUE"},{"1":"AIRPLANE,FLIGHT T42A","2":"Q","3":"3","4":"TRUE"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-</div>
-</div>
-<p>This shows how many items are marked TRUE vs FALSE for each <code>demil_code</code> and <code>demil_ic</code> combination. Don’t sweat over this code as we cover it in later chapters, but know I used it to check that most A records were FALSE, along with Q6.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>leso_control <span class="sc">|&gt;</span> </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(demil_code, demil_ic, control_type, <span class="at">name =</span> <span class="st">"cnt"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> control_type, <span class="at">values_from =</span> cnt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-
-<div data-pagedtable="false">
-  <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["demil_code"],"name":[1],"type":["chr"],"align":["left"]},{"label":["demil_ic"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["FALSE"],"name":[3],"type":["int"],"align":["right"]},{"label":["TRUE"],"name":[4],"type":["int"],"align":["right"]}],"data":[{"1":"A","2":"1","3":"3803","4":"1"},{"1":"A","2":"7","3":"217","4":"NA"},{"1":"A","2":"NA","3":"2392","4":"NA"},{"1":"B","2":"3","3":"NA","4":"23"},{"1":"B","2":"NA","3":"NA","4":"85"},{"1":"C","2":"1","3":"NA","4":"5343"},{"1":"C","2":"4","3":"NA","4":"1"},{"1":"C","2":"7","3":"NA","4":"221"},{"1":"C","2":"NA","3":"NA","4":"601"},{"1":"D","2":"0","3":"NA","4":"10"},{"1":"D","2":"1","3":"NA","4":"70535"},{"1":"D","2":"4","3":"NA","4":"15"},{"1":"D","2":"7","3":"NA","4":"968"},{"1":"D","2":"NA","3":"NA","4":"2680"},{"1":"E","2":"1","3":"NA","4":"68"},{"1":"E","2":"7","3":"NA","4":"5"},{"1":"E","2":"NA","3":"NA","4":"3"},{"1":"F","2":"0","3":"NA","4":"2"},{"1":"F","2":"1","3":"NA","4":"4212"},{"1":"F","2":"7","3":"NA","4":"531"},{"1":"F","2":"NA","3":"NA","4":"16"},{"1":"Q","2":"0","3":"NA","4":"156"},{"1":"Q","2":"1","3":"NA","4":"6"},{"1":"Q","2":"3","3":"NA","4":"6619"},{"1":"Q","2":"5","3":"NA","4":"1"},{"1":"Q","2":"6","3":"600","4":"10"},{"1":"Q","2":"NA","3":"NA","4":"28"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-</div>
-</div>
-<p>OK, onto the next task to get data for specific dates.</p>
-</section>
+<p>If you want to learn more about the code in that block, read the Appendix chapter titled <em>Using case_when</em>.</p>
 </section>
 <section id="filtering-our-data" class="level2" data-number="5.11">
 <h2 data-number="5.11" class="anchored" data-anchor-id="filtering-our-data"><span class="header-section-number">5.11</span> Filtering our data</h2>
@@ -986,12 +928,12 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <div class="cell">
 <details>
 <summary>Write it yourself, but here is the code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>leso_dated <span class="ot">&lt;-</span> leso_control <span class="sc">|&gt;</span> </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    ship_date <span class="sc">&gt;=</span> <span class="st">"2010-01-01"</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>leso_dated</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>leso_dated <span class="ot">&lt;-</span> leso_control <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    ship_date <span class="sc">&gt;=</span> <span class="st">"2010-01-01"</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>leso_dated</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="checking-the-results-with-summary" class="level3" data-number="5.11.1">
@@ -1002,7 +944,7 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <li><strong>Edit your chunk</strong> to not just print out the tibble, but pipe that into <code>summary()</code>, like this:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>leso_dated <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>leso_dated <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You should be be able to look at the <strong>Min</strong> value of <code>ship_date</code> in the summary to make sure there are not dates before 2010. Here is what that summary looks like:</p>
 <div class="cell">
@@ -1056,7 +998,7 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <div class="cell">
 <details>
 <summary>The last chunk. You can do it.</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>leso_dated <span class="sc">|&gt;</span> <span class="fu">write_rds</span>(<span class="st">"data-processed/01-leso-all.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>leso_dated <span class="sc">|&gt;</span> <span class="fu">write_rds</span>(<span class="st">"data-processed/01-leso-all.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
