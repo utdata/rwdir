@@ -287,20 +287,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./case-when.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Using case_when</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./troubleshooting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Troubleshooting</span></span></a>
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Troubleshooting</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./explore.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Exploring a new dataset</span></span></a>
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Exploring a new dataset</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./charts-tips.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Chart production tips</span></span></a>
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">Chart production tips</span></span></a>
   </div>
 </li>
       </ul>
@@ -357,6 +363,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#exporting-data" id="toc-exporting-data" class="nav-link" data-scroll-target="#exporting-data"><span class="header-section-number">3.10</span> Exporting data</a>
   <ul class="collapse">
   <li><a href="#using-multiple-notebooks" id="toc-using-multiple-notebooks" class="nav-link" data-scroll-target="#using-multiple-notebooks"><span class="header-section-number">3.10.1</span> Using multiple notebooks</a></li>
+  <li><a href="#about-paths" id="toc-about-paths" class="nav-link" data-scroll-target="#about-paths"><span class="header-section-number">3.10.2</span> About paths</a></li>
   </ul></li>
   <li><a href="#bookmarks" id="toc-bookmarks" class="nav-link" data-scroll-target="#bookmarks"><span class="header-section-number">3.11</span> Bookmarks</a></li>
   <li><a href="#render-and-publish" id="toc-render-and-publish" class="nav-link" data-scroll-target="#render-and-publish"><span class="header-section-number">3.12</span> Render and publish</a>
@@ -1148,15 +1155,15 @@ Note
 <!-- https://www.youtube.com/embed/L0FYEy1W8Wc -->
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://player.vimeo.com/video/435910324" frameborder="0" allow="autoplay; title=" "="" fullscreen;="" picture-in-picture"="" allowfullscreen=""></iframe></div>
 <p>In R, the workhorse of the select concept is the function called — you guessed it — <a href="https://dplyr.tidyverse.org/reference/select.html"><code>select()</code></a>. In short, the function allows us to choose a subset of our columns. We can either list the ones we want to keep or the ones we don’t want.</p>
-<p>Like a lot of things in R, <code>select()</code> is really easy at its most basic level: List the columns you want to keep. But <code>select()</code> can also be very powerful as you learn more options. There are a bunch of <a href="https://dplyr.tidyverse.org/reference/select.html">selection helpers</a> like <code>starts_with()</code> and <code>ends_with()</code> and <code>everything()</code>. You can choose ranges with numbers <code>1:3</code> or column names <code>col_name1:col_name9</code>, or a combination <code>c(col_nam1, col_name3)</code>. You can specify what NOT to keep with the negate symbol <code>!</code> like this <code>!c(col_nam1, col_name3)</code>. You can even rename columns as you select them, which we’ll do below.</p>
-<p>In our case we will select the columns want to keep, and we’ll rename <strong>some</strong> as we do.</p>
+<p>Like a lot of things in R, <code>select()</code> is both easy and complex. It’s really easy to just list the columns you want to keep. But <code>select()</code> can also be very powerful as you <a href="https://dplyr.tidyverse.org/reference/select.html">learn more options</a>.</p>
+<p>Let’s just add one complexity: We’ll <strong>rename some columns</strong> as we list them.</p>
 <ol type="1">
 <li>Add a Markdown headline: <code>## Selecting columns</code>.</li>
 <li>Explain in text we are dropping the text date column and renaming others.</li>
 <li>Add the code below and then I’ll explain it. We again are setting this up to create a new object and view the changes.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>hot100_clean <span class="ot">&lt;-</span> hot100_date <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>hot100_clean <span class="ot">&lt;-</span> hot100_date <span class="sc">|&gt;</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    chart_date,</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this renames a column with new name first</span></span>
@@ -1183,11 +1190,11 @@ $ wks_on_chart  &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 </div>
 <p>Line by line, it goes like this:</p>
 <ul>
-<li>Name our new object <code>hot100_clean</code> and fill it with the result of <code>hot100_date</code> <em>and then</em> the modifications that follow.</li>
+<li>Name our new object <code>hot100_clean</code> and fill it with the result of <code>hot100_date</code> <em>and then</em> include the modifications that follow.</li>
 <li>We use the <code>select()</code> function to choose our columns to keep, renaming some of them along the way:
 <ul>
 <li>We start with <code>chart_date</code> which is our <em>real date</em>. We just won’t ever name the text version so we won’t keep it.</li>
-<li>When we get to our <code>this_week</code> column, we rename it to <code>current_rank</code>. We’re doing this because we’ll rename all the “ranking” columns with something that includes <code>_rank</code> at the end. We’re being (too) clever here so later we can use <code>select(ends_with("_rank"))</code> to get those ranking columns together. Note the R concept of naming the new thing first before filling it.</li>
+<li>When we get to our <code>this_week</code> column, we rename it to <code>current_rank</code>. We’re doing this because we’ll rename all the “ranking” columns with something that includes <code>_rank</code> at the end. (While this is good practice, the reasons get into the weeds).</li>
 <li>For <code>title</code> and <code>performer</code> we just list them because we want them to come next but we don’t need to change the names at all.</li>
 <li>For the other columns we rename or not as needed.</li>
 </ul></li>
@@ -1227,8 +1234,24 @@ Note
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>hot100_clean <span class="sc">|&gt;</span> </span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">write_rds</span>(<span class="st">"data-processed/01-hot100.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>So, here we are starting with the <code>hot100_clean</code> tibble that we saved earlier. We then pipe <code>|&gt;</code> the result of that into a new function <code>write_rds()</code>. In addition to the data, the function needs to know where to save the file, so in quotes we give the path to where and what we want to call the file: <code>"data-processed/01-hot100.rds"</code>.</p>
+<p>So, here we are starting with the <code>hot100_clean</code> tibble that we saved earlier. We then pipe <code>|&gt;</code> the result of that into a new function <code>write_rds()</code>. In addition to the data, the function needs to know where to save the file, so in quotes we give it the path to where we want to save the file: <code>"data-processed/01-hot100.rds"</code>.</p>
 <p>Remember, we are saving in data-processed because we never export into data-raw. We are naming the file starting with <code>01-</code> to indicate to our future selves that this output came from our first notebook. We then name it, and use the <code>.rds</code> extension.</p>
+</section>
+<section id="about-paths" class="level3" data-number="3.10.2">
+<h3 data-number="3.10.2" class="anchored" data-anchor-id="about-paths"><span class="header-section-number">3.10.2</span> About paths</h3>
+<p>When I say “path to where we want to save the file” what I’m talking about is the folder structure on your computer. The frame of reference is where your notebook is stored, which is typically in your project folder. When we want to reference other files from within our notebook, we have to provide the <strong>path</strong> (or folder structure) to where that file is, including its name. We use <code>/</code> in the path to designate we are going inside a folder.</p>
+<p>Here is the file structure inside your project folder:</p>
+<pre class="pre"><code>├── 01-cleaning.qmd
+├── 02-analysis.qmd
+├── _quarto.yml
+├── christian-billboard.Rproj
+├── data-processed
+│&nbsp;&nbsp; └── 01-hot100.rds
+├── data-raw
+│&nbsp;&nbsp; └── hot100_assignment.csv
+└── index.qmd</code></pre>
+<p>To get from <code>01-cleaning.qmd</code> we need to provide a <strong>relative</strong> path to where we are saving the file, including the folder name and the name of the file: <code>data-processed/01-hot100.rds</code>.</p>
+<p>We’ll need to do a similar thing when import data in the next notebook.</p>
 </section>
 </section>
 <section id="bookmarks" class="level2" data-number="3.11">
@@ -1247,11 +1270,11 @@ Note
 <p>You’ll notice that each Markdown headline you have is listed. My chunks also have names, but yours probably don’t. It’s optional to name chunks with a label but it helps you find them through the bookmarks. In addition, plots produced by the chunks will have useful names that make them easier to reference elsewhere, but that’s later lesson in the semester.</p>
 <p>Here is how you can name a chunk by using <a href="https://quarto.org/docs/computations/execution-options.html">“execution options”</a>, which can control your code output. (This example shows all of the R code chunk.)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: select-rows</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>hot100_clean <span class="sc">|&gt;</span> <span class="fu">select</span>(title, performer) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: select-rows</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>hot100_clean <span class="sc">|&gt;</span> <span class="fu">select</span>(title, performer) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <div data-pagedtable="false">
