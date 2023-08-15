@@ -8,7 +8,7 @@ This chapter is by Prof. McDonald, who uses macOS.
 Because of data updates, your answers may differ slightly from what is presented here.
 :::
 
-With our Billboard assignment, we went through some common data wrangling processes — importing data, cleaning it and querying it for answers. All of our answers involved using `group_by`, `summmarize` and `arrange` (which I dub GSA) and we summarized with `n()` to count the number of rows within our groups.
+With our Billboard assignment, we went through some common data wrangling processes --- importing data, cleaning it and querying it for answers. All of our answers involved using `group_by`, `summmarize` and `arrange` (which I dub GSA) and we summarized with `n()` to count the number of rows within our groups.
 
 For this data story we need the GSA summary trio again, but we will use math operations within our summarize functions, mainly `sum()` to add values together.
 
@@ -101,11 +101,11 @@ We will build the same project structure that we did with the Billboard project.
 
 1.  With RStudio open, make sure you don't have a project open. Go to *File \> Close project*.
 2.  Use the create project button (or *File \> New project*) to create a new project in a **New Directory**.
-1.  For the project type, choose **Quarto Website**
-1.  Name the directory "yourname-military-surplus", but with your name.
-1.  In the `index.qmd` file, replace the title value with "Military Surplus", as that is our project title.
-1.  Remove the boilerplate stuff after the YAML title and write in Markdown a little about what this is ... a class project about surplus military equipment. You can come back to this later to flesh it out.
-3.  Create two folders: `data-raw` and `data-processed`.
+3.  For the project type, choose **Quarto Website**
+4.  Name the directory "yourname-military-surplus", but with your name.
+5.  In the `index.qmd` file, replace the title value with "Military Surplus", as that is our project title.
+6.  Remove the boilerplate stuff after the YAML title and write in Markdown a little about what this is ... a class project about surplus military equipment. You can come back to this later to flesh it out.
+7.  Create two folders: `data-raw` and `data-processed`.
 
 ## Cleaning notebook
 
@@ -115,7 +115,7 @@ Again, like Billboard, we'll create a notebook specifically for downloading, cle
 2.  For the title use "Cleaning".
 3.  Remove the rest of the boilerplate template.
 4.  Save the file and name it `01-cleaning.qmd`.
-4.  Open `_quarto.yml` and change the navigation link from `about.qmd` to `01-cleaning.qmd`.
+5.  Open `_quarto.yml` and change the navigation link from `about.qmd` to `01-cleaning.qmd`.
 
 ### The goals of the notebook
 
@@ -126,7 +126,7 @@ That's a long-winded opening to say let's add our notebook goals so you know wha
 1.  In Markdown, add a headline noting these are notebook goals.
 2.  Add the goals below:
 
-```txt
+``` txt
 - Download the data
 - Import the data
 - Check datatypes
@@ -140,9 +140,8 @@ That's a long-winded opening to say let's add our notebook goals so you know wha
 
 This is the section in the notebook where we add our libraries and such. Again, every notebook has this section, though the packages used may vary on need. This time (and each time hense) we will add some "execution options" to our setup chunk.
 
-
 1.  Add a headline called "Setup" and text about what we are doing, adding our libraries.
-2.  Add your setup code chunk with the code below. 
+2.  Add your setup code chunk with the code below.
 
 ```{r}
 #| echo: fenced
@@ -154,8 +153,8 @@ library(tidyverse)
 
 Some reminders:
 
-- The `#| label: setup` is special in that it will be run first no matter where we are in the notebook. Helpful to make sure your libraries are loaded.
-- The `#| message: false` option silences the message about all the different packages in the tidyverse when the library is loaded. It just cleans up the notebook.
+-   The `#| label: setup` is special in that it will be run first no matter where we are in the notebook. Helpful to make sure your libraries are loaded.
+-   The `#| message: false` option silences the message about all the different packages in the tidyverse when the library is loaded. It just cleans up the notebook.
 
 One other note about this ... we should only need the `tidyverse` library for this notebook because the data already has clean names (no need for `janitor`.)
 
@@ -163,7 +162,7 @@ One other note about this ... we should only need the `tidyverse` library for th
 
 1.  A new section means a new headline and description. Add it. It is good practice to describe and link to the data you will be using. You can use the text below:
 
-```txt
+``` txt
 While the data we will use here if from Prof. McDonald, it is from the [Law Enforcement Support Office](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/). Find more information [about the program here](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/ProgramFAQs/).
 ```
 
@@ -183,10 +182,10 @@ download.file(
 
 What you need:
 
-- The data can be found at this url below
-- It should be saved into your `data-raw` folder with a name for the file.
+-   The data can be found at this url below
+-   It should be saved into your `data-raw` folder with a name for the file.
 
-```txt
+``` txt
 https://github.com/utdata/rwd-r-leso/blob/main/data-processed/leso.csv?raw=true
 ```
 
@@ -205,7 +204,6 @@ download.file(
 
 Once you've built your code chunk and run it, you should make sure the file downloaded into the correct place: in your `data-raw` folder.
 
-
 ::: callout-note
 If you get an error about the path, you might make sure you created the `data-raw` folder first.
 :::
@@ -221,7 +219,6 @@ I suggest you build the code chunk a bit at a time in this order:
 1.  Use `read_csv()` to read the file from our `data-raw` folder.
 2.  Edit that line to put the result into a tibble object using `<-`. Name your new tibble `leso`.
 3.  Print the tibble as a table to the screen again by putting the tibble object on a new line and running it. This allows you to see it in columnar form.
-
 
 ```{r}
 #| code-fold: true
@@ -243,8 +240,6 @@ The output you get will be the table, which looks sort of like this, but I'm jus
 leso |> head()
 ```
 
-
-
 ### Glimpse the data
 
 1.  In a new code block, print the tibble but pipe it into `glimpse()` so you can see all the column names.
@@ -261,7 +256,7 @@ Take a look at your glimpse returns. These are the things to watch for:
 -   Are dates saved in a date format? `ship_date` looks good at `<dttm>`, which means "datetime".
 -   Are your numbers really numbers? `acquisition_value` is the column we are most concerned about here, and it looks good.
 
-This data set looks good (because I pre-prepared it fo you), but you always want to check and make corrections, like we did to fix the date in the Billboard assignment.
+This data set looks good (because I pre-prepared it for you), but you always want to check and make corrections, like we did to fix the date in the Billboard assignment.
 
 ## Remove unnecessary columns
 
@@ -279,10 +274,10 @@ leso_tight |> glimpse()
 
 In English, we are:
 
-- creating a new tibble `leso_tight` and then ..
-- filling it with this: The `leso` data AND THEN we use select to remove the column called `sheet`. We then glimpse the new data.
+-   creating a new tibble `leso_tight` and then ..
+-   filling it with this: The `leso` data AND THEN we use select to remove the column called `sheet`. We then glimpse the new data.
 
-Within the `select()` function, we use `!` to "negate" the column called "sheet". If we wanted to remove more than one column — say both `sheet` and `station_type` — then we would use `!` negate in conjunction with the `c()` function to combine items into a new vector, like this: `select(!c(sheet, station_type))`.
+Within the `select()` function, we use `!` to "negate" the column called "sheet". If we wanted to remove more than one column --- say both `sheet` and `station_type` --- then we would use `!` negate in conjunction with the `c()` function to combine items into a new vector, like this: `select(!c(sheet, station_type))`.
 
 The use of `!` to remove things will come up in other places in R, as will using `c()` to combine things together.
 
@@ -342,13 +337,14 @@ leso_total <- leso_tight |>
 
 leso_total |> glimpse()
 ```
+
 ### Check that it worked!!
 
 Note that new columns are added at the end of the tibble. Sometimes you can look through the glimpsed data to see if your mutate worked correctly, but that depends on the data.
 
 If there isn't enough information visible, you might try printing out some rows of the data to peek through it.
 
-1. **Edit your chunk** on the last line to change `glimpse()` to `head(20)`
+1.  **Edit your chunk** on the last line to change `glimpse()` to `head(20)`
 
 I'm just showing that last line here:
 
@@ -358,7 +354,7 @@ leso_total |> head(20)
 
 At this point you can page through the columns to check the math. But even with this, there are a lot of columns to page through. You can use add on `select()` to pluck out the columns of interest to check.
 
-1. **Edit** your chunk's last line like this:
+1.  **Edit** your chunk's last line like this:
 
 ```{r}
 leso_total |> 
@@ -370,7 +366,7 @@ This should allow you to check if the math worked. As of this writing, there was
 
 Something to note about this process: In the first part of this chunk we are taking `leso_tight`, making some changes to it and the **saving** it into `leso_total`. We have two objects now, one before the changes and one after.
 
-In the last part of the chunk, we are taking `leso_total` object and we are peeking at some rows and some columns, but we are **not saving** those changes into a new object. There is no `<-` operator here. We are just printing the results to the screen so we can _see_ parts of the data more clearly.
+In the last part of the chunk, we are taking `leso_total` object and we are peeking at some rows and some columns, but we are **not saving** those changes into a new object. There is no `<-` operator here. We are just printing the results to the screen so we can *see* parts of the data more clearly.
 
 ```{r}
 #| include: false
@@ -378,7 +374,6 @@ In the last part of the chunk, we are taking `leso_total` object and we are peek
 # Exporting data to be used in an appendix
 leso_total |> write_rds("data-processed/rwdir-leso-total.rds")
 ```
-
 
 ## Controlled vs. non-controlled
 
@@ -416,9 +411,9 @@ If you want to learn more about the code in that block, read the Appendix chapte
 In the Billboard lesson you used `filter()` to get No. 1 songs and to get a date range of data. We need to do something similar here to get only data of a certain date range. We'll build the filters one at a time so we can save the resulting objects separately.
 
 1.  Create a new section with headlines and text that denote you are filtering the data to records since Jan. 1, 2010 up to the most recent full year.
-1.  Create a chunk and filter your `leso_control` data to get rows with a `ship_date` later than 2010-01-01.
-2.  Save the result into a new tibble called `leso_dated`.
-3.  Print out the new tibble `leso_dated`.
+2.  Create a chunk and filter your `leso_control` data to get rows with a `ship_date` later than 2010-01-01.
+3.  Save the result into a new tibble called `leso_dated`.
+4.  Print out the new tibble `leso_dated`.
 
 ```{r}
 #| code-fold: true

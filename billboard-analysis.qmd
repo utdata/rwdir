@@ -4,7 +4,6 @@
 This chapter is by Prof. McDonald and keyboard commands and screenshots are from macOS.
 :::
 
-
 This chapter continues the Billboard Hot 100 project. In the previous chapter we downloaded, imported and cleaned our data. We'll be working in the same project, but in a new document.
 
 ## Goals of this lesson
@@ -45,7 +44,7 @@ At the end of the last notebook we exported our clean data as an `.rds` file. We
 4.  Set the title as "Analysis".
 5.  Save the file as `02-analysis.qmd` in your project folder.
 6.  Check your Environment tab (top right) and make sure the environment is empty. We don't want to have any leftover data. If there is, then go under the **Run** menu and choose **Restart R and Clear Output**.
-1. Also go into your `_quarto.yml` file and add `02-analysis.qmd` on the line after `01-cleaning.qmd` so that this notebook will show up in your website navigation.
+7.  Also go into your `_quarto.yml` file and add `02-analysis.qmd` on the line after `01-cleaning.qmd` so that this notebook will show up in your website navigation.
 
 ### Add your goals, setup
 
@@ -64,7 +63,6 @@ Since we are starting a new notebook, we need to set up a few things. First up w
 
 options(dplyr.summarise.inform = FALSE)
 ```
-
 
 ```{r message=F, warning=F}
 #| label: setup
@@ -96,8 +94,8 @@ We'll painstakingly walk through that process here to belabor the point. Here ar
 I want you to:
 
 1.  Start a Markdown section with a headline noting you are importing the cleaned data. Add any other text notes you might need for yourself.
-1.  Add a new code chunk.
-1.  Inside your code chunk, add this line of code:
+2.  Add a new code chunk.
+3.  Inside your code chunk, add this line of code:
 
 ``` r
 read_rds("data-processed/01-hot100.rds")
@@ -132,7 +130,7 @@ What happened when you ran the code? Did you get an error? Did you get a result 
 
 OK, that last one was a trick question. When you save data into an object it does NOT print it to your notebook, but it does save that object into your "Environment", which means it is in memory and can be called and run at any time. You should see `hot100` listed in your Environment tab at the top right of RStudio.
 
-Now, before I started this quest, I knew I wanted that data inside the `hot100` object and could've written it like that from the beginning. But I didn't becuase most "read" problems are in the path, so I wanted to make sure that function was written correctly first. Also, when I put the data into the object I can't see it until I print it out again, so I do it one piece at at time. You should, too.
+Now, before I started this quest, I knew I wanted that data inside the `hot100` object and could've written it like that from the beginning. But I didn't because most "read" problems are in the path, so I wanted to make sure that function was written correctly first. Also, when I put the data into the object I can't see it until I print it out again, so I do it one piece at a time. You should, too.
 
 So next we'll print the data out to our screen. We do that by just by calling the object.
 
@@ -314,13 +312,13 @@ The list we've created here is based on **unique** `performer` names, and as suc
 
 Now that you have your first quest answers, let's celebrate by rendering your notebook so you can see all your pretty work.
 
-1. In the toolbar of your notebook, click the **Render** button or use the *Cmd-Shift-k* keyboard command.
+1.  In the toolbar of your notebook, click the **Render** button or use the *Cmd-Shift-k* keyboard command.
 
 This will give you the website view of your page, but we need to add it to the navigation.
 
-1. Open your `quarto.yml` file
-1. After the line that you added for the cleaning notebook, add another new line (with the same indenting) and put in the name of your analysis file. It should be `- 02-analysis.qmd`.
-1. Now re-Render your notebook and check the navigation on the page.
+1.  Open your `quarto.yml` file
+2.  After the line that you added for the cleaning notebook, add another new line (with the same indenting) and put in the name of your analysis file. It should be `- 02-analysis.qmd`.
+3.  Now re-Render your notebook and check the navigation on the page.
 
 ## Song with most appearances
 
@@ -350,20 +348,19 @@ hot100 |>
   arrange(desc(appearances))
 ```
 
-
 If we were describing each line in English, it would be:
 
-- Start with the `hot100` data AND THEN ...
-- Group the data by both `performer` and `title` AND THEN ..
-- Summarize the data by first naming our new column "appearances" and use `n()` to count the **n**umber of rows AND THEN ...
-- Arrange the data in descending order by the `appearances` column.
+-   Start with the `hot100` data AND THEN ...
+-   Group the data by both `performer` and `title` AND THEN ..
+-   Summarize the data by first naming our new column "appearances" and use `n()` to count the **n**umber of rows AND THEN ...
+-   Arrange the data in descending order by the `appearances` column.
 
 We will *often* use `group_by()`, `summarize()` and `arrange()` together, which is why I'll refer to this as the **GSA trio**. They are like three close friends that always want to hang out together.
 
 So, what was your guess or this one? A little bit of history in that answer ... Glass Animals' *Heat Waves* in 2022 overcame The Weeknd's *Blinding Lights*, which had overcome Imagine Dragon's *Radioactive* some time in 2021.
 
 ::: callout-note
-When you run the code above you might see a warning **"`summarise()` has grouped output by 'performer'. You can override using the`.groups` argument."** THIS IS NOT A PROBLEM. It is just R letting you know that the output of this remains grouped by the first item. Explaining it would break your brain right now. Don't worry about it. This is not the droid you are looking for. 
+When you run the code above you might see a warning **"`summarise()` has grouped output by 'performer'. You can override using the`.groups` argument."** THIS IS NOT A PROBLEM. It is just R letting you know that the output of this remains grouped by the first item. Explaining it would break your brain right now. Don't worry about it. This is not the droid you are looking for.
 :::
 
 ### Introducing filter()
@@ -412,7 +409,7 @@ There are a number of these logical tests for the comparison:
 | **is.na(**x**)**  | Is NA (missing values)   |
 | **!is.na(**x**)** | Is not NA                |
 
-Where you apply a filter matters. If we want to consider only certain data when we are grouping/summarizing then we filter BEFORE the GSA. If we filter after the GSA, we affect only the _results_ of the summarize function, which is what we want to do here.
+Where you apply a filter matters. If we want to consider only certain data when we are grouping/summarizing then we filter BEFORE the GSA. If we filter after the GSA, we affect only the *results* of the summarize function, which is what we want to do here.
 
 #### Filter to a logical cutoff
 
@@ -472,7 +469,6 @@ The rest of our logic is just like our last quest. We need to group by the `titl
 
 1.  Edit your existing chunk to add the `group_by` and `summarize` functions. Name your new column `appearances` and set it to count the rows with `n()`.
 
-
 ```{r title-no1-group}
 #| code-fold: true
 #| code-summary: "Try this on your own before you peek for the answer"
@@ -488,7 +484,6 @@ Look at your results to make sure you have the three columns you expect: perform
 ::: callout-note
 While **WRITING AND RUNNING ONE LINE AT A TIME** is still ["the Way"](https://giphy.com/gifs/disneyplus-the-mandalorian-mando-themandalorian-7nTiW8rZymfJJLT8OE), when you run a line with `group_by()` it won't usually show different results without its buddy `summarize()`. So I usually write those two together, or I write the `summarize()` line first to make sure it works, then edit in the `group_by()` line to split the data before the summary.
 :::
-
 
 Our result above doesn't quite get us where we want because it lists the results alphabetically by the performer. You need to **arrange** the data to show us the most appearances at the top.
 
@@ -567,7 +562,7 @@ Now that we have our list of No. 1 songs, we can summarize the "number" of times
 
 We'll again use the group_by/summarize/arrange combination for this, but we are only grouping by `performer` since that is the values we are counting.
 
-1.  **Edit** your chunk to add a group_by on `performer` and then a `summarize()` to count the rows. Name the new column `no_hits`. Run it.
+1.  **Edit** your chunk to add a group_by on `performer` and then a `summarize()` to count the rows. Name the new column `no1_hits`. Run it.
 2.  After you are sure the group_by/summarize runs, add an `arrange()` to show the `no1_hits` in descending order.
 
 ```{r no1_group}
@@ -652,10 +647,6 @@ hot100 |>
 ```
 
 Now you know who has the most No. 1 hits since 2018. I suspect that list will change.
-
-
-
-
 
 ## Complex filters
 
@@ -762,9 +753,9 @@ If your brain is mush, that's cool. Just turn this project in. But know you'll n
 ## Turn in your project
 
 1.  Make sure everything runs and Renders properly.
-1.  Publish your changes to Quarto Pub and include the link to your project in your index notebook so I can bask in your glory.
-1.  Zip your project folder. (Or export to zip if you are using posit.cloud).
-1.  Upload to the Canvas assignment.
+2.  Publish your changes to Quarto Pub and include the link to your project in your index notebook so I can bask in your glory.
+3.  Zip your project folder. (Or export to zip if you are using posit.cloud).
+4.  Upload to the Canvas assignment.
 
 ::: callout-important
 To be clear, it is your zipped project I am grading. The Quarto Pub link is for convenience.
