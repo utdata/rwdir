@@ -6,7 +6,6 @@ This chapter was written by Prof. McDonald, who uses a Mac.
 
 Data "shape" can be important when you are trying to work with and visualize data. In this chapter we'll discuss "tidy data" and how it helps us with both ggplot and other charting tools like [Datawrapper](https://www.datawrapper.de/).
 
-
 ## Goals for this section
 
 -   Explore what it means to have "tidy" data.
@@ -100,7 +99,7 @@ library(janitor)
 
 ### Get the data
 
-We'll just load this data directly from Google Sheets into this notebook. 
+We'll just load this data directly from Google Sheets into this notebook.
 
 1.  Add a Markdown section noting that you are importing data.
 2.  Add this import chunk and run it.
@@ -151,7 +150,7 @@ Let's look at our plotting goal again:
 
 ![Skittle example](images/skittles-chart-example.png)
 
-Where we want one axis to have the candy color and the other to have the average number of candy.
+In our chart, we want one axis to have the candy color and the other to have the average number of candy.
 
 To plot a chart like this in ggplot or Datawrapper, the data needs to be the same shape, like this:
 
@@ -229,9 +228,9 @@ candy_long <- candy |>
 candy_long |> head()
 ```
 
-1. Sets which columns to pivot based on their names.
-2. Sets the new column name for the former column names. This would default to "name" if we didn't set it.
-3. Sets the new column name for the former values. This would default to "value" if we didn't set it.
+1.  Sets which columns to pivot based on their names.
+2.  Sets the new column name for the former column names. This would default to "name" if we didn't set it.
+3.  Sets the new column name for the former values. This would default to "value" if we didn't set it.
 
 ### Get average candies per color
 
@@ -248,7 +247,7 @@ candy_avg <- candy_long |>
 candy_avg
 ```
 
-1. The na.rm hedges our bets in case some bags are missing a color.
+1.  The na.rm hedges our bets in case some bags are missing a color.
 
 ### Round the averages
 
@@ -341,7 +340,7 @@ You'll use these directions to create your charts so you might keep this open in
 
 1.  Go back to RStudio.
 2.  Create a new block and name it something about exporting
-3.  Take your data and pipe it into `write_csv()`. As an argument to write_csv(), give it a path and name of the file: We can write directly to our project folder as  `candy_avg.csv`.
+3.  Take your data and pipe it into `write_csv()`. As an argument to write_csv(), give it a path and name of the file: We can write directly to our project folder as `candy_avg.csv`.
 
 ```{r write-candy}
 candy_avg |> write_csv("candy_avg.csv")
@@ -363,12 +362,11 @@ If you are using posit.cloud, you will also need to **Export** your data from th
 ### Build the datawrapper graphic
 
 1.  Return to **Datawrapper** in your browser and click on the **XLS/CSV upload** button and go find your file to import it.
-1.  Once your data is either uploaded or copied into Datawrapper, you can click **Proceed** to go to the next step.
+2.  Once your data is either uploaded or copied into Datawrapper, you can click **Proceed** to go to the next step.
 
 You can now follow the [Datawrapper Academy](https://academy.datawrapper.de/article/7-bar-chart) directions to finish your chart.
 
 When you get to the Publish & Embed window, I want you to click the **Publish Now** button and then add the resulting *Link to your visualization:* URL to your R Notebook so I can find it for grading.
-
 
 ## Pivot wider
 
@@ -385,7 +383,7 @@ As you can imagine, `pivot_wider()` does the opposite of `pivot_longer()`. When 
 
 So the code to flip the data above would be:
 
-```r
+``` r
 df |> 
   pivot_wider(names_from = V1, values_from = V2)
 ```
@@ -412,19 +410,19 @@ candy_long |>
   )
 ```
 
-1. Within `pivot_wider()` we need to tell it from which column to pull the new column headers. i.e., where do we get the "names_from"?
-2. The second thing it needs to know which variable has the data to fill these new columns. i.e., where do we get the "values_from"?
+1.  Within `pivot_wider()` we need to tell it from which column to pull the new column headers. i.e., where do we get the "names_from"?
+2.  The second thing it needs to know which variable has the data to fill these new columns. i.e., where do we get the "values_from"?
 
 Let's practice some more.
 
 ### Choosing what to flip
 
-Lets create a different look at our data that we can spin it around different ways.
+Lets create a different look at our data so that we can spin it around in different ways.
 
 When I buy candy for the class, we buy big boxes with many bags in it. There is a "box code" stamped on each package that denotes which box it was packaged in. We'll re-summarize our data so we get the color averages within each box. I do some other cleanup here, too, to remove bags that came from the wild.
 
-1. Create a new section and note you are pivoting wider
-1. Add a new chunk with the code below and run it
+1.  Create a new section and note you are pivoting wider
+2.  Add a new chunk with the code below and run it
 
 See annotations below the code to explain what is going on, in case you are interested.
 
@@ -440,20 +438,19 @@ candy_box_color <- candy_raw |> # <1>
 candy_box_color
 ```
 
-1. We create a new object to put everything in, then go back to the original data to get the box code.
-2. Removing some rows where there were only one or two bags. Not shown here is the research to find their values.
-3. Removing the `timestamp` and `candy_type` variables.
-4. Pivoting the data longer so we can group and summarize.
-5. Group by the box and color before we ...
-6. Summarize to get the average number of candies in each bag, within each box. We also round the result.
-
+1.  We create a new object to put everything in, then go back to the original data to get the box code.
+2.  Removing some rows where there were only one or two bags. Not shown here is the research to find their values.
+3.  Removing the `timestamp` and `candy_type` variables.
+4.  Pivoting the data longer so we can group and summarize.
+5.  Group by the box and color before we ...
+6.  Summarize to get the average number of candies in each bag, within each box. We also round the result.
 
 OK, now you have a new object called `candy_box_color`.
 
-Let's pivot this data so shows a column for each box, which means that is where we draw our "names_from":
+Let's pivot this data to shows a column for each box, which means that is where we draw our "names_from":
 
-1. Add a note that you'll pivot our new data
-2. Add the code below and run it
+1.  Add a note that you'll pivot our new data
+2.  Add the code below and run it
 
 ```{r}
 #| label: pivot-box
@@ -478,10 +475,9 @@ candy_box_color |>
   pivot_wider(names_from = candy_color, values_from = avg_candies)
 ```
 
-| box_code | blue | brown | green | orange | red | yellow |
-|:-----------|-------:|-------:|-----:|------:|------:|------:|
-| [box name]  |   # |    # |     # |      # |   # |     # |
-
+| box_code     | blue | brown | green | orange | red | yellow |
+|:-------------|-----:|------:|------:|-------:|----:|-------:|
+| \[box name\] |   \# |    \# |    \# |     \# |  \# |     \# |
 
 ## Bonus questions
 
