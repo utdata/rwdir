@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Reporting with Data in R - Appendix E — Troubleshooting</title>
+<title>Reporting with Data in R - Appendix F — Troubleshooting</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,7 +31,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./explore.html" rel="next">
-<link href="./count.html" rel="prev">
+<link href="./case-when.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -74,7 +74,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./functions.html">Appendices</a></li><li class="breadcrumb-item"><a href="./troubleshooting.html"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Troubleshooting</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./functions.html">Appendices</a></li><li class="breadcrumb-item"><a href="./troubleshooting.html"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Troubleshooting</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -250,20 +250,26 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./case-when.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Using case_when</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./troubleshooting.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Troubleshooting</span></span></a>
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Troubleshooting</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./explore.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Exploring a new dataset</span></span></a>
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Exploring a new dataset</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./charts-tips.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Chart production tips</span></span></a>
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">Chart production tips</span></span></a>
   </div>
 </li>
       </ul>
@@ -278,17 +284,17 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#when-things-break" id="toc-when-things-break" class="nav-link active" data-scroll-target="#when-things-break"><span class="header-section-number">E.1</span> When things break</a></li>
-  <li><a href="#learning-how-things-work" id="toc-learning-how-things-work" class="nav-link" data-scroll-target="#learning-how-things-work"><span class="header-section-number">E.2</span> Learning how things work</a>
+  <li><a href="#when-things-break" id="toc-when-things-break" class="nav-link active" data-scroll-target="#when-things-break"><span class="header-section-number">F.1</span> When things break</a></li>
+  <li><a href="#learning-how-things-work" id="toc-learning-how-things-work" class="nav-link" data-scroll-target="#learning-how-things-work"><span class="header-section-number">F.2</span> Learning how things work</a>
   <ul class="collapse">
-  <li><a href="#help-docs" id="toc-help-docs" class="nav-link" data-scroll-target="#help-docs"><span class="header-section-number">E.2.1</span> Help docs</a></li>
-  <li><a href="#good-googling" id="toc-good-googling" class="nav-link" data-scroll-target="#good-googling"><span class="header-section-number">E.2.2</span> Good Googling</a></li>
-  <li><a href="#tidyverse-docs-and-cheatsheets" id="toc-tidyverse-docs-and-cheatsheets" class="nav-link" data-scroll-target="#tidyverse-docs-and-cheatsheets"><span class="header-section-number">E.2.3</span> Tidyverse docs and cheatsheets</a></li>
+  <li><a href="#help-docs" id="toc-help-docs" class="nav-link" data-scroll-target="#help-docs"><span class="header-section-number">F.2.1</span> Help docs</a></li>
+  <li><a href="#good-googling" id="toc-good-googling" class="nav-link" data-scroll-target="#good-googling"><span class="header-section-number">F.2.2</span> Good Googling</a></li>
+  <li><a href="#tidyverse-docs-and-cheatsheets" id="toc-tidyverse-docs-and-cheatsheets" class="nav-link" data-scroll-target="#tidyverse-docs-and-cheatsheets"><span class="header-section-number">F.2.3</span> Tidyverse docs and cheatsheets</a></li>
   </ul></li>
-  <li><a href="#r-frequently-asked-questions" id="toc-r-frequently-asked-questions" class="nav-link" data-scroll-target="#r-frequently-asked-questions"><span class="header-section-number">E.3</span> R Frequently asked Questions</a>
+  <li><a href="#r-frequently-asked-questions" id="toc-r-frequently-asked-questions" class="nav-link" data-scroll-target="#r-frequently-asked-questions"><span class="header-section-number">F.3</span> R Frequently asked Questions</a>
   <ul class="collapse">
-  <li><a href="#functions-objects-and-variables" id="toc-functions-objects-and-variables" class="nav-link" data-scroll-target="#functions-objects-and-variables"><span class="header-section-number">E.3.1</span> Functions, objects and variables</a></li>
-  <li><a href="#some-r-code-basics" id="toc-some-r-code-basics" class="nav-link" data-scroll-target="#some-r-code-basics"><span class="header-section-number">E.3.2</span> Some R code basics</a></li>
+  <li><a href="#functions-objects-and-variables" id="toc-functions-objects-and-variables" class="nav-link" data-scroll-target="#functions-objects-and-variables"><span class="header-section-number">F.3.1</span> Functions, objects and variables</a></li>
+  <li><a href="#some-r-code-basics" id="toc-some-r-code-basics" class="nav-link" data-scroll-target="#some-r-code-basics"><span class="header-section-number">F.3.2</span> Some R code basics</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -298,7 +304,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="troubleshooting" class="quarto-section-identifier">Appendix E — Troubleshooting</span></h1>
+<h1 class="title"><span id="troubleshooting" class="quarto-section-identifier">Appendix F — Troubleshooting</span></h1>
 </div>
 
 
@@ -317,8 +323,8 @@ ul.task-list li input[type="checkbox"] {
 <p>Programming in R (or any language) can be frustrating for beginners. Sometimes the expected does not happen and the unexpected does happen. Programming also breeds a constant state of learning because there are always new challenges and new solutions to find or adapt.</p>
 <p>This troubleshooting guide is a collaboration and combination of other sources. Some major hat tips to <a href="http://learn.r-journalism.com/en/">Andrew Tran</a> and <a href="https://nickch-k.github.io/DataCommSlides/Lecture_04_Common_R_Problems.html">Nick HK</a> among many others.</p>
 <p>Nick’s <a href="https://nickch-k.github.io/DataCommSlides/Lecture_04_Common_R_Problems.html">Common R Problems</a> is really worth reading.</p>
-<section id="when-things-break" class="level2" data-number="E.1">
-<h2 data-number="E.1" class="anchored" data-anchor-id="when-things-break"><span class="header-section-number">E.1</span> When things break</h2>
+<section id="when-things-break" class="level2" data-number="F.1">
+<h2 data-number="F.1" class="anchored" data-anchor-id="when-things-break"><span class="header-section-number">F.1</span> When things break</h2>
 <p>The first and best troubleshooting advice I can give it this:</p>
 <p><strong>WRITE ONE LINE OF CODE. RUN IT. CHECK THE RESULTS. REPEAT.</strong></p>
 <p>When you write and run code one line at a time, problems are easier to find.</p>
@@ -339,11 +345,11 @@ ul.task-list li input[type="checkbox"] {
 <li><p><strong>Using the <code>\</code> in a path name on Windows</strong>” R sees the backlash character as an escape character. <code>setwd("c:\mydata")</code> will generate an error. Use <code>setwd("c:/mydata")</code> or <code>setwd("c:\\mydata")</code> instead.</p></li>
 </ul>
 </section>
-<section id="learning-how-things-work" class="level2" data-number="E.2">
-<h2 data-number="E.2" class="anchored" data-anchor-id="learning-how-things-work"><span class="header-section-number">E.2</span> Learning how things work</h2>
+<section id="learning-how-things-work" class="level2" data-number="F.2">
+<h2 data-number="F.2" class="anchored" data-anchor-id="learning-how-things-work"><span class="header-section-number">F.2</span> Learning how things work</h2>
 <p>There are infinite ways to write code incorrectly or use a function improperly. Documentation and experience (sometimes of others) are key to these challenges.</p>
-<section id="help-docs" class="level3" data-number="E.2.1">
-<h3 data-number="E.2.1" class="anchored" data-anchor-id="help-docs"><span class="header-section-number">E.2.1</span> Help docs</h3>
+<section id="help-docs" class="level3" data-number="F.2.1">
+<h3 data-number="F.2.1" class="anchored" data-anchor-id="help-docs"><span class="header-section-number">F.2.1</span> Help docs</h3>
 <p>One way to find documentation is through the built-in <strong>Help</strong> function within RStudio. If you look at the pane at the bottom-right of RStudio, you’ll see tabs for “Files”, “Plots”, “Packages” and “Help”. Click on the <strong>Help</strong> tab.</p>
 <p>You can type in a function or part of a function and get a list of items. If you search for “count” and hit return you’ll get documentation on how to use it. It takes some getting used to in reading the docs, but the examples at the bottom are often useful.</p>
 <p>There are also some Console commands to find things:</p>
@@ -378,8 +384,8 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </section>
-<section id="good-googling" class="level3" data-number="E.2.2">
-<h3 data-number="E.2.2" class="anchored" data-anchor-id="good-googling"><span class="header-section-number">E.2.2</span> Good Googling</h3>
+<section id="good-googling" class="level3" data-number="F.2.2">
+<h3 data-number="F.2.2" class="anchored" data-anchor-id="good-googling"><span class="header-section-number">F.2.2</span> Good Googling</h3>
 <p>Another way to get help is to Google for it, but there is an art to it especially since there are other data science languages and programs with similar terms as R. Some tips:</p>
 <ul>
 <li>Use “in R” in your search: <em>How to merge data frames in R</em></li>
@@ -388,16 +394,16 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p>There are plenty of Stack Overflow answers along with different tutorials from blogs and such. It is a well-used language, so there are lots of answers to help. Too many, sometimes.</p>
 </section>
-<section id="tidyverse-docs-and-cheatsheets" class="level3" data-number="E.2.3">
-<h3 data-number="E.2.3" class="anchored" data-anchor-id="tidyverse-docs-and-cheatsheets"><span class="header-section-number">E.2.3</span> Tidyverse docs and cheatsheets</h3>
+<section id="tidyverse-docs-and-cheatsheets" class="level3" data-number="F.2.3">
+<h3 data-number="F.2.3" class="anchored" data-anchor-id="tidyverse-docs-and-cheatsheets"><span class="header-section-number">F.2.3</span> Tidyverse docs and cheatsheets</h3>
 <p>It is worth becoming familiar with the <a href="https://www.tidyverse.org/">tidyverse</a> site. Click on each icon from the home page to learn what each package does. R is also big on <a href="https://rstudio.com/resources/cheatsheets/">cheatsheets</a>, which are printable pages that go through all the verbs. They can be a bit much at first, but useful once you use R more.</p>
 <p>We’ll try to put together a list of other resources and tutorials. You can find some <a href="https://docs.google.com/document/d/1slMdrTLfxYt0mZO1G_Wlz1cOcGjCdgiJr7wzpcU9n1Y/edit?usp=sharing">I’ve collected already here</a>.</p>
 </section>
 </section>
-<section id="r-frequently-asked-questions" class="level2" data-number="E.3">
-<h2 data-number="E.3" class="anchored" data-anchor-id="r-frequently-asked-questions"><span class="header-section-number">E.3</span> R Frequently asked Questions</h2>
-<section id="functions-objects-and-variables" class="level3" data-number="E.3.1">
-<h3 data-number="E.3.1" class="anchored" data-anchor-id="functions-objects-and-variables"><span class="header-section-number">E.3.1</span> Functions, objects and variables</h3>
+<section id="r-frequently-asked-questions" class="level2" data-number="F.3">
+<h2 data-number="F.3" class="anchored" data-anchor-id="r-frequently-asked-questions"><span class="header-section-number">F.3</span> R Frequently asked Questions</h2>
+<section id="functions-objects-and-variables" class="level3" data-number="F.3.1">
+<h3 data-number="F.3.1" class="anchored" data-anchor-id="functions-objects-and-variables"><span class="header-section-number">F.3.1</span> Functions, objects and variables</h3>
 <p>The names of things and how they are used are important in R, and can cause confusion. The term <code>date</code> could represent any number of things in R code depending on how you are using it, and that can be confusing. Knowing the difference between functions, objects and variables and how they are referenced in code helps.</p>
 <ul>
 <li><strong>Variables</strong> are like the column names from a spreadsheet table. If you think of a data frame (or tibble in R) as a spreadsheet table, then when you reference a “variable” name, it is that column. A data frame of police calls might have a <code>date</code> column that has the date/time of the call in each row, like “2021-01-06 17:29:38”.</li>
@@ -405,8 +411,8 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Objects</strong> are stored values in R. You can name objects anything you like, including unwise things like <code>date</code>, since that is already a function and maybe a variable.</li>
 </ul>
 <p>That is all to prove it can be confusing. When you have a chance to name things, make good choices.</p>
-<section id="naming-things" class="level4" data-number="E.3.1.1">
-<h4 data-number="E.3.1.1" class="anchored" data-anchor-id="naming-things"><span class="header-section-number">E.3.1.1</span> Naming things</h4>
+<section id="naming-things" class="level4" data-number="F.3.1.1">
+<h4 data-number="F.3.1.1" class="anchored" data-anchor-id="naming-things"><span class="header-section-number">F.3.1.1</span> Naming things</h4>
 <p>Be thoughtfully obvious about the names you choose for objects and variables.</p>
 <ul>
 <li>Avoid naming things with what could be a function name.</li>
@@ -416,8 +422,8 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 </section>
 </section>
-<section id="some-r-code-basics" class="level3" data-number="E.3.2">
-<h3 data-number="E.3.2" class="anchored" data-anchor-id="some-r-code-basics"><span class="header-section-number">E.3.2</span> Some R code basics</h3>
+<section id="some-r-code-basics" class="level3" data-number="F.3.2">
+<h3 data-number="F.3.2" class="anchored" data-anchor-id="some-r-code-basics"><span class="header-section-number">F.3.2</span> Some R code basics</h3>
 <ul>
 <li><code>&lt;-</code> is known as an “assignment operator” – it means “Make the object named to the left equal to the output of the code to the right”</li>
 <li><code>=</code> makes an object equal to a value, which is similar to <code>&lt;-</code> but used within a function.</li>
@@ -685,13 +691,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./count.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">A counting shortcut</span></span>
+      <a href="./case-when.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Using case_when</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./explore.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Exploring a new dataset</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Exploring a new dataset</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
