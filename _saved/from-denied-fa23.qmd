@@ -1,0 +1,149 @@
+---
+title: "from denied"
+---
+
+
+```{r include=FALSE}
+library(tidyverse)
+library(janitor)
+# district reference table
+dref <- read_csv("data-raw/DREF_22.csv") %>% clean_names() %>% 
+  mutate(district = str_remove(district, "'")) %>% 
+  select(district, distname, cntyname, dflalted, dflchart)
+# 2013-2020 data is formatted the same, so these are similar but with changing years
+dstud13 <- read_csv("data-raw/DSTUD_13.csv") %>% clean_names() %>%
+  mutate(year = "2013") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+dstud14 <- read_csv("data-raw/DSTUD_14.csv") %>% clean_names() %>%
+  mutate(year = "2014") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+dstud15 <- read_csv("data-raw/DSTUD_15.csv") %>% clean_names() %>%
+  mutate(year = "2015") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+dstud16 <- read_csv("data-raw/DSTUD_16.csv") %>% clean_names() %>%
+  mutate(year = "2016") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+dstud17 <- read_csv("data-raw/DSTUD_17.csv") %>% clean_names() %>%
+  mutate(year = "2017") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+dstud18 <- read_csv("data-raw/DSTUD_18.csv") %>% clean_names() %>%
+  mutate(year = "2018") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+dstud19 <- read_csv("data-raw/DSTUD_19.csv") %>% clean_names() %>%
+  mutate(year = "2019") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+dstud20 <- read_csv("data-raw/DSTUD_20.csv") %>% clean_names() %>%
+  mutate(year = "2020") %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+# 2021 and newer student data is formatted differently than older files
+dstud21 <- read_csv("data-raw/DSTUD_21.csv") %>% clean_names() %>%
+  mutate(
+    year = "2021",
+    district = str_remove(district, "'")
+    ) %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+dstud22 <- read_csv("data-raw/DSTUD_22.csv") |> clean_names() |> 
+  mutate(
+    year = "2022",
+    district = str_remove(district, "'")
+    )  %>% 
+  select(district, year, dpetallc, dpetspec, dpetspep)
+```
+
+## Merging data together
+
+OK, so we have all these different yearly files. Wouldn't it be a lot easier if these were ONE thing? Indeed, we can **merge** these files together by stacking them on top of each other. Let's review the concept using Starburst data:
+
+{{< video https://vimeo.com/435910331 >}}
+
+Here's another representation of the concept. You have two data sets and you stack them on top of each other where the column names match. (Note here that identical rows in both data sets remain).
+
+![](images/bind_rows.png)
+
+Since all of our data files have the same column names, we can easily merge them with function **`bind_rows()`**.
+
+Let's demonstrate through building it.
+
+1. Start a new section on your R Markdown document and note you are merging data
+1. Add a chunk with just the `dstud13` data and run it.
+
+```{r merge_start}
+dstud13
+```
+
+```{r write_dstud13_vars, include=FALSE}
+dstud13_rows <-  dstud13 |> nrow()
+dstud13_cols <-  dstud13 |> ncol()
+```
+
+
+The result shows there are **`r dstud13_rows`** rows and **`r dstud13_cols`** variables in the data, which should match what shows for `dstud13` in your Environment tab.
+
+1. Now **edit** that chunk to use `bind_rows()` with `dstud14` and run it.
+
+```{r merge_first}
+dstud13 |> 
+  bind_rows(dstud14)
+```
+
+```{r write_dstud14_vars, include=FALSE}
+merge_13_14_rows <-  dstud13 |> bind_rows(dstud14) |> nrow()
+merge_13_14_cols <-  dstud13 |> bind_rows(dstud14) |> ncol()
+```
+
+
+This shows we now have **`r merge_13_14_rows`** rows and **`r merge_13_14_cols`** variables. This is good ... we've addded the rows of `dstud14` but we don't have any new columns because the column names were identical.
+
+Now **edit the chunk** to do all these things:
+
+1. Within the `bind_rows()` function, also add the `dstud15` dataframe so you can see you are adding more on.
+1. Save the result of the merge into a new data frame called `sped_merged`.
+1. At the bottom of the chunk print out the `sped_merged` tibble and pipe it into `count(year)` so you can make sure you continue to add rows correctly.
+
+It should look like this:
+
+```{r merge_count}
+sped_merged <- dstud13 |> 
+  bind_rows(
+    dstud14,
+    dstud15
+  )
+
+# we use this to ensure we bind correctly when we add new years
+sped_merged |> count(year)
+```
+
+We are NOT saving the `count()` result into a new object; We are just printing it to our screen to make sure we get all the years.
+
+Now that we know this is working, you'll finish this out on your own.
+
+1. **Edit your chunk** to add `bind_rows()` for the rest of the files `dstud16` through `dstud22`. You just keep tacking them on like we did with `dstud15`.
+2. After you are done, make sure you look at the `sped_merged` listing in your environment to make sure you end up with a count for each year of data.
+
+<!-- UPDATE THIS WHEN WE GET NEW DATA -->
+
+```{r merged, include=FALSE}
+#| label: merged
+#| code-fold: true
+#| code-summary: "Try it on your own, first"
+
+sped_merged <- dstud13 |> 
+  bind_rows(
+    dstud14,
+    dstud15,
+    dstud16,
+    dstud17,
+    dstud18,
+    dstud19,
+    dstud20,
+    dstud21,
+    dstud22
+  )
+# we use this to ensure we bind correctly
+sped_merged |> count(year)
+```
+
+
+You should end up with **`r sped_merged |> nrow()`** rows.
+
+OK, we have all our data in one file, but we still don't know the district names. It's time to **Join** our data with our reference file.

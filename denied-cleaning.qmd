@@ -4,18 +4,30 @@
 This is the first of a two-chapter project. It is by Prof. McDonald, using macOS.
 :::
 
-So far all of our lessons have come from a single data source, but that's not always the case in the real world. With this lesson we'll learn how to "bind" and "join" data, which are different ways to bring multiple data frames together into a single object. 
+```{r}
+#| label: setup
+#| echo: false
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(janitor)
+library(fs)
+```
+
+
+So far all of our lessons have come from a single data source, but that's not always the case in the real world. With this lesson we'll learn how to import multiple files at once and "bind" them, and to use "join" to enhance that data from a lookup table.
 
 ## Goals of the chapter
 
-- Merge multiple data files with `bind_rows()`
+- Import multiple files at once and bind them with `map_dfr()`
 - Join data frames with `inner_join()`
 - Use `str_remove()` to clean data
 - Introduce `if_else()` for categorization
 
 We'll use the results of this chapter in our next one.
 
-## The story: An update to Denied
+## About the story: Denied
 
 In 2016, the Houston Chronicle published a multi-part series called [Denied](https://www.houstonchronicle.com/denied/1/) that outlined how a Texas Education Agency policy started in 2004 could force an audit of schools that have more than 8.5% of their students in special education programs. The story was a Pulitzer Prize finalist. Here's an excerpt:
 
@@ -49,7 +61,7 @@ There are some challenges, though:
 - The are no district names in the files, only a district ID. We can get a reference file, though.
 - There are some differences in formatting for some files.
 
-I will save you the hassle of going through the TAPR database to find and download the individual files, and I will also supply code to clean the files to make them consistent. I'll try not to get lost in the weeds along the way.
+I will save you the hassle of going through the TAPR database to find and download the individual files by providing a starter project.
 
 ### Set up your project
 
@@ -76,167 +88,260 @@ You will download a project that is already set up for you and then open it.
 1. Click **Save a permanent copy** so you have your own version.
 1. Rename the project `yourname-sped` **but use your name**.
 
-### Open, read and run
+## The DSTUD data
 
-Once you have your project set up ...
+To track how percentages of special education students have changed over time, we will use data observations from the Texas Education Agency's Texas Academic Performance Reports. The TEA has a portal where you can downloaded bulk data by district or campus for each academic year.
 
-1. Open up the `index.qmd` and `01-cleaning.qmd` notebooks and Render them.
-2. Read every line
-3. Run each chunk as you do.
+While **our downloaded starter project has all the data we need**, you should go through this process for one of the years just so you see how it works.
 
-Go ahead. I'll wait.
+The process goes like this:
 
-<div style="width:100%;height:0;padding-bottom:56%;position:relative;"><iframe src="https://giphy.com/embed/ExSXXwQmCSMWKor0qb" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/snl-saturday-night-live-season-47-ExSXXwQmCSMWKor0qb">via GIPHY</a></p>
+- Start at the [Texas Academic Performance Reports](https://tea.texas.gov/texas-schools/accountability/academic-accountability/performance-reporting/texas-academic-performance-reports) page
+- Choose the school year of interest (choose 2012-13 to just look at the process)
+- Find the **Data Download** page
+- Choose the **TAPR Data in Excel (Rates Only)** option
+- Click on **District Download**. Click **Continue** to move on.
+- Choose the **Student Information** data set and choose **Continue**.
+  - Choose the **Comma-Delimeted (csv)** format
+  - Choose **Student Enrollment: Counts/Percents**
+  - Also choose **Students by Instructional Programs** (or **Student Membership by Program** or **Student Enrollment by Program** depending on the year. See note below.)
+  - Click **Download**.
 
-There is a lot to take in there about where the data came from and how we dealt with it. Here is where you end up:
+This downloads a file called `DSTUD.csv` or `DSTUD.dat`. As I downloaded them, I changed the name to include the year and `.csv` extension and put them in the `data-raw/` folder.
 
-<!-- UPDATE THE DATA FILES VALUE WHEN NEW YEAR IS ADDED -->
-- **You have 10 data files for each year and one reference file imported.**
+On the download page, there is a link to the data dictionary for the file called [Student Information Reference](https://rptsvr1.tea.texas.gov/perfreport/tapr/2013/xplore/dstud.html). As you'll see next, it proves important to understand the file as the data within reports can vary from year to year. There is a Glossary for each year, but in our case I'll guide you along.
 
-```{r include=FALSE}
-library(tidyverse)
-library(janitor)
-# district reference table
-dref <- read_csv("data-raw/DREF_22.csv") %>% clean_names() %>% 
-  mutate(district = str_remove(district, "'")) %>% 
-  select(district, distname, cntyname, dflalted, dflchart)
-# 2013-2020 data is formatted the same, so these are similar but with changing years
-dstud13 <- read_csv("data-raw/DSTUD_13.csv") %>% clean_names() %>%
-  mutate(year = "2013") %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-dstud14 <- read_csv("data-raw/DSTUD_14.csv") %>% clean_names() %>%
-  mutate(year = "2014") %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-dstud15 <- read_csv("data-raw/DSTUD_15.csv") %>% clean_names() %>%
-  mutate(year = "2015") %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-dstud16 <- read_csv("data-raw/DSTUD_16.csv") %>% clean_names() %>%
-  mutate(year = "2016") %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-dstud17 <- read_csv("data-raw/DSTUD_17.csv") %>% clean_names() %>%
-  mutate(year = "2017") %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-dstud18 <- read_csv("data-raw/DSTUD_18.csv") %>% clean_names() %>%
-  mutate(year = "2018") %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-dstud19 <- read_csv("data-raw/DSTUD_19.csv") %>% clean_names() %>%
-  mutate(year = "2019") %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-dstud20 <- read_csv("data-raw/DSTUD_20.csv") %>% clean_names() %>%
-  mutate(year = "2020") %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-# 2021 and newer student data is formatted differently than older files
-dstud21 <- read_csv("data-raw/DSTUD_21.csv") %>% clean_names() %>%
+### How the files differ
+
+Let's look at one of those files. This is the first six lines of the 2012-13 version:
+
+```{r peek}
+#| label: peek
+#| warning: false
+#| message: false
+read_csv("data-raw/DSTUD_13.csv") |> head()
+```
+
+As you can see by looking at that data, the [District Student Information Reference](https://rptsvr1.tea.texas.gov/perfreport/tapr/2013/xplore/dstud.html) and [Glossary](https://rptsvr1.tea.texas.gov/perfreport/tapr/2013/glossary.pdf) are pretty important so we can understanding what these columns are.
+
+The columns we want are: 
+
+- DISTRICT -- District Number
+- DPETALLC -- District 2013 Student: All Students Count
+- DPETSPEC -- District 2013 Student: Special Ed Count
+- DPETSPEP -- District 2013 Student: Special Ed Percent
+
+Luckily for us, those specific column names are the same in each of the nine data files.
+
+Note how the `DISTRICT` values that start with zeros like this: `001902`. We have to pay attention to not drop those leading zeros, and they are important later. Using `read_csv()` (instead of `read.csv()`) helps us preserve the zeros.
+
+What is missing from this data? Well, the **name** of the district is missing, which is important. We'll solve in a bit.
+
+In addition, the data structure of these files changed starting with the 2021-22 file:
+
+```{r peek_2022}
+#| label: peek-2022
+#| message: false
+#| warning: false
+
+read_csv("data-raw/DSTUD_22.csv") |> head()
+```
+
+In the newer files the `DISTRICT` observations have a `'` at the beginning: `'001902`. This is added to help preserve those leading zeros, but we will need to remove the `'` so the values are the same structure as the other data files.
+
+Also note there are 64 columns in this data vs the 34 in the 2013 file. The TEA has added different measurements through the years. That's OK, because we still only need the three columns of `DISTRICT`, `DPETALLC`, `DPETSPEC` and `DPETSPEP` for this analysis, so we'll specify only those columns as we import the data.
+
+### Importing multiple files at once
+
+In our `raw-data/` folder we have 10 years of data from the 2012-2013 school year to the 2020-2022 school year. The "long" way to do this would be importing each file individually, selecting the columns we need and then saving them as objects. We could then stack them on top of each other with the [`bind_rows()`](https://dplyr.tidyverse.org/reference/bind_rows.html) function.
+
+But can use some libraries available in tidyverse -- purrr and readr -- to import and bind together all the DSTUD files at one time. This only works if the data are structured in the same way.
+
+We'll do this in two steps:
+
+- We start by building a list of our files
+- Then we'll use a function to loop over the list and import our files, choosing only the columns we want at the same time.
+
+#### Building our files list
+
+We'll use a function from the `fs` library called `dir_ls()` to capture a list of the files we want.
+
+1. If you haven't already, open the cleaning notebook in the project.
+2. Run all the setup code.
+3. Add a Markdown headline noting we are working on DSTUD data
+4. Add text noting we are building our list of files to import.
+5. Run the code.
+
+I explain the code below.
+
+```{r}
+dstud_files <- dir_ls( # <1>
+  "data-raw", # <2>
+  regexp = "DSTUD" # <3>
+)
+
+dstud_files # <4>
+```
+
+1. The first line starts with the new object we are creating to hold our list of data. It ends with our function, `dir_ls()`, which lists files in a directory as a vector.
+2. The first argument of `dir_ls()` is the path to where you want to look. We want to look in the `data-raw` folder. Without this argument, it would look in our main projet folder.
+3. The second optional argument is a regular expression (or regexp) search query to capture specific files based on the file name. This gets us just the DSTUD files and not the DREF file we need later.
+4. We're just printing out the resulting object to make sure we got what we wanted.
+
+::: callout-tip
+## About regular expressions
+
+Regular expressions are a pattern-matching syntax used in many programming languages. Above we searched for a simple word, but regex is much more powerful than that. You can [learn more about regular expressions here](https://docs.google.com/document/d/1DvAM4lnGJLefo9skD8GgM-_9S1BEhpjJfV86yhJavI0/edit?usp=sharing).
+:::
+
+Now we have an object that is a vector of all the file names. We'll loop through this list to import all the files.
+
+#### Map and import
+
+Next we want to take that list and walk through it using using a "map" function called [`map_dfr()`](https://purrr.tidyverse.org/reference/map_dfr.html) which returns a data frame, binding the rows of each file together.
+
+The idea here is the map_dfr function loops over the list, applying the arguments inside the function on each item. The end result is a single data frame.
+
+1. Add some text noting that you are importing the DSTUD files
+2. Add the code block below and run it.
+3. Be sure to read through the explanations
+
+
+```{r}
+#| message: false
+
+dstud_raw <- dstud_files |> # <1>
+  map_dfr( # <2>
+    read_csv, # <3>
+    .id = "source", # <4>
+    col_select = c(DISTRICT, DPETALLC, DPETSPEC, DPETSPEP) # <5>
+  ) |> 
+  clean_names() # <6>
+
+dstud_raw |> head() # <7>
+dstud_raw |> tail() # <8>
+
+```
+
+1. We create a new object to fill, then start with our list of file names.
+2. We pipe into `map_dfr`, which will work on each file in turn, combining the results into a single data frame.
+3. The first argumemt for map_dfr is the function we are going to use without our loop. We are using `read_csv()` since we are importing csv files.
+4. This `.id = ` is an optional argument saves a new column called "source" with our file path, otherwise we won't know which row came from which file.
+5. This `col_select =` is an optional argument for `read_csv` that allows us to choose which columns we want as we read them in.
+6. We clean the names after importing them.
+7. Here we are peeking at the top of the resulting object.
+7. And then we peek at the bottom of the object.
+
+::: callout-tip
+
+### The col_select argument vs select()
+
+This `col_select = ` argument we use above also works with a regular `read_csv()` function. It provides the same result as using `read_csv()` to import all the columns and the piping into a `select()` function to list the columns you want to keep or drop. It's yet another example showing multiple ways to accomplish the same result with R. Up to know I've preferred to use `read_csv() |> select()` because that allows you to see everything inside the data before choosing what to do with it. In our case above being able to pick just these few columns we need makes this much easier to deal with since the individual files have differences beyond some common columns.
+
+:::
+
+### Clean up DSTUD file
+
+Look closely at the `district` column and notice the difference at the top and bottom of the file. See where the DSTUD_22 files have a `'` at the beginning? We need to take those out.
+
+We also need to create a `year` variable from our `source` variable with the file name. We can pluck the numbers out of the file name and combine with text to make the year "2013", etc.
+
+1. Add some text that you are cleaning the file to remove the apostrophe from `district` and to build a year variable out of `source`. 
+2. Copy the code below and run it.
+3. Make sure you read the explanations so understand what is happening.
+
+
+```{r}
+dstud <- dstud_raw |> # <1>
   mutate(
-    year = "2021",
-    district = str_remove(district, "'")
-    ) %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
-dstud22 <- read_csv("data-raw/DSTUD_22.csv") |> clean_names() |> 
-  mutate(
-    year = "2022",
-    district = str_remove(district, "'")
-    )  %>% 
-  select(district, year, dpetallc, dpetspec, dpetspep)
+    district = str_remove(district, "'"), # <2>
+    year = str_c("20", str_sub(source, 16, 17)) # <3>
+  ) |> 
+  select(!source) # <4>
+
+dstud |> head() # <5>
+dstud |> tail() # <6>
 ```
 
-## Merging data together
+1. We create our new object and fill with starting with the `dstud_raw` data we imported above.
+2. Within a mutate function, our first line uses `str_remove()` to pull out the apostrophe from the `district` variable. We are just reassigning it back to itself.
+3. The second mutate operation is more complicated. We are setting `year` to equal a "string combination" (the `str_c()` function) that pieces together the text "20" with characters from the `source` variable based on their position, which happen to be the numbers of the year. To do that we use `str_sub()` where the first argument is variable to look at (source), the starting position (the 16th character) and the ending position (the 17th one). This only works because all the file names are structured the same way.
+4. Here we remove the `source` column since we no longer need it.
+5. We peek at the top of the file ...
+6. ... and the bottom of the file to check our results.
 
-OK, so we have all these different yearly files. Wouldn't it be a lot easier if these were ONE thing? Indeed, we can **merge** these files together by stacking them on top of each other. Let's review the concept using Starburst data:
+OK, that seems like a lot, but there was a lot to learn there. This new data frame `dstud` is ready for us to use a little later.
 
-{{< video https://vimeo.com/435910331 >}}
+## The DREF data
 
-Here's another representation of the concept. You have two data sets and you stack them on top of each other where the column names match. (Note here that identical rows in both data sets remain).
+We've noted that the dstud files don't have a **district name** within them, so we don't know what this district id means. Within the TAPR data download tool, there is another file called **District Reference** that has the district ID, names and other information we need. I downloaded the 2022 version as `DREF_22.csv`. Let's look at it:
 
-![](images/bind_rows.png)
+```{r peek_dref}
+#| label: peed-dref
+#| warning: false
+#| message: false
 
-Since all of our data files have the same column names, we can easily merge them with function **`bind_rows()`**.
-
-Let's demonstrate through building it.
-
-1. Start a new section on your R Markdown document and note you are merging data
-1. Add a chunk with just the `dstud13` data and run it.
-
-```{r merge_start}
-dstud13
+read_csv("data-raw/DREF_22.csv") |> head()
 ```
 
-```{r write_dstud13_vars, include=FALSE}
-dstud13_rows <-  dstud13 |> nrow()
-dstud13_cols <-  dstud13 |> ncol()
+You'll see this file also has `'` at the beginning of ID columns like `DISTRICT`, `COUNTY` etc. to preserve leading zeros.
+
+Look at the [District Reference](https://rptsvr1.tea.texas.gov/perfreport/tapr/2022/xplore/dref.html) documentation to understand the variables.
+
+We want several columns out of this file:
+
+- DISTRICT -- We'll have to remove the `'` that preserves the leading zeros.
+- CNTYNAME -- So we can focus on schools in different areas of the sate
+- DISTNAME -- Which has our district name.
+- DFLCHART -- District 2022 Flag - Charter Operator (Y/N)
+- DFLALTED -- District 2022 Flag - Rated under AEA Procedures (Y/N)
+
+We can use the `DISTRICT` variable to "join" the district name to all the other data.
+
+We need the `DFLCHART` and `DFLALTED` fields so we can **filter out charter and alternative education schools**. For this analysis, we only want "traditional" public schools.
+
+### Import reference data
+
+1. Add a new Markdown headline that you are working on the reference data.
+2. Add text that you'll use read_csv to pull in the variables you need.
+3. Add the code below, run it and read over the explanations.
+
+```{r}
+#| message: false
+
+dref_raw <- read_csv(
+  "data-raw/DREF_22.csv", # <1>
+  col_select = c( # <2>
+    DISTRICT,
+    CNTYNAME,
+    DISTNAME,
+    DFLCHART,
+    DFLALTED
+    )
+  ) |> 
+  clean_names()
+
+dref_raw |> head()
 ```
 
+1. The path to the files.
+2. The list of columns we need, using the `col_select =` argument to show we can.
 
-The result shows there are **`r dstud13_rows`** rows and **`r dstud13_cols`** variables in the data, which should match what shows for `dstud13` in your Environment tab.
+### Clean up DREF file
 
-1. Now **edit** that chunk to use `bind_rows()` with `dstud14` and run it.
+Now that we have our reference file, we need to clean up the apostrophes so we can join this data to our student data.
 
-```{r merge_first}
-dstud13 |> 
-  bind_rows(dstud14)
+1. Add some text that you will clean up the apostrophes.
+2. Add the code below, run it. Note the cleaning is similar to what we did with DSTUD.
+
+```{r}
+dref <- dref_raw |> 
+  mutate(district = str_remove(district, "'"))
+
+dref |> head()
 ```
 
-```{r write_dstud14_vars, include=FALSE}
-merge_13_14_rows <-  dstud13 |> bind_rows(dstud14) |> nrow()
-merge_13_14_cols <-  dstud13 |> bind_rows(dstud14) |> ncol()
-```
-
-
-This shows we now have **`r merge_13_14_rows`** rows and **`r merge_13_14_cols`** variables. This is good ... we've addded the rows of `dstud14` but we don't have any new columns because the column names were identical.
-
-Now **edit the chunk** to do all these things:
-
-1. Within the `bind_rows()` function, also add the `dstud15` dataframe so you can see you are adding more on.
-1. Save the result of the merge into a new data frame called `sped_merged`.
-1. At the bottom of the chunk print out the `sped_merged` tibble and pipe it into `count(year)` so you can make sure you continue to add rows correctly.
-
-It should look like this:
-
-```{r merge_count}
-sped_merged <- dstud13 |> 
-  bind_rows(
-    dstud14,
-    dstud15
-  )
-
-# we use this to ensure we bind correctly when we add new years
-sped_merged |> count(year)
-```
-
-We are NOT saving the `count()` result into a new object; We are just printing it to our screen to make sure we get all the years.
-
-Now that we know this is working, you'll finish this out on your own.
-
-1. **Edit your chunk** to add `bind_rows()` for the rest of the files `dstud16` through `dstud22`. You just keep tacking them on like we did with `dstud15`.
-2. After you are done, make sure you look at the `sped_merged` listing in your environment to make sure you end up with a count for each year of data.
-
-<!-- UPDATE THIS WHEN WE GET NEW DATA -->
-
-```{r merged, include=FALSE}
-#| label: merged
-#| code-fold: true
-#| code-summary: "Try it on your own, first"
-
-sped_merged <- dstud13 |> 
-  bind_rows(
-    dstud14,
-    dstud15,
-    dstud16,
-    dstud17,
-    dstud18,
-    dstud19,
-    dstud20,
-    dstud21,
-    dstud22
-  )
-# we use this to ensure we bind correctly
-sped_merged |> count(year)
-```
-
-
-You should end up with **`r sped_merged |> nrow()`** rows.
-
-OK, we have all our data in one file, but we still don't know the district names. It's time to **Join** our data with our reference file.
+Now we add this data to our `dstud` object.
 
 ## About joins
 
@@ -265,38 +370,40 @@ This next visual shows this as tables where only two rows "match" so you can see
 
 ### Joining our reference table
 
-In our case we start with the `dref` data and then use an **inner_join** to add all the yearly data values. We're doing it in this order so the `dref` values are listed first in our resulting table.
+In our case we will start with the `dref` data and then use an **inner_join** to add all the yearly data values. We're doing it in this order so the `dref` values are listed first in our resulting table.
 
 1. Start a new Markdown section and note we are joining the reference data
 2. Add the chunk below and run it
 
 ```{r join}
-sped_joined <- dref |> 
-  inner_join(sped_merged, by = "district")
+sped_joined <- dref |> # <1>
+  inner_join(dstud, by = "district") # <2>
 
 sped_joined |> head()
 ```
 
-Let's explain what is going on here:
+1. We are creating a new bucket `sped_joined` to save our data. We start with `dref` so those fields will be listed first in our result.
+2. We then pipe into `inner_join()` listing the `dstud` object, which will attach our `dref` data to our merged data when the ID matches in the `district` variable. The `by = "district"` argument ensures that we are matching based on the `district` column in both data sets.
 
-- We are creating a new bucket `sped_joined` to save our data.
-- We start with `dref` so those fields will be listed first in our result.
-- We then pipe into `inner_join()` to `sped_merged`, which will attach our `dref` data to our merged data when the ID matches in the `district` variable.
-- The `by = "district"` argument ensures that we are matching based on the `district` column in both data sets.
+We could've left out the `by =` argument and R would match columns of the same name, but it is best practice to specify your joining columns so it is clear what is happening. You wouldn't want to be surprised to join by other columns of the same name. If you wanted to specify join columns of different names it would look like this:
 
-We could've left out the `by =` argument and R would match columns of the same name, but it is best practice to specify your joining columns so it is clear what is happening. You wouldn't want to be surprised by other columns of the same name that you didn't want to join on. If you wanted to specify join columns of different names it would look like this: `df1 |> inner_join(df2, by = c("df1_id" = "df2_id"))`
-
-You might also `glimpse()` it so you can see all the columns have been added.
-
-```{r join_glimpse}
-sped_joined |> glimpse()
+``` r
+# don't use this ... it is just an example 
+df1 |> inner_join(df2, by = c("df1_id" = "df2_id"))
 ```
 
+You should also `glimpse()` your new data so you can see all the columns have been added.
+
+1. Add text that you are peeking at all the columns.
+2. Add the code below and run it
+
+```{r}
+sped_joined |> glimpse()
+```
 
 ```{r include=FALSE}
 joined_rows <- sped_joined |> nrow()
 ```
-
 
 There are now **`r joined_rows`** rows in our joined data, fewer than what was in the original merged file because some districts (mostly charters) have closed and were not in our reference file. We are comparing only districts that have been open during this time period. For that matter, we don't want charter or alternative education districts at all, so we'll drop those next.
 
@@ -326,7 +433,7 @@ I really, really suggest you don't try to write that all at once. Build it one l
 ```{r cleaned-data}
 #| label: cleaned-data
 #| code-fold: true
-#| code-summary: "I'm being too nice here"
+#| code-summary: "Seriously, try on your own first"
 sped_cleaned <- sped_joined |> 
   filter(dflalted == "N" & dflchart == "N") |> 
   select(
@@ -350,7 +457,7 @@ You should end up with **`r clean_rows`** rows and **`r clean_cols`** variables.
 
 ## Create an audit benchmark column
 
-Part of this story is to note when a district is above the "8.5%" benchmark that the TEA was using for their audit calculations. It would be useful to have a column that noted if a district was above or below that threshold so we could plot districts based on that flag. We'll create this new column and introduce the logic of [`if_else()`](https://dplyr.tidyverse.org/reference/if_else.html).
+Part of this story is to note when a district is above the "8.5%" benchmark the TEA penalized them in their audit calculations. It would be useful to have a column that noted if a district was above or below that threshold so we could plot districts based on that flag. We'll create this new column and introduce the logic of [`if_else()`](https://dplyr.tidyverse.org/reference/if_else.html).
 
 OK, our data looks like this:
 
@@ -364,20 +471,26 @@ We want to add a column called `audit_flag` that says **ABOVE** if the `sped_per
 2. Create an r chunk that and run it and I'll explain after.
 
 ```{r add-flag}
-sped_flag <- sped_cleaned |>
-  mutate(audit_flag = if_else(sped_percent > 8.5, "ABOVE", "BELOW"))
+sped_flag <- sped_cleaned |> # <1>
+  mutate(audit_flag = if_else( # <2>
+    sped_percent > 8.5, # <3>
+    "ABOVE", # <4>
+    "BELOW" # <5>
+  ))
 
 # this pulls 10 random rows so I can check results
-sped_flag |> sample_n(10)
+sped_flag |> sample_n(10) # <6>
 ```
 
-Let's walk through the code above:
+1. We're making a new data frame called `sped_flag` and then starting with `sped_cleaned`.
+2. We use `mutate()` to create a new column and we name it `audit_flag`. We set the value of `audit_flag` to be the result of an `if_else()` function.
+3. The if_else function takes three arguments and the first is a condition test (`sped_percent > 8.5` in our case). We are looking inside the `sped_percent` column to see if it is greater than "8.5".
+4. The second argument is what we want the result to be if the condition is true (the text "ABOVE" in our case.)
+5. And the third argument is the result if the condition is NOT true (the text "BELOW" in our case).
+6. Lastly we print out the new data `sped_cleaned` and pipe it into `sample_n()` which gives us a number of random rows from the data. I do this because the top of the data was all TRUE so I couldn't see if the mutate worked properly or not. (Always check your calculations!!)
 
-- We're making a new data frame called `sped_flag` and then starting with `sped_cleaned`.
-- We use `mutate()` to create a new column and we name it `audit_flag`.
-- We set the value of `audit_flag` to be the result of this `if_else()` function. That function takes three arguments: A condition test (`sped_percent > 8.5` in our case), what is the result if the condition is true ("ABOVE" in our case), and what is the result if the condition is NOT true ("BELOW") in our case.
-- Lastly we print out the new data `sped_cleaned` and pipe it into `sample_n()` which gives us a number of random rows from the data. I do this because the top of the data was all TRUE so I couldn't see if the mutate worked properly or not. (Always check your calculations!!)
 
+Be sure to look through the result to check the new `audit_flag` has values as you expect.
 
 ## Export the data
 
@@ -392,3 +505,11 @@ In the next chapter we'll build an analysis notebook to find our answers!
 sped_flag |> write_rds("data-processed/01-sped-districts.rds")
 ```
 
+## New functions we used
+
+- [`dir_ls()`](https://www.rdocumentation.org/packages/fs/versions/1.6.3/topics/dir_ls) from the [fs](https://www.tidyverse.org/blog/2018/01/fs-1.0.0/) package makes a list of file names in a folder. You can use the `regexp = ` argument to search for specific files to include based on a pattern.
+- [`map_dfr()`](https://purrr.tidyverse.org/reference/map_dfr.html) Loops through a list of files with a data frame as a result. We used it with `read_csv()` to import multiple files and bind them together into a single data object.
+- [`str_c()`](https://stringr.tidyverse.org/reference/str_c.html) is used to combine text.
+- [`str_sub()`](https://stringr.tidyverse.org/reference/str_sub.html) allows us to extract part of a string based on it's position.
+- We used [`inner_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html) to add columns from one data frame to another one based on a common key in both objects.
+- [`if_else()`](https://dplyr.tidyverse.org/reference/if_else.html) provides specified results based on a true/false condition.
