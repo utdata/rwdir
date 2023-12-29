@@ -31,7 +31,7 @@ In each case we'll talk over the logic of finding the answer and the code to acc
 Before we can get into the analysis, we want to set up a new notebook to separate our cleaning from our analysis.
 
 ::: callout-important
-The data outputs in this book will differ from what you get since the data source is updated every week. This is especially true in videos and gifs.
+The data outputs in this book will differ from what you get since the source data is updated every week. This is especially true in videos and gifs.
 :::
 
 ## Setting up an analysis notebook
@@ -95,7 +95,7 @@ I want you to:
 
 1.  Start a Markdown section with a headline noting you are importing the cleaned data. Add any other text notes you might need for yourself.
 2.  Add a new code chunk.
-3.  Inside your code chunk, add this line of code:
+3.  Inside your code chunk, TYPE IN this line of code:
 
 ``` r
 read_rds("data-processed/01-hot100.rds")
@@ -112,7 +112,7 @@ It should print the results of the data in your notebook. Did it?
 If you got an error, you should read that error output for some clues about what happened. When using a `read_` function problems are usually about one of two things: It can't find the function (load the library tidyverse!) or it doesn't understand the path to the file (that you have the folder structure wrong or something misspelled).
 
 ::: callout-note
-CATCHING COMMON MISTAKES: This guide about [common R mistakes](https://nickch-k.github.io/DataCommSlides/Lecture_04_Common_R_Problems.html) is worth bookmarking and reading.
+CATCHING COMMON MISTAKES: In the appendicies of this book there is a chapter on [Troubleshooting](troubleshooting.qmd) that is worth bookmarking and reading.
 :::
 
 Our next goal is to take all that data and put it into a new R object.
@@ -157,11 +157,13 @@ hot100 <- read_rds("data-processed/01-hot100.rds")
 hot100 |> glimpse()
 ```
 
-Again, I could've written all that code at once before running it, as I've written code like that for many years. **I still write code one line at a time**, and you should, too. It is the only way to make sure your code is correct. It's easier to find problems. So, for the second of a 1,000 times:
+Again, I could've written all that code at once before running it, as I've written code like that for many years. **I still write and run code one line at a time**, and you should, too. It is the easiest way to make sure your code is correct and find problems. So, for the second of a 1,000 times:
 
 **WRITE ONE LINE OF CODE. RUN IT. CHECK THE RESULTS. REPEAT.**
 
 ::: callout-important
+## Dealing with pipes
+
 If you are looking at my code and writing it into your notebook, you have to run each line of code BEFORE you add the pipe `|>` at the end of that line. A pipe `|>` must have a function directly following it on the same or next (or same) line to work.
 :::
 
@@ -169,7 +171,7 @@ If you are looking at my code and writing it into your notebook, you have to run
 
 One of the packages within the tidyverse is [dplyr](https://dplyr.tidyverse.org/). Dplyr allows us to transform our data frames in ways that let us explore the data and prepare it for visualizing. It's the R equivalent of common Excel functions like sort, filter and pivoting. There is a cheatsheet on the [dplyr](https://dplyr.tidyverse.org/) that you might find useful.
 
-![Images courtesy Hadley. Yes, I personally asked him. OK, it was email, but still.](images/transform-dplyractions.png){width="600px"}
+![Images courtesy Hadley Wickham.](images/transform-dplyractions.png)
 
 We've used `select()`, `mutate()` and `arrange()` already, but we'll introduce more dplyr functions in this chapter.
 
@@ -209,7 +211,7 @@ In our case we want a "summary" about the **number** of times a specific perform
 
 Here is an example of `summarize()` in a different context:
 
-![Learn about your data with summarize()](images/transform-summarise.png){width="500px"}
+![Learn about your data with summarize()](images/transform-summarise.png)
 
 The example above is giving us two summaries: It is applying a function `mean()` (or average) on all the values in the `lifeExp` column, and then again with `min()`, the lowest life expectancy in the data.
 
@@ -223,18 +225,22 @@ But first, to show how this works, we'll count *all* the rows in our data. Let's
 2.  Add a named code chunk and add the following:
 
 ```{r summary-alone}
-hot100 |> 
-  summarize(appearances = n())
+hot100 |> # <1>
+  summarize(appearances = n()) # <2>
 ```
 
--   We start with the tibble first and then pipe into `summarize()`.
--   Within the function, we define our summary:
-    -   We name the new column "appearances" because that is a descriptive column name for our result.
-    -   We set that new column to count the **n**umber of rows.
+1. We start with the tibble first and then pipe into `summarize()`.
+2. Within the function, we define our summary: We name the new column "appearances" because that is a descriptive column name for our result, then we set that new column to count the **n**umber of rows.
 
-Basically we are summarizing the total number of rows in the data. Through 2021 there were 330,800 rows.
+```{r}
+#| echo: false
+hot_100_nrow <- hot100 |> nrow()
+```
 
-But I bet you're asking: Professor, we want to count the number of times a *performer* has appeared, right?
+
+Basically we are summarizing the total number of rows in the data. When this book was last updated there were **`r hot_100_nrow`** rows.
+
+But I bet you're thinking: "Yo Professor, you said we want to count the number of times a *performer* has appeared, right?"
 
 This is where we bring in a close friend to `summarize()` ... the `group_by()` function.
 
@@ -248,9 +254,11 @@ If we `group_by()` performer *before* we summarize/count our rows, it will put a
 
 ```{r most-app-group}
 hot100 |>
-  group_by(performer) |> 
+  group_by(performer) |> # <1> 
   summarize(appearances = n())
 ```
+
+1. Add the group_by() line before the summarize.
 
 What we get in return is a **summarize**d table that shows all 10,000+ different performers that have been on the charts, and the **n**umber of rows in which they appear in the data.
 
@@ -266,11 +274,10 @@ Remember in our import notebook when we sorted all the rows by the oldest chart 
 hot100 |>
   group_by(performer) |> 
   summarize(appearances = n()) |> 
-  arrange(desc(appearances))
+  arrange(desc(appearances)) # <1>
 ```
 
--   We added the `arrange()` function and fed it the column of "appearances". If we left it with just that, then it would list the smallest values first.
--   *Within the arrange function* we wrapped our column in another function: `desc()` to change the order to "descending", or the most on the top.
+1. We added the `arrange()` function and fed it the column of "appearances". If we left it with just that, then it would list the smallest values first. *Within the arrange function* we wrapped our column in another function: `desc()` to change the order to "descending", or the most on the top.
 
 ::: callout-note
 I sometimes pipe the column name into the `desc()` function like this: `arrange(appearances |> desc())`.
@@ -283,30 +290,41 @@ We've printed 10,000+ rows of data into our notebook when we really only wanted 
 We can use the `head()` command again to get our Top 10. It will give us a specified number of rows at the top of the table (with a default of six if we don't specify.) There is a corresponding `tail()` function to get the last rows.
 
 1.  **Edit your code** to pipe the result into `head()` function set to 10 rows.
+2. Review the annotations below!
 
 ```{r most-app-head}
-hot100 |>
-  group_by(performer) |> 
-  summarize(appearances = n()) |> 
-  arrange(appearances |> desc()) |> 
-  head(10)
+hot100 |> # <1>
+  group_by(performer) |>  # <2>
+  summarize(appearances = n()) |>  # <3>
+  arrange(appearances |> desc()) |>  # <4>
+  head(10) # <5>
 ```
 
-If I was to explain all of the code above in English, I would describe it as this:
-
--   We start with the hot100 data AND THEN
--   we group by the data by performer AND THEN
--   we summarize it by counting the number of rows in each group, calling the new column "appearances" AND THEN
--   we arrange the result by appearances in descending order AND THEN
--   we display just the first 10 rows
+1. We start with the hot100 data AND THEN
+2. We group by the data by performer AND THEN
+3. We summarize it by counting the number of rows in each group, calling the new column "appearances" AND THEN
+4. We arrange the result by appearances in descending order AND THEN
+5. We display just the first 10 rows
 
 Since we have our answer here and we're not using the result later, we don't need to create a new object or anything. Printing it to our notebook is sufficient.
 
-So, **Taylor Swift** ... is that who you guessed? A little history here, Swift past Elton John in the summer of 2019. Elton John has been around a long time, but Swift's popularity at a young age, plus changes in how Billboard counts plays in the modern era (like streaming) has rocketed her to the top. (Sorry, Rocket Man). And it doesn't hurt that she is re-releasing her entire catalog (Taylor's version)!
+So, **Taylor Swift** ... is that who you guessed? A little history here, Swift past Elton John in August 2019. Elton John has been around a long time, but Swift's popularity at a young age, plus changes in how Billboard counts plays in the modern era (like streaming) has rocketed her to the top. (Sorry, Rocket Man). And it doesn't hurt that she is re-releasing her entire catalog (Taylor's version)!
 
 ::: callout-important
-The list we've created here is based on **unique** `performer` names, and as such considers collaborations separately. For instance, Drake is near the top of the list but those are only songs he performed alone and not the many, many collaborations he has done with other performers. So, songs by "Drake" are counted separately than "Drake featuring Future" and even "Future featuring Drake". You'll need to make this clear when you write your data drop in a later assignment.
+The list we've created here is based on **unique** `performer` names, and as such considers collaborations separately. For instance, Drake is near the top of the list but those are only songs he performed alone and not the many, many collaborations he has done with other performers. So, songs by "Drake" are counted separately than "Drake featuring Future" and even "Future featuring Drake". You'll need to make this clear when you write your data drop in a later assignment. If you include collaborations, Drake has something like 3,150 appearances compared to Taylor's 1,618.
 :::
+
+### Data Takeaways: Describing your learnings
+
+We've learned something here from the data and we should note it for our future selves in something we call a "data takeaway," which is a prose sentence explaining our finding. You'll do this for each "answer" you find in your data.
+
+1. Add the following sentence after your code chunk
+
+```txt
+Data Takeaway: Taylor Swift has more appearances on the Billboard Hot 100 than any other artist in history, excluding collaborations among multiple artists. Through 2023, she has 1,386 appearances.
+```
+
+Writing these sentences help you understand what you've found in your data. When you get toward the end of your project, you'll collect these takeaways in your `index.qmd` file.
 
 ### Render your notebook
 
@@ -314,21 +332,17 @@ Now that you have your first quest answers, let's celebrate by rendering your no
 
 1.  In the toolbar of your notebook, click the **Render** button or use the *Cmd-Shift-k* keyboard command.
 
-This will give you the website view of your page, but we need to add it to the navigation.
-
-1.  Open your `quarto.yml` file
-2.  After the line that you added for the cleaning notebook, add another new line (with the same indenting) and put in the name of your analysis file. It should be `- 02-analysis.qmd`.
-3.  Now re-Render your notebook and check the navigation on the page.
+This will give you the website view of your page, and you _should_ have the page listed in your site navigation if you did the setup properly at the beginning of this chapter.
 
 ## Song with most appearances
 
-Our quest here is this: **Which song (title & performer) has been on the charts the most?**
+Our next quest is this: **Which song (title & performer) has been on the charts the most?**
 
-This is very similar to our quest to find the performer with the most appearances, but we have to consider both `title` and `performer` together because different artists can perform songs of the same name. For example, Adele's song "Hold On" entered the Hot 100 at 49 in December 2021, but at least 18 other performers have also had a song titled "Hold On" on the Hot 100.
+This is very similar to our quest to find the performer with the most appearances, but we have to consider both `title` and `performer` together because different artists can perform songs of the same name. For example, Adele's song _Hold On_ entered the Hot 100 at 49 in December 2021, but at least 18 other performers have also had a song titled _Hold On_ on the Hot 100.
 
 Let's first talk through the logic of what we want to do and how it differed from our first quest:
 
--   We want to count rows where BOTH the `title` and `performer` are the same. We can do this by putting both values in our `group_by()` function, instead of just one thing. This will put all rows with both "Rush" as a performer AND *Tom Sawyer* as a title into the same group. Rows with "Rush" and *Red Barchetta* will be considered in a different group.
+-   We want to count rows where BOTH the `title` and `performer` are the same. We can do this by putting both values in our `group_by()` function, instead of just one thing. This will put all rows with both "Rush" as a performer AND _Tom Sawyer_ as a title into the same group. Rows with "Rush" and _Red Barchetta_ will be considered in a different group.
 -   Then we want to `summarize()` to count the number of rows in each group.
 -   Once we have a summary table, we'll sort it by appearances in **desc**ending order to put the highest value on the top.
 
@@ -339,30 +353,27 @@ Let's write the code.
 
 **WRITE ONE LINE OF CODE. RUN IT. CHECK IT. REPEAT**
 
-Remember, you write and run the line *BEFORE* you add the pipe `|>`!
+Remember, you write and run the line *BEFORE* you add the pipe `|>`! The annotations explain as if we were writing an English sentence.
 
 ```{r appear-start}
-hot100 |>
-  group_by(performer, title) |>
-  summarize(appearances = n()) |>
-  arrange(desc(appearances))
+hot100 |> # <1>
+  group_by(performer, title) |> # <2>
+  summarize(appearances = n()) |> # <3>
+  arrange(desc(appearances)) # <4>
 ```
 
-If we were describing each line in English, it would be:
-
--   Start with the `hot100` data AND THEN ...
--   Group the data by both `performer` and `title` AND THEN ..
--   Summarize the data by first naming our new column "appearances" and use `n()` to count the **n**umber of rows AND THEN ...
--   Arrange the data in descending order by the `appearances` column.
+1. Start with the `hot100` data AND THEN ...
+2. Group the data by both `performer` and `title` AND THEN ..
+3. Summarize the data by first naming our new column "appearances" and setting that to the result of the `n()` function that counts the **n**umber of rows AND THEN ...
+4. Arrange the data in descending order by the `appearances` column.
 
 We will *often* use `group_by()`, `summarize()` and `arrange()` together, which is why I'll refer to this as the **GSA trio**. They are like three close friends that always want to hang out together.
 
-So, what was your guess or this one? A little bit of history in that answer ... Glass Animals' *Heat Waves* in 2022 overcame The Weeknd's *Blinding Lights*, which had overcome Imagine Dragon's *Radioactive* some time in 2021.
+So, what was your guess or this question? A little bit of history for that answer ... Glass Animals' *Heat Waves* in 2022 overcame The Weeknd's *Blinding Lights*, which had overcome Imagine Dragon's *Radioactive* some time in 2021.
 
 ::: callout-note
 When you run the code above you might see a warning **"`summarise()` has grouped output by 'performer'. You can override using the`.groups` argument."** THIS IS NOT A PROBLEM. It is just R letting you know that the output of this remains grouped by the first item. Explaining it would break your brain right now. Don't worry about it. This is not the droid you are looking for.
 :::
-
 ### Introducing filter()
 
 I showed you `head()` in the previous quest and that was useful to show just a few records at the top of a list, but it does so indiscriminately. Note there are some songs here with the same number of weeks on the charts. If we used `head()` we might split that tie, leaving us with an incomplete answer. A better strategy is to cut off the list at a logical place using `filter()`. Let's dive into this new function:
@@ -422,15 +433,24 @@ hot100 |>
   group_by(performer, title) |>
   summarize(appearances = n()) |>
   arrange(appearances |> desc()) |> 
-  filter(appearances >= 65) # this is the new line
+  filter(appearances >= 65) # <1>
 ```
 
-Let's break down that last line:
+1. `filter()` is the function. The first argument in the function is the column we are looking at -- in our case the `appearances` column, which was created in the summarize line. We then provide a comparison operator `>=` to find values "greater than or equal to" `65`.
 
--   `filter()` is the function.
--   The first argument in the function is the column we are looking in, in our case the `appearances` column which was created in the summarize line.
--   We then provide a comparison operator `>=` to get "greater than or equal to".
--   We then give the value to compare, `65` in our case.
+The value we use to cut the list of -- `65` in this case -- is arbitrary. We just want to choose a value that makes common sense. `70` seemed too high because that would yield only five or so songs, and `60` was too low because there are lots of ties in the lower 60s.
+
+### Data Takeaway: Song appearances
+
+OK, time to write about what you've found.
+
+1. Add this data takeaway after the code chunk above.
+
+```txt
+Data Takeaway: The song "Heat Wave" by Glass Animals has appeared 91 times on the Billboard Hot 100 chart, more than any other song through 2023. The Weeknd's "Blinding Lights" has the next most appearances with 90.
+```
+
+I'm providing these takeaways in this chapter as examples. You'll be asked to write your own in future projects.
 
 ### Render your second quest
 
@@ -491,7 +511,7 @@ Our result above doesn't quite get us where we want because it lists the results
 
 ```{r title-no1-arrange}
 #| code-fold: true
-#| code-summary: "Maybe check your last chunk on how you used arrange, then try it before checking the answer here"
+#| code-summary: "Maybe check your last chunk to see how you used arrange, then try it before checking the answer here"
 hot100 |>
   filter(current_rank == 1) |> 
   group_by(performer, title) |>
@@ -501,7 +521,7 @@ hot100 |>
 
 You have your answer now (you go, Lil Nas) but we are listing more than 1,000 rows. Let's cut this off at a logical place like we did in our last quest.
 
-1.  Use `filter()` to cut your summary off at `appearances` of 14 or greater.
+1.  Use `filter()` to cut your summary off at `appearances` of 15 or greater.
 
 ```{r title-no1-cutoff}
 #| code-fold: true
@@ -511,22 +531,30 @@ hot100 |>
   group_by(performer, title) |>
   summarize(appearances = n()) |>
   arrange(appearances |> desc()) |> 
-  filter(appearances >= 14)
+  filter(appearances >= 15)
 ```
 
-Now you have the answers to the song with the most weeks at No. 1 with a logical cutoff. If you add to the data later, that logic will still hold and not cut off arbitrarily at a certain number of records.
+Now you have the answers to the song with the most weeks at No. 1 with a logical cutoff. If you add to the data later, that logic will still hold and not cut off arbitrarily at a certain number of records. For instance, Mariah Carey's _All I Want for Christmas_ will likely reach its 15th week at the top of the charts in 2024.
+
+### Data Takeaway: Longest at No. 1
+
+1. Add this data takeaway to your notebook:
+
+```txt
+The song "Old Town Road" by Lil Nas X Featuring Billy Ray Cyrus has spent more time at the top of the Billboard Hot 100 than any other song in history at 19 weeks.
+```
 
 ## Performer with most No. 1 singles
 
-Our new quest is this: **Which performer had the most titles reach No. 1?**
+Our next quest is this: **Which performer had the most titles reach No. 1?**
 
-This sounds similar to our last quest, but there is a **distinct** difference. (That's a bad joke that will reveal itself here in a bit.)
+This sounds similar to our last quest, but there is a **distinct** difference. (That's a dad joke that will reveal itself here in a bit.)
 
 Again, let's think through the logic of what we have to do to get our answer:
 
 -   We need to consider only No. 1 songs (filter!)
--   Because a song could be No. 1 for more than one week, we need to consider the same title/performer combination only once. Another way to say this is we need unique or distinct combinations of title/performer. (We'll introduce a new function to find this.)
--   Once we have all the unique No. 1 songs in a list, then we can group by **performer** and count the **n**umber of times they are on the list.
+-   Because a song could be No. 1 for more than one week, we need to consider the same title/performer combination only once. Another way to think of this is we need unique or **distinct** combinations of title/performer. (We'll introduce a new function to find this.)
+-   Once we have all the unique No. 1 songs in a list, then we can group by performer and count the **n**umber of times they are on the list.
 
 Let's start by getting the No. 1 songs. You've did this in the last quest.
 
@@ -580,7 +608,7 @@ hot100 |>
 
 Like we did earlier, use a `filter()` after your arrange to cut the list off at a logical place.
 
-1.  Edit your chunk to filter the summary to show performers with `8` or more No. 1 hits.
+1.  Edit your chunk to filter the summary to show performers with `10` or more No. 1 hits.
 
 ```{r no1_cutoff}
 #| code-fold: true
@@ -592,7 +620,7 @@ hot100 |>
   group_by(performer) |>
   summarize(no1_hits = n()) |>
   arrange(no1_hits |> desc()) |> 
-  filter(no1_hits >= 8)
+  filter(no1_hits >= 10)
 ```
 
 So, **The Beatles**. Was that your guess? Look closely at that list ... who has any chance of topping them?
@@ -601,11 +629,19 @@ So, **The Beatles**. Was that your guess? Look closely at that list ... who has 
 
 If you are a student of music history, you might be scratching your head about now, thinking [the Beatles have 20 No. 1 hits](https://www.billboard.com/artist/the-beatles/)! You would be right, there is something up here.
 
-The song *Get Back* by "The Beatles with Billy Preston" reached No. 1 on the Hot 100 on May 10, 1969. But that song does not show up with our other Beatles songs because those are listed as "The Beatles". This is the same issue I noted earlier about "Drake" and "Drake featuring Future" or "Future featuring Drake" each being considered separate performers. They aren't counted together.
+The song *Get Back* by "The Beatles with Billy Preston" reached No. 1 on the Hot 100 on May 10, 1969. But that song does not show up with our other Beatles songs because those are listed as just "The Beatles". This is the same issue I noted earlier about "Drake" and "Drake featuring Future" or "Future featuring Drake" each being considered separate performers. They aren't counted together.
 
 How do we get around this? Well, we write accurately. We note our results consider collaborations separately. Yes, it's true we could miss some things. It's a good idea to double check your work, perhaps by searching the data for all distinct song titles that include "Beatles" in the performer field.
 
 If the `performer` data were more consistent we might be able to extract each band/person, but it isn't. Which of these would you consider separate? "Supremes & Temptations", "Romeo & Juliet Soundtrack", "Crosby, Stills & Nash", "Delaney & Bonnie & Friends/Eric Clapton." It's a mess.
+
+### Data Takeaway: Most No. 1 hits
+
+So, that makes this takeaway a bit more nuanced. Add it to your notebook:
+
+```txt
+The Beatles have the most No. 1 hits on the Billboard Hot 100 charts with 19, but they also have a 20th top song -- "Get Back" -- that is a collaboration with Billy Preston. Most other artists with double-digit top hits aren't making new music, with the exception of Taylor Swift, who has 10.
+```
 
 ## Most No. 1 hits in last five years
 
@@ -613,14 +649,14 @@ If the `performer` data were more consistent we might be able to extract each ba
 
 Let's talk through the logic. This is very similar to the No. 1 hits above but with two differences:
 
--   In addition to filtering for No. 1 songs, we also want to filter for charts since 2018.
+-   In addition to filtering for No. 1 songs, we also want to filter for charts since 2019.
 -   We might need to adjust our last filter for a better "break point".
 
-There are a number of ways we could write a filter for the date, but we'll do so in a way that gets all the rows *after* the last day of 2017.
+There are a number of ways we could write a filter for the date, but we'll do so in a way that gets all the rows *after* the last day of 2018.
 
 ```{r}
 hot100 |> 
-  filter(chart_date > "2017-12-31") |> 
+  filter(chart_date > "2018-12-31") |> 
   head() # added just to shorten our result
 ```
 
@@ -637,40 +673,55 @@ But since we need this filter before our group, we can do this within the same f
 hot100 |> 
   filter(
     current_rank == 1,
-    chart_date > "2017-12-31"
+    chart_date > "2017-12-31" # <1>
   ) |> 
   distinct(title, performer) |> 
   group_by(performer) |> 
   summarize(top_hits = n()) |> 
   arrange(top_hits |> desc()) |> 
-  filter(top_hits > 1)
+  filter(top_hits > 1) # <2>
 ```
 
-Now you know who has the most No. 1 hits since 2018. I suspect that list will change.
+1. This is where we add the new filter
+2. This is the new cutoff since the earlier value wouldn't work
+
+Now you know who has the most No. 1 hits from 2019-2023. [_**"Are you not entertained?"**_](https://time.com/6342806/person-of-the-year-2023-taylor-swift/#:~:text=%E2%80%9CThis%20is%20the%20proudest%20and%20happiest%20I%E2%80%99ve%20ever%20felt%2C%20and%20the%20most%20creatively%20fulfilled%20and%20free%20I%E2%80%99ve%20ever%20been%2C%E2%80%9D%20Swift%20tells%20me.%20%E2%80%9CUltimately%2C%20we%20can%20convolute%20it%20all%20we%20want%2C%20or%20try%20to%20overcomplicate%20it%2C%20but%20there%E2%80%99s%20only%20one%20question.%E2%80%9D%20Here%2C%20she%20adopts%20a%20booming%20voice.%20%E2%80%9CAre%20you%20not%20entertained%3F%E2%80%9D)
+
+### Data Takeaway: No. 1 in past five years
+
+OK, here is the takeaway to add ...
+
+```txt
+Taylor Swift not only has the most appearances of all time in the Hot 100, she also has the most No. 1 hits in the past five years with six.
+```
 
 ## Complex filters
 
 You can combine filters in different ways to really target which rows to keep. For these I want you to play around a bit.
 
-1.  Copy each of the examples below into your notebook, **but change the title and/or performer** to some that you like.
+1.  Copy each of the examples below into your notebook, **but change the title and/or performer** to someone you like.
 
 ### Multiple truths
 
-If you want filter data for when **two or more things are true**, you can write two equations and combine with `&`. Only rows where both sides prove true are returned.
+If you want to filter data for when **two or more things are true**, you can write two equations and combine with `&`. Only rows where both sides prove true are returned.
+
+This shows when Poor Little Fool was No. 1, but not any other position.
 
 ```{r filter-multi}
-# When Poor Little Fool was No. 1, but not any other position
 hot100 |> 
   filter(title == "Poor Little Fool" & current_rank == 1) |> 
   select(chart_date:performer)
 ```
 
+That `select()` line is capturing just the first four columns for us.
+
 ### Either is true
 
 If you want an **or** filter, then you write two equations with a `|` between them.
 
+This shows songs by Adam Sandler OR Alabama Shakes.
+
 ```{r filter-or}
-# songs by Adam Sandler OR Alabama Shakes
 hot100 |> 
   filter(performer == "Adam Sandler" | performer == "Alabama Shakes") |> 
   select(chart_date:performer)
@@ -684,9 +735,9 @@ The `|` is found as the *Shift* of the `\` key above Return on your keyboard. Th
 
 If you have **multiple criteria**, you separate them with a comma `,`. Note I've also added returns to make the code more readable and added distinct to songs only once.
 
+This gives us rows with either Taylor Swift or Drake, but only those that reached No. 1 (and no collaborations.)
+
 ```{r filter-complex}
-# gives us rows with either Taylor Swift or Drake,
-# but only those that reached No. 1
 hot100 |> 
   filter(
     performer == "Taylor Swift" | performer == "Drake",
@@ -699,22 +750,17 @@ hot100 |>
 
 And if you want to search for text **within** the data, you can use [`str_detect()`](https://stringr.tidyverse.org/reference/str_detect.html) to look for specific characters within a value to filter rows. `str_detect()` needs two arguments: 1) What column to search in, and 2) what to search for "in quotes". I also use `distinct()` here to show only unique title/performer combinations.
 
+This show songs where "2 Chainz" was among the performers.
+
 ```{r detect}
-# Songs where "2 Chainz" was among performers
 hot100 |> 
   filter(str_detect(performer, "2 Chainz")) |> 
   distinct(title, performer)
 ```
 
-There is a newer string search function called `str_like()` that has some [interesting nuances](https://stringr.tidyverse.org/reference/str_like.html) derived from SQL. It must match the entire phrase so it will find only songs where "2 Chainz" is the only artist, but it case INSENSITIVE by default, unlike `str_detect()`.
+You might be tempted to try "Drake" above, but there are so many other names that include Drake (like "Charlie Drake" and "Pete Drake") that it's too messy.
 
-```{r like}
-hot100 |> 
-  filter(str_like(performer, "2 chainz")) |>
-  distinct(title, performer)
-```
-
-Of course there is much, much more.
+There are other variations and functions to help with filtering, but this is enough for now.
 
 ## On your own
 
@@ -732,6 +778,7 @@ The logic is very similar to the "Most No. 1 hits" quest you did before, but you
 2.  Describe what you are doing
 3.  Do it using the group_by/summarize method
 4.  Filter to cut off at a logical number or rows. (i.e., don't stop at a tie)
+5.  Write a Data Takeaway describing your finding
 
 ### Find something you want to know
 
@@ -741,6 +788,7 @@ Now I want you to find something else on your own. It doesn't matter what it is.
 2.  Use Markdown text to declare what you are looking for
 3.  Find it!
 4.  After your code, explain what functions you used and why (like what did they do for you)
+5.  Write a Data Takeaway describing your finding
 
 ## Summarizing by year
 
@@ -748,7 +796,35 @@ There is one more important concept I'd like you to learn and that you will need
 
 If you still have spare room in your brain now, go through the [Grouping by dates](group-dates.qmd) chapter, which uses data from this project.
 
-If your brain is mush, that's cool. Just turn this project in. But know you'll need to go through that chapter later when you are working on a mastery project.
+If your brain is mush, that's cool. Just turn this project in. But know you'll need to go through that chapter later when you are working on your mastery project.
+
+## Update your index summary
+
+We have one, last major thing to do here before we finish, and that is to update our `index.qmd` file with a summary of what you've found.
+
+1. Open your `index.qmd` file.
+2. After the text that is here, add the lede, source graf and data takeaways noted below.
+3. Then add your own data takeaways at the end.
+
+```text
+## Summary
+
+Taylor Swift has had more solo appearances on the Billboard Hot 100 chart than any other artist, according to an analysis of chart data from Billboard Magazine.
+
+The chart has been published weekly since August 1958, and this analysis includes data through December 2023*. The chart data was pulled from an [archive managed by Christian McDonald](https://github.com/utdata/rwd-billboard-data), which is updated each week.
+
+> *You should update this value with that last chart date in your data.
+
+Other findings from the data analysis include:
+
+- Data Takeaway: The song "Heat Wave" by Glass Animals has appeared 91 times on the Hot 100, more than any other song through 2023. The Weeknd's "Blinding Lights" has the next most appearances with 90.
+- The song "Old Town Road" by Lil Nas X Featuring Billy Ray Cyrus has spent more time at the top of the Hot 100 than any other song in history at 19 weeks.
+- The Beatles have the most No. 1 hits with 19, but they also have a 20th top song -- "Get Back" -- that is a collaboration with Billy Preston. Most other artists with double-digit top hits aren't making new music, with the exception of Taylor Swift, who has 10.
+- Taylor Swift not only has the most appearances of all time in the Hot 100, she also has the most No. 1 hits in the past five years with six.
+- ADD YOUR TOP 10 HITS
+- ADD YOUR OWN FINDING
+
+```
 
 ## Turn in your project
 
@@ -769,7 +845,7 @@ We introduced a number of new functions in this lesson, most of them from the [d
 -   [`summarize()`](https://dplyr.tidyverse.org/reference/summarise.html) builds a summary table *about* your data. You can count rows [`n()`](https://dplyr.tidyverse.org/reference/n.html) or do math on numerical values, like `mean()`.
 -   [`group_by()`](https://dplyr.tidyverse.org/reference/group_by.html) is often used with `summarize()` to put data into groups before building a summary table based on the groups.
 -   [`distinct()`](https://dplyr.tidyverse.org/reference/distinct.html) returns rows based on unique values in columns you specify. i.e., it deduplicates data.
--   [`str_detect()`](https://stringr.tidyverse.org/reference/str_detect.html) and [`str_like()`](https://stringr.tidyverse.org/reference/str_like.html) to search within strings.
+-   [`str_detect()`](https://stringr.tidyverse.org/reference/str_detect.html) to search within strings.
 -   [`count()`](https://dplyr.tidyverse.org/reference/count.html) is a shorthand for the group_by/summarize operation to count rows based on groups. You can name your summary columns and sort the data within the same function.
 
 ## Soundtrack for this assignment
