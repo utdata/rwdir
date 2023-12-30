@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Reporting with Data in R - 5&nbsp; Military Surplus Cleaning</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./leso-analysis.html" rel="next">
+<link href="./billboard-analysis.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./leso-cleaning.html">Summing</a></li><li class="breadcrumb-item"><a href="./leso-cleaning.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Military Surplus Cleaning</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Reporting with Data in R</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About this book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./install.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Install Party</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Counting</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./billboard-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Billboard Cleaning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./billboard-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Billboard Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Summing</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./leso-cleaning.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Military Surplus Cleaning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./leso-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Military Surplus Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Visualization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plots.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Intro to ggplot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plots-more.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Deeper into ggplot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tidy-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tidy data</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Bind &amp; Join</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./denied-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Denied Cleaning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./denied-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Denied analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">R Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./posit-cloud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Using posit.cloud</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./group-dates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Grouping by dates</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./count.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">A counting shortcut</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./case-when.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Using case_when</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Troubleshooting</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./explore.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Exploring a new dataset</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./charts-tips.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">Chart production tips</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#about-the-story-military-surplus-transfers" id="toc-about-the-story-military-surplus-transfers" class="nav-link active" data-scroll-target="#about-the-story-military-surplus-transfers"><span class="header-section-number">5.1</span> About the story: Military surplus transfers</a>
+  <ul class="collapse">
+  <li><a href="#the-1033-program" id="toc-the-1033-program" class="nav-link" data-scroll-target="#the-1033-program"><span class="header-section-number">5.1.1</span> The 1033 program</a></li>
+  <li><a href="#about-the-data" id="toc-about-the-data" class="nav-link" data-scroll-target="#about-the-data"><span class="header-section-number">5.1.2</span> About the data</a></li>
+  </ul></li>
+  <li><a href="#the-questions-we-will-answer" id="toc-the-questions-we-will-answer" class="nav-link" data-scroll-target="#the-questions-we-will-answer"><span class="header-section-number">5.2</span> The questions we will answer</a></li>
+  <li><a href="#getting-started-create-your-project" id="toc-getting-started-create-your-project" class="nav-link" data-scroll-target="#getting-started-create-your-project"><span class="header-section-number">5.3</span> Getting started: Create your project</a></li>
+  <li><a href="#cleaning-notebook" id="toc-cleaning-notebook" class="nav-link" data-scroll-target="#cleaning-notebook"><span class="header-section-number">5.4</span> Cleaning notebook</a>
+  <ul class="collapse">
+  <li><a href="#the-goals-of-the-notebook" id="toc-the-goals-of-the-notebook" class="nav-link" data-scroll-target="#the-goals-of-the-notebook"><span class="header-section-number">5.4.1</span> The goals of the notebook</a></li>
+  <li><a href="#add-a-setup-section" id="toc-add-a-setup-section" class="nav-link" data-scroll-target="#add-a-setup-section"><span class="header-section-number">5.4.2</span> Add a setup section</a></li>
+  </ul></li>
+  <li><a href="#download-the-data" id="toc-download-the-data" class="nav-link" data-scroll-target="#download-the-data"><span class="header-section-number">5.5</span> Download the data</a></li>
+  <li><a href="#import-the-data" id="toc-import-the-data" class="nav-link" data-scroll-target="#import-the-data"><span class="header-section-number">5.6</span> Import the data</a>
+  <ul class="collapse">
+  <li><a href="#glimpse-the-data" id="toc-glimpse-the-data" class="nav-link" data-scroll-target="#glimpse-the-data"><span class="header-section-number">5.6.1</span> Glimpse the data</a></li>
+  </ul></li>
+  <li><a href="#checking-datatypes" id="toc-checking-datatypes" class="nav-link" data-scroll-target="#checking-datatypes"><span class="header-section-number">5.7</span> Checking datatypes</a></li>
+  <li><a href="#remove-unnecessary-columns" id="toc-remove-unnecessary-columns" class="nav-link" data-scroll-target="#remove-unnecessary-columns"><span class="header-section-number">5.8</span> Remove unnecessary columns</a></li>
+  <li><a href="#create-a-total_value-column" id="toc-create-a-total_value-column" class="nav-link" data-scroll-target="#create-a-total_value-column"><span class="header-section-number">5.9</span> Create a total_value column</a>
+  <ul class="collapse">
+  <li><a href="#check-that-it-worked" id="toc-check-that-it-worked" class="nav-link" data-scroll-target="#check-that-it-worked"><span class="header-section-number">5.9.1</span> Check that it worked!!</a></li>
+  </ul></li>
+  <li><a href="#controlled-vs.-non-controlled" id="toc-controlled-vs.-non-controlled" class="nav-link" data-scroll-target="#controlled-vs.-non-controlled"><span class="header-section-number">5.10</span> Controlled vs.&nbsp;non-controlled</a></li>
+  <li><a href="#filtering-our-data" id="toc-filtering-our-data" class="nav-link" data-scroll-target="#filtering-our-data"><span class="header-section-number">5.11</span> Filtering our data</a>
+  <ul class="collapse">
+  <li><a href="#checking-the-results-with-summary" id="toc-checking-the-results-with-summary" class="nav-link" data-scroll-target="#checking-the-results-with-summary"><span class="header-section-number">5.11.1</span> Checking the results with summary()</a></li>
+  </ul></li>
+  <li><a href="#leso-export" id="toc-leso-export" class="nav-link" data-scroll-target="#leso-export"><span class="header-section-number">5.12</span> Export cleaned data</a></li>
+  <li><a href="#render-and-clean-up-your-notebook" id="toc-render-and-clean-up-your-notebook" class="nav-link" data-scroll-target="#render-and-clean-up-your-notebook"><span class="header-section-number">5.13</span> Render and clean up your notebook</a></li>
+  <li><a href="#things-we-learned-in-this-lesson" id="toc-things-we-learned-in-this-lesson" class="nav-link" data-scroll-target="#things-we-learned-in-this-lesson"><span class="header-section-number">5.14</span> Things we learned in this lesson</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Military Surplus Cleaning</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This chapter is by Prof.&nbsp;McDonald, who uses macOS.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Because of data updates, your answers may differ slightly from what is presented here.</p>
+</div>
+</div>
+<p>With our Billboard assignment, we went through some common data wrangling processes — importing data, cleaning it and querying it for answers. All of our answers involved using <code>group_by</code>, <code>summmarize</code> and <code>arrange</code> (which I dub GSA) and we summarized with <code>n()</code> to count the number of rows within our groups.</p>
+<p>For this data story we need the GSA summary trio again, but we will use math operations within our summarize functions, mainly <code>sum()</code> to add values together.</p>
+<section id="about-the-story-military-surplus-transfers" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="about-the-story-military-surplus-transfers"><span class="header-section-number">5.1</span> About the story: Military surplus transfers</h2>
+<p>After the 2014 death of Michael Brown and the unrest that followed, there was widespread criticism of Ferguson, Mo. police officers for their use of military-grade weapons and vehicles. There was also heightened scrutiny to a federal program that transfers unused military equipment to local law enforcement. Many news outlets, <a href="https://www.npr.org/2014/09/02/342494225/mraps-and-bayonets-what-we-know-about-the-pentagons-1033-program">including NPR</a> and <a href="https://www.buzzfeednews.com/article/jimdalrympleii/war-zone-in-ferguson-how-billions-in-military-weapons-ended">Buzzfeed News</a>, did stories based on data from the “1033 program” handled through the <a href="https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/">Law Enforcement Support Office</a>. Buzzfeed News also did a <a href="https://www.buzzfeednews.com/article/johntemplon/police-departments-military-gear-1033-program">followup report</a> in 2020 where reporter John Templon published his <a href="https://github.com/BuzzFeedNews/2020-06-leso-1033-transfers-since-ferguson">data analysis</a>, which he did using Python.</p>
+<p>You will analyze the same dataset to see how Central Texas police agencies have used the program and write a short data drop about transfers to those agencies.</p>
+<section id="the-1033-program" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="the-1033-program"><span class="header-section-number">5.1.1</span> The 1033 program</h3>
+<p>To work through this story we need to understand how this transfer program works. You can <a href="https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/ProgramFAQs/">read all about it here</a>, but here is the gist:</p>
+<p>In 1997, Congress approved the “1033 program” that allows the U.S. military to give “surplus” equipment that they no longer need to law enforcement agencies like city police forces. The program is run by the <a href="https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/">Law Enforcement Support Office</a>, which is part of the Defense Logistics Agency (which handles the global defense supply chain for all the branches of the military) within the Department of Defense. (The <strong>program</strong> is run by the <strong>office</strong> inside the <strong>agency</strong> that is part of the <strong>department</strong>.)</p>
+<p>All kinds of equipment moves between the military and these agencies, from boots and water bottles to assault rifles and cargo planes. The local agency only pays for shipping the equipment, but that shipping cost isn’t listed in the data. What is in the data is the “original value” of the equipment in dollars, <strong><em>but we can’t say the agency paid for it, because they didn’t</em></strong>.</p>
+<p>Property falls into two categories: controlled and non-controlled. <strong>Controlled</strong> property “consists of military items that are provided via a conditional transfer or ‘loan’ basis where title remains with DoD/DLA. This includes items such as small arms/personal weapons, demilitarized vehicles and aircraft and night vision equipment. This property always remains in the LESO property book because it still belongs to and is accountable to the Department of Defense. When a local law enforcement agency no longer wants the controlled property, it must be returned to Law Enforcement Support Office for proper disposition.” This is explained in the <a href="https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/ProgramFAQs.aspx#q6">LESO FAQ</a>.</p>
+<p>But most of the transfers to local agencies are for <strong>non-controlled</strong> property that can be sold to the general public, like boots and blankets. Those items are removed from the data after one year, unless it is deemed a special circumstance.</p>
+<p>The agency releases data quarterly, but it is really a “snapshot in time” and not a complete history. Those non-controlled items transferred more than a year prior are missing, as are any controlled items returned to the feds.</p>
+</section>
+<section id="about-the-data" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="about-the-data"><span class="header-section-number">5.1.2</span> About the data</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/leso-raw.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">The raw data</figcaption>
+</figure>
+</div>
+<p>The data comes in a spreadsheet that has a different tab for each state and territory. I’ve done some initial work on the original data that is beyond the scope of this class, so we’ll use my copy of the data. <strong>I will supply a link to the combined data below.</strong></p>
+<p>There is no data dictionary or record layout included with the data but I have corresponded with the Defense Logistics Agency to get a decent understanding of what is included.</p>
+<ul>
+<li><strong>sheet</strong>: Which sheet the data came from. This is an artifact from the data merging script.</li>
+<li><strong>state</strong>: A two-letter designation for the state of the agency.</li>
+<li><strong>agency_name</strong>: This is the agency that got the equipment.</li>
+<li><strong>nsn</strong>: The National Stock Number, a special ID that identifies the item in a government supplies database.</li>
+<li><strong>item_name</strong>: The item transferred. Googling the names can sometimes yield more info on specific items, or you can <a href="https://nationalstocknumber.info/">search by <code>nsn</code></a> for more info.</li>
+<li><strong>quantity</strong>: The number of the “units” the agency received.</li>
+<li><strong>ui</strong>: Unit of measurement (item, kit, etc.)</li>
+<li><strong>acquisition_value</strong>: a cost <em>per unit</em> for the item.</li>
+<li><strong>demil_code</strong>: Categories (as single letter key values) that indicate how the item should be disposed of. <a href="https://www.dla.mil/Working-With-DLA/Federal-and-International-Cataloging/DEMIL-Coding/DEMILCodes/">Full details here</a>.</li>
+<li><strong>demil_ic</strong>: Also part of the disposal categorization.</li>
+<li><strong>ship_date</strong>: The date the item(s) were sent to the agency.</li>
+<li><strong>station_type</strong>: What kind of law enforcement agency made the request.</li>
+</ul>
+<p>Here is a glimpse of a sample of the data:</p>
+<div class="cell" data-paged.print="true">
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 10
+Columns: 12
+$ sheet             &lt;dbl&gt; 17, 42, 5, 45, 36, 33, 5, 22, 3, 22
+$ state             &lt;chr&gt; "KY", "SC", "CA", "TX", "OH", "NC", "CA", "MI", "AZ"…
+$ agency_name       &lt;chr&gt; "MEADE COUNTY SHERIFF DEPT", "PROSPERITY POLICE DEPT…
+$ nsn               &lt;chr&gt; "6115-01-435-1567", "1005-00-589-1271", "7520-01-519…
+$ item_name         &lt;chr&gt; "GENERATOR SET,DIESEL ENGINE", "RIFLE,7.62 MILLIMETE…
+$ quantity          &lt;dbl&gt; 5, 1, 32, 1, 1, 1, 1, 1, 1, 1
+$ ui                &lt;chr&gt; "Each", "Each", "Dozen", "Each", "Each", "Each", "Ea…
+$ acquisition_value &lt;dbl&gt; 4623.09, 138.00, 16.91, 749.00, 749.00, 138.00, 499.…
+$ demil_code        &lt;chr&gt; "A", "D", "A", "D", "D", "D", "D", "D", "D", "D"
+$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+$ ship_date         &lt;dttm&gt; 2021-03-22, 2007-08-07, 2020-10-29, 2014-11-18, 2014…
+$ station_type      &lt;chr&gt; "State", "State", "State", "State", "State", "State"…</code></pre>
+</div>
+</div>
+<p>And a look at just some of the more important columns:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>leso_sample <span class="sc">|&gt;</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(agency_name, item_name, quantity, acquisition_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["agency_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["item_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["quantity"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["acquisition_value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"MEADE COUNTY SHERIFF DEPT","2":"GENERATOR SET,DIESEL ENGINE","3":"5","4":"4623.09"},{"1":"PROSPERITY POLICE DEPT","2":"RIFLE,7.62 MILLIMETER","3":"1","4":"138.00"},{"1":"KERN COUNTY SHERIFF OFFICE","2":"MARKER,TUBE TYPE","3":"32","4":"16.91"},{"1":"LEAGUE CITY POLICE DEPT","2":"RIFLE,5.56 MILLIMETER","3":"1","4":"749.00"},{"1":"TRUMBULL COUNTY SHERIFF'S OFFICE","2":"RIFLE,5.56 MILLIMETER","3":"1","4":"749.00"},{"1":"VALDESE POLICE DEPT","2":"RIFLE,7.62 MILLIMETER","3":"1","4":"138.00"},{"1":"SACRAMENTO POLICE DEPT","2":"RIFLE,5.56 MILLIMETER","3":"1","4":"499.00"},{"1":"BERRIEN COUNTY SHERIFF'S OFFICE","2":"RIFLE,5.56 MILLIMETER","3":"1","4":"499.00"},{"1":"LA PAZ COUNTY SHERIFF OFFICE","2":"RIFLE,5.56 MILLIMETER","3":"1","4":"499.00"},{"1":"MUSKEGON HEIGHTS POLICE DEPT","2":"RIFLE,5.56 MILLIMETER","3":"1","4":"749.00"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Each row of data is a transfer of a particular type of item from the U.S. Department of Defense to a local law enforcement agency. The row includes the name of the item, the quantity, and the value ($) of a single unit.</p>
+<p>What the data doesn’t have is the <strong>total value</strong> of the items in the shipment. If there are 5 generators as noted in the first row above and the cost of each one is $4623.09, we have to multiply the <code>quantity</code> times the <code>acquisition_value</code> to get the total value of that equipment.</p>
+<p>The data also doesn’t have any variable indicating if an item is controlled or non-controlled, but I’ve corresponded with the Defense Logistics Agency to gain a pretty good understanding of how to isolate them based on the <strong>demil</strong>itarization codes.</p>
+<p>These are things I learned about by talking to the agency and reading through documentation. This kind of reporting and understanding ABOUT your data is vital to avoid mistakes.</p>
+</section>
+</section>
+<section id="the-questions-we-will-answer" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="the-questions-we-will-answer"><span class="header-section-number">5.2</span> The questions we will answer</h2>
+<p>All answers should be based on <strong>controlled</strong> items given to <strong>Texas agencies</strong> from <strong>Jan.&nbsp;1, 2010 to present</strong>.</p>
+<ul>
+<li><em>How many total “controlled” items were transferred to Texas agencies, and what are they all worth?</em> We’ll summarize all the controlled items only to get the total quantity and total value of everything.</li>
+<li><em>How many total “controlled” items did each agency get and how much was it all worth?</em> Which agency got the most stuff?
+<ul>
+<li><em>How about local police agencies?</em> I’ll give you a list.</li>
+</ul></li>
+<li><em>What specific “controlled” items did each agency get and how much were they worth?</em> Now we’re looking at the kinds of items.
+<ul>
+<li><em>What did local agencies get?</em></li>
+</ul></li>
+</ul>
+<p>You’ll research some of the more interesting items the agencies received so you can include them in a short data drop.</p>
+</section>
+<section id="getting-started-create-your-project" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="getting-started-create-your-project"><span class="header-section-number">5.3</span> Getting started: Create your project</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you are using posit.cloud, you’ll want to refer to the <a href="./posit-cloud.html">Using posit.cloud</a> chapter to create your project, using the material below as necessary.</p>
+</div>
+</div>
+<p>We will build the same project structure that we did with the Billboard project. In fact, all our class projects will have this structure. Since we’ve done this before, some of the directions are less detailed.</p>
+<ol type="1">
+<li>With RStudio open, make sure you don’t have a project open. Go to <em>File &gt; Close project</em>.</li>
+<li>Use the create project button (or <em>File &gt; New project</em>) to create a new project in a <strong>New Directory</strong>.</li>
+<li>For the project type, choose <strong>Quarto Website</strong></li>
+<li>Name the directory “yourname-military-surplus”, but with your name.</li>
+<li>Create two folders: <code>data-raw</code> and <code>data-processed</code>.</li>
+<li>In the <code>index.qmd</code> file, replace the title value with “Military Surplus”, as that is our project title.</li>
+<li>Remove the boilerplate stuff after the YAML title and this bit about the project:</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>This project looks at how much U.S. military surplus equipment has been transferred to law enforcement agencies. It uses data from from the "1033 program" handled through the [Law Enforcement Support Office](https://www.dla.mil/Disposition-Services/Offers/Law-Enforcement/Public-Information/), which posts data quarterly.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You’ll come back to this at the end of the project to write your summary.</p>
+</section>
+<section id="cleaning-notebook" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="cleaning-notebook"><span class="header-section-number">5.4</span> Cleaning notebook</h2>
+<p>Again, like Billboard, we’ll create a notebook specifically for downloading, cleaning and prepping our data.</p>
+<ol type="1">
+<li>Create a new <strong>Quarto Document</strong>.</li>
+<li>For the title use “Cleaning”.</li>
+<li>Remove the rest of the boilerplate template.</li>
+<li>Save the file and name it <code>01-cleaning.qmd</code>.</li>
+<li>Open <code>_quarto.yml</code> and change the navigation link from <code>about.qmd</code> to <code>01-cleaning.qmd</code>.</li>
+</ol>
+<section id="the-goals-of-the-notebook" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="the-goals-of-the-notebook"><span class="header-section-number">5.4.1</span> The goals of the notebook</h3>
+<p>As noted before, I separate cleaning into a separate notebook so that each subsequent analysis notebook can take advantage of that work. It’s the DRY principal in programming: Don’t Repeat Yourself. Often I will be in an analysis notebook realizing that I have more cleaning to do, so I’ll go back to the cleaning notebook, add it and rerun everything. Because I’ve worked with and researched this data, I’m aware of cleaning steps that a newcomer to the data might not be aware of at this point. To save you that time and heartache, we will take advantage of my experience and do all this cleaning work up front even though you haven’t seen the “need” for it yet.</p>
+<p>That’s a long-winded opening to say let’s add our notebook goals so you know what’s going on here.</p>
+<ol type="1">
+<li>In Markdown, add a headline noting these are notebook goals.</li>
+<li>Add the goals below as text:</li>
+</ol>
+<div class="sourceCode" id="cb4"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>- Download the data</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>- Import the data</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>- Check datatypes</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>- Create a total_value variable</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>- Create a control_type variable</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>- Filter the date range (since Jan. 1 2010)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>- Export the cleaned data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="add-a-setup-section" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="add-a-setup-section"><span class="header-section-number">5.4.2</span> Add a setup section</h3>
+<p>This is the section in the notebook where we add our libraries and such. Again, every notebook has this section, though the packages used may vary on need. This time (and each time hense) we will add some “execution options” to our setup chunk.</p>
+<ol type="1">
+<li>Add a headline called “Setup” and text about what we are doing, adding our libraries.</li>
+<li>Add your setup code chunk with the code below.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Some reminders:</p>
+<ul>
+<li>The <code>#| label: setup</code> is special in that it will be run first no matter where we are in the notebook. Helpful to make sure your libraries are loaded.</li>
+<li>The <code>#| message: false</code> option silences the message about all the different packages in the tidyverse when the library is loaded. It just cleans up the notebook.</li>
+</ul>
+<p>One other note about this … we should only need the <code>tidyverse</code> library for this notebook because the data already has clean names (no need for <code>janitor</code>.)</p>
+</section>
+</section>
+<section id="download-the-data" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="download-the-data"><span class="header-section-number">5.5</span> Download the data</h2>
+<ol type="1">
+<li>A new section means a new headline and description. Add it. It is good practice to describe and link to the data you will be using. You can use the text below:</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>While the data we will use here if from Prof. McDonald, it is from the [Law Enforcement Support Office](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/). Find more information [about the program here](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/ProgramFAQs/).</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note the text above scrolls off the screen. Use the copy icon to select all the text.</p>
+</div>
+</div>
+<ol type="1">
+<li>Use the <code>download.file()</code> function to download the date into your <code>data-raw</code> folder. Remember you need two arguments:</li>
+</ol>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"url_to_data"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"path_to_folder/filename.csv"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"wb"</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>What you need:</p>
+<ul>
+<li>The data can be found at this url below</li>
+<li>It should be saved into your <code>data-raw</code> folder with a name for the file.</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>https://github.com/utdata/rwd-r-leso/blob/main/data-processed/leso.csv?raw=true</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<details>
+<summary>Try writing this on your own</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You can comment the lines below once you have the data</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://github.com/utdata/rwd-r-leso/blob/main/data-processed/leso.csv?raw=true"</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data-raw/leso.csv"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"wb"</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Once you’ve built your code chunk and run it, you should make sure the file downloaded into the correct place: in your <code>data-raw</code> folder.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you get an error about the path, you might make sure you created the <code>data-raw</code> folder first.</p>
+</div>
+</div>
+</section>
+<section id="import-the-data" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="import-the-data"><span class="header-section-number">5.6</span> Import the data</h2>
+<p>It’s time to import the data into the notebook. Like the Billboard project, we are again working with a CSV, or comma-separated-values text file.</p>
+<ol type="1">
+<li>Add a new Markdown section noting you are doing the import. Include a headline, text and a new code chunk.</li>
+</ol>
+<p>I suggest you build the code chunk a bit at a time in this order:</p>
+<ol type="1">
+<li>Use <code>read_csv()</code> to read the file from our <code>data-raw</code> folder.</li>
+<li>Edit that line to put the result into a tibble object using <code>&lt;-</code>. Name your new tibble <code>leso</code>.</li>
+<li>Print the tibble as a table to the screen again by putting the tibble object on a new line and running it. This allows you to see it in columnar form.</li>
+</ol>
+<div class="cell">
+<details>
+<summary>Try real hard first before clicking here for the answer.</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># assigning the tibble</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>leso <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data-raw/leso.csv"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># printing the tibble</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>leso</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>The output you get will be the table, which looks sort of like this, but I’m just showing the first six lines:</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["sheet"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["state"],"name":[2],"type":["chr"],"align":["left"]},{"label":["agency_name"],"name":[3],"type":["chr"],"align":["left"]},{"label":["nsn"],"name":[4],"type":["chr"],"align":["left"]},{"label":["item_name"],"name":[5],"type":["chr"],"align":["left"]},{"label":["quantity"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["ui"],"name":[7],"type":["chr"],"align":["left"]},{"label":["acquisition_value"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["demil_code"],"name":[9],"type":["chr"],"align":["left"]},{"label":["demil_ic"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["ship_date"],"name":[11],"type":["dttm"],"align":["right"]},{"label":["station_type"],"name":[12],"type":["chr"],"align":["left"]}],"data":[{"1":"1","2":"AL","3":"ABBEVILLE POLICE DEPT","4":"1005-01-587-7175","5":"MOUNT,RIFLE","6":"10","7":"Each","8":"1626.00","9":"D","10":"1","11":"2016-09-19","12":"State"},{"1":"1","2":"AL","3":"ABBEVILLE POLICE DEPT","4":"1240-01-411-1265","5":"SIGHT,REFLEX","6":"9","7":"Each","8":"371.00","9":"D","10":"1","11":"2016-09-14","12":"State"},{"1":"1","2":"AL","3":"ABBEVILLE POLICE DEPT","4":"2320-01-371-9584","5":"TRUCK,UTILITY","6":"1","7":"Each","8":"62627.00","9":"C","10":"1","11":"2016-09-29","12":"State"},{"1":"1","2":"AL","3":"ABBEVILLE POLICE DEPT","4":"2540-01-565-4700","5":"BALLISTIC BLANKET KIT","6":"10","7":"Kit","8":"17264.71","9":"D","10":"1","11":"2018-01-30","12":"State"},{"1":"1","2":"AL","3":"ABBEVILLE POLICE DEPT","4":"2320-01-371-9584","5":"TRUCK,UTILITY","6":"1","7":"Each","8":"62627.00","9":"C","10":"1","11":"2016-09-29","12":"State"},{"1":"1","2":"AL","3":"ABBEVILLE POLICE DEPT","4":"2355-01-553-4634","5":"MINE RESISTANT VEHICLE","6":"1","7":"Each","8":"658000.00","9":"C","10":"1","11":"2016-11-09","12":"State"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<section id="glimpse-the-data" class="level3" data-number="5.6.1">
+<h3 data-number="5.6.1" class="anchored" data-anchor-id="glimpse-the-data"><span class="header-section-number">5.6.1</span> Glimpse the data</h3>
+<ol type="1">
+<li>In a new code block, print the tibble but pipe it into <code>glimpse()</code> so you can see all the column names.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>leso <span class="sc">|&gt;</span>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 99,052
+Columns: 12
+$ sheet             &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ state             &lt;chr&gt; "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
+$ agency_name       &lt;chr&gt; "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
+$ nsn               &lt;chr&gt; "1005-01-587-7175", "1240-01-411-1265", "2320-01-371…
+$ item_name         &lt;chr&gt; "MOUNT,RIFLE", "SIGHT,REFLEX", "TRUCK,UTILITY", "BAL…
+$ quantity          &lt;dbl&gt; 10, 9, 1, 10, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ ui                &lt;chr&gt; "Each", "Each", "Each", "Kit", "Each", "Each", "Each…
+$ acquisition_value &lt;dbl&gt; 1626.00, 371.00, 62627.00, 17264.71, 62627.00, 65800…
+$ demil_code        &lt;chr&gt; "D", "D", "C", "D", "C", "C", "Q", "D", "C", "D", "D…
+$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ ship_date         &lt;dttm&gt; 2016-09-19, 2016-09-14, 2016-09-29, 2018-01-30, 201…
+$ station_type      &lt;chr&gt; "State", "State", "State", "State", "State", "State"…</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="checking-datatypes" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="checking-datatypes"><span class="header-section-number">5.7</span> Checking datatypes</h2>
+<p>Take a look at your glimpse returns. These are the things to watch for:</p>
+<ul>
+<li>Are your variable names (column names) clean? All lowercase with <code>_</code> separating words?</li>
+<li>Are dates saved in a date format? <code>ship_date</code> looks good at <code>&lt;dttm&gt;</code>, which means “datetime”.</li>
+<li>Are your numbers really numbers? <code>acquisition_value</code> is the column we are most concerned about here, and it looks good.</li>
+</ul>
+<p>This data set looks good (because I pre-prepared it for you), but you always want to check and make corrections, like we did to fix the date in the Billboard assignment.</p>
+</section>
+<section id="remove-unnecessary-columns" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="remove-unnecessary-columns"><span class="header-section-number">5.8</span> Remove unnecessary columns</h2>
+<p>Sometimes at this point in a project, you might not know what columns you need to keep and which you could do without. The nice thing about doing this with code in a notebook is we can always go back, make corrections and run our notebook again. In this case, we will remove the <code>sheet</code> variable since we don’t need it. (It’s an artifact of the processing I’ve done on the file.)</p>
+<ol type="1">
+<li>Start a new section with a headline and text to explain you are removing unneeded columns.</li>
+<li>Add a code chunk and the following code. I’ll explain it below.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-11"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-11-1" class="code-annotation-target"><a href="#annotated-cell-11-1" aria-hidden="true" tabindex="-1"></a>leso_tight <span class="ot">&lt;-</span> leso <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-11-2" class="code-annotation-target"><a href="#annotated-cell-11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span>sheet)</span>
+<span id="annotated-cell-11-3"><a href="#annotated-cell-11-3" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-11-4" class="code-annotation-target"><a href="#annotated-cell-11-4" aria-hidden="true" tabindex="-1"></a>leso_tight <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-11" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="1" data-code-cell="annotated-cell-11" data-code-annotation="1">We create a new tibble <code>leso_tight</code> and then fill it with <code>leso</code> data AND THEN …</span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="2" data-code-cell="annotated-cell-11" data-code-annotation="2">We use select to remove the column called <code>sheet</code>. Within the <code>select()</code> function, we use <code>!</code> to “negate” the column called “sheet”.</span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-lines="4" data-code-cell="annotated-cell-11" data-code-annotation="3">We then glimpse the new data.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 99,052
+Columns: 11
+$ state             &lt;chr&gt; "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
+$ agency_name       &lt;chr&gt; "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
+$ nsn               &lt;chr&gt; "1005-01-587-7175", "1240-01-411-1265", "2320-01-371…
+$ item_name         &lt;chr&gt; "MOUNT,RIFLE", "SIGHT,REFLEX", "TRUCK,UTILITY", "BAL…
+$ quantity          &lt;dbl&gt; 10, 9, 1, 10, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ ui                &lt;chr&gt; "Each", "Each", "Each", "Kit", "Each", "Each", "Each…
+$ acquisition_value &lt;dbl&gt; 1626.00, 371.00, 62627.00, 17264.71, 62627.00, 65800…
+$ demil_code        &lt;chr&gt; "D", "D", "C", "D", "C", "C", "Q", "D", "C", "D", "D…
+$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ ship_date         &lt;dttm&gt; 2016-09-19, 2016-09-14, 2016-09-29, 2018-01-30, 201…
+$ station_type      &lt;chr&gt; "State", "State", "State", "State", "State", "State"…</code></pre>
+</div>
+</div>
+<p>If we wanted to remove more than one column — say both <code>sheet</code> and <code>station_type</code> — then we would use <code>!</code> negate in conjunction with the <code>c()</code> function to combine items into a new vector, like this: <code>select(!c(sheet, station_type))</code>. The use of <code>!</code> to remove things will come up in other places in R, as will using <code>c()</code> to combine things together.</p>
+<p>So now we have a tibble called <code>leso_tight</code> that we will work with in the next section.</p>
+</section>
+<section id="create-a-total_value-column" class="level2" data-number="5.9">
+<h2 data-number="5.9" class="anchored" data-anchor-id="create-a-total_value-column"><span class="header-section-number">5.9</span> Create a total_value column</h2>
+<p>During my reporting about this data I learned that the <code>acquisition_value</code> noted in the data is for a single “unit” of each item. If the shipment item was a rifle with a <code>quantity</code> of “5” and <code>acquisition_value</code> of “200”, then each rifle is worth $200, but the total shipment would be 5 times $200, or $1,000. That $1000 total value is not listed in the data, so we need to add it.</p>
+<p>Let’s walk through how to do that with a different example.</p>
+<p>When we used <code>mutate()</code> to convert the date in the Billboard assignment, we were reassigning values in each row of a column back into the same column.</p>
+<p>In this assignment, we will use <code>mutate()</code> to create a <strong>new</strong> column with new values based on a calculation. Let’s review the concept first.</p>
+<p>If you started with data like this:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>item</th>
+<th style="text-align: right;">item_count</th>
+<th style="text-align: right;">item_value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Bread</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.5</td>
+</tr>
+<tr class="even">
+<td>Milk</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.75</td>
+</tr>
+<tr class="odd">
+<td>Beer</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">9</td>
+</tr>
+</tbody>
+</table>
+<p>And then wanted to create a total value of each item in the table, you would use <code>mutate()</code>:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Don't put this in your notebook. It's just explanation.</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total_value =</span> item_count <span class="sc">*</span> item_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You would get a return like this, with your new <code>total_value</code> column added at the end:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>item</th>
+<th style="text-align: right;">item_count</th>
+<th style="text-align: right;">item_value</th>
+<th style="text-align: right;">total_value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Bread</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.5</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td>Milk</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.75</td>
+<td style="text-align: right;">2.75</td>
+</tr>
+<tr class="odd">
+<td>Beer</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">27</td>
+</tr>
+</tbody>
+</table>
+<p>Other math operators work as well: <code>+</code>, <code>-</code>, <code>*</code> and <code>/</code>.</p>
+<p>So, now that we’ve talked about how it is done, I want you to:</p>
+<ol type="1">
+<li>Create a new section with headline, text and code chunk.</li>
+<li>Use <code>mutate()</code> to create a new <code>total_value</code> column that multiplies <code>quantity</code> times <code>acquisition_value</code>.</li>
+<li>Assign those results into a new tibble called <code>leso_total</code> so we can all be on the same page.</li>
+<li>Glimpse the new tibble so you can check the results.</li>
+</ol>
+<div class="cell">
+<details>
+<summary>Try it on your own. You can figure it out!</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>leso_total <span class="ot">&lt;-</span> leso_tight <span class="sc">|&gt;</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_value =</span> quantity <span class="sc">*</span> acquisition_value</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>leso_total <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 99,052
+Columns: 12
+$ state             &lt;chr&gt; "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
+$ agency_name       &lt;chr&gt; "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
+$ nsn               &lt;chr&gt; "1005-01-587-7175", "1240-01-411-1265", "2320-01-371…
+$ item_name         &lt;chr&gt; "MOUNT,RIFLE", "SIGHT,REFLEX", "TRUCK,UTILITY", "BAL…
+$ quantity          &lt;dbl&gt; 10, 9, 1, 10, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ ui                &lt;chr&gt; "Each", "Each", "Each", "Kit", "Each", "Each", "Each…
+$ acquisition_value &lt;dbl&gt; 1626.00, 371.00, 62627.00, 17264.71, 62627.00, 65800…
+$ demil_code        &lt;chr&gt; "D", "D", "C", "D", "C", "C", "Q", "D", "C", "D", "D…
+$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ ship_date         &lt;dttm&gt; 2016-09-19, 2016-09-14, 2016-09-29, 2018-01-30, 201…
+$ station_type      &lt;chr&gt; "State", "State", "State", "State", "State", "State"…
+$ total_value       &lt;dbl&gt; 16260.0, 3339.0, 62627.0, 172647.1, 62627.0, 658000.…</code></pre>
+</div>
+</div>
+<section id="check-that-it-worked" class="level3" data-number="5.9.1">
+<h3 data-number="5.9.1" class="anchored" data-anchor-id="check-that-it-worked"><span class="header-section-number">5.9.1</span> Check that it worked!!</h3>
+<p>Note that new columns are added at the end of the tibble. Sometimes you can look through the glimpsed data to see if your mutate worked correctly, but that depends on the data.</p>
+<p>If there isn’t enough information visible, you can print some sample rows of the data to peek through it.</p>
+<ol type="1">
+<li>Add some text that you are checking the results.</li>
+<li>Add a new chunk and pipe <code>leso_total</code> into a new function <code>slice_sample(n = 10)</code>.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-14"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-14-1"><a href="#annotated-cell-14-1" aria-hidden="true" tabindex="-1"></a>leso_total <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-14-2" class="code-annotation-target"><a href="#annotated-cell-14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">10</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-14" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="2" data-code-cell="annotated-cell-14" data-code-annotation="1">The argument <code>n = 10</code> is the number of rows to show. The default is a single row.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["state"],"name":[1],"type":["chr"],"align":["left"]},{"label":["agency_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["nsn"],"name":[3],"type":["chr"],"align":["left"]},{"label":["item_name"],"name":[4],"type":["chr"],"align":["left"]},{"label":["quantity"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["ui"],"name":[6],"type":["chr"],"align":["left"]},{"label":["acquisition_value"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["demil_code"],"name":[8],"type":["chr"],"align":["left"]},{"label":["demil_ic"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["ship_date"],"name":[10],"type":["dttm"],"align":["right"]},{"label":["station_type"],"name":[11],"type":["chr"],"align":["left"]},{"label":["total_value"],"name":[12],"type":["dbl"],"align":["right"]}],"data":[{"1":"IL","2":"KANE COUNTY SHERIFF OFFICE","3":"1005-00-073-9421","4":"RIFLE,5.56 MILLIMETER","5":"1","6":"Each","7":"499.00","8":"D","9":"1","10":"2003-07-30","11":"State","12":"499.00"},{"1":"AL","2":"ATHENS POLICE DEPARTMENT","3":"1005-00-921-5004","4":"MAGAZINE,CARTRIDGE","5":"120","6":"Each","7":"16.17","8":"D","9":"1","10":"2012-03-15","11":"State","12":"1940.40"},{"1":"GA","2":"DUBLIN POLICE DEPT","3":"1005-01-449-6306","4":"SIGHT,REAR","5":"24","6":"Each","7":"201.57","8":"D","9":"NA","10":"2019-06-05","11":"State","12":"4837.68"},{"1":"WV","2":"SAINT MARYS POLICE DEPT","3":"1005-00-589-1271","4":"RIFLE,7.62 MILLIMETER","5":"1","6":"Each","7":"138.00","8":"D","9":"1","10":"1999-05-10","11":"State","12":"138.00"},{"1":"SC","2":"LAW ENFORCEMENT DIVISION","3":"5855-01-600-2717","4":"SIGHT,THERMAL","5":"1","6":"Each","7":"7840.00","8":"F","9":"7","10":"2019-07-16","11":"State","12":"7840.00"},{"1":"VA","2":"FREDERICK COUNTY SHERIFF'S OFFICE","3":"8440-DS-MHO-SIER","4":"HOISERY AND CLOTHING ACCESSORIES, MENS","5":"20","6":"Each","7":"45.00","8":"A","9":"NA","10":"2023-01-06","11":"State","12":"900.00"},{"1":"NC","2":"DUPLIN COUNTY SHERIFF DEPT","3":"5825-01-457-6340","4":"NAVIGATION SET,SATELLITE SIGNALS","5":"10","6":"Each","7":"378.00","8":"Q","9":"3","10":"2021-06-30","11":"State","12":"3780.00"},{"1":"MO","2":"VAN BUREN POLICE DEPARTMENT","3":"6910-01-609-5853","4":"TRAINING SET,WEAPON AND AMMUNITION","5":"1","6":"Each","7":"385.00","8":"C","9":"1","10":"2019-04-02","11":"State","12":"385.00"},{"1":"VA","2":"STAFFORD COUNTY SHERIFF'S OFFICE","3":"5855-DS-NIG-HTVI","4":"NIGHT VISION EQUIP, EMIT, REFLECTED RAD","5":"1","6":"Each","7":"3100.00","8":"D","9":"NA","10":"2016-03-17","11":"State","12":"3100.00"},{"1":"MS","2":"WALNUT PD","3":"1005-00-073-9421","4":"RIFLE,5.56 MILLIMETER","5":"1","6":"Each","7":"499.00","8":"D","9":"1","10":"2004-02-12","11":"State","12":"499.00"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>At this point you can page through the columns to check the math. If you want to see a different sample of data, just rerun the chunk as you get a new one each time. If you want a different number of lines, change the value inside the function.</p>
+<p>But even with this, there are a lot of columns to page through. You can use add on <code>select()</code> to pluck out the columns of interest to check.</p>
+<ol type="1">
+<li><strong>Edit</strong> your chunk’s last line like this:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>leso_total <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(agency_name, quantity, acquisition_value, total_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["agency_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["quantity"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["acquisition_value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["total_value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"DEPT OF FISH AND WILDLIFE","2":"1","3":"138.00","4":"138.00"},{"1":"GREAT BEND POLICE DEPARTMENT","2":"1","3":"120.00","4":"120.00"},{"1":"HALIFAX  CSO","2":"1","3":"58.71","4":"58.71"},{"1":"CLINTON COUNTY SHERIFF OFFICE","2":"1","3":"9412.00","4":"9412.00"},{"1":"YUMA POLICE DEPT","2":"1","3":"138.00","4":"138.00"},{"1":"KOSCIUSKO COUNTY SHERIFF OFFICE","2":"1","3":"108.00","4":"108.00"},{"1":"KLAMATH COUNTY SHERIFF'S OFFICE","2":"1","3":"3578.00","4":"3578.00"},{"1":"COVINGTON COUNTY SHERIFF DEPT","2":"1","3":"89.57","4":"89.57"},{"1":"SHENANDOAH CSO","2":"1","3":"138.00","4":"138.00"},{"1":"PLAINFIELD POLICE DEPT","2":"1","3":"499.00","4":"499.00"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>This should allow you to check if the math worked. In one of my samples there was a record for “JONESBORO POLICE DEPARTMENT” that has a <code>quantity</code> of “6” and <code>acquisition_value</code> of “114.00” and I got a <code>total_value</code> of “684.00”. So, 6 * 114.00 = 684.00, which is correct!</p>
+<p>Something to note about this process: In the first part of this chunk we are taking <code>leso_tight</code>, making some changes to it and the <strong>saving</strong> it into <code>leso_total</code>. We have two objects now, one before the changes and one after.</p>
+<p>In the last part of the chunk, we are taking <code>leso_total</code> object and we are peeking at some rows and some columns, but we are <strong>not saving</strong> those changes into a new object. There is no <code>&lt;-</code> operator here. We are just printing the results to the screen so we can <em>see</em> parts of the data more clearly.</p>
+</section>
+</section>
+<section id="controlled-vs.-non-controlled" class="level2" data-number="5.10">
+<h2 data-number="5.10" class="anchored" data-anchor-id="controlled-vs.-non-controlled"><span class="header-section-number">5.10</span> Controlled vs.&nbsp;non-controlled</h2>
+<p>Again, by reading through the <a href="https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/">documentation</a> about this data I learned about controlled vs non-controlled property. Basically non-controlled generic items like boots and blankets are removed from the data after one year, but controlled items like guns and airplanes remain on the list until they are returned to the military for disposal. We are only concerned with the controlled items.</p>
+<p>There isn’t anything within the data that says it is “controlled” and really no clear indication in the documentation on how to tell what is what. So, I emailed the agency and asked them. Here is an edited version of their answer:</p>
+<blockquote class="blockquote">
+<p>Property with the DEMIL codes A and Q6 are considered non-controlled general property and fall off the LESO property books after one year. All other Demil codes are considered controlled items and stay on the LESO property book until returned to DLA for disposition/disposal. However, there are some exceptions. For instance, aircraft are always controlled regardless of the demil code. Also, LESO has the discretion to keep items as controlled despite the demil code. This happens with some high value items. There isn’t a standard minimum value. It also may also depend on the type of property.</p>
+</blockquote>
+<p>This actually took some back and forth to figure out, as I had noticed there were AIRPLANE, CARGO-TRANSPORT items in the data that were older than a year, along with some surveillance robots. That’s when they replied about the airplanes, but it turns out the robots were simply an error. <strong><em>Data is dirty</em></strong> when humans get involved; somebody coded it wrong.</p>
+<p>These “DEMIL codes” they referenced are the <code>demil_code</code> and <code>demil_ic</code> columns in the data, so we can use those to mark which records are “non-controlled” (A and Q6) and then mark all the rest as “controlled”. We know of one exception – airplanes – which we need to mark controlled. We can’t do much with the “high value” items since there isn’t a specific maximum value to test. We’ll just have to note that in our story, something like “the agency has discretion to designate as as controlled, such as high value items, but they are not categorized as such and may have been dropped from our analysis.”</p>
+<p>But, we can catch most of them … we just need to work through the logic. This is not an uncommon challenge in data science, so we have some tools to do this. Our workhorse here is the <code>case_when()</code> function, where we can make decisions based on values in our data.</p>
+<p>In the interest of time and getting this done, I will just provide the code.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>leso_control <span class="ot">&lt;-</span> leso_total <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_type =</span> <span class="fu">case_when</span>(</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_detect</span>(item_name, <span class="st">"AIRPLANE"</span>) <span class="sc">~</span> <span class="cn">TRUE</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>      (demil_code <span class="sc">==</span> <span class="st">"A"</span> <span class="sc">|</span> (demil_code <span class="sc">==</span> <span class="st">"Q"</span> <span class="sc">&amp;</span> demil_ic <span class="sc">==</span> <span class="dv">6</span>)) <span class="sc">~</span> <span class="cn">FALSE</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">TRUE</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>leso_control <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 99,052
+Columns: 13
+$ state             &lt;chr&gt; "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
+$ agency_name       &lt;chr&gt; "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
+$ nsn               &lt;chr&gt; "1005-01-587-7175", "1240-01-411-1265", "2320-01-371…
+$ item_name         &lt;chr&gt; "MOUNT,RIFLE", "SIGHT,REFLEX", "TRUCK,UTILITY", "BAL…
+$ quantity          &lt;dbl&gt; 10, 9, 1, 10, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ ui                &lt;chr&gt; "Each", "Each", "Each", "Kit", "Each", "Each", "Each…
+$ acquisition_value &lt;dbl&gt; 1626.00, 371.00, 62627.00, 17264.71, 62627.00, 65800…
+$ demil_code        &lt;chr&gt; "D", "D", "C", "D", "C", "C", "Q", "D", "C", "D", "D…
+$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ ship_date         &lt;dttm&gt; 2016-09-19, 2016-09-14, 2016-09-29, 2018-01-30, 201…
+$ station_type      &lt;chr&gt; "State", "State", "State", "State", "State", "State"…
+$ total_value       &lt;dbl&gt; 16260.0, 3339.0, 62627.0, 172647.1, 62627.0, 658000.…
+$ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE…</code></pre>
+</div>
+</div>
+<p>If you want to learn more about the code in that block, read the Appendix chapter titled <a href="./case-when.html">Using case_when</a>.</p>
+</section>
+<section id="filtering-our-data" class="level2" data-number="5.11">
+<h2 data-number="5.11" class="anchored" data-anchor-id="filtering-our-data"><span class="header-section-number">5.11</span> Filtering our data</h2>
+<p>In the Billboard lesson you used <code>filter()</code> to get No.&nbsp;1 songs and to get a date range of data. We need to do something similar here to get only data of a certain date range. We’ll build the filters one at a time so we can save the resulting objects separately.</p>
+<ol type="1">
+<li>Create a new section with headlines and text that denote you are filtering the data to records since Jan.&nbsp;1, 2010.</li>
+<li>Create a chunk and filter your <code>leso_control</code> data to get rows with a <code>ship_date</code> later than 2010-01-01.</li>
+<li>Save the result into a new tibble called <code>leso_dated</code>.</li>
+<li>Print out the new tibble <code>leso_dated</code>.</li>
+</ol>
+<div class="cell">
+<details>
+<summary>Write it yourself, but here is the code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>leso_dated <span class="ot">&lt;-</span> leso_control <span class="sc">|&gt;</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    ship_date <span class="sc">&gt;=</span> <span class="st">"2010-01-01"</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>leso_dated</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="checking-the-results-with-summary" class="level3" data-number="5.11.1">
+<h3 data-number="5.11.1" class="anchored" data-anchor-id="checking-the-results-with-summary"><span class="header-section-number">5.11.1</span> Checking the results with summary()</h3>
+<p>How do you know this date filter worked? Well, my data went from 99052 to 67852 rows, so we did something. You might look at the results table and click over to the <code>ship_date</code> columns so you can see some of the results, but you can’t be sure the top row is the oldest. We could use an <code>arrange()</code> to test that, but I have another suggestion: <code>summary()</code>.</p>
+<p>Now, <code>summary()</code> is different than <code>summarize()</code>, which we’ll do plenty of in a minute. The <code>summary()</code> function will show you some results about each column in your data, and when it is a number or date, it will give you some basic stats like min, max and median values.</p>
+<ol type="1">
+<li><strong>Edit your chunk</strong> to not just print out the tibble, but pipe that into <code>summary()</code>, like this:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>leso_dated <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    state           agency_name            nsn             item_name        
+ Length:67852       Length:67852       Length:67852       Length:67852      
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+                                                                            
+    quantity             ui            acquisition_value   demil_code       
+ Min.   :    0.00   Length:67852       Min.   :       0   Length:67852      
+ 1st Qu.:    1.00   Class :character   1st Qu.:     200   Class :character  
+ Median :    1.00   Mode  :character   Median :     499   Mode  :character  
+ Mean   :    5.66                      Mean   :   22002                     
+ 3rd Qu.:    1.00                      3rd Qu.:    3578                     
+ Max.   :44000.00                      Max.   :22000000                     
+                                                                            
+    demil_ic       ship_date                      station_type      
+ Min.   :0.000   Min.   :2010-01-05 00:00:00.00   Length:67852      
+ 1st Qu.:1.000   1st Qu.:2012-03-07 00:00:00.00   Class :character  
+ Median :1.000   Median :2014-08-27 00:00:00.00   Mode  :character  
+ Mean   :1.436   Mean   :2015-08-15 23:52:06.43                     
+ 3rd Qu.:1.000   3rd Qu.:2018-05-04 00:00:00.00                     
+ Max.   :7.000   Max.   :2023-09-29 07:00:14.00                     
+ NA's   :5880                                                       
+  total_value       control_type   
+ Min.   :       0   Mode :logical  
+ 1st Qu.:     371   FALSE:7918     
+ Median :     749   TRUE :59934    
+ Mean   :   24066                  
+ 3rd Qu.:    6392                  
+ Max.   :22000000                  
+                                   </code></pre>
+</div>
+</div>
+<p>You should be be able to look at the <strong>Min</strong> value of <code>ship_date</code> in the summary to make sure there are not dates before 2010. You can also look at the <strong>Max</strong> value to see your latest <code>ship_date</code>. You should make a mental (and perhaps written) note about that max date.</p>
+<p>We now have an object, <code>leso_dated</code> that has all the data since 2010. We’ll export this for our next notebook.</p>
+</section>
+</section>
+<section id="leso-export" class="level2" data-number="5.12">
+<h2 data-number="5.12" class="anchored" data-anchor-id="leso-export"><span class="header-section-number">5.12</span> Export cleaned data</h2>
+<p>Now that we have our data selected, mutated and filtered how we want it, we can export into <code>.rds</code> files to use in other notebooks. As you may recall from Billboard, we use the <code>.rds</code> format because it will remember data types and such.</p>
+<ol type="1">
+<li>Create a new section with headline and text explaining that you are exporting the data.</li>
+<li>Do it.</li>
+</ol>
+<p>The function you need is called <code>write_rds</code> and you need to give it a path/name that saves the file in the <code>data-processed</code> folder. Name the file with <code>01-</code> at the beginning so you know it came from the first notebook, and then use a short and descriptive name for the rest. No spaces. <strong>Well-formatted, descriptive file names are important to your future self and other colleagues</strong>.</p>
+<p>Here is my version:</p>
+<div class="cell">
+<details>
+<summary>The last chunk. You can do it.</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>leso_dated <span class="sc">|&gt;</span> <span class="fu">write_rds</span>(<span class="st">"data-processed/01-leso-all.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="render-and-clean-up-your-notebook" class="level2" data-number="5.13">
+<h2 data-number="5.13" class="anchored" data-anchor-id="render-and-clean-up-your-notebook"><span class="header-section-number">5.13</span> Render and clean up your notebook</h2>
+<p>You should Render your notebook and read it over carefully. Some things to look for:</p>
+<ul>
+<li>Make sure you have nice headlines for each of your sections.</li>
+<li>Make sure your navigation works for the Home and Cleaning pages.</li>
+<li>Flesh out your <code>index.qmd</code> file to make sure the basic assignment information is there.</li>
+</ul>
+</section>
+<section id="things-we-learned-in-this-lesson" class="level2" data-number="5.14">
+<h2 data-number="5.14" class="anchored" data-anchor-id="things-we-learned-in-this-lesson"><span class="header-section-number">5.14</span> Things we learned in this lesson</h2>
+<p>This chapter was similar to when we imported data for Billboard, but we did introduce a couple of new concepts:</p>
+<ul>
+<li><a href="https://dplyr.tidyverse.org/reference/slice.html"><code>slice_sample(n = 10)</code></a> gives us 10 random rows from our data.</li>
+<li><a href="https://dplyr.tidyverse.org/reference/case_when.html"><code>case_when()</code></a> allows you to categorize a new column based on logic within your data. There is more about this in the <a href="./case-when.html">this appendix</a>.</li>
+<li><code>summary()</code> gives you descriptive statistics about your tibble. We used it to check the “min” and “max” date, but you can also see averages (mean) and medians.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./billboard-analysis.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Billboard Analysis</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./leso-analysis.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Military Surplus Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

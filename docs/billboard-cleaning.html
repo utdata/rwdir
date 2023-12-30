@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Reporting with Data in R - 3&nbsp; Billboard Cleaning</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./billboard-analysis.html" rel="next">
+<link href="./intro.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./billboard-cleaning.html">Counting</a></li><li class="breadcrumb-item"><a href="./billboard-cleaning.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Billboard Cleaning</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Reporting with Data in R</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About this book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./install.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Install Party</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Counting</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./billboard-cleaning.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Billboard Cleaning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./billboard-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Billboard Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Summing</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./leso-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Military Surplus Cleaning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./leso-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Military Surplus Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Visualization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plots.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Intro to ggplot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plots-more.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Deeper into ggplot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tidy-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tidy data</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Bind &amp; Join</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./denied-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Denied Cleaning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./denied-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Denied analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">R Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./posit-cloud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Using posit.cloud</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./group-dates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Grouping by dates</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./count.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">A counting shortcut</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./case-when.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Using case_when</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Troubleshooting</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./explore.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Exploring a new dataset</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./charts-tips.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">Chart production tips</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#learning-goals-of-this-lesson" id="toc-learning-goals-of-this-lesson" class="nav-link active" data-scroll-target="#learning-goals-of-this-lesson"><span class="header-section-number">3.1</span> Learning goals of this lesson</a></li>
+  <li><a href="#basic-steps-of-this-lesson" id="toc-basic-steps-of-this-lesson" class="nav-link" data-scroll-target="#basic-steps-of-this-lesson"><span class="header-section-number">3.2</span> Basic steps of this lesson</a></li>
+  <li><a href="#create-a-new-project" id="toc-create-a-new-project" class="nav-link" data-scroll-target="#create-a-new-project"><span class="header-section-number">3.3</span> Create a new project</a>
+  <ul class="collapse">
+  <li><a href="#update-index-with-project-description" id="toc-update-index-with-project-description" class="nav-link" data-scroll-target="#update-index-with-project-description"><span class="header-section-number">3.3.1</span> Update index with project description</a></li>
+  <li><a href="#create-directories-for-your-data" id="toc-create-directories-for-your-data" class="nav-link" data-scroll-target="#create-directories-for-your-data"><span class="header-section-number">3.3.2</span> Create directories for your data</a></li>
+  </ul></li>
+  <li><a href="#create-our-cleaning-notebook" id="toc-create-our-cleaning-notebook" class="nav-link" data-scroll-target="#create-our-cleaning-notebook"><span class="header-section-number">3.4</span> Create our cleaning notebook</a></li>
+  <li><a href="#update-our-_quarto.yml" id="toc-update-our-_quarto.yml" class="nav-link" data-scroll-target="#update-our-_quarto.yml"><span class="header-section-number">3.5</span> Update our _quarto.yml</a>
+  <ul class="collapse">
+  <li><a href="#describe-the-goals-of-the-notebook" id="toc-describe-the-goals-of-the-notebook" class="nav-link" data-scroll-target="#describe-the-goals-of-the-notebook"><span class="header-section-number">3.5.1</span> Describe the goals of the notebook</a></li>
+  </ul></li>
+  <li><a href="#the-setup-chunk" id="toc-the-setup-chunk" class="nav-link" data-scroll-target="#the-setup-chunk"><span class="header-section-number">3.6</span> The setup chunk</a>
+  <ul class="collapse">
+  <li><a href="#load-the-libraries" id="toc-load-the-libraries" class="nav-link" data-scroll-target="#load-the-libraries"><span class="header-section-number">3.6.1</span> Load the libraries</a></li>
+  <li><a href="#about-the-libraries" id="toc-about-the-libraries" class="nav-link" data-scroll-target="#about-the-libraries"><span class="header-section-number">3.6.2</span> About the libraries</a></li>
+  <li><a href="#about-the-options" id="toc-about-the-options" class="nav-link" data-scroll-target="#about-the-options"><span class="header-section-number">3.6.3</span> About the options</a></li>
+  </ul></li>
+  <li><a href="#about-the-billboard-hot-100" id="toc-about-the-billboard-hot-100" class="nav-link" data-scroll-target="#about-the-billboard-hot-100"><span class="header-section-number">3.7</span> About the Billboard Hot 100</a>
+  <ul class="collapse">
+  <li><a href="#data-dictionary" id="toc-data-dictionary" class="nav-link" data-scroll-target="#data-dictionary"><span class="header-section-number">3.7.1</span> Data dictionary</a></li>
+  <li><a href="#lets-download-our-data" id="toc-lets-download-our-data" class="nav-link" data-scroll-target="#lets-download-our-data"><span class="header-section-number">3.7.2</span> Let’s download our data</a></li>
+  <li><a href="#comment-the-download-code" id="toc-comment-the-download-code" class="nav-link" data-scroll-target="#comment-the-download-code"><span class="header-section-number">3.7.3</span> Comment the download code</a></li>
+  </ul></li>
+  <li><a href="#import-the-data" id="toc-import-the-data" class="nav-link" data-scroll-target="#import-the-data"><span class="header-section-number">3.8</span> Import the data</a>
+  <ul class="collapse">
+  <li><a href="#assign-our-import-to-an-r-object" id="toc-assign-our-import-to-an-r-object" class="nav-link" data-scroll-target="#assign-our-import-to-an-r-object"><span class="header-section-number">3.8.1</span> Assign our import to an R object</a></li>
+  <li><a href="#print-a-peek-to-your-r-notebook" id="toc-print-a-peek-to-your-r-notebook" class="nav-link" data-scroll-target="#print-a-peek-to-your-r-notebook"><span class="header-section-number">3.8.2</span> Print a peek to your R Notebook</a></li>
+  <li><a href="#glimpse-the-data" id="toc-glimpse-the-data" class="nav-link" data-scroll-target="#glimpse-the-data"><span class="header-section-number">3.8.3</span> Glimpse the data</a></li>
+  <li><a href="#about-the-pipe" id="toc-about-the-pipe" class="nav-link" data-scroll-target="#about-the-pipe"><span class="header-section-number">3.8.4</span> About the pipe |&gt;</a></li>
+  <li><a href="#a-rabbit-dives-into-a-pipe" id="toc-a-rabbit-dives-into-a-pipe" class="nav-link" data-scroll-target="#a-rabbit-dives-into-a-pipe">A rabbit dives into a pipe</a></li>
+  </ul></li>
+  <li><a href="#cleaning-data" id="toc-cleaning-data" class="nav-link" data-scroll-target="#cleaning-data"><span class="header-section-number">3.9</span> Cleaning data</a>
+  <ul class="collapse">
+  <li><a href="#cleaning-column-names" id="toc-cleaning-column-names" class="nav-link" data-scroll-target="#cleaning-column-names"><span class="header-section-number">3.9.1</span> Cleaning column names</a></li>
+  <li><a href="#fixing-the-date" id="toc-fixing-the-date" class="nav-link" data-scroll-target="#fixing-the-date"><span class="header-section-number">3.9.2</span> Fixing the date</a></li>
+  <li><a href="#arrange-the-data" id="toc-arrange-the-data" class="nav-link" data-scroll-target="#arrange-the-data"><span class="header-section-number">3.9.3</span> Arrange the data</a></li>
+  <li><a href="#selecting-columns" id="toc-selecting-columns" class="nav-link" data-scroll-target="#selecting-columns"><span class="header-section-number">3.9.4</span> Selecting columns</a></li>
+  </ul></li>
+  <li><a href="#exporting-data" id="toc-exporting-data" class="nav-link" data-scroll-target="#exporting-data"><span class="header-section-number">3.10</span> Exporting data</a>
+  <ul class="collapse">
+  <li><a href="#using-multiple-notebooks" id="toc-using-multiple-notebooks" class="nav-link" data-scroll-target="#using-multiple-notebooks"><span class="header-section-number">3.10.1</span> Using multiple notebooks</a></li>
+  <li><a href="#about-paths" id="toc-about-paths" class="nav-link" data-scroll-target="#about-paths"><span class="header-section-number">3.10.2</span> About paths</a></li>
+  </ul></li>
+  <li><a href="#bookmarks" id="toc-bookmarks" class="nav-link" data-scroll-target="#bookmarks"><span class="header-section-number">3.11</span> Bookmarks</a></li>
+  <li><a href="#render-and-publish" id="toc-render-and-publish" class="nav-link" data-scroll-target="#render-and-publish"><span class="header-section-number">3.12</span> Render and publish</a>
+  <ul class="collapse">
+  <li><a href="#publish-to-quarto-pub" id="toc-publish-to-quarto-pub" class="nav-link" data-scroll-target="#publish-to-quarto-pub"><span class="header-section-number">3.12.1</span> Publish to Quarto pub</a></li>
+  </ul></li>
+  <li><a href="#review-of-what-weve-learned-so-far" id="toc-review-of-what-weve-learned-so-far" class="nav-link" data-scroll-target="#review-of-what-weve-learned-so-far"><span class="header-section-number">3.13</span> Review of what we’ve learned so far</a></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next"><span class="header-section-number">3.14</span> What’s next</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Billboard Cleaning</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This lesson was written by Prof.&nbsp;McDonald and I use macOS.</p>
+</div>
+</div>
+</div>
+<p><img src="images/hw.jpg" height="120px" style="margin-left: 10px; float:right;"></p>
+<blockquote class="blockquote">
+<p>“If you’re doing data analysis every day, the time it takes to learn a programming language pays off pretty quickly because you can automate more and more of what you do.” – <cite>Hadley Wickham, chief scientist at Posit</cite></p>
+</blockquote>
+<section id="learning-goals-of-this-lesson" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="learning-goals-of-this-lesson"><span class="header-section-number">3.1</span> Learning goals of this lesson</h2>
+<ul>
+<li>Practice organized project setup.</li>
+<li>Learn a little about data types available to R.</li>
+<li>Learn how to download and import CSV files using the <a href="https://readr.tidyverse.org/">readr</a> package.</li>
+<li>Introduce the tibble/data frame.</li>
+<li>String functions together with the pipe: <code>|&gt;</code> (or <code>%&gt;%</code>).</li>
+<li>Learn how to modify data types (date) and <code>select()</code> columns.</li>
+</ul>
+<p>Every project in this book is built around a data source that can birth acts of journalism. For this first one we’ll be exploring the Billboard Hot 100 music charts. You’ll use R skills to find the answer to a bunch of questions in the data and then write about it.</p>
+</section>
+<section id="basic-steps-of-this-lesson" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="basic-steps-of-this-lesson"><span class="header-section-number">3.2</span> Basic steps of this lesson</h2>
+<p>Before we get into our storytelling, we have to set up our project, get our data and make sure it is in good shape for analysis. This is pretty standard for any new project. Here are the major steps we’ll cover in detail for this lesson (and many more to come):</p>
+<ul>
+<li>Create your project structure</li>
+<li>Find the data and (usually) get it onto on your computer</li>
+<li>Import the data into your project</li>
+<li>Clean up column names and data types</li>
+<li>Export cleaned data for later analysis</li>
+</ul>
+<p>So this chapter is about collecting and cleaning data. We’ll handle the analysis separately in another chapter. I usually break up projects this way (cleaning vs analyzing) to stay organized and to avoid repeating the same cleaning steps.</p>
+</section>
+<section id="create-a-new-project" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="create-a-new-project"><span class="header-section-number">3.3</span> Create a new project</h2>
+<p>We started a new Quarto website in Chapter 2 so you got this! Here are the basic steps for you to follow:</p>
+<ol type="1">
+<li>Launch RStudio if you haven’t already.</li>
+<li>Make sure you don’t have an existing project open. Use File &gt; Close project if you do.</li>
+<li>Use the <code>+R</code> button to create a project in a <strong>New Directory</strong>. For project type, choose <strong>Quarto Website</strong>.</li>
+<li>Name the project <code>yourfirstname-billboard</code> and put it in your <code>~/Documents/rwd</code> folder.</li>
+</ol>
+<section id="update-index-with-project-description" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="update-index-with-project-description"><span class="header-section-number">3.3.1</span> Update index with project description</h3>
+<p>For our projects, we want to use the <code>index.qmd</code> file (and our resulting website home page) as a description of the project. This is so you, your editor and anyone you share this with can see what this is about.</p>
+<p>To save time and such, I’ll supply you with a short project description.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Billboard Hot 100"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>This project is an assignment in the Reporting with Data class at the University of Texas at Austin. </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>It is a study of <span class="co">[</span><span class="ot">Billboard Hot 100</span><span class="co">](https://www.billboard.com/charts/hot-100/)</span> chart data as collected and updated by Christian McDonald in a <span class="co">[</span><span class="ot">Github repo</span><span class="co">](https://github.com/utdata/rwd-billboard-data)</span>. While the archive was compiled through a number of methods, the original source is Billboard Magazine, owned by the Penske Media Corporation. The data dates back to the Hot 100's beginning in August 1958 and is updated weekly, but the end date here will depend on when the user runs the code.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li>Copy the text above and replace the contents of <code>index.qmd</code>.</li>
+<li>Use the <strong>Render</strong> button or <em>Cmd-Shift-K</em> to render the page.</li>
+</ol>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You want each of your projects to have a description like this, along with details describing the source data, the goals of the project, the findings and perhaps links to stories and graphics published based on the data analysis. If you want to see some excellent examples of these summaries, check out the “Repo” links at <a href="https://github.com/BuzzFeedNews/everything?tab=readme-ov-file">Buzzfeed News’ github repo</a>. (RIP Buzzfeed News.)</p>
+</div>
+</div>
+<p>In the next chapter you’ll return to this page to update it with your findings. For now we’re done with this file so you can close it.</p>
+</section>
+<section id="create-directories-for-your-data" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="create-directories-for-your-data"><span class="header-section-number">3.3.2</span> Create directories for your data</h3>
+<p>Next we are going to create some folders in our project. We’ll use some standard names for consistency and we’ll do this for every project we build.</p>
+<p>The first folder is called <code>data-raw</code>. We are creating this folder because we want to keep a pristine version of our original data that we never change or overwrite. This is a core data journalism commandment: <em>Thou shalt not change original data</em>.</p>
+<p>In your Files pane at the bottom-right of RStudio, there is a <strong>New Folder</strong> icon.</p>
+<ol type="1">
+<li>Click on the <strong>New Folder</strong> icon.</li>
+<li>Name your new folder <code>data-raw</code>. This is where we’ll put raw data that we don’t want to overwrite.</li>
+<li>Create an additional folder called <code>data-processed</code>. This is were we will write any data we create.</li>
+</ol>
+<p>Once you’ve done that, they should show up in the file explorer in the Files pane. Click the refresh button if you don’t see them. (The circlish thing at top right of the screenshot below. You might have to widen the pane to see it.)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/bb-new-folder.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Directory made</figcaption>
+</figure>
+</div>
+<p>Again, we’ll do this with every new project we create:</p>
+<ul>
+<li>Create a Quarto website</li>
+<li>Update the index with information about the project</li>
+<li>Create <code>data-raw</code> and <code>data-processed</code> folders.</li>
+</ul>
+</section>
+</section>
+<section id="create-our-cleaning-notebook" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="create-our-cleaning-notebook"><span class="header-section-number">3.4</span> Create our cleaning notebook</h2>
+<p>We’ll typically use at least three Quarto files in our projects:</p>
+<ul>
+<li>The <code>index.qmd</code> that describes the project.</li>
+<li>A “Cleaning” notebook where we prepare our data.</li>
+<li>An “Analysis” notebook where we pose and answer our data questions.</li>
+</ul>
+<p>So let’s create our “Cleaning” notebook.</p>
+<ol type="1">
+<li>Use the top left new document button ( a white box with a green <code>+</code> sign) and choose the <strong>Quarto Document</strong> to start a new notebook.</li>
+<li>Set the title to “Cleaning”.</li>
+<li>Make sure the <strong>Editor</strong> choice to use the visual editor is <strong>NOT</strong> checked. Everything else should be fine.</li>
+<li>Click <strong>Create</strong>. This creates an Untitled document that we still need to save.</li>
+<li>Save the new file (Do <em>Cmd-S</em> or look under the File menu or use the floppy disc icon in the tool bar.)</li>
+<li>Name the file <code>01-cleaning.qmd</code>. It should already be set to save in the project folder.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We named this notebook starting with <code>01-</code> because we will eventually end up with multiple notebooks that depend on each other and we will need to know the order to run them in the future.</p>
+</div>
+</div>
+</section>
+<section id="update-our-_quarto.yml" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="update-our-_quarto.yml"><span class="header-section-number">3.5</span> Update our _quarto.yml</h2>
+<p>We’ve created our cleaning notebook and it will Render, but it won’t show up in our website navigation yet until we specifically add it. The <code>_quarto.yml</code> config file controls various output options for the “website” that you are creating.</p>
+<ol type="1">
+<li>Open the <code>_quarto.yml</code> file.</li>
+<li>On the line that now says <code>- about.qmd</code>, replace that text with <code>- 01-cleaning.qmd</code>.</li>
+</ol>
+<p>Let’s talk a little about the part of the <code>_quarto.yml</code> file we edited:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">website</span><span class="kw">:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"christian-billboard"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">navbar</span><span class="kw">:</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">left</span><span class="kw">:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> index.qmd</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Home</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> 01-cleaning.qmd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note the indents and dashes and such are important in YAML files. Under the “parent” line <code>website</code> we have two children, <code>title</code> and <code>navbar</code>. The <code>navbar</code> line has a child of <code>left</code> and that has two children <code>- href</code> and <code>- 01-cleaning.qmd</code>.</p>
+<p>When we added the <code>01-cleaning.qmd</code> file it automatically added that to the nav, and then used the title of the page as word linked in the navigation.</p>
+<p>But for the index, we don’t want to use the title of the page. We have to define what we are doing with more detail, hence the <code>href</code> (meaning which page will be linked to) and the <code>text</code> to show in the navigation, <em>Home</em>.</p>
+<p>While we are here, we should adjust some other configurations:</p>
+<ol start="3" type="1">
+<li>For the <code>title:</code> change the value to <code>"Billboard Hot 100"</code>. This is the main website name that displays in the navigation bar.</li>
+<li>At the bottom of the file on a new line, by itself and starting flush left, add <code>df-print: paged</code>. This makes data we output in our notebooks look more pretty.</li>
+</ol>
+<p>Your file should look like this now:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">project</span><span class="kw">:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> website</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">website</span><span class="kw">:</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Billboard Hot 100"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">navbar</span><span class="kw">:</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">left</span><span class="kw">:</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> index.qmd</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Home</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> 01-cleaning.qmd</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> cosmo</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">css</span><span class="kw">:</span><span class="at"> styles.css</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">df-print</span><span class="kw">:</span><span class="at"> paged</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li>Make sure you <code>_quarto.yml</code> file is saved.</li>
+<li>Go back to your Cleaning notebook and Render it to make there are no errors and that you can see the page in the website navigation.</li>
+</ol>
+<section id="describe-the-goals-of-the-notebook" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="describe-the-goals-of-the-notebook"><span class="header-section-number">3.5.1</span> Describe the goals of the notebook</h3>
+<p>At the top of the cleaning file after the YAML metadata we’ll want to explain the goals of the notebook and what we are doing.</p>
+<ol type="1">
+<li>Add this text to your notebook AFTER the metadata:</li>
+</ol>
+<div class="sourceCode" id="cb4"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">## Goals of this notebook</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>The steps we'll take to prepare our data:</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Download the data</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Import it into our notebook</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Clean up data types and columns</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Export the data for next notebook</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We want to start each notebook with a list like this so our future selves and others know what we are trying to accomplish. It’s not unusual to update this list as we work through the notebook.</p>
+<p>We will also write Markdown like this to explain each new “section” or goal as we tackle them.</p>
+</section>
+</section>
+<section id="the-setup-chunk" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="the-setup-chunk"><span class="header-section-number">3.6</span> The setup chunk</h2>
+<p>In our previous chapter we installed several R packages onto our computer that we’ll use in almost every lesson. There are others we’ll install and use later.</p>
+<p>But to use these packages in our notebook (and the functions they provide us) we have to load them using the <code>library()</code> function. We <strong>always</strong> have to declare these and convention dictates we put it near the top of a notebook so everyone understands what is needed to run our code.</p>
+<section id="load-the-libraries" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="load-the-libraries"><span class="header-section-number">3.6.1</span> Load the libraries</h3>
+<ol type="1">
+<li>In your notebook after the goals listing, create a new “section” by adding a headline called “Setup” using Markdown, like this: <code>## Setup</code>.</li>
+<li>After the. headline use <em>Cmd+option+i</em> to insert an R code chunk.</li>
+<li>Inside that chunk, I want you <strong>to type</strong> the code shown below.</li>
+</ol>
+<p>I want you to <strong>type the code</strong> so you can see how RStudio helps you complete the code. It’s something you have to see or do yourself to understand how RStudio helps you type commands, but as you type RStudio will give you valid options you can scroll through and hit <code>tab</code> key to choose.</p>
+<p>Here is a gif of me typing in the commands. I’m using keyboard commands like the up and down arrow to make selections, and the <code>tab</code> key to select them. This concept is called code completion.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/setup-chunk.gif" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Setup chunk</figcaption>
+</figure>
+</div>
+<p>Here is the code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.3.1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="about-the-libraries" class="level3" data-number="3.6.2">
+<h3 data-number="3.6.2" class="anchored" data-anchor-id="about-the-libraries"><span class="header-section-number">3.6.2</span> About the libraries</h3>
+<p>A little more about the two packages we are loading here. We use them a lot.</p>
+<ul>
+<li>The <code>tidyverse</code> package is actually a collection of packages for data science that are designed to work together. You can see the first time I run the chunk in the gif above that a bunch of libraries were loaded. By loading the whole tidyverse library we get <code>readr</code> functions for importing data, <code>dplyr</code> to manipulate data, <code>lubridate</code> to help work with dates, and <code>ggplot</code> to visualize data. <a href="https://www.tidyverse.org/">There are more</a>.</li>
+<li>The <a href="https://www.rdocumentation.org/packages/janitor/"><code>janitor</code> package</a> is not maintained by the same folks at Posit, but it has a couple of useful tools to clean and view data I use a lot, including the <code>clean_names()</code> that we’ll use here.</li>
+</ul>
+</section>
+<section id="about-the-options" class="level3" data-number="3.6.3">
+<h3 data-number="3.6.3" class="anchored" data-anchor-id="about-the-options"><span class="header-section-number">3.6.3</span> About the options</h3>
+<p>I then go back and add some lines at the top of the chunk called <strong>execution options</strong>. Let’s talk about each line:</p>
+<ul>
+<li>We start with <code>#| label: setup</code> which is an execution option to “name” the code chunk. Labeling chunks is optional but useful.
+<ul>
+<li>The chunk label <code>setup</code> is special as it will be run first if it hasn’t already been run.</li>
+<li>When we name a code chunk it creates a bookmark of sorts, which I’ll show you later.</li>
+</ul></li>
+<li>The <code>#| message: false</code> option suppress the message about all the packages loaded since we don’t need to display that in our notebook. I usually only add that for my setup chunk.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip: good stopping point
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We’ve just done a lot of work setting up our project, and we’re about to get into some important info about our the data we’ll be working with. This would be a good place to take a break if you need to. Seriously, go eat a cookie 🍪</p>
+</div>
+</div>
+</section>
+</section>
+<section id="about-the-billboard-hot-100" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="about-the-billboard-hot-100"><span class="header-section-number">3.7</span> About the Billboard Hot 100</h2>
+<p>The <em>Billboard</em> <a href="https://www.billboard.com/charts/hot-100/">Hot 100</a> singles charts has been the music industry’s standard record chart since its inception on Aug.&nbsp;4th, 1958. The rankings, published by Billboard Magazine, are currently based on sales (physical and digital), radio play, and online streaming. The methods and policies of the chart have changed over time.</p>
+<p>The data we will use was compiled by Prof.&nbsp;McDonald from a <a href="https://github.com/utdata/rwd-billboard-data">number of sources</a>. When you write about this data (and you will), you should source it as <strong>the Billboard Hot 100 from Billboard Magazine</strong>, since that is where it originally came from and they are the “owner” of the data.</p>
+<section id="data-dictionary" class="level3" data-number="3.7.1">
+<h3 data-number="3.7.1" class="anchored" data-anchor-id="data-dictionary"><span class="header-section-number">3.7.1</span> Data dictionary</h3>
+<p>Take a look at the <a href="https://www.billboard.com/charts/hot-100/">current chart</a>. Our data contains many (but not quite all) of the elements you see there. <strong>Each row of data (or observation as they are known in R) represents a song and the corresponding position on that week’s chart.</strong> Included in each row are the following columns (a.k.a. variables):</p>
+<ul>
+<li>CHART DATE: The release date of the chart</li>
+<li>THIS WEEK: The current ranking as of the chart date</li>
+<li>TITLE: The song title</li>
+<li>PERFORMER: The performer of the song</li>
+<li>LAST WEEK: The ranking on the previous week’s chart</li>
+<li>PEAK POS.: The peak rank the song has reached as of the chart date</li>
+<li>WKS ON CHART: The number of weeks the song has appeared as of the chart date</li>
+</ul>
+</section>
+<section id="lets-download-our-data" class="level3" data-number="3.7.2">
+<h3 data-number="3.7.2" class="anchored" data-anchor-id="lets-download-our-data"><span class="header-section-number">3.7.2</span> Let’s download our data</h3>
+<p>Our data is stored on a code sharing website called Github, and it is formatted as a “comma-separated value” file, or <code>.csv</code>. That means it basically a text file where every line is a new row of data, and each field is separated by a comma.</p>
+<p>Because it is on the internet and has a URL, we could import it directly into our project from there, but there are benefits to getting the file onto your computer first. The hosted file could change later in ways you can’t control, and you would need Internet access to the file the next time you ran your notebook. If you download the file to keep your own copy, you have more control of your future.</p>
+<p>Since this is a new “section” of our cleaning notebook, we’ll note what we are doing and why in Markdown.</p>
+<ol type="1">
+<li>Add a Markdown headline <code>## Downloading data</code> and some text explaining you are downloading data. <strong>Add a note about where the data comes from and include a link to the original source.</strong> (This way others and future self will know where the data came from.)</li>
+<li>Create an R chunk and copy/paste the following inside it. (Given the long URL, go ahead and use the copy icon at the top right of the chunk):</li>
+</ol>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_assignment.csv?raw=true"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data-raw/hot100_assignment.csv"</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"wb"</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s explain about this:</p>
+<p>This <code>download.file()</code> code is a function, or a bit of code that has been written to do a specific task. This one (surprise!) downloads files from the internet. As a function, it has some “arguments”, which are expected pieces of information that the function needs to do its job. Sometimes we just enter the arguments in the order that the function expects them, like we do here. Other times we will give it the kind of argument like <code>mode = "w"</code>. You can search for documentation about functions in the Help tab in the bottom-right pane of RStudio.</p>
+<p>In this case, we are supplying three arguments:</p>
+<ul>
+<li>The first is the URL of the file you are downloading. Note that this is in quotes.</li>
+<li>The second is the location where we want to save the file, and what want to name it. We call this a “path” and you can see it looks a lot like a URL. This path is in relation to the document we are in, so we are saying we want to put this file in the <code>data-raw/</code> folder with a name of <code>hot100_assignment.csv</code>, but it is really one path: <code>data-raw/hot100_assignment.csv</code>.</li>
+<li>The third argument <code>mode = "w"</code> gets into the weeds a little, but it helps Windows computers understand the file.</li>
+</ul>
+<pre class="text"><code>trying URL 'https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_assignment.csv?raw=true'
+Content type 'text/plain; charset=utf-8' length 18364249 bytes (17.5 MB)
+==================================================
+downloaded 17.5 MB</code></pre>
+<p>That’s not a small file at 17 MB and 300,000 rows, but it’s not a huge one, either.</p>
+<p>You can check that this worked by going to your Files tab and clicking on the <code>data-raw</code> folder to go inside it and see if the file is there. To return out of the folder, click on the two dots to the right of the green up arrow.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/check-download.gif" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Check download</figcaption>
+</figure>
+</div>
+</section>
+<section id="comment-the-download-code" class="level3" data-number="3.7.3">
+<h3 data-number="3.7.3" class="anchored" data-anchor-id="comment-the-download-code"><span class="header-section-number">3.7.3</span> Comment the download code</h3>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Hot 100 data updates each week. We’ll not download it again so our results don’t change mid-analysis!</p>
+</div>
+</div>
+<p>Now that we’ve downloaded the data to our computer, we don’t need to run this line of code again unless we want to update our data from the source. We can “comment” the code to preserve it but keep it from running again if we re-run our notebook (and we will).</p>
+<ol start="2" type="1">
+<li>Above your code chunk, write in Markdown a note to your future self that you commented the download for now.</li>
+<li>Inside your code chunk, highlight the lines of code that include the <code>download.file()</code> function, then go under the <strong>Code</strong> menu to <strong>Comment/Uncomment Lines</strong>. (Note the keyboard command there <em>Cmd-Shift-C</em>, as it is another useful one!)</li>
+</ol>
+<p>Adding comments in programming is a common thing and every programming language has a way to do it. It is a way for the programmer to write notes to their future self, colleagues or — like in this case — comment out some code that you want to keep, but don’t want to execute when the program is run.</p>
+<p>We write most of our “explaining” text <em>outside</em> of code chunks using a syntax called <a href="https://quarto.org/docs/authoring/markdown-basics.html">Markdown</a>. Markdown is designed to be readable as written, but it is given pretty formatting when “printed” as a PDF or HTML file.</p>
+<p>But, sometimes it makes more sense to explain something right where the code is being executed. If you are <em>inside a code chunk</em>, you start the comment with one or more hashes <code>#</code>. Any text on that line that follows won’t be executed as code.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Yes, it is confusing that in Markdown you use hashes <code>#</code> to make headlines, but in code chunks you use <code>#</code> to make comments. We’re essentially writing in two languages in the same document.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="import-the-data" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="import-the-data"><span class="header-section-number">3.8</span> Import the data</h2>
+<p>Now that we have the data on our computer, let’s import it into our notebook so we can see it.</p>
+<p>Since we are doing a new thing, we should again note what we are doing.</p>
+<ol type="1">
+<li>Add a Markdown headline: <code>## Import data</code></li>
+<li>Add some text to explain that we are importing the Billboard Hot 100 data.</li>
+<li>After your description, add a new code chunk (<em>Cmd+Option+i</em>).</li>
+</ol>
+<p>We’ll be using the <code>read_csv()</code> function from the tidyverse <a href="https://readr.tidyverse.org/">readr</a> package, which is different from <code>read.csv</code> that comes with base R. <code>read_csv()</code> is mo betta.</p>
+<p>Inside the function we put in the path to our data, inside quotes. If you start typing in that path and hit tab, it will complete the path. (Easier to show than explain).</p>
+<ol type="1">
+<li>Add the following code into your chunk and run it.</li>
+</ol>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"data-raw/hot100_assignment.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note the path to the file is in quotes!</p>
+</div>
+</div>
+<p>You get two results printed to your notebook.</p>
+<p>The first result called <strong>“R Console”</strong> shows what columns were imported and the data types. It’s important to review these to make sure things happened the way that expected. In this case it noted which columns came in as text (<code>chr</code>), or numbers (<code>dbl</code>). The red colored text in this output is NOT an indication of a problem.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/bb-import-show-cols.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">RConsole output</figcaption>
+</figure>
+</div>
+<p>The second result <strong>spec_tbl_df</strong> prints out the data like a table. The data object is a <a href="https://tibble.tidyverse.org/">tibble</a>, which is a fancy tidyverse version of a “data frame”.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I will use the term tibble and data frame interchangably. Think of tibbles and data frames like a well-structured spreadsheet. They are organized rows of data (called observations) with columns (called variables) where every column is a specific data type.</p>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/bb-import-show-data.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Data output (IGNORE FILENAME)</figcaption>
+</figure>
+</div>
+<p>When we look at the data output in RStudio, there are several things to note:</p>
+<ul>
+<li>Below each column name is an indication of the data type. This is important.</li>
+<li>You can use the arrow icon on the right to page through the additional columns.</li>
+<li>You can use the paging numbers and controls at the bottom to page through the rows of data.</li>
+<li>The number of rows and columns is displayed.</li>
+</ul>
+<p>At this point we have only printed this data to the screen. We have not saved it in any way, but that is next.</p>
+<section id="assign-our-import-to-an-r-object" class="level3" data-number="3.8.1">
+<h3 data-number="3.8.1" class="anchored" data-anchor-id="assign-our-import-to-an-r-object"><span class="header-section-number">3.8.1</span> Assign our import to an R object</h3>
+<p>Now that we know how to find our data, we next need to assign it to an <strong>R object</strong> so it can be a named thing we can reuse. We don’t want to re-import the data over and over each time we need it.</p>
+<p>The syntax to create an object in R can seem weird at first, but the convention is to name the object first, then insert stuff into it. So, to create an object, the structure is this:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is pseudo code. Don't put it in your notebook.</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>new_object <span class="ot">&lt;-</span> stuff_going_into_object</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Think of it like this: You must have a bucket before you can fill it with water. We “name” the bucket, then fill it with data. That bucket is then saved into our “environment”, meaning it is in memory where we can access it easily by calling its name.</p>
+<p>Let’s make a object called <code>hot100</code> and fill it with our imported tibble.</p>
+<ol type="1">
+<li><strong>Edit your existing code chunk</strong> to look like this. You can add the <code>&lt;-</code> by using <em>Option+-</em> as in holding down the Option key and then pressing the hyphen:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data-raw/hot100_assignment.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Run that chunk and several things happen:</p>
+<ul>
+<li>We no longer see the result of the data in the notebook because we created an object instead of printing it.</li>
+<li>In the <strong>Environment</strong> tab at the top-right of RStudio, you’ll see the <code>hot100</code> object listed.
+<ul>
+<li>Click on the <strong>blue play button</strong> next to <em>hot100</em> and it will expand to show you a summary of the columns.</li>
+<li>Click on the name <strong>hot100</strong> and it will open a “View” of the data in another window, so you can look at it in spreadsheet form. You can even sort and filter it.</li>
+</ul></li>
+<li>Once you’ve looked at the data, close the data view with the little <code>x</code> next to the tab name.</li>
+</ul>
+</section>
+<section id="print-a-peek-to-your-r-notebook" class="level3" data-number="3.8.2">
+<h3 data-number="3.8.2" class="anchored" data-anchor-id="print-a-peek-to-your-r-notebook"><span class="header-section-number">3.8.2</span> Print a peek to your R Notebook</h3>
+<p>Since we can’t see the data after we assign it, let’s print the object to our notebook so we can refer to it.</p>
+<ol type="1">
+<li>Edit your import chunk to add the last two lines of this, including <code>#</code>:</li>
+</ol>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the object, then fill it with data from the csv</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>hot100 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data-raw/hot100_assignment.csv"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>hot100</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p>You can use the green play button at the right of the chunk, or preferrably have your cursor inside the chunk and do <em>Cmd+Shift+Return</em> to run all lines. (<em>Cmd+Return</em> runs only the current line.)</p>
+</blockquote>
+</section>
+<section id="glimpse-the-data" class="level3" data-number="3.8.3">
+<h3 data-number="3.8.3" class="anchored" data-anchor-id="glimpse-the-data"><span class="header-section-number">3.8.3</span> Glimpse the data</h3>
+<p>There is another way to peek at the data that I use alot because it is more compact and shows you all the columns and data examples without scrolling: <code>glimpse()</code>.</p>
+<ol type="1">
+<li><strong>In your existing chunk</strong>, edit the last line to add the <code>glimpse()</code> function as noted below.</li>
+</ol>
+<p>I’m showing the return here as well. Afterward I’ll explain the pipe: <code>|&gt;</code>.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data-raw/hot100_assignment.csv"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 341,300
+Columns: 7
+$ `CHART WEEK`   &lt;chr&gt; "1/1/2022", "1/1/2022", "1/1/2022", "1/1/2022", "1/1/20…
+$ `THIS WEEK`    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …
+$ TITLE          &lt;chr&gt; "All I Want For Christmas Is You", "Rockin' Around The …
+$ PERFORMER      &lt;chr&gt; "Mariah Carey", "Brenda Lee", "Bobby Helms", "Burl Ives…
+$ `LAST WEEK`    &lt;dbl&gt; 1, 2, 4, 5, 3, 7, 9, 11, 6, 13, 15, 17, 18, 0, 8, 25, 1…
+$ `PEAK POS.`    &lt;dbl&gt; 1, 2, 3, 4, 1, 5, 7, 6, 1, 10, 11, 8, 12, 14, 7, 16, 12…
+$ `WKS ON CHART` &lt;dbl&gt; 50, 44, 41, 25, 11, 26, 24, 19, 24, 15, 31, 18, 14, 1, …</code></pre>
+</div>
+</div>
+<p>The glimpse shows there are 300,000+ rows and 7 columns in our data. Each column is then listed out with its data type and the first several values in that column.</p>
+</section>
+<section id="about-the-pipe" class="level3" data-number="3.8.4">
+<h3 data-number="3.8.4" class="anchored" data-anchor-id="about-the-pipe"><span class="header-section-number">3.8.4</span> About the pipe |&gt;</h3>
+<p>We need to break down this code a little: <code>hot100 |&gt; glimpse()</code>.</p>
+<p>We are starting with the object <code>hot100</code>, but then we follow it with <code>|&gt;</code>, which is called a pipe. The pipe is a construct that takes the <strong>result</strong> of an object or function and passes it into another function. Think of it like a sentence that says <strong>“AND THEN”</strong> the next thing.</p>
+<p>Like this:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>I woke up <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  got out of bed <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  dragged a comb across my head</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can’t start a new line with a pipe. If you are breaking your code into multiple lines, then the <code>|&gt;</code> needs to be at the end of a line and the next line should be indented so there is a visual clue it is related to line above it, like this:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>It might look like there are no arguments inside <code>glimpse()</code>, but what we are actually doing is passing the <code>hot100</code> tibble into it like this: <code>glimpse(hot100)</code>. For almost every function in R the first argument is “what data are you taking about?” The pipe allows us to say “hey, take the data we just mucked with (i.e., the code before the pipe) and use that in this function.”</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There is a keyboard command for the pipe <code>|&gt;</code>: <strong>Cmd+Shift+m</strong>. Learn that one!</p>
+</div>
+</div>
+</section>
+<section id="a-rabbit-dives-into-a-pipe" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="a-rabbit-dives-into-a-pipe">A rabbit dives into a pipe</h3>
+<p>The concept of the pipe was first introduced by tidyverse developers in 2014 in a package called <a href="https://magrittr.tidyverse.org/">magrittr</a>. They used the symbol <code>%&gt;%</code> as the pipe. It was so well received the concept was written directly into base R in <strong>2021</strong>, but using the symbol <code>|&gt;</code>. Hadley Wickham’s 2022 rewriting of <a href="https://r4ds.hadley.nz/workflow-pipes.html#magrittr-and-the-pipe">R for Data Science</a> uses the base R pipe <code>|&gt;</code> by default. You can configure which to use in RStudio.</p>
+<p>(This switch to <code>|&gt;</code> is quite recent so you might see <code>%&gt;%</code> used in this book. <strong>Assume <code>|&gt;</code> and <code>%&gt;%</code> are interchangeable.</strong> There is A LOT of code in the wild using the magrittr pipe <code>%&gt;%</code>, so you’ll find many references on Stack Overflow and elsewhere.)</p>
+</section>
+</section>
+<section id="cleaning-data" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="cleaning-data"><span class="header-section-number">3.9</span> Cleaning data</h2>
+<p>Data is dirty. Usually because a human was involved at some point, and we humans are fallible.</p>
+<p>Data problems are often revealed when importing so it is good practice to check for problems and fix them right away. We’ll face some of those challenges in this project, but we should talk about what is good vs dirty data.</p>
+<p>Good data should:</p>
+<ul>
+<li>Have a single header row with well-formed column names.
+<ul>
+<li>Descriptive names are better than not descriptive.</li>
+<li>Short names are better than long ones.</li>
+<li>Spaces in names make them harder to work with. Use and <code>_</code> or <code>.</code> between words. I prefer <code>_</code> and all lowercase text.</li>
+</ul></li>
+<li>Remove notes or comments from the files.</li>
+<li>Each column should have the same kind of data: numbers vs words, etc.</li>
+</ul>
+<section id="cleaning-column-names" class="level3" data-number="3.9.1">
+<h3 data-number="3.9.1" class="anchored" data-anchor-id="cleaning-column-names"><span class="header-section-number">3.9.1</span> Cleaning column names</h3>
+<p>So, given those notes above, we should clean up our column names. This is why we have included the janitor package, which includes a neat function called <code>clean_names()</code></p>
+<ol type="1">
+<li><strong>Edit</strong> the first line of your chunk to add a pipe and the clean_names function: <code>%&gt;% clean_names()</code></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>hot100 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data-raw/hot100_assignment.csv"</span>) <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>()</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>hot100 <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 341,300
+Columns: 7
+$ chart_week   &lt;chr&gt; "1/1/2022", "1/1/2022", "1/1/2022", "1/1/2022", "1/1/2022…
+$ this_week    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
+$ title        &lt;chr&gt; "All I Want For Christmas Is You", "Rockin' Around The Ch…
+$ performer    &lt;chr&gt; "Mariah Carey", "Brenda Lee", "Bobby Helms", "Burl Ives",…
+$ last_week    &lt;dbl&gt; 1, 2, 4, 5, 3, 7, 9, 11, 6, 13, 15, 17, 18, 0, 8, 25, 19,…
+$ peak_pos     &lt;dbl&gt; 1, 2, 3, 4, 1, 5, 7, 6, 1, 10, 11, 8, 12, 14, 7, 16, 12, …
+$ wks_on_chart &lt;dbl&gt; 50, 44, 41, 25, 11, 26, 24, 19, 24, 15, 31, 18, 14, 1, 49…</code></pre>
+</div>
+</div>
+<p>This function has cleaned up your names, making them all lowercase and using <code>_</code> instead of periods between words. Believe me when I say this is helpful when you are writing code. It makes type-assist work better and you can now double-click on a column name to select all of it and copy and paste somewhere else. When you have spaces or dashes in an object you can’t double-click on it to select all of it.</p>
+</section>
+<section id="fixing-the-date" class="level3" data-number="3.9.2">
+<h3 data-number="3.9.2" class="anchored" data-anchor-id="fixing-the-date"><span class="header-section-number">3.9.2</span> Fixing the date</h3>
+<p>Dates in programming are a tricky data type because they are represented essentially as the number of seconds before/after January 1, 1970. Yes, that’s crazy, but it is also cool because that allows us to do math on them. So, to use our <code>chart_date</code> properly in R we need to convert it from the text into a real <em>date</em> datatype. (If you wish, you can <a href="https://levelup.gitconnected.com/why-is-programming-with-dates-so-hard-7477b4aeff4c">read more about why dates are tough in programming</a> | <a href="https://drive.google.com/file/d/1dMgnhZfnsx1tFufKSCJZpeYjhSIAYOxq/view?usp=sharing">PDF version</a>.)</p>
+<p>Converting text into dates can be challenging, but the tidyverse universe has a package called <a href="https://lubridate.tidyverse.org/">lubridate</a> to ease the friction. (Get it?).</p>
+<p>Since we are doing something new, we want to start a new section in our notebook and explain what we are doing.</p>
+<ol type="1">
+<li>In Markdown add a headline: <code>## Fix our dates</code>.</li>
+<li>Add some text that you are using lubridate to create a new column with a real date.</li>
+<li>Add a new code chunk. Remember <em>Cmd+Option+i</em> will do that.</li>
+</ol>
+<p>We will be <strong>changing or creating</strong> our data, so we will create a <strong>new object</strong> to store it in. We do this so we can go back and reference the <em>unchanged</em> data if we need to. Because of this, we’ll set up a chunk of code that allows us to peek at what is happening while we write our code. We’ll do this kind of setup often when we are working out how to do something in code.</p>
+<ol type="1">
+<li>Add the following inside your code chunk.</li>
+<li>Run the code, and then read through the annotations below.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is our first use of annotated code with the circled numbers shown on the right edge of the code block. If you see these, the best way to use the code in the chunk is to a) type it yourself (preferred!), b) to highlight and copy a line without catching the circled number, or c) to use the “Copy to clipboard” icon that shows at the top-right of the code block when you put your cursor over it.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-17"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-17-1" class="code-annotation-target"><a href="#annotated-cell-17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># part we will build upon</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-17-2" class="code-annotation-target"><a href="#annotated-cell-17-2" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="ot">&lt;-</span> hot100</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-17-3" class="code-annotation-target"><a href="#annotated-cell-17-3" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-17-4" class="code-annotation-target"><a href="#annotated-cell-17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-17-5" class="code-annotation-target"><a href="#annotated-cell-17-5" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-17" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-17" data-code-annotation="1" data-code-lines="1">I have a comment starting with <code>#</code> to explain the first part of the code.</span>
+</dd>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-17" data-code-annotation="2" data-code-lines="2">We created a new object (or “bucket”) called <code>hot100_date</code> and we fill it with our <code>hot100</code> data. Yes, as of now they are exactly the same.</span>
+</dd>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-17" data-code-annotation="3" data-code-lines="3">I leave a blank line for clarity …</span>
+</dd>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-17" data-code-annotation="4" data-code-lines="4">Then another comment …</span>
+</dd>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-17" data-code-annotation="5" data-code-lines="5">Then we glimpse the new <code>hot100_date</code> object so we can see changes as we work on it.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 341,300
+Columns: 7
+$ chart_week   &lt;chr&gt; "1/1/2022", "1/1/2022", "1/1/2022", "1/1/2022", "1/1/2022…
+$ this_week    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
+$ title        &lt;chr&gt; "All I Want For Christmas Is You", "Rockin' Around The Ch…
+$ performer    &lt;chr&gt; "Mariah Carey", "Brenda Lee", "Bobby Helms", "Burl Ives",…
+$ last_week    &lt;dbl&gt; 1, 2, 4, 5, 3, 7, 9, 11, 6, 13, 15, 17, 18, 0, 8, 25, 19,…
+$ peak_pos     &lt;dbl&gt; 1, 2, 3, 4, 1, 5, 7, 6, 1, 10, 11, 8, 12, 14, 7, 16, 12, …
+$ wks_on_chart &lt;dbl&gt; 50, 44, 41, 25, 11, 26, 24, 19, 24, 15, 31, 18, 14, 1, 49…</code></pre>
+</div>
+</div>
+<p>To be clear, we haven’t changed any data yet. We just created a new object like the old object.</p>
+<section id="working-with-mutate" class="level4" data-number="3.9.2.1">
+<h4 data-number="3.9.2.1" class="anchored" data-anchor-id="working-with-mutate"><span class="header-section-number">3.9.2.1</span> Working with mutate()</h4>
+<p>We are going to use the text of our date field <code>chart_date</code> to create a new converted date. We will use the dplyr function <a href="https://dplyr.tidyverse.org/reference/mutate.html"><code>mutate()</code></a> to do this, with some help from lubridate.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="https://dplyr.tidyverse.org/">dplyr</a> is the tidyverse package of functions to manipulate data. We’ll use functions from it a lot. Dplyr is loaded with the <code>library(tidyverse)</code> so you don’t have to load it separately.</p>
+</div>
+</div>
+<p>Let’s explain how mutate works first: Mutate changes every value in a column. You can either create a new column or overwrite an existing one.</p>
+<p>Within the mutate function, we name the new thing first (the bucket!) and then fill it with the new value.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is just explanatory psuedo code</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># You don't need this in your notebook</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">newcol =</span> new_stuff_from_math_or_whatever</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>That new value could be arrived at through math or any combination of other functions. In our case, we want to convert our old text-based date to a <em>real date</em>, and then assign it back to the “new” column.</p>
+<ol type="1">
+<li>Edit your chunk to add the changes below and run it. I <strong>implore</strong> you to <em>type</em> the changes so you see how RStudio helps you write it. Use tab completion, etc.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-19"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-19-1"><a href="#annotated-cell-19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># part we will build upon</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-19-2" class="code-annotation-target"><a href="#annotated-cell-19-2" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="ot">&lt;-</span> hot100 <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-19-3" class="code-annotation-target"><a href="#annotated-cell-19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-19-4" class="code-annotation-target"><a href="#annotated-cell-19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">chart_date =</span> <span class="fu">mdy</span>(chart_week)</span>
+<span id="annotated-cell-19-5"><a href="#annotated-cell-19-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="annotated-cell-19-6"><a href="#annotated-cell-19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-19-7"><a href="#annotated-cell-19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
+<span id="annotated-cell-19-8"><a href="#annotated-cell-19-8" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-19" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-19" data-code-annotation="1" data-code-lines="2">At the end of the first line, we added the pipe <code>|&gt;</code> because we are taking our <code>hot100</code> data <strong>AND THEN</strong> we will mutate it. (Remember <em>Cmd-shift-m</em> for the pipe!)</span>
+</dd>
+<dt data-target-cell="annotated-cell-19" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-19" data-code-annotation="2" data-code-lines="3">Next, we start the <code>mutate()</code> function. If you use type assist and tab completion to type this in, your cursor will end up in the middle of the parenthesis. This allows you to then hit your <strong>Return</strong> key to split it into multiple lines with proper indenting. We do this so we can more clearly see what <em>inside</em> the mutate … where the real action is going on here. It’s also possible to make multiple changes within the same mutate, and putting each one on their own line makes that more clear.</span>
+</dd>
+<dt data-target-cell="annotated-cell-19" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-19" data-code-annotation="3" data-code-lines="4">Inside the mutate, we first name our new column <code>chart_date</code> and then we set that equal to <code>mdy(chart_week)</code>, which is explained next.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 341,300
+Columns: 8
+$ chart_week   &lt;chr&gt; "1/1/2022", "1/1/2022", "1/1/2022", "1/1/2022", "1/1/2022…
+$ this_week    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
+$ title        &lt;chr&gt; "All I Want For Christmas Is You", "Rockin' Around The Ch…
+$ performer    &lt;chr&gt; "Mariah Carey", "Brenda Lee", "Bobby Helms", "Burl Ives",…
+$ last_week    &lt;dbl&gt; 1, 2, 4, 5, 3, 7, 9, 11, 6, 13, 15, 17, 18, 0, 8, 25, 19,…
+$ peak_pos     &lt;dbl&gt; 1, 2, 3, 4, 1, 5, 7, 6, 1, 10, 11, 8, 12, 14, 7, 16, 12, …
+$ wks_on_chart &lt;dbl&gt; 50, 44, 41, 25, 11, 26, 24, 19, 24, 15, 31, 18, 14, 1, 49…
+$ chart_date   &lt;date&gt; 2022-01-01, 2022-01-01, 2022-01-01, 2022-01-01, 2022-01-…</code></pre>
+</div>
+</div>
+<p>The <code>mdy()</code> function is part of the lubridate package. Lubridate allows us to parse text and then turn it into a real date <em>if</em> we tell it the order of the date values in the original data.</p>
+<ul>
+<li>Our original date was something like “7/17/1965”. That is month, followed by day, followed by year.</li>
+<li>We use the lubridate function <code>mdy()</code> to say “that’s the order this text is in, now please convert this into a <em>real date</em>”, which properly shows as YYYY-MM-DD. Lubridate is smart enough to figure out if you have <code>/</code> or <code>-</code> between your values in the original text.</li>
+</ul>
+<p>If your original text is in a different date order, then you look up what lubridate function you need to convert it. I typically use the <strong>cheatsheet</strong> in the <a href="https://lubridate.tidyverse.org/">lubridate documentation</a>. You’ll find them in the PARSE DATE-TIMES section.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A note about the spacing and indenting of my code above: I strategically used returns to make the code more readable. This code would work the same if it were all on the same line, but writing it this way helps me understand it. RStudio will help you indent properly as you type. (Easier to show than explain.)</p>
+</div>
+</div>
+</section>
+<section id="check-the-result" class="level4" data-number="3.9.2.2">
+<h4 data-number="3.9.2.2" class="anchored" data-anchor-id="check-the-result"><span class="header-section-number">3.9.2.2</span> Check the result!</h4>
+<p>This new <code>chart_date</code> column is added as the LAST column of our data. After doing any kind of mutate you want to check the result to make sure you got the results you expected, which is why we didn’t just overwrite the original <code>chart_week</code> column. That’s also why we built our code this way with <code>glimpse()</code> so we can see example of our data from both the first and the last column. (We’ll rearrange all the columns in a bit once we are done cleaning everything.)</p>
+<p>Check your glimpse returns … did your dates convert correctly?</p>
+</section>
+</section>
+<section id="arrange-the-data" class="level3" data-number="3.9.3">
+<h3 data-number="3.9.3" class="anchored" data-anchor-id="arrange-the-data"><span class="header-section-number">3.9.3</span> Arrange the data</h3>
+<p>Just to be tidy, we want ensure our data is arranged to start with the oldest week and “top” of the chart and then work forward through time and rank.</p>
+<p>i.e., let’s arrange this data so that the oldest data is at the top.</p>
+<p>Sorting data is not a particularly difficult concept to grasp, but it is one of the <a href="https://vimeo.com/showcase/7320305">Basic Data Journalism Functions</a>, so watch this video:</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://player.vimeo.com/video/435910315" frameborder="0" allow="autoplay; title=" "="" fullscreen;="" picture-in-picture"="" allowfullscreen=""></iframe></div>
+<p>In R, the sorting function we use is called <code>arrange()</code>.</p>
+<p>We’ll build upon our existing code and use the pipe <code>|&gt;</code> to push it into an <code>arrange()</code> function. Inside arrange we’ll feed it the columns we wish to sort by.</p>
+<ol type="1">
+<li><strong>Edit your chunk</strong> to the following to add the <code>arrange()</code> function:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-20"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-20-1"><a href="#annotated-cell-20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># part we will build upon</span></span>
+<span id="annotated-cell-20-2"><a href="#annotated-cell-20-2" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="ot">&lt;-</span> hot100 <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-20-3"><a href="#annotated-cell-20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="annotated-cell-20-4"><a href="#annotated-cell-20-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">chart_date =</span> <span class="fu">mdy</span>(chart_week)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-20" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-20-5" class="code-annotation-target"><a href="#annotated-cell-20-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-20" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-20-6" class="code-annotation-target"><a href="#annotated-cell-20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(chart_date, this_week)</span>
+<span id="annotated-cell-20-7"><a href="#annotated-cell-20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-20-8"><a href="#annotated-cell-20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the result</span></span>
+<span id="annotated-cell-20-9"><a href="#annotated-cell-20-9" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-20" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-20" data-code-annotation="1" data-code-lines="5">Add the pipe to the end of this line …</span>
+</dd>
+<dt data-target-cell="annotated-cell-20" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-20" data-code-annotation="2" data-code-lines="6">… and the arrange line</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 341,300
+Columns: 8
+$ chart_week   &lt;chr&gt; "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958…
+$ this_week    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
+$ title        &lt;chr&gt; "Poor Little Fool", "Patricia", "Splish Splash", "Hard He…
+$ performer    &lt;chr&gt; "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby D…
+$ last_week    &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ peak_pos     &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
+$ wks_on_chart &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+$ chart_date   &lt;date&gt; 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-…</code></pre>
+</div>
+</div>
+<p>Now when you look at the glimpse, the first record in the <code>chart_date</code> column is from “1958-08-04” and the first in the <code>this_week</code> is “1”, which is the top of the chart.</p>
+<p>Just to see this all clearly in table form, we’ll print the top of the table to our screen so we can see it.</p>
+<ol type="1">
+<li>Add a line of Markdown text in your notebook explaining your are looking at the table.</li>
+<li>Add a new code chunk and add the following.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["chart_week"],"name":[1],"type":["chr"],"align":["left"]},{"label":["this_week"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["title"],"name":[3],"type":["chr"],"align":["left"]},{"label":["performer"],"name":[4],"type":["chr"],"align":["left"]},{"label":["last_week"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["peak_pos"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["wks_on_chart"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["chart_date"],"name":[8],"type":["date"],"align":["right"]}],"data":[{"1":"8/4/1958","2":"1","3":"Poor Little Fool","4":"Ricky Nelson","5":"NA","6":"1","7":"1","8":"1958-08-04"},{"1":"8/4/1958","2":"2","3":"Patricia","4":"Perez Prado And His Orchestra","5":"NA","6":"2","7":"1","8":"1958-08-04"},{"1":"8/4/1958","2":"3","3":"Splish Splash","4":"Bobby Darin","5":"NA","6":"3","7":"1","8":"1958-08-04"},{"1":"8/4/1958","2":"4","3":"Hard Headed Woman","4":"Elvis Presley With The Jordanaires","5":"NA","6":"4","7":"1","8":"1958-08-04"},{"1":"8/4/1958","2":"5","3":"When","4":"Kalin Twins","5":"NA","6":"5","7":"1","8":"1958-08-04"},{"1":"8/4/1958","2":"6","3":"Rebel-'rouser","4":"Duane Eddy His Twangy Guitar And The Rebels","5":"NA","6":"6","7":"1","8":"1958-08-04"},{"1":"8/4/1958","2":"7","3":"Yakety Yak","4":"The Coasters","5":"NA","6":"7","7":"1","8":"1958-08-04"},{"1":"8/4/1958","2":"8","3":"My True Love","4":"Jack Scott","5":"NA","6":"8","7":"1","8":"1958-08-04"},{"1":"8/4/1958","2":"9","3":"Willie And The Hand Jive","4":"The Johnny Otis Show","5":"NA","6":"9","7":"1","8":"1958-08-04"},{"1":"8/4/1958","2":"10","3":"Fever","4":"Peggy Lee","5":"NA","6":"10","7":"1","8":"1958-08-04"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>This just prints the first 10 lines of the data.</p>
+<ol type="1">
+<li>Use the arrows to look at the other columns of the data (which you can’t see in the book).</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It’s OK that the <code>last_week</code> columns has “NA” for those first rows because this is the first week ever for the chart. There was no <code>last_week</code>.</p>
+</div>
+</div>
+<section id="getting-summary-stats" class="level4" data-number="3.9.3.1">
+<h4 data-number="3.9.3.1" class="anchored" data-anchor-id="getting-summary-stats"><span class="header-section-number">3.9.3.1</span> Getting summary stats</h4>
+<p>Printing your data to the notebook can only tell you so much. Yes, you can arrange by different columns to see the maximum and minimum values, but it’s hard to get an overall sense of your data that way when there is 300,000 rows like we have here. Luckily there is a nice function called <code>summary()</code> that gives you some summary statistics for each column.</p>
+<ol type="1">
+<li>Add some Markdown text that you’ll print summary stats of your data.</li>
+<li>Add a new R chunk and put the following in and run it</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  chart_week          this_week        title            performer        
+ Length:341300      Min.   :  1.0   Length:341300      Length:341300     
+ Class :character   1st Qu.: 26.0   Class :character   Class :character  
+ Mode  :character   Median : 51.0   Mode  :character   Mode  :character  
+                    Mean   : 50.5                                        
+                    3rd Qu.: 75.0                                        
+                    Max.   :100.0                                        
+                                                                         
+   last_week         peak_pos       wks_on_chart      chart_date        
+ Min.   :  0.00   Min.   :  1.00   Min.   : 1.000   Min.   :1958-08-04  
+ 1st Qu.: 23.00   1st Qu.: 13.00   1st Qu.: 4.000   1st Qu.:1974-12-14  
+ Median : 47.00   Median : 38.00   Median : 7.000   Median :1991-04-20  
+ Mean   : 47.29   Mean   : 40.69   Mean   : 9.288   Mean   :1991-04-19  
+ 3rd Qu.: 71.00   3rd Qu.: 65.00   3rd Qu.:13.000   3rd Qu.:2007-08-25  
+ Max.   :100.00   Max.   :100.00   Max.   :91.000   Max.   :2023-12-30  
+ NA's   :32460                                                          </code></pre>
+</div>
+</div>
+<p>These summary statistics can be informative for us. It is probably the easiest way to check what the newest and oldest dates are in your data (see the Min. and Max. returns for <code>chart_date</code>). You get an average (mean) and median for each number, too. You might notice potential problems in your data, like if we had a <code>this_week</code> number higher than “100” (we don’t).</p>
+</section>
+<section id="note-the-max-date" class="level4" data-number="3.9.3.2">
+<h4 data-number="3.9.3.2" class="anchored" data-anchor-id="note-the-max-date"><span class="header-section-number">3.9.3.2</span> Note the max date</h4>
+<p>Since this data updates each week, it is a good idea to note in your notebook what is the most recent chart date. You can find that as the <strong>Max.</strong> value for <code>chart_date</code> in your summary. You’ll need this value when you write your story.</p>
+</section>
+</section>
+<section id="selecting-columns" class="level3" data-number="3.9.4">
+<h3 data-number="3.9.4" class="anchored" data-anchor-id="selecting-columns"><span class="header-section-number">3.9.4</span> Selecting columns</h3>
+<p>Now that we have the fixed date column, we don’t need the old <code>chart_week</code> version that is text. We’ll use this opportunity to discuss <code>select()</code>, which is another concept in our Basic Data Journalism Functions series, so watch this:</p>
+<!-- https://www.youtube.com/embed/L0FYEy1W8Wc -->
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://player.vimeo.com/video/435910324" frameborder="0" allow="autoplay; title=" "="" fullscreen;="" picture-in-picture"="" allowfullscreen=""></iframe></div>
+<p>In R, the workhorse of the select concept is the function called — you guessed it — <a href="https://dplyr.tidyverse.org/reference/select.html"><code>select()</code></a>. In short, the function allows us to choose a subset of our columns. We can either list the ones we want to keep or the ones we don’t want.</p>
+<p>Like a lot of things in R, <code>select()</code> is both easy and complex. It’s really easy to just list the columns you want to keep. But <code>select()</code> can also be very powerful as you <a href="https://dplyr.tidyverse.org/reference/select.html">learn more options</a>.</p>
+<p>Let’s just add one complexity: We’ll <strong>rename some columns</strong> as we list them.</p>
+<ol type="1">
+<li>Add a Markdown headline: <code>## Selecting columns</code>.</li>
+<li>Explain in text we are dropping the text date column and renaming others.</li>
+<li>Add the code below and then I’ll explain it. We again are setting this up to create a new object and view the changes.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-23"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-23" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-23-1" class="code-annotation-target"><a href="#annotated-cell-23-1" aria-hidden="true" tabindex="-1"></a>hot100_clean <span class="ot">&lt;-</span> hot100_date <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-23" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-23-2" class="code-annotation-target"><a href="#annotated-cell-23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-23" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-23-3" class="code-annotation-target"><a href="#annotated-cell-23-3" aria-hidden="true" tabindex="-1"></a>    chart_date,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-23" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-23-4" class="code-annotation-target"><a href="#annotated-cell-23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">current_rank =</span> this_week,</span>
+<span id="annotated-cell-23-5"><a href="#annotated-cell-23-5" aria-hidden="true" tabindex="-1"></a>    title,</span>
+<span id="annotated-cell-23-6"><a href="#annotated-cell-23-6" aria-hidden="true" tabindex="-1"></a>    performer,</span>
+<span id="annotated-cell-23-7"><a href="#annotated-cell-23-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">previous_rank =</span> last_week,</span>
+<span id="annotated-cell-23-8"><a href="#annotated-cell-23-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">peak_rank =</span> peak_pos,</span>
+<span id="annotated-cell-23-9"><a href="#annotated-cell-23-9" aria-hidden="true" tabindex="-1"></a>    wks_on_chart</span>
+<span id="annotated-cell-23-10"><a href="#annotated-cell-23-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="annotated-cell-23-11"><a href="#annotated-cell-23-11" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-23" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-23-12" class="code-annotation-target"><a href="#annotated-cell-23-12" aria-hidden="true" tabindex="-1"></a>hot100_clean <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-23" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-23" data-code-annotation="1" data-code-lines="1">Name our new object <code>hot100_clean</code> and fill it with the result of <code>hot100_date</code> <em>and then</em> include the modifications that follow.</span>
+</dd>
+<dt data-target-cell="annotated-cell-23" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-23" data-code-annotation="2" data-code-lines="2">We start the <code>select()</code> function to list the columns to keep</span>
+</dd>
+<dt data-target-cell="annotated-cell-23" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-23" data-code-annotation="3" data-code-lines="3">We start with <code>chart_date</code> which is our <em>real date</em>. We just won’t ever name the text version so we won’t keep it.</span>
+</dd>
+<dt data-target-cell="annotated-cell-23" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-23" data-code-annotation="4" data-code-lines="4,7,8">When we get to our <code>this_week</code> column, we rename it to <code>current_rank</code>. We’re doing this because we’ll rename all the “ranking” columns with something that includes <code>_rank</code> at the end. (While this is good practice, the reasons get into the weeds).</span>
+</dd>
+<dt data-target-cell="annotated-cell-23" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-23" data-code-annotation="5" data-code-lines="12">Lastly, we glimpse the new object to check it.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 341,300
+Columns: 7
+$ chart_date    &lt;date&gt; 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08…
+$ current_rank  &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
+$ title         &lt;chr&gt; "Poor Little Fool", "Patricia", "Splish Splash", "Hard H…
+$ performer     &lt;chr&gt; "Ricky Nelson", "Perez Prado And His Orchestra", "Bobby …
+$ previous_rank &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ peak_rank     &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
+$ wks_on_chart  &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…</code></pre>
+</div>
+</div>
+<p>There are other ways to accomplish the same thing, but this works for us.</p>
+</section>
+</section>
+<section id="exporting-data" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="exporting-data"><span class="header-section-number">3.10</span> Exporting data</h2>
+<section id="using-multiple-notebooks" class="level3" data-number="3.10.1">
+<h3 data-number="3.10.1" class="anchored" data-anchor-id="using-multiple-notebooks"><span class="header-section-number">3.10.1</span> Using multiple notebooks</h3>
+<p>It is good practice to separate the cleaning of your data from your analysis. By doing all our cleaning at once and exporting it, we can use that cleaned data over and over in future notebooks.</p>
+<p>Because each notebook needs to be self-contained to render, we will export our cleaned data in a native R format called <code>.rds</code> (maybe stands for R data storage?). This format preserves all our data types so we won’t have to reset or clean them.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is one of the reasons I had you name this notebook <code>01-cleaning.qmd</code> with a <code>01</code> at the beginning, so we know to run this one before we can use the notebook <code>02-analysis.qmd</code> (next lesson!). I use <code>01-</code> instead of just <code>1-</code> in case there are more than nine notebooks. I want them to appear in order in my files directory. I’m anal retentive like that, which is a good trait for a data journalist.</p>
+</div>
+</div>
+<p>One last thought to belabor the point: Separating your cleaning can save time. I’ve had cleaning notebooks that took 20 minutes to process. Imagine if I had to run that every time I wanted to rebuild my analysis notebook. Instead, the import notebook spits out a clean file that can be imported in a fraction of that time.</p>
+<p>This was all a long-winded way of saying we are going to export our data now.</p>
+<p>We will use another readr function called <code>write_rds()</code> to create our file to pass along to the next notebook, saving the data into the <code>data-processed</code> folder we created earlier. We are avoiding our data-raw folder because <strong>“Thou shalt not change original data”</strong> even by accident.</p>
+<ol type="1">
+<li>Create a Markdown headline <code>## Exports</code> and write a description that you are exporting files to .rds.</li>
+<li>Add a new code chunk and add the following code:</li>
+</ol>
+<!-- running this code to get output for future chapter -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>hot100_clean <span class="sc">|&gt;</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">write_rds</span>(<span class="st">"data-processed/01-hot100.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>So, here we are starting with the <code>hot100_clean</code> tibble that we saved earlier. We then pipe <code>|&gt;</code> the result of that into a new function <code>write_rds()</code>. In addition to the data, the function needs to know where to save the file, so in quotes we give it the path to where we want to save the file: <code>"data-processed/01-hot100.rds"</code>.</p>
+<p>Remember, we are saving in data-processed because we never export into data-raw. We are naming the file starting with <code>01-</code> to indicate to our future selves that this output came from our first notebook. We then name it, and use the <code>.rds</code> extension.</p>
+</section>
+<section id="about-paths" class="level3" data-number="3.10.2">
+<h3 data-number="3.10.2" class="anchored" data-anchor-id="about-paths"><span class="header-section-number">3.10.2</span> About paths</h3>
+<p>When I say “path to where we want to save the file” what I’m talking about is the folder structure on your computer. The frame of reference is where your notebook is stored, which is typically in your project folder. When we want to reference other files from within our notebook, we have to provide the <strong>path</strong> (or folder structure) to where that file is, including its name. We use <code>/</code> in the path to designate we are going inside a folder.</p>
+<p>Here is the file structure inside your project folder:</p>
+<pre class="pre"><code>├── 01-cleaning.qmd
+├── 02-analysis.qmd
+├── _quarto.yml
+├── christian-billboard.Rproj
+├── data-processed
+│&nbsp;&nbsp; └── 01-hot100.rds
+├── data-raw
+│&nbsp;&nbsp; └── hot100_assignment.csv
+└── index.qmd</code></pre>
+<p>To get from <code>01-cleaning.qmd</code> we need to provide a <strong>relative</strong> path to where we are saving the file, including the folder name and the name of the file: <code>data-processed/01-hot100.rds</code>.</p>
+<p>We’ll need to do a similar thing when import data in the next notebook.</p>
+</section>
+</section>
+<section id="bookmarks" class="level2" data-number="3.11">
+<h2 data-number="3.11" class="anchored" data-anchor-id="bookmarks"><span class="header-section-number">3.11</span> Bookmarks</h2>
+<p>I didn’t want to break our flow of work to explain this earlier, but I want you show you a nice feature in RStudio to jump up and down your notebook.</p>
+<ol type="1">
+<li>Look at the bottom of your window above the console and you’ll see a dropdown window. Click on that.</li>
+</ol>
+<p>Here is mine, but yours will be different:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/bb-rstudio-bookmarks.png" class="img-fluid figure-img" width="400"></p>
+<figcaption class="figure-caption">RStudio bookmarks</figcaption>
+</figure>
+</div>
+<p>You’ll notice that each Markdown headline you have is listed. My chunks also have names, but yours probably don’t. It’s optional to name chunks with a label but it helps you find them through the bookmarks. In addition, plots produced by the chunks will have useful names that make them easier to reference elsewhere, but that’s later lesson in the semester.</p>
+<p>Here is how you can name a chunk by using <a href="https://quarto.org/docs/computations/execution-options.html">“execution options”</a>, which can control your code output. (This example shows all of the R code chunk.)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: select-rows</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>hot100_clean <span class="sc">|&gt;</span> <span class="fu">select</span>(title, performer) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["title"],"name":[1],"type":["chr"],"align":["left"]},{"label":["performer"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"Poor Little Fool","2":"Ricky Nelson"},{"1":"Patricia","2":"Perez Prado And His Orchestra"},{"1":"Splish Splash","2":"Bobby Darin"},{"1":"Hard Headed Woman","2":"Elvis Presley With The Jordanaires"},{"1":"When","2":"Kalin Twins"},{"1":"Rebel-'rouser","2":"Duane Eddy His Twangy Guitar And The Rebels"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Your chunk labels should be short but evocative and should not contain spaces. Hadley Wickham recommends using dashes <code>-</code> to separate words (instead of underscores <code>_</code>) and avoiding other special characters in chunk labels.</p>
+<p>You can read more execution options and chunks in <a href="https://r4ds.hadley.nz/quarto.html#chunk-label">R for Data Science</a>.</p>
+</section>
+<section id="render-and-publish" class="level2" data-number="3.12">
+<h2 data-number="3.12" class="anchored" data-anchor-id="render-and-publish"><span class="header-section-number">3.12</span> Render and publish</h2>
+<p>Lastly, I want you to render your notebook so you can see the pretty HTML version.</p>
+<ol type="1">
+<li>Click the Render button in the toolbar (or use <em>Cmd-Shift-k</em>).</li>
+</ol>
+<p>This should open the HTML version of your page in the Viewer pane. Note there is also a button in that View toolbar that will instead open your site in your web browser.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/bb-render-browser.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Render site</figcaption>
+</figure>
+</div>
+<p>But note this version is only available on your computer. In a minute we’ll publish this to Quarto Pub so you have an online version that we’ll continue to update.</p>
+<section id="publish-to-quarto-pub" class="level3" data-number="3.12.1">
+<h3 data-number="3.12.1" class="anchored" data-anchor-id="publish-to-quarto-pub"><span class="header-section-number">3.12.1</span> Publish to Quarto pub</h3>
+<p>Now the we have that in order, let’s publish this to the internet. If you published your last project as instructed, it should remember your credentials.</p>
+<ol type="1">
+<li>In the bottom-left pane of RStudio, click on the pane <strong>Terminal</strong>.</li>
+<li>Type in <code>quarto publish</code>.</li>
+<li>The first option available (and perhaps the only) should be Quarto Pub. Hit <strong>Return</strong> to choose that.</li>
+<li>It might know who you are already, but continue through the prompts.</li>
+</ol>
+<p>You should end up with your browser open to your new Quarto Pub website.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://player.vimeo.com/video/833716452" frameborder="0" allow="autoplay; title=" "="" fullscreen;="" picture-in-picture"="" allowfullscreen=""></iframe></div>
+<p>Well done.</p>
+</section>
+</section>
+<section id="review-of-what-weve-learned-so-far" class="level2" data-number="3.13">
+<h2 data-number="3.13" class="anchored" data-anchor-id="review-of-what-weve-learned-so-far"><span class="header-section-number">3.13</span> Review of what we’ve learned so far</h2>
+<p>Most of this lesson has been about importing and cleaning data, which can sometimes be the most challenging part of a project. Here we were working with well-formed data, but we still used quite a few tools from the tidyverse like readr (read_csv, write_rds) and dplyr (select, mutate).</p>
+<p>Here are the functions we used and what they do. Most are linked to documentation sites:</p>
+<ul>
+<li><code>library()</code> loads a package so we can use functions within it. We will use at least <code>library(tidyverse)</code> in every project.</li>
+<li><a href="https://readr.tidyverse.org/reference/read_delim.html"><code>read_csv()</code></a> imports a csv file. You want that function with the underscore, not <code>read.csv</code>.</li>
+<li><code>clean_names()</code> is a function in the <a href="https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html">janitor</a> package that standardizes column names.</li>
+<li><a href="https://www.rdocumentation.org/packages/dplyr/versions/0.3/topics/glimpse"><code>glimpse()</code></a> is a view of your data where you can see all of the column names, their data type and a few examples of the data.</li>
+<li><code>head()</code> prints the first 6 rows of your data unless you specify differently within the function.</li>
+<li><a href="https://dplyr.tidyverse.org/reference/mutate.html"><code>mutate()</code></a> changes data. You can create new columns or overwrite existing ones.</li>
+<li><code>mdy()</code> is a <a href="https://lubridate.tidyverse.org/">lubridate</a> function to convert text into a date. There are other functions depending on the way your text is ordered.</li>
+<li><a href="https://dplyr.tidyverse.org/reference/select.html"><code>select()</code></a> selects columns from your tibble. You can list all the columns to keep, or use <code>!</code> to remove columns. There are many variations.</li>
+<li><code>summary()</code> gives you some quick summary statistics about your data like min, max, mean, median.</li>
+<li><a href="https://readr.tidyverse.org/reference/read_rds.html"><code>write_rds()</code></a> writes data out to a file in a format that preserves data types.</li>
+</ul>
+</section>
+<section id="whats-next" class="level2" data-number="3.14">
+<h2 data-number="3.14" class="anchored" data-anchor-id="whats-next"><span class="header-section-number">3.14</span> What’s next</h2>
+<p>This is part one of a two-chapter project. You might be asked to turn in your progress, or we might wait until both parts are done. Check your class assignments in Canvas.</p>
+<p>Please reach out to me if you have questions on what you’ve done so far. These are important skills you’ll use on future projects.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./intro.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./billboard-analysis.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Billboard Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
