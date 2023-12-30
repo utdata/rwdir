@@ -103,8 +103,9 @@ tx_values_exmpl |>
     # breaks = breaks_width("1 year"),
     # labels = label_date("%Y")
   ) +
-  labs(title = "Yearly value of military surplus acquisitions in Texas", 
-       x = "Year", y = "Cost of acquisitions",
+  labs(title = "Military surplus acquisitions in decline", 
+       subtitle = str_wrap("After a spike in 2014, the value of controlled military surplus equipment transfered from the U.S. military to local law enforcement agencies has dropped in recent years. Controlled equipment includes items like weapons that must be returned to the military for disposal."),
+       x = "Year", y = "Value of acquisitions",
        caption = "Source: Law Enforcement Support Office") +
   theme_minimal()
 ```
@@ -177,9 +178,10 @@ In this new plot, we'll learn about a new `geom` layer: `geom_line()` (recall th
 ggplot(tx_values, aes(x = year, y = yearly_value)) + # <1>
   geom_point() + # <2>
   geom_line() + # <3>
-  labs(
-    title = "Yearly value of military surplus acquisitions in Texas", 
-    x = "Year", y = "Cost of acquisitions",
+  labs( # <4>
+    title = "Military surplus acquisitions in decline", 
+    subtitle = str_wrap("After a spike in 2014, the value of controlled military surplus equipment transfered from the U.S. military to local law enforcement agencies has dropped in recent years. Controlled equipment includes items like weapons that must be returned to the military for disposal."),
+    x = "Year", y = "Value of acquisitions",
     caption = "Source: Law Enforcement Support Office"
   )
 ```
@@ -187,6 +189,7 @@ ggplot(tx_values, aes(x = year, y = yearly_value)) + # <1>
 1.  we create the graph
 2.  adding the points
 3.  adding the lines between the points
+4. we add the labels. Note the `str_wrap()` function we've used with `subtitle =` which keeps the text from running outside the chart.
 
 ### Cleaning Up
 
@@ -205,8 +208,9 @@ ggplot(tx_values, aes(x = year, y = yearly_value)) +
   geom_line() +
   scale_y_continuous(labels = label_dollar()) + # <1> 
   labs(
-    title = "Yearly value of military surplus acquisitions in Texas", 
-    x = "Year", y = "Cost of acquisitions",
+    title = "Military surplus acquisitions in decline", 
+    subtitle = str_wrap("After a spike in 2014, the value of controlled military surplus equipment transfered from the U.S. military to local law enforcement agencies has dropped in recent years. Controlled equipment includes items like weapons that must be returned to the military for disposal."),
+    x = "Year", y = "Value of acquisitions",
     caption = "Source: Law Enforcement Support Office"
   )
 ```
@@ -231,8 +235,9 @@ ggplot(tx_values, aes(x = year, y = yearly_value)) +
   geom_line() +
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) + # <1>
   labs(
-    title = "Yearly value of military surplus acquisitions in Texas", 
-    x = "Year", y = "Cost of acquisitions",
+    title = "Military surplus acquisitions in decline", 
+    subtitle = str_wrap("After a spike in 2014, the value of controlled military surplus equipment transfered from the U.S. military to local law enforcement agencies has dropped in recent years. Controlled equipment includes items like weapons that must be returned to the military for disposal."),
+    x = "Year", y = "Value of acquisitions",
     caption = "Source: Law Enforcement Support Office"
   )
 ```
@@ -253,8 +258,9 @@ tx_values |>
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
   scale_x_date(minor_breaks = breaks_width("1 year")) + # <2>
   labs(
-    title = "Yearly value of military surplus acquisitions in Texas", 
-    x = "Year", y = "Cost of acquisitions",
+    title = "Military surplus acquisitions in decline", 
+    subtitle = str_wrap("After a spike in 2014, the value of controlled military surplus equipment transfered from the U.S. military to local law enforcement agencies has dropped in recent years. Controlled equipment includes items like weapons that must be returned to the military for disposal."),
+    x = "Year", y = "Value of acquisitions",
     caption = "Source: Law Enforcement Support Office"
   )
 
@@ -281,8 +287,9 @@ tx_plot <- ggplot(tx_values, aes(x = date(year), y = yearly_value)) + # <1>
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
   scale_x_date(minor_breaks = breaks_width("1 year")) +
   labs(
-    title = "Yearly value of military surplus acquisitions in Texas", 
-    x = "Year", y = "Cost of acquisitions",
+    title = "Military surplus acquisitions in decline", 
+    subtitle = str_wrap("After a spike in 2014, the value of controlled military surplus equipment transfered from the U.S. military to local law enforcement agencies has dropped in recent years. Controlled equipment includes items like weapons that must be returned to the military for disposal."),
+    x = "Year", y = "Value of acquisitions",
     caption = "Source: Law Enforcement Support Office"
   )
 
@@ -369,11 +376,14 @@ ggplot(region_data_exp,
   geom_line(aes(color = state)) + 
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
   scale_x_date(minor_breaks = breaks_width("1 year")) +
-  labs(title = "Yearly military surplus acquisitions in Texas and bordering states", 
-       x = "Year", y = "Cost of acquisitions",
+  labs(title = "Military surplus acquisitions track among Texas, bordering states", 
+  subtitle = str_wrap("State and local law enforcement agencies can request surplus military equipment from the U.S. Department of Defence, paying only for the shipping. Agencies in Texas and bordering states have followed similar trends in requests since 2010, with declining requests in recent years."),
+       x = "Year", y = "Value of acquisitions",
        caption = "Source: Law Enforcement Support Office",
        color = "State")
 ```
+
+
 
 ### Prepare the data
 
@@ -418,8 +428,9 @@ ggplot(region_data, # <1>
   geom_line(aes(color = state)) + # <4>
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) + # <5>
   scale_x_date(minor_breaks = breaks_width("1 year")) + # <6>
-  labs(title = "Yearly military surplus acquisitions in Texas and bordering states", 
-       x = "Year", y = "Cost of acquisitions",
+  labs(title = "Military surplus acquisitions track among Texas, bordering states",
+       subtitle = str_wrap("State and local law enforcement agencies can request surplus military equipment from the U.S. Department of Defence, paying only for the shipping. Agencies in Texas and bordering states have followed similar trends in requests since 2010, with declining requests in recent years."),
+       x = "Year", y = "Value of acquisitions",
        caption = "Source: Law Enforcement Support Office") # <7>
 ```
 
@@ -447,8 +458,9 @@ ggplot(region_data,
   geom_line(aes(color = state)) +
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
   scale_x_date(minor_breaks = breaks_width("1 year")) +
-  labs(title = "Yearly military surplus acquisitions in Texas and bordering states", 
-       x = "Year", y = "Cost of acquisitions",
+  labs(title = "Military surplus acquisitions track among Texas, bordering states",
+       subtitle = str_wrap("State and local law enforcement agencies can request surplus military equipment from the U.S. Department of Defence, paying only for the shipping. Agencies in Texas and bordering states have followed similar trends in requests since 2010, with declining requests in recent years."),
+       x = "Year", y = "Value of acquisitions",
        caption = "Source: Law Enforcement Support Office",
        color = "State") #<2>
 ```
@@ -470,7 +482,7 @@ Some things to do/consider:
 
 ## Tour of some other adjustments
 
-You don't have to add these examples below to your own notebook, but here are some examples of other things you can control.
+These examples show how to tweak different parts of charts. Add them to your notebook, run it, then find the value that makes the change and adjust it with new values so you can see the difference.
 
 ### Line width
 
@@ -481,8 +493,7 @@ ggplot(region_data,
   geom_line(aes(color = state), size = 1.5) + #<1>
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
   scale_x_date(minor_breaks = breaks_width("1 year")) +
-  labs(title = "Yearly military surplus acquisitions in Texas and bordering states", 
-       x = "Year", y = "Cost of acquisitions",
+  labs(x = "Year", y = "Value of acquisitions",
        caption = "Source: Law Enforcement Support Office",
        color = "State")
 ```
@@ -501,8 +512,7 @@ ggplot(region_data,
   geom_line(aes(color = state, linetype = state), size = .5) + #<1>
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
   scale_x_date(minor_breaks = breaks_width("1 year")) +
-  labs(title = "Yearly military surplus acquisitions in Texas and bordering states", 
-       x = "Year", y = "Cost of acquisitions",
+  labs(x = "Year", y = "Value of acquisitions",
        caption = "Source: Law Enforcement Support Office",
        color = "State")
 ```
@@ -519,8 +529,7 @@ ggplot(region_data,
   geom_line(aes(color = state, linetype = state), size = .5) +
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
   scale_x_date(minor_breaks = breaks_width("1 year")) +
-  labs(title = "Yearly military surplus acquisitions in Texas and bordering states", 
-       x = "Year", y = "Cost of acquisitions",
+  labs(x = "Year", y = "Value of acquisitions",
        caption = "Source: Law Enforcement Support Office",
        color = "State", linetype = "State") #<1>
 ```
@@ -545,8 +554,9 @@ ggplot(region_data,
   geom_line(aes(color = state, linetype = state), size = .5) +
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
   scale_x_date(minor_breaks = breaks_width("1 year")) +
-  labs(title = "Yearly military surplus acquisitions in Texas and bordering states", 
-       x = "Year", y = "Cost of acquisitions",
+  labs(title = "Military surplus acquisitions track among Texas, bordering states",
+       subtitle = str_wrap("State and local law enforcement agencies can request surplus military equipment from the U.S. Department of Defence, paying only for the shipping. Agencies in Texas and bordering states have followed similar trends in requests since 2010, with declining requests in recent years."),
+       x = "Year", y = "Value of acquisitions",
        caption = "Source: Law Enforcement Support Office",
        color = "State", linetype = "State") +
   facet_wrap(~ state) #<1>
@@ -567,8 +577,8 @@ ggplot(region_data,
   geom_line(aes(color = state, linetype = state), size = .5) +
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
   scale_x_date(minor_breaks = breaks_width("1 year")) +
-  labs(title = "Yearly military surplus acquisitions in Texas and bordering states", 
-       x = "Year", y = "Cost of acquisitions",
+  labs(title = "Military surplus acquisitions track among Texas, bordering states", 
+       x = "Year", y = "Value of acquisitions",
        caption = "Source: Law Enforcement Support Office",
        color = "State", linetype = "State") +
   facet_wrap(~ state) +
@@ -579,9 +589,9 @@ ggplot(region_data,
 
 ### Facet grids
 
-A `facet_grid()` allows you to plot on a combination of variables. We don't really have enough variables to compare with our leso data but we can show this with the `penguins` data we used in the last chapter.
+A `facet_grid()` allows you to plot on a combination of variables. We don't really have enough variables to compare with our military surplus data but we can show this with the `penguins` data we used in the last chapter.
 
-This chart compares the filpper length and body mass, but it does so for each species of bird by their gender.
+This chart compares the flipper length and body mass, but it does so for each species of bird by their gender.
 
 ```{r}
 #| label: facet-grid
@@ -623,7 +633,7 @@ region_plot <- ggplot(region_data, #<1>
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
   scale_x_date(minor_breaks = breaks_width("1 year")) +
   labs(title = "Military police", 
-       x = "Year", y = "Cost of acquisitions",
+       x = "Year", y = "Value of acquisitions",
        caption = "Source: Law Enforcement Support Office",
        color = "State")
 

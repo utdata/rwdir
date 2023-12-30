@@ -103,9 +103,15 @@ We will build the same project structure that we did with the Billboard project.
 2.  Use the create project button (or *File \> New project*) to create a new project in a **New Directory**.
 3.  For the project type, choose **Quarto Website**
 4.  Name the directory "yourname-military-surplus", but with your name.
-5.  In the `index.qmd` file, replace the title value with "Military Surplus", as that is our project title.
-6.  Remove the boilerplate stuff after the YAML title and write in Markdown a little about what this is ... a class project about surplus military equipment. You can come back to this later to flesh it out.
 7.  Create two folders: `data-raw` and `data-processed`.
+5.  In the `index.qmd` file, replace the title value with "Military Surplus", as that is our project title.
+6.  Remove the boilerplate stuff after the YAML title and this bit about the project:
+
+```txt
+This project looks at how much U.S. military surplus equipment has been transferred to law enforcement agencies. It uses data from from the "1033 program" handled through the [Law Enforcement Support Office](https://www.dla.mil/Disposition-Services/Offers/Law-Enforcement/Public-Information/), which posts data quarterly.
+```
+
+You'll come back to this at the end of the project to write your summary.
 
 ## Cleaning notebook
 
@@ -124,7 +130,7 @@ As noted before, I separate cleaning into a separate notebook so that each subse
 That's a long-winded opening to say let's add our notebook goals so you know what's going on here.
 
 1.  In Markdown, add a headline noting these are notebook goals.
-2.  Add the goals below:
+2.  Add the goals below as text:
 
 ``` txt
 - Download the data
@@ -166,7 +172,7 @@ One other note about this ... we should only need the `tidyverse` library for th
 While the data we will use here if from Prof. McDonald, it is from the [Law Enforcement Support Office](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/). Find more information [about the program here](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/ProgramFAQs/).
 ```
 
-::: callout-note
+::: callout-tip
 Note the text above scrolls off the screen. Use the copy icon to select all the text.
 :::
 
@@ -204,7 +210,7 @@ download.file(
 
 Once you've built your code chunk and run it, you should make sure the file downloaded into the correct place: in your `data-raw` folder.
 
-::: callout-note
+::: callout-tip
 If you get an error about the path, you might make sure you created the `data-raw` folder first.
 :::
 
@@ -266,20 +272,17 @@ Sometimes at this point in a project, you might not know what columns you need t
 2.  Add a code chunk and the following code. I'll explain it below.
 
 ```{r remove-cols}
-leso_tight <- leso |> 
-  select(!sheet)
+leso_tight <- leso |> # <1>
+  select(!sheet) # <2>
 
-leso_tight |> glimpse()
+leso_tight |> glimpse() # <3>
 ```
 
-In English, we are:
+1. We create a new tibble `leso_tight` and then fill it with `leso` data AND THEN ...
+2. We use select to remove the column called `sheet`. Within the `select()` function, we use `!` to "negate" the column called "sheet". 
+3. We then glimpse the new data.
 
--   creating a new tibble `leso_tight` and then ..
--   filling it with this: The `leso` data AND THEN we use select to remove the column called `sheet`. We then glimpse the new data.
-
-Within the `select()` function, we use `!` to "negate" the column called "sheet". If we wanted to remove more than one column --- say both `sheet` and `station_type` --- then we would use `!` negate in conjunction with the `c()` function to combine items into a new vector, like this: `select(!c(sheet, station_type))`.
-
-The use of `!` to remove things will come up in other places in R, as will using `c()` to combine things together.
+If we wanted to remove more than one column --- say both `sheet` and `station_type` --- then we would use `!` negate in conjunction with the `c()` function to combine items into a new vector, like this: `select(!c(sheet, station_type))`. The use of `!` to remove things will come up in other places in R, as will using `c()` to combine things together.
 
 So now we have a tibble called `leso_tight` that we will work with in the next section.
 
@@ -342,27 +345,31 @@ leso_total |> glimpse()
 
 Note that new columns are added at the end of the tibble. Sometimes you can look through the glimpsed data to see if your mutate worked correctly, but that depends on the data.
 
-If there isn't enough information visible, you might try printing out some rows of the data to peek through it.
+If there isn't enough information visible, you can print some sample rows of the data to peek through it.
 
-1.  **Edit your chunk** on the last line to change `glimpse()` to `head(20)`
-
-I'm just showing that last line here:
+1. Add some text that you are checking the results.
+1. Add a new chunk and pipe `leso_total` into a new function `slice_sample(n = 10)`.
 
 ```{r}
-leso_total |> head(20)
+leso_total |>
+  slice_sample(n = 10) # <1>
 ```
 
-At this point you can page through the columns to check the math. But even with this, there are a lot of columns to page through. You can use add on `select()` to pluck out the columns of interest to check.
+1. The argument `n = 10` is the number of rows to show. The default is a single row.
+
+At this point you can page through the columns to check the math. If you want to see a different sample of data, just rerun the chunk as you get a new one each time. If you want a different number of lines, change the value inside the function.
+
+But even with this, there are a lot of columns to page through. You can use add on `select()` to pluck out the columns of interest to check.
 
 1.  **Edit** your chunk's last line like this:
 
 ```{r}
 leso_total |> 
-  head(20) |>
+  slice_sample(n = 10) |>
   select(agency_name, quantity, acquisition_value, total_value)
 ```
 
-This should allow you to check if the math worked. As of this writing, there was a record for "ABBEVILLE POLICE DEPT" that has a `quantity` of "10" and `acquisition_value` of "15871.59" and I got a `total_value` of "158715.90". So, 10 \* 15871.59 = 158715.90, which is correct!
+This should allow you to check if the math worked. In one of my samples there was a record for "JONESBORO POLICE DEPARTMENT" that has a `quantity` of "6" and `acquisition_value` of "114.00" and I got a `total_value` of "684.00". So, 6 \* 114.00 = 684.00, which is correct!
 
 Something to note about this process: In the first part of this chunk we are taking `leso_tight`, making some changes to it and the **saving** it into `leso_total`. We have two objects now, one before the changes and one after.
 
@@ -404,13 +411,13 @@ leso_control <- leso_total |>
 leso_control |> glimpse()
 ```
 
-If you want to learn more about the code in that block, read the Appendix chapter titled *Using case_when*.
+If you want to learn more about the code in that block, read the Appendix chapter titled [Using case_when](case-when.qmd).
 
 ## Filtering our data
 
 In the Billboard lesson you used `filter()` to get No. 1 songs and to get a date range of data. We need to do something similar here to get only data of a certain date range. We'll build the filters one at a time so we can save the resulting objects separately.
 
-1.  Create a new section with headlines and text that denote you are filtering the data to records since Jan. 1, 2010 up to the most recent full year.
+1.  Create a new section with headlines and text that denote you are filtering the data to records since Jan. 1, 2010.
 2.  Create a chunk and filter your `leso_control` data to get rows with a `ship_date` later than 2010-01-01.
 3.  Save the result into a new tibble called `leso_dated`.
 4.  Print out the new tibble `leso_dated`.
@@ -437,16 +444,10 @@ Now, `summary()` is different than `summarize()`, which we'll do plenty of in a 
 1.  **Edit your chunk** to not just print out the tibble, but pipe that into `summary()`, like this:
 
 ```{r}
-#| output: false
 leso_dated |> summary()
 ```
 
-You should be be able to look at the **Min** value of `ship_date` in the summary to make sure there are not dates before 2010. Here is what that summary looks like:
-
-```{r}
-#| echo: false
-leso_dated |> summary()
-```
+You should be be able to look at the **Min** value of `ship_date` in the summary to make sure there are not dates before 2010. You can also look at the **Max** value to see your latest `ship_date`. You should make a mental (and perhaps written) note about that max date.
 
 We now have an object, `leso_dated` that has all the data since 2010. We'll export this for our next notebook.
 
@@ -479,5 +480,6 @@ You should Render your notebook and read it over carefully. Some things to look 
 
 This chapter was similar to when we imported data for Billboard, but we did introduce a couple of new concepts:
 
--   [`case_when()`](https://dplyr.tidyverse.org/reference/case_when.html) allows you to categorize a new column based on logic within your data.
--   `summary()` gives you descriptive statistics about your tibble. We used it to check the "min" date, but you can also see averages (mean), max and medians.
+- [`slice_sample(n = 10)`](https://dplyr.tidyverse.org/reference/slice.html) gives us 10 random rows from our data.
+-   [`case_when()`](https://dplyr.tidyverse.org/reference/case_when.html) allows you to categorize a new column based on logic within your data. There is more about this in the [this appendix](case-when.qmd).
+-   `summary()` gives you descriptive statistics about your tibble. We used it to check the "min" and "max" date, but you can also see averages (mean) and medians.

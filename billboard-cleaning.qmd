@@ -48,20 +48,25 @@ To save time and such, I'll supply you with a short project description.
 
 ``` md
 ---
-title: "Billboard Hot 100 project"
+title: "Billboard Hot 100"
 ---
 
-This data project is an assignment in Reporting with Data, and it uses the [Billboard Hot 100](https://www.billboard.com/charts/hot-100/) chart data as collected by Prof. McDonald in a [Github repo](https://github.com/utdata/rwd-billboard-data).
+This project is an assignment in the Reporting with Data class at the University of Texas at Austin. 
 
-Notebooks created for this project are available through the site navigation.
+It is a study of [Billboard Hot 100](https://www.billboard.com/charts/hot-100/) chart data as collected and updated by Christian McDonald in a [Github repo](https://github.com/utdata/rwd-billboard-data). While the archive was compiled through a number of methods, the original source is Billboard Magazine, owned by the Penske Media Corporation. The data dates back to the Hot 100's beginning in August 1958 and is updated weekly, but the end date here will depend on when the user runs the code.
+
 ```
 
 1.  Copy the text above and replace the contents of `index.qmd`.
 2.  Use the **Render** button or *Cmd-Shift-K* to render the page.
 
-Project descriptions like this can be longer and more involved, describing details about the source data, the goals of the project, the findings and perhaps links to the resulting stories and graphics published by the news organization.
+::: callout-important
 
-That said, we're done with this file for now so you can close it.
+You want each of your projects to have a description like this, along with details describing the source data, the goals of the project, the findings and perhaps links to stories and graphics published based on the data analysis. If you want to see some excellent examples of these summaries, check out the "Repo" links at [Buzzfeed News' github repo](https://github.com/BuzzFeedNews/everything?tab=readme-ov-file). (RIP Buzzfeed News.)
+
+:::
+
+In the next chapter you'll return to this page to update it with your findings. For now we're done with this file so you can close it.
 
 ### Create directories for your data
 
@@ -179,7 +184,7 @@ The steps we'll take to prepare our data:
 - Export the data for next notebook
 ```
 
-We want to start each notebook with a list like this so our future selves and others know what the heck we are trying to accomplish. It's not unusual to update this list as we work through the notebook.
+We want to start each notebook with a list like this so our future selves and others know what we are trying to accomplish. It's not unusual to update this list as we work through the notebook.
 
 We will also write Markdown like this to explain each new "section" or goal as we tackle them.
 
@@ -236,9 +241,9 @@ We've just done a lot of work setting up our project, and we're about to get int
 
 ## About the Billboard Hot 100 
 
-The *Billboard* [Hot 100](https://www.billboard.com/charts/hot-100/) singles charts has been the music industry's standard record chart since its inception on Aug. 4th, 1958. The rankings, published by Billboard Media, are currently based on sales (physical and digital), radio play, and online streaming. The methods and policies of the chart have changed over time.
+The *Billboard* [Hot 100](https://www.billboard.com/charts/hot-100/) singles charts has been the music industry's standard record chart since its inception on Aug. 4th, 1958. The rankings, published by Billboard Magazine, are currently based on sales (physical and digital), radio play, and online streaming. The methods and policies of the chart have changed over time.
 
-The data we will use was compiled by Prof. McDonald from a [number of sources](https://github.com/utdata/rwd-billboard-data). When you write about this data (and you will), you should source it as **the Billboard Hot 100 from Billboard Media**, since that is where it originally came from and they are the "owner" of the data.
+The data we will use was compiled by Prof. McDonald from a [number of sources](https://github.com/utdata/rwd-billboard-data). When you write about this data (and you will), you should source it as **the Billboard Hot 100 from Billboard Magazine**, since that is where it originally came from and they are the "owner" of the data.
 
 ### Data dictionary
 
@@ -508,23 +513,26 @@ Since we are doing something new, we want to start a new section in our notebook
 
 We will be **changing or creating** our data, so we will create a **new object** to store it in. We do this so we can go back and reference the *unchanged* data if we need to. Because of this, we'll set up a chunk of code that allows us to peek at what is happening while we write our code. We'll do this kind of setup often when we are working out how to do something in code.
 
-1.  Add the following inside your code chunk.
+1. Add the following inside your code chunk.
+2. Run the code, and then read through the annotations below.
+
+::: callout-tip
+This is our first use of annotated code with the circled numbers shown on the right edge of the code block. If you see these, the best way to use the code in the chunk is to a) type it yourself (preferred!), b) to highlight and copy a line without catching the circled number, or c) to use the "Copy to clipboard" icon that shows at the top-right of the code block when you put your cursor over it.
+:::
 
 ```{r date-base}
-# part we will build upon
-hot100_date <- hot100
-
-# peek at the result
-hot100_date |> glimpse()
+# part we will build upon # <1>
+hot100_date <- hot100 # <2>
+# <3>
+# peek at the result # <4>
+hot100_date |> glimpse() # <5>
 ```
 
-Let's break this down:
-
--   I have a comment starting with `#` to explain the first part of the code.
--   We created a new object (or "bucket") called `hot100_date` and we fill it with our `hot100` data. Yes, as of now they are exactly the same.
--   I leave a blank line for clarity.
--   Then another comment.
--   Then we glimpse the new `hot100_date` object so we can see changes as we work on it.
+1. I have a comment starting with `#` to explain the first part of the code.
+2. We created a new object (or "bucket") called `hot100_date` and we fill it with our `hot100` data. Yes, as of now they are exactly the same.
+3. I leave a blank line for clarity ...
+4. Then another comment ...
+5. Then we glimpse the new `hot100_date` object so we can see changes as we work on it.
 
 To be clear, we haven't changed any data yet. We just created a new object like the old object.
 
@@ -555,20 +563,18 @@ That new value could be arrived at through math or any combination of other func
 
 ```{r date-mutate}
 # part we will build upon
-hot100_date <- hot100 |> 
-  mutate(
-    chart_date = mdy(chart_week)
+hot100_date <- hot100 |>         # <1>
+  mutate(                        # <2>
+    chart_date = mdy(chart_week) # <3>
   )
 
 # peek at the result
 hot100_date |> glimpse()
 ```
 
-Again, let's break down what we've done:
-
--   At the end of the first line, we added the pipe `|>` because we are taking our `hot100` data **AND THEN** we will mutate it.
--   Next, we start the `mutate()` function. If you use type assist and tab completion to type this in, your cursor will end up in the middle of the parenthesis. This allows you to then hit your **Return** key to split it into multiple lines with proper indenting. We do this so we can more clearly see what *inside* the mutate ... where the real action is going on here. It's also possible to make multiple changes within the same mutate, and putting each one on their own line makes that more clear.
--   Inside the mutate, we first name our new column `chart_date` and then we set that equal to `mdy(chart_week)`, which is explained next.
+1. At the end of the first line, we added the pipe `|>` because we are taking our `hot100` data **AND THEN** we will mutate it. (Remember *Cmd-shift-m* for the pipe!)
+2. Next, we start the `mutate()` function. If you use type assist and tab completion to type this in, your cursor will end up in the middle of the parenthesis. This allows you to then hit your **Return** key to split it into multiple lines with proper indenting. We do this so we can more clearly see what *inside* the mutate ... where the real action is going on here. It's also possible to make multiple changes within the same mutate, and putting each one on their own line makes that more clear.
+3. Inside the mutate, we first name our new column `chart_date` and then we set that equal to `mdy(chart_week)`, which is explained next.
 
 The `mdy()` function is part of the lubridate package. Lubridate allows us to parse text and then turn it into a real date *if* we tell it the order of the date values in the original data.
 
@@ -608,12 +614,15 @@ We'll build upon our existing code and use the pipe `|>` to push it into an `arr
 hot100_date <- hot100 |> 
   mutate(
     chart_date = mdy(chart_week)
-  ) |> 
-  arrange(chart_date, this_week)
+  ) |>                           # <1>
+  arrange(chart_date, this_week) # <2>
 
 # peek at the result
 hot100_date |> glimpse()
 ```
+
+1. Add the pipe to the end of this line ...
+2. ... and the arrange line
 
 Now when you look at the glimpse, the first record in the `chart_date` column is from "1958-08-04" and the first in the `this_week` is "1", which is the top of the chart.
 
@@ -670,30 +679,25 @@ Let's just add one complexity: We'll **rename some columns** as we list them.
 3.  Add the code below and then I'll explain it. We again are setting this up to create a new object and view the changes.
 
 ```{r select}
-hot100_clean <- hot100_date |>
-  select(
-    chart_date,
-    # this renames a column with new name first
-    current_rank = this_week,
+hot100_clean <- hot100_date |> # <1>
+  select( # <2>
+    chart_date, # <3>
+    current_rank = this_week, # <4>
     title,
     performer,
-    previous_rank = last_week,
-    peak_rank = peak_pos,
+    previous_rank = last_week, # <4>
+    peak_rank = peak_pos, # <4>
     wks_on_chart
   )
 
-hot100_clean |> glimpse()
+hot100_clean |> glimpse() # <5>
 ```
 
-Line by line, it goes like this:
-
--   Name our new object `hot100_clean` and fill it with the result of `hot100_date` *and then* include the modifications that follow.
--   We use the `select()` function to choose our columns to keep, renaming some of them along the way:
-    -   We start with `chart_date` which is our *real date*. We just won't ever name the text version so we won't keep it.
-    -   When we get to our `this_week` column, we rename it to `current_rank`. We're doing this because we'll rename all the "ranking" columns with something that includes `_rank` at the end. (While this is good practice, the reasons get into the weeds).
-    -   For `title` and `performer` we just list them because we want them to come next but we don't need to change the names at all.
-    -   For the other columns we rename or not as needed.
--   Lastly, we glimpse the new object to check it.
+1. Name our new object `hot100_clean` and fill it with the result of `hot100_date` *and then* include the modifications that follow.
+2. We start the `select()` function to list the columns to keep
+3. We start with `chart_date` which is our *real date*. We just won't ever name the text version so we won't keep it.
+4. When we get to our `this_week` column, we rename it to `current_rank`. We're doing this because we'll rename all the "ranking" columns with something that includes `_rank` at the end. (While this is good practice, the reasons get into the weeds).
+5. Lastly, we glimpse the new object to check it.
 
 There are other ways to accomplish the same thing, but this works for us.
 
@@ -706,7 +710,7 @@ It is good practice to separate the cleaning of your data from your analysis. By
 Because each notebook needs to be self-contained to render, we will export our cleaned data in a native R format called `.rds` (maybe stands for R data storage?). This format preserves all our data types so we won't have to reset or clean them.
 
 ::: callout-note
-This is one of the reasons I had you name this notebook `01-cleaning.Rmd` with a `01` at the beginning, so we know to run this one before we can use the notebook `02-analysis` (next lesson!). I use `01-` instead of just `1-` in case there are more than nine notebooks. I want them to appear in order in my files directory. I'm anal retentive like that, which is a good trait for a data journalist.
+This is one of the reasons I had you name this notebook `01-cleaning.qmd` with a `01` at the beginning, so we know to run this one before we can use the notebook `02-analysis.qmd` (next lesson!). I use `01-` instead of just `1-` in case there are more than nine notebooks. I want them to appear in order in my files directory. I'm anal retentive like that, which is a good trait for a data journalist.
 :::
 
 One last thought to belabor the point: Separating your cleaning can save time. I've had cleaning notebooks that took 20 minutes to process. Imagine if I had to run that every time I wanted to rebuild my analysis notebook. Instead, the import notebook spits out a clean file that can be imported in a fraction of that time.
@@ -790,7 +794,7 @@ But note this version is only available on your computer. In a minute we'll publ
 
 ### Publish to Quarto pub
 
-Now the we have that in order, let's publish this to the internet. If you published your last project as instructed, it should remember your credentials. (I'm not sure about that if you are using posit.cloud, though.)
+Now the we have that in order, let's publish this to the internet. If you published your last project as instructed, it should remember your credentials.
 
 1.  In the bottom-left pane of RStudio, click on the pane **Terminal**.
 2.  Type in `quarto publish`.

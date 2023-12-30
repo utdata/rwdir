@@ -26,7 +26,7 @@ The `ggplot` package relies on a concept called the [Grammar of Graphics](https:
 
 Folks who have used Adobe creative programs (e.g., Photoshop, Illustrator, etc.) can think about it like laying an image: each layer in your image *should do something* to change the image. Likewise, each layer in a `ggplot` figure will add to the overall graph.
 
-### What I like/dislike about ggplot
+### What ggplot is best for
 
 Let me just start by saying that I'm a total `ggplot` geek. I'll talk about `ggplot` figures the way people talk about new TikTok trends. When producing figures and graphs in R, `ggplot` is the **absolute best approach** because you'll see the results right in your notebook. And, basic data visualizations are an absolutely essential skill for any data journalist: it helps you find important things in your data that you may ultimately report on. So, `ggplot` is important for any R-based data journalism project.
 
@@ -36,7 +36,7 @@ That being said, there are less complicated ways of creating publishable graphic
 
 This section was inspired by [Matt Waite](http://www.mattwaite.com/) and the [BBC Visual Cookbook](https://bbc.github.io/rcookbook/).
 
-As I said above, the `gg` in `ggplot` stands for "Grammar of Graphics," which is a fancy way of saying we'll build our charts layer by layer. There are three main things you need to make a plot:
+As noted above, the `gg` in `ggplot` stands for "Grammar of Graphics," which is a fancy way of saying we'll build our charts layer by layer. There are three main things you need to make a plot:
 
 -   **data**: You have to tell ggplot the name of the object with your data.
 -   **mapping**: Defines how variables in your dataset are mapped to visual properties (**aesthetics**) of your plot. i.e., which columns are on the x or y axis. We use the function `aes()` to describe these aesthetics.
@@ -72,9 +72,7 @@ For this lesson, we will install a new R package, which will give us access to s
 
 ![Artwork by @allison_horst](https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png)
 
-We don't *need* this dataset to plot charts, but it is a great one for data exploration & visualization so we'll use it to learn about ggplot.
-
-The [palmerpenguins](https://allisonhorst.github.io/palmerpenguins/) package includes scientific measurements of penguins observed on islands in the Palmer Archipelago near Palmer Station, Antarctica. The package and the awesome artwork is maintained by Allison Horst.
+The [palmerpenguins](https://allisonhorst.github.io/palmerpenguins/) package includes scientific measurements of penguins observed on islands in the Palmer Archipelago near Palmer Station, Antarctica. The package and the awesome artwork is maintained by Allison Horst. It's also a great one for data exploration & visualization so we'll use it to learn about ggplot.
 
 Let's install and load it.
 
@@ -227,20 +225,20 @@ There are [many geoms](https://github.com/rstudio/cheatsheets/blob/main/data-vis
 
 Let's review the different parts of this code. Note I've rewritten it a bit here to put some arguments on their own line so it is more readable.
 
-``` r
-ggplot(
-  penguins,
-  aes(x = flipper_length_mm, y = body_mass_g)
-) +
-  geom_point()
+```{r}
+#| output: false
+
+ggplot( # <1>
+  penguins, # <2>
+  aes(x = flipper_length_mm, y = body_mass_g) # <3>
+  ) +
+  geom_point() # <4>
 ```
 
-Think of this like painting a chart:
-
--   `ggplot()` is the function we use to make a chart.
--   Inside of `ggplot()` the first argument is the data, in this case the `penguins` data.
--   The second argument is the `aes()` function, where we apply our **aesthetics**. Aesthetics describe how we will paint our data onto the plot. Inside of this function, we set values for the `x` and `y` axis so we know WHERE to paint. There are some other aesthetic values we can paint with data, and we will.
--   Lastly we add on a layer (with `+`) to add `geom_point()` to paint "points" on top of the plot based on the set aesthetics. (It's like [pointillism](https://www.sothebys.com/en/articles/pointillism-7-things-you-need-to-know!).)
+1.   `ggplot()` is the function we use to make a chart.
+2.   Inside of `ggplot()` the first argument is the data, in this case the `penguins` data.
+3.   The second argument is the `aes()` function, where we apply our **aesthetics**. Aesthetics describe how we will paint our data onto the plot. Inside of this function, we set values for the `x` and `y` axis so we know WHERE to paint. There are some other aesthetic values we can paint with data, and we will.
+4.  Lastly we add on a layer (with `+` on the previous line) to add `geom_point()` to paint "points" on top of the plot based on the set aesthetics. (It's like [pointillism](https://www.sothebys.com/en/articles/pointillism-7-things-you-need-to-know!).)
 
 ::: callout-important
 You might see this same code written different ways. Let's talk about why.
@@ -277,9 +275,12 @@ Let's color our points based on the species to see.
 ```{r}
 #| label: p-color
 #| warning: false
+
 ggplot(
   penguins,
-  aes(x = flipper_length_mm, y = body_mass_g, color = species) # <1>
+  aes(x = flipper_length_mm,
+      y = body_mass_g,
+      color = species) # <1>
 ) +
   geom_point()
 ```
@@ -297,7 +298,10 @@ Let's add another layer: a smooth curve displaying the relationship between body
 #| warning: false
 ggplot(
   penguins,
-  aes(x = flipper_length_mm, y = body_mass_g, color = species)
+  aes(
+    x = flipper_length_mm,
+    y = body_mass_g,
+    color = species)
 ) +
   geom_point() +
   geom_smooth(method = "lm")
@@ -317,7 +321,8 @@ Let's show this by moving our color aesthetic from the global level to apply jus
 #| message: false
 ggplot(
   penguins,
-  aes(x = flipper_length_mm, y = body_mass_g) # <1>
+  aes(x = flipper_length_mm,
+      y = body_mass_g) # <1>
 ) +
   geom_point(aes(color = species)) + # <2>
   geom_smooth(method = "lm")
@@ -336,7 +341,8 @@ OK, this is looking pretty good, but it is not a great idea to represent informa
 #| message: false
 ggplot(
   penguins,
-  aes(x = flipper_length_mm, y = body_mass_g)
+  aes(x = flipper_length_mm,
+      y = body_mass_g)
 ) +
   geom_point(aes(color = species, shape = species)) + #<1>
   geom_smooth(method = "lm")
@@ -366,21 +372,27 @@ ggplot(
 ) +
   geom_point(aes(color = species, shape = species)) +
   geom_smooth(method = "lm") +
-  labs(
-    title = "Body mass and flipper length",
-    subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
-    x = "Flipper length (mm)", y = "Body mass (g)",
-    color = "Species", shape = "Species"
+  labs( # <1>
+    title = "Body mass and flipper length", # <2>
+    subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins", # <3>
+    x = "Flipper length (mm)", y = "Body mass (g)", # <4>
+    color = "Species", shape = "Species" # <5>
   )
 ```
-
-Walking through that a bit
 
 1.  We start with the `labs()` function and open it up to write many arguments inside.
 2.  `title` gives us a headline.
 3.  `subtitle` is a readout under the headline. We sometimes need to wrap the text in a `str_wrap()` function to keep it from running out of the chart.
 4.  The `x` axis already had a label on our chart by default, but it was the not-very-print-friendly name of the variable. Fine for us because we know what it is, but here we are replacing that with text more appropriate for a reader. We do the same with the `y` label.
 5.  The `color` and `shape` arguments are similar in that we are replacing the existing label above the legend, resetting those to capitalize "Species". We need to change them both so they are the same. (You might experiment by removing the `shape` argument and re-running it to see what happens.)
+
+### An aside: Titles and subtitles
+
+Our example chart here is a scientific figure designed to show the relationship between the length of flippers to the body size of penguins, and that perhaps the relationship holds true among different species. It is not a good example of a journalistic chart.
+
+We want our chart titles to be _MORE THAN A LABEL_ ... they should communicate something and further the story we are trying to tell with the plot. They should have a verb! If we were telling a story here, we might try: **Flippers longer on heavier penguins**.
+
+Our subtitles should provide the context necessary to understand what we are looking at and why. The combination of the title and subtitle should stand alone to tell enough of this story that we don't have to go elsewhere (like story) to understand it. A journalistic model might be something like this: **Dr. Kristen Gorman studied three species of penguins at the Palmer Long-Term Ecological Research station in Antarctica between 2007 and 2009, recording basic biographical measurements nearly 350 animals.**
 
 ### Themes
 
@@ -674,7 +686,7 @@ Some things to consider:
 -   You need a new section, etc.
 -   You're starting with the same `class` data
 -   You need to prepare the data based on `ice_cream` (which is the name of a variable in your `class` data frame)
--   You need to build the chart
+-   You need to build the chart, paying attention to axis 
 
 It's essentially the same process we used for the princess chart, but using `ice_cream` variable. That said, I really recommend you write all the code from scratch, ONE LINE AT A TIME, so you can soak in what each line does.
 

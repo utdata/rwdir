@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -512,10 +512,12 @@ Note
 <li>Use the create project button (or <em>File &gt; New project</em>) to create a new project in a <strong>New Directory</strong>.</li>
 <li>For the project type, choose <strong>Quarto Website</strong></li>
 <li>Name the directory “yourname-military-surplus”, but with your name.</li>
-<li>In the <code>index.qmd</code> file, replace the title value with “Military Surplus”, as that is our project title.</li>
-<li>Remove the boilerplate stuff after the YAML title and write in Markdown a little about what this is … a class project about surplus military equipment. You can come back to this later to flesh it out.</li>
 <li>Create two folders: <code>data-raw</code> and <code>data-processed</code>.</li>
+<li>In the <code>index.qmd</code> file, replace the title value with “Military Surplus”, as that is our project title.</li>
+<li>Remove the boilerplate stuff after the YAML title and this bit about the project:</li>
 </ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>This project looks at how much U.S. military surplus equipment has been transferred to law enforcement agencies. It uses data from from the "1033 program" handled through the [Law Enforcement Support Office](https://www.dla.mil/Disposition-Services/Offers/Law-Enforcement/Public-Information/), which posts data quarterly.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You’ll come back to this at the end of the project to write your summary.</p>
 </section>
 <section id="cleaning-notebook" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="cleaning-notebook"><span class="header-section-number">5.4</span> Cleaning notebook</h2>
@@ -533,15 +535,15 @@ Note
 <p>That’s a long-winded opening to say let’s add our notebook goals so you know what’s going on here.</p>
 <ol type="1">
 <li>In Markdown, add a headline noting these are notebook goals.</li>
-<li>Add the goals below:</li>
+<li>Add the goals below as text:</li>
 </ol>
-<div class="sourceCode" id="cb3"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>- Download the data</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>- Import the data</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>- Check datatypes</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>- Create a total_value variable</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>- Create a control_type variable</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>- Filter the date range (since Jan. 1 2010)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>- Export the cleaned data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>- Download the data</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>- Import the data</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>- Check datatypes</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>- Create a total_value variable</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>- Create a control_type variable</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>- Filter the date range (since Jan. 1 2010)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>- Export the cleaned data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="add-a-setup-section" class="level3" data-number="5.4.2">
 <h3 data-number="5.4.2" class="anchored" data-anchor-id="add-a-setup-section"><span class="header-section-number">5.4.2</span> Add a setup section</h3>
@@ -551,12 +553,12 @@ Note
 <li>Add your setup code chunk with the code below.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Some reminders:</p>
 <ul>
@@ -571,14 +573,14 @@ Note
 <ol type="1">
 <li>A new section means a new headline and description. Add it. It is good practice to describe and link to the data you will be using. You can use the text below:</li>
 </ol>
-<div class="sourceCode" id="cb5"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>While the data we will use here if from Prof. McDonald, it is from the [Law Enforcement Support Office](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/). Find more information [about the program here](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/ProgramFAQs/).</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="sourceCode" id="cb6"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>While the data we will use here if from Prof. McDonald, it is from the [Law Enforcement Support Office](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/). Find more information [about the program here](https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/ProgramFAQs/).</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -588,36 +590,36 @@ Note
 <ol type="1">
 <li>Use the <code>download.file()</code> function to download the date into your <code>data-raw</code> folder. Remember you need two arguments:</li>
 </ol>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"url_to_data"</span>,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"path_to_folder/filename.csv"</span>,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"wb"</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"url_to_data"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"path_to_folder/filename.csv"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"wb"</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>What you need:</p>
 <ul>
 <li>The data can be found at this url below</li>
 <li>It should be saved into your <code>data-raw</code> folder with a name for the file.</li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>https://github.com/utdata/rwd-r-leso/blob/main/data-processed/leso.csv?raw=true</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>https://github.com/utdata/rwd-r-leso/blob/main/data-processed/leso.csv?raw=true</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell">
 <details>
 <summary>Try writing this on your own</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You can comment the lines below once you have the data</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://github.com/utdata/rwd-r-leso/blob/main/data-processed/leso.csv?raw=true"</span>,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data-raw/leso.csv"</span>,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"wb"</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You can comment the lines below once you have the data</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://github.com/utdata/rwd-r-leso/blob/main/data-processed/leso.csv?raw=true"</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data-raw/leso.csv"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"wb"</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Once you’ve built your code chunk and run it, you should make sure the file downloaded into the correct place: in your <code>data-raw</code> folder.</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -640,10 +642,10 @@ Note
 <div class="cell">
 <details>
 <summary>Try real hard first before clicking here for the answer.</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># assigning the tibble</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>leso <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data-raw/leso.csv"</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># printing the tibble</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>leso</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># assigning the tibble</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>leso <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data-raw/leso.csv"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># printing the tibble</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>leso</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>The output you get will be the table, which looks sort of like this, but I’m just showing the first six lines:</p>
@@ -652,7 +654,7 @@ Note
 
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["sheet"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["state"],"name":[2],"type":["chr"],"align":["left"]},{"label":["agency_name"],"name":[3],"type":["chr"],"align":["left"]},{"label":["nsn"],"name":[4],"type":["chr"],"align":["left"]},{"label":["item_name"],"name":[5],"type":["chr"],"align":["left"]},{"label":["quantity"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["ui"],"name":[7],"type":["chr"],"align":["left"]},{"label":["acquisition_value"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["demil_code"],"name":[9],"type":["chr"],"align":["left"]},{"label":["demil_ic"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["ship_date"],"name":[11],"type":["dttm"],"align":["right"]},{"label":["station_type"],"name":[12],"type":["chr"],"align":["left"]}],"data":[{"1":"1","2":"AL","3":"ABBEVILLE POLICE DEPT","4":"2355-01-553-4634","5":"MINE RESISTANT VEHICLE","6":"1","7":"Each","8":"658000.00","9":"C","10":"1","11":"2016-11-09","12":"State"},{"1":"1","2":"AL","3":"ABBEVILLE POLICE DEPT","4":"1005-01-587-7175","5":"MOUNT,RIFLE","6":"10","7":"Each","8":"1626.00","9":"D","10":"1","11":"2016-09-19","12":"State"},{"1":"1","2":"AL","3":"ABBEVILLE POLICE DEPT","4":"1240-01-411-1265","5":"SIGHT,REFLEX","6":"9","7":"Each","8":"371.00","9":"D","10":"1","11":"2016-09-14","12":"State"},{"1":"1","2":"AL","3":"ABBEVILLE POLICE DEPT","4":"2540-01-565-4700","5":"BALLISTIC BLANKET KIT","6":"10","7":"Kit","8":"15871.59","9":"D","10":"1","11":"2018-01-30","12":"State"},{"1":"1","2":"AL","3":"ABBEVILLE POLICE DEPT","4":"1385-01-574-4707","5":"UNMANNED VEHICLE,GROUND","6":"1","7":"Each","8":"10000.00","9":"Q","10":"3","11":"2017-03-28","12":"State"},{"1":"1","2":"AL","3":"ABBEVILLE POLICE DEPT","4":"2320-01-371-9584","5":"TRUCK,UTILITY","6":"1","7":"Each","8":"62627.00","9":"C","10":"1","11":"2016-09-29","12":"State"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["sheet"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["state"],"name":[2],"type":["chr"],"align":["left"]},{"label":["agency_name"],"name":[3],"type":["chr"],"align":["left"]},{"label":["nsn"],"name":[4],"type":["chr"],"align":["left"]},{"label":["item_name"],"name":[5],"type":["chr"],"align":["left"]},{"label":["quantity"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["ui"],"name":[7],"type":["chr"],"align":["left"]},{"label":["acquisition_value"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["demil_code"],"name":[9],"type":["chr"],"align":["left"]},{"label":["demil_ic"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["ship_date"],"name":[11],"type":["dttm"],"align":["right"]},{"label":["station_type"],"name":[12],"type":["chr"],"align":["left"]}],"data":[{"1":"1","2":"AL","3":"ABBEVILLE POLICE DEPT","4":"1005-01-587-7175","5":"MOUNT,RIFLE","6":"10","7":"Each","8":"1626.00","9":"D","10":"1","11":"2016-09-19","12":"State"},{"1":"1","2":"AL","3":"ABBEVILLE POLICE DEPT","4":"1240-01-411-1265","5":"SIGHT,REFLEX","6":"9","7":"Each","8":"371.00","9":"D","10":"1","11":"2016-09-14","12":"State"},{"1":"1","2":"AL","3":"ABBEVILLE POLICE DEPT","4":"2320-01-371-9584","5":"TRUCK,UTILITY","6":"1","7":"Each","8":"62627.00","9":"C","10":"1","11":"2016-09-29","12":"State"},{"1":"1","2":"AL","3":"ABBEVILLE POLICE DEPT","4":"2540-01-565-4700","5":"BALLISTIC BLANKET KIT","6":"10","7":"Kit","8":"17264.71","9":"D","10":"1","11":"2018-01-30","12":"State"},{"1":"1","2":"AL","3":"ABBEVILLE POLICE DEPT","4":"2320-01-371-9584","5":"TRUCK,UTILITY","6":"1","7":"Each","8":"62627.00","9":"C","10":"1","11":"2016-09-29","12":"State"},{"1":"1","2":"AL","3":"ABBEVILLE POLICE DEPT","4":"2355-01-553-4634","5":"MINE RESISTANT VEHICLE","6":"1","7":"Each","8":"658000.00","9":"C","10":"1","11":"2016-11-09","12":"State"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -663,21 +665,21 @@ Note
 <li>In a new code block, print the tibble but pipe it into <code>glimpse()</code> so you can see all the column names.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>leso <span class="sc">|&gt;</span>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>leso <span class="sc">|&gt;</span>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 99,152
+<pre><code>Rows: 99,052
 Columns: 12
 $ sheet             &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
 $ state             &lt;chr&gt; "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
 $ agency_name       &lt;chr&gt; "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
-$ nsn               &lt;chr&gt; "2355-01-553-4634", "1005-01-587-7175", "1240-01-411…
-$ item_name         &lt;chr&gt; "MINE RESISTANT VEHICLE", "MOUNT,RIFLE", "SIGHT,REFL…
-$ quantity          &lt;dbl&gt; 1, 10, 9, 10, 1, 1, 1, 3, 1, 17, 10, 7, 6, 4, 4, 1, …
+$ nsn               &lt;chr&gt; "1005-01-587-7175", "1240-01-411-1265", "2320-01-371…
+$ item_name         &lt;chr&gt; "MOUNT,RIFLE", "SIGHT,REFLEX", "TRUCK,UTILITY", "BAL…
+$ quantity          &lt;dbl&gt; 10, 9, 1, 10, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 $ ui                &lt;chr&gt; "Each", "Each", "Each", "Kit", "Each", "Each", "Each…
-$ acquisition_value &lt;dbl&gt; 658000.00, 1626.00, 371.00, 15871.59, 10000.00, 6262…
-$ demil_code        &lt;chr&gt; "C", "D", "D", "D", "Q", "C", "C", "D", "C", "A", "A…
-$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 3…
-$ ship_date         &lt;dttm&gt; 2016-11-09 00:00:00, 2016-09-19 00:00:00, 2016-09-1…
+$ acquisition_value &lt;dbl&gt; 1626.00, 371.00, 62627.00, 17264.71, 62627.00, 65800…
+$ demil_code        &lt;chr&gt; "D", "D", "C", "D", "C", "C", "Q", "D", "C", "D", "D…
+$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ ship_date         &lt;dttm&gt; 2016-09-19, 2016-09-14, 2016-09-29, 2018-01-30, 201…
 $ station_type      &lt;chr&gt; "State", "State", "State", "State", "State", "State"…</code></pre>
 </div>
 </div>
@@ -701,33 +703,43 @@ $ station_type      &lt;chr&gt; "State", "State", "State", "State", "State", "St
 <li>Add a code chunk and the following code. I’ll explain it below.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>leso_tight <span class="ot">&lt;-</span> leso <span class="sc">|&gt;</span> </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span>sheet)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>leso_tight <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-11"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-11-1" class="code-annotation-target"><a href="#annotated-cell-11-1" aria-hidden="true" tabindex="-1"></a>leso_tight <span class="ot">&lt;-</span> leso <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-11-2" class="code-annotation-target"><a href="#annotated-cell-11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span>sheet)</span>
+<span id="annotated-cell-11-3"><a href="#annotated-cell-11-3" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-11-4" class="code-annotation-target"><a href="#annotated-cell-11-4" aria-hidden="true" tabindex="-1"></a>leso_tight <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-11" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="1" data-code-cell="annotated-cell-11" data-code-annotation="1">We create a new tibble <code>leso_tight</code> and then fill it with <code>leso</code> data AND THEN …</span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="2" data-code-cell="annotated-cell-11" data-code-annotation="2">We use select to remove the column called <code>sheet</code>. Within the <code>select()</code> function, we use <code>!</code> to “negate” the column called “sheet”.</span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-lines="4" data-code-cell="annotated-cell-11" data-code-annotation="3">We then glimpse the new data.</span>
+</dd>
+</dl>
+</div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 99,152
+<pre><code>Rows: 99,052
 Columns: 11
 $ state             &lt;chr&gt; "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
 $ agency_name       &lt;chr&gt; "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
-$ nsn               &lt;chr&gt; "2355-01-553-4634", "1005-01-587-7175", "1240-01-411…
-$ item_name         &lt;chr&gt; "MINE RESISTANT VEHICLE", "MOUNT,RIFLE", "SIGHT,REFL…
-$ quantity          &lt;dbl&gt; 1, 10, 9, 10, 1, 1, 1, 3, 1, 17, 10, 7, 6, 4, 4, 1, …
+$ nsn               &lt;chr&gt; "1005-01-587-7175", "1240-01-411-1265", "2320-01-371…
+$ item_name         &lt;chr&gt; "MOUNT,RIFLE", "SIGHT,REFLEX", "TRUCK,UTILITY", "BAL…
+$ quantity          &lt;dbl&gt; 10, 9, 1, 10, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 $ ui                &lt;chr&gt; "Each", "Each", "Each", "Kit", "Each", "Each", "Each…
-$ acquisition_value &lt;dbl&gt; 658000.00, 1626.00, 371.00, 15871.59, 10000.00, 6262…
-$ demil_code        &lt;chr&gt; "C", "D", "D", "D", "Q", "C", "C", "D", "C", "A", "A…
-$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 3…
-$ ship_date         &lt;dttm&gt; 2016-11-09 00:00:00, 2016-09-19 00:00:00, 2016-09-1…
+$ acquisition_value &lt;dbl&gt; 1626.00, 371.00, 62627.00, 17264.71, 62627.00, 65800…
+$ demil_code        &lt;chr&gt; "D", "D", "C", "D", "C", "C", "Q", "D", "C", "D", "D…
+$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ ship_date         &lt;dttm&gt; 2016-09-19, 2016-09-14, 2016-09-29, 2018-01-30, 201…
 $ station_type      &lt;chr&gt; "State", "State", "State", "State", "State", "State"…</code></pre>
 </div>
 </div>
-<p>In English, we are:</p>
-<ul>
-<li>creating a new tibble <code>leso_tight</code> and then ..</li>
-<li>filling it with this: The <code>leso</code> data AND THEN we use select to remove the column called <code>sheet</code>. We then glimpse the new data.</li>
-</ul>
-<p>Within the <code>select()</code> function, we use <code>!</code> to “negate” the column called “sheet”. If we wanted to remove more than one column — say both <code>sheet</code> and <code>station_type</code> — then we would use <code>!</code> negate in conjunction with the <code>c()</code> function to combine items into a new vector, like this: <code>select(!c(sheet, station_type))</code>.</p>
-<p>The use of <code>!</code> to remove things will come up in other places in R, as will using <code>c()</code> to combine things together.</p>
+<p>If we wanted to remove more than one column — say both <code>sheet</code> and <code>station_type</code> — then we would use <code>!</code> negate in conjunction with the <code>c()</code> function to combine items into a new vector, like this: <code>select(!c(sheet, station_type))</code>. The use of <code>!</code> to remove things will come up in other places in R, as will using <code>c()</code> to combine things together.</p>
 <p>So now we have a tibble called <code>leso_tight</code> that we will work with in the next section.</p>
 </section>
 <section id="create-a-total_value-column" class="level2" data-number="5.9">
@@ -817,59 +829,69 @@ $ station_type      &lt;chr&gt; "State", "State", "State", "State", "State", "St
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>leso_total <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 99,152
+<pre><code>Rows: 99,052
 Columns: 12
 $ state             &lt;chr&gt; "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
 $ agency_name       &lt;chr&gt; "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
-$ nsn               &lt;chr&gt; "2355-01-553-4634", "1005-01-587-7175", "1240-01-411…
-$ item_name         &lt;chr&gt; "MINE RESISTANT VEHICLE", "MOUNT,RIFLE", "SIGHT,REFL…
-$ quantity          &lt;dbl&gt; 1, 10, 9, 10, 1, 1, 1, 3, 1, 17, 10, 7, 6, 4, 4, 1, …
+$ nsn               &lt;chr&gt; "1005-01-587-7175", "1240-01-411-1265", "2320-01-371…
+$ item_name         &lt;chr&gt; "MOUNT,RIFLE", "SIGHT,REFLEX", "TRUCK,UTILITY", "BAL…
+$ quantity          &lt;dbl&gt; 10, 9, 1, 10, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 $ ui                &lt;chr&gt; "Each", "Each", "Each", "Kit", "Each", "Each", "Each…
-$ acquisition_value &lt;dbl&gt; 658000.00, 1626.00, 371.00, 15871.59, 10000.00, 6262…
-$ demil_code        &lt;chr&gt; "C", "D", "D", "D", "Q", "C", "C", "D", "C", "A", "A…
-$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 3…
-$ ship_date         &lt;dttm&gt; 2016-11-09 00:00:00, 2016-09-19 00:00:00, 2016-09-1…
+$ acquisition_value &lt;dbl&gt; 1626.00, 371.00, 62627.00, 17264.71, 62627.00, 65800…
+$ demil_code        &lt;chr&gt; "D", "D", "C", "D", "C", "C", "Q", "D", "C", "D", "D…
+$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ ship_date         &lt;dttm&gt; 2016-09-19, 2016-09-14, 2016-09-29, 2018-01-30, 201…
 $ station_type      &lt;chr&gt; "State", "State", "State", "State", "State", "State"…
-$ total_value       &lt;dbl&gt; 658000.00, 16260.00, 3339.00, 158715.90, 10000.00, 6…</code></pre>
+$ total_value       &lt;dbl&gt; 16260.0, 3339.0, 62627.0, 172647.1, 62627.0, 658000.…</code></pre>
 </div>
 </div>
 <section id="check-that-it-worked" class="level3" data-number="5.9.1">
 <h3 data-number="5.9.1" class="anchored" data-anchor-id="check-that-it-worked"><span class="header-section-number">5.9.1</span> Check that it worked!!</h3>
 <p>Note that new columns are added at the end of the tibble. Sometimes you can look through the glimpsed data to see if your mutate worked correctly, but that depends on the data.</p>
-<p>If there isn’t enough information visible, you might try printing out some rows of the data to peek through it.</p>
+<p>If there isn’t enough information visible, you can print some sample rows of the data to peek through it.</p>
 <ol type="1">
-<li><strong>Edit your chunk</strong> on the last line to change <code>glimpse()</code> to <code>head(20)</code></li>
+<li>Add some text that you are checking the results.</li>
+<li>Add a new chunk and pipe <code>leso_total</code> into a new function <code>slice_sample(n = 10)</code>.</li>
 </ol>
-<p>I’m just showing that last line here:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>leso_total <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-14"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-14-1"><a href="#annotated-cell-14-1" aria-hidden="true" tabindex="-1"></a>leso_total <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-14-2" class="code-annotation-target"><a href="#annotated-cell-14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">10</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-14" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="2" data-code-cell="annotated-cell-14" data-code-annotation="1">The argument <code>n = 10</code> is the number of rows to show. The default is a single row.</span>
+</dd>
+</dl>
+</div>
 <div class="cell-output-display">
 
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["state"],"name":[1],"type":["chr"],"align":["left"]},{"label":["agency_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["nsn"],"name":[3],"type":["chr"],"align":["left"]},{"label":["item_name"],"name":[4],"type":["chr"],"align":["left"]},{"label":["quantity"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["ui"],"name":[6],"type":["chr"],"align":["left"]},{"label":["acquisition_value"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["demil_code"],"name":[8],"type":["chr"],"align":["left"]},{"label":["demil_ic"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["ship_date"],"name":[10],"type":["dttm"],"align":["right"]},{"label":["station_type"],"name":[11],"type":["chr"],"align":["left"]},{"label":["total_value"],"name":[12],"type":["dbl"],"align":["right"]}],"data":[{"1":"AL","2":"ABBEVILLE POLICE DEPT","3":"2355-01-553-4634","4":"MINE RESISTANT VEHICLE","5":"1","6":"Each","7":"658000.00","8":"C","9":"1","10":"2016-11-09","11":"State","12":"658000.00"},{"1":"AL","2":"ABBEVILLE POLICE DEPT","3":"1005-01-587-7175","4":"MOUNT,RIFLE","5":"10","6":"Each","7":"1626.00","8":"D","9":"1","10":"2016-09-19","11":"State","12":"16260.00"},{"1":"AL","2":"ABBEVILLE POLICE DEPT","3":"1240-01-411-1265","4":"SIGHT,REFLEX","5":"9","6":"Each","7":"371.00","8":"D","9":"1","10":"2016-09-14","11":"State","12":"3339.00"},{"1":"AL","2":"ABBEVILLE POLICE DEPT","3":"2540-01-565-4700","4":"BALLISTIC BLANKET KIT","5":"10","6":"Kit","7":"15871.59","8":"D","9":"1","10":"2018-01-30","11":"State","12":"158715.90"},{"1":"AL","2":"ABBEVILLE POLICE DEPT","3":"1385-01-574-4707","4":"UNMANNED VEHICLE,GROUND","5":"1","6":"Each","7":"10000.00","8":"Q","9":"3","10":"2017-03-28","11":"State","12":"10000.00"},{"1":"AL","2":"ABBEVILLE POLICE DEPT","3":"2320-01-371-9584","4":"TRUCK,UTILITY","5":"1","6":"Each","7":"62627.00","8":"C","9":"1","10":"2016-09-29","11":"State","12":"62627.00"},{"1":"AL","2":"ABBEVILLE POLICE DEPT","3":"2320-01-371-9584","4":"TRUCK,UTILITY","5":"1","6":"Each","7":"62627.00","8":"C","9":"1","10":"2016-09-29","11":"State","12":"62627.00"},{"1":"AL","2":"ADAMSVILLE POLICE DEPT","3":"1240-01-411-1265","4":"SIGHT,REFLEX","5":"3","6":"Each","7":"371.00","8":"D","9":"1","10":"2012-07-03","11":"State","12":"1113.00"},{"1":"AL","2":"ADAMSVILLE POLICE DEPT","3":"2320-01-128-9551","4":"TRUCK,UTILITY","5":"1","6":"Each","7":"50458.00","8":"C","9":"1","10":"2012-05-30","11":"State","12":"50458.00"},{"1":"AL","2":"ALABAMA LAW ENFORCEMENT AGENCY","3":"4730-01-294-4283","4":"STRAINER ELEMENT,SEDIMENT","5":"17","6":"Each","7":"153.44","8":"A","9":"1","10":"2023-01-30","11":"State","12":"2608.48"},{"1":"AL","2":"ALABAMA LAW ENFORCEMENT AGENCY","3":"4730-01-294-4283","4":"STRAINER ELEMENT,SEDIMENT","5":"10","6":"Each","7":"153.44","8":"A","9":"1","10":"2023-03-07","11":"State","12":"1534.40"},{"1":"AL","2":"ALABAMA LAW ENFORCEMENT AGENCY","3":"3110-01-153-2299","4":"BEARING,ROLLER,CYLINDRICAL","5":"7","6":"Each","7":"1248.93","8":"Q","9":"3","10":"2023-02-03","11":"State","12":"8742.51"},{"1":"AL","2":"ALABAMA LAW ENFORCEMENT AGENCY","3":"1560-00-128-7526","4":"DUCT","5":"6","6":"Each","7":"110.17","8":"Q","9":"3","10":"2023-04-06","11":"State","12":"661.02"},{"1":"AL","2":"ALABAMA LAW ENFORCEMENT AGENCY","3":"3110-01-030-4306","4":"BEARING,BALL,ANNULAR","5":"4","6":"Each","7":"555.93","8":"A","9":"1","10":"2023-03-01","11":"State","12":"2223.72"},{"1":"AL","2":"ALABAMA LAW ENFORCEMENT AGENCY","3":"1650-00-442-2597","4":"FILTER ELEMENT,FLUID","5":"4","6":"Each","7":"48.82","8":"A","9":"1","10":"2022-08-02","11":"State","12":"195.28"},{"1":"AL","2":"ALABAMA LAW ENFORCEMENT AGENCY","3":"2320-01-095-7480","4":"TRUCK,TANK","5":"1","6":"Each","7":"84000.00","8":"A","9":"1","10":"2022-08-24","11":"State","12":"84000.00"},{"1":"AL","2":"ALABAMA LAW ENFORCEMENT AGENCY","3":"4730-01-294-4283","4":"STRAINER ELEMENT,SEDIMENT","5":"61","6":"Each","7":"153.44","8":"A","9":"1","10":"2023-02-22","11":"State","12":"9359.84"},{"1":"AL","2":"ALABAMA LAW ENFORCEMENT AGENCY","3":"4820-00-181-9396","4":"COCK,POPPET DRAIN","5":"1","6":"Each","7":"966.71","8":"Q","9":"3","10":"2023-01-30","11":"State","12":"966.71"},{"1":"AL","2":"ALABAMA LAW ENFORCEMENT AGENCY","3":"3110-00-491-5290","4":"BEARING,BALL,ANNULAR","5":"4","6":"Each","7":"967.28","8":"A","9":"1","10":"2023-02-03","11":"State","12":"3869.12"},{"1":"AL","2":"ALABAMA LAW ENFORCEMENT AGENCY","3":"1560-00-478-1762","4":"SUPPORT,PYLON","5":"2","6":"Each","7":"2461.05","8":"Q","9":"3","10":"2016-09-02","11":"State","12":"4922.10"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["state"],"name":[1],"type":["chr"],"align":["left"]},{"label":["agency_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["nsn"],"name":[3],"type":["chr"],"align":["left"]},{"label":["item_name"],"name":[4],"type":["chr"],"align":["left"]},{"label":["quantity"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["ui"],"name":[6],"type":["chr"],"align":["left"]},{"label":["acquisition_value"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["demil_code"],"name":[8],"type":["chr"],"align":["left"]},{"label":["demil_ic"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["ship_date"],"name":[10],"type":["dttm"],"align":["right"]},{"label":["station_type"],"name":[11],"type":["chr"],"align":["left"]},{"label":["total_value"],"name":[12],"type":["dbl"],"align":["right"]}],"data":[{"1":"IL","2":"KANE COUNTY SHERIFF OFFICE","3":"1005-00-073-9421","4":"RIFLE,5.56 MILLIMETER","5":"1","6":"Each","7":"499.00","8":"D","9":"1","10":"2003-07-30","11":"State","12":"499.00"},{"1":"AL","2":"ATHENS POLICE DEPARTMENT","3":"1005-00-921-5004","4":"MAGAZINE,CARTRIDGE","5":"120","6":"Each","7":"16.17","8":"D","9":"1","10":"2012-03-15","11":"State","12":"1940.40"},{"1":"GA","2":"DUBLIN POLICE DEPT","3":"1005-01-449-6306","4":"SIGHT,REAR","5":"24","6":"Each","7":"201.57","8":"D","9":"NA","10":"2019-06-05","11":"State","12":"4837.68"},{"1":"WV","2":"SAINT MARYS POLICE DEPT","3":"1005-00-589-1271","4":"RIFLE,7.62 MILLIMETER","5":"1","6":"Each","7":"138.00","8":"D","9":"1","10":"1999-05-10","11":"State","12":"138.00"},{"1":"SC","2":"LAW ENFORCEMENT DIVISION","3":"5855-01-600-2717","4":"SIGHT,THERMAL","5":"1","6":"Each","7":"7840.00","8":"F","9":"7","10":"2019-07-16","11":"State","12":"7840.00"},{"1":"VA","2":"FREDERICK COUNTY SHERIFF'S OFFICE","3":"8440-DS-MHO-SIER","4":"HOISERY AND CLOTHING ACCESSORIES, MENS","5":"20","6":"Each","7":"45.00","8":"A","9":"NA","10":"2023-01-06","11":"State","12":"900.00"},{"1":"NC","2":"DUPLIN COUNTY SHERIFF DEPT","3":"5825-01-457-6340","4":"NAVIGATION SET,SATELLITE SIGNALS","5":"10","6":"Each","7":"378.00","8":"Q","9":"3","10":"2021-06-30","11":"State","12":"3780.00"},{"1":"MO","2":"VAN BUREN POLICE DEPARTMENT","3":"6910-01-609-5853","4":"TRAINING SET,WEAPON AND AMMUNITION","5":"1","6":"Each","7":"385.00","8":"C","9":"1","10":"2019-04-02","11":"State","12":"385.00"},{"1":"VA","2":"STAFFORD COUNTY SHERIFF'S OFFICE","3":"5855-DS-NIG-HTVI","4":"NIGHT VISION EQUIP, EMIT, REFLECTED RAD","5":"1","6":"Each","7":"3100.00","8":"D","9":"NA","10":"2016-03-17","11":"State","12":"3100.00"},{"1":"MS","2":"WALNUT PD","3":"1005-00-073-9421","4":"RIFLE,5.56 MILLIMETER","5":"1","6":"Each","7":"499.00","8":"D","9":"1","10":"2004-02-12","11":"State","12":"499.00"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
 </div>
-<p>At this point you can page through the columns to check the math. But even with this, there are a lot of columns to page through. You can use add on <code>select()</code> to pluck out the columns of interest to check.</p>
+<p>At this point you can page through the columns to check the math. If you want to see a different sample of data, just rerun the chunk as you get a new one each time. If you want a different number of lines, change the value inside the function.</p>
+<p>But even with this, there are a lot of columns to page through. You can use add on <code>select()</code> to pluck out the columns of interest to check.</p>
 <ol type="1">
 <li><strong>Edit</strong> your chunk’s last line like this:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>leso_total <span class="sc">|&gt;</span> </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">20</span>) <span class="sc">|&gt;</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(agency_name, quantity, acquisition_value, total_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>leso_total <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(agency_name, quantity, acquisition_value, total_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["agency_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["quantity"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["acquisition_value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["total_value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"ABBEVILLE POLICE DEPT","2":"1","3":"658000.00","4":"658000.00"},{"1":"ABBEVILLE POLICE DEPT","2":"10","3":"1626.00","4":"16260.00"},{"1":"ABBEVILLE POLICE DEPT","2":"9","3":"371.00","4":"3339.00"},{"1":"ABBEVILLE POLICE DEPT","2":"10","3":"15871.59","4":"158715.90"},{"1":"ABBEVILLE POLICE DEPT","2":"1","3":"10000.00","4":"10000.00"},{"1":"ABBEVILLE POLICE DEPT","2":"1","3":"62627.00","4":"62627.00"},{"1":"ABBEVILLE POLICE DEPT","2":"1","3":"62627.00","4":"62627.00"},{"1":"ADAMSVILLE POLICE DEPT","2":"3","3":"371.00","4":"1113.00"},{"1":"ADAMSVILLE POLICE DEPT","2":"1","3":"50458.00","4":"50458.00"},{"1":"ALABAMA LAW ENFORCEMENT AGENCY","2":"17","3":"153.44","4":"2608.48"},{"1":"ALABAMA LAW ENFORCEMENT AGENCY","2":"10","3":"153.44","4":"1534.40"},{"1":"ALABAMA LAW ENFORCEMENT AGENCY","2":"7","3":"1248.93","4":"8742.51"},{"1":"ALABAMA LAW ENFORCEMENT AGENCY","2":"6","3":"110.17","4":"661.02"},{"1":"ALABAMA LAW ENFORCEMENT AGENCY","2":"4","3":"555.93","4":"2223.72"},{"1":"ALABAMA LAW ENFORCEMENT AGENCY","2":"4","3":"48.82","4":"195.28"},{"1":"ALABAMA LAW ENFORCEMENT AGENCY","2":"1","3":"84000.00","4":"84000.00"},{"1":"ALABAMA LAW ENFORCEMENT AGENCY","2":"61","3":"153.44","4":"9359.84"},{"1":"ALABAMA LAW ENFORCEMENT AGENCY","2":"1","3":"966.71","4":"966.71"},{"1":"ALABAMA LAW ENFORCEMENT AGENCY","2":"4","3":"967.28","4":"3869.12"},{"1":"ALABAMA LAW ENFORCEMENT AGENCY","2":"2","3":"2461.05","4":"4922.10"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["agency_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["quantity"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["acquisition_value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["total_value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"DEPT OF FISH AND WILDLIFE","2":"1","3":"138.00","4":"138.00"},{"1":"GREAT BEND POLICE DEPARTMENT","2":"1","3":"120.00","4":"120.00"},{"1":"HALIFAX  CSO","2":"1","3":"58.71","4":"58.71"},{"1":"CLINTON COUNTY SHERIFF OFFICE","2":"1","3":"9412.00","4":"9412.00"},{"1":"YUMA POLICE DEPT","2":"1","3":"138.00","4":"138.00"},{"1":"KOSCIUSKO COUNTY SHERIFF OFFICE","2":"1","3":"108.00","4":"108.00"},{"1":"KLAMATH COUNTY SHERIFF'S OFFICE","2":"1","3":"3578.00","4":"3578.00"},{"1":"COVINGTON COUNTY SHERIFF DEPT","2":"1","3":"89.57","4":"89.57"},{"1":"SHENANDOAH CSO","2":"1","3":"138.00","4":"138.00"},{"1":"PLAINFIELD POLICE DEPT","2":"1","3":"499.00","4":"499.00"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
 </div>
-<p>This should allow you to check if the math worked. As of this writing, there was a record for “ABBEVILLE POLICE DEPT” that has a <code>quantity</code> of “10” and <code>acquisition_value</code> of “15871.59” and I got a <code>total_value</code> of “158715.90”. So, 10 * 15871.59 = 158715.90, which is correct!</p>
+<p>This should allow you to check if the math worked. In one of my samples there was a record for “JONESBORO POLICE DEPARTMENT” that has a <code>quantity</code> of “6” and <code>acquisition_value</code> of “114.00” and I got a <code>total_value</code> of “684.00”. So, 6 * 114.00 = 684.00, which is correct!</p>
 <p>Something to note about this process: In the first part of this chunk we are taking <code>leso_tight</code>, making some changes to it and the <strong>saving</strong> it into <code>leso_total</code>. We have two objects now, one before the changes and one after.</p>
 <p>In the last part of the chunk, we are taking <code>leso_total</code> object and we are peeking at some rows and some columns, but we are <strong>not saving</strong> those changes into a new object. There is no <code>&lt;-</code> operator here. We are just printing the results to the screen so we can <em>see</em> parts of the data more clearly.</p>
 </section>
@@ -886,41 +908,41 @@ $ total_value       &lt;dbl&gt; 658000.00, 16260.00, 3339.00, 158715.90, 10000.0
 <p>But, we can catch most of them … we just need to work through the logic. This is not an uncommon challenge in data science, so we have some tools to do this. Our workhorse here is the <code>case_when()</code> function, where we can make decisions based on values in our data.</p>
 <p>In the interest of time and getting this done, I will just provide the code.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>leso_control <span class="ot">&lt;-</span> leso_total <span class="sc">|&gt;</span> </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_type =</span> <span class="fu">case_when</span>(</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_detect</span>(item_name, <span class="st">"AIRPLANE"</span>) <span class="sc">~</span> <span class="cn">TRUE</span>,</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>      (demil_code <span class="sc">==</span> <span class="st">"A"</span> <span class="sc">|</span> (demil_code <span class="sc">==</span> <span class="st">"Q"</span> <span class="sc">&amp;</span> demil_ic <span class="sc">==</span> <span class="dv">6</span>)) <span class="sc">~</span> <span class="cn">FALSE</span>,</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">TRUE</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>leso_control <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>leso_control <span class="ot">&lt;-</span> leso_total <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_type =</span> <span class="fu">case_when</span>(</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_detect</span>(item_name, <span class="st">"AIRPLANE"</span>) <span class="sc">~</span> <span class="cn">TRUE</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>      (demil_code <span class="sc">==</span> <span class="st">"A"</span> <span class="sc">|</span> (demil_code <span class="sc">==</span> <span class="st">"Q"</span> <span class="sc">&amp;</span> demil_ic <span class="sc">==</span> <span class="dv">6</span>)) <span class="sc">~</span> <span class="cn">FALSE</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">TRUE</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>leso_control <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 99,152
+<pre><code>Rows: 99,052
 Columns: 13
 $ state             &lt;chr&gt; "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
 $ agency_name       &lt;chr&gt; "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
-$ nsn               &lt;chr&gt; "2355-01-553-4634", "1005-01-587-7175", "1240-01-411…
-$ item_name         &lt;chr&gt; "MINE RESISTANT VEHICLE", "MOUNT,RIFLE", "SIGHT,REFL…
-$ quantity          &lt;dbl&gt; 1, 10, 9, 10, 1, 1, 1, 3, 1, 17, 10, 7, 6, 4, 4, 1, …
+$ nsn               &lt;chr&gt; "1005-01-587-7175", "1240-01-411-1265", "2320-01-371…
+$ item_name         &lt;chr&gt; "MOUNT,RIFLE", "SIGHT,REFLEX", "TRUCK,UTILITY", "BAL…
+$ quantity          &lt;dbl&gt; 10, 9, 1, 10, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 $ ui                &lt;chr&gt; "Each", "Each", "Each", "Kit", "Each", "Each", "Each…
-$ acquisition_value &lt;dbl&gt; 658000.00, 1626.00, 371.00, 15871.59, 10000.00, 6262…
-$ demil_code        &lt;chr&gt; "C", "D", "D", "D", "Q", "C", "C", "D", "C", "A", "A…
-$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 3…
-$ ship_date         &lt;dttm&gt; 2016-11-09 00:00:00, 2016-09-19 00:00:00, 2016-09-1…
+$ acquisition_value &lt;dbl&gt; 1626.00, 371.00, 62627.00, 17264.71, 62627.00, 65800…
+$ demil_code        &lt;chr&gt; "D", "D", "C", "D", "C", "C", "Q", "D", "C", "D", "D…
+$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ ship_date         &lt;dttm&gt; 2016-09-19, 2016-09-14, 2016-09-29, 2018-01-30, 201…
 $ station_type      &lt;chr&gt; "State", "State", "State", "State", "State", "State"…
-$ total_value       &lt;dbl&gt; 658000.00, 16260.00, 3339.00, 158715.90, 10000.00, 6…
+$ total_value       &lt;dbl&gt; 16260.0, 3339.0, 62627.0, 172647.1, 62627.0, 658000.…
 $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE…</code></pre>
 </div>
 </div>
-<p>If you want to learn more about the code in that block, read the Appendix chapter titled <em>Using case_when</em>.</p>
+<p>If you want to learn more about the code in that block, read the Appendix chapter titled <a href="./case-when.html">Using case_when</a>.</p>
 </section>
 <section id="filtering-our-data" class="level2" data-number="5.11">
 <h2 data-number="5.11" class="anchored" data-anchor-id="filtering-our-data"><span class="header-section-number">5.11</span> Filtering our data</h2>
 <p>In the Billboard lesson you used <code>filter()</code> to get No.&nbsp;1 songs and to get a date range of data. We need to do something similar here to get only data of a certain date range. We’ll build the filters one at a time so we can save the resulting objects separately.</p>
 <ol type="1">
-<li>Create a new section with headlines and text that denote you are filtering the data to records since Jan.&nbsp;1, 2010 up to the most recent full year.</li>
+<li>Create a new section with headlines and text that denote you are filtering the data to records since Jan.&nbsp;1, 2010.</li>
 <li>Create a chunk and filter your <code>leso_control</code> data to get rows with a <code>ship_date</code> later than 2010-01-01.</li>
 <li>Save the result into a new tibble called <code>leso_dated</code>.</li>
 <li>Print out the new tibble <code>leso_dated</code>.</li>
@@ -928,29 +950,26 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <div class="cell">
 <details>
 <summary>Write it yourself, but here is the code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>leso_dated <span class="ot">&lt;-</span> leso_control <span class="sc">|&gt;</span> </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    ship_date <span class="sc">&gt;=</span> <span class="st">"2010-01-01"</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>leso_dated</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>leso_dated <span class="ot">&lt;-</span> leso_control <span class="sc">|&gt;</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    ship_date <span class="sc">&gt;=</span> <span class="st">"2010-01-01"</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>leso_dated</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="checking-the-results-with-summary" class="level3" data-number="5.11.1">
 <h3 data-number="5.11.1" class="anchored" data-anchor-id="checking-the-results-with-summary"><span class="header-section-number">5.11.1</span> Checking the results with summary()</h3>
-<p>How do you know this date filter worked? Well, my data went from 99152 to 67603 rows, so we did something. You might look at the results table and click over to the <code>ship_date</code> columns so you can see some of the results, but you can’t be sure the top row is the oldest. We could use an <code>arrange()</code> to test that, but I have another suggestion: <code>summary()</code>.</p>
+<p>How do you know this date filter worked? Well, my data went from 99052 to 67852 rows, so we did something. You might look at the results table and click over to the <code>ship_date</code> columns so you can see some of the results, but you can’t be sure the top row is the oldest. We could use an <code>arrange()</code> to test that, but I have another suggestion: <code>summary()</code>.</p>
 <p>Now, <code>summary()</code> is different than <code>summarize()</code>, which we’ll do plenty of in a minute. The <code>summary()</code> function will show you some results about each column in your data, and when it is a number or date, it will give you some basic stats like min, max and median values.</p>
 <ol type="1">
 <li><strong>Edit your chunk</strong> to not just print out the tibble, but pipe that into <code>summary()</code>, like this:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>leso_dated <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>You should be be able to look at the <strong>Min</strong> value of <code>ship_date</code> in the summary to make sure there are not dates before 2010. Here is what that summary looks like:</p>
-<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>leso_dated <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    state           agency_name            nsn             item_name        
- Length:67603       Length:67603       Length:67603       Length:67603      
+ Length:67852       Length:67852       Length:67852       Length:67852      
  Class :character   Class :character   Class :character   Class :character  
  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
                                                                             
@@ -958,31 +977,32 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
                                                                             
                                                                             
     quantity             ui            acquisition_value   demil_code       
- Min.   :    0.00   Length:67603       Min.   :       0   Length:67603      
- 1st Qu.:    1.00   Class :character   1st Qu.:     204   Class :character  
+ Min.   :    0.00   Length:67852       Min.   :       0   Length:67852      
+ 1st Qu.:    1.00   Class :character   1st Qu.:     200   Class :character  
  Median :    1.00   Mode  :character   Median :     499   Mode  :character  
- Mean   :    5.49                      Mean   :   22162                     
+ Mean   :    5.66                      Mean   :   22002                     
  3rd Qu.:    1.00                      3rd Qu.:    3578                     
  Max.   :44000.00                      Max.   :22000000                     
                                                                             
     demil_ic       ship_date                      station_type      
- Min.   :0.000   Min.   :2010-01-05 00:00:00.00   Length:67603      
- 1st Qu.:1.000   1st Qu.:2012-03-02 00:00:00.00   Class :character  
- Median :1.000   Median :2014-08-06 00:00:00.00   Mode  :character  
- Mean   :1.445   Mean   :2015-06-26 03:36:05.45                     
- 3rd Qu.:1.000   3rd Qu.:2018-02-21 00:00:00.00                     
- Max.   :7.000   Max.   :2023-06-30 06:06:28.00                     
- NA's   :5553                                                       
+ Min.   :0.000   Min.   :2010-01-05 00:00:00.00   Length:67852      
+ 1st Qu.:1.000   1st Qu.:2012-03-07 00:00:00.00   Class :character  
+ Median :1.000   Median :2014-08-27 00:00:00.00   Mode  :character  
+ Mean   :1.436   Mean   :2015-08-15 23:52:06.43                     
+ 3rd Qu.:1.000   3rd Qu.:2018-05-04 00:00:00.00                     
+ Max.   :7.000   Max.   :2023-09-29 07:00:14.00                     
+ NA's   :5880                                                       
   total_value       control_type   
  Min.   :       0   Mode :logical  
- 1st Qu.:     371   FALSE:7008     
- Median :     749   TRUE :60595    
- Mean   :   24179                  
- 3rd Qu.:    6276                  
+ 1st Qu.:     371   FALSE:7918     
+ Median :     749   TRUE :59934    
+ Mean   :   24066                  
+ 3rd Qu.:    6392                  
  Max.   :22000000                  
                                    </code></pre>
 </div>
 </div>
+<p>You should be be able to look at the <strong>Min</strong> value of <code>ship_date</code> in the summary to make sure there are not dates before 2010. You can also look at the <strong>Max</strong> value to see your latest <code>ship_date</code>. You should make a mental (and perhaps written) note about that max date.</p>
 <p>We now have an object, <code>leso_dated</code> that has all the data since 2010. We’ll export this for our next notebook.</p>
 </section>
 </section>
@@ -998,7 +1018,7 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <div class="cell">
 <details>
 <summary>The last chunk. You can do it.</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>leso_dated <span class="sc">|&gt;</span> <span class="fu">write_rds</span>(<span class="st">"data-processed/01-leso-all.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>leso_dated <span class="sc">|&gt;</span> <span class="fu">write_rds</span>(<span class="st">"data-processed/01-leso-all.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -1015,8 +1035,9 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <h2 data-number="5.14" class="anchored" data-anchor-id="things-we-learned-in-this-lesson"><span class="header-section-number">5.14</span> Things we learned in this lesson</h2>
 <p>This chapter was similar to when we imported data for Billboard, but we did introduce a couple of new concepts:</p>
 <ul>
-<li><a href="https://dplyr.tidyverse.org/reference/case_when.html"><code>case_when()</code></a> allows you to categorize a new column based on logic within your data.</li>
-<li><code>summary()</code> gives you descriptive statistics about your tibble. We used it to check the “min” date, but you can also see averages (mean), max and medians.</li>
+<li><a href="https://dplyr.tidyverse.org/reference/slice.html"><code>slice_sample(n = 10)</code></a> gives us 10 random rows from our data.</li>
+<li><a href="https://dplyr.tidyverse.org/reference/case_when.html"><code>case_when()</code></a> allows you to categorize a new column based on logic within your data. There is more about this in the <a href="./case-when.html">this appendix</a>.</li>
+<li><code>summary()</code> gives you descriptive statistics about your tibble. We used it to check the “min” and “max” date, but you can also see averages (mean) and medians.</li>
 </ul>
 
 

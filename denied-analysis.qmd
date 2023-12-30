@@ -53,7 +53,7 @@ sped |> head()
 
 But to recap, the data should look like this:
 
-```{r sped-peek}
+```{r}
 sped |> head()
 ```
 
@@ -88,7 +88,7 @@ You used [`pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.htm
 ```{r select-pivot-wider}
 #| label: select-pivot-wider
 #| code-fold: true
-#| code-summary: "You won't need this because I believe in you"
+#| code-summary: "I'm sure you won't need this because I believe in you"
 
 district_percents_data <- sped |> 
   select(distname, cntyname, year, sped_percent) |> 
@@ -110,9 +110,13 @@ district_percents_data |>
 
 That's kinda brilliant, isn't it? You know can search by any value in the table.
 
-Quick, tell me what was the percentage for Austin ISD in 2020?
+### Data takeaway: How has Austin done
 
 That will be useful tool for you when you are writing about specific districts.
+
+1. Use the data table to find AUSTIN ISD an in your own words, write a data takeaway sentence describing the change over time.
+
+You can see how that might be useful tool for writing about specific districts.
 
 ## Choosing a chart to display data
 
@@ -190,7 +194,11 @@ This definitely shows us that the percentage of students in special education (i
 
 I would be careful about saying the increase is _because_ of the changes (though that is likely true), but you can certainly say with authority that it has gone up, and interview other people to pontificate on the reasons why.
 
-BTW, if you wanted to make that chart in [datawrapper](https://academy.datawrapper.de/article/20-how-to-create-a-column-chart), you could use the same tibble data.
+BTW, if you wanted to make that chart in [datawrapper](https://academy.datawrapper.de/article/20-how-to-create-a-column-chart), you could use the same data structure.
+
+### Data takeaway: State percentage
+
+1. Write a data takeaway that describes how the statewide percentage of special education students has changed over time.
 
 ::: callout-warning
 ## The COVID factor
@@ -288,6 +296,10 @@ Remember, this is the question you are trying to answer: **How many districts we
 
 Both the stacked bar chart and the the grouped bar chart explain this concept. I like the grouped bars a little better because the stacked one kind of looks like all the bars are the same height, evoking 100% or something instead of the number of districts (which don't change that much.) I'm probably over thinking that, TBH. Sometimes you just gotta make a call.
 
+### Data takeaway: District benchmarks
+
+1. Now that you've seen the same data in three ways, write a data takeaway the describe what you've learned.
+
 ## Local districts
 
 We have one last question: **How have local districts changed?** i.e., what are the percentages for districts in Bastrop, Hays, Travis and Williamson counties? We want to make sure none of these buck the overall trend.
@@ -299,8 +311,7 @@ Looking at the chart suggestions workflow, we are doing a comparison over time o
 To make that line chart we think about our axes and groups: We need our x axis of `year`, y axis of the `sped_percent` and we need to group the lines by their district. Since we need a column that has each year, the _long_ data we started with should suffice:
 
 ```{r local-show-sped}
-sped |>
-  head()
+sped |> head()
 ```
 
 We just need to filter that down to a single county `cntyname == "BASTROP"` to show this. We can even do this all in one code block. Let's see if you can follow this logic and build Bastrop county for yourself.
@@ -330,6 +341,10 @@ sped |>
 1. Now do the same for the other three counties, each in their own code chunk: Hays, Travis and Williamson.
 
 These charts give you some reference for the local districts. You'll see the more districts there are within a county, the less effective the line chart becomes. But at least it gives you an idea of which districts are following the trend.
+
+### Data takeaway: The local districts
+
+Write data takeaways about the three counties you've looked at.
 
 ## Special Education change since 2015
 
@@ -375,6 +390,14 @@ Describing a "percentage point difference" to readers can be difficult, but perh
 
 Great, so which do we use for this story? That depends on what you want to describe. Districts that have fewer special education students to begin with will show a more pronounced percent change with any fluctuation. Then again, a district that has a large percentage of students could be gaining a lot of students with a small percentage change. In the end, we might need to use all of these values to describe different kinds of school districts. We are talking about human beings, so perhaps the counts are important.
 
+## Build your data drop
+
+Like you have with previous projects, update your index.qmd file to add the following:
+
+1. Write a one to two sentence summary about the project as a whole (this is done for you in the template).
+2. Write a data lede and source paragraph.
+3. Write a series of data takeaway sentences based on what you found.
+
 ## Turn in your project
 
 1.  Make sure everything runs and Renders properly.
@@ -386,8 +409,7 @@ Great, so which do we use for this story? That depends on what you want to descr
 To be clear, it is your zipped project I am grading. The Quarto Pub link is for convenience.
 :::
 
-## What we learned in this chapter
+## New functions used in this chapter
 
-- [`bind_rows()`](https://dplyr.tidyverse.org/reference/bind.html) allows us to stack similar data into a single object. 
-- [`inner_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html) and its siblings allow us to add columns based on a common values in the data sets.
-- We utilized [`count()`](https://dplyr.tidyverse.org/reference/count.html) which is a shortcut for grouping and counting rows of data.
+- We used [`datatable()`](https://rstudio.github.io/DT/options.html) to build an interactive, searchable table from our data. It's part of the [DT](https://rstudio.github.io/DT/) packages.
+- I used [`count()`](https://dplyr.tidyverse.org/reference/count.html) which is a shortcut for grouping and counting rows of data.

@@ -4,7 +4,7 @@
 This chapter is by Prof. McDonald, who uses macOS.
 :::
 
-In the last chapter, we learned about the LESO data ... that local law enforcement agencies can get surplus military equipment from the U.S. Department of Defense. We downloaded a combined version of the data, modified it for our purposes (used `mutate()` to create a new column calculated from other variables in the data) and then filtered it to just Texas records over a specific time period.
+In the last chapter, we learned about the LESO data ... that local law enforcement agencies can get surplus military equipment from the U.S. Department of Defense. We downloaded a combined version of the data, modified it for our purposes (used `mutate()` to create a new column calculated from other variables in the data) and then filtered it to a specific time period.
 
 Throughout this lesson I'll give you a chance to work out the code on your own, but then give you the answer and explain it. **You won't learn this if you just copy/paste.** You need more than code that runs; you need to understand what the code is doing.
 
@@ -16,8 +16,8 @@ Our learning goals are:
 
 -   To use the combination of `group_by()`, `summarize()` and `arrange()` to add columns of data using `sum()`.
 -   To use different `group_by()` groupings in specific ways to get desired results.
--   To practice using `filter()` on those summaries to better see certain results, including filtering with*in* a vector (or list of strings).
--   We'll research and write about some of the findings, practicing data-centric ledes and sentences describing data.
+-   To practice using `filter()` on those summaries to better see certain results, including filtering *in* a vector.
+-   We'll write Data about some of the findings, practicing data-centric ledes and sentences describing data.
 
 ## Questions to answer
 
@@ -25,7 +25,7 @@ All answers should be based on **controlled** items given to **Texas agencies** 
 
 -   *How many total "controlled" items were transferred to Texas agencies, and what are they all worth?* We'll summarize all the controlled items only to get the total quantity and total value of everything.
 -   *How many total "controlled" items did each agency get and how much was it all worth?* Which agency got the most stuff?
-    -   *How about local police agencies?* I'll give you a list.
+    -   *How about local police agencies? What was the total quantity and value* I'll give you a list.
 -   *What specific "controlled" items did each agency get and how much were they worth?* Now we're looking at the kinds of items.
     -   *What did local agencies get?*
 
@@ -47,10 +47,10 @@ We've started each notebook like this, so you should be able to do this on your 
 ```{r}
 #| label: setup
 #| message: false
+#| warning: false
 #| echo: fenced
 
 library(tidyverse)
-library(janitor)
 ```
 
 
@@ -71,7 +71,6 @@ leso <- read_rds("data-processed/01-leso-all.rds")
 
 leso |> glimpse()
 ```
-
 
 You should see the `leso` object in your Environment tab. You also have the glimpse like above so you an idea of what each variable is in the data.
 
@@ -179,17 +178,15 @@ So, let's put this together with code.
 2.  Add a code chunk like below and run it.
 
 ```{r}
-leso_c_tx |> 
+leso_c_tx |> # <1>
   summarise(
-    sum(quantity),
+    sum(quantity), # <2>
     sum(total_value)
   )
 ```
 
-Walking through the code ...
-
--   We start with the `leso_c_tx` tibble of the controlled items.
--   Then we pipe into `summarize()`. Because we are going to add multiple things, I put them on separate lines just to make this more readable.
+1. We start with the `leso_c_tx` tibble of the controlled items then we pipe into `summarize()`.
+2. Because we are going to add multiple things, I put them on separate lines just to make this more readable.
 
 You'll notice that the names of the columns are the function names. We can "name" our new columns just like we did in Billboard. We could call this whatever we want, but good practice is to name it what it is. We'll use good naming techniques and split the words using `_`. I also use all lowercase characters.
 
@@ -198,18 +195,24 @@ You'll notice that the names of the columns are the function names. We can "name
 ```{r}
 leso_c_tx |> 
   summarise(
-    summed_quantity = sum(quantity),
-    summed_total_value = sum(total_value)
+    summed_quantity = sum(quantity), # <1>
+    summed_total_value = sum(total_value) # <2>
   )
 ```
 
+1. Note we added `summed_quantity =` on this line
+2. and `summed_total_value =` on this line.
+
 OK, from this we have learned something: The `summed_quantity` value there is the number of items all Texas law enforcement agencies have received, and the `summed_total_value` is how much they were worth.
 
-4. Write a sentence in your notebook summing up the totals in a way that you could drop into a story.
+### Data Takeaway: Totals since 2010
 
-We'll do this again below with grouping, but first we need to talk about `NA` values.
+1. Write a Data Takeaway sentence in your notebook summing up the totals in a way that you could drop into a story.
+
 
 ### NA values in a sum, mean and median
+
+We'll do summarize again below with grouping, but first we need to talk about `NA` values.
 
 When we do math like this within summarize we need to take special note if our column has any blank values, called `NA`, as in "Not Available". If there are, then you will get `NA` for the result. R will NOT do the math on the remaining values unless you tell it so. This is true not only for `sum()`, but also for `mean()` which gets an average, and for `median()` which finds the middle number in a column.
 
@@ -263,19 +266,16 @@ We'll start with the **total_quantity**.
 2.  Add the code below into the chunk and run it.
 
 ```{r all-quantity}
-leso_c_tx |> 
-  group_by(agency_name) |> 
+leso_c_tx |> # <1>
+  group_by(agency_name) |> # <2>
   summarize(
-    summed_quantity = sum(quantity)
+    summed_quantity = sum(quantity) # <3>
   )
 ```
 
-Let's break this down a little.
-
--   We start with the `leso_c_tx`, which is the "controlled" data, and then ...
--   We group by `agency_name`. This organizes our data (behind the scenes) so our summarize actions will happen *within each agency*. Now I normally say run your code one line at a time, but you would not be able to *see* the groupings at this point, so I usually write `group_by()` and `summarize()` together.
--   In `summarize()` we first name our new column: `summed_quantity`, then we set that column to equal `=` the **sum of all values in the `quantity` column**. `sum()` is the function, and we feed it the column we want to add together: `quantity`.
--   I put this inside of the summarize function in its own line because we will add to it. I enhances readability. RStudio will help you with the indenting, etc.
+1. We start with the `leso_c_tx`, which is the "controlled" data, and then ...
+2. We group by `agency_name`. This organizes our data (behind the scenes) so our summarize actions will happen *within each agency*. Now I normally say run your code one line at a time, but you would not be able to *see* the groupings at this point, so I usually write `group_by()` and `summarize()` together.
+3. In `summarize()` we first name our new column: `summed_quantity`, then we set that column to equal `=` the **sum of all values in the `quantity` column**. `sum()` is the function, and we feed it the column we want to add together: `quantity`. I put this inside of the summarize function in its own line because we will add to it. I enhances readability. RStudio will help you with the indenting, etc.
 
 If you look at the first line of the return, it is taking all the rows for the "ABERNATHY POLICE DEPT" and then adding together all the values in the `quantity` field.
 
@@ -293,10 +293,12 @@ leso_c_tx |>
   group_by(agency_name) |> 
   summarize(
     summed_quantity = sum(quantity),
-    summed_total_value = sum(total_value)
+    summed_total_value = sum(total_value) # <1>
   )
 
 ```
+
+1. Here we add the summed_total_value.
 
 
 ### Check the math
@@ -326,8 +328,10 @@ leso_c_tx |>
     summed_quantity = sum(quantity),
     summed_total_value = sum(total_value)
   ) |> 
-  arrange(summed_total_value |> desc())
+  arrange(summed_total_value |> desc()) # <1> 
 ```
+
+1. Adding the pipe and arrange here.
 
 So now we've sorted the results to put the highest `summed_total_value` at the top.
 
@@ -347,9 +351,13 @@ Is there anything that sticks out in that list? It helps if you know a little bi
 
 Perhaps we should look at some of the police agencies closest to us.
 
+### Data Takeaway: Texas totals
+
+1. After your last code chunk here, write a Data Takeaway from what you see in this result.
+
 ## Looking a local agencies {.local-agencies}
 
-Our second quest had a second part: **How does this look for local police agencies?**
+Our second quest had a second part: **How about local police agencies? What was the total quantity and value?**
 
 We'll take the summary above, but then filter it to show only local agencies of interest.
 
@@ -361,8 +369,7 @@ Since we want to take an existing summary and add more filtering to it, it makes
 2.  Add a new line that prints the result to the screen so you can still see it.
 
 ```{r tx-totals-tibble}
-# adding the new tibble object in next line
-tx_agency_totals <- leso_c_tx |> 
+tx_agency_totals <- leso_c_tx |> # <1>
   group_by(agency_name) |> 
   summarize(
     summed_quantity = sum(quantity),
@@ -370,11 +377,11 @@ tx_agency_totals <- leso_c_tx |>
   ) |> 
   arrange(summed_total_value |> desc())
 
-# peek at the result
-tx_agency_totals
+tx_agency_totals # <2>
 ```
 
-The result is the same, but we can reuse the `tx_agency_totals` tibble.
+1. Creating the new object `tx_agency_totals` to put this summary into.
+2. Here we print out the new object, which we can reuse later.
 
 ### Filtering within a vector
 
@@ -390,7 +397,7 @@ data |>
 
 That can get pretty unwieldy if you have more than a couple of things to look for.
 
-There is another operator `%in%` where we can search for multiple items from a list. (This list of terms is officially called a vector, but whatever.) Think of it like this in plain English: *Filter* the *column* for things *in* this *list*.
+There is another operator `%in%` where we can search for multiple items from a list. (This list of items is officially called a "vector".) Think of it like this in plain English: *Filter* the *column* for things *in* this *list*.
 
 ``` r
 # Just for explanation. Don't add to notebook.
@@ -411,6 +418,8 @@ data |>
   filter(col_name %in% list_of_strings)
 ```
 
+This last version is the easiest to read and the most flexible to maintain. We can make adjustments to the list as needed.
+
 ### Create a vector to build this filter
 
 In the interest of time, I'm going to give you the list of local police agencies to filter on. To be clear, I did considerable work to figure out the exact names of these agencies. I consulted a different data set that lists all law enforcement agencies in Texas and then I used some creative filtering to find their "official" names in the leso data. It also helps that I'm familiar with local cities and counties so I can recognize the names. **I don't want to get sidetracked on that process here so I'll give you the list and show you how to use it.**
@@ -419,8 +428,8 @@ In the interest of time, I'm going to give you the list of local police agencies
 2.  Add the code below into that chunk.
 
 ```{r local-list}
-local_agencies <- c(
-  "AUSTIN PARKS POLICE DEPT", #NI
+local_agencies <- c( # <1>
+  "AUSTIN PARKS POLICE DEPT", #NI # <2>
   "AUSTIN POLICE DEPT",
   "BASTROP COUNTY SHERIFF'S OFFICE",
   "BASTROP POLICE DEPT",
@@ -462,19 +471,21 @@ local_agencies <- c(
   "WILLIAMSON COUNTY SHERIFF'S OFFICE"
 )
 
-tx_agency_totals |> 
-  filter(agency_name %in% local_agencies)
+tx_agency_totals |> # <3>
+  filter(agency_name %in% local_agencies) # <4>
 
 ```
 
-Let's walk through that code and my notes there.
+1. We start by giving our list of agencies a name: `local_agencies`. This creates an R object that we can reuse. We will need this list a number of times, and it makes sense to manage it in once place instead of each time we need it.
+2. Next we fill that object with a list of agency names. Again, I did some pre-work to figure out those names that we aren't covering here, and in some cases there is a comment `#NI` next to them. That is a note to myself that the particular agency is NOT INCLUDED in our data, which means I haven't confirmed the name spelling. It could be at a later date the Austin Parks department gets equipment, but they list their name as "CITY OF AUSTIN PARKS" instead of "AUSTIN PARKS POLICE DEPT" and it would not be filtered properly. This is another example that **your most important audience for your code is your future self**.
+3. Now that our list is created, we can use it to filter our `tx_agency_totals` data. So, we start with that data, and then ...
+4. We pipe into `filter()`, but inside our filter we don't set it `==` to a single thing, instead we say: `agency_name %in% local_agencies`, which says look inside that `agency_name` column and keep any row that has a value that is also in our `local_agencies` vector.
 
--   We start by giving our list of agencies a name: `local_agencies`. This creates an R object that we can reuse. We will need this list a number of times, and it makes sense to manage it in once place instead of each time we need it.
--   Next we fill that object with a list of agency names. Again, I did some pre-work to figure out those names that we aren't covering here, and in some cases there is a comment `#NI` next to them. That is a note to myself that the particular agency is NOT INCLUDED in our data, which means I haven't confirmed the name spelling. It could be at a later date the Austin Parks department gets equipment, but they list their name as "CITY OF AUSTIN PARKS" instead of "AUSTIN PARKS POLICE DEPT" and it would not be filtered properly. This is another example that **your most important audience for your code is your future self**.
--   Now that our list is created, we can use it to filter our `tx_agency_totals` data. So, we start with that data, and then ...
--   We pipe into `filter()`, but inside our filter we don't set it `==` to a single thing, instead we say: `agency_name %in% local_agencies`, which says look inside that `agency_name` column and keep any row that has a value that is also in our `local_agencies` vector.
+### Data Takeaway: Local totals
 
 This filters our list of agencies to just those in Central Texas. Do you see anything interesting there?
+
+1. Write your Data Takeaway about what you've found.
 
 ## Types of items shipped to each agency
 
@@ -507,18 +518,19 @@ options(dplyr.summarise.inform = FALSE)
 #| code-fold: true
 #| code-summary: "Give it a go. Below is the result."
 
-# adding the new tibble object in next line
-tx_agency_item_totals <- leso_c_tx |> 
-  group_by(agency_name, item_name) |> 
+tx_agency_item_totals <- leso_c_tx |> # <1>
+  group_by(agency_name, item_name) |> # <2>
   summarize(
     summed_quantity = sum(quantity),
     summed_total_value = sum(total_value)
   ) |> 
   arrange(summed_total_value |> desc())
 
-# peek at the result
 tx_agency_item_totals
 ```
+
+1. Be sure to create a new object
+2. Here we add the second grouping variable
 
 This reuse of code like this -- copying the agency grouping code and editing it to add the item_name value -- is very common in coding, and there is nothing wrong with doing so as long as you are careful.
 
@@ -577,6 +589,20 @@ Now we go to the website <https://nationalstocknumber.info/> and plug that numbe
 
 Not every item is in the database, but it is worth checking.
 
+### Data Takeaway: Local items
+
+Now that you've done a bit of research into some of these items, write prose-style data takeaways about items of interest.
+
+## Update index summary
+
+I know there has been a lot of new code here, but learning the code is only half the battle. What have we learned about the data? It's time to summarize our findinngs.
+
+1. Open your `index.qmd` file.
+2. After the text that is here, pick the most interesting data fact you've found and write a story lede and source graf.
+3. Follow that with the rest of your data takeaways, written as prose that you could drop into a story.
+
+If you need a reminder of the style, look at the [Billboard example](billboard-analysis.qmd#update-your-index-summary)
+
 ## Turn in your project
 
 1.  Make sure everything runs and Renders properly.
@@ -590,7 +616,7 @@ To be clear, it is your zipped project I am grading. The Quarto Pub link is for 
 
 ## What we learned in this chapter
 
--   We used `sum()` within a `group_by()`/`summarize()` function to add values within a column. Sometimes `sum()` needs the arguent `na.rm = TRUE`.
+-   We used `sum()` within a `group_by()`/`summarize()` function to add values within a column. Sometimes `sum()` needs the argument `na.rm = TRUE`.
 -   We used `summary()` to get descriptive statistics about our data, like the minimum and maximum values, or an average (mean).
 -   We learned how to use `c()` to **combine** a list of like values into a *vector*, and then used that vector to filter a column for values `%in%` that vector.
 -   We used `nrow()` to count the number of rows in an object.
