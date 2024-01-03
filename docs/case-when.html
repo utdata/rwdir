@@ -411,27 +411,27 @@ $ total_value       &lt;dbl&gt; 16260.0, 3339.0, 62627.0, 172647.1, 62627.0, 658
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-1" data-code-lines="1">Our first line creates a new tibble <code>leso_control</code> and fills it with the result of the rest of our expression. We start with the <code>leso_total</code> tibble.</span>
+<span data-code-lines="1" data-code-annotation="1" data-code-cell="annotated-cell-1">Our first line creates a new tibble <code>leso_control</code> and fills it with the result of the rest of our expression. We start with the <code>leso_total</code> tibble.</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-1" data-code-lines="2,3">We mutate the data and start with the name of new column: <code>control_type</code>. We are filling that column with the result of the <code>case_when()</code> function for each row. Within the <code>case_when()</code> we are making the determination if the item is controlled or not. The left side of the <code>~</code> is the test, and the right side of <code>~</code> is what we enter into the column if the test passes. But we have more than one test:</span>
+<span data-code-lines="2,3" data-code-annotation="2" data-code-cell="annotated-cell-1">We mutate the data and start with the name of new column: <code>control_type</code>. We are filling that column with the result of the <code>case_when()</code> function for each row. Within the <code>case_when()</code> we are making the determination if the item is controlled or not. The left side of the <code>~</code> is the test, and the right side of <code>~</code> is what we enter into the column if the test passes. But we have more than one test:</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-1" data-code-lines="4">The first test is we use the <a href="https://stringr.tidyverse.org/reference/str_detect.html"><code>str_detect()</code></a> function to look inside the <code>item_name</code> field looking for the term “AIRPLANE”. If the test finds the term, then the <code>control_type</code> field gets a value of <code>TRUE</code> and we move to the next row. If not, it moves to the next rule to see if that is a match. (We could fill this column with any text or number we want, but we are using <code>TRUE</code> and <code>FALSE</code> because that is the most basic kind of data to keep. If the item is controlled, set the value is TRUE. If not, it should be set to FALSE.)</span>
+<span data-code-lines="4" data-code-annotation="3" data-code-cell="annotated-cell-1">The first test is we use the <a href="https://stringr.tidyverse.org/reference/str_detect.html"><code>str_detect()</code></a> function to look inside the <code>item_name</code> field looking for the term “AIRPLANE”. If the test finds the term, then the <code>control_type</code> field gets a value of <code>TRUE</code> and we move to the next row. If not, it moves to the next rule to see if that is a match. (We could fill this column with any text or number we want, but we are using <code>TRUE</code> and <code>FALSE</code> because that is the most basic kind of data to keep. If the item is controlled, set the value is TRUE. If not, it should be set to FALSE.)</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-annotation="4" data-code-cell="annotated-cell-1" data-code-lines="5">Our second rule has two complex tests and we want to mark the row FALSE if either are true. (Remember, this is based on what the DLA told me: items with A or Q6 are non-controlled.) Our <code>case_when()</code> logic first looks for the value “A” in the <code>demil_code</code> field. If it is yes, then it marks the row FALSE. If no it goes to the next part: Is there a “Q” in the <code>demil_code</code> field AND a “6” in the <code>demil_ic</code> field? Both “Q” and “6” have to be there to get marked as FALSE. If both fail, then we move to the next test.</span>
+<span data-code-lines="5" data-code-annotation="4" data-code-cell="annotated-cell-1">Our second rule has two complex tests and we want to mark the row FALSE if either are true. (Remember, this is based on what the DLA told me: items with A or Q6 are non-controlled.) Our <code>case_when()</code> logic first looks for the value “A” in the <code>demil_code</code> field. If it is yes, then it marks the row FALSE. If no it goes to the next part: Is there a “Q” in the <code>demil_code</code> field AND a “6” in the <code>demil_ic</code> field? Both “Q” and “6” have to be there to get marked as FALSE. If both fail, then we move to the next test.</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-annotation="5" data-code-cell="annotated-cell-1" data-code-lines="6">The last test is our catch-all. If none of the other rules apply, then mark this row as <code>TRUE</code>, which means it is controlled. So our default in the end is to mark everything TRUE if any of the other rules don’t mark it first.</span>
+<span data-code-lines="6" data-code-annotation="5" data-code-cell="annotated-cell-1">The last test is our catch-all. If none of the other rules apply, then mark this row as <code>TRUE</code>, which means it is controlled. So our default in the end is to mark everything TRUE if any of the other rules don’t mark it first.</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-annotation="6" data-code-cell="annotated-cell-1" data-code-lines="10">Lastly we glimpse at the data just so we can see the column was created.</span>
+<span data-code-lines="10" data-code-annotation="6" data-code-cell="annotated-cell-1">Lastly we glimpse at the data just so we can see the column was created.</span>
 </dd>
 </dl>
 </div>
@@ -478,11 +478,11 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-3" data-code-lines="2">This is the count shortcut using three variables. I name counted column <code>cnt</code>. It’s hard to visualize that result here but it counts how many times each unique combination of <code>demil_code</code>, <code>demil_ic</code> and <code>control_type</code>.</span>
+<span data-code-lines="2" data-code-annotation="1" data-code-cell="annotated-cell-3">This is the count shortcut using three variables. I name counted column <code>cnt</code>. It’s hard to visualize that result here but it counts how many times each unique combination of <code>demil_code</code>, <code>demil_ic</code> and <code>control_type</code>.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-3" data-code-lines="3">Here I use pivot_wider() to show the TRUE and FALSE counts on the same row. Just makes it easier to see.</span>
+<span data-code-lines="3" data-code-annotation="2" data-code-cell="annotated-cell-3">Here I use pivot_wider() to show the TRUE and FALSE counts on the same row. Just makes it easier to see.</span>
 </dd>
 </dl>
 </div>
