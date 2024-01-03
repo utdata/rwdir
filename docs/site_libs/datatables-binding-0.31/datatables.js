@@ -2,7 +2,7 @@
 
 // some helper functions: using a global object DTWidget so that it can be used
 // in JS() code, e.g. datatable(options = list(foo = JS('code'))); unlike R's
-// dynamic scoping, when 'code' is eval()'ed, JavaScript does not know objects
+// dynamic scoping, when 'code' is eval'ed, JavaScript does not know objects
 // from the "parent frame", e.g. JS('DTWidget') will not work unless it was made
 // a global object
 var DTWidget = {};
@@ -432,6 +432,8 @@ HTMLWidgets.widget({
         regex = options.search.regex,
         ci = options.search.caseInsensitive !== false;
       }
+      // need to transpose the column index when colReorder is enabled
+      if (table.colReorder) i = table.colReorder.transpose(i);
       return table.column(i).search(value, regex, !regex, ci);
     };
 
@@ -493,7 +495,9 @@ HTMLWidgets.widget({
               $input.parent().hide(); $x.show().trigger('show'); filter[0].selectize.focus();
             },
             input: function() {
-              if ($input.val() === '') filter[0].selectize.setValue([]);
+              var v1 = JSON.stringify(filter[0].selectize.getValue()), v2 = $input.val();
+              if (v1 === '[]') v1 = '';
+              if (v1 !== v2) filter[0].selectize.setValue(v2 === '' ? [] : JSON.parse(v2));
             }
           });
           var $input2 = $x.children('select');
@@ -509,7 +513,7 @@ HTMLWidgets.widget({
               if (value.length) $input.trigger('input');
               $input.attr('title', $input.val());
               if (server) {
-                table.column(i).search(value.length ? JSON.stringify(value) : '').draw();
+                searchColumn(i, value.length ? JSON.stringify(value) : '').draw();
                 return;
               }
               // turn off filter if nothing selected
@@ -680,7 +684,7 @@ HTMLWidgets.widget({
             updateSliderText(val[0], val[1]);
             if (e.type === 'slide') return;  // no searching when sliding only
             if (server) {
-              table.column(i).search($td.data('filter') ? ival : '').draw();
+              searchColumn(i, $td.data('filter') ? ival : '').draw();
               return;
             }
             table.draw();
@@ -823,6 +827,7 @@ HTMLWidgets.widget({
       var disableCols = data.editable.disable ? data.editable.disable.columns : null;
       var numericCols = data.editable.numeric;
       var areaCols = data.editable.area;
+      var dateCols = data.editable.date;
       for (var i = 0; i < target.length; i++) {
         (function(cell, current) {
           var $cell = $(cell), html = $cell.html();
@@ -832,6 +837,8 @@ HTMLWidgets.widget({
             $input = $('<input type="number">');
           } else if (inArray(index, areaCols)) {
             $input = $('<textarea></textarea>');
+          } else if (inArray(index, dateCols)) {
+            $input = $('<input type="date">');
           } else {
             $input = $('<input type="text">');
           }
@@ -1367,7 +1374,7 @@ HTMLWidgets.widget({
     changeInput('cell_clicked', {});
 
     // do not trigger table selection when clicking on links unless they have classes
-    table.on('click.dt', 'tbody td a', function(e) {
+    table.on('mousedown.dt', 'tbody td a', function(e) {
       if (this.className === '') e.stopPropagation();
     });
 
@@ -1395,7 +1402,7 @@ HTMLWidgets.widget({
           console.log('The search keyword for column ' + i + ' is undefined')
           return;
         }
-        $(td).find('input').first().val(v);
+        $(td).find('input').first().val(v).trigger('input');
         searchColumn(i, v);
       });
       table.draw();
