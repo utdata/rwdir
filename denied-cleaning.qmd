@@ -102,7 +102,7 @@ The process goes like this:
 - Choose the **TAPR Data in Excel (Rates Only)** option
 - Click on **District Download**. Click **Continue** to move on.
 - Choose the **Student Information** data set and choose **Continue**.
-  - Choose the **Comma-Delimeted (csv)** format
+  - Choose the **Comma-Delimited (csv)** format
   - Choose **Student Enrollment: Counts/Percents**
   - Also choose **Students by Instructional Programs** (or **Student Membership by Program** or **Student Enrollment by Program** depending on the year. See note below.)
   - Click **Download**.
@@ -157,86 +157,94 @@ In our `raw-data/` folder we have 10 years of data from the 2012-2013 school yea
 
 But can use some libraries available in tidyverse -- purrr and readr -- to import and bind together all the DSTUD files at one time. This only works if the data are structured in the same way.
 
-We'll do this in two steps:
+We do this in three steps:
 
-- We start by building a list of our files
-- Then we'll use a function to loop over the list and import our files, choosing only the columns we want at the same time.
+- We'll use `list.files()` to create a vector of the files we want
+- We'll use `map()` to apply the read_csv function to each file and create a list
+- We'll use `list_rbind()` to combine them into a single data frame
+
+There are a couple of other functions we'll tuck in there along the way to help us.
 
 #### Building our files list
 
-We'll use a function from the `fs` library called `dir_ls()` to capture a list of the files we want.
+We'll use a function called `list.files()` to create a vector of the files we want.
 
 1. If you haven't already, open the cleaning notebook in the project.
 2. Run all the setup code.
 3. Add a Markdown headline noting we are working on DSTUD data
-4. Add text noting we are building our list of files to import.
+4. Add text noting we are building our vector of files to import.
 5. Run the code.
 
 I explain the code below.
 
 ```{r}
-dstud_files <- dir_ls( # <1>
+dstud_files <- list.files( # <1>
   "data-raw", # <2>
-  regexp = "DSTUD" # <3>
+  pattern = "DSTUD", # <3>
+  full.names = TRUE # <4>
 )
 
-dstud_files # <4>
+dstud_files # <5>
 ```
 
-1. The first line starts with the new object we are creating to hold our list of data. It ends with our function, `dir_ls()`, which lists files in a directory as a vector.
-2. The first argument of `dir_ls()` is the path to where you want to look. We want to look in the `data-raw` folder. Without this argument, it would look in our main projet folder.
-3. The second optional argument is a regular expression (or regexp) search query to capture specific files based on the file name. This gets us just the DSTUD files and not the DREF file we need later.
-4. We're just printing out the resulting object to make sure we got what we wanted.
+1. The first line starts with the new object we are creating to hold our vector of data. It ends with our function, `list.files()`, which lists files in a directory as a vector.
+2. The first argument of `list.files()` is the path to where you want to look. We want to look in the `data-raw` folder. Without this argument, it would look in our main project folder.
+3. The second optional argument is a regular expression (or regexp) search query to capture specific files based on the file name. We're looking for the text "DSTUD" in the file names so we don't capture the DREF file (which we'll deal with later).
+4. The `full.names = TRUE` argument indicates that we want to keep not just the names of the files, but he full path to where the files are, which is what we need.
+5. We're just printing out the resulting object to make sure we got what we wanted.
 
 ::: callout-tip
 ## About regular expressions
 
-Regular expressions are a pattern-matching syntax used in many programming languages. Above we searched for a simple word, but regex is much more powerful than that. You can [learn more about regular expressions here](https://docs.google.com/document/d/1DvAM4lnGJLefo9skD8GgM-_9S1BEhpjJfV86yhJavI0/edit?usp=sharing).
+Regular expressions are a pattern-matching syntax used in many programming languages. Above we searched for a simple word, but regex is much more powerful than that. You can learn more about regular expressions in this [NICAR lesson](https://docs.google.com/document/d/1DvAM4lnGJLefo9skD8GgM-_9S1BEhpjJfV86yhJavI0/edit?usp=sharing) and how to use them in R in the [Regular expressions](https://r4ds.hadley.nz/regexps) chapter in R for Data Science.
 :::
 
 Now we have an object that is a vector of all the file names. We'll loop through this list to import all the files.
 
-#### Map and import
+#### Map, import and bind
 
-Next we want to take that list and walk through it using using a "map" function called [`map_dfr()`](https://purrr.tidyverse.org/reference/map_dfr.html) which returns a data frame, binding the rows of each file together.
+In the next section we'll add the files names to our vector to help us later, then use  [`map()`](https://purrr.tidyverse.org/reference/map_dfr.html) to walk through the list and apply `read_csv()` function to all our files. Then we'll bind together with `list_rbind()` and finish out normalizing the names.
 
-The idea here is the map_dfr function loops over the list, applying the arguments inside the function on each item. The end result is a single data frame.
+There is a LOT going on in this bit, so note the code annotations for details.
 
 1. Add some text noting that you are importing the DSTUD files
 2. Add the code block below and run it.
 3. Be sure to read through the explanations
 
-
 ```{r}
 #| message: false
 
 dstud_raw <- dstud_files |> # <1>
-  map_dfr( # <2>
-    read_csv, # <3>
-    .id = "source", # <4>
+  set_names(basename) |> # <2>
+  map( # <3>
+    read_csv, # <4>
     col_select = c(DISTRICT, DPETALLC, DPETSPEC, DPETSPEP) # <5>
   ) |> 
-  clean_names() # <6>
+  list_rbind(names_to = "source") |> # <6>
+  clean_names() # <7>
 
-dstud_raw |> head() # <7>
-dstud_raw |> tail() # <8>
+dstud_raw |> nrow() # <8>
+dstud_raw |> head() # <9>
+dstud_raw |> tail() # <10>
 
 ```
 
 1. We create a new object to fill, then start with our list of file names.
-2. We pipe into `map_dfr`, which will work on each file in turn, combining the results into a single data frame.
-3. The first argumemt for map_dfr is the function we are going to use without our loop. We are using `read_csv()` since we are importing csv files.
-4. This `.id = ` is an optional argument saves a new column called "source" with our file path, otherwise we won't know which row came from which file.
-5. This `col_select =` is an optional argument for `read_csv` that allows us to choose which columns we want as we read them in.
-6. We clean the names after importing them.
-7. Here we are peeking at the top of the resulting object.
-7. And then we peek at the bottom of the object.
+2. This line adds a name to each item in the `dstud_files` vector with the name of the file it came from. We'll use this later when we combine the files to know where the data came from.
+3. We pipe into `map`, which will work on each file in turn, applying the functions and arguments inside this function.
+4. The first argument is the function we are applying. We are using `read_csv()` since we are importing csv files.
+5. This `col_select =` is an optional argument for `read_csv` that allows us to choose which columns we want as we read them in. After this argument we close the `map()` function, which results in a "list" of data frames, which we then pipe into ...
+6. `list_rbind()` is a function that combines data frames from a list. We give this function the argument `names_to = "source"` to add a variable called `source` to each row of data with the name of the file it came from. This is why we added `set_names()` earlier because without it we wouldn't know which row came from which file. With this name, we can create a year column later.
+7. We clean the names after importing them.
+8. Here I'm just printing the number of rows in our data as a check that everything worked. 
+9. Here we are peeking at the top of the resulting object.
+10. And then we peek at the bottom of the object.
 
 ::: callout-tip
 
 ### The col_select argument vs select()
 
-This `col_select = ` argument we use above also works with a regular `read_csv()` function. It provides the same result as using `read_csv()` to import all the columns and the piping into a `select()` function to list the columns you want to keep or drop. It's yet another example showing multiple ways to accomplish the same result with R. Up to know I've preferred to use `read_csv() |> select()` because that allows you to see everything inside the data before choosing what to do with it. In our case above being able to pick just these few columns we need makes this much easier to deal with since the individual files have differences beyond some common columns.
+This `col_select = ` argument we use above also works with a regular `read_csv()` function. It provides the same result as using `read_csv()` to import all the columns and then piping into a `select()` function to list the columns you want to keep or drop. It's yet another example showing multiple ways to accomplish the same result with R. Up to now I've preferred to use `read_csv() |> select()` because that allows you to see everything inside the data before choosing what to do with it. In our case above being able to pick just these few columns we need makes this much easier to deal with since the individual files have differences beyond some common columns.
 
 :::
 
@@ -507,8 +515,10 @@ sped_flag |> write_rds("data-processed/01-sped-districts.rds")
 
 ## New functions we used
 
-- [`dir_ls()`](https://www.rdocumentation.org/packages/fs/versions/1.6.3/topics/dir_ls) from the [fs](https://www.tidyverse.org/blog/2018/01/fs-1.0.0/) package makes a list of file names in a folder. You can use the `regexp = ` argument to search for specific files to include based on a pattern.
-- [`map_dfr()`](https://purrr.tidyverse.org/reference/map_dfr.html) Loops through a list of files with a data frame as a result. We used it with `read_csv()` to import multiple files and bind them together into a single data object.
+- [`list.files()`](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/list.files) makes a list of file names in a folder. You can use the `pattern = ` argument to search for specific files to include based on a regular expression.
+- [`map()`](https://purrr.tidyverse.org/reference/map.html) Loops through a vector or list and applies a function to each item. We used it with `read_csv()` to import multiple files and put them into a list.
+- [`list_rbind()`](https://purrr.tidyverse.org/reference/list_c.html) is a function to combine elements into a data frame by row-binding them. In other words, it stacks them on top of each other into one thing.
+- [`set_names()`](https://rlang.r-lib.org/reference/set_names.html) provides a name to each element in a vector. We used it to add the "basename" of each file.
 - [`str_c()`](https://stringr.tidyverse.org/reference/str_c.html) is used to combine text.
 - [`str_sub()`](https://stringr.tidyverse.org/reference/str_sub.html) allows us to extract part of a string based on it's position.
 - We used [`inner_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html) to add columns from one data frame to another one based on a common key in both objects.
