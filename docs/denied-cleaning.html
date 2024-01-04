@@ -473,7 +473,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Click on <strong>District Download</strong>. Click <strong>Continue</strong> to move on.</li>
 <li>Choose the <strong>Student Information</strong> data set and choose <strong>Continue</strong>.
 <ul>
-<li>Choose the <strong>Comma-Delimeted (csv)</strong> format</li>
+<li>Choose the <strong>Comma-Delimited (csv)</strong> format</li>
 <li>Choose <strong>Student Enrollment: Counts/Percents</strong></li>
 <li>Also choose <strong>Students by Instructional Programs</strong> (or <strong>Student Membership by Program</strong> or <strong>Student Enrollment by Program</strong> depending on the year. See note below.)</li>
 <li>Click <strong>Download</strong>.</li>
@@ -525,54 +525,61 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="10.4.2" class="anchored" data-anchor-id="importing-multiple-files-at-once"><span class="header-section-number">10.4.2</span> Importing multiple files at once</h3>
 <p>In our <code>raw-data/</code> folder we have 10 years of data from the 2012-2013 school year to the 2020-2022 school year. The “long” way to do this would be importing each file individually, selecting the columns we need and then saving them as objects. We could then stack them on top of each other with the <a href="https://dplyr.tidyverse.org/reference/bind_rows.html"><code>bind_rows()</code></a> function.</p>
 <p>But can use some libraries available in tidyverse – purrr and readr – to import and bind together all the DSTUD files at one time. This only works if the data are structured in the same way.</p>
-<p>We’ll do this in two steps:</p>
+<p>We do this in three steps:</p>
 <ul>
-<li>We start by building a list of our files</li>
-<li>Then we’ll use a function to loop over the list and import our files, choosing only the columns we want at the same time.</li>
+<li>We’ll use <code>list.files()</code> to create a vector of the files we want</li>
+<li>We’ll use <code>map()</code> to apply the read_csv function to each file and create a list</li>
+<li>We’ll use <code>list_rbind()</code> to combine them into a single data frame</li>
 </ul>
+<p>There are a couple of other functions we’ll tuck in there along the way to help us.</p>
 <section id="building-our-files-list" class="level4" data-number="10.4.2.1">
 <h4 data-number="10.4.2.1" class="anchored" data-anchor-id="building-our-files-list"><span class="header-section-number">10.4.2.1</span> Building our files list</h4>
-<p>We’ll use a function from the <code>fs</code> library called <code>dir_ls()</code> to capture a list of the files we want.</p>
+<p>We’ll use a function called <code>list.files()</code> to create a vector of the files we want.</p>
 <ol type="1">
 <li>If you haven’t already, open the cleaning notebook in the project.</li>
 <li>Run all the setup code.</li>
 <li>Add a Markdown headline noting we are working on DSTUD data</li>
-<li>Add text noting we are building our list of files to import.</li>
+<li>Add text noting we are building our vector of files to import.</li>
 <li>Run the code.</li>
 </ol>
 <p>I explain the code below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>dstud_files <span class="ot">&lt;-</span> <span class="fu">dir_ls</span>(</span>
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>dstud_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(</span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-3-2" class="code-annotation-target"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data-raw"</span>,</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-3-3" class="code-annotation-target"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">regexp =</span> <span class="st">"DSTUD"</span></span>
-<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-3-6" class="code-annotation-target"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>dstud_files</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-3-3" class="code-annotation-target"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pattern =</span> <span class="st">"DSTUD"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-3-4" class="code-annotation-target"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">full.names =</span> <span class="cn">TRUE</span></span>
+<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-3-7" class="code-annotation-target"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a>dstud_files</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="1" data-code-cell="annotated-cell-3" data-code-annotation="1">The first line starts with the new object we are creating to hold our list of data. It ends with our function, <code>dir_ls()</code>, which lists files in a directory as a vector.</span>
+<span data-code-annotation="1" data-code-lines="1" data-code-cell="annotated-cell-3">The first line starts with the new object we are creating to hold our vector of data. It ends with our function, <code>list.files()</code>, which lists files in a directory as a vector.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="2" data-code-cell="annotated-cell-3" data-code-annotation="2">The first argument of <code>dir_ls()</code> is the path to where you want to look. We want to look in the <code>data-raw</code> folder. Without this argument, it would look in our main projet folder.</span>
+<span data-code-annotation="2" data-code-lines="2" data-code-cell="annotated-cell-3">The first argument of <code>list.files()</code> is the path to where you want to look. We want to look in the <code>data-raw</code> folder. Without this argument, it would look in our main project folder.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-lines="3" data-code-cell="annotated-cell-3" data-code-annotation="3">The second optional argument is a regular expression (or regexp) search query to capture specific files based on the file name. This gets us just the DSTUD files and not the DREF file we need later.</span>
+<span data-code-annotation="3" data-code-lines="3" data-code-cell="annotated-cell-3">The second optional argument is a regular expression (or regexp) search query to capture specific files based on the file name. We’re looking for the text “DSTUD” in the file names so we don’t capture the DREF file (which we’ll deal with later).</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-lines="6" data-code-cell="annotated-cell-3" data-code-annotation="4">We’re just printing out the resulting object to make sure we got what we wanted.</span>
+<span data-code-annotation="4" data-code-lines="4" data-code-cell="annotated-cell-3">The <code>full.names = TRUE</code> argument indicates that we want to keep not just the names of the files, but he full path to where the files are, which is what we need.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-annotation="5" data-code-lines="7" data-code-cell="annotated-cell-3">We’re just printing out the resulting object to make sure we got what we wanted.</span>
 </dd>
 </dl>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>data-raw/DSTUD_13.csv data-raw/DSTUD_14.csv data-raw/DSTUD_15.csv 
-data-raw/DSTUD_16.csv data-raw/DSTUD_17.csv data-raw/DSTUD_18.csv 
-data-raw/DSTUD_19.csv data-raw/DSTUD_20.csv data-raw/DSTUD_21.csv 
-data-raw/DSTUD_22.csv </code></pre>
+<pre><code> [1] "data-raw/DSTUD_13.csv" "data-raw/DSTUD_14.csv" "data-raw/DSTUD_15.csv"
+ [4] "data-raw/DSTUD_16.csv" "data-raw/DSTUD_17.csv" "data-raw/DSTUD_18.csv"
+ [7] "data-raw/DSTUD_19.csv" "data-raw/DSTUD_20.csv" "data-raw/DSTUD_21.csv"
+[10] "data-raw/DSTUD_22.csv"</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -585,15 +592,15 @@ About regular expressions
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Regular expressions are a pattern-matching syntax used in many programming languages. Above we searched for a simple word, but regex is much more powerful than that. You can <a href="https://docs.google.com/document/d/1DvAM4lnGJLefo9skD8GgM-_9S1BEhpjJfV86yhJavI0/edit?usp=sharing">learn more about regular expressions here</a>.</p>
+<p>Regular expressions are a pattern-matching syntax used in many programming languages. Above we searched for a simple word, but regex is much more powerful than that. You can learn more about regular expressions in this <a href="https://docs.google.com/document/d/1DvAM4lnGJLefo9skD8GgM-_9S1BEhpjJfV86yhJavI0/edit?usp=sharing">NICAR lesson</a> and how to use them in R in the <a href="https://r4ds.hadley.nz/regexps">Regular expressions</a> chapter in R for Data Science.</p>
 </div>
 </div>
 <p>Now we have an object that is a vector of all the file names. We’ll loop through this list to import all the files.</p>
 </section>
-<section id="map-and-import" class="level4" data-number="10.4.2.2">
-<h4 data-number="10.4.2.2" class="anchored" data-anchor-id="map-and-import"><span class="header-section-number">10.4.2.2</span> Map and import</h4>
-<p>Next we want to take that list and walk through it using using a “map” function called <a href="https://purrr.tidyverse.org/reference/map_dfr.html"><code>map_dfr()</code></a> which returns a data frame, binding the rows of each file together.</p>
-<p>The idea here is the map_dfr function loops over the list, applying the arguments inside the function on each item. The end result is a single data frame.</p>
+<section id="map-import-and-bind" class="level4" data-number="10.4.2.2">
+<h4 data-number="10.4.2.2" class="anchored" data-anchor-id="map-import-and-bind"><span class="header-section-number">10.4.2.2</span> Map, import and bind</h4>
+<p>In the next section we’ll add the files names to our vector to help us later, then use <a href="https://purrr.tidyverse.org/reference/map_dfr.html"><code>map()</code></a> to walk through the list and apply <code>read_csv()</code> function to all our files. Then we’ll bind together with <code>list_rbind()</code> and finish out normalizing the names.</p>
+<p>There is a LOT going on in this bit, so note the code annotations for details.</p>
 <ol type="1">
 <li>Add some text noting that you are importing the DSTUD files</li>
 <li>Add the code block below and run it.</li>
@@ -601,60 +608,73 @@ About regular expressions
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>dstud_raw <span class="ot">&lt;-</span> dstud_files <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_dfr</span>(</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>    read_csv,</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.id =</span> <span class="st">"source"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_names</span>(basename) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>    read_csv,</span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-4-5" class="code-annotation-target"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_select =</span> <span class="fu">c</span>(DISTRICT, DPETALLC, DPETSPEC, DPETSPEP)</span>
 <span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-4-7" class="code-annotation-target"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span>
-<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="7" onclick="event.preventDefault();">7</a><span id="annotated-cell-4-9" class="code-annotation-target"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a>dstud_raw <span class="sc">|&gt;</span> <span class="fu">head</span>()</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="8" onclick="event.preventDefault();">8</a><span id="annotated-cell-4-10" class="code-annotation-target"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a>dstud_raw <span class="sc">|&gt;</span> <span class="fu">tail</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-4-7" class="code-annotation-target"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list_rbind</span>(<span class="at">names_to =</span> <span class="st">"source"</span>) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="7" onclick="event.preventDefault();">7</a><span id="annotated-cell-4-8" class="code-annotation-target"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span>
+<span id="annotated-cell-4-9"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="8" onclick="event.preventDefault();">8</a><span id="annotated-cell-4-10" class="code-annotation-target"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a>dstud_raw <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="9" onclick="event.preventDefault();">9</a><span id="annotated-cell-4-11" class="code-annotation-target"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a>dstud_raw <span class="sc">|&gt;</span> <span class="fu">head</span>()</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="10" onclick="event.preventDefault();">10</a><span id="annotated-cell-4-12" class="code-annotation-target"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a>dstud_raw <span class="sc">|&gt;</span> <span class="fu">tail</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="1" data-code-cell="annotated-cell-4" data-code-annotation="1">We create a new object to fill, then start with our list of file names.</span>
+<span data-code-annotation="1" data-code-lines="1" data-code-cell="annotated-cell-4">We create a new object to fill, then start with our list of file names.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="2" data-code-cell="annotated-cell-4" data-code-annotation="2">We pipe into <code>map_dfr</code>, which will work on each file in turn, combining the results into a single data frame.</span>
+<span data-code-annotation="2" data-code-lines="2" data-code-cell="annotated-cell-4">This line adds a name to each item in the <code>dstud_files</code> vector with the name of the file it came from. We’ll use this later when we combine the files to know where the data came from.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-lines="3" data-code-cell="annotated-cell-4" data-code-annotation="3">The first argumemt for map_dfr is the function we are going to use without our loop. We are using <code>read_csv()</code> since we are importing csv files.</span>
+<span data-code-annotation="3" data-code-lines="3" data-code-cell="annotated-cell-4">We pipe into <code>map</code>, which will work on each file in turn, applying the functions and arguments inside this function.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-lines="4" data-code-cell="annotated-cell-4" data-code-annotation="4">This <code>.id =</code> is an optional argument saves a new column called “source” with our file path, otherwise we won’t know which row came from which file.</span>
+<span data-code-annotation="4" data-code-lines="4" data-code-cell="annotated-cell-4">The first argument is the function we are applying. We are using <code>read_csv()</code> since we are importing csv files.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-lines="5" data-code-cell="annotated-cell-4" data-code-annotation="5">This <code>col_select =</code> is an optional argument for <code>read_csv</code> that allows us to choose which columns we want as we read them in.</span>
+<span data-code-annotation="5" data-code-lines="5" data-code-cell="annotated-cell-4">This <code>col_select =</code> is an optional argument for <code>read_csv</code> that allows us to choose which columns we want as we read them in. After this argument we close the <code>map()</code> function, which results in a “list” of data frames, which we then pipe into …</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-lines="7" data-code-cell="annotated-cell-4" data-code-annotation="6">We clean the names after importing them.</span>
+<span data-code-annotation="6" data-code-lines="7" data-code-cell="annotated-cell-4"><code>list_rbind()</code> is a function that combines data frames from a list. We give this function the argument <code>names_to = "source"</code> to add a variable called <code>source</code> to each row of data with the name of the file it came from. This is why we added <code>set_names()</code> earlier because without it we wouldn’t know which row came from which file. With this name, we can create a year column later.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="7">7</dt>
 <dd>
-<span data-code-lines="9" data-code-cell="annotated-cell-4" data-code-annotation="7">Here we are peeking at the top of the resulting object.</span>
+<span data-code-annotation="7" data-code-lines="8" data-code-cell="annotated-cell-4">We clean the names after importing them.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="8">8</dt>
 <dd>
-<span data-code-lines="10" data-code-cell="annotated-cell-4" data-code-annotation="8">And then we peek at the bottom of the object.</span>
+<span data-code-annotation="8" data-code-lines="10" data-code-cell="annotated-cell-4">Here I’m just printing the number of rows in our data as a check that everything worked.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="9">9</dt>
+<dd>
+<span data-code-annotation="9" data-code-lines="11" data-code-cell="annotated-cell-4">Here we are peeking at the top of the resulting object.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="10">10</dt>
+<dd>
+<span data-code-annotation="10" data-code-lines="12" data-code-cell="annotated-cell-4">And then we peek at the bottom of the object.</span>
 </dd>
 </dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 12098</code></pre>
 </div>
 <div class="cell-output-display">
 
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["source"],"name":[1],"type":["chr"],"align":["left"]},{"label":["district"],"name":[2],"type":["chr"],"align":["left"]},{"label":["dpetallc"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["dpetspec"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["dpetspep"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"data-raw/DSTUD_13.csv","2":"001902","3":"595","4":"73","5":"12.3"},{"1":"data-raw/DSTUD_13.csv","2":"001903","3":"1236","4":"113","5":"9.1"},{"1":"data-raw/DSTUD_13.csv","2":"001904","3":"751","4":"81","5":"10.8"},{"1":"data-raw/DSTUD_13.csv","2":"001906","3":"406","4":"45","5":"11.1"},{"1":"data-raw/DSTUD_13.csv","2":"001907","3":"3288","4":"252","5":"7.7"},{"1":"data-raw/DSTUD_13.csv","2":"001908","3":"1619","4":"151","5":"9.3"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["source"],"name":[1],"type":["chr"],"align":["left"]},{"label":["district"],"name":[2],"type":["chr"],"align":["left"]},{"label":["dpetallc"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["dpetspec"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["dpetspep"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"DSTUD_13.csv","2":"001902","3":"595","4":"73","5":"12.3"},{"1":"DSTUD_13.csv","2":"001903","3":"1236","4":"113","5":"9.1"},{"1":"DSTUD_13.csv","2":"001904","3":"751","4":"81","5":"10.8"},{"1":"DSTUD_13.csv","2":"001906","3":"406","4":"45","5":"11.1"},{"1":"DSTUD_13.csv","2":"001907","3":"3288","4":"252","5":"7.7"},{"1":"DSTUD_13.csv","2":"001908","3":"1619","4":"151","5":"9.3"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div><div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["source"],"name":[1],"type":["chr"],"align":["left"]},{"label":["district"],"name":[2],"type":["chr"],"align":["left"]},{"label":["dpetallc"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["dpetspec"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["dpetspep"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"data-raw/DSTUD_22.csv","2":"'252901","3":"2293","4":"356","5":"15.5"},{"1":"data-raw/DSTUD_22.csv","2":"'252902","3":"212","4":"36","5":"17.0"},{"1":"data-raw/DSTUD_22.csv","2":"'252903","3":"696","4":"113","5":"16.2"},{"1":"data-raw/DSTUD_22.csv","2":"'253901","3":"3284","4":"435","5":"13.2"},{"1":"data-raw/DSTUD_22.csv","2":"'254901","3":"1779","4":"232","5":"13.0"},{"1":"data-raw/DSTUD_22.csv","2":"'254902","3":"484","4":"64","5":"13.2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["source"],"name":[1],"type":["chr"],"align":["left"]},{"label":["district"],"name":[2],"type":["chr"],"align":["left"]},{"label":["dpetallc"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["dpetspec"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["dpetspep"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"DSTUD_22.csv","2":"'252901","3":"2293","4":"356","5":"15.5"},{"1":"DSTUD_22.csv","2":"'252902","3":"212","4":"36","5":"17.0"},{"1":"DSTUD_22.csv","2":"'252903","3":"696","4":"113","5":"16.2"},{"1":"DSTUD_22.csv","2":"'253901","3":"3284","4":"435","5":"13.2"},{"1":"DSTUD_22.csv","2":"'254901","3":"1779","4":"232","5":"13.0"},{"1":"DSTUD_22.csv","2":"'254902","3":"484","4":"64","5":"13.2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -669,7 +689,7 @@ The col_select argument vs select()
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This <code>col_select =</code> argument we use above also works with a regular <code>read_csv()</code> function. It provides the same result as using <code>read_csv()</code> to import all the columns and the piping into a <code>select()</code> function to list the columns you want to keep or drop. It’s yet another example showing multiple ways to accomplish the same result with R. Up to know I’ve preferred to use <code>read_csv() |&gt; select()</code> because that allows you to see everything inside the data before choosing what to do with it. In our case above being able to pick just these few columns we need makes this much easier to deal with since the individual files have differences beyond some common columns.</p>
+<p>This <code>col_select =</code> argument we use above also works with a regular <code>read_csv()</code> function. It provides the same result as using <code>read_csv()</code> to import all the columns and then piping into a <code>select()</code> function to list the columns you want to keep or drop. It’s yet another example showing multiple ways to accomplish the same result with R. Up to now I’ve preferred to use <code>read_csv() |&gt; select()</code> because that allows you to see everything inside the data before choosing what to do with it. In our case above being able to pick just these few columns we need makes this much easier to deal with since the individual files have differences beyond some common columns.</p>
 </div>
 </div>
 </section>
@@ -697,27 +717,27 @@ The col_select argument vs select()
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="1" data-code-cell="annotated-cell-5" data-code-annotation="1">We create our new object and fill with starting with the <code>dstud_raw</code> data we imported above.</span>
+<span data-code-annotation="1" data-code-lines="1" data-code-cell="annotated-cell-5">We create our new object and fill with starting with the <code>dstud_raw</code> data we imported above.</span>
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="3" data-code-cell="annotated-cell-5" data-code-annotation="2">Within a mutate function, our first line uses <code>str_remove()</code> to pull out the apostrophe from the <code>district</code> variable. We are just reassigning it back to itself.</span>
+<span data-code-annotation="2" data-code-lines="3" data-code-cell="annotated-cell-5">Within a mutate function, our first line uses <code>str_remove()</code> to pull out the apostrophe from the <code>district</code> variable. We are just reassigning it back to itself.</span>
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-lines="4" data-code-cell="annotated-cell-5" data-code-annotation="3">The second mutate operation is more complicated. We are setting <code>year</code> to equal a “string combination” (the <code>str_c()</code> function) that pieces together the text “20” with characters from the <code>source</code> variable based on their position, which happen to be the numbers of the year. To do that we use <code>str_sub()</code> where the first argument is variable to look at (source), the starting position (the 16th character) and the ending position (the 17th one). This only works because all the file names are structured the same way.</span>
+<span data-code-annotation="3" data-code-lines="4" data-code-cell="annotated-cell-5">The second mutate operation is more complicated. We are setting <code>year</code> to equal a “string combination” (the <code>str_c()</code> function) that pieces together the text “20” with characters from the <code>source</code> variable based on their position, which happen to be the numbers of the year. To do that we use <code>str_sub()</code> where the first argument is variable to look at (source), the starting position (the 16th character) and the ending position (the 17th one). This only works because all the file names are structured the same way.</span>
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-lines="6" data-code-cell="annotated-cell-5" data-code-annotation="4">Here we remove the <code>source</code> column since we no longer need it.</span>
+<span data-code-annotation="4" data-code-lines="6" data-code-cell="annotated-cell-5">Here we remove the <code>source</code> column since we no longer need it.</span>
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-lines="8" data-code-cell="annotated-cell-5" data-code-annotation="5">We peek at the top of the file …</span>
+<span data-code-annotation="5" data-code-lines="8" data-code-cell="annotated-cell-5">We peek at the top of the file …</span>
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-lines="9" data-code-cell="annotated-cell-5" data-code-annotation="6">… and the bottom of the file to check our results.</span>
+<span data-code-annotation="6" data-code-lines="9" data-code-cell="annotated-cell-5">… and the bottom of the file to check our results.</span>
 </dd>
 </dl>
 </div>
@@ -725,11 +745,11 @@ The col_select argument vs select()
 
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["district"],"name":[1],"type":["chr"],"align":["left"]},{"label":["dpetallc"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["dpetspec"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["dpetspep"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["year"],"name":[5],"type":["chr"],"align":["left"]}],"data":[{"1":"001902","2":"595","3":"73","4":"12.3","5":"2013"},{"1":"001903","2":"1236","3":"113","4":"9.1","5":"2013"},{"1":"001904","2":"751","3":"81","4":"10.8","5":"2013"},{"1":"001906","2":"406","3":"45","4":"11.1","5":"2013"},{"1":"001907","2":"3288","3":"252","4":"7.7","5":"2013"},{"1":"001908","2":"1619","3":"151","4":"9.3","5":"2013"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["district"],"name":[1],"type":["chr"],"align":["left"]},{"label":["dpetallc"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["dpetspec"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["dpetspep"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["year"],"name":[5],"type":["chr"],"align":["left"]}],"data":[{"1":"001902","2":"595","3":"73","4":"12.3","5":"20"},{"1":"001903","2":"1236","3":"113","4":"9.1","5":"20"},{"1":"001904","2":"751","3":"81","4":"10.8","5":"20"},{"1":"001906","2":"406","3":"45","4":"11.1","5":"20"},{"1":"001907","2":"3288","3":"252","4":"7.7","5":"20"},{"1":"001908","2":"1619","3":"151","4":"9.3","5":"20"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div><div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["district"],"name":[1],"type":["chr"],"align":["left"]},{"label":["dpetallc"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["dpetspec"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["dpetspep"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["year"],"name":[5],"type":["chr"],"align":["left"]}],"data":[{"1":"252901","2":"2293","3":"356","4":"15.5","5":"2022"},{"1":"252902","2":"212","3":"36","4":"17.0","5":"2022"},{"1":"252903","2":"696","3":"113","4":"16.2","5":"2022"},{"1":"253901","2":"3284","3":"435","4":"13.2","5":"2022"},{"1":"254901","2":"1779","3":"232","4":"13.0","5":"2022"},{"1":"254902","2":"484","3":"64","4":"13.2","5":"2022"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["district"],"name":[1],"type":["chr"],"align":["left"]},{"label":["dpetallc"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["dpetspec"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["dpetspep"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["year"],"name":[5],"type":["chr"],"align":["left"]}],"data":[{"1":"252901","2":"2293","3":"356","4":"15.5","5":"20"},{"1":"252902","2":"212","3":"36","4":"17.0","5":"20"},{"1":"252903","2":"696","3":"113","4":"16.2","5":"20"},{"1":"253901","2":"3284","3":"435","4":"13.2","5":"20"},{"1":"254901","2":"1779","3":"232","4":"13.0","5":"20"},{"1":"254902","2":"484","3":"64","4":"13.2","5":"20"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -741,7 +761,7 @@ The col_select argument vs select()
 <h2 data-number="10.5" class="anchored" data-anchor-id="the-dref-data"><span class="header-section-number">10.5</span> The DREF data</h2>
 <p>We’ve noted that the dstud files don’t have a <strong>district name</strong> within them, so we don’t know what this district id means. Within the TAPR data download tool, there is another file called <strong>District Reference</strong> that has the district ID, names and other information we need. I downloaded the 2022 version as <code>DREF_22.csv</code>. Let’s look at it:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"data-raw/DREF_22.csv"</span>) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"data-raw/DREF_22.csv"</span>) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <div data-pagedtable="false">
@@ -788,11 +808,11 @@ The col_select argument vs select()
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="2" data-code-cell="annotated-cell-7" data-code-annotation="1">The path to the files.</span>
+<span data-code-annotation="1" data-code-lines="2" data-code-cell="annotated-cell-7">The path to the files.</span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="3" data-code-cell="annotated-cell-7" data-code-annotation="2">The list of columns we need, using the <code>col_select =</code> argument to show we can.</span>
+<span data-code-annotation="2" data-code-lines="3" data-code-cell="annotated-cell-7">The list of columns we need, using the <code>col_select =</code> argument to show we can.</span>
 </dd>
 </dl>
 </div>
@@ -814,10 +834,10 @@ The col_select argument vs select()
 <li>Add the code below, run it. Note the cleaning is similar to what we did with DSTUD.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dref <span class="ot">&lt;-</span> dref_raw <span class="sc">|&gt;</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">district =</span> <span class="fu">str_remove</span>(district, <span class="st">"'"</span>))</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>dref <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dref <span class="ot">&lt;-</span> dref_raw <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">district =</span> <span class="fu">str_remove</span>(district, <span class="st">"'"</span>))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>dref <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <div data-pagedtable="false">
@@ -863,11 +883,11 @@ The col_select argument vs select()
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="1" data-code-cell="annotated-cell-9" data-code-annotation="1">We are creating a new bucket <code>sped_joined</code> to save our data. We start with <code>dref</code> so those fields will be listed first in our result.</span>
+<span data-code-annotation="1" data-code-lines="1" data-code-cell="annotated-cell-9">We are creating a new bucket <code>sped_joined</code> to save our data. We start with <code>dref</code> so those fields will be listed first in our result.</span>
 </dd>
 <dt data-target-cell="annotated-cell-9" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="2" data-code-cell="annotated-cell-9" data-code-annotation="2">We then pipe into <code>inner_join()</code> listing the <code>dstud</code> object, which will attach our <code>dref</code> data to our merged data when the ID matches in the <code>district</code> variable. The <code>by = "district"</code> argument ensures that we are matching based on the <code>district</code> column in both data sets.</span>
+<span data-code-annotation="2" data-code-lines="2" data-code-cell="annotated-cell-9">We then pipe into <code>inner_join()</code> listing the <code>dstud</code> object, which will attach our <code>dref</code> data to our merged data when the ID matches in the <code>district</code> variable. The <code>by = "district"</code> argument ensures that we are matching based on the <code>district</code> column in both data sets.</span>
 </dd>
 </dl>
 </div>
@@ -875,21 +895,21 @@ The col_select argument vs select()
 
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["district"],"name":[1],"type":["chr"],"align":["left"]},{"label":["cntyname"],"name":[2],"type":["chr"],"align":["left"]},{"label":["distname"],"name":[3],"type":["chr"],"align":["left"]},{"label":["dflchart"],"name":[4],"type":["chr"],"align":["left"]},{"label":["dflalted"],"name":[5],"type":["chr"],"align":["left"]},{"label":["dpetallc"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["dpetspec"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["dpetspep"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["year"],"name":[9],"type":["chr"],"align":["left"]}],"data":[{"1":"001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N","6":"595","7":"73","8":"12.3","9":"2013"},{"1":"001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N","6":"553","7":"76","8":"13.7","9":"2014"},{"1":"001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N","6":"577","7":"76","8":"13.2","9":"2015"},{"1":"001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N","6":"568","7":"78","8":"13.7","9":"2016"},{"1":"001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N","6":"576","7":"82","8":"14.2","9":"2017"},{"1":"001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N","6":"575","7":"83","8":"14.4","9":"2018"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["district"],"name":[1],"type":["chr"],"align":["left"]},{"label":["cntyname"],"name":[2],"type":["chr"],"align":["left"]},{"label":["distname"],"name":[3],"type":["chr"],"align":["left"]},{"label":["dflchart"],"name":[4],"type":["chr"],"align":["left"]},{"label":["dflalted"],"name":[5],"type":["chr"],"align":["left"]},{"label":["dpetallc"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["dpetspec"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["dpetspep"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["year"],"name":[9],"type":["chr"],"align":["left"]}],"data":[{"1":"001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N","6":"595","7":"73","8":"12.3","9":"20"},{"1":"001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N","6":"553","7":"76","8":"13.7","9":"20"},{"1":"001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N","6":"577","7":"76","8":"13.2","9":"20"},{"1":"001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N","6":"568","7":"78","8":"13.7","9":"20"},{"1":"001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N","6":"576","7":"82","8":"14.2","9":"20"},{"1":"001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N","6":"575","7":"83","8":"14.4","9":"20"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
 </div>
 <p>We could’ve left out the <code>by =</code> argument and R would match columns of the same name, but it is best practice to specify your joining columns so it is clear what is happening. You wouldn’t want to be surprised to join by other columns of the same name. If you wanted to specify join columns of different names it would look like this:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># don't use this ... it is just an example </span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df1 <span class="sc">|&gt;</span> <span class="fu">inner_join</span>(df2, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"df1_id"</span> <span class="ot">=</span> <span class="st">"df2_id"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># don't use this ... it is just an example </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df1 <span class="sc">|&gt;</span> <span class="fu">inner_join</span>(df2, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"df1_id"</span> <span class="ot">=</span> <span class="st">"df2_id"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You should also <code>glimpse()</code> your new data so you can see all the columns have been added.</p>
 <ol type="1">
 <li>Add text that you are peeking at all the columns.</li>
 <li>Add the code below and run it</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sped_joined <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sped_joined <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 11,882
 Columns: 9
@@ -901,7 +921,7 @@ $ dflalted &lt;chr&gt; "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N
 $ dpetallc &lt;dbl&gt; 595, 553, 577, 568, 576, 575, 564, 557, 535, 574, 1236, 1207,…
 $ dpetspec &lt;dbl&gt; 73, 76, 76, 78, 82, 83, 84, 82, 78, 84, 113, 107, 126, 144, 1…
 $ dpetspep &lt;dbl&gt; 12.3, 13.7, 13.2, 13.7, 14.2, 14.4, 14.9, 14.7, 14.6, 14.6, 9…
-$ year     &lt;chr&gt; "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020…</code></pre>
+$ year     &lt;chr&gt; "20", "20", "20", "20", "20", "20", "20", "20", "20", "20", "…</code></pre>
 </div>
 </div>
 <p>There are now <strong>11882</strong> rows in our joined data, fewer than what was in the original merged file because some districts (mostly charters) have closed and were not in our reference file. We are comparing only districts that have been open during this time period. For that matter, we don’t want charter or alternative education districts at all, so we’ll drop those next.</p>
@@ -936,17 +956,17 @@ $ year     &lt;chr&gt; "2013", "2014", "2015", "2016", "2017", "2018", "2019", "
 <div class="cell">
 <details>
 <summary>Seriously, try on your own first</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sped_cleaned <span class="ot">&lt;-</span> sped_joined <span class="sc">|&gt;</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dflalted <span class="sc">==</span> <span class="st">"N"</span> <span class="sc">&amp;</span> dflchart <span class="sc">==</span> <span class="st">"N"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    district,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    distname,</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    cntyname,</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    year,</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">all_count =</span> dpetallc,</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_count =</span> dpetspec,</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_percent =</span> dpetspep</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sped_cleaned <span class="ot">&lt;-</span> sped_joined <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dflalted <span class="sc">==</span> <span class="st">"N"</span> <span class="sc">&amp;</span> dflchart <span class="sc">==</span> <span class="st">"N"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    district,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    distname,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    cntyname,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    year,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">all_count =</span> dpetallc,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_count =</span> dpetspec,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_percent =</span> dpetspep</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>You should end up with <strong>10204</strong> rows and <strong>7</strong> variables.</p>
@@ -956,12 +976,12 @@ $ year     &lt;chr&gt; "2013", "2014", "2015", "2016", "2017", "2018", "2019", "
 <p>Part of this story is to note when a district is above the “8.5%” benchmark the TEA penalized them in their audit calculations. It would be useful to have a column that noted if a district was above or below that threshold so we could plot districts based on that flag. We’ll create this new column and introduce the logic of <a href="https://dplyr.tidyverse.org/reference/if_else.html"><code>if_else()</code></a>.</p>
 <p>OK, our data looks like this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sped_cleaned <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sped_cleaned <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["district"],"name":[1],"type":["chr"],"align":["left"]},{"label":["distname"],"name":[2],"type":["chr"],"align":["left"]},{"label":["cntyname"],"name":[3],"type":["chr"],"align":["left"]},{"label":["year"],"name":[4],"type":["chr"],"align":["left"]},{"label":["all_count"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["sped_count"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["sped_percent"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"001902","2":"CAYUGA ISD","3":"ANDERSON","4":"2013","5":"595","6":"73","7":"12.3"},{"1":"001902","2":"CAYUGA ISD","3":"ANDERSON","4":"2014","5":"553","6":"76","7":"13.7"},{"1":"001902","2":"CAYUGA ISD","3":"ANDERSON","4":"2015","5":"577","6":"76","7":"13.2"},{"1":"001902","2":"CAYUGA ISD","3":"ANDERSON","4":"2016","5":"568","6":"78","7":"13.7"},{"1":"001902","2":"CAYUGA ISD","3":"ANDERSON","4":"2017","5":"576","6":"82","7":"14.2"},{"1":"001902","2":"CAYUGA ISD","3":"ANDERSON","4":"2018","5":"575","6":"83","7":"14.4"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["district"],"name":[1],"type":["chr"],"align":["left"]},{"label":["distname"],"name":[2],"type":["chr"],"align":["left"]},{"label":["cntyname"],"name":[3],"type":["chr"],"align":["left"]},{"label":["year"],"name":[4],"type":["chr"],"align":["left"]},{"label":["all_count"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["sped_count"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["sped_percent"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"001902","2":"CAYUGA ISD","3":"ANDERSON","4":"20","5":"595","6":"73","7":"12.3"},{"1":"001902","2":"CAYUGA ISD","3":"ANDERSON","4":"20","5":"553","6":"76","7":"13.7"},{"1":"001902","2":"CAYUGA ISD","3":"ANDERSON","4":"20","5":"577","6":"76","7":"13.2"},{"1":"001902","2":"CAYUGA ISD","3":"ANDERSON","4":"20","5":"568","6":"78","7":"13.7"},{"1":"001902","2":"CAYUGA ISD","3":"ANDERSON","4":"20","5":"576","6":"82","7":"14.2"},{"1":"001902","2":"CAYUGA ISD","3":"ANDERSON","4":"20","5":"575","6":"83","7":"14.4"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -985,27 +1005,27 @@ $ year     &lt;chr&gt; "2013", "2014", "2015", "2016", "2017", "2018", "2019", "
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-14" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="1" data-code-cell="annotated-cell-14" data-code-annotation="1">We’re making a new data frame called <code>sped_flag</code> and then starting with <code>sped_cleaned</code>.</span>
+<span data-code-annotation="1" data-code-lines="1" data-code-cell="annotated-cell-14">We’re making a new data frame called <code>sped_flag</code> and then starting with <code>sped_cleaned</code>.</span>
 </dd>
 <dt data-target-cell="annotated-cell-14" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="2" data-code-cell="annotated-cell-14" data-code-annotation="2">We use <code>mutate()</code> to create a new column and we name it <code>audit_flag</code>. We set the value of <code>audit_flag</code> to be the result of an <code>if_else()</code> function.</span>
+<span data-code-annotation="2" data-code-lines="2" data-code-cell="annotated-cell-14">We use <code>mutate()</code> to create a new column and we name it <code>audit_flag</code>. We set the value of <code>audit_flag</code> to be the result of an <code>if_else()</code> function.</span>
 </dd>
 <dt data-target-cell="annotated-cell-14" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-lines="3" data-code-cell="annotated-cell-14" data-code-annotation="3">The if_else function takes three arguments and the first is a condition test (<code>sped_percent &gt; 8.5</code> in our case). We are looking inside the <code>sped_percent</code> column to see if it is greater than “8.5”.</span>
+<span data-code-annotation="3" data-code-lines="3" data-code-cell="annotated-cell-14">The if_else function takes three arguments and the first is a condition test (<code>sped_percent &gt; 8.5</code> in our case). We are looking inside the <code>sped_percent</code> column to see if it is greater than “8.5”.</span>
 </dd>
 <dt data-target-cell="annotated-cell-14" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-lines="4" data-code-cell="annotated-cell-14" data-code-annotation="4">The second argument is what we want the result to be if the condition is true (the text “ABOVE” in our case.)</span>
+<span data-code-annotation="4" data-code-lines="4" data-code-cell="annotated-cell-14">The second argument is what we want the result to be if the condition is true (the text “ABOVE” in our case.)</span>
 </dd>
 <dt data-target-cell="annotated-cell-14" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-lines="5" data-code-cell="annotated-cell-14" data-code-annotation="5">And the third argument is the result if the condition is NOT true (the text “BELOW” in our case).</span>
+<span data-code-annotation="5" data-code-lines="5" data-code-cell="annotated-cell-14">And the third argument is the result if the condition is NOT true (the text “BELOW” in our case).</span>
 </dd>
 <dt data-target-cell="annotated-cell-14" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-lines="9" data-code-cell="annotated-cell-14" data-code-annotation="6">Lastly we print out the new data <code>sped_cleaned</code> and pipe it into <code>sample_n()</code> which gives us a number of random rows from the data. I do this because the top of the data was all TRUE so I couldn’t see if the mutate worked properly or not. (Always check your calculations!!)</span>
+<span data-code-annotation="6" data-code-lines="9" data-code-cell="annotated-cell-14">Lastly we print out the new data <code>sped_cleaned</code> and pipe it into <code>sample_n()</code> which gives us a number of random rows from the data. I do this because the top of the data was all TRUE so I couldn’t see if the mutate worked properly or not. (Always check your calculations!!)</span>
 </dd>
 </dl>
 </div>
@@ -1013,7 +1033,7 @@ $ year     &lt;chr&gt; "2013", "2014", "2015", "2016", "2017", "2018", "2019", "
 
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["district"],"name":[1],"type":["chr"],"align":["left"]},{"label":["distname"],"name":[2],"type":["chr"],"align":["left"]},{"label":["cntyname"],"name":[3],"type":["chr"],"align":["left"]},{"label":["year"],"name":[4],"type":["chr"],"align":["left"]},{"label":["all_count"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["sped_count"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["sped_percent"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["audit_flag"],"name":[8],"type":["chr"],"align":["left"]}],"data":[{"1":"169911","2":"SAINT JO ISD","3":"MONTAGUE","4":"2021","5":"319","6":"40","7":"12.5","8":"ABOVE"},{"1":"062902","2":"NORDHEIM ISD","3":"DEWITT","4":"2013","5":"138","6":"17","7":"12.3","8":"ABOVE"},{"1":"214902","2":"SAN ISIDRO ISD","3":"STARR","4":"2014","5":"258","6":"27","7":"10.5","8":"ABOVE"},{"1":"095903","2":"HALE CENTER ISD","3":"HALE","4":"2020","5":"639","6":"60","7":"9.4","8":"ABOVE"},{"1":"141901","2":"LAMPASAS ISD","3":"LAMPASAS","4":"2019","5":"3337","6":"431","7":"12.9","8":"ABOVE"},{"1":"096905","2":"TURKEY-QUITAQUE ISD","3":"HALL","4":"2015","5":"189","6":"17","7":"9.0","8":"ABOVE"},{"1":"148901","2":"BOOKER ISD","3":"LIPSCOMB","4":"2019","5":"395","6":"35","7":"8.9","8":"ABOVE"},{"1":"095902","2":"COTTON CENTER ISD","3":"HALE","4":"2018","5":"117","6":"8","7":"6.8","8":"BELOW"},{"1":"092906","2":"SABINE ISD","3":"GREGG","4":"2014","5":"1354","6":"110","7":"8.1","8":"BELOW"},{"1":"226907","2":"GRAPE CREEK ISD","3":"TOM GREEN","4":"2017","5":"1117","6":"143","7":"12.8","8":"ABOVE"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["district"],"name":[1],"type":["chr"],"align":["left"]},{"label":["distname"],"name":[2],"type":["chr"],"align":["left"]},{"label":["cntyname"],"name":[3],"type":["chr"],"align":["left"]},{"label":["year"],"name":[4],"type":["chr"],"align":["left"]},{"label":["all_count"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["sped_count"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["sped_percent"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["audit_flag"],"name":[8],"type":["chr"],"align":["left"]}],"data":[{"1":"095903","2":"HALE CENTER ISD","3":"HALE","4":"20","5":"621","6":"43","7":"6.9","8":"BELOW"},{"1":"109903","2":"COVINGTON ISD","3":"HILL","4":"20","5":"301","6":"44","7":"14.6","8":"ABOVE"},{"1":"252903","2":"OLNEY ISD","3":"YOUNG","4":"20","5":"707","6":"95","7":"13.4","8":"ABOVE"},{"1":"018908","2":"CRANFILLS GAP ISD","3":"BOSQUE","4":"20","5":"126","6":"9","7":"7.1","8":"BELOW"},{"1":"160904","2":"ROCHELLE ISD","3":"MCCULLOCH","4":"20","5":"203","6":"26","7":"12.8","8":"ABOVE"},{"1":"161912","2":"RIESEL ISD","3":"MCLENNAN","4":"20","5":"596","6":"54","7":"9.1","8":"ABOVE"},{"1":"034907","2":"QUEEN CITY ISD","3":"CASS","4":"20","5":"959","6":"138","7":"14.4","8":"ABOVE"},{"1":"247904","2":"POTH ISD","3":"WILSON","4":"20","5":"833","6":"97","7":"11.6","8":"ABOVE"},{"1":"208901","2":"HERMLEIGH ISD","3":"SCURRY","4":"20","5":"236","6":"19","7":"8.1","8":"BELOW"},{"1":"074907","2":"HONEY GROVE ISD","3":"FANNIN","4":"20","5":"620","6":"77","7":"12.4","8":"ABOVE"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -1032,8 +1052,10 @@ $ year     &lt;chr&gt; "2013", "2014", "2015", "2016", "2017", "2018", "2019", "
 <section id="new-functions-we-used" class="level2" data-number="10.10">
 <h2 data-number="10.10" class="anchored" data-anchor-id="new-functions-we-used"><span class="header-section-number">10.10</span> New functions we used</h2>
 <ul>
-<li><a href="https://www.rdocumentation.org/packages/fs/versions/1.6.3/topics/dir_ls"><code>dir_ls()</code></a> from the <a href="https://www.tidyverse.org/blog/2018/01/fs-1.0.0/">fs</a> package makes a list of file names in a folder. You can use the <code>regexp =</code> argument to search for specific files to include based on a pattern.</li>
-<li><a href="https://purrr.tidyverse.org/reference/map_dfr.html"><code>map_dfr()</code></a> Loops through a list of files with a data frame as a result. We used it with <code>read_csv()</code> to import multiple files and bind them together into a single data object.</li>
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/list.files"><code>list.files()</code></a> makes a list of file names in a folder. You can use the <code>pattern =</code> argument to search for specific files to include based on a regular expression.</li>
+<li><a href="https://purrr.tidyverse.org/reference/map.html"><code>map()</code></a> Loops through a vector or list and applies a function to each item. We used it with <code>read_csv()</code> to import multiple files and put them into a list.</li>
+<li><a href="https://purrr.tidyverse.org/reference/list_c.html"><code>list_rbind()</code></a> is a function to combine elements into a data frame by row-binding them. In other words, it stacks them on top of each other into one thing.</li>
+<li><a href="https://rlang.r-lib.org/reference/set_names.html"><code>set_names()</code></a> provides a name to each element in a vector. We used it to add the “basename” of each file.</li>
 <li><a href="https://stringr.tidyverse.org/reference/str_c.html"><code>str_c()</code></a> is used to combine text.</li>
 <li><a href="https://stringr.tidyverse.org/reference/str_sub.html"><code>str_sub()</code></a> allows us to extract part of a string based on it’s position.</li>
 <li>We used <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html"><code>inner_join()</code></a> to add columns from one data frame to another one based on a common key in both objects.</li>
