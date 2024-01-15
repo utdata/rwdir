@@ -1,4 +1,4 @@
-# Denied analysis
+# Denied Analysis
 
 This is the second of of a two-chapter project. Now that we have assembled and cleaned our data, we need to answer these questions in our followup to the [Denied](https://www.houstonchronicle.com/denied/) series:
 
@@ -322,6 +322,7 @@ We just need to filter that down to a single county `cntyname == "BASTROP"` to s
 1. Pipe that result into the `ggplot()` function
 1. For the x axis, you are using `year`, for the y use `sped_percent` and for group use `distname`
 1. Inside your `geom_line()` set the the color to the district: `aes(color = distname)`.
+1. Do the same for a `geom_point()` layer.
 
 It should look like this:
 
@@ -333,7 +334,8 @@ It should look like this:
 sped |> 
   filter(cntyname == "BASTROP") |> 
   ggplot(aes(x = year, y = sped_percent, group = distname)) +
-  geom_line(aes(color = distname))
+  geom_line(aes(color = distname)) +
+  geom_point(aes(color = distname))
 ```
 
 ### On your own
@@ -394,8 +396,9 @@ Great, so which do we use for this story? That depends on what you want to descr
 
 Like you have with previous projects, update your index.qmd file to add the following:
 
-1. Write a one to two sentence summary about the project as a whole (this is done for you in the template).
-2. Write a data lede and source paragraph.
+1. Write a one to two sentence summary about the project as a whole. You can work from some of the material already there an in the cleaning notebook.
+2. Write data-driven news lede based on what you think is the most important takeaway from this analysis.
+3. Write a source paragraph that explains the source and range of the data used in the project.
 3. Write a series of data takeaway sentences based on what you found.
 
 ## Turn in your project
