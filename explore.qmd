@@ -20,6 +20,25 @@ To get a quick summary of all the values, you can use a function called `summary
 
 A `summary()` will show you the data type for each column, and then for number values it will show you the min, max, median, mean and other stats.
 
+## Learn more through cleaning
+
+The act of inspecting your data, cleaning data types and poking around for problems can help you learn more about it. Some tips to make sure your data is ready to analyze:
+
+- Column names should be short, descriptive and clear. Save typing by making them all lowercase with parts separated by underscores. (You can use the `clean_names()` functions for this). Use patterns for related variables like `_date` or `_address` parts.
+- Fix all your data types. Make sure numbers are numbers (can use `parse_number()` to fix) and dates into real dates (see [lubridate](https://lubridate.tidyverse.org/)) and maybe create date parts for grouping. Make sure number-oriented IDs are text if they are supposed to start with zero. (ZIP codes are like this ... not really a number, but category.)
+- Remove the cruft of columns you don't need using `select()`. Make sure you understand what you are removing, but feel secure that you can come back and add them back if you find you need them.
+
+### Cleaning up categorical data
+
+If you are going to count or summarize rows based on categorical data, you should make sure the values in that column are clean and free of typos and values that might better be combined.
+
+Some strategies you might use:
+
+-   Create a `count()` of the column to show all the different values and how often they show up.
+-   You might want to use `mutate()` to create a new column and then update the values there, perhaps using ["case_" functions](https://dplyr.tidyverse.org/reference/case_match.html) like  `case_match()` or `case_when()` the rename specific values in your data.
+
+If you find you have hundreds of values to clean, there are some other tools like [OpenRefine](http://openrefine.org/) you can learn fairly quickly to help.
+
 ## Pay attention to the shape of your data
 
 Is your data long or wide?
@@ -107,16 +126,7 @@ new_or_reassigned_df <- df |>
   )
 ```
 
-## Cleaning up categorical data
 
-If you are going to count our summarize rows based on categorical data, you should make sure the values in that column are clean and free of typos and values that might better be combined.
-
-Some strategies you might use:
-
--   Create a `count()` of the column to show all the different values and how often they show up.
--   You might want to use `mutate()` to create a new column and then update the values there. Or you might use `recode()` the set specific values to new values.
-
-If you find you have hundreds of values to clean, then come see me. There are some other tools like [OpenRefine](http://openrefine.org/) that you can learn fairly quickly to help.
 
 ## Time as a variable
 

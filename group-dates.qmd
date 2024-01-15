@@ -24,12 +24,14 @@ library(lubridate)
 options(dplyr.summarise.inform = FALSE)
 ```
 
-And we need our cleaned Billboard Hot 100 data.
+And we need our cleaned Billboard Hot 100 data. We'll glimpse the rows and check out date range so we can remember what we have.
 
 ```{r import}
 hot100 <- read_rds("data-processed/01-hot100.rds")
 
 hot100 |> glimpse()
+
+hot100$chart_date |> summary()
 ```
 
 ## Plucking date parts
@@ -56,12 +58,14 @@ The logic works like this:
 ```{r grp-year, warning=FALSE}
 hot100 |> 
   group_by(
-    year(chart_date),
+    year(chart_date), # <1>
     performer
   ) |> 
   summarize(appearances = n()) |> 
   arrange(desc(appearances))
 ```
+
+1. This is where we add the year to the group_by, plucking it from the `chart_date` with the `year()` function.
 
 It looks like Morgan Wallen has the most appearances and 2023 is only half over as of this running. When I ran this code last year The Beatles topped the list. There is definitely some kinda story here.
 
@@ -70,12 +74,14 @@ Anyway, notice how the year column name is kinda shite? We would not be able to 
 ```{r grp-year-betta}
 hot100 |> 
   group_by(
-    yr = year(chart_date), # added "yr = " here
+    yr = year(chart_date), # <1>
     performer
   ) |> 
   summarize(appearances = n()) |> 
   arrange(desc(appearances))
 ```
+
+1. Added the "yr = " here
 
 It is a good practice to rename any grouping variable made from a function like that. FWIW, it would've worked if I called the new column `year`, but I named it `yr` so I'm less likely to confuse it with the function `year()`. It's a personal preference what to name the new column.
 
@@ -83,13 +89,16 @@ It is a good practice to rename any grouping variable made from a function like 
 
 If you think you'll use a date parts more than once, then it makes sense to create a new columns and save them. You might make several date parts, but we'll start with only one.
 
-**I usually go back to my cleaning notebook to add these once I recognize I need them, and then rerun everything.**
+::: callout-tip
+I usually go back to my cleaning notebook to add these once I recognize I need them, and then rerun everything.
+:::
 
-To make this easier to show, I've created a random sample of data with only the `chart_date` and `title` columns. Here is our sample:
+I've created a random sample of data with only the `chart_date` and `title` columns just so it is easier to see what we are doing. You would normally work with the whole data frame! Here is our sample:
 
 ```{r make-sample}
-# you wouldn't normally do this!!!!
-hot100_sample <- hot100 |> slice_sample(n = 6) |> select(chart_date, title)
+hot100_sample <- hot100 |>
+  slice_sample(n = 6) |>
+  select(chart_date, title)
 
 hot100_sample
 ```
@@ -98,16 +107,17 @@ hot100_sample
 
 Here's how we do it:
 
-- We use mutate to create a new column.
-- We name the new column `yr`.
-- We set the value of `yr` to equal the `year()` of `chart_date`.
 
 ```{r make-year}
 hot100_sample |> 
-  mutate(
-    yr = year(chart_date)
+  mutate( # <1>
+    yr = year(chart_date) # <2>
   )
 ```
+
+1. We use mutate to create a new column. This is where it starts.
+- We name the new column `yr`, and then set the value to the `year()` of `chart_date`.
+
 
 ### The magical month
 
@@ -131,7 +141,7 @@ hot100_sample |>
   arrange(mo_label)
 ```
 
-Note the datatype `<ord>` under the column `mo_label` and `mo_long`. That means this is an "ordered factor" and that when arranged by those labels it will list in MONTH order instead of alphabetical order, which is quite useful.
+Note the datatype `<ord>` under the column `mo_label` and `mo_long`. That means this is an "ordered factor" and that when sorted by those labels it will list in MONTH order instead of alphabetical order, which is quite useful.
 
 ### Floor dates
 
@@ -169,7 +179,7 @@ swift_month
 And chart it:
 
 ```{r}
-swift_month |> 
+swift_month_plot <- swift_month |> 
   ggplot(aes(x = fl_month, y = appearances)) +
   geom_col() +
   geom_text(aes(label = appearances), vjust = -.3) +
@@ -178,9 +188,14 @@ swift_month |>
   labs(
     x = "Month and Year",
     y = "Number of appearances",
-    title = "Appearances on Billboard Hot 100 by Taylor Swift since 'Folklore' release"
+    title = "Swifts\' \"Midnights\" drives most hits",
+    subtitle = str_wrap("While her most recent new album drove the most appearances on the Billboard Hot 100 within a month, each \"Taylor\'s version\"  album since 'Folklore' has also generated hits.")
   )
+
+ggsave("figures/swift_month_plot.png")
 ```
+
+![](figures/swift_month_plot.png)
 
 Can you guess when she [released her albums](https://en.wikipedia.org/wiki/Taylor_Swift_albums_discography#Studio_albums)?
 
