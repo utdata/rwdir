@@ -20,7 +20,7 @@ So far all of our lessons have come from a single data source, but that's not al
 
 ## Goals of the chapter
 
-- Import multiple files at once and bind them with `map_dfr()`
+- Import multiple files at once and bind them with `map()`
 - Join data frames with `inner_join()`
 - Use `str_remove()` to clean data
 - Introduce `if_else()` for categorization
@@ -153,15 +153,23 @@ Also note there are 64 columns in this data vs the 34 in the 2013 file. The TEA 
 
 ### Importing multiple files at once
 
-In our `raw-data/` folder we have 10 years of data from the 2012-2013 school year to the 2020-2022 school year. The "long" way to do this would be importing each file individually, selecting the columns we need and then saving them as objects. We could then stack them on top of each other with the [`bind_rows()`](https://dplyr.tidyverse.org/reference/bind_rows.html) function.
+In our `raw-data/` folder we have 10 years of data from the 2012-2013 school year to the 2020-2022 school year. If all of our files were the some configuration (the same variables and data types) then we could just use `read_csv()` and feed it a list of files. Our files aren't the same, though, as some have additional columns.
 
-But can use some libraries available in tidyverse -- purrr and readr -- to import and bind together all the DSTUD files at one time. This only works if the data are structured in the same way.
+The "long" way to do this would be importing each file individually, selecting the columns we need and then saving them as objects. We could then stack them on top of each other with the [`bind_rows()`](https://dplyr.tidyverse.org/reference/bind_rows.html) function.
+
+```r
+data_01 |> bind_rows(data_02, data_03)
+```
+
+That would bind three tibbles of data if they were all the same.
+
+But we can use some libraries available in tidyverse -- purrr and readr -- to import and bind together all the DSTUD files at one time after selecting just the variables we need from each file so they are the same.
 
 We do this in three steps:
 
 - We'll use `list.files()` to create a vector of the files we want
-- We'll use `map()` to apply the read_csv function to each file and create a list
-- We'll use `list_rbind()` to combine them into a single data frame
+- We'll use `map()` to apply the read_csv function to each file and create a list tibbles
+- We'll use `list_rbind()` to combine those tibbles into a single tibble
 
 There are a couple of other functions we'll tuck in there along the way to help us.
 
@@ -263,7 +271,7 @@ We also need to create a `year` variable from our `source` variable with the fil
 dstud <- dstud_raw |> # <1>
   mutate(
     district = str_remove(district, "'"), # <2>
-    year = str_c("20", str_sub(source, 16, 17)) # <3>
+    year = str_c("20", str_sub(source, 7, 8)) # <3>
   ) |> 
   select(!source) # <4>
 
@@ -273,7 +281,7 @@ dstud |> tail() # <6>
 
 1. We create our new object and fill with starting with the `dstud_raw` data we imported above.
 2. Within a mutate function, our first line uses `str_remove()` to pull out the apostrophe from the `district` variable. We are just reassigning it back to itself.
-3. The second mutate operation is more complicated. We are setting `year` to equal a "string combination" (the `str_c()` function) that pieces together the text "20" with characters from the `source` variable based on their position, which happen to be the numbers of the year. To do that we use `str_sub()` where the first argument is variable to look at (source), the starting position (the 16th character) and the ending position (the 17th one). This only works because all the file names are structured the same way.
+3. The second mutate operation is more complicated. We are setting `year` to equal a "string combination" (the `str_c()` function) that pieces together the text "20" with characters from the `source` variable based on their position, which happen to be the numbers of the year. To do that we use `str_sub()` where the first argument is variable to look at (source), the starting position (the 7th character) and the ending position (the 8th one). This only works because all the file names are structured the same way.
 4. Here we remove the `source` column since we no longer need it.
 5. We peek at the top of the file ...
 6. ... and the bottom of the file to check our results.
@@ -333,7 +341,7 @@ dref_raw |> head()
 ```
 
 1. The path to the files.
-2. The list of columns we need, using the `col_select =` argument to show we can.
+2. We use the `col_select =` argument to keep just the columns we want.
 
 ### Clean up DREF file
 
@@ -487,7 +495,9 @@ sped_flag <- sped_cleaned |> # <1>
   ))
 
 # this pulls 10 random rows so I can check results
-sped_flag |> sample_n(10) # <6>
+sped_flag |>
+  sample_n(10) |> # <6>
+  select(distname, sped_percent, audit_flag) # <7>
 ```
 
 1. We're making a new data frame called `sped_flag` and then starting with `sped_cleaned`.
@@ -496,6 +506,7 @@ sped_flag |> sample_n(10) # <6>
 4. The second argument is what we want the result to be if the condition is true (the text "ABOVE" in our case.)
 5. And the third argument is the result if the condition is NOT true (the text "BELOW" in our case).
 6. Lastly we print out the new data `sped_cleaned` and pipe it into `sample_n()` which gives us a number of random rows from the data. I do this because the top of the data was all TRUE so I couldn't see if the mutate worked properly or not. (Always check your calculations!!)
+7. I'm using `select()` here to grab just the columns of interest for the check.
 
 
 Be sure to look through the result to check the new `audit_flag` has values as you expect.
