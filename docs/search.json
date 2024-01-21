@@ -1525,377 +1525,377 @@
     ]
   },
   {
-    "objectID": "functions.html",
-    "href": "functions.html",
-    "title": "Appendix A — R Functions",
-    "section": "",
-    "text": "A.1 Import/Export",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>R Functions</span>"
-    ]
-  },
-  {
-    "objectID": "functions.html#importexport",
-    "href": "functions.html#importexport",
-    "title": "Appendix A — R Functions",
-    "section": "",
-    "text": "read_csv() imports data from a CSV file. (It handles data types better than the base R read.csv()). Also write_csv() when you need export as CSV. Example: read_csv(\"path/to/file.csv\").\nwrite_rds to save a data frame as an .rds R data data file. This preserves all the data types. read_rds() to import R data. Example: read_rds(\"path/to/file.rds\").\nreadxl is a package we didn’t use, but it has read_excel() that allows you to import from an Excel file, including specified sheets and ranges.\nclean_names() from the library(janitor) package standardizes column names.",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>R Functions</span>"
-    ]
-  },
-  {
-    "objectID": "functions.html#data-manipulation",
-    "href": "functions.html#data-manipulation",
-    "title": "Appendix A — R Functions",
-    "section": "A.2 Data manipulation",
-    "text": "A.2 Data manipulation\n\nselect() to select columns. Example: select(col01, col02) or select(-excluded_col).\nrename() to rename a column. Example: rename(new_name = old_name).\nfilter() to filter rows of data. Example: filter(column_name == \"value\").\n\nSee Relational Operators like ==, &gt;, &gt;= etc.\nSee Logical operators like &, | etc.\nSee is.na tests if a value is missing.\n\ndistinct() will filter rows down to the unique values of the columns given.\narrange() sorts data based on values in a column. Use desc() to reverse the order. Example: arrange(col_name %&gt;% desc())\nmutate() changes and existing column or creates a new one. Example: mutate(new_col = (col01 / col02)).\nround() is a base R function that can round a number to a set decimal point. Often used within a mutate() function.\nrecode(), if_else() and case_when() are all functions that can be used with mutate() to create new categorizations with your data.\npivot_longer() “lengthens” data, increasing the number of rows and decreasing the number of columns. Example: pivot_longer(cols = 3:5, names_to = \"new_key_col_name\", values_to = \"new_val_col_name\") will take the third through the fifth columns and turn each value into a new row of data. It will put them into two columns: The first column will have the name you give it in names_to and contain the old column name that corresponds to each value pivoted. The second column will have the name of whatever you set in values_to and will contain all the values from each of the columns.\npivot_wider() is the opposite of pivot_longer(). Example: pivot_wider(names_from = col_of_key_values, values_from = col_with_values). See the link.",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>R Functions</span>"
-    ]
-  },
-  {
-    "objectID": "functions.html#aggregation",
-    "href": "functions.html#aggregation",
-    "title": "Appendix A — R Functions",
-    "section": "A.3 Aggregation",
-    "text": "A.3 Aggregation\n\ngroup_by() and summarize() often come together. When you use group_by(), every function after it is broken down by that grouping. We often add arrange() to these, calling this our GSA functions. Example: group_by(song, artist) %&gt;% summarize(weeks = n(), top_chart_position = min(peak_position)). To break or remove groupings, use ungroup().\ncount() is a shortcut for GSA that count the number rows based on variable groups you feed it.",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>R Functions</span>"
-    ]
-  },
-  {
-    "objectID": "functions.html#math",
-    "href": "functions.html#math",
-    "title": "Appendix A — R Functions",
-    "section": "A.4 Math",
-    "text": "A.4 Math\nThese are the function often used within summarize():\n\nn() to count the number of rows. n_distinct() counts the unique values.\nsum() to add things together.\nmean() to get an average.\nmedian() to get the median.\nmin() to get the smallest value. max() for the largest.\n+, -, *, / are math operators similar to a calculator.",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>R Functions</span>"
-    ]
-  },
-  {
-    "objectID": "posit-cloud.html",
-    "href": "posit-cloud.html",
-    "title": "Appendix B — Using posit.cloud",
-    "section": "",
-    "text": "B.1 Create a web project from our template\nSince posit.cloud does not have an option to create a “Quarto Website” project, we have put together a template for you to start from.\nThe base packages should already be installed, so you should be good to add new Quarto Documents and Render them.",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Using posit.cloud</span>"
-    ]
-  },
-  {
-    "objectID": "posit-cloud.html#create-a-web-project-from-our-template",
-    "href": "posit-cloud.html#create-a-web-project-from-our-template",
-    "title": "Appendix B — Using posit.cloud",
-    "section": "",
-    "text": "Start posit.cloud if you haven’t already\nClick on this link: RWD PositCloud Template\nAt the top of the browser window, there is a button to save the template as your own project called Save a Permanent Copy.\n\nRename your project right away so you don’t forget.\n\nUpdate the index.qmd file with information about your project.\nUpdate your _quarto.yml file as you wish.",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Using posit.cloud</span>"
-    ]
-  },
-  {
-    "objectID": "posit-cloud.html#exporting-a-project",
-    "href": "posit-cloud.html#exporting-a-project",
-    "title": "Appendix B — Using posit.cloud",
-    "section": "B.2 Exporting a project",
-    "text": "B.2 Exporting a project\nYou can export your project as a .zip file to turn in to an assignment or share with others.\n\nIn the Files pane, click the box next to the Cloud icon to select all your files.\nUnder the More gear there is a dropdown. Click on that.\nChoose Export from the More menu.\n\n\n\n\nExporting a project\n\n\nThis should download all your files as a .zip file, which you can upload to Canvas.",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Using posit.cloud</span>"
-    ]
-  },
-  {
-    "objectID": "posit-cloud.html#share-your-project",
-    "href": "posit-cloud.html#share-your-project",
-    "title": "Appendix B — Using posit.cloud",
-    "section": "B.3 Share your project",
-    "text": "B.3 Share your project\nIt is possible to share your posit.cloud project with another user on the service (like your instructor) and they will get a copy of it.\nYou can find directions for that here.",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Using posit.cloud</span>"
-    ]
-  },
-  {
-    "objectID": "posit-cloud.html#building-a-web-project-from-scratch",
-    "href": "posit-cloud.html#building-a-web-project-from-scratch",
-    "title": "Appendix B — Using posit.cloud",
-    "section": "B.4 Building a web project from scratch",
-    "text": "B.4 Building a web project from scratch\nIf you can’t or don’t want to start with the template above (like you already have a project started), you can build your own Quarto Website.\n\nB.4.1 Create your project\n\nStart posit.cloud if you haven’t already\nIf you aren’t in a project already, create one. Use the New Project button and choose New RStudio project.\nIn your Console, copy and paste this command and run it.\ninstall.packages(c(\"quarto\", \"rmarkdown\", \"tidyverse\", \"janitor\"))\nIt will take some time to run. Your internet connection will have an impact on the speed.\n\n\n\nB.4.2 Create the Quarto file\n\nUse the new document toolbar button to create a Text file.\nPaste in the code below.\nSave the file and name it _quarto.yml.\n\nThe name must be exact.\nproject:\n  type: website\n\nwebsite:\n  title: \"Site name\"\n  navbar:\n    left:\n      - href: index.qmd\n        text: Home\n      #- filename.qmd\n\nformat:\n  html:\n    theme: cosmo\n    toc: true\n    df-print: paged\n    code-overflow: wrap\n\n\nB.4.3 Create your index file\n\nUse the new document toolbar button to create a new Quarto Document\nFor the Title field, use your project name, like “Billboard project”\nUncheck the visual editor button.\nImmediately save the file and name it index.qmd\n\nAt some point you’ll likely add a new file and want to replace filename.qmd with your filename and remove the # comment. You’ll can add other files there as you create them. This adds them to the website navigation. You can learn about website navigation in the Quarto Guide.\nYou should be good to go with a new project at this point. You can Render your index to see what the site looks like at this point.",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Using posit.cloud</span>"
-    ]
-  },
-  {
     "objectID": "group-dates.html",
     "href": "group-dates.html",
-    "title": "Appendix C — Grouping by dates",
+    "title": "12  Grouping by dates",
     "section": "",
-    "text": "C.1 Setting up\nWe need to set up our notebook with libraries and data before we can talk specifics. We need to load both the tidyverse and lubridate libraries. Lubridate is installed with the tidyverse package, but you have to load it separately.\nlibrary(tidyverse)\nlibrary(lubridate)\nAnd we need our cleaned Billboard Hot 100 data. We’ll glimpse the rows and check out date range so we can remember what we have.\nhot100 &lt;- read_rds(\"data-processed/01-hot100.rds\")\n\nhot100 |&gt; glimpse()\n\nRows: 341,300\nColumns: 7\n$ chart_date    &lt;date&gt; 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08…\n$ current_rank  &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…\n$ title         &lt;chr&gt; \"Poor Little Fool\", \"Patricia\", \"Splish Splash\", \"Hard H…\n$ performer     &lt;chr&gt; \"Ricky Nelson\", \"Perez Prado And His Orchestra\", \"Bobby …\n$ previous_rank &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …\n$ peak_rank     &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…\n$ wks_on_chart  &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…\n\nhot100$chart_date |&gt; summary()\n\n        Min.      1st Qu.       Median         Mean      3rd Qu.         Max. \n\"1958-08-04\" \"1974-12-14\" \"1991-04-20\" \"1991-04-19\" \"2007-08-25\" \"2023-12-30\"",
+    "text": "12.1 Setting up\nWe need to set up our notebook with libraries and data before we can talk specifics. We need to load both the tidyverse and lubridate libraries. Lubridate is installed with the tidyverse package, but you have to load it separately.\nlibrary(tidyverse)\nlibrary(lubridate)\nAnd we need our cleaned Billboard Hot 100 data. We’ll glimpse the rows and check out date range so we can remember what we have.\nhot100 &lt;- read_rds(\"data-processed/01-hot100.rds\")\n\nhot100 |&gt; glimpse()\n\nRows: 341,300\nColumns: 7\n$ chart_date    &lt;date&gt; 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08…\n$ current_rank  &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…\n$ title         &lt;chr&gt; \"Poor Little Fool\", \"Patricia\", \"Splish Splash\", \"Hard H…\n$ performer     &lt;chr&gt; \"Ricky Nelson\", \"Perez Prado And His Orchestra\", \"Bobby …\n$ previous_rank &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …\n$ peak_rank     &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…\n$ wks_on_chart  &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…\n\nhot100$chart_date |&gt; summary()\n\n        Min.      1st Qu.       Median         Mean      3rd Qu.         Max. \n\"1958-08-04\" \"1974-12-14\" \"1991-04-20\" \"1991-04-19\" \"2007-08-25\" \"2023-12-30\"",
     "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Grouping by dates</span>"
+      "Extras",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Grouping by dates</span>"
     ]
   },
   {
     "objectID": "group-dates.html#plucking-date-parts",
     "href": "group-dates.html#plucking-date-parts",
-    "title": "Appendix C — Grouping by dates",
-    "section": "C.2 Plucking date parts",
-    "text": "C.2 Plucking date parts\nIf you look at the lubridate cheetsheet under “GET AND SET DATE COMPONENTS” you’ll see functions to pluck out parts of a date, like year().\nIf we have a date, like perhaps Taylor Swift’s birthday, we can pluck the year from it.\n\nyear(\"1989-12-13\")\n\n[1] 1989",
+    "title": "12  Grouping by dates",
+    "section": "12.2 Plucking date parts",
+    "text": "12.2 Plucking date parts\nIf you look at the lubridate cheetsheet under “GET AND SET DATE COMPONENTS” you’ll see functions to pluck out parts of a date, like year().\nIf we have a date, like perhaps Taylor Swift’s birthday, we can pluck the year from it.\n\nyear(\"1989-12-13\")\n\n[1] 1989",
     "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Grouping by dates</span>"
+      "Extras",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Grouping by dates</span>"
     ]
   },
   {
     "objectID": "group-dates.html#grouping-by-a-date-part-on-the-fly",
     "href": "group-dates.html#grouping-by-a-date-part-on-the-fly",
-    "title": "Appendix C — Grouping by dates",
-    "section": "C.3 Grouping by a date part on the fly",
-    "text": "C.3 Grouping by a date part on the fly\nLet’s show how this might be useful through an example question:\nWhich performer has the most appearances on the chart in a given year?\nThe logic works like this:\n\nGroup all the records by performer AND the year of the chart_date\nSummarize and count the rows\n\n\nhot100 |&gt; \n  group_by(\n1    year(chart_date),\n    performer\n  ) |&gt; \n  summarize(appearances = n()) |&gt; \n  arrange(desc(appearances))\n\n\n1\n\nThis is where we add the year to the group_by, plucking it from the chart_date with the year() function.\n\n\n\n\n\n  \n\n\n\nIt looks like Morgan Wallen has the most appearances and 2023 is only half over as of this running. When I ran this code last year The Beatles topped the list. There is definitely some kinda story here.\nAnyway, notice how the year column name is kinda shite? We would not be able to easily reference that variable later, so we should rename that AS we make the group:\n\nhot100 |&gt; \n  group_by(\n1    yr = year(chart_date),\n    performer\n  ) |&gt; \n  summarize(appearances = n()) |&gt; \n  arrange(desc(appearances))\n\n\n1\n\nAdded the “yr =” here\n\n\n\n\n\n  \n\n\n\nIt is a good practice to rename any grouping variable made from a function like that. FWIW, it would’ve worked if I called the new column year, but I named it yr so I’m less likely to confuse it with the function year(). It’s a personal preference what to name the new column.",
+    "title": "12  Grouping by dates",
+    "section": "12.3 Grouping by a date part on the fly",
+    "text": "12.3 Grouping by a date part on the fly\nLet’s show how this might be useful through an example question:\nWhich performer has the most appearances on the chart in a given year?\nThe logic works like this:\n\nGroup all the records by performer AND the year of the chart_date\nSummarize and count the rows\n\n\nhot100 |&gt; \n  group_by(\n1    year(chart_date),\n    performer\n  ) |&gt; \n  summarize(appearances = n()) |&gt; \n  arrange(desc(appearances))\n\n\n1\n\nThis is where we add the year to the group_by, plucking it from the chart_date with the year() function.\n\n\n\n\n\n  \n\n\n\nIt looks like Morgan Wallen has the most appearances and 2023 is only half over as of this running. When I ran this code last year The Beatles topped the list. There is definitely some kinda story here.\nAnyway, notice how the year column name is kinda shite? We would not be able to easily reference that variable later, so we should rename that AS we make the group:\n\nhot100 |&gt; \n  group_by(\n1    yr = year(chart_date),\n    performer\n  ) |&gt; \n  summarize(appearances = n()) |&gt; \n  arrange(desc(appearances))\n\n\n1\n\nAdded the “yr =” here\n\n\n\n\n\n  \n\n\n\nIt is a good practice to rename any grouping variable made from a function like that. FWIW, it would’ve worked if I called the new column year, but I named it yr so I’m less likely to confuse it with the function year(). It’s a personal preference what to name the new column.",
     "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Grouping by dates</span>"
+      "Extras",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Grouping by dates</span>"
     ]
   },
   {
     "objectID": "group-dates.html#making-reusable-date-parts",
     "href": "group-dates.html#making-reusable-date-parts",
-    "title": "Appendix C — Grouping by dates",
-    "section": "C.4 Making reusable date parts",
-    "text": "C.4 Making reusable date parts\nIf you think you’ll use a date parts more than once, then it makes sense to create a new columns and save them. You might make several date parts, but we’ll start with only one.\n\n\n\n\n\n\nTip\n\n\n\nI usually go back to my cleaning notebook to add these once I recognize I need them, and then rerun everything.\n\n\nI’ve created a random sample of data with only the chart_date and title columns just so it is easier to see what we are doing. You would normally work with the whole data frame! Here is our sample:\n\nhot100_sample &lt;- hot100 |&gt;\n  slice_sample(n = 6) |&gt;\n  select(chart_date, title)\n\nhot100_sample\n\n\n  \n\n\n\n\nC.4.1 Let’s make a year\nHere’s how we do it:\n\nhot100_sample |&gt; \n1  mutate(\n    yr = year(chart_date)\n  )\n\n\n1\n\nWe use mutate to create a new column. This is where it starts.\n\n\n\n\n\n  \n\n\n\n\nWe name the new column yr, and then set the value to the year() of chart_date.\n\n\n\nC.4.2 The magical month\nWe can also pluck out the month of the date, which is pretty useful if you want to measure seasonality within a year, like hot days of summer, etc. The default month() function pulls the month as a number.\n\nhot100_sample |&gt; \n  mutate(\n    mo = month(chart_date)\n  )\n\n\n  \n\n\n\nBut there are some options within month() to give us month NAMES that are ordered as factors instead of alphabetical.\n\nhot100_sample |&gt; \n  mutate(\n    mo_label = month(chart_date, label = TRUE),\n    mo_long = month(chart_date, label = TRUE, abbr = FALSE)\n  ) |&gt; \n  arrange(mo_label)\n\n\n  \n\n\n\nNote the datatype &lt;ord&gt; under the column mo_label and mo_long. That means this is an “ordered factor” and that when sorted by those labels it will list in MONTH order instead of alphabetical order, which is quite useful.\n\n\nC.4.3 Floor dates\nSometimes you want to count the number of records within a month and year, like all the songs in January 2000, then February 2000, etc. One way to do that is to create a floor_date, which gives you the “lowest” date within a certain unit like year or month. It’s easiest to show with our sample data:\n\nhot100_sample |&gt; \n  mutate(\n    fl_month = floor_date(chart_date, unit = \"month\"),\n    fl_year = floor_date(chart_date, unit = \"year\")\n  )\n\n\n  \n\n\n\nYou can see the resulting new columns are real dates, but they are normalized:\n\nThe fl_month gives you the first day of the month for that chart_date.\nThe fl_year gives you the first day of the year for that chart_date.\n\nLet’s put this to use with an example. I’ll create a fl_month on the fly to find Recent appearances by Taylor Swift. I’ll also do the year() on the fly in my filter.\n\nswift_month &lt;- hot100 |&gt; \n  filter(\n    performer == \"Taylor Swift\",\n    chart_date &gt;= \"2020-07-01\"\n  ) |&gt; \n  group_by(\n    fl_month = floor_date(chart_date, unit = \"month\")\n  ) |&gt; \n  summarize(appearances = n())\n\nswift_month\n\n\n  \n\n\n\nAnd chart it:\n\nswift_month_plot &lt;- swift_month |&gt; \n  ggplot(aes(x = fl_month, y = appearances)) +\n  geom_col() +\n  geom_text(aes(label = appearances), vjust = -.3) +\n  scale_x_date(date_labels=\"%b %Y\",date_breaks  =\"1 month\") +\n  guides(x =  guide_axis(angle = 45)) +\n  labs(\n    x = \"Month and Year\",\n    y = \"Number of appearances\",\n    title = \"Swifts\\' \\\"Midnights\\\" drives most hits\",\n    subtitle = str_wrap(\"While her most recent new album drove the most appearances on the Billboard Hot 100 within a month, each \\\"Taylor\\'s version\\\"  album since 'Folklore' has also generated hits.\")\n  )\n\nggsave(\"figures/swift_month_plot.png\")\n\nSaving 7 x 5 in image\n\n\n\nCan you guess when she released her albums?",
+    "title": "12  Grouping by dates",
+    "section": "12.4 Making reusable date parts",
+    "text": "12.4 Making reusable date parts\nIf you think you’ll use a date parts more than once, then it makes sense to create a new columns and save them. You might make several date parts, but we’ll start with only one.\n\n\n\n\n\n\nTip\n\n\n\nI usually go back to my cleaning notebook to add these once I recognize I need them, and then rerun everything.\n\n\nI’ve created a random sample of data with only the chart_date and title columns just so it is easier to see what we are doing. You would normally work with the whole data frame! Here is our sample:\n\nhot100_sample &lt;- hot100 |&gt;\n  slice_sample(n = 6) |&gt;\n  select(chart_date, title)\n\nhot100_sample\n\n\n  \n\n\n\n\n12.4.1 Let’s make a year\nHere’s how we do it:\n\nhot100_sample |&gt; \n1  mutate(\n    yr = year(chart_date)\n  )\n\n\n1\n\nWe use mutate to create a new column. This is where it starts.\n\n\n\n\n\n  \n\n\n\n\nWe name the new column yr, and then set the value to the year() of chart_date.\n\n\n\n12.4.2 The magical month\nWe can also pluck out the month of the date, which is pretty useful if you want to measure seasonality within a year, like hot days of summer, etc. The default month() function pulls the month as a number.\n\nhot100_sample |&gt; \n  mutate(\n    mo = month(chart_date)\n  )\n\n\n  \n\n\n\nBut there are some options within month() to give us month NAMES that are ordered as factors instead of alphabetical.\n\nhot100_sample |&gt; \n  mutate(\n    mo_label = month(chart_date, label = TRUE),\n    mo_long = month(chart_date, label = TRUE, abbr = FALSE)\n  ) |&gt; \n  arrange(mo_label)\n\n\n  \n\n\n\nNote the datatype &lt;ord&gt; under the column mo_label and mo_long. That means this is an “ordered factor” and that when sorted by those labels it will list in MONTH order instead of alphabetical order, which is quite useful.\n\n\n12.4.3 Floor dates\nSometimes you want to count the number of records within a month and year, like all the songs in January 2000, then February 2000, etc. One way to do that is to create a floor_date, which gives you the “lowest” date within a certain unit like year or month. It’s easiest to show with our sample data:\n\nhot100_sample |&gt; \n  mutate(\n    fl_month = floor_date(chart_date, unit = \"month\"),\n    fl_year = floor_date(chart_date, unit = \"year\")\n  )\n\n\n  \n\n\n\nYou can see the resulting new columns are real dates, but they are normalized:\n\nThe fl_month gives you the first day of the month for that chart_date.\nThe fl_year gives you the first day of the year for that chart_date.\n\nLet’s put this to use with an example. I’ll create a fl_month on the fly to find Recent appearances by Taylor Swift. I’ll also do the year() on the fly in my filter.\n\nswift_month &lt;- hot100 |&gt; \n  filter(\n    performer == \"Taylor Swift\",\n    chart_date &gt;= \"2020-07-01\"\n  ) |&gt; \n  group_by(\n    fl_month = floor_date(chart_date, unit = \"month\")\n  ) |&gt; \n  summarize(appearances = n())\n\nswift_month\n\n\n  \n\n\n\nAnd chart it:\n\nswift_month_plot &lt;- swift_month |&gt; \n  ggplot(aes(x = fl_month, y = appearances)) +\n  geom_col() +\n  geom_text(aes(label = appearances), vjust = -.3) +\n  scale_x_date(date_labels=\"%b %Y\",date_breaks  =\"1 month\") +\n  guides(x =  guide_axis(angle = 45)) +\n  labs(\n    x = \"Month and Year\",\n    y = \"Number of appearances\",\n    title = \"Swifts\\' \\\"Midnights\\\" drives most hits\",\n    subtitle = str_wrap(\"While her most recent new album drove the most appearances on the Billboard Hot 100 within a month, each \\\"Taylor\\'s version\\\"  album since 'Folklore' has also generated hits.\")\n  )\n\nggsave(\"figures/swift_month_plot.png\")\n\nSaving 7 x 5 in image\n\n\n\nCan you guess when she released her albums?",
     "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Grouping by dates</span>"
+      "Extras",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Grouping by dates</span>"
     ]
   },
   {
     "objectID": "count.html",
     "href": "count.html",
-    "title": "Appendix D — A counting shortcut",
+    "title": "13  A counting shortcut",
     "section": "",
-    "text": "D.1 Setup and import\nWe don’t normally put these together, but we’re just setting up a quick demonstration\nlibrary(tidyverse)\nhot100 &lt;- read_rds(\"data-processed/01-hot100.rds\")",
+    "text": "13.1 Setup and import\nWe don’t normally put these together, but we’re just setting up a quick demonstration\nlibrary(tidyverse)\nhot100 &lt;- read_rds(\"data-processed/01-hot100.rds\")",
     "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>A counting shortcut</span>"
+      "Extras",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>A counting shortcut</span>"
     ]
   },
   {
     "objectID": "count.html#basic-count",
     "href": "count.html#basic-count",
-    "title": "Appendix D — A counting shortcut",
-    "section": "D.2 Basic count",
-    "text": "D.2 Basic count\nWe’re going to rework our first quest of the Billboard analysis:\nWhich performer had the most appearances on the Hot 100 chart at any position?\nOur logic is we want to count the number of rows based on each performer. We do this by adding the variables we want to group as arguments to count():\n\nhot100 |&gt; \n  count(performer)\n\n\n  \n\n\n\n\nD.2.1 Sort the results\nIf we want the highest counted row at the top (and we almost always do) then we can add an argument: sort = TRUE.\n\nhot100 |&gt; \n  count(performer, sort = TRUE)\n\n\n  \n\n\n\n\n\nD.2.2 Name the new column\nNotice the counted table is called n. We can rename that with another argument, name = and give it the name we want in quotes.\n\nhot100 |&gt; \n  count(performer, sort = TRUE, name = \"appearances\")\n\n\n  \n\n\n\n\n\nD.2.3 Filter results as normal\nTo cut off the results, we just filter as we normally would.\n\nhot100 |&gt; \n  count(performer, sort = TRUE, name = \"appearances\") |&gt; \n  filter(appearances &gt; 650)\n\n\n  \n\n\n\nSo the code above does the same things here as we did in our first Billboard quest, but with fewer lines.",
+    "title": "13  A counting shortcut",
+    "section": "13.2 Basic count",
+    "text": "13.2 Basic count\nWe’re going to rework our first quest of the Billboard analysis:\nWhich performer had the most appearances on the Hot 100 chart at any position?\nOur logic is we want to count the number of rows based on each performer. We do this by adding the variables we want to group as arguments to count():\n\nhot100 |&gt; \n  count(performer)\n\n\n  \n\n\n\n\n13.2.1 Sort the results\nIf we want the highest counted row at the top (and we almost always do) then we can add an argument: sort = TRUE.\n\nhot100 |&gt; \n  count(performer, sort = TRUE)\n\n\n  \n\n\n\n\n\n13.2.2 Name the new column\nNotice the counted table is called n. We can rename that with another argument, name = and give it the name we want in quotes.\n\nhot100 |&gt; \n  count(performer, sort = TRUE, name = \"appearances\")\n\n\n  \n\n\n\n\n\n13.2.3 Filter results as normal\nTo cut off the results, we just filter as we normally would.\n\nhot100 |&gt; \n  count(performer, sort = TRUE, name = \"appearances\") |&gt; \n  filter(appearances &gt; 650)\n\n\n  \n\n\n\nSo the code above does the same things here as we did in our first Billboard quest, but with fewer lines.",
     "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>A counting shortcut</span>"
+      "Extras",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>A counting shortcut</span>"
     ]
   },
   {
     "objectID": "count.html#grouping-on-multiple-variables",
     "href": "count.html#grouping-on-multiple-variables",
-    "title": "Appendix D — A counting shortcut",
-    "section": "D.3 Grouping on multiple variables",
-    "text": "D.3 Grouping on multiple variables\nWe can group on multiple variables by adding them. We’ll show this with the second quest:\nWhich song (title & performer) has been on the charts the most?\n\nhot100 |&gt; \n  count(\n    title,\n    performer,\n    sort = TRUE,\n    name = \"appearances\") |&gt; \n  filter(appearances &gt;= 70)",
+    "title": "13  A counting shortcut",
+    "section": "13.3 Grouping on multiple variables",
+    "text": "13.3 Grouping on multiple variables\nWe can group on multiple variables by adding them. We’ll show this with the second quest:\nWhich song (title & performer) has been on the charts the most?\n\nhot100 |&gt; \n  count(\n    title,\n    performer,\n    sort = TRUE,\n    name = \"appearances\") |&gt; \n  filter(appearances &gt;= 70)",
     "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>A counting shortcut</span>"
+      "Extras",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>A counting shortcut</span>"
     ]
   },
   {
     "objectID": "case-when.html",
     "href": "case-when.html",
-    "title": "Appendix E — Using case_when",
+    "title": "14  Using case_when",
     "section": "",
-    "text": "E.1 Catching up with the data\nI’ll start here with the Military Surplus data after the shipment totals have been calculated.\nWarning: package 'ggplot2' was built under R version 4.3.1\n\n\n\n  \n\n\n\nRows: 99,052\nColumns: 12\n$ state             &lt;chr&gt; \"AL\", \"AL\", \"AL\", \"AL\", \"AL\", \"AL\", \"AL\", \"AL\", \"AL\"…\n$ agency_name       &lt;chr&gt; \"ABBEVILLE POLICE DEPT\", \"ABBEVILLE POLICE DEPT\", \"A…\n$ nsn               &lt;chr&gt; \"1005-01-587-7175\", \"1240-01-411-1265\", \"2320-01-371…\n$ item_name         &lt;chr&gt; \"MOUNT,RIFLE\", \"SIGHT,REFLEX\", \"TRUCK,UTILITY\", \"BAL…\n$ quantity          &lt;dbl&gt; 10, 9, 1, 10, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1,…\n$ ui                &lt;chr&gt; \"Each\", \"Each\", \"Each\", \"Kit\", \"Each\", \"Each\", \"Each…\n$ acquisition_value &lt;dbl&gt; 1626.00, 371.00, 62627.00, 17264.71, 62627.00, 65800…\n$ demil_code        &lt;chr&gt; \"D\", \"D\", \"C\", \"D\", \"C\", \"C\", \"Q\", \"D\", \"C\", \"D\", \"D…\n$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…\n$ ship_date         &lt;dttm&gt; 2016-09-19, 2016-09-14, 2016-09-29, 2018-01-30, 201…\n$ station_type      &lt;chr&gt; \"State\", \"State\", \"State\", \"State\", \"State\", \"State\"…\n$ total_value       &lt;dbl&gt; 16260.0, 3339.0, 62627.0, 172647.1, 62627.0, 658000.…",
+    "text": "14.1 Catching up with the data\nI’ll start here with the Military Surplus data after the shipment totals have been calculated.\nWarning: package 'ggplot2' was built under R version 4.3.1\n\n\n\n  \n\n\n\nRows: 99,052\nColumns: 12\n$ state             &lt;chr&gt; \"AL\", \"AL\", \"AL\", \"AL\", \"AL\", \"AL\", \"AL\", \"AL\", \"AL\"…\n$ agency_name       &lt;chr&gt; \"ABBEVILLE POLICE DEPT\", \"ABBEVILLE POLICE DEPT\", \"A…\n$ nsn               &lt;chr&gt; \"1005-01-587-7175\", \"1240-01-411-1265\", \"2320-01-371…\n$ item_name         &lt;chr&gt; \"MOUNT,RIFLE\", \"SIGHT,REFLEX\", \"TRUCK,UTILITY\", \"BAL…\n$ quantity          &lt;dbl&gt; 10, 9, 1, 10, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1,…\n$ ui                &lt;chr&gt; \"Each\", \"Each\", \"Each\", \"Kit\", \"Each\", \"Each\", \"Each…\n$ acquisition_value &lt;dbl&gt; 1626.00, 371.00, 62627.00, 17264.71, 62627.00, 65800…\n$ demil_code        &lt;chr&gt; \"D\", \"D\", \"C\", \"D\", \"C\", \"C\", \"Q\", \"D\", \"C\", \"D\", \"D…\n$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…\n$ ship_date         &lt;dttm&gt; 2016-09-19, 2016-09-14, 2016-09-29, 2018-01-30, 201…\n$ station_type      &lt;chr&gt; \"State\", \"State\", \"State\", \"State\", \"State\", \"State\"…\n$ total_value       &lt;dbl&gt; 16260.0, 3339.0, 62627.0, 172647.1, 62627.0, 658000.…",
     "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Using case_when</span>"
+      "Extras",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Using case_when</span>"
     ]
   },
   {
     "objectID": "case-when.html#catching-up-with-the-data",
     "href": "case-when.html#catching-up-with-the-data",
-    "title": "Appendix E — Using case_when",
+    "title": "14  Using case_when",
     "section": "",
-    "text": "E.1.1 Categorization logic with case_when()\nWe will use the mutate() function to create a new column called control_type. We’ve used mutate before, but this time we will fill in values in the new column based on other data inside each row. case_when() allows us to create a test (or a number of tests) and then mark the new value based on the answer. Once new data has been written the function evaluates the next row, so we write the most specific rules first.\nI usually approach this by thinking of the logic first, then writing some code, then testing it. Sometimes my logic is faulty and I have to try again, which is why we test the results. Know this could go on for many cycles.\nHere is the basic logic:\n\nWe want to create a new column to denote if the item is controlled. In that column we want it to be TRUE when an item is controlled, and FALSE when it is not.\nWe know that items with “AIRPLANE” are always controlled, no matter their demil designations.\nOtherwise we know that items that have a demil_code of “A”, OR a demil_code of “Q” AND a demil_id of “6”, are non-controlled.\nEverything else is controlled.\n\nI’ve noted this logic in a specific order for a reason: It’s the order that we write the logic in the code based on how the function case_when() works. This process is powerful and can get complicated depending on the logic needed. This example is perhaps more complicated than I like to use when explaining this concept, but this is real data and we need this, so here we go.\nHere is the code and annotations.\n\n1leso_control &lt;- leso_total |&gt;\n2  mutate(\n    control_type = case_when(\n3      str_detect(item_name, \"AIRPLANE\") ~ TRUE,\n4      (demil_code == \"A\" | (demil_code == \"Q\" & demil_ic == 6)) ~ FALSE,\n5      TRUE ~ TRUE\n    )\n  )\n\n6leso_control |&gt; glimpse()\n\n\n1\n\nOur first line creates a new tibble leso_control and fills it with the result of the rest of our expression. We start with the leso_total tibble.\n\n2\n\nWe mutate the data and start with the name of new column: control_type. We are filling that column with the result of the case_when() function for each row. Within the case_when() we are making the determination if the item is controlled or not. The left side of the ~ is the test, and the right side of ~ is what we enter into the column if the test passes. But we have more than one test:\n\n3\n\nThe first test is we use the str_detect() function to look inside the item_name field looking for the term “AIRPLANE”. If the test finds the term, then the control_type field gets a value of TRUE and we move to the next row. If not, it moves to the next rule to see if that is a match. (We could fill this column with any text or number we want, but we are using TRUE and FALSE because that is the most basic kind of data to keep. If the item is controlled, set the value is TRUE. If not, it should be set to FALSE.)\n\n4\n\nOur second rule has two complex tests and we want to mark the row FALSE if either are true. (Remember, this is based on what the DLA told me: items with A or Q6 are non-controlled.) Our case_when() logic first looks for the value “A” in the demil_code field. If it is yes, then it marks the row FALSE. If no it goes to the next part: Is there a “Q” in the demil_code field AND a “6” in the demil_ic field? Both “Q” and “6” have to be there to get marked as FALSE. If both fail, then we move to the next test.\n\n5\n\nThe last test is our catch-all. If none of the other rules apply, then mark this row as TRUE, which means it is controlled. So our default in the end is to mark everything TRUE if any of the other rules don’t mark it first.\n\n6\n\nLastly we glimpse at the data just so we can see the column was created.\n\n\n\n\nRows: 99,052\nColumns: 13\n$ state             &lt;chr&gt; \"AL\", \"AL\", \"AL\", \"AL\", \"AL\", \"AL\", \"AL\", \"AL\", \"AL\"…\n$ agency_name       &lt;chr&gt; \"ABBEVILLE POLICE DEPT\", \"ABBEVILLE POLICE DEPT\", \"A…\n$ nsn               &lt;chr&gt; \"1005-01-587-7175\", \"1240-01-411-1265\", \"2320-01-371…\n$ item_name         &lt;chr&gt; \"MOUNT,RIFLE\", \"SIGHT,REFLEX\", \"TRUCK,UTILITY\", \"BAL…\n$ quantity          &lt;dbl&gt; 10, 9, 1, 10, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1,…\n$ ui                &lt;chr&gt; \"Each\", \"Each\", \"Each\", \"Kit\", \"Each\", \"Each\", \"Each…\n$ acquisition_value &lt;dbl&gt; 1626.00, 371.00, 62627.00, 17264.71, 62627.00, 65800…\n$ demil_code        &lt;chr&gt; \"D\", \"D\", \"C\", \"D\", \"C\", \"C\", \"Q\", \"D\", \"C\", \"D\", \"D…\n$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…\n$ ship_date         &lt;dttm&gt; 2016-09-19, 2016-09-14, 2016-09-29, 2018-01-30, 201…\n$ station_type      &lt;chr&gt; \"State\", \"State\", \"State\", \"State\", \"State\", \"State\"…\n$ total_value       &lt;dbl&gt; 16260.0, 3339.0, 62627.0, 172647.1, 62627.0, 658000.…\n$ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE…\n\n\nAs I said, there was a lot of trial and error to figure that out, but I’ll show some tests here to show that we did what we were intending.\nThis shows airplanes are marked as controlled with TRUE.\n\n# showing the results and some columns that determined them\nleso_control |&gt; \n  select(item_name, demil_code, demil_ic, control_type) |&gt; \n  filter(str_detect(item_name, \"AIRPLANE\"))\n\n\n  \n\n\n\nThis shows how many items are marked TRUE vs FALSE for each demil_code and demil_ic combination. I used it to check that most A records were FALSE, along with Q6.\n\nleso_control |&gt; \n1  count(demil_code, demil_ic, control_type, name = \"cnt\") |&gt;\n2  pivot_wider(names_from = control_type, values_from = cnt)\n\n\n1\n\nThis is the count shortcut using three variables. I name counted column cnt. It’s hard to visualize that result here but it counts how many times each unique combination of demil_code, demil_ic and control_type.\n\n2\n\nHere I use pivot_wider() to show the TRUE and FALSE counts on the same row. Just makes it easier to see.\n\n\n\n\n\n  \n\n\n\nWe’re done with this extended explanation.",
+    "text": "14.1.1 Categorization logic with case_when()\nWe will use the mutate() function to create a new column called control_type. We’ve used mutate before, but this time we will fill in values in the new column based on other data inside each row. case_when() allows us to create a test (or a number of tests) and then mark the new value based on the answer. Once new data has been written the function evaluates the next row, so we write the most specific rules first.\nI usually approach this by thinking of the logic first, then writing some code, then testing it. Sometimes my logic is faulty and I have to try again, which is why we test the results. Know this could go on for many cycles.\nHere is the basic logic:\n\nWe want to create a new column to denote if the item is controlled. In that column we want it to be TRUE when an item is controlled, and FALSE when it is not.\nWe know that items with “AIRPLANE” are always controlled, no matter their demil designations.\nOtherwise we know that items that have a demil_code of “A”, OR a demil_code of “Q” AND a demil_id of “6”, are non-controlled.\nEverything else is controlled.\n\nI’ve noted this logic in a specific order for a reason: It’s the order that we write the logic in the code based on how the function case_when() works. This process is powerful and can get complicated depending on the logic needed. This example is perhaps more complicated than I like to use when explaining this concept, but this is real data and we need this, so here we go.\nHere is the code and annotations.\n\n1leso_control &lt;- leso_total |&gt;\n2  mutate(\n    control_type = case_when(\n3      str_detect(item_name, \"AIRPLANE\") ~ TRUE,\n4      (demil_code == \"A\" | (demil_code == \"Q\" & demil_ic == 6)) ~ FALSE,\n5      TRUE ~ TRUE\n    )\n  )\n\n6leso_control |&gt; glimpse()\n\n\n1\n\nOur first line creates a new tibble leso_control and fills it with the result of the rest of our expression. We start with the leso_total tibble.\n\n2\n\nWe mutate the data and start with the name of new column: control_type. We are filling that column with the result of the case_when() function for each row. Within the case_when() we are making the determination if the item is controlled or not. The left side of the ~ is the test, and the right side of ~ is what we enter into the column if the test passes. But we have more than one test:\n\n3\n\nThe first test is we use the str_detect() function to look inside the item_name field looking for the term “AIRPLANE”. If the test finds the term, then the control_type field gets a value of TRUE and we move to the next row. If not, it moves to the next rule to see if that is a match. (We could fill this column with any text or number we want, but we are using TRUE and FALSE because that is the most basic kind of data to keep. If the item is controlled, set the value is TRUE. If not, it should be set to FALSE.)\n\n4\n\nOur second rule has two complex tests and we want to mark the row FALSE if either are true. (Remember, this is based on what the DLA told me: items with A or Q6 are non-controlled.) Our case_when() logic first looks for the value “A” in the demil_code field. If it is yes, then it marks the row FALSE. If no it goes to the next part: Is there a “Q” in the demil_code field AND a “6” in the demil_ic field? Both “Q” and “6” have to be there to get marked as FALSE. If both fail, then we move to the next test.\n\n5\n\nThe last test is our catch-all. If none of the other rules apply, then mark this row as TRUE, which means it is controlled. So our default in the end is to mark everything TRUE if any of the other rules don’t mark it first.\n\n6\n\nLastly we glimpse at the data just so we can see the column was created.\n\n\n\n\nRows: 99,052\nColumns: 13\n$ state             &lt;chr&gt; \"AL\", \"AL\", \"AL\", \"AL\", \"AL\", \"AL\", \"AL\", \"AL\", \"AL\"…\n$ agency_name       &lt;chr&gt; \"ABBEVILLE POLICE DEPT\", \"ABBEVILLE POLICE DEPT\", \"A…\n$ nsn               &lt;chr&gt; \"1005-01-587-7175\", \"1240-01-411-1265\", \"2320-01-371…\n$ item_name         &lt;chr&gt; \"MOUNT,RIFLE\", \"SIGHT,REFLEX\", \"TRUCK,UTILITY\", \"BAL…\n$ quantity          &lt;dbl&gt; 10, 9, 1, 10, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1,…\n$ ui                &lt;chr&gt; \"Each\", \"Each\", \"Each\", \"Kit\", \"Each\", \"Each\", \"Each…\n$ acquisition_value &lt;dbl&gt; 1626.00, 371.00, 62627.00, 17264.71, 62627.00, 65800…\n$ demil_code        &lt;chr&gt; \"D\", \"D\", \"C\", \"D\", \"C\", \"C\", \"Q\", \"D\", \"C\", \"D\", \"D…\n$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…\n$ ship_date         &lt;dttm&gt; 2016-09-19, 2016-09-14, 2016-09-29, 2018-01-30, 201…\n$ station_type      &lt;chr&gt; \"State\", \"State\", \"State\", \"State\", \"State\", \"State\"…\n$ total_value       &lt;dbl&gt; 16260.0, 3339.0, 62627.0, 172647.1, 62627.0, 658000.…\n$ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE…\n\n\nAs I said, there was a lot of trial and error to figure that out, but I’ll show some tests here to show that we did what we were intending.\nThis shows airplanes are marked as controlled with TRUE.\n\n# showing the results and some columns that determined them\nleso_control |&gt; \n  select(item_name, demil_code, demil_ic, control_type) |&gt; \n  filter(str_detect(item_name, \"AIRPLANE\"))\n\n\n  \n\n\n\nThis shows how many items are marked TRUE vs FALSE for each demil_code and demil_ic combination. I used it to check that most A records were FALSE, along with Q6.\n\nleso_control |&gt; \n1  count(demil_code, demil_ic, control_type, name = \"cnt\") |&gt;\n2  pivot_wider(names_from = control_type, values_from = cnt)\n\n\n1\n\nThis is the count shortcut using three variables. I name counted column cnt. It’s hard to visualize that result here but it counts how many times each unique combination of demil_code, demil_ic and control_type.\n\n2\n\nHere I use pivot_wider() to show the TRUE and FALSE counts on the same row. Just makes it easier to see.\n\n\n\n\n\n  \n\n\n\nWe’re done with this extended explanation.",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Using case_when</span>"
+    ]
+  },
+  {
+    "objectID": "posit-cloud.html",
+    "href": "posit-cloud.html",
+    "title": "Appendix A — Using posit.cloud",
+    "section": "",
+    "text": "A.1 Create a web project from our template\nSince posit.cloud does not have an option to create a “Quarto Website” project, we have put together a template for you to start from.\nThe base packages should already be installed, so you should be good to add new Quarto Documents and Render them.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Using case_when</span>"
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Using posit.cloud</span>"
+    ]
+  },
+  {
+    "objectID": "posit-cloud.html#create-a-web-project-from-our-template",
+    "href": "posit-cloud.html#create-a-web-project-from-our-template",
+    "title": "Appendix A — Using posit.cloud",
+    "section": "",
+    "text": "Start posit.cloud if you haven’t already\nClick on this link: RWD PositCloud Template\nAt the top of the browser window, there is a button to save the template as your own project called Save a Permanent Copy.\n\nRename your project right away so you don’t forget.\n\nUpdate the index.qmd file with information about your project.\nUpdate your _quarto.yml file as you wish.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Using posit.cloud</span>"
+    ]
+  },
+  {
+    "objectID": "posit-cloud.html#exporting-a-project",
+    "href": "posit-cloud.html#exporting-a-project",
+    "title": "Appendix A — Using posit.cloud",
+    "section": "A.2 Exporting a project",
+    "text": "A.2 Exporting a project\nYou can export your project as a .zip file to turn in to an assignment or share with others.\n\nIn the Files pane, click the box next to the Cloud icon to select all your files.\nUnder the More gear there is a dropdown. Click on that.\nChoose Export from the More menu.\n\n\n\n\nExporting a project\n\n\nThis should download all your files as a .zip file, which you can upload to Canvas.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Using posit.cloud</span>"
+    ]
+  },
+  {
+    "objectID": "posit-cloud.html#share-your-project",
+    "href": "posit-cloud.html#share-your-project",
+    "title": "Appendix A — Using posit.cloud",
+    "section": "A.3 Share your project",
+    "text": "A.3 Share your project\nIt is possible to share your posit.cloud project with another user on the service (like your instructor) and they will get a copy of it.\nYou can find directions for that here.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Using posit.cloud</span>"
+    ]
+  },
+  {
+    "objectID": "posit-cloud.html#building-a-web-project-from-scratch",
+    "href": "posit-cloud.html#building-a-web-project-from-scratch",
+    "title": "Appendix A — Using posit.cloud",
+    "section": "A.4 Building a web project from scratch",
+    "text": "A.4 Building a web project from scratch\nIf you can’t or don’t want to start with the template above (like you already have a project started), you can build your own Quarto Website.\n\nA.4.1 Create your project\n\nStart posit.cloud if you haven’t already\nIf you aren’t in a project already, create one. Use the New Project button and choose New RStudio project.\nIn your Console, copy and paste this command and run it.\ninstall.packages(c(\"quarto\", \"rmarkdown\", \"tidyverse\", \"janitor\"))\nIt will take some time to run. Your internet connection will have an impact on the speed.\n\n\n\nA.4.2 Create the Quarto file\n\nUse the new document toolbar button to create a Text file.\nPaste in the code below.\nSave the file and name it _quarto.yml.\n\nThe name must be exact.\nproject:\n  type: website\n\nwebsite:\n  title: \"Site name\"\n  navbar:\n    left:\n      - href: index.qmd\n        text: Home\n      #- filename.qmd\n\nformat:\n  html:\n    theme: cosmo\n    toc: true\n    df-print: paged\n    code-overflow: wrap\n\n\nA.4.3 Create your index file\n\nUse the new document toolbar button to create a new Quarto Document\nFor the Title field, use your project name, like “Billboard project”\nUncheck the visual editor button.\nImmediately save the file and name it index.qmd\n\nAt some point you’ll likely add a new file and want to replace filename.qmd with your filename and remove the # comment. You’ll can add other files there as you create them. This adds them to the website navigation. You can learn about website navigation in the Quarto Guide.\nYou should be good to go with a new project at this point. You can Render your index to see what the site looks like at this point.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Using posit.cloud</span>"
+    ]
+  },
+  {
+    "objectID": "functions.html",
+    "href": "functions.html",
+    "title": "Appendix B — R Functions",
+    "section": "",
+    "text": "B.1 Import/Export",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>R Functions</span>"
+    ]
+  },
+  {
+    "objectID": "functions.html#importexport",
+    "href": "functions.html#importexport",
+    "title": "Appendix B — R Functions",
+    "section": "",
+    "text": "read_csv() imports data from a CSV file. (It handles data types better than the base R read.csv()). Also write_csv() when you need export as CSV. Example: read_csv(\"path/to/file.csv\").\nwrite_rds to save a data frame as an .rds R data data file. This preserves all the data types. read_rds() to import R data. Example: read_rds(\"path/to/file.rds\").\nreadxl is a package we didn’t use, but it has read_excel() that allows you to import from an Excel file, including specified sheets and ranges.\nclean_names() from the library(janitor) package standardizes column names.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>R Functions</span>"
+    ]
+  },
+  {
+    "objectID": "functions.html#data-manipulation",
+    "href": "functions.html#data-manipulation",
+    "title": "Appendix B — R Functions",
+    "section": "B.2 Data manipulation",
+    "text": "B.2 Data manipulation\n\nselect() to select columns. Example: select(col01, col02) or select(-excluded_col).\nrename() to rename a column. Example: rename(new_name = old_name).\nfilter() to filter rows of data. Example: filter(column_name == \"value\").\n\nSee Relational Operators like ==, &gt;, &gt;= etc.\nSee Logical operators like &, | etc.\nSee is.na tests if a value is missing.\n\ndistinct() will filter rows down to the unique values of the columns given.\narrange() sorts data based on values in a column. Use desc() to reverse the order. Example: arrange(col_name %&gt;% desc())\nmutate() changes and existing column or creates a new one. Example: mutate(new_col = (col01 / col02)).\nround() is a base R function that can round a number to a set decimal point. Often used within a mutate() function.\nrecode(), if_else() and case_when() are all functions that can be used with mutate() to create new categorizations with your data.\npivot_longer() “lengthens” data, increasing the number of rows and decreasing the number of columns. Example: pivot_longer(cols = 3:5, names_to = \"new_key_col_name\", values_to = \"new_val_col_name\") will take the third through the fifth columns and turn each value into a new row of data. It will put them into two columns: The first column will have the name you give it in names_to and contain the old column name that corresponds to each value pivoted. The second column will have the name of whatever you set in values_to and will contain all the values from each of the columns.\npivot_wider() is the opposite of pivot_longer(). Example: pivot_wider(names_from = col_of_key_values, values_from = col_with_values). See the link.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>R Functions</span>"
+    ]
+  },
+  {
+    "objectID": "functions.html#aggregation",
+    "href": "functions.html#aggregation",
+    "title": "Appendix B — R Functions",
+    "section": "B.3 Aggregation",
+    "text": "B.3 Aggregation\n\ngroup_by() and summarize() often come together. When you use group_by(), every function after it is broken down by that grouping. We often add arrange() to these, calling this our GSA functions. Example: group_by(song, artist) %&gt;% summarize(weeks = n(), top_chart_position = min(peak_position)). To break or remove groupings, use ungroup().\ncount() is a shortcut for GSA that count the number rows based on variable groups you feed it.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>R Functions</span>"
+    ]
+  },
+  {
+    "objectID": "functions.html#math",
+    "href": "functions.html#math",
+    "title": "Appendix B — R Functions",
+    "section": "B.4 Math",
+    "text": "B.4 Math\nThese are the function often used within summarize():\n\nn() to count the number of rows. n_distinct() counts the unique values.\nsum() to add things together.\nmean() to get an average.\nmedian() to get the median.\nmin() to get the smallest value. max() for the largest.\n+, -, *, / are math operators similar to a calculator.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>R Functions</span>"
     ]
   },
   {
     "objectID": "troubleshooting.html",
     "href": "troubleshooting.html",
-    "title": "Appendix F — Troubleshooting",
+    "title": "Appendix C — Troubleshooting",
     "section": "",
-    "text": "F.1 When things break\nThe first and best troubleshooting advice I can give it this:\nWRITE ONE LINE OF CODE. RUN IT. CHECK THE RESULTS. REPEAT.\nWhen you write and run code one line at a time, problems are easier to find.\nBeyond that there are generally two categories of problems: You wrote “it” wrong, or you used “it” wrong. The first can sometimes be hard to see just like any typo.\nSome tips:\nBeyond that, here are some common things students come across:",
+    "text": "C.1 When things break\nThe first and best troubleshooting advice I can give it this:\nWRITE ONE LINE OF CODE. RUN IT. CHECK THE RESULTS. REPEAT.\nWhen you write and run code one line at a time, problems are easier to find.\nBeyond that there are generally two categories of problems: You wrote “it” wrong, or you used “it” wrong. The first can sometimes be hard to see just like any typo.\nSome tips:\nBeyond that, here are some common things students come across:",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>F</span>  <span class='chapter-title'>Troubleshooting</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Troubleshooting</span>"
     ]
   },
   {
     "objectID": "troubleshooting.html#when-things-break",
     "href": "troubleshooting.html#when-things-break",
-    "title": "Appendix F — Troubleshooting",
+    "title": "Appendix C — Troubleshooting",
     "section": "",
-    "text": "Read the error message and look for words you recognize. You may not understand the error exactly, but words can be clues to what part of your code is wrong.\nCheck the spelling of variables, values and functions, especially if the error message says something like object ‘wahtever’ not found. If you are writing code that depends on matching strings and you are getting unexpected results, check those strings. Word case (as in Title case) can matter.\nCheck the code for balanced parenthesis and other punctuation problems. RStudio will show you matching parenthesis with highlighting, and will indicate problems with red X icons and red underlines in your code. Writing beautiful, well-indenting can sometimes help avoid and spot these types of errors.\n\n\n\nThere is no package called ‘packagename’: You are trying to use a library that is named wrong or you don’t have installed. You can install packages with install.packages('packagename') where ‘packagename’ is replaced with the name of the package you actually want.\nForgetting to use quotation marks when they are needed: install.packages(\"gclus\") will work, while install.packages(gclus) will generate an error.\nCould not find function ‘functionname’: You either misspelled the function or you are missing a library() in your setup. It’s best practice to have every library() loaded in a setup chunk near the top of the notebook.\nUsing the wrong case: help(), Help(), and HELP() are three different functions (and only the first one will work)\nForgetting to include the parentheses in a function call: help() rather than help. Even if there are no options, you still need the ().\nUsing the \\ in a path name on Windows” R sees the backlash character as an escape character. setwd(\"c:\\mydata\") will generate an error. Use setwd(\"c:/mydata\") or setwd(\"c:\\\\mydata\") instead.",
+    "text": "Read the error message and look for words you recognize. You may not understand the error exactly, but words can be clues to what part of your code is wrong.\nCheck the spelling of variables, values and functions, especially if the error message says something like object ‘wahtever’ not found. If you are writing code that depends on matching strings and you are getting unexpected results, check those strings. Word case (as in Title case) can matter.\nCheck the code for balanced parenthesis and other punctuation problems. RStudio will show you matching parenthesis with highlighting, and will indicate problems with red X icons and red underlines in your code. Writing beautiful, well-indented code can help you avoid and spot these types of errors.\n\n\n\nThere is no package called ‘packagename’: You are trying to use a library that is named wrong or you don’t have installed. You can install packages with install.packages('packagename') where ‘packagename’ is replaced with the name of the package you actually want.\nForgetting to use quotation marks when they are needed: install.packages(\"ggrepel\") will work, while install.packages(ggrepel) will generate an error.\nCould not find function ‘functionname’: You either misspelled the function or you are missing a library() in your setup. It’s best practice to have every library() loaded in a setup chunk near the top of the notebook.\nUsing the wrong case: help(), Help(), and HELP() are three different functions (and only the first one will work)\nForgetting to include the parentheses in a function call: help() rather than help. Even if there are no arguments, you still need the ().\nUsing the \\ in a path name on Windows: R sees the backlash character as an escape character. setwd(\"c:\\mydata\") will generate an error. Use setwd(\"c:/mydata\") or setwd(\"c:\\\\mydata\") instead.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>F</span>  <span class='chapter-title'>Troubleshooting</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Troubleshooting</span>"
     ]
   },
   {
     "objectID": "troubleshooting.html#learning-how-things-work",
     "href": "troubleshooting.html#learning-how-things-work",
-    "title": "Appendix F — Troubleshooting",
-    "section": "F.2 Learning how things work",
-    "text": "F.2 Learning how things work\nThere are infinite ways to write code incorrectly or use a function improperly. Documentation and experience (sometimes of others) are key to these challenges.\n\nF.2.1 Help docs\nOne way to find documentation is through the built-in Help function within RStudio. If you look at the pane at the bottom-right of RStudio, you’ll see tabs for “Files”, “Plots”, “Packages” and “Help”. Click on the Help tab.\nYou can type in a function or part of a function and get a list of items. If you search for “count” and hit return you’ll get documentation on how to use it. It takes some getting used to in reading the docs, but the examples at the bottom are often useful.\nThere are also some Console commands to find things:\n\n\n\n\n\n\n\nFunction\nAction\n\n\n\n\nhelp.start()\nGeneral help\n\n\nhelp(\"foo\") or ?foo\nHelp on function foo (the quotation marks are optional)\n\n\nhelp.search(\"foo\") or ??foo\nSearch the help system for instances of the string foo\n\n\nexample(\"foo\")\nExamples of function foo (the quotation marks are optional)\n\n\n\n\n\nF.2.2 Good Googling\nAnother way to get help is to Google for it, but there is an art to it especially since there are other data science languages and programs with similar terms as R. Some tips:\n\nUse “in R” in your search: How to merge data frames in R\nUse the name of the package if you now it: Add labels with ggplot\nUse “tidyverse” if appropriate: convert text to date with tidyverse\n\nThere are plenty of Stack Overflow answers along with different tutorials from blogs and such. It is a well-used language, so there are lots of answers to help. Too many, sometimes.\n\n\nF.2.3 Tidyverse docs and cheatsheets\nIt is worth becoming familiar with the tidyverse site. Click on each icon from the home page to learn what each package does. R is also big on cheatsheets, which are printable pages that go through all the verbs. They can be a bit much at first, but useful once you use R more.\nWe’ll try to put together a list of other resources and tutorials. You can find some I’ve collected already here.",
+    "title": "Appendix C — Troubleshooting",
+    "section": "C.2 Learning how things work",
+    "text": "C.2 Learning how things work\nThere are infinite ways to write code incorrectly or use a function improperly. Documentation and experience (sometimes of others) are key to these challenges.\n\nC.2.1 Help docs\nOne way to find documentation is through the built-in Help function within RStudio. If you look at the pane at the bottom-right of RStudio, you’ll see tabs for “Files”, “Plots”, “Packages” and “Help”. Click on the Help tab.\nYou can type in a function or part of a function and get a list of items. If you search for “count” and hit return you’ll get documentation on how to use it. It takes some getting used to in reading the docs, but the examples at the bottom are often useful.\nThere are also some Console commands to find things:\n\n\n\n\n\n\n\nFunction\nAction\n\n\n\n\nhelp.start()\nGeneral help\n\n\nhelp(\"foo\") or ?foo\nHelp on function foo (the quotation marks are optional)\n\n\nhelp.search(\"foo\") or ??foo\nSearch the help system for instances of the string foo\n\n\nexample(\"foo\")\nExamples of function foo (the quotation marks are optional)\n\n\n\n\n\nC.2.2 Good Googling\nAnother way to get help is to Google for it, but there is an art to it especially since there are other data science languages and programs with similar terms as R. Some tips:\n\nUse “in R” in your search: How to merge data frames in R\nUse the name of the package if you now it: Add labels with ggplot\nUse “tidyverse” if appropriate: convert text to date with tidyverse\n\nThere are plenty of Stack Overflow answers along with different tutorials from blogs and such. It is a well-used language, so there are lots of answers to help. Too many, sometimes.\n\n\nC.2.3 Tidyverse docs and cheatsheets\nIt is worth becoming familiar with the tidyverse site. Click on each icon from the home page to learn what each package does. R is also big on cheatsheets, which are printable pages that go through all the verbs. They can be a bit much at first, but useful once you use R more.\nWe’ll try to put together a list of other resources and tutorials. You can find some I’ve collected already here.\n\n\nC.2.4 ChatGPT or other GenAI tools\nGenerative AI tools can be useful troubleshooting tools if you already have a good understanding of your code and processes. They can also confidently give you incorrect answers and expose you for not knowing what you are doing.\nChatGPT is good at offering functions to solve a problem, explaining arguments of a function and giving examples of their use.\nIf you are in Reporting with Data and use ChatGPT or other GenAI, then you are required to include in your notebook a description of what you were trying to do, the chat prompt that helped you get the answer, and comments or descriptions in your own words describing what each line of code does.\nIf you aren’t in RWD, you should do that anyway ;-).",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>F</span>  <span class='chapter-title'>Troubleshooting</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Troubleshooting</span>"
     ]
   },
   {
     "objectID": "troubleshooting.html#r-frequently-asked-questions",
     "href": "troubleshooting.html#r-frequently-asked-questions",
-    "title": "Appendix F — Troubleshooting",
-    "section": "F.3 R Frequently asked Questions",
-    "text": "F.3 R Frequently asked Questions\n\nF.3.1 Functions, objects and variables\nThe names of things and how they are used are important in R, and can cause confusion. The term date could represent any number of things in R code depending on how you are using it, and that can be confusing. Knowing the difference between functions, objects and variables and how they are referenced in code helps.\n\nVariables are like the column names from a spreadsheet table. If you think of a data frame (or tibble in R) as a spreadsheet table, then when you reference a “variable” name, it is that column. A data frame of police calls might have a date column that has the date/time of the call in each row, like “2021-01-06 17:29:38”.\nFunctions are collections of code that solve specific problems. In R, they are always followed by parenthesis, like this: date(), which is a function to pull only the date from a date/time variable. There are often arguments inside a function, like date(date) could be a function pull the date “2021-01-06” from a date/time variable called date. Knowing that functions always have parenthesis is a good clue to help figure out how something is being used.\nObjects are stored values in R. You can name objects anything you like, including unwise things like date, since that is already a function and maybe a variable.\n\nThat is all to prove it can be confusing. When you have a chance to name things, make good choices.\n\nF.3.1.1 Naming things\nBe thoughtfully obvious about the names you choose for objects and variables.\n\nAvoid naming things with what could be a function name.\nAvoid spaces. Use an underscore _ or dash - instead. I use underscores for naming things in code, but dashes for naming files or folders that could become URLs at some point.\nBe descriptive. Name things what they are, like police_calls.\nBe consistent. If you have multiple date variables like open_date and close_date then it is easy to know and select() them.\n\n\n\n\nF.3.2 Some R code basics\n\n&lt;- is known as an “assignment operator” – it means “Make the object named to the left equal to the output of the code to the right”\n= makes an object equal to a value, which is similar to &lt;- but used within a function.\n== tests whether the objects on either end are equal. This is often used in filtering data.\n& means AND, in Boolean logic\n| means OR, in Boolean logic\n! means NOT, in Boolean logic\nWhen referring to values entered as text, or to dates, put them in quote marks like this: \"United States\", or \"2016-07-26\". Numbers are not quoted\nWhen entering two or more values as a list, combine them using the function c, for combine, with the values separated by commas, for example: c(\"2017-07-26\", \"2017-08-04\")\nAs in a spreadsheet, you can specify a range of values with a colon, for example: c(1:10) creates a list of integers (whole numbers) from one to ten.\nSome common operators:\n\n+ - add, subtract\n* / multiply, divide\n&gt; &lt; greater than, less than\n&gt;= &lt;= greater than or equal to, less than or equal to\n!= not equal to\n\nHandling null values:\n\nNulls are designated as NA\nis.na(x) looks for nulls within variable x.\n!is.na(x) looks for non-null values within variable x\n\n\nHere, is.na() is a function.",
+    "title": "Appendix C — Troubleshooting",
+    "section": "C.3 R Frequently asked Questions",
+    "text": "C.3 R Frequently asked Questions\n\nC.3.1 Functions, objects and variables\nThe names of things and how they are used are important in R, and can cause confusion. The term date could represent any number of things in R code depending on how you are using it, and that can be confusing. Knowing the difference between functions, objects and variables and how they are referenced in code helps.\n\nVariables are like the column names from a spreadsheet table. If you think of a data frame (or tibble in R) as a spreadsheet table, then when you reference a “variable” name, it is that column. A data frame of police calls might have a date column that has the date/time of the call in each row, like “2021-01-06 17:29:38”.\nFunctions are collections of code that solve specific problems. In R, they are always followed by parenthesis, like this: date(), which is a function to pull only the date from a date/time variable. There are often arguments inside a function, like date(date) could be a function pull the date “2021-01-06” from a date/time variable called date. Knowing that functions always have parenthesis is a good clue to help figure out how something is being used.\nObjects are stored values in R. You can name objects anything you like, including unwise things like date, since that is already a function and maybe a variable.\n\nThat is all to prove it can be confusing. When you have a chance to name things, make good choices.\n\nC.3.1.1 Naming things\nBe thoughtfully obvious about the names you choose for objects and variables.\n\nAvoid naming things with what could be a function name.\nAvoid spaces. Use an underscore _ or dash - instead. I use underscores for naming things in code, but dashes for naming files or folders that could become URLs at some point.\nBe descriptive. Name things what they are, like police_calls.\nBe consistent. If you have multiple date variables like open_date and close_date then it is easy to know and select() them.\n\n\n\n\nC.3.2 Some R code basics\n\n&lt;- is known as an “assignment operator” – it means “Make the object named to the left equal to the output of the code to the right”\n= makes an object equal to a value, which is similar to &lt;- but used within a function.\n== tests whether the objects on either end are equal. This is often used in filtering data.\n& means AND, in Boolean logic\n| means OR, in Boolean logic\n! means NOT, in Boolean logic\nWhen referring to values entered as text, or to dates, put them in quote marks like this: \"United States\", or \"2016-07-26\". Numbers are not quoted\nWhen entering two or more values as a list, combine them using the function c, for combine, with the values separated by commas, for example: c(\"2017-07-26\", \"2017-08-04\")\nAs in a spreadsheet, you can specify a range of values with a colon, for example: c(1:10) creates a list of integers (whole numbers) from one to ten.\nSome common operators:\n\n+ - add, subtract\n* / multiply, divide\n&gt; &lt; greater than, less than\n&gt;= &lt;= greater than or equal to, less than or equal to\n!= not equal to\n\nHandling null values:\n\nNulls are designated as NA\nis.na(x) looks for nulls within variable x.\n!is.na(x) looks for non-null values within variable x\n\n\nHere, is.na() is a function.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>F</span>  <span class='chapter-title'>Troubleshooting</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Troubleshooting</span>"
     ]
   },
   {
     "objectID": "explore.html",
     "href": "explore.html",
-    "title": "Appendix G — Exploring a new dataset",
+    "title": "Appendix D — Exploring a new dataset",
     "section": "",
-    "text": "G.1 Start by listing questions\nIt’s likely you’ve acquired data because you needed it to add context to a story or situation. Spend a little time at the beginning brainstorming as list of questions you want to answer. (You might ask a colleague to participate: the act of describing the data set will reveal questions for both of you.) I like to start my R notebooks with this list.",
+    "text": "D.1 Start by listing questions\nIt’s likely you’ve acquired data because you needed it to add context to a story or situation. Spend a little time at the beginning brainstorming as list of questions you want to answer. (You might ask a colleague to participate: the act of describing the data set will reveal questions for both of you.) I like to start my R notebooks with this list.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Exploring a new dataset</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Exploring a new dataset</span>"
     ]
   },
   {
     "objectID": "explore.html#understand-your-data",
     "href": "explore.html#understand-your-data",
-    "title": "Appendix G — Exploring a new dataset",
-    "section": "G.2 Understand your data",
-    "text": "G.2 Understand your data\nBefore you start working on your data, make sure you understand what all the columns and values mean. Look at your data dictionary, or talk to the data owner to make sure you understand what you are working with.\nTo get a quick summary of all the values, you can use a function called summary() to give you some basic stats for all your data. Here is an example from the Billboard Hot 100 data we used in a class assignment.\n\n\n\nSummary of billboard data\n\n\nA summary() will show you the data type for each column, and then for number values it will show you the min, max, median, mean and other stats.",
+    "title": "Appendix D — Exploring a new dataset",
+    "section": "D.2 Understand your data",
+    "text": "D.2 Understand your data\nBefore you start working on your data, make sure you understand what all the columns and values mean. Look at your data dictionary, or talk to the data owner to make sure you understand what you are working with.\nTo get a quick summary of all the values, you can use a function called summary() to give you some basic stats for all your data. Here is an example from the Billboard Hot 100 data we used in a class assignment.\n\n\n\nSummary of billboard data\n\n\nA summary() will show you the data type for each column, and then for number values it will show you the min, max, median, mean and other stats.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Exploring a new dataset</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Exploring a new dataset</span>"
     ]
   },
   {
     "objectID": "explore.html#learn-more-through-cleaning",
     "href": "explore.html#learn-more-through-cleaning",
-    "title": "Appendix G — Exploring a new dataset",
-    "section": "G.3 Learn more through cleaning",
-    "text": "G.3 Learn more through cleaning\nThe act of inspecting your data, cleaning data types and poking around for problems can help you learn more about it. Some tips to make sure your data is ready to analyze:\n\nColumn names should be short, descriptive and clear. Save typing by making them all lowercase with parts separated by underscores. (You can use the clean_names() functions for this). Use patterns for related variables like _date or _address parts.\nFix all your data types. Make sure numbers are numbers (can use parse_number() to fix) and dates into real dates (see lubridate) and maybe create date parts for grouping. Make sure number-oriented IDs are text if they are supposed to start with zero. (ZIP codes are like this … not really a number, but category.)\nRemove the cruft of columns you don’t need using select(). Make sure you understand what you are removing, but feel secure that you can come back and add them back if you find you need them.\n\n\nG.3.1 Cleaning up categorical data\nIf you are going to count or summarize rows based on categorical data, you should make sure the values in that column are clean and free of typos and values that might better be combined.\nSome strategies you might use:\n\nCreate a count() of the column to show all the different values and how often they show up.\nYou might want to use mutate() to create a new column and then update the values there, perhaps using “case_” functions like case_match() or case_when() the rename specific values in your data.\n\nIf you find you have hundreds of values to clean, there are some other tools like OpenRefine you can learn fairly quickly to help.",
+    "title": "Appendix D — Exploring a new dataset",
+    "section": "D.3 Learn more through cleaning",
+    "text": "D.3 Learn more through cleaning\nThe act of inspecting your data, cleaning data types and poking around for problems can help you learn more about it. Some tips to make sure your data is ready to analyze:\n\nColumn names should be short, descriptive and clear. Save typing by making them all lowercase with parts separated by underscores. (You can use the clean_names() functions for this). Use patterns for related variables like _date or _address parts.\nFix all your data types. Make sure numbers are numbers (can use parse_number() to fix) and dates into real dates (see lubridate) and maybe create date parts for grouping. Make sure number-oriented IDs are text if they are supposed to start with zero. (ZIP codes are like this … not really a number, but category.)\nRemove the cruft of columns you don’t need using select(). Make sure you understand what you are removing, but feel secure that you can come back and add them back if you find you need them.\n\n\nD.3.1 Cleaning up categorical data\nIf you are going to count or summarize rows based on categorical data, you should make sure the values in that column are clean and free of typos and values that might better be combined.\nSome strategies you might use:\n\nCreate a count() of the column to show all the different values and how often they show up.\nYou might want to use mutate() to create a new column and then update the values there, perhaps using “case_” functions like case_match() or case_when() the rename specific values in your data.\n\nIf you find you have hundreds of values to clean, there are some other tools like OpenRefine you can learn fairly quickly to help.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Exploring a new dataset</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Exploring a new dataset</span>"
     ]
   },
   {
     "objectID": "explore.html#pay-attention-to-the-shape-of-your-data",
     "href": "explore.html#pay-attention-to-the-shape-of-your-data",
-    "title": "Appendix G — Exploring a new dataset",
-    "section": "G.4 Pay attention to the shape of your data",
-    "text": "G.4 Pay attention to the shape of your data\nIs your data long or wide?\nWide data adds new observations as columns, with the headers describing the observation. Official reports and Excel files from agencies are often in this format:\n\n\n\nCountry\n2018\n2017\n\n\n\n\nUnited States\n20,494,050\n19,390,604\n\n\nChina\n13,407,398\n12,237,700\n\n\n\nLong data is where each row in the data is a single observation, and each column is an attribute that describes that observation. Data-centric languages and applications like R and Tableau typically prefer this format.\n\n\n\nCountry\nYear\nGDP\n\n\n\n\nUnited States\n2018\n20,494,050\n\n\nUnited States\n2017\n19,390,604\n\n\nChina\n2018\n13,407,398\n\n\nChina\n2017\n12,237,700\n\n\n\nThe shape of the data will determine how you go about analyzing it. They are both useful in different ways. Wide data allows you to calculate columns to show changes. Visualization programs will sometimes want a long format to more easily categorize values based on the attributes.\nYou can pivot your data with pivot_longer() and pivot_wider to change the shape of your data.",
+    "title": "Appendix D — Exploring a new dataset",
+    "section": "D.4 Pay attention to the shape of your data",
+    "text": "D.4 Pay attention to the shape of your data\nIs your data long or wide?\nWide data adds new observations as columns, with the headers describing the observation. Official reports and Excel files from agencies are often in this format:\n\n\n\nCountry\n2018\n2017\n\n\n\n\nUnited States\n20,494,050\n19,390,604\n\n\nChina\n13,407,398\n12,237,700\n\n\n\nLong data is where each row in the data is a single observation, and each column is an attribute that describes that observation. Data-centric languages and applications like R and Tableau typically prefer this format.\n\n\n\nCountry\nYear\nGDP\n\n\n\n\nUnited States\n2018\n20,494,050\n\n\nUnited States\n2017\n19,390,604\n\n\nChina\n2018\n13,407,398\n\n\nChina\n2017\n12,237,700\n\n\n\nThe shape of the data will determine how you go about analyzing it. They are both useful in different ways. Wide data allows you to calculate columns to show changes. Visualization programs will sometimes want a long format to more easily categorize values based on the attributes.\nYou can pivot your data with pivot_longer() and pivot_wider to change the shape of your data.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Exploring a new dataset</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Exploring a new dataset</span>"
     ]
   },
   {
     "objectID": "explore.html#counting-and-aggregation",
     "href": "explore.html#counting-and-aggregation",
-    "title": "Appendix G — Exploring a new dataset",
-    "section": "G.5 Counting and aggregation",
-    "text": "G.5 Counting and aggregation\nA large part of data analysis is counting and sorting, or filtering and then counting and sorting. Depending on the program you are using you may approach it differently but think of these concepts:\n\nG.5.1 Counting rows based on a column\nIf you are just counting the number of rows based on the values within a column (or columns), then count() is the key. When you use count() like this, a new column called n is created to hold the count of the rows. You can rename n with the name = \"new_name\" argument, and you can change the sorting to descending order using the sort = TRUE argument.\nIn this example, we are counting the number of rows for each princess in our survey data, the arranging them in descending order.\nsurvey |&gt; \n  count(princess, name = \"votes\", sort = TRUE)\n\n\n\nprincess\nvotes\n\n\n\n\nMulan\n14\n\n\nRapunzel (Tangled)\n7\n\n\nJasmine (Aladdin)\n6\n\n\nAriel (Little Mermaid)\n5\n\n\nTiana (Princess and the Frog)\n2\n\n\nAurora (Sleeping Beauty)\n1\n\n\nBelle (Beauty and the Beast)\n1\n\n\nMerida (Brave)\n1\n\n\nSnow White\n1\n\n\n\n\n\nG.5.2 Sum, mean and other aggregations\nIf you want to aggregate values in a column, like adding together values, or to find a mean or median, then you will want to use the GSA combination: group_by() on your columns of interest, then use summarize() to aggregate the data in the manner you choose, like sum(), mean() or the number of rows n(). You can then use arrange() to order the result however you want.\nHere is an example where we use group_by and summarize() to add together values in our mixed beverage data. In this case, we had multiple rows for each name/address group, but we wanted to add together total_receipts() for each group.\nreceipts |&gt; \n  group_by(location_name, location_address) |&gt; \n  summarize(\n    total_sales = sum(total_receipts)\n  ) |&gt; \n  arrange(desc(total_sales))\n\n\n\n\n\n\n\n\nlocation_name\nlocation_address\ntotal_sales\n\n\n\n\nWLS BEVERAGE CO\n110 E 2ND ST\n35878211\n\n\nRYAN SANDERS SPORTS\n9201 CIRCUIT OF THE AMERICAS BLVD\n20714630\n\n\nW HOTEL AUSTIN\n200 LAVACA ST\n15435458\n\n\nROSE ROOM/ 77 DEGREE\n11500 ROCK ROSE AVE\n14726420\n\n\nTHE DOGWOOD DOMAIN\n11420 ROCK ROSE AVE STE 700\n14231072\n\n\n\nThe result will have all the columns you included in the group, plus the columns you create in your summarize statement. You can summarize more than one thing at a time, like the number of rows numb_rows = n() and average of the values average = mean(column_name).\n\n\nG.5.3 Creating columns to show difference\nSometimes you need to perform math on two columns to show the difference between them. Use mutate() to create the column and do the math. Here’s a pseudo-code example:\nnew_or_reassigned_df &lt;- df |&gt; \n  mutate(\n    new_col_name = (part_col / total_col) * 100\n  )",
+    "title": "Appendix D — Exploring a new dataset",
+    "section": "D.5 Counting and aggregation",
+    "text": "D.5 Counting and aggregation\nA large part of data analysis is counting and sorting, or filtering and then counting and sorting. Depending on the program you are using you may approach it differently but think of these concepts:\n\nD.5.1 Counting rows based on a column\nIf you are just counting the number of rows based on the values within a column (or columns), then count() is the key. When you use count() like this, a new column called n is created to hold the count of the rows. You can rename n with the name = \"new_name\" argument, and you can change the sorting to descending order using the sort = TRUE argument.\nIn this example, we are counting the number of rows for each princess in our survey data, the arranging them in descending order.\nsurvey |&gt; \n  count(princess, name = \"votes\", sort = TRUE)\n\n\n\nprincess\nvotes\n\n\n\n\nMulan\n14\n\n\nRapunzel (Tangled)\n7\n\n\nJasmine (Aladdin)\n6\n\n\nAriel (Little Mermaid)\n5\n\n\nTiana (Princess and the Frog)\n2\n\n\nAurora (Sleeping Beauty)\n1\n\n\nBelle (Beauty and the Beast)\n1\n\n\nMerida (Brave)\n1\n\n\nSnow White\n1\n\n\n\n\n\nD.5.2 Sum, mean and other aggregations\nIf you want to aggregate values in a column, like adding together values, or to find a mean or median, then you will want to use the GSA combination: group_by() on your columns of interest, then use summarize() to aggregate the data in the manner you choose, like sum(), mean() or the number of rows n(). You can then use arrange() to order the result however you want.\nHere is an example where we use group_by and summarize() to add together values in our mixed beverage data. In this case, we had multiple rows for each name/address group, but we wanted to add together total_receipts() for each group.\nreceipts |&gt; \n  group_by(location_name, location_address) |&gt; \n  summarize(\n    total_sales = sum(total_receipts)\n  ) |&gt; \n  arrange(desc(total_sales))\n\n\n\n\n\n\n\n\nlocation_name\nlocation_address\ntotal_sales\n\n\n\n\nWLS BEVERAGE CO\n110 E 2ND ST\n35878211\n\n\nRYAN SANDERS SPORTS\n9201 CIRCUIT OF THE AMERICAS BLVD\n20714630\n\n\nW HOTEL AUSTIN\n200 LAVACA ST\n15435458\n\n\nROSE ROOM/ 77 DEGREE\n11500 ROCK ROSE AVE\n14726420\n\n\nTHE DOGWOOD DOMAIN\n11420 ROCK ROSE AVE STE 700\n14231072\n\n\n\nThe result will have all the columns you included in the group, plus the columns you create in your summarize statement. You can summarize more than one thing at a time, like the number of rows numb_rows = n() and average of the values average = mean(column_name).\n\n\nD.5.3 Creating columns to show difference\nSometimes you need to perform math on two columns to show the difference between them. Use mutate() to create the column and do the math. Here’s a pseudo-code example:\nnew_or_reassigned_df &lt;- df |&gt; \n  mutate(\n    new_col_name = (part_col / total_col) * 100\n  )",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Exploring a new dataset</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Exploring a new dataset</span>"
     ]
   },
   {
     "objectID": "explore.html#time-as-a-variable",
     "href": "explore.html#time-as-a-variable",
-    "title": "Appendix G — Exploring a new dataset",
-    "section": "G.6 Time as a variable",
-    "text": "G.6 Time as a variable\nIf you have dates in your data, then you almost always want to see change over time for different variables.\n\nSummarize records by year or month as appropriate and create a Bar or Column chart to show how the number of records for each time period.\nDo you need to see how different categories of data have changed over time? Consider a line chart that shows those categories in different colors.\nIf you have the same value for different time periods, do might want to see the change or percent change in those values. You can create a new column using mutate() to do the math and show the difference.",
+    "title": "Appendix D — Exploring a new dataset",
+    "section": "D.6 Time as a variable",
+    "text": "D.6 Time as a variable\nIf you have dates in your data, then you almost always want to see change over time for different variables.\n\nSummarize records by year or month as appropriate and create a Bar or Column chart to show how the number of records for each time period.\nDo you need to see how different categories of data have changed over time? Consider a line chart that shows those categories in different colors.\nIf you have the same value for different time periods, do might want to see the change or percent change in those values. You can create a new column using mutate() to do the math and show the difference.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Exploring a new dataset</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Exploring a new dataset</span>"
     ]
   },
   {
     "objectID": "explore.html#explore-the-distributions-in-your-data",
     "href": "explore.html#explore-the-distributions-in-your-data",
-    "title": "Appendix G — Exploring a new dataset",
-    "section": "G.7 Explore the distributions in your data",
-    "text": "G.7 Explore the distributions in your data\nWe didn’t talk about histograms in class, but sometimes you might want see the “distribution” of values in your data, i.e. how the values vary within the column. Are many of the values similar? A histogram can show this.\nHere is an example of a histogram use wells data exploring the borehole_depth (how deep the well is). Each bar represents the number of wells broken down in 100ft depth increments (set with binwidth=100). So the first bar shows that most of the wells (more than 7000) are less than 100 feet deep.\nwells |&gt; \n  ggplot(aes(x = borehole_depth)) +\n  geom_histogram(binwidth = 100)\n\n\n\nBorehole depth histogram\n\n\nWhile there are wells deeper than 1000 feet, they are so few they don’t even show on the graphic.\nYou’ll rarely use a histogram as a graphic with a story because they are more difficult to explain to readers. But they do help you to understand how much values differ within a column.\n\nG.7.1 More on histograms\nIf you google around, you might see other ways to create a histogram, including hist() and qplot(). You might stick with the ggplot’s geom_histogram() since you already are familiar with the syntax.\n\nTutorial on histograms using ggplot from DataCamp.\nR Cookbook on histograms.",
+    "title": "Appendix D — Exploring a new dataset",
+    "section": "D.7 Explore the distributions in your data",
+    "text": "D.7 Explore the distributions in your data\nWe didn’t talk about histograms in class, but sometimes you might want see the “distribution” of values in your data, i.e. how the values vary within the column. Are many of the values similar? A histogram can show this.\nHere is an example of a histogram use wells data exploring the borehole_depth (how deep the well is). Each bar represents the number of wells broken down in 100ft depth increments (set with binwidth=100). So the first bar shows that most of the wells (more than 7000) are less than 100 feet deep.\nwells |&gt; \n  ggplot(aes(x = borehole_depth)) +\n  geom_histogram(binwidth = 100)\n\n\n\nBorehole depth histogram\n\n\nWhile there are wells deeper than 1000 feet, they are so few they don’t even show on the graphic.\nYou’ll rarely use a histogram as a graphic with a story because they are more difficult to explain to readers. But they do help you to understand how much values differ within a column.\n\nD.7.1 More on histograms\nIf you google around, you might see other ways to create a histogram, including hist() and qplot(). You might stick with the ggplot’s geom_histogram() since you already are familiar with the syntax.\n\nTutorial on histograms using ggplot from DataCamp.\nR Cookbook on histograms.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Exploring a new dataset</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Exploring a new dataset</span>"
     ]
   },
   {
     "objectID": "explore.html#same-ideas-using-spreadsheets",
     "href": "explore.html#same-ideas-using-spreadsheets",
-    "title": "Appendix G — Exploring a new dataset",
-    "section": "G.8 Same ideas using spreadsheets",
-    "text": "G.8 Same ideas using spreadsheets\nCheck out this resource by David Eads on the same topic, with some more specifics about Google Sheets.",
+    "title": "Appendix D — Exploring a new dataset",
+    "section": "D.8 Same ideas using spreadsheets",
+    "text": "D.8 Same ideas using spreadsheets\nCheck out this resource by David Eads on the same topic, with some more specifics about Google Sheets.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Exploring a new dataset</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Exploring a new dataset</span>"
     ]
   },
   {
     "objectID": "charts-tips.html",
     "href": "charts-tips.html",
-    "title": "Appendix H — Chart production tips",
+    "title": "Appendix E — Chart production tips",
     "section": "",
-    "text": "H.1 Titles, descriptions and annotations\nChart titles and descriptions can be some of the most difficult writing you can do as a journalist. You don’t want to describe the steps of your analysis nor say the obvious, but you do need to give the reader all the relevant detail needed to understand the chart. Write titles, descriptions an annotations as if the chart stands alone, and a reader knows nothing before viewing it.\nSome tips paraphrased from Nathan Yau’s Data Points book …",
+    "text": "E.1 Titles, descriptions and annotations\nChart titles and descriptions can be some of the most difficult writing you can do as a journalist. You don’t want to describe the steps of your analysis nor say the obvious, but you do need to give the reader all the relevant detail needed to understand the chart. Write titles, descriptions an annotations as if the chart stands alone, and a reader knows nothing before viewing it.\nSome tips paraphrased from Nathan Yau’s Data Points book …",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>H</span>  <span class='chapter-title'>Chart production tips</span>"
+      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Chart production tips</span>"
     ]
   },
   {
     "objectID": "charts-tips.html#titles-descriptions-and-annotations",
     "href": "charts-tips.html#titles-descriptions-and-annotations",
-    "title": "Appendix H — Chart production tips",
+    "title": "Appendix E — Chart production tips",
     "section": "",
     "text": "The title – typically larger and bolder fonts — sets the stage or describes what people should see or look for in the data. A descriptive title also helps. For example, “Rising Gas Prices” says more about the chart than just “Gas Prices.” By including “Rising”, it presents the conclusion immediately, and readers will look to the chart to verify and see the details. Saying just “Gas Prices” leaves the data interpretation to the readers and places them in the exploration phase.\nThe description or lead-in text is used to prepare readers for what a chart shows, but in further detail. The text expands on what the title declares, where the data is from, how it was derived, or what it means (best charts do this, says @crit). Basically, it’s information that might help others understand the data better but often doesn’t directly point to the specific elements.\nTo explain specifics points or areas, you can use lines and arrows as an annotation layer on top of a chart. This places descriptions directly in the context of the data so tha a readers doesn’t have to look outside a graph for additional information to fully understand what you show.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>H</span>  <span class='chapter-title'>Chart production tips</span>"
+      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Chart production tips</span>"
     ]
   },
   {
     "objectID": "charts-tips.html#other-considerations",
     "href": "charts-tips.html#other-considerations",
-    "title": "Appendix H — Chart production tips",
-    "section": "H.2 Other considerations",
-    "text": "H.2 Other considerations\n\nProper data encodings and visual cues: Think about what you are trying to convey with the graphic and plot your data in a fashion that furthers that understanding. (See Nathan Yau’s Data Points, Chap. 3.)\nLegends for encodings: If your plots include labels for categories on the chart, you may not need a separate legend, but be sure readers can distinguish items.\nLabels for axis: They help describe the value being plotted. In some obvious cases where the meaning in clear, like years, they may be dropped.\nInclude unit values to further understanding: Sometimes the value can be added to the plot itself, other times grid lines may be enough.\nAnnotations: Add explanations to the plot if they help readers understand nuance of what you area trying to convey.\nSource of the data: This is the course of the data, not the delivery method. (i.e., The Comptroller of Public accounts, not data.texas.gov.)\nYour byline: Credit yourself and your publications.",
+    "title": "Appendix E — Chart production tips",
+    "section": "E.2 Other considerations",
+    "text": "E.2 Other considerations\n\nProper data encodings and visual cues: Think about what you are trying to convey with the graphic and plot your data in a fashion that furthers that understanding. (See Nathan Yau’s Data Points, Chap. 3.)\nLegends for encodings: If your plots include labels for categories on the chart, you may not need a separate legend, but be sure readers can distinguish items.\nLabels for axis: They help describe the value being plotted. In some obvious cases where the meaning in clear, like years, they may be dropped.\nInclude unit values to further understanding: Sometimes the value can be added to the plot itself, other times grid lines may be enough.\nAnnotations: Add explanations to the plot if they help readers understand nuance of what you area trying to convey.\nSource of the data: This is the course of the data, not the delivery method. (i.e., The Comptroller of Public accounts, not data.texas.gov.)\nYour byline: Credit yourself and your publications.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>H</span>  <span class='chapter-title'>Chart production tips</span>"
+      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Chart production tips</span>"
     ]
   }
 ]
