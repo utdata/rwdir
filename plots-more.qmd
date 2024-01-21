@@ -271,7 +271,8 @@ tx_values |>
 
 OK, now the fainter "minor breaks" lines fall on each year, making them a little easier for the eye to track. Again, I had to [do some digging](https://ggplot2-book.org/scales-position.html#sec-date-minor-breaks) to figure that out.
 
-### Saving plots as an object
+
+### Saving plots as an objects
 
 Sometimes it is helpful to push the results of a plot into an R object to "save" those configurations. You can continue to add layers to this object, but you won't need to rebuild the main portions of the chart each time. We'll do that here so we can explore themes next.
 
@@ -346,6 +347,7 @@ tx_plot +
 There is also a `theme()` function that allows you individually [adjust about every visual element](https://ggplot2.tidyverse.org/reference/theme.html) on your plot.
 
 We do a wee bit of that later.
+
 
 ## Goal 2: Multiple line chart
 
@@ -609,6 +611,51 @@ penguins |>
 2.  Our ggplot chart, much like we did in the last chapter, comparing flippers to weight.
 3.  We add the points and color them to distinquish the sex of the birds.
 4.  We add the `facet_grid` that splits the chart by both sex and species.
+
+## Saving plots as files
+
+Getting a ggplot chart to look just right can be challenging because the rendering of it in your notebook is dependent on your screen size and a bunch of other variables. When I'm having trouble sizing everything right, I follow these tips:
+
+- I use `str_wrap()` around my subtitle to keep it from running off the page.
+- Once I get the labs and themes as close as I can, I push the chart into an R object.
+- BEFORE printing that object, I save the plot with `ggsave()` with a path and name. Don't print out the object first or it will save at a weird size. Following R convention, I save plots into a folder called `figures/`.
+- I then use Markdown to print the graphic to the notebook as an image using using this syntax:  `![Figure name](figures/image-name.png)`.
+
+Here is how I would do this with our first line chart:
+
+```{r}
+#| label: chart-to-save
+
+tx_plot_2save <- ggplot(tx_values, aes(x = date(year), y = yearly_value)) + # <1> 
+  geom_point() +
+  geom_line() +
+  scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
+  scale_x_date(minor_breaks = breaks_width("1 year")) +
+  labs(
+    title = "Military surplus acquisitions in decline", 
+    subtitle = str_wrap("After a spike in 2014, the value of controlled military surplus equipment transfered from the U.S. military to local law enforcement agencies has dropped in recent years. Controlled equipment includes items like weapons that must be returned to the military for disposal."),
+    x = "Year", y = "Value of acquisitions",
+    caption = "Source: Law Enforcement Support Office"
+  ) +
+  theme_minimal()
+
+ggsave("figures/tx-plot.png")
+```
+
+Now, to print the image in our notebook we use a syntax similar to a hyperlink, but start it with an exclamation point. `![Figure name](path-to-image.png)`. However, since our chart has a headline, we leave the name out of the square brackets.
+
+For the chart we just made, I would add this after the code chunk:
+
+```md
+![](figures/tx-plot.png)
+```
+
+Which renders like this:
+
+![](figures/tx-plot.png)
+
+It might not look very different here, but in my experience it is the most consistent method to get a nice display. I really only bother with all this if I'm having trouble getting everything to fit or I need to use the image outside of my notebook.
+
 
 ## Interactive plots
 
