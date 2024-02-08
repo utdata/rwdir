@@ -103,13 +103,13 @@ The process goes like this:
 - Click on **District Download**. Click **Continue** to move on.
 - Choose the **Student Information** data set and choose **Continue**.
   - Choose the **Comma-Delimited (csv)** format
-  - Choose **Student Enrollment: Counts/Percents**
-  - Also choose **Students by Instructional Programs** (or **Student Membership by Program** or **Student Enrollment by Program** depending on the year. See note below.)
+  - Choose **Student: Counts/Percents** ^[In later years we use Student Membership: Counts/Percents, a nuance added by the TEA in 2019-20 and outlined in the TAPR Glossary.]
+  - Also choose **Student Enrollment by Program** ^[The name changes to "Student Enrollment by Instructional Programs" in later years.]
   - Click **Download**.
 
 This downloads a file called `DSTUD.csv` or `DSTUD.dat`. As I downloaded them, I changed the name to include the year and `.csv` extension and put them in the `data-raw/` folder.
 
-On the download page, there is a link to the data dictionary for the file called [Student Information Reference](https://rptsvr1.tea.texas.gov/perfreport/tapr/2013/xplore/dstud.html). As you'll see next, it proves important to understand the file as the data within reports can vary from year to year. There is a Glossary for each year, but in our case I'll guide you along.
+On the download page, there is a link to the data dictionary for the file called [Student Information Reference](https://rptsvr1.tea.texas.gov/perfreport/tapr/2013/xplore/dstud.html). As you'll see next, it proves important to understand the file as the data within reports can vary from year to year. There is a TAPR Glossary for each academic year, but in our case I'll guide you along.
 
 ### How the files differ
 
@@ -137,14 +137,14 @@ Note how the `DISTRICT` values that start with zeros like this: `001902`. We hav
 
 What is missing from this data? Well, the **name** of the district is missing, which is important. We'll solve in a bit.
 
-In addition, the data structure of these files changed starting with the 2021-22 file:
+In addition, the data structure of these files changed through the years. Let's compare to the 2022-23 academic year.
 
-```{r peek_2022}
-#| label: peek-2022
+```{r peek_2023}
+#| label: peek-2023
 #| message: false
 #| warning: false
 
-read_csv("data-raw/DSTUD_22.csv") |> head()
+read_csv("data-raw/DSTUD_23.csv") |> head()
 ```
 
 In the newer files the `DISTRICT` observations have a `'` at the beginning: `'001902`. This is added to help preserve those leading zeros, but we will need to remove the `'` so the values are the same structure as the other data files.
@@ -153,17 +153,17 @@ Also note there are 64 columns in this data vs the 34 in the 2013 file. The TEA 
 
 ### Importing multiple files at once
 
-In our `raw-data/` folder we have 10 years of data from the 2012-2013 school year to the 2020-2022 school year. If all of our files were the some configuration (the same variables and data types) then we could just use `read_csv()` and feed it a list of files. Our files aren't the same, though, as some have additional columns.
+In our `raw-data/` folder we have 11 years of data from the 2012-2013 school year to the 2022-2023 school year. If all of our files were the some configuration (the same variables and data types) then we could just use `read_csv()` and feed it a list of files. Our files aren't the same, though, as some have additional columns.
 
 The "long" way to do this would be importing each file individually, selecting the columns we need and then saving them as objects. We could then stack them on top of each other with the [`bind_rows()`](https://dplyr.tidyverse.org/reference/bind_rows.html) function.
 
 ```r
-data_01 |> bind_rows(data_02, data_03)
+combined <- bind_rows(data_01, data_02, data_03)
 ```
 
 That would bind three tibbles of data if they were all the same.
 
-But we can use some libraries available in tidyverse -- purrr and readr -- to import and bind together all the DSTUD files at one time after selecting just the variables we need from each file so they are the same.
+But we can use some libraries available in tidyverse -- [purrr](https://purrr.tidyverse.org/index.html) and [readr](https://readr.tidyverse.org/index.html) -- to import and bind together all the DSTUD files at one time after selecting just the variables we need from each file so they are the same.
 
 We do this in three steps:
 
@@ -197,7 +197,7 @@ dstud_files # <5>
 
 1. The first line starts with the new object we are creating to hold our vector of data. It ends with our function, `list.files()`, which lists files in a directory as a vector.
 2. The first argument of `list.files()` is the path to where you want to look. We want to look in the `data-raw` folder. Without this argument, it would look in our main project folder.
-3. The second optional argument is a regular expression (or regexp) search query to capture specific files based on the file name. We're looking for the text "DSTUD" in the file names so we don't capture the DREF file (which we'll deal with later).
+3. The second optional argument is a regular expression pattern to capture specific files based on the file name. We're looking for the text "DSTUD" in the file names so we don't capture the DREF file (which we'll deal with later).
 4. The `full.names = TRUE` argument indicates that we want to keep not just the names of the files, but he full path to where the files are, which is what we need.
 5. We're just printing out the resulting object to make sure we got what we wanted.
 
@@ -290,7 +290,7 @@ OK, that seems like a lot, but there was a lot to learn there. This new data fra
 
 ## The DREF data
 
-We've noted that the dstud files don't have a **district name** within them, so we don't know what this district id means. Within the TAPR data download tool, there is another file called **District Reference** that has the district ID, names and other information we need. I downloaded the 2022 version as `DREF_22.csv`. Let's look at it:
+We've noted that the dstud files don't have a **district name** within them, so we don't know what this district id means. Within the TAPR data download tool, there is another file called **District Reference** that has the district ID, names and other information we need. I downloaded the 2022 version ^[The 2023 District Reference file from the TEA was missing some variables.] as `DREF_22.csv`. Let's look at it:
 
 ```{r peek_dref}
 #| label: peed-dref
