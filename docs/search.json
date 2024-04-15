@@ -2029,5 +2029,60 @@
       "Appendices",
       "<span class='chapter-number'>F</span>  <span class='chapter-title'>tidycensus</span>"
     ]
+  },
+  {
+    "objectID": "tabyl.html",
+    "href": "tabyl.html",
+    "title": "Appendix G — Tabyls",
+    "section": "",
+    "text": "G.1 Import my data\nWe’re using some animal center data to show these functions and we need some data I do a little cleanup for simplification.\noutcomes &lt;- read_rds(\"data-processed/01-outcome.rds\") |&gt;\n  filter(year &gt; 2013, year &lt; 2024) |&gt; \n  mutate(date_outcome = date(date_outcome))\n\noutcomes |&gt; glimpse()\n\nRows: 153,840\nColumns: 12\n$ animal_id        &lt;chr&gt; \"A794011\", \"A776359\", \"A821648\", \"A720371\", \"A674754\"…\n$ date_outcome     &lt;date&gt; 2019-05-08, 2018-07-18, 2020-08-16, 2016-02-13, 2014…\n$ date_birth       &lt;date&gt; 2017-05-02, 2017-07-12, 2019-08-16, 2015-10-08, 2014…\n$ age_days         &lt;drtn&gt; 736 days, 371 days, 366 days, 128 days, 6 days, 2752…\n$ animal_type      &lt;chr&gt; \"Cat\", \"Dog\", \"Other\", \"Dog\", \"Cat\", \"Dog\", \"Dog\", \"C…\n$ outcome_type     &lt;chr&gt; \"Rto-Adopt\", \"Adoption\", \"Euthanasia\", \"Adoption\", \"T…\n$ outcome_simple   &lt;chr&gt; \"Return to Owner\", \"Adoption\", \"Euthanasia\", \"Adoptio…\n$ outcome_subtype  &lt;chr&gt; NA, NA, NA, NA, \"Partner\", NA, \"Foster\", NA, NA, NA, …\n$ sex_upon_outcome &lt;chr&gt; \"Neutered Male\", \"Neutered Male\", \"Unknown\", \"Neutere…\n$ breed            &lt;chr&gt; \"Domestic Shorthair Mix\", \"Chihuahua Shorthair Mix\", …\n$ name             &lt;chr&gt; \"Chunk\", \"Gizmo\", NA, \"Moose\", NA, \"Princess\", \"Quent…\n$ year             &lt;dbl&gt; 2019, 2018, 2020, 2016, 2014, 2020, 2020, 2022, 2014,…\nPeek at the data in a way that shows outcome_simple\noutcomes |&gt;\n  slice_sample(n = 5) |&gt;\n  select(animal_id, date_outcome, outcome_type, outcome_simple, everything())",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Tabyls</span>"
+    ]
+  },
+  {
+    "objectID": "tabyl.html#lets-count-outcomes",
+    "href": "tabyl.html#lets-count-outcomes",
+    "title": "Appendix G — Tabyls",
+    "section": "G.2 Let’s count outcomes",
+    "text": "G.2 Let’s count outcomes\nThis is the shortcut count() which is super useful. It is the same and group_by |&gt; summarize(n()).\n\noutcomes |&gt; \n  count(outcome_simple)",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Tabyls</span>"
+    ]
+  },
+  {
+    "objectID": "tabyl.html#the-beauty-of-tabyl",
+    "href": "tabyl.html#the-beauty-of-tabyl",
+    "title": "Appendix G — Tabyls",
+    "section": "G.3 The beauty of tabyl",
+    "text": "G.3 The beauty of tabyl\ntabyl() works like count, but it also adds the percentage share by default. While the result looks physically different in your notebook than our tidyverse outputs, it is still a data frame that works in similar ways, as it can be piped, etc.\n\noutcomes |&gt; \n  tabyl(outcome_simple)\n\n\n  \n\n\n\nThat said, there are a number of additional “adorn” functions that can help format your result.\nHere we convert percent to an actual percentage (the * 100 part):\n\noutcomes |&gt; \n  tabyl(outcome_simple) |&gt; \n  adorn_pct_formatting()\n\n\n  \n\n\n\nAnd then we remove the percent sign:\n\noutcomes |&gt; \n  tabyl(outcome_simple) |&gt; \n  adorn_pct_formatting(affix_sign = F)\n\n\n  \n\n\n\nBut do not that percent column is a  datatype and not a number. That’s easy enough to convert with parse_number() or as.number().",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Tabyls</span>"
+    ]
+  },
+  {
+    "objectID": "tabyl.html#two-way-tables",
+    "href": "tabyl.html#two-way-tables",
+    "title": "Appendix G — Tabyls",
+    "section": "G.4 Two-way tables",
+    "text": "G.4 Two-way tables\nYou can group by more than one value. We’ll use a two-way table to get outcomes by year.\nTwo-way tables don’t automatically add percentages:\n\noutcomes |&gt; \n  tabyl(year, outcome_simple)\n\n\n  \n\n\n\nBut you can still convert them with an adorn function:\n\noutcomes |&gt; \n  tabyl(year, outcome_simple) |&gt; \n  adorn_percentages()\n\n\n  \n\n\n\nAnd even convert them to whole percentages:\n\noutcome_prcentages &lt;- outcomes |&gt; \n  tabyl(year, outcome_simple) |&gt; \n  adorn_percentages() |&gt; \n  adorn_pct_formatting(affix_sign = TRUE) # change to FALSE to remove %\n\noutcome_prcentages\n\n\n  \n\n\n\nAnd then pivot them to prepare for a plot. The value (prc here) ends up as text (even if you remove the % sign) so you have to convert them to a number before they are useful in plotting.\n\nout_prc_long &lt;- outcome_prcentages |&gt; \n  pivot_longer(\n    cols = Adoption:Transfer,\n    names_to = \"outcome_simple\",\n    values_to = \"prc\"\n  ) |&gt; \n  mutate(prc = parse_number(prc))\n\nout_prc_long\n\n\n  \n\n\n\nNow you can plot it:\n\nout_prc_long |&gt; \n  ggplot(aes(x = year, y = prc, group = outcome_simple)) +\n  geom_line(aes(color = outcome_simple)) +\n  geom_point(size = .5) +\n  labs(\n    title = \"Share of adoptions has risen in recent years\",\n    y = \"Percentage of outcome\"\n  )",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Tabyls</span>"
+    ]
+  },
+  {
+    "objectID": "tabyl.html#add-row-totals",
+    "href": "tabyl.html#add-row-totals",
+    "title": "Appendix G — Tabyls",
+    "section": "G.5 Add row totals",
+    "text": "G.5 Add row totals\nOne last thing … we’ll check our math on these percentage and how totals while we are at it.\nLet’s filter for just the 2023 values:\n\nout_prc_long |&gt; \n  filter(year == 2023)\n\n\n  \n\n\n\nBut then add adorn_totals() to add together the prc to make sure they equal 100. It’s a wee bit off because of rounding.\n\nout_prc_long |&gt; \n  filter(year == 2023) |&gt; \n  adorn_totals()\n\n\n  \n\n\n\nWhile it adds totals to columns by default, you can also specify both rows and columns, as necessary.\n\noutcomes |&gt; \n  tabyl(year, outcome_simple) |&gt; \n  adorn_totals(c(\"row\", \"col\"))",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Tabyls</span>"
+    ]
   }
 ]
