@@ -1800,289 +1800,322 @@
     ]
   },
   {
-    "objectID": "explore.html",
-    "href": "explore.html",
-    "title": "Appendix D — Exploring a new dataset",
+    "objectID": "getting-help.html",
+    "href": "getting-help.html",
+    "title": "Appendix D — Asking for help",
     "section": "",
-    "text": "D.1 Start by listing questions\nIt’s likely you’ve acquired data because you needed it to add context to a story or situation. Spend a little time at the beginning brainstorming as list of questions you want to answer. (You might ask a colleague to participate: the act of describing the data set will reveal questions for both of you.) I like to start my R notebooks with this list.",
+    "text": "D.1 Resources",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Exploring a new dataset</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Asking for help</span>"
+    ]
+  },
+  {
+    "objectID": "getting-help.html#resources",
+    "href": "getting-help.html#resources",
+    "title": "Appendix D — Asking for help",
+    "section": "",
+    "text": "Not fleshed out\n\n\nExplain reprex concept: https://reprex.tidyverse.org/index.html\nReality is less.\nTips for copy/paste, etc.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Asking for help</span>"
+    ]
+  },
+  {
+    "objectID": "getting-help.html#example-challenge",
+    "href": "getting-help.html#example-challenge",
+    "title": "Appendix D — Asking for help",
+    "section": "D.2 Example challenge",
+    "text": "D.2 Example challenge\n\ngood start, but needs edit\n\nThis new sample data is similar to my posting above, but with some additional nuance. I use a little different method to make it, but don’t sweat that. Just think about the resulting data.\n\nlibrary(tidyverse)\n\nhc_data &lt;- tribble(\n  ~bias,                   ~victims,\n  \"anti-black\",                   2,\n  \"anti-black, anti-lgbt\",        1,\n  \"anti-lgbt\",                    3,\n  \"anti-gay\",                     1\n)\n\nhc_data\n\n\n  \n\n\n\nOur goal is to total up the number of victims involved where a particular bias has been cited in a case. But we also want to combine some bias into a “simple” categories to make for a less complex visualization. The example here is we want to combine “anti-lgbt” and “anti-gay” into “bias_gender” as a more collective term. So our results should show 3 anti-black victims and 5 anti-gender victims.\nIt’s important to note we are not counting the number of “cases” or rows with these terms, but we are adding the number of victims where the case as been classified with each individual term.\n\nD.2.1 The answer\n\nThis is overly explained. Perhaps better as a chapter specific to this issue but an not reprex answer.\n\nThe logic behind this answer is this: We’ll use mutate to create new columns and then sum the victims based on the presence of a bias or collection of bias, or use zero if there is no match.\nThis next bit creates our new “categories” of bias and saves it into a new object, then prints that out. See the notes below for details.\n\nhc_bias &lt;- hc_data |&gt; \n  mutate(\n1      bias_black = if_else(str_detect(bias, \"black\"), victims, 0),\n2      bias_gender = if_else(str_detect(bias, \"lgbt|gay\"), victims, 0)\n    )\n\nhc_bias\n\n\n1\n\nHere we create a new column called bias_black that uses str_detect() to look in the bias variable for the term “black” and if it finds it sets the new value to the victim value. If it doesn’t find “black” it sets the new value to zero.\n\n2\n\nThis is similar to above, but we’re looking for the term “lgbt” OR “gay” and summing victims on rows with either term.\n\n\n\n\n\n  \n\n\n\nNote that on the second row we get a “1” value for both bias_black and bias_gender because that case had both.\nOur next challenge is to total the number of victims for each of our new categories. The strategy is to pivot the data longer so we get a new row for each new category and value. At that point we can use a typical group_by/summarize to get the totals.\nCreate the pivot first. It looks a bit messy but reailze it is the last two columns we care about … the bias_type and bias_victims.\n\nhc_pivot &lt;- hc_bias |&gt; \n  pivot_longer(cols = bias_black:bias_gender, names_to = \"bias_type\", values_to = \"bias_victims\")\n\nhc_pivot\n\n\n  \n\n\n\nNow we can group by that bias_type and then sum the bias_totals to find the total number of victims for each of our new bias categories.\n\nhc_pivot |&gt; \n  group_by(bias_type) |&gt; \n  summarize(total_victims = sum(bias_victims))",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Asking for help</span>"
+    ]
+  },
+  {
+    "objectID": "explore.html",
+    "href": "explore.html",
+    "title": "Appendix E — Exploring a new dataset",
+    "section": "",
+    "text": "E.1 Start by listing questions\nIt’s likely you’ve acquired data because you needed it to add context to a story or situation. Spend a little time at the beginning brainstorming as list of questions you want to answer. (You might ask a colleague to participate: the act of describing the data set will reveal questions for both of you.) I like to start my R notebooks with this list.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Exploring a new dataset</span>"
     ]
   },
   {
     "objectID": "explore.html#understand-your-data",
     "href": "explore.html#understand-your-data",
-    "title": "Appendix D — Exploring a new dataset",
-    "section": "D.2 Understand your data",
-    "text": "D.2 Understand your data\nBefore you start working on your data, make sure you understand what all the columns and values mean. Look at your data dictionary, or talk to the data owner to make sure you understand what you are working with.\nTo get a quick summary of all the values, you can use a function called summary() to give you some basic stats for all your data. Here is an example from the Billboard Hot 100 data we used in a class assignment.\n\n\n\nSummary of billboard data\n\n\nA summary() will show you the data type for each column, and then for number values it will show you the min, max, median, mean and other stats.",
+    "title": "Appendix E — Exploring a new dataset",
+    "section": "E.2 Understand your data",
+    "text": "E.2 Understand your data\nBefore you start working on your data, make sure you understand what all the columns and values mean. Look at your data dictionary, or talk to the data owner to make sure you understand what you are working with.\nTo get a quick summary of all the values, you can use a function called summary() to give you some basic stats for all your data. Here is an example from the Billboard Hot 100 data we used in a class assignment.\n\n\n\nSummary of billboard data\n\n\nA summary() will show you the data type for each column, and then for number values it will show you the min, max, median, mean and other stats.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Exploring a new dataset</span>"
+      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Exploring a new dataset</span>"
     ]
   },
   {
     "objectID": "explore.html#learn-more-through-cleaning",
     "href": "explore.html#learn-more-through-cleaning",
-    "title": "Appendix D — Exploring a new dataset",
-    "section": "D.3 Learn more through cleaning",
-    "text": "D.3 Learn more through cleaning\nThe act of inspecting your data, cleaning data types and poking around for problems can help you learn more about it. Some tips to make sure your data is ready to analyze:\n\nColumn names should be short, descriptive and clear. Save typing by making them all lowercase with parts separated by underscores. (You can use the clean_names() functions for this). Use patterns for related variables like _date or _address parts.\nFix all your data types. Make sure numbers are numbers (can use parse_number() to fix) and dates into real dates (see lubridate) and maybe create date parts for grouping. Make sure number-oriented IDs are text if they are supposed to start with zero. (ZIP codes are like this … not really a number, but category.)\nRemove the cruft of columns you don’t need using select(). Make sure you understand what you are removing, but feel secure that you can come back and add them back if you find you need them.\n\n\nD.3.1 Cleaning up categorical data\nIf you are going to count or summarize rows based on categorical data, you should make sure the values in that column are clean and free of typos and values that might better be combined.\nSome strategies you might use:\n\nCreate a count() of the column to show all the different values and how often they show up.\nYou might want to use mutate() to create a new column and then update the values there, perhaps using “case_” functions like case_match() or case_when() the rename specific values in your data.\n\nIf you find you have hundreds of values to clean, there are some other tools like OpenRefine you can learn fairly quickly to help.",
+    "title": "Appendix E — Exploring a new dataset",
+    "section": "E.3 Learn more through cleaning",
+    "text": "E.3 Learn more through cleaning\nThe act of inspecting your data, cleaning data types and poking around for problems can help you learn more about it. Some tips to make sure your data is ready to analyze:\n\nColumn names should be short, descriptive and clear. Save typing by making them all lowercase with parts separated by underscores. (You can use the clean_names() functions for this). Use patterns for related variables like _date or _address parts.\nFix all your data types. Make sure numbers are numbers (can use parse_number() to fix) and dates into real dates (see lubridate) and maybe create date parts for grouping. Make sure number-oriented IDs are text if they are supposed to start with zero. (ZIP codes are like this … not really a number, but category.)\nRemove the cruft of columns you don’t need using select(). Make sure you understand what you are removing, but feel secure that you can come back and add them back if you find you need them.\n\n\nE.3.1 Cleaning up categorical data\nIf you are going to count or summarize rows based on categorical data, you should make sure the values in that column are clean and free of typos and values that might better be combined.\nSome strategies you might use:\n\nCreate a count() of the column to show all the different values and how often they show up.\nYou might want to use mutate() to create a new column and then update the values there, perhaps using “case_” functions like case_match() or case_when() the rename specific values in your data.\n\nIf you find you have hundreds of values to clean, there are some other tools like OpenRefine you can learn fairly quickly to help.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Exploring a new dataset</span>"
+      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Exploring a new dataset</span>"
     ]
   },
   {
     "objectID": "explore.html#pay-attention-to-the-shape-of-your-data",
     "href": "explore.html#pay-attention-to-the-shape-of-your-data",
-    "title": "Appendix D — Exploring a new dataset",
-    "section": "D.4 Pay attention to the shape of your data",
-    "text": "D.4 Pay attention to the shape of your data\nIs your data long or wide?\nWide data adds new observations as columns, with the headers describing the observation. Official reports and Excel files from agencies are often in this format:\n\n\n\nCountry\n2018\n2017\n\n\n\n\nUnited States\n20,494,050\n19,390,604\n\n\nChina\n13,407,398\n12,237,700\n\n\n\nLong data is where each row in the data is a single observation, and each column is an attribute that describes that observation. Data-centric languages and applications like R and Tableau typically prefer this format.\n\n\n\nCountry\nYear\nGDP\n\n\n\n\nUnited States\n2018\n20,494,050\n\n\nUnited States\n2017\n19,390,604\n\n\nChina\n2018\n13,407,398\n\n\nChina\n2017\n12,237,700\n\n\n\nThe shape of the data will determine how you go about analyzing it. They are both useful in different ways. Wide data allows you to calculate columns to show changes. Visualization programs will sometimes want a long format to more easily categorize values based on the attributes.\nYou can pivot your data with pivot_longer() and pivot_wider to change the shape of your data.",
+    "title": "Appendix E — Exploring a new dataset",
+    "section": "E.4 Pay attention to the shape of your data",
+    "text": "E.4 Pay attention to the shape of your data\nIs your data long or wide?\nWide data adds new observations as columns, with the headers describing the observation. Official reports and Excel files from agencies are often in this format:\n\n\n\nCountry\n2018\n2017\n\n\n\n\nUnited States\n20,494,050\n19,390,604\n\n\nChina\n13,407,398\n12,237,700\n\n\n\nLong data is where each row in the data is a single observation, and each column is an attribute that describes that observation. Data-centric languages and applications like R and Tableau typically prefer this format.\n\n\n\nCountry\nYear\nGDP\n\n\n\n\nUnited States\n2018\n20,494,050\n\n\nUnited States\n2017\n19,390,604\n\n\nChina\n2018\n13,407,398\n\n\nChina\n2017\n12,237,700\n\n\n\nThe shape of the data will determine how you go about analyzing it. They are both useful in different ways. Wide data allows you to calculate columns to show changes. Visualization programs will sometimes want a long format to more easily categorize values based on the attributes.\nYou can pivot your data with pivot_longer() and pivot_wider to change the shape of your data.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Exploring a new dataset</span>"
+      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Exploring a new dataset</span>"
     ]
   },
   {
     "objectID": "explore.html#counting-and-aggregation",
     "href": "explore.html#counting-and-aggregation",
-    "title": "Appendix D — Exploring a new dataset",
-    "section": "D.5 Counting and aggregation",
-    "text": "D.5 Counting and aggregation\nA large part of data analysis is counting and sorting, or filtering and then counting and sorting. Depending on the program you are using you may approach it differently but think of these concepts:\n\nD.5.1 Counting rows based on a column\nIf you are just counting the number of rows based on the values within a column (or columns), then count() is the key. When you use count() like this, a new column called n is created to hold the count of the rows. You can rename n with the name = \"new_name\" argument, and you can change the sorting to descending order using the sort = TRUE argument.\nIn this example, we are counting the number of rows for each princess in our survey data, the arranging them in descending order.\nsurvey |&gt; \n  count(princess, name = \"votes\", sort = TRUE)\n\n\n\nprincess\nvotes\n\n\n\n\nMulan\n14\n\n\nRapunzel (Tangled)\n7\n\n\nJasmine (Aladdin)\n6\n\n\nAriel (Little Mermaid)\n5\n\n\nTiana (Princess and the Frog)\n2\n\n\nAurora (Sleeping Beauty)\n1\n\n\nBelle (Beauty and the Beast)\n1\n\n\nMerida (Brave)\n1\n\n\nSnow White\n1\n\n\n\n\n\nD.5.2 Sum, mean and other aggregations\nIf you want to aggregate values in a column, like adding together values, or to find a mean or median, then you will want to use the GSA combination: group_by() on your columns of interest, then use summarize() to aggregate the data in the manner you choose, like sum(), mean() or the number of rows n(). You can then use arrange() to order the result however you want.\nHere is an example where we use group_by and summarize() to add together values in our mixed beverage data. In this case, we had multiple rows for each name/address group, but we wanted to add together total_receipts() for each group.\nreceipts |&gt; \n  group_by(location_name, location_address) |&gt; \n  summarize(\n    total_sales = sum(total_receipts)\n  ) |&gt; \n  arrange(desc(total_sales))\n\n\n\n\n\n\n\n\nlocation_name\nlocation_address\ntotal_sales\n\n\n\n\nWLS BEVERAGE CO\n110 E 2ND ST\n35878211\n\n\nRYAN SANDERS SPORTS\n9201 CIRCUIT OF THE AMERICAS BLVD\n20714630\n\n\nW HOTEL AUSTIN\n200 LAVACA ST\n15435458\n\n\nROSE ROOM/ 77 DEGREE\n11500 ROCK ROSE AVE\n14726420\n\n\nTHE DOGWOOD DOMAIN\n11420 ROCK ROSE AVE STE 700\n14231072\n\n\n\nThe result will have all the columns you included in the group, plus the columns you create in your summarize statement. You can summarize more than one thing at a time, like the number of rows numb_rows = n() and average of the values average = mean(column_name).\n\n\nD.5.3 Creating columns to show difference\nSometimes you need to perform math on two columns to show the difference between them. Use mutate() to create the column and do the math. Here’s a pseudo-code example:\nnew_or_reassigned_df &lt;- df |&gt; \n  mutate(\n    new_col_name = (part_col / total_col) * 100\n  )",
+    "title": "Appendix E — Exploring a new dataset",
+    "section": "E.5 Counting and aggregation",
+    "text": "E.5 Counting and aggregation\nA large part of data analysis is counting and sorting, or filtering and then counting and sorting. Depending on the program you are using you may approach it differently but think of these concepts:\n\nE.5.1 Counting rows based on a column\nIf you are just counting the number of rows based on the values within a column (or columns), then count() is the key. When you use count() like this, a new column called n is created to hold the count of the rows. You can rename n with the name = \"new_name\" argument, and you can change the sorting to descending order using the sort = TRUE argument.\nIn this example, we are counting the number of rows for each princess in our survey data, the arranging them in descending order.\nsurvey |&gt; \n  count(princess, name = \"votes\", sort = TRUE)\n\n\n\nprincess\nvotes\n\n\n\n\nMulan\n14\n\n\nRapunzel (Tangled)\n7\n\n\nJasmine (Aladdin)\n6\n\n\nAriel (Little Mermaid)\n5\n\n\nTiana (Princess and the Frog)\n2\n\n\nAurora (Sleeping Beauty)\n1\n\n\nBelle (Beauty and the Beast)\n1\n\n\nMerida (Brave)\n1\n\n\nSnow White\n1\n\n\n\n\n\nE.5.2 Sum, mean and other aggregations\nIf you want to aggregate values in a column, like adding together values, or to find a mean or median, then you will want to use the GSA combination: group_by() on your columns of interest, then use summarize() to aggregate the data in the manner you choose, like sum(), mean() or the number of rows n(). You can then use arrange() to order the result however you want.\nHere is an example where we use group_by and summarize() to add together values in our mixed beverage data. In this case, we had multiple rows for each name/address group, but we wanted to add together total_receipts() for each group.\nreceipts |&gt; \n  group_by(location_name, location_address) |&gt; \n  summarize(\n    total_sales = sum(total_receipts)\n  ) |&gt; \n  arrange(desc(total_sales))\n\n\n\n\n\n\n\n\nlocation_name\nlocation_address\ntotal_sales\n\n\n\n\nWLS BEVERAGE CO\n110 E 2ND ST\n35878211\n\n\nRYAN SANDERS SPORTS\n9201 CIRCUIT OF THE AMERICAS BLVD\n20714630\n\n\nW HOTEL AUSTIN\n200 LAVACA ST\n15435458\n\n\nROSE ROOM/ 77 DEGREE\n11500 ROCK ROSE AVE\n14726420\n\n\nTHE DOGWOOD DOMAIN\n11420 ROCK ROSE AVE STE 700\n14231072\n\n\n\nThe result will have all the columns you included in the group, plus the columns you create in your summarize statement. You can summarize more than one thing at a time, like the number of rows numb_rows = n() and average of the values average = mean(column_name).\n\n\nE.5.3 Creating columns to show difference\nSometimes you need to perform math on two columns to show the difference between them. Use mutate() to create the column and do the math. Here’s a pseudo-code example:\nnew_or_reassigned_df &lt;- df |&gt; \n  mutate(\n    new_col_name = (part_col / total_col) * 100\n  )",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Exploring a new dataset</span>"
+      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Exploring a new dataset</span>"
     ]
   },
   {
     "objectID": "explore.html#time-as-a-variable",
     "href": "explore.html#time-as-a-variable",
-    "title": "Appendix D — Exploring a new dataset",
-    "section": "D.6 Time as a variable",
-    "text": "D.6 Time as a variable\nIf you have dates in your data, then you almost always want to see change over time for different variables.\n\nSummarize records by year or month as appropriate and create a Bar or Column chart to show how the number of records for each time period.\nDo you need to see how different categories of data have changed over time? Consider a line chart that shows those categories in different colors.\nIf you have the same value for different time periods, do might want to see the change or percent change in those values. You can create a new column using mutate() to do the math and show the difference.",
+    "title": "Appendix E — Exploring a new dataset",
+    "section": "E.6 Time as a variable",
+    "text": "E.6 Time as a variable\nIf you have dates in your data, then you almost always want to see change over time for different variables.\n\nSummarize records by year or month as appropriate and create a Bar or Column chart to show how the number of records for each time period.\nDo you need to see how different categories of data have changed over time? Consider a line chart that shows those categories in different colors.\nIf you have the same value for different time periods, do might want to see the change or percent change in those values. You can create a new column using mutate() to do the math and show the difference.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Exploring a new dataset</span>"
+      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Exploring a new dataset</span>"
     ]
   },
   {
     "objectID": "explore.html#explore-the-distributions-in-your-data",
     "href": "explore.html#explore-the-distributions-in-your-data",
-    "title": "Appendix D — Exploring a new dataset",
-    "section": "D.7 Explore the distributions in your data",
-    "text": "D.7 Explore the distributions in your data\nWe didn’t talk about histograms in class, but sometimes you might want see the “distribution” of values in your data, i.e. how the values vary within the column. Are many of the values similar? A histogram can show this.\nHere is an example of a histogram use wells data exploring the borehole_depth (how deep the well is). Each bar represents the number of wells broken down in 100ft depth increments (set with binwidth=100). So the first bar shows that most of the wells (more than 7000) are less than 100 feet deep.\nwells |&gt; \n  ggplot(aes(x = borehole_depth)) +\n  geom_histogram(binwidth = 100)\n\n\n\nBorehole depth histogram\n\n\nWhile there are wells deeper than 1000 feet, they are so few they don’t even show on the graphic.\nYou’ll rarely use a histogram as a graphic with a story because they are more difficult to explain to readers. But they do help you to understand how much values differ within a column.\n\nD.7.1 More on histograms\nIf you google around, you might see other ways to create a histogram, including hist() and qplot(). You might stick with the ggplot’s geom_histogram() since you already are familiar with the syntax.\n\nTutorial on histograms using ggplot from DataCamp.\nR Cookbook on histograms.",
+    "title": "Appendix E — Exploring a new dataset",
+    "section": "E.7 Explore the distributions in your data",
+    "text": "E.7 Explore the distributions in your data\nWe didn’t talk about histograms in class, but sometimes you might want see the “distribution” of values in your data, i.e. how the values vary within the column. Are many of the values similar? A histogram can show this.\nHere is an example of a histogram use wells data exploring the borehole_depth (how deep the well is). Each bar represents the number of wells broken down in 100ft depth increments (set with binwidth=100). So the first bar shows that most of the wells (more than 7000) are less than 100 feet deep.\nwells |&gt; \n  ggplot(aes(x = borehole_depth)) +\n  geom_histogram(binwidth = 100)\n\n\n\nBorehole depth histogram\n\n\nWhile there are wells deeper than 1000 feet, they are so few they don’t even show on the graphic.\nYou’ll rarely use a histogram as a graphic with a story because they are more difficult to explain to readers. But they do help you to understand how much values differ within a column.\n\nE.7.1 More on histograms\nIf you google around, you might see other ways to create a histogram, including hist() and qplot(). You might stick with the ggplot’s geom_histogram() since you already are familiar with the syntax.\n\nTutorial on histograms using ggplot from DataCamp.\nR Cookbook on histograms.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Exploring a new dataset</span>"
+      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Exploring a new dataset</span>"
     ]
   },
   {
     "objectID": "explore.html#same-ideas-using-spreadsheets",
     "href": "explore.html#same-ideas-using-spreadsheets",
-    "title": "Appendix D — Exploring a new dataset",
-    "section": "D.8 Same ideas using spreadsheets",
-    "text": "D.8 Same ideas using spreadsheets\nCheck out this resource by David Eads on the same topic, with some more specifics about Google Sheets.",
+    "title": "Appendix E — Exploring a new dataset",
+    "section": "E.8 Same ideas using spreadsheets",
+    "text": "E.8 Same ideas using spreadsheets\nCheck out this resource by David Eads on the same topic, with some more specifics about Google Sheets.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Exploring a new dataset</span>"
+      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Exploring a new dataset</span>"
     ]
   },
   {
     "objectID": "charts-tips.html",
     "href": "charts-tips.html",
-    "title": "Appendix E — Chart production tips",
+    "title": "Appendix F — Chart production tips",
     "section": "",
-    "text": "E.1 Titles, descriptions and annotations\nChart titles and descriptions can be some of the most difficult writing you can do as a journalist. You don’t want to describe the steps of your analysis nor say the obvious, but you do need to give the reader all the relevant detail needed to understand the chart. Write titles, descriptions an annotations as if the chart stands alone, and a reader knows nothing before viewing it.\nSome tips paraphrased from Nathan Yau’s Data Points book …",
+    "text": "F.1 Titles, descriptions and annotations\nChart titles and descriptions can be some of the most difficult writing you can do as a journalist. You don’t want to describe the steps of your analysis nor say the obvious, but you do need to give the reader all the relevant detail needed to understand the chart. Write titles, descriptions an annotations as if the chart stands alone, and a reader knows nothing before viewing it.\nSome tips paraphrased from Nathan Yau’s Data Points book …",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Chart production tips</span>"
+      "<span class='chapter-number'>F</span>  <span class='chapter-title'>Chart production tips</span>"
     ]
   },
   {
     "objectID": "charts-tips.html#titles-descriptions-and-annotations",
     "href": "charts-tips.html#titles-descriptions-and-annotations",
-    "title": "Appendix E — Chart production tips",
+    "title": "Appendix F — Chart production tips",
     "section": "",
     "text": "The title – typically larger and bolder fonts — sets the stage or describes what people should see or look for in the data. A descriptive title also helps. For example, “Rising Gas Prices” says more about the chart than just “Gas Prices.” By including “Rising”, it presents the conclusion immediately, and readers will look to the chart to verify and see the details. Saying just “Gas Prices” leaves the data interpretation to the readers and places them in the exploration phase.\nThe description or lead-in text is used to prepare readers for what a chart shows, but in further detail. The text expands on what the title declares, where the data is from, how it was derived, or what it means (best charts do this, says @crit). Basically, it’s information that might help others understand the data better but often doesn’t directly point to the specific elements.\nTo explain specifics points or areas, you can use lines and arrows as an annotation layer on top of a chart. This places descriptions directly in the context of the data so tha a readers doesn’t have to look outside a graph for additional information to fully understand what you show.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Chart production tips</span>"
+      "<span class='chapter-number'>F</span>  <span class='chapter-title'>Chart production tips</span>"
     ]
   },
   {
     "objectID": "charts-tips.html#other-considerations",
     "href": "charts-tips.html#other-considerations",
-    "title": "Appendix E — Chart production tips",
-    "section": "E.2 Other considerations",
-    "text": "E.2 Other considerations\n\nProper data encodings and visual cues: Think about what you are trying to convey with the graphic and plot your data in a fashion that furthers that understanding. (See Nathan Yau’s Data Points, Chap. 3.)\nLegends for encodings: If your plots include labels for categories on the chart, you may not need a separate legend, but be sure readers can distinguish items.\nLabels for axis: They help describe the value being plotted. In some obvious cases where the meaning in clear, like years, they may be dropped.\nInclude unit values to further understanding: Sometimes the value can be added to the plot itself, other times grid lines may be enough.\nAnnotations: Add explanations to the plot if they help readers understand nuance of what you area trying to convey.\nSource of the data: This is the course of the data, not the delivery method. (i.e., The Comptroller of Public accounts, not data.texas.gov.)\nYour byline: Credit yourself and your publications.",
+    "title": "Appendix F — Chart production tips",
+    "section": "F.2 Other considerations",
+    "text": "F.2 Other considerations\n\nProper data encodings and visual cues: Think about what you are trying to convey with the graphic and plot your data in a fashion that furthers that understanding. (See Nathan Yau’s Data Points, Chap. 3.)\nLegends for encodings: If your plots include labels for categories on the chart, you may not need a separate legend, but be sure readers can distinguish items.\nLabels for axis: They help describe the value being plotted. In some obvious cases where the meaning in clear, like years, they may be dropped.\nInclude unit values to further understanding: Sometimes the value can be added to the plot itself, other times grid lines may be enough.\nAnnotations: Add explanations to the plot if they help readers understand nuance of what you area trying to convey.\nSource of the data: This is the course of the data, not the delivery method. (i.e., The Comptroller of Public accounts, not data.texas.gov.)\nYour byline: Credit yourself and your publications.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Chart production tips</span>"
+      "<span class='chapter-number'>F</span>  <span class='chapter-title'>Chart production tips</span>"
     ]
   },
   {
     "objectID": "tidycensus.html",
     "href": "tidycensus.html",
-    "title": "Appendix F — tidycensus",
+    "title": "Appendix G — tidycensus",
     "section": "",
-    "text": "F.1 Other resources",
+    "text": "G.1 Other resources",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>F</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "tidycensus.html#other-resources",
     "href": "tidycensus.html#other-resources",
-    "title": "Appendix F — tidycensus",
+    "title": "Appendix G — tidycensus",
     "section": "",
     "text": "The Tidycensus package\nThe author of the package has a book\nThis year’s NICAR lesson on tidycensus and the Github repo for it",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>F</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "tidycensus.html#prereqs",
     "href": "tidycensus.html#prereqs",
-    "title": "Appendix F — tidycensus",
-    "section": "F.2 Prereqs",
-    "text": "F.2 Prereqs\nYou need to install the tidycensus package and have a Census API key before using this. A key can be obtained here. Once you get the email with the key, it still might take a while to activate correctly … like maybe an hour?\nIt’s not a good idea to publish your API key since it is like a password, so I’ve commented that out in the code below. There is a way to store this value on your computer so you don’t have to reveal it in code, but I don’t want to get into that here.\n\nlibrary(tidyverse)\nlibrary(tidycensus)\n\n# census_api_key(\"YOUR API KEY GOES HERE\")",
+    "title": "Appendix G — tidycensus",
+    "section": "G.2 Prereqs",
+    "text": "G.2 Prereqs\nYou need to install the tidycensus package and have a Census API key before using this. A key can be obtained here. Once you get the email with the key, it still might take a while to activate correctly … like maybe an hour?\nIt’s not a good idea to publish your API key since it is like a password, so I’ve commented that out in the code below. There is a way to store this value on your computer so you don’t have to reveal it in code, but I don’t want to get into that here.\n\nlibrary(tidyverse)\nlibrary(tidycensus)\n\n# census_api_key(\"YOUR API KEY GOES HERE\")",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>F</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "tidycensus.html#testing-the-api",
     "href": "tidycensus.html#testing-the-api",
-    "title": "Appendix F — tidycensus",
-    "section": "F.3 Testing the API",
-    "text": "F.3 Testing the API\nJust to make sure all is working, lets gets the median household income for counties in Texas.\nThis doesn’t bring back all 256 counties because I’m specifying the “acs1” 1-year survey, so it only get’s counties big enough to have a good yearly value. I’ve commented out an argument I could use to get just Travis County to show how it is possible. Again, see the docs for more info.\n\nmhi_trav &lt;- get_acs(\n  geography = \"county\",\n  variables = \"B19013_001\",\n  state = \"TX\",\n  # county = \"Travis\",\n  survey = \"acs1\",\n  year = 2022,\n)\n\nmhi_trav",
+    "title": "Appendix G — tidycensus",
+    "section": "G.3 Testing the API",
+    "text": "G.3 Testing the API\nJust to make sure all is working, lets gets the median household income for counties in Texas.\nThis doesn’t bring back all 256 counties because I’m specifying the “acs1” 1-year survey, so it only get’s counties big enough to have a good yearly value. I’ve commented out an argument I could use to get just Travis County to show how it is possible. Again, see the docs for more info.\n\nmhi_trav &lt;- get_acs(\n  geography = \"county\",\n  variables = \"B19013_001\",\n  state = \"TX\",\n  # county = \"Travis\",\n  survey = \"acs1\",\n  year = 2022,\n)\n\nmhi_trav",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>F</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "tidycensus.html#educational-attainment",
     "href": "tidycensus.html#educational-attainment",
-    "title": "Appendix F — tidycensus",
-    "section": "F.4 Educational attainment",
-    "text": "F.4 Educational attainment\nI’ll use some educational attainment data for some examples …\nThe goal here is to find the percentage of women with degree higher than high school. To do this we have to add together all the different degree types, then divide by all women.\nWe want to find this for multiple years in multiple geographies. i.e. to compare US rates vs various states or counties. I’m going to find only two years and get rates for the US and Texas specifically.\n\nF.4.1 Find the table\nWe are using Census Reporter to find the variables we need, looking at Table B15002: Sex by Educational Attainment. (I’ll explain some other time why I started here.)\nYou can use a “tooltip” value from this site to to find a variable for Census Reporter. If you are familiar with a browser Inspector, you can look at the HTML and copy/paste values.\n\n\n\nCensus Reporter variables\n\n\nI used that method further down that page in the Female segment to collect the following variables. You have to insert an underscore between the table name and variable.\nI put them in a vector like this so I can reuse the list many times. If I want to adjust it, I’ll do that here.\n\nfem_edu_vars &lt;- c(\n  \"B15002_019\", # All female\n  \"B15002_028\", # Female High school graduate (includes equivalency)\n  \"B15002_031\", # Female Associate's degree\n  \"B15002_032\", # Female Bachelor's degree\n  \"B15002_033\", # Female Master's degree\n  \"B15002_034\", # Female Professional school degree\n  \"B15002_035\"  # Female Doctorate degree\n)\n\nIf you want different variables, find them and make your own list.\n\n\nF.4.2 Get the data for Texas\nHere I’m getting state numbers for these variables with geography = \"state\" but then filtering to get only Texas with state = \"TX\". I’m adding a column to indicate which year the data is from because I will need multiple years.\nOnce I have all the years I want I’ll bind them together.\n\ncollege_tx_21 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"state\",\n  state = \"TX\",\n  survey = \"acs1\",\n  year = 2021\n) |&gt; add_column(yr = \"2021\")\n\nGetting data from the 2021 1-year ACS\n\n\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\ncollege_tx_22 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"state\",\n  state = \"TX\",\n  survey = \"acs1\",\n  year = 2022\n) |&gt; add_column(yr = \"2022\")\n\nGetting data from the 2022 1-year ACS\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\n# Once I have each year I'll bind them together\ncollege_tx &lt;- bind_rows(college_tx_21, college_tx_22)\n\n\ncollege_tx\n\n\n  \n\n\n\nYour probably want more than two years of data.\n\n\nF.4.3 Get the data for US\nI’m doing the same thing here, but for US values.\n\ncollege_us_21 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"US\",\n  survey = \"acs1\",\n  year = 2021\n) |&gt; add_column(yr = \"2021\")\n\nGetting data from the 2021 1-year ACS\n\n\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\ncollege_us_22 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"US\",\n  survey = \"acs1\",\n  year = 2022\n) |&gt; add_column(yr = \"2022\")\n\nGetting data from the 2022 1-year ACS\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\ncollege_us &lt;- bind_rows(college_us_21, college_us_22)\n\n\ncollege_us\n\n\n  \n\n\n\nAgain you probably want more than two years of data.",
+    "title": "Appendix G — tidycensus",
+    "section": "G.4 Educational attainment",
+    "text": "G.4 Educational attainment\nI’ll use some educational attainment data for some examples …\nThe goal here is to find the percentage of women with degree higher than high school. To do this we have to add together all the different degree types, then divide by all women.\nWe want to find this for multiple years in multiple geographies. i.e. to compare US rates vs various states or counties. I’m going to find only two years and get rates for the US and Texas specifically.\n\nG.4.1 Find the table\nWe are using Census Reporter to find the variables we need, looking at Table B15002: Sex by Educational Attainment. (I’ll explain some other time why I started here.)\nYou can use a “tooltip” value from this site to to find a variable for Census Reporter. If you are familiar with a browser Inspector, you can look at the HTML and copy/paste values.\n\n\n\nCensus Reporter variables\n\n\nI used that method further down that page in the Female segment to collect the following variables. You have to insert an underscore between the table name and variable.\nI put them in a vector like this so I can reuse the list many times. If I want to adjust it, I’ll do that here.\n\nfem_edu_vars &lt;- c(\n  \"B15002_019\", # All female\n  \"B15002_028\", # Female High school graduate (includes equivalency)\n  \"B15002_031\", # Female Associate's degree\n  \"B15002_032\", # Female Bachelor's degree\n  \"B15002_033\", # Female Master's degree\n  \"B15002_034\", # Female Professional school degree\n  \"B15002_035\"  # Female Doctorate degree\n)\n\nIf you want different variables, find them and make your own list.\n\n\nG.4.2 Get the data for Texas\nHere I’m getting state numbers for these variables with geography = \"state\" but then filtering to get only Texas with state = \"TX\". I’m adding a column to indicate which year the data is from because I will need multiple years.\nOnce I have all the years I want I’ll bind them together.\n\ncollege_tx_21 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"state\",\n  state = \"TX\",\n  survey = \"acs1\",\n  year = 2021\n) |&gt; add_column(yr = \"2021\")\n\nGetting data from the 2021 1-year ACS\n\n\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\ncollege_tx_22 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"state\",\n  state = \"TX\",\n  survey = \"acs1\",\n  year = 2022\n) |&gt; add_column(yr = \"2022\")\n\nGetting data from the 2022 1-year ACS\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\n# Once I have each year I'll bind them together\ncollege_tx &lt;- bind_rows(college_tx_21, college_tx_22)\n\n\ncollege_tx\n\n\n  \n\n\n\nYour probably want more than two years of data.\n\n\nG.4.3 Get the data for US\nI’m doing the same thing here, but for US values.\n\ncollege_us_21 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"US\",\n  survey = \"acs1\",\n  year = 2021\n) |&gt; add_column(yr = \"2021\")\n\nGetting data from the 2021 1-year ACS\n\n\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\ncollege_us_22 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"US\",\n  survey = \"acs1\",\n  year = 2022\n) |&gt; add_column(yr = \"2022\")\n\nGetting data from the 2022 1-year ACS\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\ncollege_us &lt;- bind_rows(college_us_21, college_us_22)\n\n\ncollege_us\n\n\n  \n\n\n\nAgain you probably want more than two years of data.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>F</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "tidycensus.html#bind-and-clean",
     "href": "tidycensus.html#bind-and-clean",
-    "title": "Appendix F — tidycensus",
-    "section": "F.5 Bind and clean",
-    "text": "F.5 Bind and clean\nI’m putting the state and national data together so I can make nice variable names once instead of many times.\n\ncollege &lt;- bind_rows(college_tx, college_us)\n\ncollege |&gt; glimpse()\n\nRows: 28\nColumns: 6\n$ GEOID    &lt;chr&gt; \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"…\n$ NAME     &lt;chr&gt; \"Texas\", \"Texas\", \"Texas\", \"Texas\", \"Texas\", \"Texas\", \"Texas\"…\n$ variable &lt;chr&gt; \"B15002_019\", \"B15002_028\", \"B15002_031\", \"B15002_032\", \"B150…\n$ estimate &lt;dbl&gt; 9763451, 2321205, 787873, 2141544, 906361, 153481, 110895, 99…\n$ moe      &lt;dbl&gt; 9478, 27228, 20962, 28440, 19354, 8400, 6797, 8666, 32864, 18…\n$ yr       &lt;chr&gt; \"2021\", \"2021\", \"2021\", \"2021\", \"2021\", \"2021\", \"2021\", \"2022…\n\n\n\nF.5.1 Rename the variables\nHere we add new column with friendlier variable names. They are still a little esoteric, but you can at least tell them apart.\n\ncollege_vars &lt;- college |&gt; \n  mutate(\n    var_desc = case_match(\n      variable,\n      \"B15002_019\" ~ \"fem\", # All female\n      \"B15002_028\" ~ \"fem_hs\", # High school graduate (includes equivalency)\n      \"B15002_031\" ~ \"fem_as_d\", # Associate's degree\n      \"B15002_032\" ~ \"fem_ba_d\", # Bachelor's degree\n      \"B15002_033\" ~ \"fem_ma_d\", # Master's degree\n      \"B15002_034\" ~ \"fem_ps_d\", # Professional school degree\n      \"B15002_035\" ~ \"fem_ph_d\"  # Doctorate degree\n    )\n  )\n\ncollege_vars\n\n\n  \n\n\n\n\n\nF.5.2 Check for moe problems\nIf the margin of error is more than 10% of an estimate, then that number is squishy and shouldn’t be relied upon to be the main point of a story. We are sticking with large geographies here to try to avoid those problems, but here I check to see if any values have a high margin of error.\n\nmoe_check &lt;- college_vars |&gt; \n  mutate(\n    moe_share = ((moe / estimate) * 100) |&gt; round(1), # calc moe share\n    moe_flag = if_else(moe_share &gt;= 10, TRUE, FALSE) # make a flag if high\n  )\n\nmoe_check\n\n\n  \n\n\nmoe_check |&gt; filter(moe_flag == T)\n\n\n  \n\n\n\nIf the moe_flag was TRUE anywhere then we might want to use that number. We are find with these numbers above so I’m going to drop the moe column in the next section.\n\n\nF.5.3 Select columns of interest\nHere I’m rearranging the columns and dropping the old variable and moe columns.\n\ncollege_clean &lt;- college_vars |&gt; \n  select(\n    geoid = GEOID,\n    name = NAME,\n    yr,\n    var_desc,\n    estimate\n  )\n\ncollege_clean",
+    "title": "Appendix G — tidycensus",
+    "section": "G.5 Bind and clean",
+    "text": "G.5 Bind and clean\nI’m putting the state and national data together so I can make nice variable names once instead of many times.\n\ncollege &lt;- bind_rows(college_tx, college_us)\n\ncollege |&gt; glimpse()\n\nRows: 28\nColumns: 6\n$ GEOID    &lt;chr&gt; \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"…\n$ NAME     &lt;chr&gt; \"Texas\", \"Texas\", \"Texas\", \"Texas\", \"Texas\", \"Texas\", \"Texas\"…\n$ variable &lt;chr&gt; \"B15002_019\", \"B15002_028\", \"B15002_031\", \"B15002_032\", \"B150…\n$ estimate &lt;dbl&gt; 9763451, 2321205, 787873, 2141544, 906361, 153481, 110895, 99…\n$ moe      &lt;dbl&gt; 9478, 27228, 20962, 28440, 19354, 8400, 6797, 8666, 32864, 18…\n$ yr       &lt;chr&gt; \"2021\", \"2021\", \"2021\", \"2021\", \"2021\", \"2021\", \"2021\", \"2022…\n\n\n\nG.5.1 Rename the variables\nHere we add new column with friendlier variable names. They are still a little esoteric, but you can at least tell them apart.\n\ncollege_vars &lt;- college |&gt; \n  mutate(\n    var_desc = case_match(\n      variable,\n      \"B15002_019\" ~ \"fem\", # All female\n      \"B15002_028\" ~ \"fem_hs\", # High school graduate (includes equivalency)\n      \"B15002_031\" ~ \"fem_as_d\", # Associate's degree\n      \"B15002_032\" ~ \"fem_ba_d\", # Bachelor's degree\n      \"B15002_033\" ~ \"fem_ma_d\", # Master's degree\n      \"B15002_034\" ~ \"fem_ps_d\", # Professional school degree\n      \"B15002_035\" ~ \"fem_ph_d\"  # Doctorate degree\n    )\n  )\n\ncollege_vars\n\n\n  \n\n\n\n\n\nG.5.2 Check for moe problems\nIf the margin of error is more than 10% of an estimate, then that number is squishy and shouldn’t be relied upon to be the main point of a story. We are sticking with large geographies here to try to avoid those problems, but here I check to see if any values have a high margin of error.\n\nmoe_check &lt;- college_vars |&gt; \n  mutate(\n    moe_share = ((moe / estimate) * 100) |&gt; round(1), # calc moe share\n    moe_flag = if_else(moe_share &gt;= 10, TRUE, FALSE) # make a flag if high\n  )\n\nmoe_check\n\n\n  \n\n\nmoe_check |&gt; filter(moe_flag == T)\n\n\n  \n\n\n\nIf the moe_flag was TRUE anywhere then we might want to use that number. We are find with these numbers above so I’m going to drop the moe column in the next section.\n\n\nG.5.3 Select columns of interest\nHere I’m rearranging the columns and dropping the old variable and moe columns.\n\ncollege_clean &lt;- college_vars |&gt; \n  select(\n    geoid = GEOID,\n    name = NAME,\n    yr,\n    var_desc,\n    estimate\n  )\n\ncollege_clean",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>F</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "tidycensus.html#i-would-export-here",
     "href": "tidycensus.html#i-would-export-here",
-    "title": "Appendix F — tidycensus",
-    "section": "F.6 I would export here",
-    "text": "F.6 I would export here\nI would export the cleaned data college_clean here but I want to stay in the same notebook.",
+    "title": "Appendix G — tidycensus",
+    "section": "G.6 I would export here",
+    "text": "G.6 I would export here\nI would export the cleaned data college_clean here but I want to stay in the same notebook.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>F</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "tidycensus.html#calculate-percentage-degrees",
     "href": "tidycensus.html#calculate-percentage-degrees",
-    "title": "Appendix F — tidycensus",
-    "section": "F.7 Calculate percentage degrees",
-    "text": "F.7 Calculate percentage degrees\nTo get the share of people with degrees vs all people, we have to do some math. It is easier in this case to pivot the data to calculate those percentages.\n\nF.7.1 Pivot the data\nFirst we have to pivot this to do some math. I remove the moe field to avoid complication.\n\ncollege_wide &lt;- college_clean |&gt; \n  pivot_wider(names_from = var_desc, values_from = estimate)\n\ncollege_wide\n\n\n  \n\n\n\n\n\nF.7.2 Make the math and percentages\n\nPercent with high school degree is that number (fm_hs) divided by all female (fem).\nTo get percent with post high school degree we have to add together all those with the different types of degrees first, then divide by all fem to get the percentage.\n\n\ncollege_calcs &lt;- college_wide |&gt; \n  mutate(\n    prc_hs = ((fem_hs / fem) * 100) |&gt; round(1),\n    sum_deg = fem_as_d + fem_ba_d + fem_ma_d + fem_ps_d + fem_ph_d,\n    prc_deg = ((sum_deg / fem) * 100) |&gt; round(1)\n  )\n\ncollege_calcs",
+    "title": "Appendix G — tidycensus",
+    "section": "G.7 Calculate percentage degrees",
+    "text": "G.7 Calculate percentage degrees\nTo get the share of people with degrees vs all people, we have to do some math. It is easier in this case to pivot the data to calculate those percentages.\n\nG.7.1 Pivot the data\nFirst we have to pivot this to do some math. I remove the moe field to avoid complication.\n\ncollege_wide &lt;- college_clean |&gt; \n  pivot_wider(names_from = var_desc, values_from = estimate)\n\ncollege_wide\n\n\n  \n\n\n\n\n\nG.7.2 Make the math and percentages\n\nPercent with high school degree is that number (fm_hs) divided by all female (fem).\nTo get percent with post high school degree we have to add together all those with the different types of degrees first, then divide by all fem to get the percentage.\n\n\ncollege_calcs &lt;- college_wide |&gt; \n  mutate(\n    prc_hs = ((fem_hs / fem) * 100) |&gt; round(1),\n    sum_deg = fem_as_d + fem_ba_d + fem_ma_d + fem_ps_d + fem_ph_d,\n    prc_deg = ((sum_deg / fem) * 100) |&gt; round(1)\n  )\n\ncollege_calcs",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>F</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "tidycensus.html#select-your-percentages",
     "href": "tidycensus.html#select-your-percentages",
-    "title": "Appendix F — tidycensus",
-    "section": "F.8 Select your percentages",
-    "text": "F.8 Select your percentages\nNow that you have the percentages, you might want to focus on those to view or chart.\n\nprc_cols &lt;- college_calcs |&gt; \n  select(name, yr, prc_hs, prc_deg)\n\nprc_cols",
+    "title": "Appendix G — tidycensus",
+    "section": "G.8 Select your percentages",
+    "text": "G.8 Select your percentages\nNow that you have the percentages, you might want to focus on those to view or chart.\n\nprc_cols &lt;- college_calcs |&gt; \n  select(name, yr, prc_hs, prc_deg)\n\nprc_cols",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>F</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "tidycensus.html#different-shapes",
     "href": "tidycensus.html#different-shapes",
-    "title": "Appendix F — tidycensus",
-    "section": "F.9 Different shapes",
-    "text": "F.9 Different shapes\nThis might not be necessary, but you might want to rearrange the data to see of chart.\n\nF.9.1 Make longer\nWhat you want to move it to might depend on your needs, but making long sometimes helps with ggplot charting.\n\nprc_long &lt;- prc_cols |&gt; pivot_longer(\n  cols = prc_hs:prc_deg,\n  names_to = \"prc_type\",\n  values_to = \"prc_value\"\n)\n\nprc_long\n\n\n  \n\n\n\n\n\nF.9.2 Make wider\nMaybe you want to see how each value has changed by having a column for each year.\n\nprc_type_yr &lt;- prc_long |&gt;\n  pivot_wider(names_from = yr, values_from = prc_value)\n\nprc_type_yr",
+    "title": "Appendix G — tidycensus",
+    "section": "G.9 Different shapes",
+    "text": "G.9 Different shapes\nThis might not be necessary, but you might want to rearrange the data to see of chart.\n\nG.9.1 Make longer\nWhat you want to move it to might depend on your needs, but making long sometimes helps with ggplot charting.\n\nprc_long &lt;- prc_cols |&gt; pivot_longer(\n  cols = prc_hs:prc_deg,\n  names_to = \"prc_type\",\n  values_to = \"prc_value\"\n)\n\nprc_long\n\n\n  \n\n\n\n\n\nG.9.2 Make wider\nMaybe you want to see how each value has changed by having a column for each year.\n\nprc_type_yr &lt;- prc_long |&gt;\n  pivot_wider(names_from = yr, values_from = prc_value)\n\nprc_type_yr",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>F</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "tabyl.html",
     "href": "tabyl.html",
-    "title": "Appendix G — Tabyls",
+    "title": "Appendix H — Tabyls",
     "section": "",
-    "text": "G.1 Import my data\nWe’re using some animal center data to show these functions and we need some data I do a little cleanup for simplification.\noutcomes &lt;- read_rds(\"data-processed/01-outcome.rds\") |&gt;\n  filter(year &gt; 2013, year &lt; 2024) |&gt; \n  mutate(date_outcome = date(date_outcome))\n\noutcomes |&gt; glimpse()\n\nRows: 153,840\nColumns: 12\n$ animal_id        &lt;chr&gt; \"A794011\", \"A776359\", \"A821648\", \"A720371\", \"A674754\"…\n$ date_outcome     &lt;date&gt; 2019-05-08, 2018-07-18, 2020-08-16, 2016-02-13, 2014…\n$ date_birth       &lt;date&gt; 2017-05-02, 2017-07-12, 2019-08-16, 2015-10-08, 2014…\n$ age_days         &lt;drtn&gt; 736 days, 371 days, 366 days, 128 days, 6 days, 2752…\n$ animal_type      &lt;chr&gt; \"Cat\", \"Dog\", \"Other\", \"Dog\", \"Cat\", \"Dog\", \"Dog\", \"C…\n$ outcome_type     &lt;chr&gt; \"Rto-Adopt\", \"Adoption\", \"Euthanasia\", \"Adoption\", \"T…\n$ outcome_simple   &lt;chr&gt; \"Return to Owner\", \"Adoption\", \"Euthanasia\", \"Adoptio…\n$ outcome_subtype  &lt;chr&gt; NA, NA, NA, NA, \"Partner\", NA, \"Foster\", NA, NA, NA, …\n$ sex_upon_outcome &lt;chr&gt; \"Neutered Male\", \"Neutered Male\", \"Unknown\", \"Neutere…\n$ breed            &lt;chr&gt; \"Domestic Shorthair Mix\", \"Chihuahua Shorthair Mix\", …\n$ name             &lt;chr&gt; \"Chunk\", \"Gizmo\", NA, \"Moose\", NA, \"Princess\", \"Quent…\n$ year             &lt;dbl&gt; 2019, 2018, 2020, 2016, 2014, 2020, 2020, 2022, 2014,…\nPeek at the data in a way that shows outcome_simple\noutcomes |&gt;\n  slice_sample(n = 5) |&gt;\n  select(animal_id, date_outcome, outcome_type, outcome_simple, everything())",
+    "text": "H.1 Import my data\nWe’re using some animal center data to show these functions and we need some data I do a little cleanup for simplification.\noutcomes &lt;- read_rds(\"data-processed/01-outcome.rds\") |&gt;\n  filter(year &gt; 2013, year &lt; 2024) |&gt; \n  mutate(date_outcome = date(date_outcome))\n\noutcomes |&gt; glimpse()\n\nRows: 153,840\nColumns: 12\n$ animal_id        &lt;chr&gt; \"A794011\", \"A776359\", \"A821648\", \"A720371\", \"A674754\"…\n$ date_outcome     &lt;date&gt; 2019-05-08, 2018-07-18, 2020-08-16, 2016-02-13, 2014…\n$ date_birth       &lt;date&gt; 2017-05-02, 2017-07-12, 2019-08-16, 2015-10-08, 2014…\n$ age_days         &lt;drtn&gt; 736 days, 371 days, 366 days, 128 days, 6 days, 2752…\n$ animal_type      &lt;chr&gt; \"Cat\", \"Dog\", \"Other\", \"Dog\", \"Cat\", \"Dog\", \"Dog\", \"C…\n$ outcome_type     &lt;chr&gt; \"Rto-Adopt\", \"Adoption\", \"Euthanasia\", \"Adoption\", \"T…\n$ outcome_simple   &lt;chr&gt; \"Return to Owner\", \"Adoption\", \"Euthanasia\", \"Adoptio…\n$ outcome_subtype  &lt;chr&gt; NA, NA, NA, NA, \"Partner\", NA, \"Foster\", NA, NA, NA, …\n$ sex_upon_outcome &lt;chr&gt; \"Neutered Male\", \"Neutered Male\", \"Unknown\", \"Neutere…\n$ breed            &lt;chr&gt; \"Domestic Shorthair Mix\", \"Chihuahua Shorthair Mix\", …\n$ name             &lt;chr&gt; \"Chunk\", \"Gizmo\", NA, \"Moose\", NA, \"Princess\", \"Quent…\n$ year             &lt;dbl&gt; 2019, 2018, 2020, 2016, 2014, 2020, 2020, 2022, 2014,…\nPeek at the data in a way that shows outcome_simple\noutcomes |&gt;\n  slice_sample(n = 5) |&gt;\n  select(animal_id, date_outcome, outcome_type, outcome_simple, everything())",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Tabyls</span>"
+      "<span class='chapter-number'>H</span>  <span class='chapter-title'>Tabyls</span>"
     ]
   },
   {
     "objectID": "tabyl.html#lets-count-outcomes",
     "href": "tabyl.html#lets-count-outcomes",
-    "title": "Appendix G — Tabyls",
-    "section": "G.2 Let’s count outcomes",
-    "text": "G.2 Let’s count outcomes\nThis is the shortcut count() which is super useful. It is the same and group_by |&gt; summarize(n()).\n\noutcomes |&gt; \n  count(outcome_simple)",
+    "title": "Appendix H — Tabyls",
+    "section": "H.2 Let’s count outcomes",
+    "text": "H.2 Let’s count outcomes\nThis is the shortcut count() which is super useful. It is the same and group_by |&gt; summarize(n()).\n\noutcomes |&gt; \n  count(outcome_simple)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Tabyls</span>"
+      "<span class='chapter-number'>H</span>  <span class='chapter-title'>Tabyls</span>"
     ]
   },
   {
     "objectID": "tabyl.html#the-beauty-of-tabyl",
     "href": "tabyl.html#the-beauty-of-tabyl",
-    "title": "Appendix G — Tabyls",
-    "section": "G.3 The beauty of tabyl",
-    "text": "G.3 The beauty of tabyl\ntabyl() works like count, but it also adds the percentage share by default. While the result looks physically different in your notebook than our tidyverse outputs, it is still a data frame that works in similar ways, as it can be piped, etc.\n\noutcomes |&gt; \n  tabyl(outcome_simple)\n\n\n  \n\n\n\nThat said, there are a number of additional “adorn” functions that can help format your result.\nHere we convert percent to an actual percentage (the * 100 part):\n\noutcomes |&gt; \n  tabyl(outcome_simple) |&gt; \n  adorn_pct_formatting()\n\n\n  \n\n\n\nAnd then we remove the percent sign:\n\noutcomes |&gt; \n  tabyl(outcome_simple) |&gt; \n  adorn_pct_formatting(affix_sign = F)\n\n\n  \n\n\n\nBut do not that percent column is a  datatype and not a number. That’s easy enough to convert with parse_number() or as.number().",
+    "title": "Appendix H — Tabyls",
+    "section": "H.3 The beauty of tabyl",
+    "text": "H.3 The beauty of tabyl\ntabyl() works like count, but it also adds the percentage share by default. While the result looks physically different in your notebook than our tidyverse outputs, it is still a data frame that works in similar ways, as it can be piped, etc.\n\noutcomes |&gt; \n  tabyl(outcome_simple)\n\n\n  \n\n\n\nThat said, there are a number of additional “adorn” functions that can help format your result.\nHere we convert percent to an actual percentage (the * 100 part):\n\noutcomes |&gt; \n  tabyl(outcome_simple) |&gt; \n  adorn_pct_formatting()\n\n\n  \n\n\n\nAnd then we remove the percent sign:\n\noutcomes |&gt; \n  tabyl(outcome_simple) |&gt; \n  adorn_pct_formatting(affix_sign = F)\n\n\n  \n\n\n\nBut do not that percent column is a  datatype and not a number. That’s easy enough to convert with parse_number() or as.number().",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Tabyls</span>"
+      "<span class='chapter-number'>H</span>  <span class='chapter-title'>Tabyls</span>"
     ]
   },
   {
     "objectID": "tabyl.html#two-way-tables",
     "href": "tabyl.html#two-way-tables",
-    "title": "Appendix G — Tabyls",
-    "section": "G.4 Two-way tables",
-    "text": "G.4 Two-way tables\nYou can group by more than one value. We’ll use a two-way table to get outcomes by year.\nTwo-way tables don’t automatically add percentages:\n\noutcomes |&gt; \n  tabyl(year, outcome_simple)\n\n\n  \n\n\n\nBut you can still convert them with an adorn function:\n\noutcomes |&gt; \n  tabyl(year, outcome_simple) |&gt; \n  adorn_percentages()\n\n\n  \n\n\n\nAnd even convert them to whole percentages:\n\noutcome_prcentages &lt;- outcomes |&gt; \n  tabyl(year, outcome_simple) |&gt; \n  adorn_percentages() |&gt; \n  adorn_pct_formatting(affix_sign = TRUE) # change to FALSE to remove %\n\noutcome_prcentages\n\n\n  \n\n\n\nAnd then pivot them to prepare for a plot. The value (prc here) ends up as text (even if you remove the % sign) so you have to convert them to a number before they are useful in plotting.\n\nout_prc_long &lt;- outcome_prcentages |&gt; \n  pivot_longer(\n    cols = Adoption:Transfer,\n    names_to = \"outcome_simple\",\n    values_to = \"prc\"\n  ) |&gt; \n  mutate(prc = parse_number(prc))\n\nout_prc_long\n\n\n  \n\n\n\nNow you can plot it:\n\nout_prc_long |&gt; \n  ggplot(aes(x = year, y = prc, group = outcome_simple)) +\n  geom_line(aes(color = outcome_simple)) +\n  geom_point(size = .5) +\n  labs(\n    title = \"Share of adoptions has risen in recent years\",\n    y = \"Percentage of outcome\"\n  )",
+    "title": "Appendix H — Tabyls",
+    "section": "H.4 Two-way tables",
+    "text": "H.4 Two-way tables\nYou can group by more than one value. We’ll use a two-way table to get outcomes by year.\nTwo-way tables don’t automatically add percentages:\n\noutcomes |&gt; \n  tabyl(year, outcome_simple)\n\n\n  \n\n\n\nBut you can still convert them with an adorn function:\n\noutcomes |&gt; \n  tabyl(year, outcome_simple) |&gt; \n  adorn_percentages()\n\n\n  \n\n\n\nAnd even convert them to whole percentages:\n\noutcome_prcentages &lt;- outcomes |&gt; \n  tabyl(year, outcome_simple) |&gt; \n  adorn_percentages() |&gt; \n  adorn_pct_formatting(affix_sign = TRUE) # change to FALSE to remove %\n\noutcome_prcentages\n\n\n  \n\n\n\nAnd then pivot them to prepare for a plot. The value (prc here) ends up as text (even if you remove the % sign) so you have to convert them to a number before they are useful in plotting.\n\nout_prc_long &lt;- outcome_prcentages |&gt; \n  pivot_longer(\n    cols = Adoption:Transfer,\n    names_to = \"outcome_simple\",\n    values_to = \"prc\"\n  ) |&gt; \n  mutate(prc = parse_number(prc))\n\nout_prc_long\n\n\n  \n\n\n\nNow you can plot it:\n\nout_prc_long |&gt; \n  ggplot(aes(x = year, y = prc, group = outcome_simple)) +\n  geom_line(aes(color = outcome_simple)) +\n  geom_point(size = .5) +\n  labs(\n    title = \"Share of adoptions has risen in recent years\",\n    y = \"Percentage of outcome\"\n  )",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Tabyls</span>"
+      "<span class='chapter-number'>H</span>  <span class='chapter-title'>Tabyls</span>"
     ]
   },
   {
     "objectID": "tabyl.html#add-row-totals",
     "href": "tabyl.html#add-row-totals",
-    "title": "Appendix G — Tabyls",
-    "section": "G.5 Add row totals",
-    "text": "G.5 Add row totals\nOne last thing … we’ll check our math on these percentage and how totals while we are at it.\nLet’s filter for just the 2023 values:\n\nout_prc_long |&gt; \n  filter(year == 2023)\n\n\n  \n\n\n\nBut then add adorn_totals() to add together the prc to make sure they equal 100. It’s a wee bit off because of rounding.\n\nout_prc_long |&gt; \n  filter(year == 2023) |&gt; \n  adorn_totals()\n\n\n  \n\n\n\nWhile it adds totals to columns by default, you can also specify both rows and columns, as necessary.\n\noutcomes |&gt; \n  tabyl(year, outcome_simple) |&gt; \n  adorn_totals(c(\"row\", \"col\"))",
+    "title": "Appendix H — Tabyls",
+    "section": "H.5 Add row totals",
+    "text": "H.5 Add row totals\nOne last thing … we’ll check our math on these percentage and how totals while we are at it.\nLet’s filter for just the 2023 values:\n\nout_prc_long |&gt; \n  filter(year == 2023)\n\n\n  \n\n\n\nBut then add adorn_totals() to add together the prc to make sure they equal 100. It’s a wee bit off because of rounding.\n\nout_prc_long |&gt; \n  filter(year == 2023) |&gt; \n  adorn_totals()\n\n\n  \n\n\n\nWhile it adds totals to columns by default, you can also specify both rows and columns, as necessary.\n\noutcomes |&gt; \n  tabyl(year, outcome_simple) |&gt; \n  adorn_totals(c(\"row\", \"col\"))",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Tabyls</span>"
+      "<span class='chapter-number'>H</span>  <span class='chapter-title'>Tabyls</span>"
     ]
   }
 ]
