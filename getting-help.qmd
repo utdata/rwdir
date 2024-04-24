@@ -1,0 +1,86 @@
+---
+title: "Asking for help"
+---
+
+> This is a draft chapter
+
+Let's say you've done all the troubleshooting you can do and it is time for you to ask for help. It's important to give others enough context and code to understand your challenge and to give you the best help.
+
+It's work to do this, but it pays off. Either you figure out the problem on your own in the process (80% of the time), our you put yourself in the best position to get help (about 19% of the rest of the time).
+
+## Resources
+
+> Not fleshed out
+
+- Explain reprex concept: https://reprex.tidyverse.org/index.html
+- Reality is less.
+- Tips for copy/paste, etc.
+
+## Example challenge
+
+> good start, but needs edit
+
+This new sample data is similar to my posting above, but with some additional nuance. I use a little different method to make it, but don't sweat that. Just think about the resulting data.
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+
+hc_data <- tribble(
+  ~bias,                   ~victims,
+  "anti-black",                   2,
+  "anti-black, anti-lgbt",        1,
+  "anti-lgbt",                    3,
+  "anti-gay",                     1
+)
+
+hc_data
+```
+
+Our goal is to total up the number of victims involved where a particular bias has been cited in a case. But we also want to combine some bias into a "simple" categories to make for a less complex visualization. The example here is we want to combine "anti-lgbt" and "anti-gay" into "bias_gender" as a more collective term. So our results should show 3 anti-black victims and 5 anti-gender victims.
+
+It's important to note we are not counting the number of "cases" or rows with these terms, but we are adding the number of victims where the case as been classified with each individual term.
+
+### The answer
+
+> This is overly explained. Perhaps better as a chapter specific to this issue but an not reprex answer.
+
+The logic behind this answer is this: We'll use mutate to create new columns and then sum the victims based on the presence of a bias or collection of bias, or use zero if there is no match.
+
+This next bit creates our new "categories" of bias and saves it into a new object, then prints that out. See the notes below for details.
+
+```{r}
+hc_bias <- hc_data |> 
+  mutate(
+	  bias_black = if_else(str_detect(bias, "black"), victims, 0), #<1>
+	  bias_gender = if_else(str_detect(bias, "lgbt|gay"), victims, 0) #<2>
+	)
+
+hc_bias
+```
+
+1. Here we create a new column called `bias_black` that uses str_detect() to look in the bias variable for the term "black" and if it finds it sets the new value to the victim value. If it doesn't find "black" it sets the new value to zero.
+2. This is similar to above, but we're looking for the term "lgbt" OR "gay" and summing victims on rows with either term.
+
+Note that on the second row we get a "1" value for both `bias_black` and `bias_gender` because that case had both.
+
+Our next challenge is to total the number of victims for each of our new categories. The strategy is to pivot the data longer so we get a new row for each new category and value. At that point we can use a typical group_by/summarize to get the totals.
+
+Create the pivot first. It looks a bit messy but reailze it is the last two columns we care about ... the `bias_type` and `bias_victims`.
+
+```{r}
+hc_pivot <- hc_bias |> 
+  pivot_longer(cols = bias_black:bias_gender, names_to = "bias_type", values_to = "bias_victims")
+
+hc_pivot
+```
+
+Now we can group by that `bias_type` and then sum the `bias_totals` to find the total number of victims for each of our new bias categories.
+
+```{r}
+hc_pivot |> 
+  group_by(bias_type) |> 
+  summarize(total_victims = sum(bias_victims))
+```
