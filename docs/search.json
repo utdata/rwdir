@@ -1646,6 +1646,171 @@
     ]
   },
   {
+    "objectID": "tidycensus.html",
+    "href": "tidycensus.html",
+    "title": "15  tidycensus",
+    "section": "",
+    "text": "15.1 Other resources",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+    ]
+  },
+  {
+    "objectID": "tidycensus.html#other-resources",
+    "href": "tidycensus.html#other-resources",
+    "title": "15  tidycensus",
+    "section": "",
+    "text": "The Tidycensus package\nThe author of the package has a book\nThis year’s NICAR lesson on tidycensus and the Github repo for it",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+    ]
+  },
+  {
+    "objectID": "tidycensus.html#prereqs",
+    "href": "tidycensus.html#prereqs",
+    "title": "15  tidycensus",
+    "section": "15.2 Prereqs",
+    "text": "15.2 Prereqs\nYou need to install the tidycensus package and have a Census API key before using this. A key can be obtained here. Once you get the email with the key, it still might take a while to activate correctly … like maybe an hour?\nIt’s not a good idea to publish your API key since it is like a password, so I’ve commented that out in the code below. There is a way to store this value on your computer so you don’t have to reveal it in code, but I don’t want to get into that here.\n\nlibrary(tidyverse)\nlibrary(tidycensus)\n\n# census_api_key(\"YOUR API KEY GOES HERE\")",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+    ]
+  },
+  {
+    "objectID": "tidycensus.html#testing-the-api",
+    "href": "tidycensus.html#testing-the-api",
+    "title": "15  tidycensus",
+    "section": "15.3 Testing the API",
+    "text": "15.3 Testing the API\nJust to make sure all is working, lets gets the median household income for counties in Texas.\nThis doesn’t bring back all 256 counties because I’m specifying the “acs1” 1-year survey, so it only get’s counties big enough to have a good yearly value. I’ve commented out an argument I could use to get just Travis County to show how it is possible. Again, see the docs for more info.\n\nmhi_trav &lt;- get_acs(\n  geography = \"county\",\n  variables = \"B19013_001\",\n  state = \"TX\",\n  # county = \"Travis\",\n  survey = \"acs1\",\n  year = 2022,\n)\n\nmhi_trav",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+    ]
+  },
+  {
+    "objectID": "tidycensus.html#educational-attainment",
+    "href": "tidycensus.html#educational-attainment",
+    "title": "15  tidycensus",
+    "section": "15.4 Educational attainment",
+    "text": "15.4 Educational attainment\nI’ll use some educational attainment data for some examples …\nThe goal here is to find the percentage of women with degree higher than high school. To do this we have to add together all the different degree types, then divide by all women.\nWe want to find this for multiple years in multiple geographies. i.e. to compare US rates vs various states or counties. I’m going to find only two years and get rates for the US and Texas specifically.\n\n15.4.1 Find the table\nWe are using Census Reporter to find the variables we need, looking at Table B15002: Sex by Educational Attainment. (I’ll explain some other time why I started here.)\nYou can use a “tooltip” value from this site to to find a variable for Census Reporter. If you are familiar with a browser Inspector, you can look at the HTML and copy/paste values.\n\n\n\nCensus Reporter variables\n\n\nI used that method further down that page in the Female segment to collect the following variables. You have to insert an underscore between the table name and variable.\nI put them in a vector like this so I can reuse the list many times. If I want to adjust it, I’ll do that here.\n\nfem_edu_vars &lt;- c(\n  \"B15002_019\", # All female\n  \"B15002_028\", # Female High school graduate (includes equivalency)\n  \"B15002_031\", # Female Associate's degree\n  \"B15002_032\", # Female Bachelor's degree\n  \"B15002_033\", # Female Master's degree\n  \"B15002_034\", # Female Professional school degree\n  \"B15002_035\"  # Female Doctorate degree\n)\n\nIf you want different variables, find them and make your own list.\n\n\n15.4.2 Get the data for Texas\nHere I’m getting state numbers for these variables with geography = \"state\" but then filtering to get only Texas with state = \"TX\". I’m adding a column to indicate which year the data is from because I will need multiple years.\nOnce I have all the years I want I’ll bind them together.\n\ncollege_tx_21 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"state\",\n  state = \"TX\",\n  survey = \"acs1\",\n  year = 2021\n) |&gt; add_column(yr = \"2021\")\n\nGetting data from the 2021 1-year ACS\n\n\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\ncollege_tx_22 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"state\",\n  state = \"TX\",\n  survey = \"acs1\",\n  year = 2022\n) |&gt; add_column(yr = \"2022\")\n\nGetting data from the 2022 1-year ACS\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\n# Once I have each year I'll bind them together\ncollege_tx &lt;- bind_rows(college_tx_21, college_tx_22)\n\n\ncollege_tx\n\n\n  \n\n\n\nYour probably want more than two years of data.\n\n\n15.4.3 Get the data for US\nI’m doing the same thing here, but for US values.\n\ncollege_us_21 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"US\",\n  survey = \"acs1\",\n  year = 2021\n) |&gt; add_column(yr = \"2021\")\n\nGetting data from the 2021 1-year ACS\n\n\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\ncollege_us_22 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"US\",\n  survey = \"acs1\",\n  year = 2022\n) |&gt; add_column(yr = \"2022\")\n\nGetting data from the 2022 1-year ACS\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\ncollege_us &lt;- bind_rows(college_us_21, college_us_22)\n\n\ncollege_us\n\n\n  \n\n\n\nAgain you probably want more than two years of data.",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+    ]
+  },
+  {
+    "objectID": "tidycensus.html#bind-and-clean",
+    "href": "tidycensus.html#bind-and-clean",
+    "title": "15  tidycensus",
+    "section": "15.5 Bind and clean",
+    "text": "15.5 Bind and clean\nI’m putting the state and national data together so I can make nice variable names once instead of many times.\n\ncollege &lt;- bind_rows(college_tx, college_us)\n\ncollege |&gt; glimpse()\n\nRows: 28\nColumns: 6\n$ GEOID    &lt;chr&gt; \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"…\n$ NAME     &lt;chr&gt; \"Texas\", \"Texas\", \"Texas\", \"Texas\", \"Texas\", \"Texas\", \"Texas\"…\n$ variable &lt;chr&gt; \"B15002_019\", \"B15002_028\", \"B15002_031\", \"B15002_032\", \"B150…\n$ estimate &lt;dbl&gt; 9763451, 2321205, 787873, 2141544, 906361, 153481, 110895, 99…\n$ moe      &lt;dbl&gt; 9478, 27228, 20962, 28440, 19354, 8400, 6797, 8666, 32864, 18…\n$ yr       &lt;chr&gt; \"2021\", \"2021\", \"2021\", \"2021\", \"2021\", \"2021\", \"2021\", \"2022…\n\n\n\n15.5.1 Rename the variables\nHere we add new column with friendlier variable names. They are still a little esoteric, but you can at least tell them apart.\n\ncollege_vars &lt;- college |&gt; \n  mutate(\n    var_desc = case_match(\n      variable,\n      \"B15002_019\" ~ \"fem\", # All female\n      \"B15002_028\" ~ \"fem_hs\", # High school graduate (includes equivalency)\n      \"B15002_031\" ~ \"fem_as_d\", # Associate's degree\n      \"B15002_032\" ~ \"fem_ba_d\", # Bachelor's degree\n      \"B15002_033\" ~ \"fem_ma_d\", # Master's degree\n      \"B15002_034\" ~ \"fem_ps_d\", # Professional school degree\n      \"B15002_035\" ~ \"fem_ph_d\"  # Doctorate degree\n    )\n  )\n\ncollege_vars\n\n\n  \n\n\n\n\n\n15.5.2 Check for moe problems\nIf the margin of error is more than 10% of an estimate, then that number is squishy and shouldn’t be relied upon to be the main point of a story. We are sticking with large geographies here to try to avoid those problems, but here I check to see if any values have a high margin of error.\n\nmoe_check &lt;- college_vars |&gt; \n  mutate(\n    moe_share = ((moe / estimate) * 100) |&gt; round(1), # calc moe share\n    moe_flag = if_else(moe_share &gt;= 10, TRUE, FALSE) # make a flag if high\n  )\n\nmoe_check\n\n\n  \n\n\nmoe_check |&gt; filter(moe_flag == T)\n\n\n  \n\n\n\nIf the moe_flag was TRUE anywhere then we might want to use that number. We are find with these numbers above so I’m going to drop the moe column in the next section.\n\n\n15.5.3 Select columns of interest\nHere I’m rearranging the columns and dropping the old variable and moe columns.\n\ncollege_clean &lt;- college_vars |&gt; \n  select(\n    geoid = GEOID,\n    name = NAME,\n    yr,\n    var_desc,\n    estimate\n  )\n\ncollege_clean",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+    ]
+  },
+  {
+    "objectID": "tidycensus.html#i-would-export-here",
+    "href": "tidycensus.html#i-would-export-here",
+    "title": "15  tidycensus",
+    "section": "15.6 I would export here",
+    "text": "15.6 I would export here\nI would export the cleaned data college_clean here but I want to stay in the same notebook.",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+    ]
+  },
+  {
+    "objectID": "tidycensus.html#calculate-percentage-degrees",
+    "href": "tidycensus.html#calculate-percentage-degrees",
+    "title": "15  tidycensus",
+    "section": "15.7 Calculate percentage degrees",
+    "text": "15.7 Calculate percentage degrees\nTo get the share of people with degrees vs all people, we have to do some math. It is easier in this case to pivot the data to calculate those percentages.\n\n15.7.1 Pivot the data\nFirst we have to pivot this to do some math. I remove the moe field to avoid complication.\n\ncollege_wide &lt;- college_clean |&gt; \n  pivot_wider(names_from = var_desc, values_from = estimate)\n\ncollege_wide\n\n\n  \n\n\n\n\n\n15.7.2 Make the math and percentages\n\nPercent with high school degree is that number (fm_hs) divided by all female (fem).\nTo get percent with post high school degree we have to add together all those with the different types of degrees first, then divide by all fem to get the percentage.\n\n\ncollege_calcs &lt;- college_wide |&gt; \n  mutate(\n    prc_hs = ((fem_hs / fem) * 100) |&gt; round(1),\n    sum_deg = fem_as_d + fem_ba_d + fem_ma_d + fem_ps_d + fem_ph_d,\n    prc_deg = ((sum_deg / fem) * 100) |&gt; round(1)\n  )\n\ncollege_calcs",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+    ]
+  },
+  {
+    "objectID": "tidycensus.html#select-your-percentages",
+    "href": "tidycensus.html#select-your-percentages",
+    "title": "15  tidycensus",
+    "section": "15.8 Select your percentages",
+    "text": "15.8 Select your percentages\nNow that you have the percentages, you might want to focus on those to view or chart.\n\nprc_cols &lt;- college_calcs |&gt; \n  select(name, yr, prc_hs, prc_deg)\n\nprc_cols",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+    ]
+  },
+  {
+    "objectID": "tidycensus.html#different-shapes",
+    "href": "tidycensus.html#different-shapes",
+    "title": "15  tidycensus",
+    "section": "15.9 Different shapes",
+    "text": "15.9 Different shapes\nThis might not be necessary, but you might want to rearrange the data to see of chart.\n\n15.9.1 Make longer\nWhat you want to move it to might depend on your needs, but making long sometimes helps with ggplot charting.\n\nprc_long &lt;- prc_cols |&gt; pivot_longer(\n  cols = prc_hs:prc_deg,\n  names_to = \"prc_type\",\n  values_to = \"prc_value\"\n)\n\nprc_long\n\n\n  \n\n\n\n\n\n15.9.2 Make wider\nMaybe you want to see how each value has changed by having a column for each year.\n\nprc_type_yr &lt;- prc_long |&gt;\n  pivot_wider(names_from = yr, values_from = prc_value)\n\nprc_type_yr",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+    ]
+  },
+  {
+    "objectID": "tabyl.html",
+    "href": "tabyl.html",
+    "title": "16  Tabyls",
+    "section": "",
+    "text": "16.1 Import my data\nWe’re using some animal center data to show these functions and we need some data I do a little cleanup for simplification.\noutcomes &lt;- read_rds(\"data-processed/01-outcome.rds\") |&gt;\n  filter(year &gt; 2013, year &lt; 2024) |&gt; \n  mutate(date_outcome = date(date_outcome))\n\noutcomes |&gt; glimpse()\n\nRows: 153,840\nColumns: 12\n$ animal_id        &lt;chr&gt; \"A794011\", \"A776359\", \"A821648\", \"A720371\", \"A674754\"…\n$ date_outcome     &lt;date&gt; 2019-05-08, 2018-07-18, 2020-08-16, 2016-02-13, 2014…\n$ date_birth       &lt;date&gt; 2017-05-02, 2017-07-12, 2019-08-16, 2015-10-08, 2014…\n$ age_days         &lt;drtn&gt; 736 days, 371 days, 366 days, 128 days, 6 days, 2752…\n$ animal_type      &lt;chr&gt; \"Cat\", \"Dog\", \"Other\", \"Dog\", \"Cat\", \"Dog\", \"Dog\", \"C…\n$ outcome_type     &lt;chr&gt; \"Rto-Adopt\", \"Adoption\", \"Euthanasia\", \"Adoption\", \"T…\n$ outcome_simple   &lt;chr&gt; \"Return to Owner\", \"Adoption\", \"Euthanasia\", \"Adoptio…\n$ outcome_subtype  &lt;chr&gt; NA, NA, NA, NA, \"Partner\", NA, \"Foster\", NA, NA, NA, …\n$ sex_upon_outcome &lt;chr&gt; \"Neutered Male\", \"Neutered Male\", \"Unknown\", \"Neutere…\n$ breed            &lt;chr&gt; \"Domestic Shorthair Mix\", \"Chihuahua Shorthair Mix\", …\n$ name             &lt;chr&gt; \"Chunk\", \"Gizmo\", NA, \"Moose\", NA, \"Princess\", \"Quent…\n$ year             &lt;dbl&gt; 2019, 2018, 2020, 2016, 2014, 2020, 2020, 2022, 2014,…\nPeek at the data in a way that shows outcome_simple\noutcomes |&gt;\n  slice_sample(n = 5) |&gt;\n  select(animal_id, date_outcome, outcome_type, outcome_simple, everything())",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Tabyls</span>"
+    ]
+  },
+  {
+    "objectID": "tabyl.html#lets-count-outcomes",
+    "href": "tabyl.html#lets-count-outcomes",
+    "title": "16  Tabyls",
+    "section": "16.2 Let’s count outcomes",
+    "text": "16.2 Let’s count outcomes\nThis is the shortcut count() which is super useful. It is the same and group_by |&gt; summarize(n()).\n\noutcomes |&gt; \n  count(outcome_simple)",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Tabyls</span>"
+    ]
+  },
+  {
+    "objectID": "tabyl.html#the-beauty-of-tabyl",
+    "href": "tabyl.html#the-beauty-of-tabyl",
+    "title": "16  Tabyls",
+    "section": "16.3 The beauty of tabyl",
+    "text": "16.3 The beauty of tabyl\ntabyl() works like count, but it also adds the percentage share by default. While the result looks physically different in your notebook than our tidyverse outputs, it is still a data frame that works in similar ways, as it can be piped, etc.\n\noutcomes |&gt; \n  tabyl(outcome_simple)\n\n\n  \n\n\n\nThat said, there are a number of additional “adorn” functions that can help format your result.\nHere we convert percent to an actual percentage (the * 100 part):\n\noutcomes |&gt; \n  tabyl(outcome_simple) |&gt; \n  adorn_pct_formatting()\n\n\n  \n\n\n\nAnd then we remove the percent sign:\n\noutcomes |&gt; \n  tabyl(outcome_simple) |&gt; \n  adorn_pct_formatting(affix_sign = F)\n\n\n  \n\n\n\nBut do not that percent column is a  datatype and not a number. That’s easy enough to convert with parse_number() or as.number().",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Tabyls</span>"
+    ]
+  },
+  {
+    "objectID": "tabyl.html#two-way-tables",
+    "href": "tabyl.html#two-way-tables",
+    "title": "16  Tabyls",
+    "section": "16.4 Two-way tables",
+    "text": "16.4 Two-way tables\nYou can group by more than one value. We’ll use a two-way table to get outcomes by year.\nTwo-way tables don’t automatically add percentages:\n\noutcomes |&gt; \n  tabyl(year, outcome_simple)\n\n\n  \n\n\n\nBut you can still convert them with an adorn function:\n\noutcomes |&gt; \n  tabyl(year, outcome_simple) |&gt; \n  adorn_percentages()\n\n\n  \n\n\n\nAnd even convert them to whole percentages:\n\noutcome_prcentages &lt;- outcomes |&gt; \n  tabyl(year, outcome_simple) |&gt; \n  adorn_percentages() |&gt; \n  adorn_pct_formatting(affix_sign = TRUE) # change to FALSE to remove %\n\noutcome_prcentages\n\n\n  \n\n\n\nAnd then pivot them to prepare for a plot. The value (prc here) ends up as text (even if you remove the % sign) so you have to convert them to a number before they are useful in plotting.\n\nout_prc_long &lt;- outcome_prcentages |&gt; \n  pivot_longer(\n    cols = Adoption:Transfer,\n    names_to = \"outcome_simple\",\n    values_to = \"prc\"\n  ) |&gt; \n  mutate(prc = parse_number(prc))\n\nout_prc_long\n\n\n  \n\n\n\nNow you can plot it:\n\nout_prc_long |&gt; \n  ggplot(aes(x = year, y = prc, group = outcome_simple)) +\n  geom_line(aes(color = outcome_simple)) +\n  geom_point(size = .5) +\n  labs(\n    title = \"Share of adoptions has risen in recent years\",\n    y = \"Percentage of outcome\"\n  )",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Tabyls</span>"
+    ]
+  },
+  {
+    "objectID": "tabyl.html#add-row-totals",
+    "href": "tabyl.html#add-row-totals",
+    "title": "16  Tabyls",
+    "section": "16.5 Add row totals",
+    "text": "16.5 Add row totals\nOne last thing … we’ll check our math on these percentage and how totals while we are at it.\nLet’s filter for just the 2023 values:\n\nout_prc_long |&gt; \n  filter(year == 2023)\n\n\n  \n\n\n\nBut then add adorn_totals() to add together the prc to make sure they equal 100. It’s a wee bit off because of rounding.\n\nout_prc_long |&gt; \n  filter(year == 2023) |&gt; \n  adorn_totals()\n\n\n  \n\n\n\nWhile it adds totals to columns by default, you can also specify both rows and columns, as necessary.\n\noutcomes |&gt; \n  tabyl(year, outcome_simple) |&gt; \n  adorn_totals(c(\"row\", \"col\"))",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Tabyls</span>"
+    ]
+  },
+  {
     "objectID": "posit-cloud.html",
     "href": "posit-cloud.html",
     "title": "Appendix A — Using posit.cloud",
@@ -1815,7 +1980,7 @@
     "href": "getting-help.html#resources",
     "title": "Appendix D — Asking for help",
     "section": "",
-    "text": "Not fleshed out\n\n\nExplain reprex concept: https://reprex.tidyverse.org/index.html\nReality is less.\nTips for copy/paste, etc.",
+    "text": "Not fleshed out\n\n\nThe more information or context you can give on an problem, the better.\nExplain reprex concept: https://reprex.tidyverse.org/index.html\nTips for copy/paste, etc. (including from those reprex articles)",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>D</span>  <span class='chapter-title'>Asking for help</span>"
@@ -1826,7 +1991,7 @@
     "href": "getting-help.html#example-challenge",
     "title": "Appendix D — Asking for help",
     "section": "D.2 Example challenge",
-    "text": "D.2 Example challenge\n\ngood start, but needs edit\n\nThis new sample data is similar to my posting above, but with some additional nuance. I use a little different method to make it, but don’t sweat that. Just think about the resulting data.\n\nlibrary(tidyverse)\n\nhc_data &lt;- tribble(\n  ~bias,                   ~victims,\n  \"anti-black\",                   2,\n  \"anti-black, anti-lgbt\",        1,\n  \"anti-lgbt\",                    3,\n  \"anti-gay\",                     1\n)\n\nhc_data\n\n\n  \n\n\n\nOur goal is to total up the number of victims involved where a particular bias has been cited in a case. But we also want to combine some bias into a “simple” categories to make for a less complex visualization. The example here is we want to combine “anti-lgbt” and “anti-gay” into “bias_gender” as a more collective term. So our results should show 3 anti-black victims and 5 anti-gender victims.\nIt’s important to note we are not counting the number of “cases” or rows with these terms, but we are adding the number of victims where the case as been classified with each individual term.\n\nD.2.1 The answer\n\nThis is overly explained. Perhaps better as a chapter specific to this issue but an not reprex answer.\n\nThe logic behind this answer is this: We’ll use mutate to create new columns and then sum the victims based on the presence of a bias or collection of bias, or use zero if there is no match.\nThis next bit creates our new “categories” of bias and saves it into a new object, then prints that out. See the notes below for details.\n\nhc_bias &lt;- hc_data |&gt; \n  mutate(\n1      bias_black = if_else(str_detect(bias, \"black\"), victims, 0),\n2      bias_gender = if_else(str_detect(bias, \"lgbt|gay\"), victims, 0)\n    )\n\nhc_bias\n\n\n1\n\nHere we create a new column called bias_black that uses str_detect() to look in the bias variable for the term “black” and if it finds it sets the new value to the victim value. If it doesn’t find “black” it sets the new value to zero.\n\n2\n\nThis is similar to above, but we’re looking for the term “lgbt” OR “gay” and summing victims on rows with either term.\n\n\n\n\n\n  \n\n\n\nNote that on the second row we get a “1” value for both bias_black and bias_gender because that case had both.\nOur next challenge is to total the number of victims for each of our new categories. The strategy is to pivot the data longer so we get a new row for each new category and value. At that point we can use a typical group_by/summarize to get the totals.\nCreate the pivot first. It looks a bit messy but reailze it is the last two columns we care about … the bias_type and bias_victims.\n\nhc_pivot &lt;- hc_bias |&gt; \n  pivot_longer(cols = bias_black:bias_gender, names_to = \"bias_type\", values_to = \"bias_victims\")\n\nhc_pivot\n\n\n  \n\n\n\nNow we can group by that bias_type and then sum the bias_totals to find the total number of victims for each of our new bias categories.\n\nhc_pivot |&gt; \n  group_by(bias_type) |&gt; \n  summarize(total_victims = sum(bias_victims))",
+    "text": "D.2 Example challenge\n\ngood start, but needs edit\n\nOur goal is to total up the number of victims involved where a particular bias has been cited in a case. But we also want to combine some bias into a “simple” categories to make for a less complex visualization.\nHere is some sample data:\n\nlibrary(tidyverse)\n\nhc_data &lt;- tribble(\n  ~bias,                   ~victims,\n  \"anti-black\",                   2,\n  \"anti-black, anti-lgbt\",        1,\n  \"anti-lgbt\",                    3,\n  \"anti-gay\",                     1\n)\n\nhc_data\n\n\n  \n\n\n\nIn the example above we want to combine “anti-lgbt” and “anti-gay” into “bias_gender” as a more collective term. So our results should show 3 anti-black victims and 5 anti-gender victims.\nIt’s important to note we are not counting the number of “cases” or rows with these terms, but we are adding the number of victims where the case as been classified with each individual term.\n\nD.2.1 The answer\n\nThis is overly explained. Perhaps better as a chapter specific to this issue but an not reprex answer.\n\nThe logic behind this answer is this: We’ll use mutate to create new columns and then sum the victims based on the presence of a bias or collection of bias, or use zero if there is no match.\nThis next bit creates our new “categories” of bias and saves it into a new object, then prints that out. See the notes below for details.\n\nhc_bias &lt;- hc_data |&gt; \n  mutate(\n1      bias_black = if_else(str_detect(bias, \"black\"), victims, 0),\n2      bias_gender = if_else(str_detect(bias, \"lgbt|gay\"), victims, 0)\n    )\n\nhc_bias\n\n\n1\n\nHere we create a new column called bias_black that uses str_detect() to look in the bias variable for the term “black” and if it finds it sets the new value to the victim value. If it doesn’t find “black” it sets the new value to zero.\n\n2\n\nThis is similar to above, but we’re looking for the term “lgbt” OR “gay” and summing victims on rows with either term.\n\n\n\n\n\n  \n\n\n\nNote that on the second row we get a “1” value for both bias_black and bias_gender because that case had both.\nOur next challenge is to total the number of victims for each of our new categories. The strategy is to pivot the data longer so we get a new row for each new category and value. At that point we can use a typical group_by/summarize to get the totals.\nCreate the pivot first. It looks a bit messy but reailze it is the last two columns we care about … the bias_type and bias_victims.\n\nhc_pivot &lt;- hc_bias |&gt; \n  pivot_longer(cols = bias_black:bias_gender, names_to = \"bias_type\", values_to = \"bias_victims\")\n\nhc_pivot\n\n\n  \n\n\n\nNow we can group by that bias_type and then sum the bias_totals to find the total number of victims for each of our new bias categories.\n\nhc_pivot |&gt; \n  group_by(bias_type) |&gt; \n  summarize(total_victims = sum(bias_victims))",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>D</span>  <span class='chapter-title'>Asking for help</span>"
@@ -1951,171 +2116,6 @@
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>F</span>  <span class='chapter-title'>Chart production tips</span>"
-    ]
-  },
-  {
-    "objectID": "tidycensus.html",
-    "href": "tidycensus.html",
-    "title": "Appendix G — tidycensus",
-    "section": "",
-    "text": "G.1 Other resources",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
-    ]
-  },
-  {
-    "objectID": "tidycensus.html#other-resources",
-    "href": "tidycensus.html#other-resources",
-    "title": "Appendix G — tidycensus",
-    "section": "",
-    "text": "The Tidycensus package\nThe author of the package has a book\nThis year’s NICAR lesson on tidycensus and the Github repo for it",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
-    ]
-  },
-  {
-    "objectID": "tidycensus.html#prereqs",
-    "href": "tidycensus.html#prereqs",
-    "title": "Appendix G — tidycensus",
-    "section": "G.2 Prereqs",
-    "text": "G.2 Prereqs\nYou need to install the tidycensus package and have a Census API key before using this. A key can be obtained here. Once you get the email with the key, it still might take a while to activate correctly … like maybe an hour?\nIt’s not a good idea to publish your API key since it is like a password, so I’ve commented that out in the code below. There is a way to store this value on your computer so you don’t have to reveal it in code, but I don’t want to get into that here.\n\nlibrary(tidyverse)\nlibrary(tidycensus)\n\n# census_api_key(\"YOUR API KEY GOES HERE\")",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
-    ]
-  },
-  {
-    "objectID": "tidycensus.html#testing-the-api",
-    "href": "tidycensus.html#testing-the-api",
-    "title": "Appendix G — tidycensus",
-    "section": "G.3 Testing the API",
-    "text": "G.3 Testing the API\nJust to make sure all is working, lets gets the median household income for counties in Texas.\nThis doesn’t bring back all 256 counties because I’m specifying the “acs1” 1-year survey, so it only get’s counties big enough to have a good yearly value. I’ve commented out an argument I could use to get just Travis County to show how it is possible. Again, see the docs for more info.\n\nmhi_trav &lt;- get_acs(\n  geography = \"county\",\n  variables = \"B19013_001\",\n  state = \"TX\",\n  # county = \"Travis\",\n  survey = \"acs1\",\n  year = 2022,\n)\n\nmhi_trav",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
-    ]
-  },
-  {
-    "objectID": "tidycensus.html#educational-attainment",
-    "href": "tidycensus.html#educational-attainment",
-    "title": "Appendix G — tidycensus",
-    "section": "G.4 Educational attainment",
-    "text": "G.4 Educational attainment\nI’ll use some educational attainment data for some examples …\nThe goal here is to find the percentage of women with degree higher than high school. To do this we have to add together all the different degree types, then divide by all women.\nWe want to find this for multiple years in multiple geographies. i.e. to compare US rates vs various states or counties. I’m going to find only two years and get rates for the US and Texas specifically.\n\nG.4.1 Find the table\nWe are using Census Reporter to find the variables we need, looking at Table B15002: Sex by Educational Attainment. (I’ll explain some other time why I started here.)\nYou can use a “tooltip” value from this site to to find a variable for Census Reporter. If you are familiar with a browser Inspector, you can look at the HTML and copy/paste values.\n\n\n\nCensus Reporter variables\n\n\nI used that method further down that page in the Female segment to collect the following variables. You have to insert an underscore between the table name and variable.\nI put them in a vector like this so I can reuse the list many times. If I want to adjust it, I’ll do that here.\n\nfem_edu_vars &lt;- c(\n  \"B15002_019\", # All female\n  \"B15002_028\", # Female High school graduate (includes equivalency)\n  \"B15002_031\", # Female Associate's degree\n  \"B15002_032\", # Female Bachelor's degree\n  \"B15002_033\", # Female Master's degree\n  \"B15002_034\", # Female Professional school degree\n  \"B15002_035\"  # Female Doctorate degree\n)\n\nIf you want different variables, find them and make your own list.\n\n\nG.4.2 Get the data for Texas\nHere I’m getting state numbers for these variables with geography = \"state\" but then filtering to get only Texas with state = \"TX\". I’m adding a column to indicate which year the data is from because I will need multiple years.\nOnce I have all the years I want I’ll bind them together.\n\ncollege_tx_21 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"state\",\n  state = \"TX\",\n  survey = \"acs1\",\n  year = 2021\n) |&gt; add_column(yr = \"2021\")\n\nGetting data from the 2021 1-year ACS\n\n\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\ncollege_tx_22 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"state\",\n  state = \"TX\",\n  survey = \"acs1\",\n  year = 2022\n) |&gt; add_column(yr = \"2022\")\n\nGetting data from the 2022 1-year ACS\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\n# Once I have each year I'll bind them together\ncollege_tx &lt;- bind_rows(college_tx_21, college_tx_22)\n\n\ncollege_tx\n\n\n  \n\n\n\nYour probably want more than two years of data.\n\n\nG.4.3 Get the data for US\nI’m doing the same thing here, but for US values.\n\ncollege_us_21 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"US\",\n  survey = \"acs1\",\n  year = 2021\n) |&gt; add_column(yr = \"2021\")\n\nGetting data from the 2021 1-year ACS\n\n\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\ncollege_us_22 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"US\",\n  survey = \"acs1\",\n  year = 2022\n) |&gt; add_column(yr = \"2022\")\n\nGetting data from the 2022 1-year ACS\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\ncollege_us &lt;- bind_rows(college_us_21, college_us_22)\n\n\ncollege_us\n\n\n  \n\n\n\nAgain you probably want more than two years of data.",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
-    ]
-  },
-  {
-    "objectID": "tidycensus.html#bind-and-clean",
-    "href": "tidycensus.html#bind-and-clean",
-    "title": "Appendix G — tidycensus",
-    "section": "G.5 Bind and clean",
-    "text": "G.5 Bind and clean\nI’m putting the state and national data together so I can make nice variable names once instead of many times.\n\ncollege &lt;- bind_rows(college_tx, college_us)\n\ncollege |&gt; glimpse()\n\nRows: 28\nColumns: 6\n$ GEOID    &lt;chr&gt; \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"…\n$ NAME     &lt;chr&gt; \"Texas\", \"Texas\", \"Texas\", \"Texas\", \"Texas\", \"Texas\", \"Texas\"…\n$ variable &lt;chr&gt; \"B15002_019\", \"B15002_028\", \"B15002_031\", \"B15002_032\", \"B150…\n$ estimate &lt;dbl&gt; 9763451, 2321205, 787873, 2141544, 906361, 153481, 110895, 99…\n$ moe      &lt;dbl&gt; 9478, 27228, 20962, 28440, 19354, 8400, 6797, 8666, 32864, 18…\n$ yr       &lt;chr&gt; \"2021\", \"2021\", \"2021\", \"2021\", \"2021\", \"2021\", \"2021\", \"2022…\n\n\n\nG.5.1 Rename the variables\nHere we add new column with friendlier variable names. They are still a little esoteric, but you can at least tell them apart.\n\ncollege_vars &lt;- college |&gt; \n  mutate(\n    var_desc = case_match(\n      variable,\n      \"B15002_019\" ~ \"fem\", # All female\n      \"B15002_028\" ~ \"fem_hs\", # High school graduate (includes equivalency)\n      \"B15002_031\" ~ \"fem_as_d\", # Associate's degree\n      \"B15002_032\" ~ \"fem_ba_d\", # Bachelor's degree\n      \"B15002_033\" ~ \"fem_ma_d\", # Master's degree\n      \"B15002_034\" ~ \"fem_ps_d\", # Professional school degree\n      \"B15002_035\" ~ \"fem_ph_d\"  # Doctorate degree\n    )\n  )\n\ncollege_vars\n\n\n  \n\n\n\n\n\nG.5.2 Check for moe problems\nIf the margin of error is more than 10% of an estimate, then that number is squishy and shouldn’t be relied upon to be the main point of a story. We are sticking with large geographies here to try to avoid those problems, but here I check to see if any values have a high margin of error.\n\nmoe_check &lt;- college_vars |&gt; \n  mutate(\n    moe_share = ((moe / estimate) * 100) |&gt; round(1), # calc moe share\n    moe_flag = if_else(moe_share &gt;= 10, TRUE, FALSE) # make a flag if high\n  )\n\nmoe_check\n\n\n  \n\n\nmoe_check |&gt; filter(moe_flag == T)\n\n\n  \n\n\n\nIf the moe_flag was TRUE anywhere then we might want to use that number. We are find with these numbers above so I’m going to drop the moe column in the next section.\n\n\nG.5.3 Select columns of interest\nHere I’m rearranging the columns and dropping the old variable and moe columns.\n\ncollege_clean &lt;- college_vars |&gt; \n  select(\n    geoid = GEOID,\n    name = NAME,\n    yr,\n    var_desc,\n    estimate\n  )\n\ncollege_clean",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
-    ]
-  },
-  {
-    "objectID": "tidycensus.html#i-would-export-here",
-    "href": "tidycensus.html#i-would-export-here",
-    "title": "Appendix G — tidycensus",
-    "section": "G.6 I would export here",
-    "text": "G.6 I would export here\nI would export the cleaned data college_clean here but I want to stay in the same notebook.",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
-    ]
-  },
-  {
-    "objectID": "tidycensus.html#calculate-percentage-degrees",
-    "href": "tidycensus.html#calculate-percentage-degrees",
-    "title": "Appendix G — tidycensus",
-    "section": "G.7 Calculate percentage degrees",
-    "text": "G.7 Calculate percentage degrees\nTo get the share of people with degrees vs all people, we have to do some math. It is easier in this case to pivot the data to calculate those percentages.\n\nG.7.1 Pivot the data\nFirst we have to pivot this to do some math. I remove the moe field to avoid complication.\n\ncollege_wide &lt;- college_clean |&gt; \n  pivot_wider(names_from = var_desc, values_from = estimate)\n\ncollege_wide\n\n\n  \n\n\n\n\n\nG.7.2 Make the math and percentages\n\nPercent with high school degree is that number (fm_hs) divided by all female (fem).\nTo get percent with post high school degree we have to add together all those with the different types of degrees first, then divide by all fem to get the percentage.\n\n\ncollege_calcs &lt;- college_wide |&gt; \n  mutate(\n    prc_hs = ((fem_hs / fem) * 100) |&gt; round(1),\n    sum_deg = fem_as_d + fem_ba_d + fem_ma_d + fem_ps_d + fem_ph_d,\n    prc_deg = ((sum_deg / fem) * 100) |&gt; round(1)\n  )\n\ncollege_calcs",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
-    ]
-  },
-  {
-    "objectID": "tidycensus.html#select-your-percentages",
-    "href": "tidycensus.html#select-your-percentages",
-    "title": "Appendix G — tidycensus",
-    "section": "G.8 Select your percentages",
-    "text": "G.8 Select your percentages\nNow that you have the percentages, you might want to focus on those to view or chart.\n\nprc_cols &lt;- college_calcs |&gt; \n  select(name, yr, prc_hs, prc_deg)\n\nprc_cols",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
-    ]
-  },
-  {
-    "objectID": "tidycensus.html#different-shapes",
-    "href": "tidycensus.html#different-shapes",
-    "title": "Appendix G — tidycensus",
-    "section": "G.9 Different shapes",
-    "text": "G.9 Different shapes\nThis might not be necessary, but you might want to rearrange the data to see of chart.\n\nG.9.1 Make longer\nWhat you want to move it to might depend on your needs, but making long sometimes helps with ggplot charting.\n\nprc_long &lt;- prc_cols |&gt; pivot_longer(\n  cols = prc_hs:prc_deg,\n  names_to = \"prc_type\",\n  values_to = \"prc_value\"\n)\n\nprc_long\n\n\n  \n\n\n\n\n\nG.9.2 Make wider\nMaybe you want to see how each value has changed by having a column for each year.\n\nprc_type_yr &lt;- prc_long |&gt;\n  pivot_wider(names_from = yr, values_from = prc_value)\n\nprc_type_yr",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>G</span>  <span class='chapter-title'>tidycensus</span>"
-    ]
-  },
-  {
-    "objectID": "tabyl.html",
-    "href": "tabyl.html",
-    "title": "Appendix H — Tabyls",
-    "section": "",
-    "text": "H.1 Import my data\nWe’re using some animal center data to show these functions and we need some data I do a little cleanup for simplification.\noutcomes &lt;- read_rds(\"data-processed/01-outcome.rds\") |&gt;\n  filter(year &gt; 2013, year &lt; 2024) |&gt; \n  mutate(date_outcome = date(date_outcome))\n\noutcomes |&gt; glimpse()\n\nRows: 153,840\nColumns: 12\n$ animal_id        &lt;chr&gt; \"A794011\", \"A776359\", \"A821648\", \"A720371\", \"A674754\"…\n$ date_outcome     &lt;date&gt; 2019-05-08, 2018-07-18, 2020-08-16, 2016-02-13, 2014…\n$ date_birth       &lt;date&gt; 2017-05-02, 2017-07-12, 2019-08-16, 2015-10-08, 2014…\n$ age_days         &lt;drtn&gt; 736 days, 371 days, 366 days, 128 days, 6 days, 2752…\n$ animal_type      &lt;chr&gt; \"Cat\", \"Dog\", \"Other\", \"Dog\", \"Cat\", \"Dog\", \"Dog\", \"C…\n$ outcome_type     &lt;chr&gt; \"Rto-Adopt\", \"Adoption\", \"Euthanasia\", \"Adoption\", \"T…\n$ outcome_simple   &lt;chr&gt; \"Return to Owner\", \"Adoption\", \"Euthanasia\", \"Adoptio…\n$ outcome_subtype  &lt;chr&gt; NA, NA, NA, NA, \"Partner\", NA, \"Foster\", NA, NA, NA, …\n$ sex_upon_outcome &lt;chr&gt; \"Neutered Male\", \"Neutered Male\", \"Unknown\", \"Neutere…\n$ breed            &lt;chr&gt; \"Domestic Shorthair Mix\", \"Chihuahua Shorthair Mix\", …\n$ name             &lt;chr&gt; \"Chunk\", \"Gizmo\", NA, \"Moose\", NA, \"Princess\", \"Quent…\n$ year             &lt;dbl&gt; 2019, 2018, 2020, 2016, 2014, 2020, 2020, 2022, 2014,…\nPeek at the data in a way that shows outcome_simple\noutcomes |&gt;\n  slice_sample(n = 5) |&gt;\n  select(animal_id, date_outcome, outcome_type, outcome_simple, everything())",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>H</span>  <span class='chapter-title'>Tabyls</span>"
-    ]
-  },
-  {
-    "objectID": "tabyl.html#lets-count-outcomes",
-    "href": "tabyl.html#lets-count-outcomes",
-    "title": "Appendix H — Tabyls",
-    "section": "H.2 Let’s count outcomes",
-    "text": "H.2 Let’s count outcomes\nThis is the shortcut count() which is super useful. It is the same and group_by |&gt; summarize(n()).\n\noutcomes |&gt; \n  count(outcome_simple)",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>H</span>  <span class='chapter-title'>Tabyls</span>"
-    ]
-  },
-  {
-    "objectID": "tabyl.html#the-beauty-of-tabyl",
-    "href": "tabyl.html#the-beauty-of-tabyl",
-    "title": "Appendix H — Tabyls",
-    "section": "H.3 The beauty of tabyl",
-    "text": "H.3 The beauty of tabyl\ntabyl() works like count, but it also adds the percentage share by default. While the result looks physically different in your notebook than our tidyverse outputs, it is still a data frame that works in similar ways, as it can be piped, etc.\n\noutcomes |&gt; \n  tabyl(outcome_simple)\n\n\n  \n\n\n\nThat said, there are a number of additional “adorn” functions that can help format your result.\nHere we convert percent to an actual percentage (the * 100 part):\n\noutcomes |&gt; \n  tabyl(outcome_simple) |&gt; \n  adorn_pct_formatting()\n\n\n  \n\n\n\nAnd then we remove the percent sign:\n\noutcomes |&gt; \n  tabyl(outcome_simple) |&gt; \n  adorn_pct_formatting(affix_sign = F)\n\n\n  \n\n\n\nBut do not that percent column is a  datatype and not a number. That’s easy enough to convert with parse_number() or as.number().",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>H</span>  <span class='chapter-title'>Tabyls</span>"
-    ]
-  },
-  {
-    "objectID": "tabyl.html#two-way-tables",
-    "href": "tabyl.html#two-way-tables",
-    "title": "Appendix H — Tabyls",
-    "section": "H.4 Two-way tables",
-    "text": "H.4 Two-way tables\nYou can group by more than one value. We’ll use a two-way table to get outcomes by year.\nTwo-way tables don’t automatically add percentages:\n\noutcomes |&gt; \n  tabyl(year, outcome_simple)\n\n\n  \n\n\n\nBut you can still convert them with an adorn function:\n\noutcomes |&gt; \n  tabyl(year, outcome_simple) |&gt; \n  adorn_percentages()\n\n\n  \n\n\n\nAnd even convert them to whole percentages:\n\noutcome_prcentages &lt;- outcomes |&gt; \n  tabyl(year, outcome_simple) |&gt; \n  adorn_percentages() |&gt; \n  adorn_pct_formatting(affix_sign = TRUE) # change to FALSE to remove %\n\noutcome_prcentages\n\n\n  \n\n\n\nAnd then pivot them to prepare for a plot. The value (prc here) ends up as text (even if you remove the % sign) so you have to convert them to a number before they are useful in plotting.\n\nout_prc_long &lt;- outcome_prcentages |&gt; \n  pivot_longer(\n    cols = Adoption:Transfer,\n    names_to = \"outcome_simple\",\n    values_to = \"prc\"\n  ) |&gt; \n  mutate(prc = parse_number(prc))\n\nout_prc_long\n\n\n  \n\n\n\nNow you can plot it:\n\nout_prc_long |&gt; \n  ggplot(aes(x = year, y = prc, group = outcome_simple)) +\n  geom_line(aes(color = outcome_simple)) +\n  geom_point(size = .5) +\n  labs(\n    title = \"Share of adoptions has risen in recent years\",\n    y = \"Percentage of outcome\"\n  )",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>H</span>  <span class='chapter-title'>Tabyls</span>"
-    ]
-  },
-  {
-    "objectID": "tabyl.html#add-row-totals",
-    "href": "tabyl.html#add-row-totals",
-    "title": "Appendix H — Tabyls",
-    "section": "H.5 Add row totals",
-    "text": "H.5 Add row totals\nOne last thing … we’ll check our math on these percentage and how totals while we are at it.\nLet’s filter for just the 2023 values:\n\nout_prc_long |&gt; \n  filter(year == 2023)\n\n\n  \n\n\n\nBut then add adorn_totals() to add together the prc to make sure they equal 100. It’s a wee bit off because of rounding.\n\nout_prc_long |&gt; \n  filter(year == 2023) |&gt; \n  adorn_totals()\n\n\n  \n\n\n\nWhile it adds totals to columns by default, you can also specify both rows and columns, as necessary.\n\noutcomes |&gt; \n  tabyl(year, outcome_simple) |&gt; \n  adorn_totals(c(\"row\", \"col\"))",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>H</span>  <span class='chapter-title'>Tabyls</span>"
     ]
   }
 ]
