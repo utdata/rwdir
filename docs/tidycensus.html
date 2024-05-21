@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Reporting with Data in R - Appendix G — tidycensus</title>
+<title>Reporting with Data in R - 15&nbsp; tidycensus</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./tabyl.html" rel="next">
-<link href="./charts-tips.html" rel="prev">
+<link href="./case-when.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./posit-cloud.html">Appendices</a></li><li class="breadcrumb-item"><a href="./tidycensus.html"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">tidycensus</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./group-dates.html">Extras</a></li><li class="breadcrumb-item"><a href="./tidycensus.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">tidycensus</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -285,6 +285,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Using case_when</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tidycensus.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">tidycensus</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tabyl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Tabyls</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -332,18 +344,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Chart production tips</span></span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./tidycensus.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">tidycensus</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./tabyl.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">Tabyls</span></span></a>
-  </div>
-</li>
       </ul>
   </li>
     </ul>
@@ -356,32 +356,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#other-resources" id="toc-other-resources" class="nav-link active" data-scroll-target="#other-resources"><span class="header-section-number">G.1</span> Other resources</a></li>
-  <li><a href="#prereqs" id="toc-prereqs" class="nav-link" data-scroll-target="#prereqs"><span class="header-section-number">G.2</span> Prereqs</a></li>
-  <li><a href="#testing-the-api" id="toc-testing-the-api" class="nav-link" data-scroll-target="#testing-the-api"><span class="header-section-number">G.3</span> Testing the API</a></li>
-  <li><a href="#educational-attainment" id="toc-educational-attainment" class="nav-link" data-scroll-target="#educational-attainment"><span class="header-section-number">G.4</span> Educational attainment</a>
+  <li><a href="#other-resources" id="toc-other-resources" class="nav-link active" data-scroll-target="#other-resources"><span class="header-section-number">15.1</span> Other resources</a></li>
+  <li><a href="#prereqs" id="toc-prereqs" class="nav-link" data-scroll-target="#prereqs"><span class="header-section-number">15.2</span> Prereqs</a></li>
+  <li><a href="#testing-the-api" id="toc-testing-the-api" class="nav-link" data-scroll-target="#testing-the-api"><span class="header-section-number">15.3</span> Testing the API</a></li>
+  <li><a href="#educational-attainment" id="toc-educational-attainment" class="nav-link" data-scroll-target="#educational-attainment"><span class="header-section-number">15.4</span> Educational attainment</a>
   <ul class="collapse">
-  <li><a href="#find-the-table" id="toc-find-the-table" class="nav-link" data-scroll-target="#find-the-table"><span class="header-section-number">G.4.1</span> Find the table</a></li>
-  <li><a href="#get-the-data-for-texas" id="toc-get-the-data-for-texas" class="nav-link" data-scroll-target="#get-the-data-for-texas"><span class="header-section-number">G.4.2</span> Get the data for Texas</a></li>
-  <li><a href="#get-the-data-for-us" id="toc-get-the-data-for-us" class="nav-link" data-scroll-target="#get-the-data-for-us"><span class="header-section-number">G.4.3</span> Get the data for US</a></li>
+  <li><a href="#find-the-table" id="toc-find-the-table" class="nav-link" data-scroll-target="#find-the-table"><span class="header-section-number">15.4.1</span> Find the table</a></li>
+  <li><a href="#get-the-data-for-texas" id="toc-get-the-data-for-texas" class="nav-link" data-scroll-target="#get-the-data-for-texas"><span class="header-section-number">15.4.2</span> Get the data for Texas</a></li>
+  <li><a href="#get-the-data-for-us" id="toc-get-the-data-for-us" class="nav-link" data-scroll-target="#get-the-data-for-us"><span class="header-section-number">15.4.3</span> Get the data for US</a></li>
   </ul></li>
-  <li><a href="#bind-and-clean" id="toc-bind-and-clean" class="nav-link" data-scroll-target="#bind-and-clean"><span class="header-section-number">G.5</span> Bind and clean</a>
+  <li><a href="#bind-and-clean" id="toc-bind-and-clean" class="nav-link" data-scroll-target="#bind-and-clean"><span class="header-section-number">15.5</span> Bind and clean</a>
   <ul class="collapse">
-  <li><a href="#rename-the-variables" id="toc-rename-the-variables" class="nav-link" data-scroll-target="#rename-the-variables"><span class="header-section-number">G.5.1</span> Rename the variables</a></li>
-  <li><a href="#check-for-moe-problems" id="toc-check-for-moe-problems" class="nav-link" data-scroll-target="#check-for-moe-problems"><span class="header-section-number">G.5.2</span> Check for moe problems</a></li>
-  <li><a href="#select-columns-of-interest" id="toc-select-columns-of-interest" class="nav-link" data-scroll-target="#select-columns-of-interest"><span class="header-section-number">G.5.3</span> Select columns of interest</a></li>
+  <li><a href="#rename-the-variables" id="toc-rename-the-variables" class="nav-link" data-scroll-target="#rename-the-variables"><span class="header-section-number">15.5.1</span> Rename the variables</a></li>
+  <li><a href="#check-for-moe-problems" id="toc-check-for-moe-problems" class="nav-link" data-scroll-target="#check-for-moe-problems"><span class="header-section-number">15.5.2</span> Check for moe problems</a></li>
+  <li><a href="#select-columns-of-interest" id="toc-select-columns-of-interest" class="nav-link" data-scroll-target="#select-columns-of-interest"><span class="header-section-number">15.5.3</span> Select columns of interest</a></li>
   </ul></li>
-  <li><a href="#i-would-export-here" id="toc-i-would-export-here" class="nav-link" data-scroll-target="#i-would-export-here"><span class="header-section-number">G.6</span> I would export here</a></li>
-  <li><a href="#calculate-percentage-degrees" id="toc-calculate-percentage-degrees" class="nav-link" data-scroll-target="#calculate-percentage-degrees"><span class="header-section-number">G.7</span> Calculate percentage degrees</a>
+  <li><a href="#i-would-export-here" id="toc-i-would-export-here" class="nav-link" data-scroll-target="#i-would-export-here"><span class="header-section-number">15.6</span> I would export here</a></li>
+  <li><a href="#calculate-percentage-degrees" id="toc-calculate-percentage-degrees" class="nav-link" data-scroll-target="#calculate-percentage-degrees"><span class="header-section-number">15.7</span> Calculate percentage degrees</a>
   <ul class="collapse">
-  <li><a href="#pivot-the-data" id="toc-pivot-the-data" class="nav-link" data-scroll-target="#pivot-the-data"><span class="header-section-number">G.7.1</span> Pivot the data</a></li>
-  <li><a href="#make-the-math-and-percentages" id="toc-make-the-math-and-percentages" class="nav-link" data-scroll-target="#make-the-math-and-percentages"><span class="header-section-number">G.7.2</span> Make the math and percentages</a></li>
+  <li><a href="#pivot-the-data" id="toc-pivot-the-data" class="nav-link" data-scroll-target="#pivot-the-data"><span class="header-section-number">15.7.1</span> Pivot the data</a></li>
+  <li><a href="#make-the-math-and-percentages" id="toc-make-the-math-and-percentages" class="nav-link" data-scroll-target="#make-the-math-and-percentages"><span class="header-section-number">15.7.2</span> Make the math and percentages</a></li>
   </ul></li>
-  <li><a href="#select-your-percentages" id="toc-select-your-percentages" class="nav-link" data-scroll-target="#select-your-percentages"><span class="header-section-number">G.8</span> Select your percentages</a></li>
-  <li><a href="#different-shapes" id="toc-different-shapes" class="nav-link" data-scroll-target="#different-shapes"><span class="header-section-number">G.9</span> Different shapes</a>
+  <li><a href="#select-your-percentages" id="toc-select-your-percentages" class="nav-link" data-scroll-target="#select-your-percentages"><span class="header-section-number">15.8</span> Select your percentages</a></li>
+  <li><a href="#different-shapes" id="toc-different-shapes" class="nav-link" data-scroll-target="#different-shapes"><span class="header-section-number">15.9</span> Different shapes</a>
   <ul class="collapse">
-  <li><a href="#make-longer" id="toc-make-longer" class="nav-link" data-scroll-target="#make-longer"><span class="header-section-number">G.9.1</span> Make longer</a></li>
-  <li><a href="#make-wider" id="toc-make-wider" class="nav-link" data-scroll-target="#make-wider"><span class="header-section-number">G.9.2</span> Make wider</a></li>
+  <li><a href="#make-longer" id="toc-make-longer" class="nav-link" data-scroll-target="#make-longer"><span class="header-section-number">15.9.1</span> Make longer</a></li>
+  <li><a href="#make-wider" id="toc-make-wider" class="nav-link" data-scroll-target="#make-wider"><span class="header-section-number">15.9.2</span> Make wider</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -389,9 +389,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./posit-cloud.html">Appendices</a></li><li class="breadcrumb-item"><a href="./tidycensus.html"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">tidycensus</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./group-dates.html">Extras</a></li><li class="breadcrumb-item"><a href="./tidycensus.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">tidycensus</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Appendix G — tidycensus</h1>
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">tidycensus</span></h1>
 </div>
 
 
@@ -410,16 +410,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>This chapter shows an example of how to find data fro the American Community Survey using <a href="https://censusreporter.org/">Census Reporter</a> and the to get that data using the <a href="https://walker-data.com/tidycensus/index.html">tidycensus</a> package.</p>
 <p>This is NOT a full explanation of tidycensus. See <a href="https://walker-data.com/tidycensus/index.html">Kyle Walker’s site</a> for that.</p>
-<section id="other-resources" class="level2" data-number="G.1">
-<h2 data-number="G.1" class="anchored" data-anchor-id="other-resources"><span class="header-section-number">G.1</span> Other resources</h2>
+<section id="other-resources" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="other-resources"><span class="header-section-number">15.1</span> Other resources</h2>
 <ul>
 <li>The <a href="https://walker-data.com/tidycensus/index.html">Tidycensus</a> package</li>
 <li>The author of the package has <a href="https://walker-data.com/census-r/">a book</a></li>
 <li>This year’s <a href="https://nicar.r-journalism.com/2024/">NICAR lesson on tidycensus</a> and the <a href="https://github.com/r-journalism/nicar-2024-tidycensus?tab=readme-ov-file">Github repo</a> for it</li>
 </ul>
 </section>
-<section id="prereqs" class="level2" data-number="G.2">
-<h2 data-number="G.2" class="anchored" data-anchor-id="prereqs"><span class="header-section-number">G.2</span> Prereqs</h2>
+<section id="prereqs" class="level2" data-number="15.2">
+<h2 data-number="15.2" class="anchored" data-anchor-id="prereqs"><span class="header-section-number">15.2</span> Prereqs</h2>
 <p>You need to install the tidycensus package and have a Census API key before using this. A key can be obtained <a href="http://api.census.gov/data/key_signup.html">here</a>. Once you get the email with the key, it still might take a while to activate correctly … like maybe an hour?</p>
 <p>It’s not a good idea to publish your API key since it is like a password, so I’ve commented that out in the code below. There is a way to <a href="https://walker-data.com/tidycensus/reference/census_api_key.html">store this value on your computer</a> so you don’t have to reveal it in code, but I don’t want to get into that here.</p>
 <div class="cell">
@@ -429,8 +429,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># census_api_key("YOUR API KEY GOES HERE")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="testing-the-api" class="level2" data-number="G.3">
-<h2 data-number="G.3" class="anchored" data-anchor-id="testing-the-api"><span class="header-section-number">G.3</span> Testing the API</h2>
+<section id="testing-the-api" class="level2" data-number="15.3">
+<h2 data-number="15.3" class="anchored" data-anchor-id="testing-the-api"><span class="header-section-number">15.3</span> Testing the API</h2>
 <p>Just to make sure all is working, lets gets the median household income for counties in Texas.</p>
 <p>This doesn’t bring back all 256 counties because I’m specifying the “acs1” 1-year survey, so it only get’s counties big enough to have a good yearly value. I’ve commented out an argument I could use to get just Travis County to show how it is possible. Again, see the docs for more info.</p>
 <div class="cell">
@@ -453,13 +453,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="educational-attainment" class="level2" data-number="G.4">
-<h2 data-number="G.4" class="anchored" data-anchor-id="educational-attainment"><span class="header-section-number">G.4</span> Educational attainment</h2>
+<section id="educational-attainment" class="level2" data-number="15.4">
+<h2 data-number="15.4" class="anchored" data-anchor-id="educational-attainment"><span class="header-section-number">15.4</span> Educational attainment</h2>
 <p>I’ll use some educational attainment data for some examples …</p>
 <p>The goal here is to find the percentage of women with degree higher than high school. To do this we have to add together all the different degree types, then divide by all women.</p>
 <p>We want to find this for multiple years in multiple geographies. i.e.&nbsp;to compare US rates vs various states or counties. I’m going to find only two years and get rates for the US and Texas specifically.</p>
-<section id="find-the-table" class="level3" data-number="G.4.1">
-<h3 data-number="G.4.1" class="anchored" data-anchor-id="find-the-table"><span class="header-section-number">G.4.1</span> Find the table</h3>
+<section id="find-the-table" class="level3" data-number="15.4.1">
+<h3 data-number="15.4.1" class="anchored" data-anchor-id="find-the-table"><span class="header-section-number">15.4.1</span> Find the table</h3>
 <p>We are using Census Reporter to find the variables we need, looking at <a href="https://censusreporter.org/tables/B15002/">Table B15002: Sex by Educational Attainment</a>. (I’ll explain some other time why I started here.)</p>
 <p>You can use a “tooltip” value from this site to to find a variable for Census Reporter. If you are familiar with a browser Inspector, you can look at the HTML and copy/paste values.</p>
 <div class="quarto-figure quarto-figure-center">
@@ -483,8 +483,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>If you want different variables, find them and make your own list.</p>
 </section>
-<section id="get-the-data-for-texas" class="level3" data-number="G.4.2">
-<h3 data-number="G.4.2" class="anchored" data-anchor-id="get-the-data-for-texas"><span class="header-section-number">G.4.2</span> Get the data for Texas</h3>
+<section id="get-the-data-for-texas" class="level3" data-number="15.4.2">
+<h3 data-number="15.4.2" class="anchored" data-anchor-id="get-the-data-for-texas"><span class="header-section-number">15.4.2</span> Get the data for Texas</h3>
 <p>Here I’m getting state numbers for these variables with <code>geography = "state"</code> but then filtering to get only Texas with <code>state = "TX"</code>. I’m adding a column to indicate which year the data is from because I will need multiple years.</p>
 <p>Once I have all the years I want I’ll bind them together.</p>
 <div class="cell">
@@ -527,8 +527,8 @@ The 1-year ACS provides data for geographies with populations of 65,000 and grea
 </div>
 <p>Your probably want more than two years of data.</p>
 </section>
-<section id="get-the-data-for-us" class="level3" data-number="G.4.3">
-<h3 data-number="G.4.3" class="anchored" data-anchor-id="get-the-data-for-us"><span class="header-section-number">G.4.3</span> Get the data for US</h3>
+<section id="get-the-data-for-us" class="level3" data-number="15.4.3">
+<h3 data-number="15.4.3" class="anchored" data-anchor-id="get-the-data-for-us"><span class="header-section-number">15.4.3</span> Get the data for US</h3>
 <p>I’m doing the same thing here, but for US values.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>college_us_21 <span class="ot">&lt;-</span> <span class="fu">get_acs</span>(</span>
@@ -568,8 +568,8 @@ The 1-year ACS provides data for geographies with populations of 65,000 and grea
 <p>Again you probably want more than two years of data.</p>
 </section>
 </section>
-<section id="bind-and-clean" class="level2" data-number="G.5">
-<h2 data-number="G.5" class="anchored" data-anchor-id="bind-and-clean"><span class="header-section-number">G.5</span> Bind and clean</h2>
+<section id="bind-and-clean" class="level2" data-number="15.5">
+<h2 data-number="15.5" class="anchored" data-anchor-id="bind-and-clean"><span class="header-section-number">15.5</span> Bind and clean</h2>
 <p>I’m putting the state and national data together so I can make nice variable names once instead of many times.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>college <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(college_tx, college_us)</span>
@@ -586,8 +586,8 @@ $ moe      &lt;dbl&gt; 9478, 27228, 20962, 28440, 19354, 8400, 6797, 8666, 32864
 $ yr       &lt;chr&gt; "2021", "2021", "2021", "2021", "2021", "2021", "2021", "2022…</code></pre>
 </div>
 </div>
-<section id="rename-the-variables" class="level3" data-number="G.5.1">
-<h3 data-number="G.5.1" class="anchored" data-anchor-id="rename-the-variables"><span class="header-section-number">G.5.1</span> Rename the variables</h3>
+<section id="rename-the-variables" class="level3" data-number="15.5.1">
+<h3 data-number="15.5.1" class="anchored" data-anchor-id="rename-the-variables"><span class="header-section-number">15.5.1</span> Rename the variables</h3>
 <p>Here we add new column with friendlier variable names. They are still a little esoteric, but you can at least tell them apart.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>college_vars <span class="ot">&lt;-</span> college <span class="sc">|&gt;</span> </span>
@@ -614,8 +614,8 @@ $ yr       &lt;chr&gt; "2021", "2021", "2021", "2021", "2021", "2021", "2021", "
 </div>
 </div>
 </section>
-<section id="check-for-moe-problems" class="level3" data-number="G.5.2">
-<h3 data-number="G.5.2" class="anchored" data-anchor-id="check-for-moe-problems"><span class="header-section-number">G.5.2</span> Check for moe problems</h3>
+<section id="check-for-moe-problems" class="level3" data-number="15.5.2">
+<h3 data-number="15.5.2" class="anchored" data-anchor-id="check-for-moe-problems"><span class="header-section-number">15.5.2</span> Check for moe problems</h3>
 <p>If the margin of error is more than 10% of an estimate, then that number is squishy and shouldn’t be relied upon to be the main point of a story. We are sticking with large geographies here to try to avoid those problems, but here I check to see if any values have a high margin of error.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>moe_check <span class="ot">&lt;-</span> college_vars <span class="sc">|&gt;</span> </span>
@@ -643,8 +643,8 @@ $ yr       &lt;chr&gt; "2021", "2021", "2021", "2021", "2021", "2021", "2021", "
 </div>
 <p>If the moe_flag was TRUE anywhere then we might want to use that number. We are find with these numbers above so I’m going to drop the <code>moe</code> column in the next section.</p>
 </section>
-<section id="select-columns-of-interest" class="level3" data-number="G.5.3">
-<h3 data-number="G.5.3" class="anchored" data-anchor-id="select-columns-of-interest"><span class="header-section-number">G.5.3</span> Select columns of interest</h3>
+<section id="select-columns-of-interest" class="level3" data-number="15.5.3">
+<h3 data-number="15.5.3" class="anchored" data-anchor-id="select-columns-of-interest"><span class="header-section-number">15.5.3</span> Select columns of interest</h3>
 <p>Here I’m rearranging the columns and dropping the old <code>variable</code> and <code>moe</code> columns.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>college_clean <span class="ot">&lt;-</span> college_vars <span class="sc">|&gt;</span> </span>
@@ -667,15 +667,15 @@ $ yr       &lt;chr&gt; "2021", "2021", "2021", "2021", "2021", "2021", "2021", "
 </div>
 </section>
 </section>
-<section id="i-would-export-here" class="level2" data-number="G.6">
-<h2 data-number="G.6" class="anchored" data-anchor-id="i-would-export-here"><span class="header-section-number">G.6</span> I would export here</h2>
+<section id="i-would-export-here" class="level2" data-number="15.6">
+<h2 data-number="15.6" class="anchored" data-anchor-id="i-would-export-here"><span class="header-section-number">15.6</span> I would export here</h2>
 <p>I would export the cleaned data <code>college_clean</code> here but I want to stay in the same notebook.</p>
 </section>
-<section id="calculate-percentage-degrees" class="level2" data-number="G.7">
-<h2 data-number="G.7" class="anchored" data-anchor-id="calculate-percentage-degrees"><span class="header-section-number">G.7</span> Calculate percentage degrees</h2>
+<section id="calculate-percentage-degrees" class="level2" data-number="15.7">
+<h2 data-number="15.7" class="anchored" data-anchor-id="calculate-percentage-degrees"><span class="header-section-number">15.7</span> Calculate percentage degrees</h2>
 <p>To get the share of people with degrees vs all people, we have to do some math. It is easier in this case to pivot the data to calculate those percentages.</p>
-<section id="pivot-the-data" class="level3" data-number="G.7.1">
-<h3 data-number="G.7.1" class="anchored" data-anchor-id="pivot-the-data"><span class="header-section-number">G.7.1</span> Pivot the data</h3>
+<section id="pivot-the-data" class="level3" data-number="15.7.1">
+<h3 data-number="15.7.1" class="anchored" data-anchor-id="pivot-the-data"><span class="header-section-number">15.7.1</span> Pivot the data</h3>
 <p>First we have to pivot this to do some math. I remove the moe field to avoid complication.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>college_wide <span class="ot">&lt;-</span> college_clean <span class="sc">|&gt;</span> </span>
@@ -691,8 +691,8 @@ $ yr       &lt;chr&gt; "2021", "2021", "2021", "2021", "2021", "2021", "2021", "
 </div>
 </div>
 </section>
-<section id="make-the-math-and-percentages" class="level3" data-number="G.7.2">
-<h3 data-number="G.7.2" class="anchored" data-anchor-id="make-the-math-and-percentages"><span class="header-section-number">G.7.2</span> Make the math and percentages</h3>
+<section id="make-the-math-and-percentages" class="level3" data-number="15.7.2">
+<h3 data-number="15.7.2" class="anchored" data-anchor-id="make-the-math-and-percentages"><span class="header-section-number">15.7.2</span> Make the math and percentages</h3>
 <ul>
 <li>Percent with high school degree is that number (fm_hs) divided by all female (fem).</li>
 <li>To get percent with post high school degree we have to add together all those with the different types of degrees first, then divide by all fem to get the percentage.</li>
@@ -716,8 +716,8 @@ $ yr       &lt;chr&gt; "2021", "2021", "2021", "2021", "2021", "2021", "2021", "
 </div>
 </section>
 </section>
-<section id="select-your-percentages" class="level2" data-number="G.8">
-<h2 data-number="G.8" class="anchored" data-anchor-id="select-your-percentages"><span class="header-section-number">G.8</span> Select your percentages</h2>
+<section id="select-your-percentages" class="level2" data-number="15.8">
+<h2 data-number="15.8" class="anchored" data-anchor-id="select-your-percentages"><span class="header-section-number">15.8</span> Select your percentages</h2>
 <p>Now that you have the percentages, you might want to focus on those to view or chart.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>prc_cols <span class="ot">&lt;-</span> college_calcs <span class="sc">|&gt;</span> </span>
@@ -733,11 +733,11 @@ $ yr       &lt;chr&gt; "2021", "2021", "2021", "2021", "2021", "2021", "2021", "
 </div>
 </div>
 </section>
-<section id="different-shapes" class="level2" data-number="G.9">
-<h2 data-number="G.9" class="anchored" data-anchor-id="different-shapes"><span class="header-section-number">G.9</span> Different shapes</h2>
+<section id="different-shapes" class="level2" data-number="15.9">
+<h2 data-number="15.9" class="anchored" data-anchor-id="different-shapes"><span class="header-section-number">15.9</span> Different shapes</h2>
 <p>This might not be necessary, but you might want to rearrange the data to see of chart.</p>
-<section id="make-longer" class="level3" data-number="G.9.1">
-<h3 data-number="G.9.1" class="anchored" data-anchor-id="make-longer"><span class="header-section-number">G.9.1</span> Make longer</h3>
+<section id="make-longer" class="level3" data-number="15.9.1">
+<h3 data-number="15.9.1" class="anchored" data-anchor-id="make-longer"><span class="header-section-number">15.9.1</span> Make longer</h3>
 <p>What you want to move it to might depend on your needs, but making long sometimes helps with ggplot charting.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>prc_long <span class="ot">&lt;-</span> prc_cols <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(</span>
@@ -756,8 +756,8 @@ $ yr       &lt;chr&gt; "2021", "2021", "2021", "2021", "2021", "2021", "2021", "
 </div>
 </div>
 </section>
-<section id="make-wider" class="level3" data-number="G.9.2">
-<h3 data-number="G.9.2" class="anchored" data-anchor-id="make-wider"><span class="header-section-number">G.9.2</span> Make wider</h3>
+<section id="make-wider" class="level3" data-number="15.9.2">
+<h3 data-number="15.9.2" class="anchored" data-anchor-id="make-wider"><span class="header-section-number">15.9.2</span> Make wider</h3>
 <p>Maybe you want to see how each value has changed by having a column for each year.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>prc_type_yr <span class="ot">&lt;-</span> prc_long <span class="sc">|&gt;</span></span>
@@ -1162,13 +1162,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./charts-tips.html" class="pagination-link  aria-label=" &lt;span="" production="" tips&lt;="" span&gt;"="">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Chart production tips</span></span>
+      <a href="./case-when.html" class="pagination-link  aria-label=" &lt;span="" case_when&lt;="" span&gt;"="">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Using case_when</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./tabyl.html" class="pagination-link" aria-label="<span class='chapter-number'>H</span>&nbsp; <span class='chapter-title'>Tabyls</span>">
-        <span class="nav-page-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">Tabyls</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./tabyl.html" class="pagination-link" aria-label="<span class='chapter-number'>16</span>&nbsp; <span class='chapter-title'>Tabyls</span>">
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Tabyls</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
