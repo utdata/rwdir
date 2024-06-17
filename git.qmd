@@ -1,0 +1,73 @@
+# Using git
+
+This chapter assumes you have some knowledge of using a Terminal, Git and Github. These skills are really independent of R and RStudio, but are being applied in the R context. 
+
+Here are some exiting resources that cover those.
+
+- [Happy Git and Github for the useR](https://happygitwithr.com/) is probably a good resource on how to install and work with Git/Github with RStudio in mind.
+- Another suggestion might be to do the first four chapters of [Intro to Coding for Journalists](https://utdata.github.io/icj-class/). Those lessons were not written with RStudio in mind, but it is a beginner look at Terminal, Git and Github. Once undestood moving that knowledge into RStudio isn't too much of a stretch. 
+- Another way to go about it is to start with [Github's Docs](https://docs.github.com/en/get-started/start-your-journey/about-github-and-git). It's comprehensive, but it's a lot. There is way more than the basic minimum knowledge there.
+
+But do know that Git needs to already be installed and configured before anyting below works. Once you have that, you can use the Terminal within RStudio to do any Git things you need. There is also a ["Git" tab within RStudio](https://docs.posit.co/ide/user/ide/guide/tools/version-control.html) where you can interact, though I'm personally less familiar with it.
+
+## Publish to Github Pages
+
+This assumes you already have your repo already created and pushed to Github.
+
+### Set up the output directory
+
+When you build a Quarto website like we do with our projects, it saves the HTML files into a folder called `_site`. We're going to change the `_quarto.yml` configuration file to instead save those files into a `docs/` folder that can then be published (for free) through Github Pages.
+
+1. Open your `_quarto.yml` file
+2. Under the project line (probably at the top) add the output-dir line as described below and save it:
+
+  ``` {.yaml filename="_quarto.yml"}
+  project:
+    type: website
+    output-dir: docs
+  ```
+
+3. Render all your pages. The best way is to use the **Build** tab (usually top right) and then click on the **Render Website** button.
+4. Add, commit and push all your changes to git and Github.
+
+This will rework all the files go into a `docs` folder. You can remove the `_site` folder if it had already been created.
+
+::: callout-note
+In some instances when making a major change to the `_quarto.yml` file like this, you might have to restart R for changes to get understood.
+:::
+
+### Set up Github Pages
+
+1. Go to your repo in Github.
+2. Click on the **Settings** Tab
+3. Click on **Pages** in the left navigation. 
+4. Under **Build and deployment**:
+  - Make sure Source is "Deploy from a branch"
+  - Set the branch to `main` and the folder is set to `/docs` and click **Save.**
+
+![Github Pages Setup](images/git-set-pages-docs.png)
+
+This will set up a publishing Action and once it has published your files it will add the link to the top of this Pages page. The URL is predictable based on your username and repo name.
+
+![Github Pages url](images/git-pages-url.png)
+
+To make updates, make your changes locally, render all the pages, then commit and push them to Github. It takes a couple of minutes for the action to republish pages depending on the size of the site.
+
+### Troublshooting Github Pages
+
+The main issue I've seen is having a `.gitignore` file that lists the `docs/` folder so that never gets pushed to Github. That folder has to be in the remote repo for Pages to work with this configuration. Comment or remove that line (or use my `.gitignore` file listed below)
+
+If you've published before already and are pushing corrections, you have to wait on the publishing Action, which can take time (like 5 minutes at most?). Sometimes a browser will hang onto the cache of the earlier page, so try holding down **Shift** as you refresh the page to make it check the server again.
+
+Beyond that you just have to check the Actions tab in your repo and poke through the logs.
+
+## A good .gitignore file
+
+It's good practice to have a `.gitignore` file that excludes things like system files and the like from version control. I usually build them using [gitignore.io](https://gitignore.io) but there is a setting they use for R that breaks this workflow.
+
+I recommend just using a copy of my [.gitignore file from this book](.gitignore). It is best to create this file BEFORE YOU START COMMITTING FILES into your repo.
+
+1. Create a new text file called `.gitignore`. The name of the file is important ... it MUST start with a period and MUST NOT have an extension like .txt. It should just be `.gitignore`.
+2. Go the [.gitignore file from this book](.gitignore) and then copy/paste the contents into your newly-created file. Save and close.
+
+You'll know the file is named correctly if in your Files pane there is a little red git logo in the file icon.
