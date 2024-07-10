@@ -393,10 +393,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>This chapter assumes you have some knowledge of using a Terminal, Git and Github. These skills are really independent of R and RStudio, but are being applied in the R context.</p>
-<p>Here are some exiting resources that cover those.</p>
+<p>Here are some existing resources that cover those.</p>
 <ul>
-<li><a href="https://happygitwithr.com/">Happy Git and Github for the useR</a> is probably a good resource on how to install and work with Git/Github with RStudio in mind.</li>
-<li>Another suggestion might be to do the first four chapters of <a href="https://utdata.github.io/icj-class/">Intro to Coding for Journalists</a>. Those lessons were not written with RStudio in mind, but it is a beginner look at Terminal, Git and Github. Once undestood moving that knowledge into RStudio isn’t too much of a stretch.</li>
+<li><a href="https://happygitwithr.com/">Happy Git and Github for the useR</a> is a good resource on how to install and work with Git/Github with RStudio in mind.</li>
+<li>Another option might be to do the first four chapters of <a href="https://utdata.github.io/icj-class/">Intro to Coding for Journalists</a>. Those lessons were not written with RStudio in mind, but it is a beginner look at Terminal, Git and Github. Once understood, moving that knowledge into RStudio isn’t too much of a stretch.</li>
 <li>Another way to go about it is to start with <a href="https://docs.github.com/en/get-started/start-your-journey/about-github-and-git">Github’s Docs</a>. It’s comprehensive, but it’s a lot. There is way more than the basic minimum knowledge there.</li>
 </ul>
 <p>But do know that Git needs to already be installed and configured before anyting below works. Once you have that, you can use the Terminal within RStudio to do any Git things you need. There is also a <a href="https://docs.posit.co/ide/user/ide/guide/tools/version-control.html">“Git” tab within RStudio</a> where you can interact, though I’m personally less familiar with it.</p>
@@ -422,18 +422,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Render all your pages. The best way is to use the <strong>Build</strong> tab (usually top right) and then click on the <strong>Render Website</strong> button.</li>
 <li>Add, commit and push all your changes to git and Github.</li>
 </ol>
-<p>This will rework all the files go into a <code>docs</code> folder. You can remove the <code>_site</code> folder if it had already been created.</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<p>This will rework all the files to go into a <code>docs</code> folder. You can remove the <code>_site</code> folder if it had already been created.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In some instances when making a major change to the <code>_quarto.yml</code> file like this, you might have to restart R for changes to get understood.</p>
+<p>In some instances when making a major change to the <code>_quarto.yml</code> file like this, you might have to restart R and then <strong>Render Website</strong> to make sure all the changes are understood.</p>
 </div>
 </div>
 </section>
@@ -443,12 +443,12 @@ Note
 <li>Go to your repo in Github.</li>
 <li>Click on the <strong>Settings</strong> Tab</li>
 <li>Click on <strong>Pages</strong> in the left navigation.</li>
-<li>Under <strong>Build and deployment</strong>:</li>
-</ol>
+<li>Under <strong>Build and deployment</strong>:
 <ul>
 <li>Make sure Source is “Deploy from a branch”</li>
-<li>Set the branch to <code>main</code> and the folder is set to <code>/docs</code> and click <strong>Save.</strong></li>
-</ul>
+<li>Set the branch to <code>main</code> and the folder to <code>/docs</code> and click <strong>Save.</strong></li>
+</ul></li>
+</ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/git-set-pages-docs.png" class="img-fluid figure-img"></p>
@@ -466,14 +466,14 @@ Note
 </section>
 <section id="troublshooting-github-pages" class="level3" data-number="17.1.3">
 <h3 data-number="17.1.3" class="anchored" data-anchor-id="troublshooting-github-pages"><span class="header-section-number">17.1.3</span> Troublshooting Github Pages</h3>
-<p>The main issue I’ve seen is having a <code>.gitignore</code> file that lists the <code>docs/</code> folder so that never gets pushed to Github. That folder has to be in the remote repo for Pages to work with this configuration. Comment or remove that line (or use my <code>.gitignore</code> file listed below)</p>
+<p>The main issue I’ve seen is having a <code>.gitignore</code> file that lists the <code>docs/</code> folder so that it never gets pushed to Github. That folder has to be in the remote repo for Pages to work with this configuration. Comment or remove that line (or use my <code>.gitignore</code> file listed below)</p>
 <p>If you’ve published before already and are pushing corrections, you have to wait on the publishing Action, which can take time (like 5 minutes at most?). Sometimes a browser will hang onto the cache of the earlier page, so try holding down <strong>Shift</strong> as you refresh the page to make it check the server again.</p>
 <p>Beyond that you just have to check the Actions tab in your repo and poke through the logs.</p>
 </section>
 </section>
 <section id="a-good-.gitignore-file" class="level2" data-number="17.2">
 <h2 data-number="17.2" class="anchored" data-anchor-id="a-good-.gitignore-file"><span class="header-section-number">17.2</span> A good .gitignore file</h2>
-<p>It’s good practice to have a <code>.gitignore</code> file that excludes things like system files and the like from version control. I usually build them using <a href="https://gitignore.io">gitignore.io</a> but there is a setting they use for R that breaks this workflow.</p>
+<p>It’s good practice to have a <code>.gitignore</code> file that excludes things like system files and the like from version control. I usually build them using <a href="https://gitignore.io">gitignore.io</a> but there is a setting they use for R that breaks the workflow described above.</p>
 <p>I recommend just using a copy of my <a href=".gitignore">.gitignore file from this book</a>. It is best to create this file BEFORE YOU START COMMITTING FILES into your repo.</p>
 <ol type="1">
 <li>Create a new text file called <code>.gitignore</code>. The name of the file is important … it MUST start with a period and MUST NOT have an extension like .txt. It should just be <code>.gitignore</code>.</li>
