@@ -521,7 +521,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The <a href="https://sfirke.github.io/janitor/articles/tabyls.html"><code>tabyl()</code></a> function is from the <a href="https://sfirke.github.io/janitor/index.html">janitor</a> package, which is another reason I almost always include it in my notebooks.</p>
 <section id="import-some-data" class="level3" data-number="13.2.1">
 <h3 data-number="13.2.1" class="anchored" data-anchor-id="import-some-data"><span class="header-section-number">13.2.1</span> Import some data</h3>
-<p>We need some data to work on here. These are wells drilled in Hays, Travis and Williamson counties, which I then filter to recent wells drilled between 2020 and 2023. I also add a <code>yr</code> value based on the drilling date.</p>
+<p>We need some data to work on here. These are wells drilled in Hays, Travis and Williamson counties, which I then filter to recent records between 2020 and 2023. I also add a <code>yr</code> value based on the drilling date.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>wells <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"data-processed/wells.rds"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(drilling_end_date <span class="sc">&gt;=</span> <span class="st">"2020-01-01"</span>, drilling_end_date <span class="sc">&lt;</span> <span class="st">"2024-01-01"</span>, ) <span class="sc">|&gt;</span> </span>
@@ -562,7 +562,7 @@ $ yr                  &lt;dbl&gt; 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023
 </div>
 </div>
 </div>
-<p>Each row here is a well drilled into the ground. The variable include details like where, who, when, etc. A couple of variables we’ll pay attention to …</p>
+<p>Each row here is a well drilled into the ground. The variables include details like where, who, when, etc. A couple of variables we’ll pay attention to …</p>
 <ul>
 <li><code>proposed_use_clean</code> is the reason for the well, cleaned up a little to combine some categories.</li>
 <li><code>drilling_end_date</code> is when the well was completed.</li>
@@ -579,11 +579,11 @@ $ yr                  &lt;dbl&gt; 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023
 </div>
 </div>
 </div>
-<p>We’re counting the number of rows that have each proposed use.</p>
+<p>We’re counting the number of rows that have each proposed use. We can see there are more “Domestic” wells than any other category.</p>
 </section>
 <section id="the-beauty-of-tabyl" class="level3" data-number="13.2.2">
 <h3 data-number="13.2.2" class="anchored" data-anchor-id="the-beauty-of-tabyl"><span class="header-section-number">13.2.2</span> The beauty of tabyl</h3>
-<p><code>tabyl()</code> works like count, but it also adds the percentage share by default. While the result looks physically different in your notebook compared to our tidyverse outputs, it is still a data frame that works in similar ways, as it can be piped, etc. They look the same when rendered.</p>
+<p><code>tabyl()</code> works like count, but it also adds the percentage share by default. While the resulting table looks physically different in your notebook compared to our tidyverse outputs, it is still a data frame that works in similar ways, as it can be piped, etc. They look the same when rendered.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>wells <span class="sc">|&gt;</span> <span class="fu">tabyl</span>(proposed_use_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -623,11 +623,11 @@ $ yr                  &lt;dbl&gt; 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023
 </div>
 </div>
 </div>
-<p>Do note the <code>percent</code> column is still <code>&lt;chr&gt;</code> and would have to be converted to a number to do math or sorting properly.</p>
+<p>Do note the <code>percent</code> column is still a text <code>&lt;chr&gt;</code> data type and would have to be converted to a number to do math or sorting properly.</p>
 </section>
 <section id="two-way-tabyls" class="level3" data-number="13.2.3">
 <h3 data-number="13.2.3" class="anchored" data-anchor-id="two-way-tabyls"><span class="header-section-number">13.2.3</span> Two-way tabyls</h3>
-<p>Likd with <code>count()</code>, you can group by more than one value with <code>tabyl()</code>. We’ll do this to get the proposed use type by year.</p>
+<p>Like with <code>count()</code>, you can group by more than one value with <code>tabyl()</code>. We’ll do this to get the proposed use type by year.</p>
 <p>Two-way tables don’t automatically add percentages. These are the “count” of rows where the <code>proposed_use_clean</code> and <code>yr</code> values are the same.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>wells <span class="sc">|&gt;</span> </span>
@@ -683,7 +683,7 @@ $ yr                  &lt;dbl&gt; 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023
 </div>
 </div>
 </div>
-<p>This might be a little confusing, but the <code>adorn_totals()</code> function can be used on any data frame, not just tabyls. Here I’ve taken the first few rows and columns of the starwars dataset and added <code>adorn_totals()</code>. See that it adds the totals of the included rows when they are numbers, and uses <code>-</code> when they are not numbers.</p>
+<p>You don’t have to build your data frame with <code>tabyl</code> to use the <code>adorn_totals()</code> function, as it can be added to any data frame. Here I’ve taken the first few rows and columns of the starwars data set and added <code>adorn_totals()</code>. See that it adds the totals of the included rows when they are numbers, and uses <code>-</code> when they are not numbers.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>starwars <span class="sc">|&gt;</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name<span class="sc">:</span>skin_color) <span class="sc">|&gt;</span> </span>
@@ -700,8 +700,8 @@ $ yr                  &lt;dbl&gt; 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023
 </section>
 <section id="percentages-in-two-way-tabyls" class="level3" data-number="13.2.5">
 <h3 data-number="13.2.5" class="anchored" data-anchor-id="percentages-in-two-way-tabyls"><span class="header-section-number">13.2.5</span> Percentages in two-way tabyls</h3>
-<p>OK, this definitely gets confusing, but we can also get percentages for two-way tabyls.</p>
-<p>Note that by default these are the <strong>percentages within each ROW</strong>, so of all the “Closed-Loop Geothermal” wells drilled between 2020 and 2023, 39.3% of them were in the year 2023.</p>
+<p>OK, this gets a little confusing, but we can also get percentages for two-way tabyls.</p>
+<p>Note that by default these are the <strong>percentages within each ROW</strong>, so of all the “Closed-Loop Geothermal” wells drilled between 2020 and 2023, 39.3% of them were in the year 2023. In other words, the percentages total 100 going horizontally across a row.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>wells <span class="sc">|&gt;</span> </span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(proposed_use_clean, yr) <span class="sc">|&gt;</span> </span>
@@ -714,7 +714,7 @@ $ yr                  &lt;dbl&gt; 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023
 </div>
 </div>
 </div>
-<p>What we really want is the percentage of wells were Closed-Loop Geothermal vs Domestic WITHIN a year.</p>
+<p>What we really want is the percentage of wells were Closed-Loop Geothermal vs Domestic WITHIN a year. We want the percentage to total 100 for each column.</p>
 <p>We’ll also add the percentage formatting to make it easier to read.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>wells <span class="sc">|&gt;</span> </span>
@@ -729,11 +729,11 @@ $ yr                  &lt;dbl&gt; 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023
 </div>
 </div>
 </div>
-<p>Now we can see that the percentage of wells drilled for “Domestic” use have generally grown.</p>
+<p>Now we can see that the share of wells drilled for “Domestic” use have generally grown year over year.</p>
 </section>
 <section id="both-counts-percentages" class="level3" data-number="13.2.6">
 <h3 data-number="13.2.6" class="anchored" data-anchor-id="both-counts-percentages"><span class="header-section-number">13.2.6</span> Both counts, percentages</h3>
-<p>If you really want counts along with your percentages, you can add the numbers back with <code>adorn_ns()</code></p>
+<p>If you really want counts along with your percentages, you can add the numbers back with <code>adorn_ns()</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>wells <span class="sc">|&gt;</span> </span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(proposed_use_clean, yr) <span class="sc">|&gt;</span> </span>
@@ -751,38 +751,56 @@ $ yr                  &lt;dbl&gt; 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023
 </section>
 <section id="putting-this-together" class="level3" data-number="13.2.7">
 <h3 data-number="13.2.7" class="anchored" data-anchor-id="putting-this-together"><span class="header-section-number">13.2.7</span> Putting this together</h3>
-<p>So here is a use case: I want to “see” how the percentage of water wells drilled for domestic use has changed year over year. Using <code>tabyl()</code> I can easily get the percentages within each year and then plot them.</p>
+<p>So here is a use case: I want to “see” how the percentage of water wells drilled by type (like domestic vs irrigation) and how that percentage has changed year over year. Using <code>tabyl()</code> I can easily get the percentages within each year and then plot them.</p>
 <p>I’ll string this together and the annotate it.</p>
+<p>First, we get our basic table of percentages like we did above.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-22"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-22-1"><a href="#annotated-cell-22-1" aria-hidden="true" tabindex="-1"></a>wells_by_yr_type <span class="ot">&lt;-</span> wells <span class="sc">|&gt;</span> </span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-22" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-22-2" class="code-annotation-target"><a href="#annotated-cell-22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(proposed_use_clean, yr) <span class="sc">|&gt;</span></span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-22" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-22-3" class="code-annotation-target"><a href="#annotated-cell-22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_percentages</span>(<span class="st">"col"</span>) <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-22" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-22-4" class="code-annotation-target"><a href="#annotated-cell-22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_pct_formatting</span>() <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-22" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-22-5" class="code-annotation-target"><a href="#annotated-cell-22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>proposed_use_clean, <span class="at">names_to =</span> <span class="st">"yr"</span>, <span class="at">values_to =</span> <span class="st">"percentage"</span>) <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-22" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-22-6" class="code-annotation-target"><a href="#annotated-cell-22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percentage =</span> <span class="fu">parse_number</span>(percentage))</span>
-<span id="annotated-cell-22-7"><a href="#annotated-cell-22-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-22-8"><a href="#annotated-cell-22-8" aria-hidden="true" tabindex="-1"></a>wells_by_yr_type</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-22" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-22-4" class="code-annotation-target"><a href="#annotated-cell-22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_pct_formatting</span>()</span>
+<span id="annotated-cell-22-5"><a href="#annotated-cell-22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-22-6"><a href="#annotated-cell-22-6" aria-hidden="true" tabindex="-1"></a>wells_by_yr_type</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-22" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-22" data-code-lines="2" data-code-annotation="1">Build our tabyl using two variables, just like above</span>
+<span data-code-cell="annotated-cell-22" data-code-lines="2" data-code-annotation="1">Build our tabyl using two variables</span>
 </dd>
 <dt data-target-cell="annotated-cell-22" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-22" data-code-lines="3" data-code-annotation="2">Switches our values to percentages based on the column</span>
+<span data-code-cell="annotated-cell-22" data-code-lines="3" data-code-annotation="2">Switch our values to percentages based on the column</span>
 </dd>
 <dt data-target-cell="annotated-cell-22" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-22" data-code-lines="4" data-code-annotation="3">Converts to a friendly “* 100” percentage</span>
+<span data-code-cell="annotated-cell-22" data-code-lines="4" data-code-annotation="3">Convert to a friendly “* 100” percentage</span>
 </dd>
-<dt data-target-cell="annotated-cell-22" data-target-annotation="4">4</dt>
+</dl>
+</div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["proposed_use_clean"],"name":[1],"type":["chr"],"align":["left"]},{"label":["2020"],"name":[2],"type":["chr"],"align":["left"]},{"label":["2021"],"name":[3],"type":["chr"],"align":["left"]},{"label":["2022"],"name":[4],"type":["chr"],"align":["left"]},{"label":["2023"],"name":[5],"type":["chr"],"align":["left"]}],"data":[{"1":"Closed-Loop Geothermal","2":"0.7%","3":"0.1%","4":"1.0%","5":"1.4%"},{"1":"Domestic","2":"40.2%","3":"45.2%","4":"47.6%","5":"43.7%"},{"1":"Environmental Soil Boring","2":"19.0%","3":"15.4%","4":"21.5%","5":"17.6%"},{"1":"Irrigation","2":"7.7%","3":"4.1%","4":"3.9%","5":"5.4%"},{"1":"Monitor","2":"23.3%","3":"31.4%","4":"20.2%","5":"21.7%"},{"1":"Other","2":"5.6%","3":"2.3%","4":"3.2%","5":"5.8%"},{"1":"Piezometer","2":"1.7%","3":"0.1%","4":"0.0%","5":"0.3%"},{"1":"Public Supply","2":"1.1%","3":"1.0%","4":"1.3%","5":"1.9%"},{"1":"Stock","2":"0.6%","3":"0.4%","4":"1.3%","5":"2.2%"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Now we reconfigure the data to “long” format for ggplot.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-23"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-23-1"><a href="#annotated-cell-23-1" aria-hidden="true" tabindex="-1"></a>wells_by_yr_type_long <span class="ot">&lt;-</span> wells_by_yr_type <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-23" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-23-2" class="code-annotation-target"><a href="#annotated-cell-23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>proposed_use_clean, <span class="at">names_to =</span> <span class="st">"yr"</span>, <span class="at">values_to =</span> <span class="st">"percentage"</span>) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-23" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-23-3" class="code-annotation-target"><a href="#annotated-cell-23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percentage =</span> <span class="fu">parse_number</span>(percentage))</span>
+<span id="annotated-cell-23-4"><a href="#annotated-cell-23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-23-5"><a href="#annotated-cell-23-5" aria-hidden="true" tabindex="-1"></a>wells_by_yr_type_long</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-23" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-22" data-code-lines="5" data-code-annotation="4">Here we pivot_longer to make a data frame more friendly for ggplot</span>
+<span data-code-cell="annotated-cell-23" data-code-lines="2" data-code-annotation="1">Here we pivot_longer to make a data frame more friendly for ggplot</span>
 </dd>
-<dt data-target-cell="annotated-cell-22" data-target-annotation="5">5</dt>
+<dt data-target-cell="annotated-cell-23" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-22" data-code-lines="6" data-code-annotation="5">Because our “percentages” are text, we need to convert them to a number</span>
+<span data-code-cell="annotated-cell-23" data-code-lines="3" data-code-annotation="2">Because our “percentages” are text, we need to convert them to a number</span>
 </dd>
 </dl>
 </div>
@@ -796,13 +814,27 @@ $ yr                  &lt;dbl&gt; 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023
 </div>
 <p>Now that we have ggplotable data, we can make a stacked percentage column chart.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>wells_by_yr_type <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>wells_by_yr_type_plot <span class="ot">&lt;-</span> wells_by_yr_type_long <span class="sc">|&gt;</span> </span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> yr, <span class="at">y =</span> percentage)) <span class="sc">+</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">fill =</span> proposed_use_clean))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">fill =</span> proposed_use_clean)) <span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Domestic water wells drive drilling"</span>,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">str_wrap</span>(<span class="st">"In recent years most well drilling in Hays, Travis and Williamson counties has centered around drinking water (domestic), water-level monitoring and environmental soil boring. About 3,500 total wells were drilled between 2020 and 2023."</span>),</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Proposed use"</span>,</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year of drilling"</span>, <span class="at">y =</span> <span class="st">"Percentage of wells drilled"</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/wells_by_yr_type_plot.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Saving 7 x 5 in image</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>wells_by_yr_type_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="count_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="count_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>

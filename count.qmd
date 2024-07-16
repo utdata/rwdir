@@ -101,7 +101,7 @@ The [`tabyl()`](https://sfirke.github.io/janitor/articles/tabyls.html) function 
 
 ### Import some data
 
-We need some data to work on here. These are wells drilled in Hays, Travis and Williamson counties, which I then filter to recent wells drilled between 2020 and 2023. I also add a `yr` value based on the drilling date.
+We need some data to work on here. These are wells drilled in Hays, Travis and Williamson counties, which I then filter to recent records between 2020 and 2023. I also add a `yr` value based on the drilling date.
 
 ```{r}
 wells <- read_rds("data-processed/wells.rds") |>
@@ -117,7 +117,7 @@ We haven't really used this data before so let's look at a few rows just to talk
 wells |> head()
 ```
 
-Each row here is a well drilled into the ground. The variable include details like where, who, when, etc. A couple of variables we'll pay attention to ...
+Each row here is a well drilled into the ground. The variables include details like where, who, when, etc. A couple of variables we'll pay attention to ...
 
 - `proposed_use_clean` is the reason for the well, cleaned up a little to combine some categories.
 - `drilling_end_date` is when the well was completed.
@@ -130,11 +130,11 @@ Let's start by using `count()` function we learned about above.
 wells |> count(proposed_use_clean)
 ```
 
-We're counting the number of rows that have each proposed use.
+We're counting the number of rows that have each proposed use. We can see there are more "Domestic" wells than any other category.
 
 ### The beauty of tabyl
 
-`tabyl()` works like count, but it also adds the percentage share by default. While the result looks physically different in your notebook compared to our tidyverse outputs, it is still a data frame that works in similar ways, as it can be piped, etc. They look the same when rendered.
+`tabyl()` works like count, but it also adds the percentage share by default. While the resulting table looks physically different in your notebook compared to our tidyverse outputs, it is still a data frame that works in similar ways, as it can be piped, etc. They look the same when rendered.
 
 ```{r}
 wells |> tabyl(proposed_use_clean)
@@ -162,11 +162,11 @@ wells |>
   adorn_pct_formatting(affix_sign = F)
 ```
 
-Do note the `percent` column is still `<chr>` and would have to be converted to a number to do math or sorting properly.
+Do note the `percent` column is still a text `<chr>` data type and would have to be converted to a number to do math or sorting properly.
 
 ### Two-way tabyls
 
-Likd with `count()`, you can group by more than one value with `tabyl()`. We'll do this to get the proposed use type by year.
+Like with `count()`, you can group by more than one value with `tabyl()`. We'll do this to get the proposed use type by year.
 
 Two-way tables don't automatically add percentages. These are the "count" of rows where the `proposed_use_clean` and `yr` values are the same.
 
@@ -203,7 +203,7 @@ wells |>
   adorn_totals("both")
 ```
 
-This might be a little confusing, but the `adorn_totals()` function can be used on any data frame, not just tabyls. Here I've taken the first few rows and columns of the starwars dataset and added `adorn_totals()`. See that it adds the totals of the included rows when they are numbers, and uses `-` when they are not numbers.
+You don't have to build your data frame with `tabyl` to use the `adorn_totals()` function, as it can be added to any data frame. Here I've taken the first few rows and columns of the starwars data set and added `adorn_totals()`. See that it adds the totals of the included rows when they are numbers, and uses `-` when they are not numbers.
 
 ```{r}
 starwars |>
@@ -214,9 +214,9 @@ starwars |>
 
 ### Percentages in two-way tabyls
 
-OK, this definitely gets confusing, but we can also get percentages for two-way tabyls.
+OK, this gets a little confusing, but we can also get percentages for two-way tabyls.
 
-Note that by default these are the **percentages within each ROW**, so of all the "Closed-Loop Geothermal" wells drilled between 2020 and 2023, 39.3% of them were in the year 2023.
+Note that by default these are the **percentages within each ROW**, so of all the "Closed-Loop Geothermal" wells drilled between 2020 and 2023, 39.3% of them were in the year 2023. In other words, the percentages total 100 going horizontally across a row.
 
 ```{r}
 wells |> 
@@ -224,7 +224,7 @@ wells |>
   adorn_percentages()
 ```
 
-What we really want is the percentage of wells were Closed-Loop Geothermal vs Domestic WITHIN a year.
+What we really want is the percentage of wells were Closed-Loop Geothermal vs Domestic WITHIN a year. We want the percentage to total 100 for each column.
 
 We'll also add the percentage formatting to make it easier to read.
 
@@ -235,11 +235,11 @@ wells |>
   adorn_pct_formatting()
 ```
 
-Now we can see that the percentage of wells drilled for "Domestic" use have generally grown.
+Now we can see that the share of wells drilled for "Domestic" use have generally grown year over year.
 
 ### Both counts, percentages
 
-If you really want counts along with your percentages, you can add the numbers back with `adorn_ns()`
+If you really want counts along with your percentages, you can add the numbers back with `adorn_ns()`.
 
 ```{r}
 wells |> 
@@ -251,34 +251,56 @@ wells |>
 
 ### Putting this together
 
-So here is a use case: I want to "see" how the percentage of water wells drilled for domestic use has changed year over year. Using `tabyl()` I can easily get the percentages within each year and then plot them.
+So here is a use case: I want to "see" how the percentage of water wells drilled by type (like domestic vs irrigation) and how that percentage has changed year over year. Using `tabyl()` I can easily get the percentages within each year and then plot them.
 
 I'll string this together and the annotate it.
 
+First, we get our basic table of percentages like we did above.
 
 ```{r}
 wells_by_yr_type <- wells |> 
   tabyl(proposed_use_clean, yr) |> # <1> 
   adorn_percentages("col") |> # <2> 
-  adorn_pct_formatting() |> # <3>
-  pivot_longer(-proposed_use_clean, names_to = "yr", values_to = "percentage") |> # <4>
-  mutate(percentage = parse_number(percentage)) # <5>
+  adorn_pct_formatting() # <3>
 
 wells_by_yr_type
 ```
 
-1. Build our tabyl using two variables, just like above
-2. Switches our values to percentages based on the column
-3. Converts to a friendly "* 100" percentage
-4. Here we pivot_longer to make a data frame more friendly for ggplot
-5. Because our "percentages" are text, we need to convert them to a number
+1. Build our tabyl using two variables
+2. Switch our values to percentages based on the column
+3. Convert to a friendly "* 100" percentage
+
+Now we reconfigure the data to "long" format for ggplot.
+
+```{r}
+wells_by_yr_type_long <- wells_by_yr_type |> 
+  pivot_longer(-proposed_use_clean, names_to = "yr", values_to = "percentage") |> # <1>
+  mutate(percentage = parse_number(percentage)) # <2>
+
+wells_by_yr_type_long
+```
+
+1. Here we pivot_longer to make a data frame more friendly for ggplot
+2. Because our "percentages" are text, we need to convert them to a number
 
 Now that we have ggplotable data, we can make a stacked percentage column chart.
 
 ```{r}
-wells_by_yr_type |> 
+wells_by_yr_type_plot <- wells_by_yr_type_long |> 
   ggplot(aes(x = yr, y = percentage)) +
-  geom_col(aes(fill = proposed_use_clean))
+  geom_col(aes(fill = proposed_use_clean)) +
+  labs(
+    title = "Domestic water wells drive drilling",
+    subtitle = str_wrap("In recent years most well drilling in Hays, Travis and Williamson counties has centered around drinking water (domestic), water-level monitoring and environmental soil boring. About 3,500 total wells were drilled between 2020 and 2023."),
+    fill = "Proposed use",
+    x = "Year of drilling", y = "Percentage of wells drilled"
+  )
+
+ggsave("figures/wells_by_yr_type_plot.png")
+```
+
+```{r}
+wells_by_yr_type_plot
 ```
 
 ### More in janitor
