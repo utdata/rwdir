@@ -1,0 +1,198 @@
+---
+title: "Tabyl"
+---
+
+In addition to the `count()` shortcut, there is another useful function for counting rows based on groups, and this one has the advantage of giving you the percentages of those counts.
+
+The [`tabyl()`](https://sfirke.github.io/janitor/articles/tabyls.html) function is from the [janitor](https://sfirke.github.io/janitor/index.html) package, so its likely you already have the library loaded in your notebook.
+
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(janitor)
+```
+
+
+## Import data
+
+
+```{r}
+wells <- read_rds("data-processed/wells.rds")
+```
+
+
+```{r}
+leso_all_2020 <- read_rds("data-processed/01-leso-all.rds") |> filter(ship_date >= "2020-01-01")
+
+leso_all_2020
+```
+
+
+```{r}
+leso |> 
+  count(control_type)
+```
+
+
+```{r}
+leso |> 
+  tabyl(control_type)
+```
+
+
+
+```{r}
+leso |> 
+  group_by(control_type) |> 
+  summarise(
+    summed_total_value = sum(total_value),
+    number_itmes = sum(quantity)
+  )
+```
+
+## Import my data
+
+We're using some animal center data to show these functions and we need some data I do a little cleanup for simplification.
+
+```{r}
+outcomes <- read_rds("data-processed/01-outcome.rds") |>
+  filter(year > 2013, year < 2024) |> 
+  mutate(date_outcome = date(date_outcome))
+
+outcomes |> glimpse()
+```
+
+Peek at the data in a way that shows outcome_simple
+
+```{r}
+outcomes |>
+  slice_sample(n = 5) |>
+  select(animal_id, date_outcome, outcome_type, outcome_simple, everything())
+```
+
+## Let's count outcomes
+
+This is the shortcut [`count()`](https://dplyr.tidyverse.org/reference/count.html) which is super useful. It is the same and `group_by |> summarize(n())`.
+
+```{r}
+outcomes |> 
+  count(outcome_simple)
+```
+
+## The beauty of tabyl
+
+`tabyl()` works like count, but it also adds the percentage share by default. While the result looks physically different in your notebook than our tidyverse outputs, it is still a data frame that works in similar ways, as it can be piped, etc.
+
+```{r}
+outcomes |> 
+  tabyl(outcome_simple)
+```
+
+That said, there are a number of additional "adorn" functions that can help format your result.
+
+Here we convert `percent` to an actual percentage (the * 100 part):
+
+```{r}
+outcomes |> 
+  tabyl(outcome_simple) |> 
+  adorn_pct_formatting()
+```
+
+And then we remove the percent sign:
+
+```{r}
+outcomes |> 
+  tabyl(outcome_simple) |> 
+  adorn_pct_formatting(affix_sign = F)
+```
+
+But do note that `percent` column is a <chr> datatype and not a number. That's easy enough to convert with `parse_number()` or `as.number()`.
+
+## Two-way tables
+
+You can group by more than one value. We'll use a two-way table to get outcomes by year.
+
+Two-way tables don't automatically add percentages:
+
+```{r}
+outcomes |> 
+  tabyl(year, outcome_simple)
+```
+
+But you can still convert them with an adorn function:
+
+```{r}
+outcomes |> 
+  tabyl(year, outcome_simple) |> 
+  adorn_percentages()
+```
+
+And even convert them to whole percentages:
+
+```{r}
+outcome_prcentages <- outcomes |> 
+  tabyl(year, outcome_simple) |> 
+  adorn_percentages() |> 
+  adorn_pct_formatting(affix_sign = TRUE) # change to FALSE to remove %
+
+outcome_prcentages
+```
+
+And then pivot them to prepare for a plot. The value (`prc` here) ends up as text (even if you remove the % sign) so you have to convert them to a number before they are useful in plotting.
+
+```{r}
+out_prc_long <- outcome_prcentages |> 
+  pivot_longer(
+    cols = Adoption:Transfer,
+    names_to = "outcome_simple",
+    values_to = "prc"
+  ) |> 
+  mutate(prc = parse_number(prc))
+
+out_prc_long
+```
+
+Now you can plot it:
+
+```{r}
+out_prc_long |> 
+  ggplot(aes(x = year, y = prc, group = outcome_simple)) +
+  geom_line(aes(color = outcome_simple)) +
+  geom_point(size = .5) +
+  labs(
+    title = "Share of adoptions has risen in recent years",
+    y = "Percentage of outcome"
+  )
+```
+
+## Add row totals
+
+One last thing ... we'll check our math on these percentage and how totals while we are at it.
+
+Let's filter for just the 2023 values:
+
+```{r}
+out_prc_long |> 
+  filter(year == 2023)
+```
+
+But then add `adorn_totals()` to add together the prc to make sure they equal 100. It's a wee bit off because of rounding.
+
+```{r}
+out_prc_long |> 
+  filter(year == 2023) |> 
+  adorn_totals()
+```
+
+While it adds totals to columns by default, you can also specify both rows and columns, as necessary.
+
+```{r}
+outcomes |> 
+  tabyl(year, outcome_simple) |> 
+  adorn_totals(c("row", "col"))
+```
+
