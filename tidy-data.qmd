@@ -253,7 +253,13 @@ candy_avg
 
 Let's **modify this summary** to round the averages to tenths so they will plot nicely on our chart.
 
-The `round()` function needs the column to change, and then the number of digits past the decimal to include.
+::: callout-caution
+### Rounding can be complicated
+
+We use janitor's [`round_half_up()`](https://sfirke.github.io/janitor/reference/round_half_up.html) function because the base R [`round()`](https://www.rdocumentation.org/packages/base/topics/Round) function rounds half values to the nearest even number, e.g. both 11.5 and 12.5 will be rounded to 12. In journalism, we would usually round up at 5 or higher, so 11.5 to 12 and 12.5 to 13.
+:::
+
+We'll use the [`round_half_up()`](https://sfirke.github.io/janitor/reference/round_half_up.html) function, which needs the column to change, and then the number of digits past the decimal to include.
 
 1.  **Edit** your summarize function to add the `mutate()` function below.
 
@@ -262,13 +268,13 @@ candy_avg <- candy_long |>
   group_by(color) |> 
   summarize(avg_candies = mean(count_candies, na.rm = TRUE)) |> 
   mutate(
-    avg_candies = round(avg_candies, 1)
+    avg_candies = round_half_up(avg_candies, 1)
   )
 
 candy_avg
 ```
 
-BONUS POINT OPPORTUNITY: Using a similar method to rounding above, you can also capitalize the names of the colors. You don't *have* to do this, but I'll give you a bonus point if you do:
+**BONUS POINT OPPORTUNITY:** Using a similar method to rounding above, you can also capitalize the names of the colors. You don't *have* to do this, but I'll give you a bonus point if you do:
 
 -   In your mutate, add a rule that updates `color` column using `str_to_title(color)`.
 
@@ -433,7 +439,7 @@ candy_box_color <- candy_raw |> # <1>
   select(!c(timestamp, candy_type)) |> # <3> 
   pivot_longer(cols = red:brown, names_to = "candy_color", values_to = "candy_count") |> # <4>
   group_by(box_code, candy_color) |> # <5>
-  summarise(avg_candies = mean(candy_count) |> round(1)) # <6>
+  summarise(avg_candies = mean(candy_count) |> round_half_up(1)) # <6>
 
 candy_box_color
 ```
@@ -548,4 +554,4 @@ total_candies |>
 
 -   We learned what "tidy data" means and why it is important. It is the best shape for data wrangling and plotting.
 -   We learned about [`pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html) and [`pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.html) and we used them to transpose our data.
--   We also used [`round()`]((http://www.cookbook-r.com/Numbers/Rounding_numbers/)) to round off some numbers, and you might have used `str_to_title()` to change the case of the color values.
+-   We also used [`round_half_up()`](https://sfirke.github.io/janitor/reference/round_half_up.html) to round off some numbers, and you might have used `str_to_title()` to change the case of the color values.

@@ -797,7 +797,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="round-the-averages" class="level3" data-number="9.6.3">
 <h3 data-number="9.6.3" class="anchored" data-anchor-id="round-the-averages"><span class="header-section-number">9.6.3</span> Round the averages</h3>
 <p>Let’s <strong>modify this summary</strong> to round the averages to tenths so they will plot nicely on our chart.</p>
-<p>The <code>round()</code> function needs the column to change, and then the number of digits past the decimal to include.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Rounding can be complicated
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We use janitor’s <a href="https://sfirke.github.io/janitor/reference/round_half_up.html"><code>round_half_up()</code></a> function because the base R <a href="https://www.rdocumentation.org/packages/base/topics/Round"><code>round()</code></a> function rounds half values to the nearest even number, e.g.&nbsp;both 11.5 and 12.5 will be rounded to 12. In journalism, we would usually round up at 5 or higher, so 11.5 to 12 and 12.5 to 13.</p>
+</div>
+</div>
+<p>We’ll use the <a href="https://sfirke.github.io/janitor/reference/round_half_up.html"><code>round_half_up()</code></a> function, which needs the column to change, and then the number of digits past the decimal to include.</p>
 <ol type="1">
 <li><strong>Edit</strong> your summarize function to add the <code>mutate()</code> function below.</li>
 </ol>
@@ -806,7 +819,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(color) <span class="sc">|&gt;</span> </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(count_candies, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_candies =</span> <span class="fu">round</span>(avg_candies, <span class="dv">1</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_candies =</span> <span class="fu">round_half_up</span>(avg_candies, <span class="dv">1</span>)</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>candy_avg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -818,7 +831,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>BONUS POINT OPPORTUNITY: Using a similar method to rounding above, you can also capitalize the names of the colors. You don’t <em>have</em> to do this, but I’ll give you a bonus point if you do:</p>
+<p><strong>BONUS POINT OPPORTUNITY:</strong> Using a similar method to rounding above, you can also capitalize the names of the colors. You don’t <em>have</em> to do this, but I’ll give you a bonus point if you do:</p>
 <ul>
 <li>In your mutate, add a rule that updates <code>color</code> column using <code>str_to_title(color)</code>.</li>
 </ul>
@@ -984,7 +997,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-11-3" class="code-annotation-target"><a href="#annotated-cell-11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(timestamp, candy_type)) <span class="sc">|&gt;</span></span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-11-4" class="code-annotation-target"><a href="#annotated-cell-11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> red<span class="sc">:</span>brown, <span class="at">names_to =</span> <span class="st">"candy_color"</span>, <span class="at">values_to =</span> <span class="st">"candy_count"</span>) <span class="sc">|&gt;</span></span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-11-5" class="code-annotation-target"><a href="#annotated-cell-11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(box_code, candy_color) <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-11-6" class="code-annotation-target"><a href="#annotated-cell-11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candy_count) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">1</span>))</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-11-6" class="code-annotation-target"><a href="#annotated-cell-11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candy_count) <span class="sc">|&gt;</span> <span class="fu">round_half_up</span>(<span class="dv">1</span>))</span>
 <span id="annotated-cell-11-7"><a href="#annotated-cell-11-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-11-8"><a href="#annotated-cell-11-8" aria-hidden="true" tabindex="-1"></a>candy_box_color</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
@@ -1018,7 +1031,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["box_code"],"name":[1],"type":["chr"],"align":["left"]},{"label":["candy_color"],"name":[2],"type":["chr"],"align":["left"]},{"label":["avg_candies"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"140BSCLV02","2":"blue","3":"14.7"},{"1":"140BSCLV02","2":"brown","3":"6.3"},{"1":"140BSCLV02","2":"green","3":"13.7"},{"1":"140BSCLV02","2":"orange","3":"13.1"},{"1":"140BSCLV02","2":"red","3":"3.1"},{"1":"140BSCLV02","2":"yellow","3":"3.6"},{"1":"227GTCLV02","2":"blue","3":"12.3"},{"1":"227GTCLV02","2":"brown","3":"6.2"},{"1":"227GTCLV02","2":"green","3":"13.0"},{"1":"227GTCLV02","2":"orange","3":"7.1"},{"1":"227GTCLV02","2":"red","3":"6.6"},{"1":"227GTCLV02","2":"yellow","3":"10.6"},{"1":"233DRCLV02","2":"blue","3":"7.8"},{"1":"233DRCLV02","2":"brown","3":"7.1"},{"1":"233DRCLV02","2":"green","3":"10.0"},{"1":"233DRCLV02","2":"orange","3":"15.1"},{"1":"233DRCLV02","2":"red","3":"5.9"},{"1":"233DRCLV02","2":"yellow","3":"11.5"},{"1":"250ARCLV02","2":"blue","3":"10.5"},{"1":"250ARCLV02","2":"brown","3":"5.6"},{"1":"250ARCLV02","2":"green","3":"9.5"},{"1":"250ARCLV02","2":"orange","3":"9.3"},{"1":"250ARCLV02","2":"red","3":"8.5"},{"1":"250ARCLV02","2":"yellow","3":"13.4"},{"1":"334GTCLV20","2":"blue","3":"12.0"},{"1":"334GTCLV20","2":"brown","3":"6.0"},{"1":"334GTCLV20","2":"green","3":"17.0"},{"1":"334GTCLV20","2":"orange","3":"9.0"},{"1":"334GTCLV20","2":"red","3":"4.0"},{"1":"334GTCLV20","2":"yellow","3":"7.0"},{"1":"340FSCLV02","2":"blue","3":"10.1"},{"1":"340FSCLV02","2":"brown","3":"7.2"},{"1":"340FSCLV02","2":"green","3":"9.6"},{"1":"340FSCLV02","2":"orange","3":"13.2"},{"1":"340FSCLV02","2":"red","3":"7.8"},{"1":"340FSCLV02","2":"yellow","3":"8.1"},{"1":"344CBTOP01","2":"blue","3":"0.0"},{"1":"344CBTOP01","2":"brown","3":"4.0"},{"1":"344CBTOP01","2":"green","3":"4.0"},{"1":"344CBTOP01","2":"orange","3":"3.0"},{"1":"344CBTOP01","2":"red","3":"3.0"},{"1":"344CBTOP01","2":"yellow","3":"6.0"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["box_code"],"name":[1],"type":["chr"],"align":["left"]},{"label":["candy_color"],"name":[2],"type":["chr"],"align":["left"]},{"label":["avg_candies"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"140BSCLV02","2":"blue","3":"14.7"},{"1":"140BSCLV02","2":"brown","3":"6.3"},{"1":"140BSCLV02","2":"green","3":"13.7"},{"1":"140BSCLV02","2":"orange","3":"13.1"},{"1":"140BSCLV02","2":"red","3":"3.1"},{"1":"140BSCLV02","2":"yellow","3":"3.6"},{"1":"227GTCLV02","2":"blue","3":"12.3"},{"1":"227GTCLV02","2":"brown","3":"6.2"},{"1":"227GTCLV02","2":"green","3":"13.0"},{"1":"227GTCLV02","2":"orange","3":"7.1"},{"1":"227GTCLV02","2":"red","3":"6.6"},{"1":"227GTCLV02","2":"yellow","3":"10.6"},{"1":"233DRCLV02","2":"blue","3":"7.8"},{"1":"233DRCLV02","2":"brown","3":"7.1"},{"1":"233DRCLV02","2":"green","3":"10.0"},{"1":"233DRCLV02","2":"orange","3":"15.1"},{"1":"233DRCLV02","2":"red","3":"5.9"},{"1":"233DRCLV02","2":"yellow","3":"11.5"},{"1":"250ARCLV02","2":"blue","3":"10.5"},{"1":"250ARCLV02","2":"brown","3":"5.6"},{"1":"250ARCLV02","2":"green","3":"9.5"},{"1":"250ARCLV02","2":"orange","3":"9.3"},{"1":"250ARCLV02","2":"red","3":"8.5"},{"1":"250ARCLV02","2":"yellow","3":"13.4"},{"1":"334GTCLV20","2":"blue","3":"12.0"},{"1":"334GTCLV20","2":"brown","3":"6.0"},{"1":"334GTCLV20","2":"green","3":"17.0"},{"1":"334GTCLV20","2":"orange","3":"9.0"},{"1":"334GTCLV20","2":"red","3":"4.0"},{"1":"334GTCLV20","2":"yellow","3":"7.0"},{"1":"340FSCLV02","2":"blue","3":"10.1"},{"1":"340FSCLV02","2":"brown","3":"7.2"},{"1":"340FSCLV02","2":"green","3":"9.6"},{"1":"340FSCLV02","2":"orange","3":"13.2"},{"1":"340FSCLV02","2":"red","3":"7.9"},{"1":"340FSCLV02","2":"yellow","3":"8.1"},{"1":"344CBTOP01","2":"blue","3":"0.0"},{"1":"344CBTOP01","2":"brown","3":"4.0"},{"1":"344CBTOP01","2":"green","3":"4.0"},{"1":"344CBTOP01","2":"orange","3":"3.0"},{"1":"344CBTOP01","2":"red","3":"3.0"},{"1":"344CBTOP01","2":"yellow","3":"6.0"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -1035,7 +1048,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["candy_color"],"name":[1],"type":["chr"],"align":["left"]},{"label":["140BSCLV02"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["227GTCLV02"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["233DRCLV02"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["250ARCLV02"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["334GTCLV20"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["340FSCLV02"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["344CBTOP01"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"blue","2":"14.7","3":"12.3","4":"7.8","5":"10.5","6":"12","7":"10.1","8":"0"},{"1":"brown","2":"6.3","3":"6.2","4":"7.1","5":"5.6","6":"6","7":"7.2","8":"4"},{"1":"green","2":"13.7","3":"13.0","4":"10.0","5":"9.5","6":"17","7":"9.6","8":"4"},{"1":"orange","2":"13.1","3":"7.1","4":"15.1","5":"9.3","6":"9","7":"13.2","8":"3"},{"1":"red","2":"3.1","3":"6.6","4":"5.9","5":"8.5","6":"4","7":"7.8","8":"3"},{"1":"yellow","2":"3.6","3":"10.6","4":"11.5","5":"13.4","6":"7","7":"8.1","8":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["candy_color"],"name":[1],"type":["chr"],"align":["left"]},{"label":["140BSCLV02"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["227GTCLV02"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["233DRCLV02"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["250ARCLV02"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["334GTCLV20"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["340FSCLV02"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["344CBTOP01"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"blue","2":"14.7","3":"12.3","4":"7.8","5":"10.5","6":"12","7":"10.1","8":"0"},{"1":"brown","2":"6.3","3":"6.2","4":"7.1","5":"5.6","6":"6","7":"7.2","8":"4"},{"1":"green","2":"13.7","3":"13.0","4":"10.0","5":"9.5","6":"17","7":"9.6","8":"4"},{"1":"orange","2":"13.1","3":"7.1","4":"15.1","5":"9.3","6":"9","7":"13.2","8":"3"},{"1":"red","2":"3.1","3":"6.6","4":"5.9","5":"8.5","6":"4","7":"7.9","8":"3"},{"1":"yellow","2":"3.6","3":"10.6","4":"11.5","5":"13.4","6":"7","7":"8.1","8":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -1103,7 +1116,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>We learned what “tidy data” means and why it is important. It is the best shape for data wrangling and plotting.</li>
 <li>We learned about <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html"><code>pivot_longer()</code></a> and <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html"><code>pivot_wider()</code></a> and we used them to transpose our data.</li>
-<li>We also used <a href="(http://www.cookbook-r.com/Numbers/Rounding_numbers/)"><code>round()</code></a> to round off some numbers, and you might have used <code>str_to_title()</code> to change the case of the color values.</li>
+<li>We also used <a href="https://sfirke.github.io/janitor/reference/round_half_up.html"><code>round_half_up()</code></a> to round off some numbers, and you might have used <code>str_to_title()</code> to change the case of the color values.</li>
 </ul>
 
 
