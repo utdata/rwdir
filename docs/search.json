@@ -1593,34 +1593,34 @@
   {
     "objectID": "count.html",
     "href": "count.html",
-    "title": "13  A counting shortcut",
+    "title": "13  Counting shortcuts",
     "section": "",
-    "text": "13.1 Setup and import\nWe don’t normally put these together, but we’re just setting up a quick demonstration\nlibrary(tidyverse)\nhot100 &lt;- read_rds(\"data-processed/01-hot100.rds\")",
+    "text": "13.1 Count\nThe count() function takes arguments of the columns you want to group and then does the summarize(cnt = n()) for you as a default. We’ll demonstrate this using the Billboard data.",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>A counting shortcut</span>"
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Counting shortcuts</span>"
     ]
   },
   {
-    "objectID": "count.html#basic-count",
-    "href": "count.html#basic-count",
-    "title": "13  A counting shortcut",
-    "section": "13.2 Basic count",
-    "text": "13.2 Basic count\nWe’re going to rework our first quest of the Billboard analysis:\nWhich performer had the most appearances on the Hot 100 chart at any position?\nOur logic is we want to count the number of rows based on each performer. We do this by adding the variables we want to group as arguments to count():\n\nhot100 |&gt; \n  count(performer)\n\n\n  \n\n\n\n\n13.2.1 Sort the results\nIf we want the highest counted row at the top (and we almost always do) then we can add an argument: sort = TRUE.\n\nhot100 |&gt; \n  count(performer, sort = TRUE)\n\n\n  \n\n\n\n\n\n13.2.2 Name the new column\nNotice the counted table is called n. We can rename that with another argument, name = and give it the name we want in quotes.\n\nhot100 |&gt; \n  count(performer, sort = TRUE, name = \"appearances\")\n\n\n  \n\n\n\n\n\n13.2.3 Filter results as normal\nTo cut off the results, we just filter as we normally would.\n\nhot100 |&gt; \n  count(performer, sort = TRUE, name = \"appearances\") |&gt; \n  filter(appearances &gt; 650)\n\n\n  \n\n\n\nSo the code above does the same things here as we did in our first Billboard quest, but with fewer lines.",
+    "objectID": "count.html#count",
+    "href": "count.html#count",
+    "title": "13  Counting shortcuts",
+    "section": "",
+    "text": "13.1.1 Setup and import\nWe are going to pull in both tidyverse and janitor as we’ll end up using both in this chapter. I usually include both in every notebook.\n\nlibrary(tidyverse)\nlibrary(janitor)\n\nAnd import some data …\n\nhot100 &lt;- read_rds(\"data-processed/01-hot100.rds\")\n\n\n\n13.1.2 Basic count\nWe’re going to rework our first quest of the Billboard analysis:\nWhich performer had the most appearances on the Hot 100 chart at any position?\nOur logic is we want to count the number of rows based on each performer. We do this by adding the variables we want to group as arguments to count():\n\nhot100 |&gt; \n  count(performer)\n\n\n  \n\n\n\n\n\n13.1.3 Sort the results\nIf we want the value with the most rows at the top (and we almost always do) then we can add an argument: sort = TRUE.\n\nhot100 |&gt; \n  count(performer, sort = TRUE)\n\n\n  \n\n\n\n\n\n13.1.4 Name the new column\nNotice the counted table is called n. We can rename that with another argument, name = and give it the name we want in quotes.\n\nhot100 |&gt; \n  count(performer, sort = TRUE, name = \"appearances\")\n\n\n  \n\n\n\n\n\n13.1.5 Filter results as normal\nTo cut off the results, we just filter as we normally would.\n\nhot100 |&gt; \n  count(performer, sort = TRUE, name = \"appearances\") |&gt; \n  filter(appearances &gt; 650)\n\n\n  \n\n\n\nSo the code above does the same things here as we did in our first Billboard quest, but with fewer lines.\n\n\n13.1.6 Counting multiple variables\nWe can group on multiple variables by adding them as arguments. We’ll show this with the second quest:\nWhich song (title & performer) has been on the charts the most?\n\nhot100 |&gt; \n  count(\n    title,\n    performer,\n    sort = TRUE,\n    name = \"appearances\") |&gt; \n  filter(appearances &gt;= 70)\n\n\n  \n\n\n\nSame answer. We are just grouping by both title and performer, then summarizing to “count” how many matching rows there are.",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>A counting shortcut</span>"
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Counting shortcuts</span>"
     ]
   },
   {
-    "objectID": "count.html#grouping-on-multiple-variables",
-    "href": "count.html#grouping-on-multiple-variables",
-    "title": "13  A counting shortcut",
-    "section": "13.3 Grouping on multiple variables",
-    "text": "13.3 Grouping on multiple variables\nWe can group on multiple variables by adding them. We’ll show this with the second quest:\nWhich song (title & performer) has been on the charts the most?\n\nhot100 |&gt; \n  count(\n    title,\n    performer,\n    sort = TRUE,\n    name = \"appearances\") |&gt; \n  filter(appearances &gt;= 70)",
+    "objectID": "count.html#tabyl",
+    "href": "count.html#tabyl",
+    "title": "13  Counting shortcuts",
+    "section": "13.2 Tabyl",
+    "text": "13.2 Tabyl\nAnother useful function for counting rows based on groups is tabyl() which can also give us percentages of those counts.\nThe tabyl() function is from the janitor package, which is another reason I almost always include it in my notebooks.\n\n13.2.1 Import some data\nWe need some data to work on here. These are wells drilled in Hays, Travis and Williamson counties, which I then filter to recent wells drilled between 2020 and 2023. I also add a yr value based on the drilling date.\n\nwells &lt;- read_rds(\"data-processed/wells.rds\") |&gt;\n  filter(drilling_end_date &gt;= \"2020-01-01\", drilling_end_date &lt; \"2024-01-01\", ) |&gt; \n  mutate(yr = year(drilling_end_date))\n\nwells |&gt; glimpse()\n\nRows: 3,501\nColumns: 18\n$ well_report         &lt;dbl&gt; 656661, 658086, 656880, 656699, 658285, 659276, 65…\n$ type_of_work        &lt;chr&gt; \"New Well\", \"New Well\", \"New Well\", \"New Well\", \"N…\n$ proposed_use        &lt;chr&gt; \"Domestic\", \"Domestic\", \"Domestic\", \"Domestic\", \"D…\n$ proposed_use_clean  &lt;chr&gt; \"Domestic\", \"Domestic\", \"Domestic\", \"Domestic\", \"D…\n$ owner_name          &lt;chr&gt; \"Troy Smith\", \"Jeffrey K. Van Delden\", \"Jerry Jord…\n$ county              &lt;chr&gt; \"Hays\", \"Travis\", \"Williamson\", \"Travis\", \"William…\n$ well_address        &lt;chr&gt; \"1601 Pump Station RD, Wimberley, 78676\", \"5129 Bu…\n$ coord_dd_lat        &lt;dbl&gt; 30.07611, 30.32306, 30.58035, 30.44222, 30.47167, …\n$ coord_dd_long       &lt;dbl&gt; -98.19639, -97.79639, -97.74951, -98.07833, -97.19…\n$ grid_number         &lt;chr&gt; \"57-63-5\", \"58-42-5\", \"58-27-4\", \"57-40-5\", \"58-39…\n$ drilling_start_date &lt;date&gt; 2023-12-29, 2023-12-28, 2023-12-27, 2023-12-27, 2…\n$ drilling_end_date   &lt;date&gt; 2023-12-29, 2023-12-28, 2023-12-28, 2023-12-27, 2…\n$ borehole_depth      &lt;dbl&gt; 710, 610, 890, 190, 353, 400, 615, 650, 790, 470, …\n$ driller_signed      &lt;chr&gt; \"Martin Dale Lingle Jr\", \"Martin Dale Lingle Jr\", …\n$ driller_company     &lt;chr&gt; \"Centex Pump & Supply, Inc.\", \"Centex Pump & Suppl…\n$ license_number      &lt;dbl&gt; 54813, 54813, 4064, 54813, 1750, 60765, 60683, 606…\n$ plugging_report     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…\n$ yr                  &lt;dbl&gt; 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023, 20…\n\n\nWe haven’t really used this data before so let’s look at a few rows just to talk it through.\n\nwells |&gt; head()\n\n\n  \n\n\n\nEach row here is a well drilled into the ground. The variable include details like where, who, when, etc. A couple of variables we’ll pay attention to …\n\nproposed_use_clean is the reason for the well, cleaned up a little to combine some categories.\ndrilling_end_date is when the well was completed.\n\nWe’ll use the proposed_use_clean column to see what kinds of wells have been drilled.\nLet’s start by using count() function we learned about above.\n\nwells |&gt; count(proposed_use_clean)\n\n\n  \n\n\n\nWe’re counting the number of rows that have each proposed use.\n\n\n13.2.2 The beauty of tabyl\ntabyl() works like count, but it also adds the percentage share by default. While the result looks physically different in your notebook compared to our tidyverse outputs, it is still a data frame that works in similar ways, as it can be piped, etc. They look the same when rendered.\n\nwells |&gt; tabyl(proposed_use_clean)\n\n\n  \n\n\n\nWhat we get here in addition to the n column that counts the rows, is a raw percent column that tells us the share for each use category. This is the basic “part / whole” part of a percentage.\nWith this we can see that about 44% of the wells are “Domestic” wells.\nThere are a number of additional “adorn” functions that can help format our result.\nHere we convert the raw percent to an actual percentage (to include the * 100 part):\n\nwells |&gt; \n  tabyl(proposed_use_clean) |&gt; \n  adorn_pct_formatting()\n\n\n  \n\n\n\nAnd if we don’t want that percent sign, we can remove it with the affix_sign = F argument.\n\nwells |&gt; \n  tabyl(proposed_use_clean) |&gt; \n  adorn_pct_formatting(affix_sign = F)\n\n\n  \n\n\n\nDo note the percent column is still &lt;chr&gt; and would have to be converted to a number to do math or sorting properly.\n\n\n13.2.3 Two-way tabyls\nLikd with count(), you can group by more than one value with tabyl(). We’ll do this to get the proposed use type by year.\nTwo-way tables don’t automatically add percentages. These are the “count” of rows where the proposed_use_clean and yr values are the same.\n\nwells |&gt; \n  tabyl(proposed_use_clean, yr)\n\n\n  \n\n\n\n\n\n13.2.4 Add totals rows\nAnother very useful adornment in tabyl is to add totals to the rows or columns. This will total any numerical value in your data frame.\nBy default it adds totals for each “row” so you get a total at the bottom.\n\nwells |&gt; \n  tabyl(proposed_use_clean, yr) |&gt; \n  adorn_totals()\n\n\n  \n\n\n\nBut you could also add totals by “col”:\n\nwells |&gt; \n  tabyl(proposed_use_clean, yr) |&gt; \n  adorn_totals(\"col\")\n\n\n  \n\n\n\nor both:\n\nwells |&gt; \n  tabyl(proposed_use_clean, yr) |&gt; \n  adorn_totals(\"both\")\n\n\n  \n\n\n\nThis might be a little confusing, but the adorn_totals() function can be used on any data frame, not just tabyls. Here I’ve taken the first few rows and columns of the starwars dataset and added adorn_totals(). See that it adds the totals of the included rows when they are numbers, and uses - when they are not numbers.\n\nstarwars |&gt;\n  select(name:skin_color) |&gt; \n  head() |&gt; \n  adorn_totals()\n\n\n  \n\n\n\n\n\n13.2.5 Percentages in two-way tabyls\nOK, this definitely gets confusing, but we can also get percentages for two-way tabyls.\nNote that by default these are the percentages within each ROW, so of all the “Closed-Loop Geothermal” wells drilled between 2020 and 2023, 39.3% of them were in the year 2023.\n\nwells |&gt; \n  tabyl(proposed_use_clean, yr) |&gt; \n  adorn_percentages()\n\n\n  \n\n\n\nWhat we really want is the percentage of wells were Closed-Loop Geothermal vs Domestic WITHIN a year.\nWe’ll also add the percentage formatting to make it easier to read.\n\nwells |&gt; \n  tabyl(proposed_use_clean, yr) |&gt; \n  adorn_percentages(\"col\") |&gt; # where we switched to column percentages\n  adorn_pct_formatting()\n\n\n  \n\n\n\nNow we can see that the percentage of wells drilled for “Domestic” use have generally grown.\n\n\n13.2.6 Both counts, percentages\nIf you really want counts along with your percentages, you can add the numbers back with adorn_ns()\n\nwells |&gt; \n  tabyl(proposed_use_clean, yr) |&gt; \n  adorn_percentages(\"col\") |&gt; \n  adorn_pct_formatting() |&gt; \n  adorn_ns()\n\n\n  \n\n\n\n\n\n13.2.7 Putting this together\nSo here is a use case: I want to “see” how the percentage of water wells drilled for domestic use has changed year over year. Using tabyl() I can easily get the percentages within each year and then plot them.\nI’ll string this together and the annotate it.\n\nwells_by_yr_type &lt;- wells |&gt; \n1  tabyl(proposed_use_clean, yr) |&gt;\n2  adorn_percentages(\"col\") |&gt;\n3  adorn_pct_formatting() |&gt;\n4  pivot_longer(-proposed_use_clean, names_to = \"yr\", values_to = \"percentage\") |&gt;\n5  mutate(percentage = parse_number(percentage))\n\nwells_by_yr_type\n\n\n1\n\nBuild our tabyl using two variables, just like above\n\n2\n\nSwitches our values to percentages based on the column\n\n3\n\nConverts to a friendly “* 100” percentage\n\n4\n\nHere we pivot_longer to make a data frame more friendly for ggplot\n\n5\n\nBecause our “percentages” are text, we need to convert them to a number\n\n\n\n\n\n  \n\n\n\nNow that we have ggplotable data, we can make a stacked percentage column chart.\n\nwells_by_yr_type |&gt; \n  ggplot(aes(x = yr, y = percentage)) +\n  geom_col(aes(fill = proposed_use_clean))\n\n\n\n\n\n\n\n\n\n\n13.2.8 More in janitor\nBelieve it or not, there are more useful tools in the janitor package to clean your data. Check out the vignette.",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>A counting shortcut</span>"
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Counting shortcuts</span>"
     ]
   },
   {
@@ -1756,91 +1756,36 @@
     ]
   },
   {
-    "objectID": "tabyl.html",
-    "href": "tabyl.html",
-    "title": "16  Tabyls",
-    "section": "",
-    "text": "16.1 Import my data\nWe’re using some animal center data to show these functions and we need some data I do a little cleanup for simplification.\noutcomes &lt;- read_rds(\"data-processed/01-outcome.rds\") |&gt;\n  filter(year &gt; 2013, year &lt; 2024) |&gt; \n  mutate(date_outcome = date(date_outcome))\n\noutcomes |&gt; glimpse()\n\nRows: 153,840\nColumns: 12\n$ animal_id        &lt;chr&gt; \"A794011\", \"A776359\", \"A821648\", \"A720371\", \"A674754\"…\n$ date_outcome     &lt;date&gt; 2019-05-08, 2018-07-18, 2020-08-16, 2016-02-13, 2014…\n$ date_birth       &lt;date&gt; 2017-05-02, 2017-07-12, 2019-08-16, 2015-10-08, 2014…\n$ age_days         &lt;drtn&gt; 736 days, 371 days, 366 days, 128 days, 6 days, 2752…\n$ animal_type      &lt;chr&gt; \"Cat\", \"Dog\", \"Other\", \"Dog\", \"Cat\", \"Dog\", \"Dog\", \"C…\n$ outcome_type     &lt;chr&gt; \"Rto-Adopt\", \"Adoption\", \"Euthanasia\", \"Adoption\", \"T…\n$ outcome_simple   &lt;chr&gt; \"Return to Owner\", \"Adoption\", \"Euthanasia\", \"Adoptio…\n$ outcome_subtype  &lt;chr&gt; NA, NA, NA, NA, \"Partner\", NA, \"Foster\", NA, NA, NA, …\n$ sex_upon_outcome &lt;chr&gt; \"Neutered Male\", \"Neutered Male\", \"Unknown\", \"Neutere…\n$ breed            &lt;chr&gt; \"Domestic Shorthair Mix\", \"Chihuahua Shorthair Mix\", …\n$ name             &lt;chr&gt; \"Chunk\", \"Gizmo\", NA, \"Moose\", NA, \"Princess\", \"Quent…\n$ year             &lt;dbl&gt; 2019, 2018, 2020, 2016, 2014, 2020, 2020, 2022, 2014,…\nPeek at the data in a way that shows outcome_simple\noutcomes |&gt;\n  slice_sample(n = 5) |&gt;\n  select(animal_id, date_outcome, outcome_type, outcome_simple, everything())",
-    "crumbs": [
-      "Extras",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Tabyls</span>"
-    ]
-  },
-  {
-    "objectID": "tabyl.html#lets-count-outcomes",
-    "href": "tabyl.html#lets-count-outcomes",
-    "title": "16  Tabyls",
-    "section": "16.2 Let’s count outcomes",
-    "text": "16.2 Let’s count outcomes\nThis is the shortcut count() which is super useful. It is the same and group_by |&gt; summarize(n()).\n\noutcomes |&gt; \n  count(outcome_simple)",
-    "crumbs": [
-      "Extras",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Tabyls</span>"
-    ]
-  },
-  {
-    "objectID": "tabyl.html#the-beauty-of-tabyl",
-    "href": "tabyl.html#the-beauty-of-tabyl",
-    "title": "16  Tabyls",
-    "section": "16.3 The beauty of tabyl",
-    "text": "16.3 The beauty of tabyl\ntabyl() works like count, but it also adds the percentage share by default. While the result looks physically different in your notebook than our tidyverse outputs, it is still a data frame that works in similar ways, as it can be piped, etc.\n\noutcomes |&gt; \n  tabyl(outcome_simple)\n\n\n  \n\n\n\nThat said, there are a number of additional “adorn” functions that can help format your result.\nHere we convert percent to an actual percentage (the * 100 part):\n\noutcomes |&gt; \n  tabyl(outcome_simple) |&gt; \n  adorn_pct_formatting()\n\n\n  \n\n\n\nAnd then we remove the percent sign:\n\noutcomes |&gt; \n  tabyl(outcome_simple) |&gt; \n  adorn_pct_formatting(affix_sign = F)\n\n\n  \n\n\n\nBut do not that percent column is a  datatype and not a number. That’s easy enough to convert with parse_number() or as.number().",
-    "crumbs": [
-      "Extras",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Tabyls</span>"
-    ]
-  },
-  {
-    "objectID": "tabyl.html#two-way-tables",
-    "href": "tabyl.html#two-way-tables",
-    "title": "16  Tabyls",
-    "section": "16.4 Two-way tables",
-    "text": "16.4 Two-way tables\nYou can group by more than one value. We’ll use a two-way table to get outcomes by year.\nTwo-way tables don’t automatically add percentages:\n\noutcomes |&gt; \n  tabyl(year, outcome_simple)\n\n\n  \n\n\n\nBut you can still convert them with an adorn function:\n\noutcomes |&gt; \n  tabyl(year, outcome_simple) |&gt; \n  adorn_percentages()\n\n\n  \n\n\n\nAnd even convert them to whole percentages:\n\noutcome_prcentages &lt;- outcomes |&gt; \n  tabyl(year, outcome_simple) |&gt; \n  adorn_percentages() |&gt; \n  adorn_pct_formatting(affix_sign = TRUE) # change to FALSE to remove %\n\noutcome_prcentages\n\n\n  \n\n\n\nAnd then pivot them to prepare for a plot. The value (prc here) ends up as text (even if you remove the % sign) so you have to convert them to a number before they are useful in plotting.\n\nout_prc_long &lt;- outcome_prcentages |&gt; \n  pivot_longer(\n    cols = Adoption:Transfer,\n    names_to = \"outcome_simple\",\n    values_to = \"prc\"\n  ) |&gt; \n  mutate(prc = parse_number(prc))\n\nout_prc_long\n\n\n  \n\n\n\nNow you can plot it:\n\nout_prc_long |&gt; \n  ggplot(aes(x = year, y = prc, group = outcome_simple)) +\n  geom_line(aes(color = outcome_simple)) +\n  geom_point(size = .5) +\n  labs(\n    title = \"Share of adoptions has risen in recent years\",\n    y = \"Percentage of outcome\"\n  )",
-    "crumbs": [
-      "Extras",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Tabyls</span>"
-    ]
-  },
-  {
-    "objectID": "tabyl.html#add-row-totals",
-    "href": "tabyl.html#add-row-totals",
-    "title": "16  Tabyls",
-    "section": "16.5 Add row totals",
-    "text": "16.5 Add row totals\nOne last thing … we’ll check our math on these percentage and how totals while we are at it.\nLet’s filter for just the 2023 values:\n\nout_prc_long |&gt; \n  filter(year == 2023)\n\n\n  \n\n\n\nBut then add adorn_totals() to add together the prc to make sure they equal 100. It’s a wee bit off because of rounding.\n\nout_prc_long |&gt; \n  filter(year == 2023) |&gt; \n  adorn_totals()\n\n\n  \n\n\n\nWhile it adds totals to columns by default, you can also specify both rows and columns, as necessary.\n\noutcomes |&gt; \n  tabyl(year, outcome_simple) |&gt; \n  adorn_totals(c(\"row\", \"col\"))",
-    "crumbs": [
-      "Extras",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Tabyls</span>"
-    ]
-  },
-  {
     "objectID": "git.html",
     "href": "git.html",
-    "title": "17  Using git",
+    "title": "16  Using git",
     "section": "",
-    "text": "17.1 Publish to Github Pages\nThis assumes you already have your repo already created and pushed to Github.",
+    "text": "16.1 Publish to Github Pages\nThis assumes you already have your repo already created and pushed to Github.",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Using git</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Using git</span>"
     ]
   },
   {
     "objectID": "git.html#publish-to-github-pages",
     "href": "git.html#publish-to-github-pages",
-    "title": "17  Using git",
+    "title": "16  Using git",
     "section": "",
-    "text": "17.1.1 Set up the output directory\nWhen you build a Quarto website like we do with our projects, it saves the HTML files into a folder called _site. We’re going to change the _quarto.yml configuration file to instead save those files into a docs/ folder that can then be published (for free) through Github Pages.\n\nOpen your _quarto.yml file\nUnder the project line (probably at the top) add the output-dir line as described below and save it:\n\n\n\n_quarto.yml\n\nproject:\n  type: website\n  output-dir: docs\n\n\nRender all your pages. The best way is to use the Build tab (usually top right) and then click on the Render Website button.\nAdd, commit and push all your changes to git and Github.\n\nThis will rework all the files go into a docs folder. You can remove the _site folder if it had already been created.\n\n\n\n\n\n\nNote\n\n\n\nIn some instances when making a major change to the _quarto.yml file like this, you might have to restart R for changes to get understood.\n\n\n\n\n17.1.2 Set up Github Pages\n\nGo to your repo in Github.\nClick on the Settings Tab\nClick on Pages in the left navigation.\nUnder Build and deployment:\n\n\nMake sure Source is “Deploy from a branch”\nSet the branch to main and the folder is set to /docs and click Save.\n\n\n\n\nGithub Pages Setup\n\n\nThis will set up a publishing Action and once it has published your files it will add the link to the top of this Pages page. The URL is predictable based on your username and repo name.\n\n\n\nGithub Pages url\n\n\nTo make updates, make your changes locally, render all the pages, then commit and push them to Github. It takes a couple of minutes for the action to republish pages depending on the size of the site.\n\n\n17.1.3 Troublshooting Github Pages\nThe main issue I’ve seen is having a .gitignore file that lists the docs/ folder so that never gets pushed to Github. That folder has to be in the remote repo for Pages to work with this configuration. Comment or remove that line (or use my .gitignore file listed below)\nIf you’ve published before already and are pushing corrections, you have to wait on the publishing Action, which can take time (like 5 minutes at most?). Sometimes a browser will hang onto the cache of the earlier page, so try holding down Shift as you refresh the page to make it check the server again.\nBeyond that you just have to check the Actions tab in your repo and poke through the logs.",
+    "text": "16.1.1 Set up the output directory\nWhen you build a Quarto website like we do with our projects, it saves the HTML files into a folder called _site. We’re going to change the _quarto.yml configuration file to instead save those files into a docs/ folder that can then be published (for free) through Github Pages.\n\nOpen your _quarto.yml file\nUnder the project line (probably at the top) add the output-dir line as described below and save it:\n\n\n\n_quarto.yml\n\nproject:\n  type: website\n  output-dir: docs\n\n\nRender all your pages. The best way is to use the Build tab (usually top right) and then click on the Render Website button.\nAdd, commit and push all your changes to git and Github.\n\nThis will rework all the files to go into a docs folder. You can remove the _site folder if it had already been created.\n\n\n\n\n\n\nWarning\n\n\n\nIn some instances when making a major change to the _quarto.yml file like this, you might have to restart R and then Render Website to make sure all the changes are understood.\n\n\n\n\n16.1.2 Set up Github Pages\n\nGo to your repo in Github.\nClick on the Settings Tab\nClick on Pages in the left navigation.\nUnder Build and deployment:\n\nMake sure Source is “Deploy from a branch”\nSet the branch to main and the folder to /docs and click Save.\n\n\n\n\n\nGithub Pages Setup\n\n\nThis will set up a publishing Action and once it has published your files it will add the link to the top of this Pages page. The URL is predictable based on your username and repo name.\n\n\n\nGithub Pages url\n\n\nTo make updates, make your changes locally, render all the pages, then commit and push them to Github. It takes a couple of minutes for the action to republish pages depending on the size of the site.\n\n\n16.1.3 Troublshooting Github Pages\nThe main issue I’ve seen is having a .gitignore file that lists the docs/ folder so that it never gets pushed to Github. That folder has to be in the remote repo for Pages to work with this configuration. Comment or remove that line (or use my .gitignore file listed below)\nIf you’ve published before already and are pushing corrections, you have to wait on the publishing Action, which can take time (like 5 minutes at most?). Sometimes a browser will hang onto the cache of the earlier page, so try holding down Shift as you refresh the page to make it check the server again.\nBeyond that you just have to check the Actions tab in your repo and poke through the logs.",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Using git</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Using git</span>"
     ]
   },
   {
     "objectID": "git.html#a-good-.gitignore-file",
     "href": "git.html#a-good-.gitignore-file",
-    "title": "17  Using git",
-    "section": "17.2 A good .gitignore file",
-    "text": "17.2 A good .gitignore file\nIt’s good practice to have a .gitignore file that excludes things like system files and the like from version control. I usually build them using gitignore.io but there is a setting they use for R that breaks this workflow.\nI recommend just using a copy of my .gitignore file from this book. It is best to create this file BEFORE YOU START COMMITTING FILES into your repo.\n\nCreate a new text file called .gitignore. The name of the file is important … it MUST start with a period and MUST NOT have an extension like .txt. It should just be .gitignore.\nGo the .gitignore file from this book and then copy/paste the contents into your newly-created file. Save and close.\n\nYou’ll know the file is named correctly if in your Files pane there is a little red git logo in the file icon.",
+    "title": "16  Using git",
+    "section": "16.2 A good .gitignore file",
+    "text": "16.2 A good .gitignore file\nIt’s good practice to have a .gitignore file that excludes things like system files and the like from version control. I usually build them using gitignore.io but there is a setting they use for R that breaks the workflow described above.\nI recommend just using a copy of my .gitignore file from this book. It is best to create this file BEFORE YOU START COMMITTING FILES into your repo.\n\nCreate a new text file called .gitignore. The name of the file is important … it MUST start with a period and MUST NOT have an extension like .txt. It should just be .gitignore.\nGo the .gitignore file from this book and then copy/paste the contents into your newly-created file. Save and close.\n\nYou’ll know the file is named correctly if in your Files pane there is a little red git logo in the file icon.",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Using git</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Using git</span>"
     ]
   },
   {

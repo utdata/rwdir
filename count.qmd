@@ -1,16 +1,20 @@
-# A counting shortcut
+# Counting shortcuts
 
-We count stuff in data science (and journalism) all the time. In our Billboard project we used `summarize()` and the `n()` function to count rows because we needed to understand the concepts of group_by, summarize and arrange. It is perfectly valid and the best way to explain and understand grouping and summarizing.
+We count stuff in data science (and journalism) all the time. In our Billboard project we used `summarize()` with `n()` to count rows because we needed to understand the concepts of group_by, summarize and arrange. It is perfectly valid and the best way to explain and understand grouping and summarizing.
 
-But in the interest of full disclosure, know that dplyr has a shortcut to group, count and arrange rows of data. The [`count()`](https://dplyr.tidyverse.org/reference/count.html) function takes the columns you want to group and then does the summarize on `n()` for you. We'll demonstrate them with the Billboard data. You can create a new notebook to try this, or just use this for reference.
+But in the interest of full disclosure, know there are some neat shortcuts to count rows of data.
 
 ::: callout
-We didn't start with `count()` because it can't do anything else other than count rows, and we needed to build our GSA knowledge to summarize all kinds of ways, like `sum()`, `mean()` or `slice()`.
+We didn't cover these functions in our Billboard project because they only count rows and don't do math. We needed to build our group, summarize, arrange (GSA) knowledge to summarize data in all kinds of ways, including `sum()`, `mean()` or `slice()`.
 :::
 
-## Setup and import
+## Count
 
-We don't normally put these together, but we're just setting up a quick demonstration
+The [`count()`](https://dplyr.tidyverse.org/reference/count.html) function takes arguments of the columns you want to group and then does the `summarize(cnt = n())` for you as a default. We'll demonstrate this using the Billboard data.
+
+### Setup and import
+
+We are going to pull in both tidyverse and janitor as we'll end up using both in this chapter. I usually include both in every notebook.
 
 ```{r}
 #| label: setup
@@ -18,10 +22,16 @@ We don't normally put these together, but we're just setting up a quick demonstr
 #| warning: false
 
 library(tidyverse)
+library(janitor)
+```
+
+And import some data ...
+
+```{r}
 hot100 <- read_rds("data-processed/01-hot100.rds")
 ```
 
-## Basic count
+### Basic count
 
 We're going to rework our first quest of the Billboard analysis:
 
@@ -36,13 +46,12 @@ hot100 |>
 
 ### Sort the results
 
-If we want the highest counted row at the top (and we almost always do) then we can add an argument: `sort = TRUE`.
+If we want the value with the most rows at the top (and we almost always do) then we can add an argument: `sort = TRUE`.
 
 ```{r}
 hot100 |> 
   count(performer, sort = TRUE)
 ```
-
 
 ### Name the new column
 
@@ -63,11 +72,12 @@ hot100 |>
   count(performer, sort = TRUE, name = "appearances") |> 
   filter(appearances > 650)
 ```
+
 So the code above does the same things here as we did in our first Billboard quest, but with fewer lines.
 
-## Grouping on multiple variables
+### Counting multiple variables
 
-We can group on multiple variables by adding them. We'll show this with the second quest:
+We can group on multiple variables by adding them as arguments. We'll show this with the second quest:
 
 **Which song (title & performer) has been on the charts the most?**
 
@@ -81,9 +91,197 @@ hot100 |>
   filter(appearances >= 70)
 ```
 
+Same answer. We are just grouping by both `title` and `performer`, then summarizing to "count" how many matching rows there are.
+
+## Tabyl
+
+Another useful function for counting rows based on groups is `tabyl()` which can also give us percentages of those counts.
+
+The [`tabyl()`](https://sfirke.github.io/janitor/articles/tabyls.html) function is from the [janitor](https://sfirke.github.io/janitor/index.html) package, which is another reason I almost always include it in my notebooks.
+
+### Import some data
+
+We need some data to work on here. These are wells drilled in Hays, Travis and Williamson counties, which I then filter to recent wells drilled between 2020 and 2023. I also add a `yr` value based on the drilling date.
+
+```{r}
+wells <- read_rds("data-processed/wells.rds") |>
+  filter(drilling_end_date >= "2020-01-01", drilling_end_date < "2024-01-01", ) |> 
+  mutate(yr = year(drilling_end_date))
+
+wells |> glimpse()
+```
+
+We haven't really used this data before so let's look at a few rows just to talk it through.
+
+```{r}
+wells |> head()
+```
+
+Each row here is a well drilled into the ground. The variable include details like where, who, when, etc. A couple of variables we'll pay attention to ...
+
+- `proposed_use_clean` is the reason for the well, cleaned up a little to combine some categories.
+- `drilling_end_date` is when the well was completed.
+
+We'll use the `proposed_use_clean` column to see what kinds of wells have been drilled.
+
+Let's start by using `count()` function we learned about above.
+
+```{r}
+wells |> count(proposed_use_clean)
+```
+
+We're counting the number of rows that have each proposed use.
+
+### The beauty of tabyl
+
+`tabyl()` works like count, but it also adds the percentage share by default. While the result looks physically different in your notebook compared to our tidyverse outputs, it is still a data frame that works in similar ways, as it can be piped, etc. They look the same when rendered.
+
+```{r}
+wells |> tabyl(proposed_use_clean)
+```
+
+What we get here in addition to the `n` column that counts the rows, is a raw `percent` column that tells us the share for each use category. This is the basic "part / whole" part of a percentage.
+
+**With this we can see that about 44% of the wells are "Domestic" wells.**
+
+There are a number of additional "adorn" functions that can help format our result.
+
+Here we convert the raw `percent` to an actual percentage (to include the * 100 part):
+
+```{r}
+wells |> 
+  tabyl(proposed_use_clean) |> 
+  adorn_pct_formatting()
+```
+
+And if we don't want that percent sign, we can remove it with the `affix_sign = F` argument.
+
+```{r}
+wells |> 
+  tabyl(proposed_use_clean) |> 
+  adorn_pct_formatting(affix_sign = F)
+```
+
+Do note the `percent` column is still `<chr>` and would have to be converted to a number to do math or sorting properly.
+
+### Two-way tabyls
+
+Likd with `count()`, you can group by more than one value with `tabyl()`. We'll do this to get the proposed use type by year.
+
+Two-way tables don't automatically add percentages. These are the "count" of rows where the `proposed_use_clean` and `yr` values are the same.
+
+```{r}
+wells |> 
+  tabyl(proposed_use_clean, yr)
+```
+
+### Add totals rows
+
+Another very useful adornment in tabyl is to add totals to the rows or columns. This will total any numerical value in your data frame.
+
+By default it adds totals for each "row" so you get a total at the bottom.
+
+```{r}
+wells |> 
+  tabyl(proposed_use_clean, yr) |> 
+  adorn_totals()
+```
+
+But you could also add totals by "col":
+
+```{r}
+wells |> 
+  tabyl(proposed_use_clean, yr) |> 
+  adorn_totals("col")
+```
+
+or both:
+
+```{r}
+wells |> 
+  tabyl(proposed_use_clean, yr) |> 
+  adorn_totals("both")
+```
+
+This might be a little confusing, but the `adorn_totals()` function can be used on any data frame, not just tabyls. Here I've taken the first few rows and columns of the starwars dataset and added `adorn_totals()`. See that it adds the totals of the included rows when they are numbers, and uses `-` when they are not numbers.
+
+```{r}
+starwars |>
+  select(name:skin_color) |> 
+  head() |> 
+  adorn_totals()
+```
+
+### Percentages in two-way tabyls
+
+OK, this definitely gets confusing, but we can also get percentages for two-way tabyls.
+
+Note that by default these are the **percentages within each ROW**, so of all the "Closed-Loop Geothermal" wells drilled between 2020 and 2023, 39.3% of them were in the year 2023.
+
+```{r}
+wells |> 
+  tabyl(proposed_use_clean, yr) |> 
+  adorn_percentages()
+```
+
+What we really want is the percentage of wells were Closed-Loop Geothermal vs Domestic WITHIN a year.
+
+We'll also add the percentage formatting to make it easier to read.
+
+```{r}
+wells |> 
+  tabyl(proposed_use_clean, yr) |> 
+  adorn_percentages("col") |> # where we switched to column percentages
+  adorn_pct_formatting()
+```
+
+Now we can see that the percentage of wells drilled for "Domestic" use have generally grown.
+
+### Both counts, percentages
+
+If you really want counts along with your percentages, you can add the numbers back with `adorn_ns()`
+
+```{r}
+wells |> 
+  tabyl(proposed_use_clean, yr) |> 
+  adorn_percentages("col") |> 
+  adorn_pct_formatting() |> 
+  adorn_ns()
+```
+
+### Putting this together
+
+So here is a use case: I want to "see" how the percentage of water wells drilled for domestic use has changed year over year. Using `tabyl()` I can easily get the percentages within each year and then plot them.
+
+I'll string this together and the annotate it.
 
 
+```{r}
+wells_by_yr_type <- wells |> 
+  tabyl(proposed_use_clean, yr) |> # <1> 
+  adorn_percentages("col") |> # <2> 
+  adorn_pct_formatting() |> # <3>
+  pivot_longer(-proposed_use_clean, names_to = "yr", values_to = "percentage") |> # <4>
+  mutate(percentage = parse_number(percentage)) # <5>
 
+wells_by_yr_type
+```
 
+1. Build our tabyl using two variables, just like above
+2. Switches our values to percentages based on the column
+3. Converts to a friendly "* 100" percentage
+4. Here we pivot_longer to make a data frame more friendly for ggplot
+5. Because our "percentages" are text, we need to convert them to a number
 
+Now that we have ggplotable data, we can make a stacked percentage column chart.
+
+```{r}
+wells_by_yr_type |> 
+  ggplot(aes(x = yr, y = percentage)) +
+  geom_col(aes(fill = proposed_use_clean))
+```
+
+### More in janitor
+
+Believe it or not, there are more useful tools in the janitor package to clean your data. Check out the [vignette](https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html).
 

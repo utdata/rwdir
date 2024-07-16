@@ -1,0 +1,62 @@
+---
+title: "Wells cleaning"
+---
+
+Downloaded from Well Reports Advanced Search found from [this page](https://www.twdb.texas.gov/groundwater/data/drillersdb.asp). Includes Hays, Travis and Williamson counties.
+
+
+## Setup
+
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(janitor)
+```
+
+## Import
+
+```{r}
+wells_raw <- read_csv("../data-raw/WellRpts_County_Use_20240630.csv", skip = 2) |>
+  clean_names() |> 
+  rename_with(~ str_remove(., "_tracking_number2|2")) |>
+  mutate(across(ends_with("date"), mdy)) |> 
+  arrange(drilling_start_date |> desc())
+
+wells_raw
+```
+
+## Clean proposed use variable
+
+```{r}
+wells_clean <- wells_raw |> 
+  mutate(
+    proposed_use_clean = case_when(
+      proposed_use == "Closed-Loop Geothermal" ~ "Closed-Loop Geothermal",
+      proposed_use == "Domestic" ~ "Domestic",
+      proposed_use == "Environmental Soil Boring" ~ "Environmental Soil Boring",
+      # proposed_use == "Industrial" ~ "Industrial",
+      proposed_use == "Public Supply" ~ "Public Supply",
+      proposed_use == "Stock" ~ "Stock",
+      # proposed_use == "Test Well" ~ "Test Well",
+      # str_detect(proposed_use, "Injection") ~ "Injection",
+      str_detect(proposed_use, "Irrigation") ~ "Irrigation",
+      str_detect(proposed_use, "Monitor") ~ "Monitor",
+      str_detect(proposed_use, "zo") ~ "Piezometer",
+      .default = "Other"
+  )) |> 
+  relocate(proposed_use_clean, .after = proposed_use)
+
+wells_clean |> count(proposed_use, proposed_use_clean)
+```
+
+## Export
+
+```{r}
+
+wells_clean |> write_rds("../data-processed/wells.rds")
+```
+
