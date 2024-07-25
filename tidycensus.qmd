@@ -25,6 +25,7 @@ It's not a good idea to publish your API key since it is like a password, so I'v
 
 library(tidyverse)
 library(tidycensus)
+library(janitor)
 
 # census_api_key("YOUR API KEY GOES HERE")
 ```
@@ -186,7 +187,7 @@ If the margin of error is more than 10% of an estimate, then that number is squi
 ```{r}
 moe_check <- college_vars |> 
   mutate(
-    moe_share = ((moe / estimate) * 100) |> round(1), # calc moe share
+    moe_share = ((moe / estimate) * 100) |> round_half_up(1), # calc moe share
     moe_flag = if_else(moe_share >= 10, TRUE, FALSE) # make a flag if high
   )
 
@@ -243,9 +244,9 @@ college_wide
 ```{r}
 college_calcs <- college_wide |> 
   mutate(
-    prc_hs = ((fem_hs / fem) * 100) |> round(1),
+    prc_hs = ((fem_hs / fem) * 100) |> round_half_up(1),
     sum_deg = fem_as_d + fem_ba_d + fem_ma_d + fem_ps_d + fem_ph_d,
-    prc_deg = ((sum_deg / fem) * 100) |> round(1)
+    prc_deg = ((sum_deg / fem) * 100) |> round_half_up(1)
   )
 
 college_calcs

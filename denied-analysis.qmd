@@ -29,6 +29,7 @@ When a new concept is introduced, it's shown and explained here. However, there 
 #| warning: false
 
 library(tidyverse)
+library(janitor)
 library(scales)
 library(DT)
 ```
@@ -168,7 +169,7 @@ yearly_percent <- sped |>
     total_students = sum(all_count),
     total_sped = sum(sped_count)
   ) |> 
-  mutate(sped_percent = ((total_sped / total_students) * 100) |> round(1))
+  mutate(sped_percent = ((total_sped / total_students) * 100) |> round_half_up(1))
 
 yearly_percent
 ```

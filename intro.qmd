@@ -1,9 +1,5 @@
 # Introduction to R {#intro}
 
-::: callout
-This chapter was written by Prof. McDonald using macOS, with edits by Prof. Lukito.
-:::
-
 ## About Quarto, R and scripted journalism
 
 Before we dive into RStudio and programming and all that, I want to show you where we are heading, so you can "visualize success". As I wrote in the book intro, I'm a believer in Scripted Journalism ... data journalism that is repeatable, transparent and annotated. As such, the whole purpose of this book is to train you **to create documents to share your work**.
@@ -12,7 +8,7 @@ The best way to explain this is to show you an example.
 
 1.  Go to this link in a new browser window: [Major League Soccer salaries](https://christianmcdonald.quarto.pub/mls-salaries/).
 
-This is a website with all the code from a data journalism project. If you click on the navigation link for [Cleaning](https://christianmcdonald.quarto.pub/mls-salaries/01-cleaning.html) you can read where the data come from and see all the steps I went through -- with code and explanation -- to process the data so I could work with it. And in the [Analysis 2023](https://christianmcdonald.quarto.pub/mls-salaries/02-analysis.html) notebook you'll see I set out with some questions for the data, and then I wrote the code to find my answers. Along with the way I wrote explanations of how and why I did what I did.
+This is a website with all the code from a data journalism project. If you click on the navigation link for [Cleaning](https://christianmcdonald.quarto.pub/mls-salaries/01-cleaning.html) you can read where the data come from and see all the steps I went through -- with code and explanation -- to process the data so I could work with it. And in the [Analysis 2024](https://christianmcdonald.quarto.pub/mls-salaries/02-analysis.html) notebook you'll see I set out with some questions for the data, and then I wrote the code to find my answers. Along with the way I wrote explanations of how and why I did what I did.
 
 ![Quarto Pub page](images/mls-analysis.png)
 
@@ -28,12 +24,12 @@ Creating shareable work is our goal **for every project**. Let's get started.
 ## RStudio tour
 
 ::: callout-warning
-If you are using the online posit.cloud version of RStudio, then some steps have to be done differently, mainly in dealing with project creation and exporting. I'll try to note when I'm aware of differences, but may not go into great detail in the book. Happy to do so in class.
+If you are using the online **posit.cloud version of RStudio**, then some steps have to be done differently, mainly in dealing with project creation and exporting. I'll try to note when I'm aware of differences, but may not go into great detail in the book. Happy to do so in class.
 
 In this case, you need go to your posit.cloud account and then use the blue **New Project** button to launch a new RStudio project, and then continue below.
 :::
 
-When you launch RStudio, you'll get a screen that looks like this:
+When you launch RStudio, you'll get a screen that looks like this (but without the pretty arrows):
 
 ![RStudio launch screen](images/intro-start.png)
 
@@ -48,7 +44,7 @@ There are some preferences in RStudio that I would like you to change. By defaul
 
 ![RStudio preferences](images/rstudio-prefs.png)
 
-Next we will set some value is the **Code** pane.
+Next we will set some values in the **Code** pane.
 
 1.  On the left options, click on the **Code** pane.
 2.  Check the box for **Use native pipe operator, \|\>**.
@@ -64,7 +60,7 @@ R is an open-source language, which means that other programmers can contribute 
 
 What happens is developers will find it difficult to do a certain task, so they will write code that solves that problem and save it into an R "package" so they can use it later. They share that code with the community, and suddenly the R garage has an ["ultimate set of tools"](https://youtu.be/Y1En6FKd5Pk?t=24) that would make Spicoli's dad proud.
 
-One set of these tools is the [tidyverse](https://www.tidyverse.org/) developed by Hadley Wickham and his team at Posit. It's a set of R packages for data science that are designed to work together in similar ways. Prof. Lukito and I are worshipers of the tidyverse worldview and we'll use these tools extensively. While not required reading, I highly recommend Wickham's book [R for data science](https://r4ds.hadley.nz/), which is free.
+One set of these tools is the [tidyverse](https://www.tidyverse.org/) developed by Hadley Wickham and other developers at Posit. It's a set of R packages for data science that are designed to work together in similar ways. Prof. Lukito and I are worshipers of the tidyverse worldview and we'll use these tools extensively. While not required reading, I highly recommend Wickham's book [R for Data Science](https://r4ds.hadley.nz/), which is free.
 
 There are also a series of useful tidyverse [cheatsheets](https://posit.co/resources/cheatsheets/) that can help you as you use the packages and functions from the tidyverse. We'll refer to these throughout the course.
 
@@ -72,13 +68,13 @@ We will use these tidyverse packages extensively throughout the course. We'll in
 
 ### How we use packages
 
-There are two steps to using an R package:
+I'll show you how in a sec, but know there are two steps to using an R package:
 
 -   **Install the package** onto your computer by using `install.packages("package_name")`. You only have to do this once for each computer, so I usually do it using the R Console instead of in a notebook.
 -   **Include the library** using `library(package_name)`. This has to be done for each notebook or script that uses it, so it is usually one of the first things you'll see in a notebook.
 
 ::: callout-note
-You use "quotes" around the package name when you are installing, but you DON'T need quotes when you load the library.
+We use "quotes" around the package name when we are installing, but we DON'T need quotes when we load the library.
 :::
 
 ### Install some packages
@@ -87,7 +83,7 @@ We need to install some packages before we can go further. To do this, we will u
 
 ![The Console and Terminal](images/import-console.png)
 
-1.  Use the image above to orient yourself to the R Console and Terminal.
+1.  Use the image above to orient yourself to the R Console and Terminal. (But note the code we use is a little different.)
 2.  Copy the code below and paste it into the Console, then hit **Return**.
 
 ``` r
@@ -96,7 +92,7 @@ install.packages(c("quarto", "rmarkdown", "tidyverse", "janitor"))
 
 You'll see a bunch of response fly by in the Console. It's probably all fine unless it ends the last response with an error.
 
-If you are using the RStudio IDE app on your computer, you only have to do this `install.packages()` move once. However, if you are using the online posit.cloud version of RStudio, you'll have to do this for **each new project** because each project is a new virtual computer. I've included a [posit.cloud cheetsheet here](posit-cloud.qmd)
+If you are using the RStudio IDE app on your computer, you only have to use  `install.packages()` on each package once. However, if you are using the online posit.cloud version of RStudio, you'll have to do this for **each new project** because each project is a new virtual computer. I've included a [posit.cloud cheetsheet here](posit-cloud.qmd)
 
 ```{=html}
 <!--
@@ -113,7 +109,7 @@ This is a case where posit.cloud differs greatly. See the [posit.cloud Appendix]
 
 When we work in RStudio, we will create "Projects" to hold all the files related to one another. This sets the "working directory", which is a sort of home base for the project.
 
-1.  Click on the second button that has a green `+R` hexagon sign.
+1.  In the icon list at the top of your program, click on the second button that is a hexagon with a green `+R` sign.
 2.  That brings up a box to create the project with several options. You want **New Directory** in this case.
 3.  For **Project Type**, choose **Quarto Website**.
 4.  Next, for the **Directory name**, choose a new name for your project folder. For this project, use "firstname-first-project" but use YOUR firstname.
@@ -129,7 +125,7 @@ I want you to be anal retentive about naming your folders. It's a good programmi
 
 When you hit **Create Project**, your RStudio window will refresh and two things will happen:
 
--   You'll see the three files listed in your **Files** window.
+-   You'll see a number of files listed in your **Files** window.
 -   A new document window will open on the left.
 
 ### The files pane
@@ -142,16 +138,17 @@ Let's walk through the files created and explain what they are in order of impor
 -   The `index.qmd` file is a Quarto document that makes the "home page" of your website. In this book you'll use the index to describe your project and record other important information related to it. Each Quarto file you create can become a new page in your website, and they all end in `.qmd`, which stands for Quarto Markdown. (We might also encounter and edit `.Rmd` files, which are very similar, but just a little less awesome.) The `about.qmd` file is another Quarto document created as a placeholder. We'll usually rename/reuse that or delete it.
 -   The `christian-first-project.Rproj` file is your **Project** file. It sets the *working directory* or what is essentially "home base" for your project. When you go to open your project again, this is the file you will open.
 -   `styles.css` is file where you can assert extra control on your website. We won't use it.
+- The `about.qmd` files is another Quarto document created as an example for you. We'll rarely use those after today.
 
 The big thing to remember is this: Most of our work is done in files with the `.qmd` suffix.
 
 ## The Quarto document
 
-The document that opened on the left is our Quarto document where we will do our work. The Quarto document is a cutting-edge way of authoring programming documents where the result can be output in a myriad of formats: As HTML, PDFs, slideshows, books, etc. In fact, this very book you are reading is written in R using Quarto.
+The document that opened on the left is our Quarto document where we will do our work. The Quarto document is a method of authoring programming documents where the result can be output in a multiple formats: As HTML, PDFs, slideshows, books, etc. In fact, this very book you are reading is written in R using Quarto.
 
 ![New Quarto document](images/quarto-new-document.png)
 
-I could write reams of text about the birth of Quarto and the evolution of what came before it, but you won't really care. Let's break this down to what you need to know:
+I could wax poetic about the birth of Quarto and the evolution of what came before it, but you won't really care. Let's break this down to what you need to know:
 
 -   These documents allow us to weave together our **thoughts** and our **code**. We'll use [Markdown](https://quarto.org/docs/authoring/markdown-basics.html) to record our thoughts, and R to write our code.
 -   We *write* the document and we *run* the code to see the results, but all the while we are creating documents that we will be **rendered** to share with others. Our goal with these documents is to explain to an "audience" what we are doing with our data analysis. Often our most important audience is our future self.
@@ -169,7 +166,7 @@ What this should do is open up the Console below the document and you'll see a b
 
 ![Render Quarto](images/quarto-render.png)
 
-For the posit.cloud users, this will launch in a new web browser window. RStudio users can do that if you want though a button in the Viewer toolbar.
+For the posit.cloud users, this will launch in a new web browser window. The gear next to the Render button has the option to view previews in a new browser Window or the RStudio Viewer pane.
 
 ### The metadata
 
@@ -183,7 +180,7 @@ title: "christian-first-project"
 
 When we created our project, RStudio added the name of our folder here, **which kinda sucks** because that is not what the title is for. It should describe a title for your project like the top of a Microsoft Word or Google Docs document.
 
-1.  Edit the text inside the quotes to be more like a title you would find in a Word or Google Doc document, like this, but your your name:
+1.  Edit the text inside the quotes to be more like a title you would find in a Word or Google Doc document, like below, but with your name:
 
 ``` txt
 ---
@@ -225,13 +222,17 @@ There are about five keyboard commands that I will ***implore*** you to learn. H
 
 ## Let's do some data analysis
 
-Remember the goal of all our work here in this class is to explain to use data analysis to make sense of the world and then explain to others what we are doing. There are multiple parts to that:
+Remember the goal of this class is to use data analysis to make sense of the world and then explain to others what we are doing. There are multiple parts to this process:
 
--   What are we thinking?
--   Our code.
+-   What are we thinking? What is our goal?
+-   Our code that gets us those answer.
 -   Our thoughts about the results, if any.
 
-Our goal with this notebook is to discover what is the [socially-acceptable age to date someone older or younger than ourselves](https://www.psychologytoday.com/us/blog/meet-catch-and-keep/201405/who-is-too-young-or-too-old-you-date).
+Today we will explore the [socially-acceptable age to date someone older or younger than ourselves](https://www.psychologytoday.com/us/blog/meet-catch-and-keep/201405/who-is-too-young-or-too-old-you-date).
+
+I'll give you an example of this, starting with what we are thinking.
+
+### Use Markdown to describe thoughts, goals
 
 1.  Copy the text below. Note you can use the copy-clipboard button in the book if you roll your cursor over the code and click on the clipboard icon at the top right.
 2.  Paste the code at the bottom of your notebook.
@@ -249,12 +250,12 @@ The math works like this:
 - Double the result
 ```
 
-Let's walk through this Markdown code. You might bookmark the [Markdown basics](https://quarto.org/docs/authoring/markdown-basics.html) so you can refer back to it as you learn.
+Let's walk through this Markdown code. You might bookmark this [Markdown basics](https://quarto.org/docs/authoring/markdown-basics.html) page so you can refer back to it as you learn.
 
--   The `##` line is a "Header 2" headline, meaning it is the second biggest. (The title is an H1.) Add more hashmarks `###` and you get a smaller headline, like subheads, etc.
+-   The `##` line is a "Header 2" headline, meaning it is the second biggest. (The title is an H1/biggest.) The more hashmarks `###` you add the smaller headline you get.
 -   There is a full blank return between each element, including paragraphs of text. The exception is the bullet list.
 -   In the first paragraph we have embedded a hyperlink. We put the words we want to show inside square brackets and the URL in parenthesis DIRECTLY after the closing square bracket: `[words to link](https://the_url.org)`.
--   The `-` at the beginning of a line creates a bullet list. (You can also use `*`). Those lines need to be one after another without blank lines.
+-   Using `-` at the beginning of a line creates a bullet list. (You can also use `*`). Those lines need to be one after another without blank lines.
 
 ::: callout-note
 I should note at this point there is a "Visual" editor where RStudio gives you more formatted look as your editing as it writes Markdown underneath the hood. I want you to use the "Source" editor so you can see and learn the underlying Markdown syntax. All my examples will be written in "Source" mode. After you pass this class, you can use "Visual" mode.
@@ -269,24 +270,26 @@ Let's add a new R chunk to add the code that will calculate the maximum age of s
 3.  Your cursor will be inserted into the middle of the chunk. Type or copy this code in the space provided:
 
 ```{r}
+#| output: false
+
 # update 57 to your actual age
 age <- 57
 (age - 7) * 2
 ```
 
-1.  Change the number to your real age.
-2.  With your cursor somewhere in the code block, use the key command *Cmd+Shift+Return*, which is the key command to RUN ALL LINES of code chunk.
+4.  Change the number to your real age.
+5.  With your cursor somewhere in the code block, use the key command *Cmd+Shift+Return*, which is the key command to RUN ALL LINES of code chunk.
 
 Congratulations! The answer given at the bottom of that code chunk is the upper end age of someone socially acceptable for you to date.
 
 Throwing aside whether the formula is sound, let's break down the code.
 
--   `# update 57 to your age` is a comment. It's a way to explain what is happening in the code without being considered part of the code. We create comments inside code chunks by starting with `#`. You can also add a comment at the end of a line. Comments will appear greyed out and *italicized* in your code chunks if formatted correctly.
+-   `# update 57 to your age` is a comment. It's a way to explain what is happening in the code without being considered part of the code. We create comments inside code chunks by starting with `#`. You can also add a comment at the end of a line. Comments will appear in grey text in your code chunks if formatted correctly.
 -   `age <- 57` is assigning a number (`57`) to an R object/variable called (`age`). A variable is a placeholder. It can hold numbers, text or even groups of numbers. Variables are key to programming because they allow you to change a value as you go along.
 -   The next part is simple math: `(age - 7) * 2` takes the value of `age` and subtracts `7`, then multiplies by `2`.
--   When you run it, you get below it the result of the math equation, `[1] 100` in my case. That means there was one observation \[1\], and the value was "100". For the record, my wife is *much younger* than that. Perhaps this formula breaks down when you get older `¯\_(ツ)_/¯`.
+-   When you run it, you get below it the result of the math equation, `[1] 100` in my case. That means there was one observation \[1\], and the value was "100". For the record, my wife is *much younger* than 100. Perhaps this formula breaks down when you get older `¯\_(ツ)_/¯`.
 
-Now you can play with the number assigned to the age variable to test out different ages. Do that.
+Now you can play with the number assigned to the age variable to test out different ages.
 
 ### Practice adding code chunks
 
@@ -298,7 +301,17 @@ Now, I want you to add a similar section that calculates the **minimum** age of 
 4.  Add the math statement `(age / 2) + 7` to the chunk.
 5.  Run the chunk and re-render your document.
 
-Now you know the youngest a person should be that you date. FWIW, we don't recreate the assignment of the `age` variable since we already have one. A Quarto document is designed to run from top to bottom so that all the pieces work together.
+```{r}
+#| code-fold: true
+#| code-summary: "Try it on your own before you peek here!"
+#| output: false
+
+# Using age variable from above
+(age / 2) + 7
+```
+
+
+Now you know the youngest a person should be that you date. FWIW, we don't need to recreate the `age` variable since we already have it. A Quarto document is designed to run from top to bottom so that all the pieces work together.
 
 ### The toolbar
 
@@ -334,7 +347,7 @@ A bunch of stuff will happen in your Terminal pane. Here is a video showing this
 
 A couple of things about this the video clip above:
 
--   The first time you run this, you'll be asked to authenticate to quarto.pub, so it will be a little different.
+-   The first time you run `quarto publish`, you'll be asked to authenticate to quarto.pub, so it will be a little different.
 -   In the last bit of that video, a browser window opens with your website. That's cool!
 
 You can learn more about [Quarto pub here](https://quarto.org/docs/publishing/quarto-pub.html), including how to configure your profile page.
@@ -354,13 +367,14 @@ This is a bit different for posit.cloud users. See below.
 
 The best way to turn in all of those files into Canvas is to compress the project folder into a single `.zip` file that you can upload to the assignment.
 
+1. Make sure all your files are saved and rendered.
 1.  In your computer's Finder, open the `Documents/rwd` folder.
 2.  Follow the directions for your operating system linked below to create a compressed version of your `yourname-final-project` folder.
     -   [Compress files on a Mac](https://www.macinstruct.com/tutorials/how-to-compress-zip-files-and-folders-on-a-mac/).
     -   [Compress flies on Windows](https://www.laptopmag.com/articles/how-to-zip-files-windows-10).
 3.  Upload the resulting `.zip` file to the assignment for this week in Canvas.
 
-If you find you make changes to your R files after you've zipped your folder, you'll need to to `zip` it again. Make sure you get the new version (or delete the old one first).
+If you later make changes to your R files after you've zipped your folder, you'll need to to `zip` it again. Make sure you send me the new version (or delete the old one first).
 
 Because we are building "repeatable" code, I'll be able to download your `.zip` files, uncompress them, and the re-run them to get the same results.
 
@@ -368,11 +382,11 @@ Well done!
 
 ### Exporting for posit.cloud
 
-You can export your project as a zip file from posit.cloud pretty easily. Just follow the directions on this screenshot:
+Exporting is a little different for posit.cloud users. You can export your project pretty easily by following the directions in this screenshot:
 
 ![Export posit](images/export-posit.png)
 
-Then submit the downloaded `.zip` file to Canvas.
+This will save the `.zip` file to your downloads folder. Submit that `.zip` file to Canvas.
 
 ## Review of what we've learned so far
 
