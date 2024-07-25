@@ -269,7 +269,7 @@ Since this is a new "section" of our cleaning notebook, we'll note what we are d
 #| eval: false
 
 download.file(
-  "https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_assignment_current.csv?raw=true",
+  "https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_assignment.csv?raw=true",
   "data-raw/hot100_assignment.csv",
   mode = "wb"
 )
@@ -573,13 +573,10 @@ That new value could be arrived at through math or any combination of other func
 
 ```{r date-mutate}
 # part we will build upon
-hot100_date <- hot100_raw |>         # <1>
+hot100_date <- hot100_raw |>     # <1>
   mutate(                        # <2>
     chart_date = mdy(chart_week) # <3>
   )
-
-# peek at the result
-hot100_date |> glimpse()
 ```
 
 1. At the end of the first line, we added the pipe `|>` because we are taking our `hot100` data **AND THEN** we will mutate it. (Remember *Cmd-shift-m* for the pipe!)

@@ -1,7 +1,7 @@
 # Military Surplus Analysis
 
-::: callout
-This chapter is by Prof. McDonald, who uses macOS.
+::: callout-warning
+Because of data updates, your answers may differ slightly from what is presented here, especially in videos and gifs.
 :::
 
 In the last chapter, we learned about the LESO data ... that local law enforcement agencies can get surplus military equipment from the U.S. Department of Defense. We downloaded a combined version of the data, modified it for our purposes (used `mutate()` to create a new column calculated from other variables in the data) and then filtered it to a specific time period.
@@ -51,6 +51,7 @@ We've started each notebook like this, so you should be able to do this on your 
 #| echo: fenced
 
 library(tidyverse)
+library(janitor)
 ```
 
 
@@ -107,7 +108,7 @@ leso |>
   summarise(number_items = n())
 ```
 
-We can see from this result that there are `r leso |> filter(control_type == F) |> nrow()` items that are not controlled, and `r leso |> filter(control_type == T) |> nrow()` that are. When we write our filter, we should end up with `r leso |> filter(control_type == T) |> nrow()` observations, which is only the `TRUE` ones.
+We can see from this result that there are `r leso |> filter(control_type == F) |> nrow() |> scales::comma()` items that are not controlled, and `r leso |> filter(control_type == T) |> nrow() |> scales::comma()` that are. When we write our filter, we should end up with `r leso |> filter(control_type == T) |> nrow() |> scales::comma()` observations, which is only the `TRUE` ones.
 
 3.  Start with your `leso` data, but then filter it to `control_type == TRUE`.
 4.  Save the result into a new tibble called `leso_c`.
@@ -151,7 +152,7 @@ leso_c_tx <- leso_c |>
 leso_c_tx
 ```
 
-How do you know if it worked? Well the first column in the data is the `state` column, so they should all start with "TX". We are also down to `r nrow(leso_c_tx)` rows.
+How do you know if it worked? Well the first column in the data is the `state` column, so they should all start with "TX". We are also down to `r nrow(leso_c_tx)  |> scales::comma()` rows.
 
 ## Building summaries with math
 
@@ -256,7 +257,7 @@ So I envision my result looking like this:
 | CFAKE SHERIFF'S OFFICE |             270 |         3464741.36 |
 | DFAKE POLICE DEPT      |            1082 |         3100420.57 |
 
-The first columns in that summary will be our grouped values. This example is only grouping by one thing, `agency_name`. The other two columns are the summed values I'm looking to generate.
+The first column in that summary will be our grouped values. This example is only grouping by one thing, `agency_name`. The other two columns are the summed values I'm looking to generate.
 
 ### Group_by, then summary with math
 
@@ -448,7 +449,7 @@ local_agencies <- c( # <1>
   "JONESTOWN POLICE DEPT", #NI
   "KYLE POLICE DEPT",
   "LAGO VISTA POLICE DEPT",
-  "LAKEWAY POLICE DEPT", #NI
+  "LAKEWAY POLICE DEPT",
   "LEANDER POLICE DEPT",
   "LIBERTY HILL POLICE DEPT", #NI
   "LOCKHART POLICE DEPT",
@@ -477,7 +478,7 @@ tx_agency_totals |> # <3>
 ```
 
 1. We start by giving our list of agencies a name: `local_agencies`. This creates an R object that we can reuse. We will need this list a number of times, and it makes sense to manage it in once place instead of each time we need it.
-2. Next we fill that object with a list of agency names. Again, I did some pre-work to figure out those names that we aren't covering here, and in some cases there is a comment `#NI` next to them. That is a note to myself that the particular agency is NOT INCLUDED in our data, which means I haven't confirmed the name spelling. It could be at a later date the Austin Parks department gets equipment, but they list their name as "CITY OF AUSTIN PARKS" instead of "AUSTIN PARKS POLICE DEPT" and it would not be filtered properly. This is another example that **your most important audience for your code is your future self**.
+2. Next we fill that object with a list of agency names. Again, I did some pre-work to figure out those names that we aren't covering here, and in some cases there is a comment `#NI` next to them. That is a note to myself that the particular agency is NOT INCLUDED in our data, which means I haven't confirmed the name spelling. It could be at a later date the Austin Parks department gets equipment, but they list their name as "CITY OF AUSTIN PARKS POLICE" instead of "AUSTIN PARKS POLICE DEPT" and it would not be filtered properly. This is another example that **your most important audience for your code is your future self**.
 3. Now that our list is created, we can use it to filter our `tx_agency_totals` data. So, we start with that data, and then ...
 4. We pipe into `filter()`, but inside our filter we don't set it `==` to a single thing, instead we say: `agency_name %in% local_agencies`, which says look inside that `agency_name` column and keep any row that has a value that is also in our `local_agencies` vector.
 
@@ -617,7 +618,6 @@ To be clear, it is your zipped project I am grading. The Quarto Pub link is for 
 ## What we learned in this chapter
 
 -   We used `sum()` within a `group_by()`/`summarize()` function to add values within a column. Sometimes `sum()` needs the argument `na.rm = TRUE`.
--   We used `summary()` to get descriptive statistics about our data, like the minimum and maximum values, or an average (mean).
 -   We learned how to use `c()` to **combine** a list of like values into a *vector*, and then used that vector to filter a column for values `%in%` that vector.
 -   We used `nrow()` to count the number of rows in an object.
 

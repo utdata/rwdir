@@ -1,11 +1,7 @@
 # Military Surplus Cleaning
 
-::: callout
-This chapter is by Prof. McDonald, who uses macOS.
-:::
-
 ::: callout-warning
-Because of data updates, your answers may differ slightly from what is presented here.
+Because of data updates, your answers may differ slightly from what is presented here, especially in videos and gifs.
 :::
 
 With our Billboard assignment, we went through some common data wrangling processes --- importing data, cleaning it and querying it for answers. All of our answers involved using `group_by`, `summmarize` and `arrange` (which I dub GSA) and we summarized with `n()` to count the number of rows within our groups.
@@ -404,7 +400,7 @@ leso_control <- leso_total |>
     control_type = case_when(
       str_detect(item_name, "AIRPLANE") ~ TRUE,
       (demil_code == "A" | (demil_code == "Q" & demil_ic == 6)) ~ FALSE,
-      TRUE ~ TRUE
+      .default = TRUE
     )
   )
 
@@ -480,6 +476,6 @@ You should Render your notebook and read it over carefully. Some things to look 
 
 This chapter was similar to when we imported data for Billboard, but we did introduce a couple of new concepts:
 
-- [`slice_sample(n = 10)`](https://dplyr.tidyverse.org/reference/slice.html) gives us 10 random rows from our data.
+- [`slice_sample()`](https://dplyr.tidyverse.org/reference/slice.html) gives us random rows from our data. There are other variants of slice, like `slice_max()` and `slice_head()`.
 -   [`case_when()`](https://dplyr.tidyverse.org/reference/case_when.html) allows you to categorize a new column based on logic within your data. There is more about this in the [this appendix](case-when.qmd).
 -   `summary()` gives you descriptive statistics about your tibble. We used it to check the "min" and "max" date, but you can also see averages (mean) and medians.
