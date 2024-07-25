@@ -714,11 +714,13 @@ Tip: A good time for break
 <li>Add a Markdown headline <code>## Downloading data</code> and some text explaining you are downloading data. <strong>Add a note about where the data comes from and include a link to the original source.</strong> (This way others and future self will know where the data came from.)</li>
 <li>Create an R chunk and copy/paste the following inside it. (Given the long URL, go ahead and use the copy icon at the top right of the chunk):</li>
 </ol>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_assignment.csv?raw=true"</span>,</span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_assignment_current.csv?raw=true"</span>,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data-raw/hot100_assignment.csv"</span>,</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"wb"</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Let’s explain about this:</p>
 <p>This <code>download.file()</code> code is a function, or a bit of code that has been written to do a specific task. This one (surprise!) downloads files from the internet. As a function, it has some “arguments”, which are expected pieces of information that the function needs to do its job. Sometimes we just enter the arguments in the order that the function expects them, like we do here. Other times we will give it the kind of argument like <code>mode = "w"</code>. You can search for documentation about functions in the Help tab in the bottom-right pane of RStudio.</p>
 <p>In this case, we are supplying three arguments:</p>
@@ -728,10 +730,10 @@ Tip: A good time for break
 <li>The third argument <code>mode = "w"</code> gets into the weeds a little, but it helps Windows computers understand the file.</li>
 </ul>
 <p>When you run the function you get an output similar to this:</p>
-<pre class="text"><code>trying URL 'https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_assignment.csv?raw=true'
-Content type 'text/plain; charset=utf-8' length 18364249 bytes (17.5 MB)
+<pre class="text"><code>trying URL 'https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_assignment_current.csv?raw=true'
+Content type 'text/plain; charset=utf-8' length 18663203 bytes (17.8 MB)
 ==================================================
-downloaded 17.5 MB</code></pre>
+downloaded 17.8 MB</code></pre>
 <p>That’s not a small file at 17 MB and 300,000 rows, but it’s not a huge one, either.</p>
 <p>You can check that this worked by going to your Files tab and clicking on the <code>data-raw</code> folder to go inside it and see if the file is there. To return out of the folder, click on the two dots to the right of the green up arrow.</p>
 <div class="quarto-figure quarto-figure-center">
@@ -895,7 +897,7 @@ Note
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># glimpse the data</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>hot100_raw <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 341,300
+<pre><code>Rows: 344,200
 Columns: 7
 $ `CHART WEEK`   &lt;chr&gt; "1/1/2022", "1/1/2022", "1/1/2022", "1/1/2022", "1/1/20…
 $ `THIS WEEK`    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …
@@ -978,7 +980,7 @@ Tip
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>hot100_raw <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 341,300
+<pre><code>Rows: 344,200
 Columns: 7
 $ chart_week   &lt;chr&gt; "1/1/2022", "1/1/2022", "1/1/2022", "1/1/2022", "1/1/2022…
 $ this_week    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
@@ -1051,7 +1053,7 @@ Tip
 </dl>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 341,300
+<pre><code>Rows: 344,200
 Columns: 7
 $ chart_week   &lt;chr&gt; "1/1/2022", "1/1/2022", "1/1/2022", "1/1/2022", "1/1/2022…
 $ this_week    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
@@ -1117,7 +1119,7 @@ Note
 </dl>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 341,300
+<pre><code>Rows: 344,200
 Columns: 8
 $ chart_week   &lt;chr&gt; "1/1/2022", "1/1/2022", "1/1/2022", "1/1/2022", "1/1/2022…
 $ this_week    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
@@ -1159,8 +1161,8 @@ Tip
 <h3 data-number="3.9.3" class="anchored" data-anchor-id="arrange-the-data"><span class="header-section-number">3.9.3</span> Arrange the data</h3>
 <p>Just to be tidy, we want ensure our data is arranged to start with the oldest week and “top” of the chart and then work forward through time and rank.</p>
 <p>i.e., let’s arrange this data so that the oldest data is at the top.</p>
-<p>Sorting data is not a particularly difficult concept to grasp, but it is one of the <a href="https://vimeo.com/showcase/7320305">Basic Data Journalism Functions</a>, so watch this video:</p>
-<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://player.vimeo.com/video/435910315" frameborder="0" title="" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>Sorting data is not a particularly difficult concept to grasp, but it is one of the <a href="https://www.youtube.com/playlist?list=PLggPkq8Rt2UEHGtgsvu__zheKF4Jjuxfa">Basic Data Journalism Functions</a>, so watch this video:</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/Rh_JLVq6fD0?feature=rwdir" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 <p>In R, the function we use to sort our data is <code>arrange()</code>.</p>
 <p>We’ll build upon our existing code and use the pipe <code>|&gt;</code> to push it into an <code>arrange()</code> function. Inside arrange we’ll feed it the columns we wish to sort by.</p>
 <ol type="1">
@@ -1189,7 +1191,7 @@ Tip
 </dl>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 341,300
+<pre><code>Rows: 344,200
 Columns: 8
 $ chart_week   &lt;chr&gt; "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958", "8/4/1958…
 $ this_week    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
@@ -1245,21 +1247,21 @@ Note
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>hot100_date <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  chart_week          this_week        title            performer        
- Length:341300      Min.   :  1.0   Length:341300      Length:341300     
+ Length:344200      Min.   :  1.0   Length:344200      Length:344200     
  Class :character   1st Qu.: 26.0   Class :character   Class :character  
  Mode  :character   Median : 51.0   Mode  :character   Mode  :character  
                     Mean   : 50.5                                        
                     3rd Qu.: 75.0                                        
                     Max.   :100.0                                        
                                                                          
-   last_week         peak_pos       wks_on_chart      chart_date        
- Min.   :  0.00   Min.   :  1.00   Min.   : 1.000   Min.   :1958-08-04  
- 1st Qu.: 23.00   1st Qu.: 13.00   1st Qu.: 4.000   1st Qu.:1974-12-14  
- Median : 47.00   Median : 38.00   Median : 7.000   Median :1991-04-20  
- Mean   : 47.29   Mean   : 40.69   Mean   : 9.288   Mean   :1991-04-19  
- 3rd Qu.: 71.00   3rd Qu.: 65.00   3rd Qu.:13.000   3rd Qu.:2007-08-25  
- Max.   :100.00   Max.   :100.00   Max.   :91.000   Max.   :2023-12-30  
- NA's   :32460                                                          </code></pre>
+   last_week         peak_pos       wks_on_chart     chart_date        
+ Min.   :  0.00   Min.   :  1.00   Min.   : 1.00   Min.   :1958-08-04  
+ 1st Qu.: 23.00   1st Qu.: 13.00   1st Qu.: 4.00   1st Qu.:1975-02-01  
+ Median : 46.00   Median : 38.00   Median : 7.00   Median :1991-07-30  
+ Mean   : 47.21   Mean   : 40.61   Mean   : 9.31   Mean   :1991-07-30  
+ 3rd Qu.: 71.00   3rd Qu.: 65.00   3rd Qu.:13.00   3rd Qu.:2008-01-26  
+ Max.   :100.00   Max.   :100.00   Max.   :91.00   Max.   :2024-07-20  
+ NA's   :32460                                                         </code></pre>
 </div>
 </div>
 <p>These summary statistics can be informative for us. It is probably the easiest way to check what the newest and oldest dates are in your data (see the Min. and Max. returns for <code>chart_date</code>). You get an average (mean) and median for each number, too. You might notice potential problems in your data, like if we had a <code>this_week</code> number higher than “100” (we don’t).</p>
@@ -1272,8 +1274,7 @@ Note
 <section id="selecting-columns" class="level3" data-number="3.9.4">
 <h3 data-number="3.9.4" class="anchored" data-anchor-id="selecting-columns"><span class="header-section-number">3.9.4</span> Selecting columns</h3>
 <p>Now that we have the fixed date column, we don’t need the old <code>chart_week</code> version that is text. We’ll use this opportunity to discuss <code>select()</code>, which is another concept in our Basic Data Journalism Functions series, so watch this:</p>
-<!-- https://www.youtube.com/embed/L0FYEy1W8Wc -->
-<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://player.vimeo.com/video/435910324" frameborder="0" title="" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen=""></iframe></div>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/g3EajKyz7cE?feature=rwdir" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 <p>In R, the workhorse of the select concept is the function called — you guessed it — <a href="https://dplyr.tidyverse.org/reference/select.html"><code>select()</code></a>. In short, the function allows us to choose a subset of our columns. We can either list the ones we want to keep or the ones we don’t want.</p>
 <p>Like a lot of things in R, <code>select()</code> is both easy and complex. It’s really easy to just list the columns you want to keep. But <code>select()</code> can also be very powerful as you <a href="https://dplyr.tidyverse.org/reference/select.html">learn more options</a>.</p>
 <p>We’ll add one bit of complexity: We’ll also <strong>rename some columns</strong> as we list them.</p>
@@ -1320,7 +1321,7 @@ Note
 </dl>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 341,300
+<pre><code>Rows: 344,200
 Columns: 7
 $ chart_date    &lt;date&gt; 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08…
 $ current_rank  &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
@@ -1452,7 +1453,7 @@ Note
 <li>It might know who you are already, but continue through the prompts.</li>
 </ol>
 <p>You should end up with your browser open to your new Quarto Pub website.</p>
-<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://player.vimeo.com/video/833716452" frameborder="0" title="" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen=""></iframe></div>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/R7OcPHK0xAA?feature=rwdir" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 <p>Well done.</p>
 </section>
 </section>

@@ -264,9 +264,12 @@ Since this is a new "section" of our cleaning notebook, we'll note what we are d
 1.  Add a Markdown headline `## Downloading data` and some text explaining you are downloading data. **Add a note about where the data comes from and include a link to the original source.** (This way others and future self will know where the data came from.)
 2.  Create an R chunk and copy/paste the following inside it. (Given the long URL, go ahead and use the copy icon at the top right of the chunk):
 
-``` r
+``` {r}
+#| label: download
+#| eval: false
+
 download.file(
-  "https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_assignment.csv?raw=true",
+  "https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_assignment_current.csv?raw=true",
   "data-raw/hot100_assignment.csv",
   mode = "wb"
 )
@@ -285,10 +288,10 @@ In this case, we are supplying three arguments:
 When you run the function you get an output similar to this:
 
 ``` text
-trying URL 'https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_assignment.csv?raw=true'
-Content type 'text/plain; charset=utf-8' length 18364249 bytes (17.5 MB)
+trying URL 'https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_assignment_current.csv?raw=true'
+Content type 'text/plain; charset=utf-8' length 18663203 bytes (17.8 MB)
 ==================================================
-downloaded 17.5 MB
+downloaded 17.8 MB
 ```
 
 That's not a small file at 17 MB and 300,000 rows, but it's not a huge one, either.
@@ -606,9 +609,9 @@ Just to be tidy, we want ensure our data is arranged to start with the oldest we
 
 i.e., let's arrange this data so that the oldest data is at the top.
 
-Sorting data is not a particularly difficult concept to grasp, but it is one of the [Basic Data Journalism Functions](https://vimeo.com/showcase/7320305), so watch this video:
+Sorting data is not a particularly difficult concept to grasp, but it is one of the [Basic Data Journalism Functions](https://www.youtube.com/playlist?list=PLggPkq8Rt2UEHGtgsvu__zheKF4Jjuxfa), so watch this video:
 
-{{< video https://vimeo.com/435910315 >}}
+{{< video https://youtu.be/Rh_JLVq6fD0?feature=rwdir >}}
 
 In R, the function we use to sort our data is `arrange()`.
 
@@ -671,9 +674,7 @@ Since this data could update each week, it is a good idea to note in your notebo
 
 Now that we have the fixed date column, we don't need the old `chart_week` version that is text. We'll use this opportunity to discuss `select()`, which is another concept in our Basic Data Journalism Functions series, so watch this:
 
-<!-- https://www.youtube.com/embed/L0FYEy1W8Wc -->
-
-{{< video https://vimeo.com/435910324 >}}
+{{< video https://youtu.be/g3EajKyz7cE?feature=rwdir >}}
 
 In R, the workhorse of the select concept is the function called --- you guessed it --- [`select()`](https://dplyr.tidyverse.org/reference/select.html). In short, the function allows us to choose a subset of our columns. We can either list the ones we want to keep or the ones we don't want.
 
@@ -810,7 +811,7 @@ Now the we have that in order, let's publish this to the internet. If you publis
 
 You should end up with your browser open to your new Quarto Pub website.
 
-{{< video https://vimeo.com/833716452 >}}
+{{< video https://youtu.be/R7OcPHK0xAA?feature=rwdir >}}
 
 Well done.
 
