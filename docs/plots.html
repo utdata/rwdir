@@ -344,6 +344,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Chart production tips</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./resources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -415,16 +421,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div class="callout callout-style-simple callout-none no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>The chapter is by Prof.&nbsp;Lukito with some updates by Prof.&nbsp;McDonald. We don’t remember who wrote what, so perhaps it’s the McLuk version.</p>
-</div>
-</div>
-</div>
 <p>This week, we’ll move on from summaries to talking about data visualizations (“data viz”), an essential skill for any data journalist. While there are a lot of different ways to make figures and graphs, this chapter will focus on one popular R package for data viz: <code>ggplot</code>.</p>
 <section id="goals-for-this-section" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="goals-for-this-section"><span class="header-section-number">7.1</span> Goals for this section</h2>
@@ -444,12 +440,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Folks who have used Adobe creative programs (e.g., Photoshop, Illustrator, etc.) can think about it like laying an image: each layer in your image <em>should do something</em> to change the image. Likewise, each layer in a <code>ggplot</code> figure will add to the overall graph.</p>
 <section id="what-ggplot-is-best-for" class="level3" data-number="7.2.1">
 <h3 data-number="7.2.1" class="anchored" data-anchor-id="what-ggplot-is-best-for"><span class="header-section-number">7.2.1</span> What ggplot is best for</h3>
-<p>Let me just start by saying that I’m a total <code>ggplot</code> geek. I’ll talk about <code>ggplot</code> figures the way people talk about new TikTok trends. When producing figures and graphs in R, <code>ggplot</code> is the <strong>absolute best approach</strong> because you’ll see the results right in your notebook. And, basic data visualizations are an absolutely essential skill for any data journalist: it helps you find important things in your data that you may ultimately report on. So, <code>ggplot</code> is important for any R-based data journalism project.</p>
+<p>When producing figures and graphs in R, <code>ggplot</code> is the <strong>absolute best approach</strong> because you’ll see the results right in your notebook. These basic data visualizations are an essential skill for any data journalist: it helps you find important things in your data that you may ultimately report on. So, <code>ggplot</code> is important for any R-based data journalism project.</p>
 <p>That being said, there are less complicated ways of creating publishable graphics. Tools like <a href="https://www.datawrapper.de/">Datawrapper</a> and <a href="https://flourish.studio/">Flourish</a> can produce equally beautiful graphics without the code. So why learn <code>ggplot</code>? Because, <strong>(1)</strong> <code>ggplot</code> is super useful when you’re just learning about the data and <strong>(2)</strong> to get good enough in <code>ggplot</code> to make publishable graphics, you have to practice, practice, practice. Yes, <code>ggplot</code> is a big package with lots of nuance. But the more you take the time to learn it, the more you will master it.</p>
 </section>
 <section id="the-grammar-of-graphics" class="level3" data-number="7.2.2">
 <h3 data-number="7.2.2" class="anchored" data-anchor-id="the-grammar-of-graphics"><span class="header-section-number">7.2.2</span> The Grammar of Graphics</h3>
-<p>This section was inspired by <a href="http://www.mattwaite.com/">Matt Waite</a> and the <a href="https://bbc.github.io/rcookbook/">BBC Visual Cookbook</a>.</p>
 <p>As noted above, the <code>gg</code> in <code>ggplot</code> stands for “Grammar of Graphics,” which is a fancy way of saying we’ll build our charts layer by layer. There are three main things you need to make a plot:</p>
 <ul>
 <li><strong>data</strong>: You have to tell ggplot the name of the object with your data.</li>
@@ -458,14 +453,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>In addition to these three things, there are lots of helper layers we’ll learn about along the way, including:</p>
 <ul>
-<li><strong>themes</strong> (“theme”): this is where you tell R the font you’d like to use, the background color, and other things you want to “pretty up” the data viz.</li>
-<li><strong>coord_flip</strong>: a special layer for flipping the chart<br>
-</li>
-<li><strong>scales</strong>: transforming the data to make the plot more read-able<br>
-</li>
-<li><strong>labels</strong> (“labs”): for making titles and labels<br>
-</li>
-<li><strong>facets</strong>: For graphing many elements of the same data set in the same space (one dataset, multiple figures)</li>
+<li><strong>themes</strong> (“theme”): Allow you to define things like font, background color, and other things to “pretty up” the data viz.</li>
+<li><strong>coord_flip</strong>: A special layer for flipping the chart.</li>
+<li><strong>scales</strong>: Transforms data to make the plot more readable.</li>
+<li><strong>labels</strong> (“labs”): For making titles and labels.</li>
+<li><strong>facets</strong>: For graphing many elements of the same data set in the same space (one dataset, multiple figures).</li>
 </ul>
 <p>This all may seem complicated now, but it’ll make sense once we start putting together these layers together, one at a time. After all, the best way to learn any R package is to <strong>do it</strong>.</p>
 </section>
@@ -488,7 +480,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Artwork by <span class="citation" data-cites="allison_horst">@allison_horst</span></figcaption>
 </figure>
 </div>
-<p>The <a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a> package includes scientific measurements of penguins observed on islands in the Palmer Archipelago near Palmer Station, Antarctica. The package and the awesome artwork is maintained by Allison Horst. It’s also a great one for data exploration &amp; visualization so we’ll use it to learn about ggplot.</p>
+<p>The <a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a> package includes scientific measurements of penguins observed on islands in the Palmer Archipelago near Palmer Station, Antarctica. The package and the awesome artwork is maintained by Allison Horst. It’s a great data set for exploration &amp; visualization so we’ll use it to learn about ggplot.</p>
 <p>Let’s install and load it.</p>
 <ol type="1">
 <li>In your Console, run <code>install.packages("palmerpenguins")</code>.</li>
@@ -519,7 +511,7 @@ Note
 </div>
 <p>Before we dive into <code>ggplot</code>, let’s peek at our data.</p>
 <ol type="1">
-<li>Start a new section “First plot”</li>
+<li>Start a new section “First plot”.</li>
 <li>Add some text that you are studying pretty penguins.</li>
 <li>Add a code chunk like below and run it to see what the <code>penguins</code> dataset looks like.</li>
 </ol>
@@ -582,7 +574,7 @@ Figure&nbsp;7.1: Our goal graphic
 <section id="nd-map-the-data" class="level3" data-number="7.4.3">
 <h3 data-number="7.4.3" class="anchored" data-anchor-id="nd-map-the-data"><span class="header-section-number">7.4.3</span> 2nd: Map the data</h3>
 <p>We use the <code>aes()</code> (short for “aesthetic”) to describe which data to plot and where. This is considered a <em>mapping</em> argument, because you use this argument to tell <code>ggplot</code> how you want to map your data.</p>
-<p>The workhors of <code>aes()</code> is to indicate the variable to plot horizontally (the <code>x</code> axis) and vertically (the <code>y</code> axis). So your <code>aes()</code> argument will look something like this: <code>aes(x = some_variable, y = another_variable)</code>.</p>
+<p>We use <code>aes()</code> to indicate the variable to plot horizontally (the <code>x</code> axis) and vertically (the <code>y</code> axis). So your <code>aes()</code> argument will look something like this: <code>aes(x = some_variable, y = another_variable)</code>.</p>
 <p>In our case, set our <code>flipper_length_mm</code> (the flipper length) for <code>x</code> and <code>body_mass_g</code> for <code>y</code>:</p>
 <ol type="1">
 <li><strong>Edit</strong> your code to add the following line of code. Note I’ve rearranged the indenting, too.</li>
@@ -668,7 +660,7 @@ Note
 <div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-5-1" class="code-annotation-target"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-5-2" class="code-annotation-target"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a>  penguins,</span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-5-3" class="code-annotation-target"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> flipper_length_mm, <span class="at">y =</span> body_mass_g)</span>
-<span id="annotated-cell-5-4"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="annotated-cell-5-4"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-5-5" class="code-annotation-target"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
@@ -707,7 +699,7 @@ Important
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> penguins,</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> flipper_length_mm, <span class="at">y =</span> body_mass_g)) <span class="sc">+</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The above version adds <code>data =</code> and <code>mapping =</code> to the first two arguments. It is the official descriptive way to do this, and how Hadley Wickham describes it in <a href="https://r4ds.hadley.nz/data-visualize.html">R for Data Science</a>. But, since the first argument can assumed to be the data we often don’t include it unless it unless we are trying to differentiate with different data used later. Same goes for <code>mapping =</code> … we don’t specify it unless necessary.</p>
+<p>The above version adds <code>data =</code> and <code>mapping =</code> to the first two arguments. It is the official descriptive way to do this, and how Hadley Wickham describes it in <a href="https://r4ds.hadley.nz/data-visualize.html">R for Data Science</a>. But, since the first argument is assumed to be the data we often don’t include it unless it unless we are trying to differentiate it with different data used later. Same goes for <code>mapping =</code> … we don’t specify it unless necessary.</p>
 </section>
 <section id="piping-into-ggplot" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="piping-into-ggplot">Piping into ggplot</h4>
@@ -895,15 +887,16 @@ Important
 <h3 data-number="7.4.8" class="anchored" data-anchor-id="an-aside-titles-and-subtitles"><span class="header-section-number">7.4.8</span> An aside: Titles and subtitles</h3>
 <p>Our example chart here is a scientific figure designed to show the relationship between the length of flippers to the body size of penguins, and that perhaps the relationship holds true among different species. It is not a good example of a journalistic chart.</p>
 <p>We want our chart titles to be <em>MORE THAN A LABEL</em> … they should communicate something and further the story we are trying to tell with the plot. They should have a verb! If we were telling a story here, we might try: <strong>Flippers longer on heavier penguins</strong>.</p>
-<p>Our subtitles should provide the context necessary to understand what we are looking at and why. The combination of the title and subtitle should stand alone to tell enough of this story that we don’t have to go elsewhere (like story) to understand it. A journalistic model might be something like this: <strong>Dr.&nbsp;Kristen Gorman studied three species of penguins at the Palmer Long-Term Ecological Research station in Antarctica between 2007 and 2009, recording basic biographical measurements nearly 350 animals.</strong></p>
+<p>Our subtitles should provide the context necessary to understand what we are looking at and why. The combination of the title and subtitle should stand alone to tell enough of this story that we don’t have to go elsewhere (like story) to understand it. A journalistic model might be something like this: <strong>Dr.&nbsp;Kristen Gorman studied three species of penguins at the Palmer Long-Term Ecological Research station in Antarctica between 2007 and 2009, recording basic biographical measurements for nearly 350 animals.</strong></p>
 </section>
 <section id="themes" class="level3" data-number="7.4.9">
 <h3 data-number="7.4.9" class="anchored" data-anchor-id="themes"><span class="header-section-number">7.4.9</span> Themes</h3>
-<p>You can change just about <em>anything</em> on a ggplot chart if you know the function and arguments to describe it. The <a href="https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf">cheetsheet</a> shows a lot of them, but it can get really dense.</p>
-<p><strong>Themes</strong> are collections of these visual changes saved into a single function. There are several available within ggplot and <a href="https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/">many others from the R community</a>.</p>
-<p>Let’s show that here.</p>
+<p>You can change just about <em>anything</em> on a ggplot chart if you know the function and arguments to describe it.</p>
+<p>Themes control the display of all non-data elements of the plot. You can override all settings with a complete theme like <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html"><code>theme_bw()</code></a>, or choose to tweak individual settings by using <a href="https://ggplot2.tidyverse.org/reference/theme.html"><code>theme()</code></a>, like <code>theme(plot.title = element_text(size = rel(2)))</code>, which makes a plot title bigger.</p>
+<p>In addition to the built-in <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">complete themes</a>, there are <a href="https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/">many others from the R community</a>.</p>
+<p>Let’s show some here.</p>
 <ol type="1">
-<li><strong>Edit</strong> your code chunk to add on the last <code>+ theme_minimal()</code> function.</li>
+<li><strong>Edit</strong> your code chunk to add on the last <code>+ theme_minimal()</code> function, one of my favorites themes.</li>
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
@@ -970,7 +963,7 @@ Important
 </div>
 </div>
 <p>So, now, you should have the data in your environment.</p>
-<p>And with this data, we want to build a chart like this:</p>
+<p>And with this data, I want to build a chart like this:</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -984,7 +977,7 @@ Important
 <h3 data-number="7.5.1" class="anchored" data-anchor-id="prep-princess-data"><span class="header-section-number">7.5.1</span> Prep princess data</h3>
 <p>While there are ways for ggplot to calculate values from your data on the fly, I prefer to first build a table of the values I want, and then I will plot it on a chart. It’s helpful to think of these steps as separate so you have a good workflow (clean the data, prepare the data in a table form, and then plot the data).</p>
 <p>Today, our goal will be to make a bar chart, sometimes known as a column chart. This bar chart will show the number of votes for each princess from the data. So, we need to count the number of rows for each value … our typical <code>group_by</code>/<code>summarize</code>/<code>arrange</code> (GSA) process.</p>
-<p>For this lesson, I’ll use the <code>count()</code> shortcut, since we haven’t used it much. Next, I’ll save the summarized data into a new dataframe called <code>princess_data</code>. Follow along in your notebook:</p>
+<p>For this lesson, I’ll use the <code>count()</code> shortcut, which I write about in <a href="./count.html">Counting Shortcuts</a>. Next, I’ll save the summarized data into a new dataframe called <code>princess_data</code>. Follow along in your notebook:</p>
 <ol type="1">
 <li>Add a section: Princess data</li>
 <li>Add text that you are creating a data frame to plot.</li>
@@ -1320,14 +1313,7 @@ Note
 <li>ggplot2 (which is really the <code>ggplot()</code> function) is the charting library for the tidyverse. This whole lesson was about it.</li>
 <li>We also covered <code>reorder()</code>, which can reorder a variable based on the values in a different variable.</li>
 </ul>
-<p>Here are some more references for ggplot:</p>
-<ul>
-<li><a href="https://ggplot2.tidyverse.org/reference/index.html">The ggplot2 documentation</a> and <a href="https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf">ggplot2 cheatsheets</a>.</li>
-<li><a href="https://r4ds.hadley.nz/data-visualize.html">R for Data Science, Chap 3.</a> Hadley Wickham dives right into plots in his book.</li>
-<li><a href="https://ggplot2-book.org/index.html">ggplot2: Elegant graphics for Data Analysis</a> by Wickham.</li>
-<li><a href="https://r-graphics.org/">R Graphics Cookbook</a> has lots of example plots. Good to harvest code and see how to do things.</li>
-<li><a href="https://www.r-graph-gallery.com/">The R Graph Gallery</a> another place to see examples.</li>
-</ul>
+<p>Check out the <a href="./resources.html">Resources</a> chapter for more references, tutorials, etc.</p>
 
 
 </section>
