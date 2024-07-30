@@ -1,16 +1,12 @@
 # Intro to ggplot
 
-::: callout
-The chapter is by Prof. Lukito with some updates by Prof. McDonald. We don't remember who wrote what, so perhaps it's the McLuk version.
-:::
-
 This week, we'll move on from summaries to talking about data visualizations ("data viz"), an essential skill for any data journalist. While there are a lot of different ways to make figures and graphs, this chapter will focus on one popular R package for data viz: `ggplot`.
 
-## Goals for this section
+## Learning goals for this chapter
 
 In this chapter, we'll learn the basics of **data visualization** using the Grammar of Graphics principles. We'll start with some smaller datasets to give you a sense of how the code works. And, in the next chapter, you'll apply this to a dataset we have already used in the class.
 
-Our learning goals are:
+Specifically our goals are:
 
 -   To learn about the Grammar of Graphics
 -   To make scatterplots
@@ -28,13 +24,11 @@ Folks who have used Adobe creative programs (e.g., Photoshop, Illustrator, etc.)
 
 ### What ggplot is best for
 
-Let me just start by saying that I'm a total `ggplot` geek. I'll talk about `ggplot` figures the way people talk about new TikTok trends. When producing figures and graphs in R, `ggplot` is the **absolute best approach** because you'll see the results right in your notebook. And, basic data visualizations are an absolutely essential skill for any data journalist: it helps you find important things in your data that you may ultimately report on. So, `ggplot` is important for any R-based data journalism project.
+When producing figures and graphs in R, `ggplot` is the **absolute best approach** because you'll see the results right in your notebook. These basic data visualizations are an essential skill for any data journalist: it helps you find important things in your data that you may ultimately report on. So, `ggplot` is important for any R-based data journalism project.
 
 That being said, there are less complicated ways of creating publishable graphics. Tools like [Datawrapper](https://www.datawrapper.de/) and [Flourish](https://flourish.studio/) can produce equally beautiful graphics without the code. So why learn `ggplot`? Because, **(1)** `ggplot` is super useful when you're just learning about the data and **(2)** to get good enough in `ggplot` to make publishable graphics, you have to practice, practice, practice. Yes, `ggplot` is a big package with lots of nuance. But the more you take the time to learn it, the more you will master it.
 
 ### The Grammar of Graphics
-
-This section was inspired by [Matt Waite](http://www.mattwaite.com/) and the [BBC Visual Cookbook](https://bbc.github.io/rcookbook/).
 
 As noted above, the `gg` in `ggplot` stands for "Grammar of Graphics," which is a fancy way of saying we'll build our charts layer by layer. There are three main things you need to make a plot:
 
@@ -44,11 +38,11 @@ As noted above, the `gg` in `ggplot` stands for "Grammar of Graphics," which is 
 
 In addition to these three things, there are lots of helper layers we'll learn about along the way, including:
 
--   **themes** ("theme"): this is where you tell R the font you'd like to use, the background color, and other things you want to "pretty up" the data viz.
--   **coord_flip**: a special layer for flipping the chart\
--   **scales**: transforming the data to make the plot more read-able\
--   **labels** ("labs"): for making titles and labels\
--   **facets**: For graphing many elements of the same data set in the same space (one dataset, multiple figures)
+-   **themes** ("theme"): Allow you to define things like font, background color, and other things to "pretty up" the data viz.
+-   **coord_flip**: A special layer for flipping the chart.
+-   **scales**: Transforms data to make the plot more readable.
+-   **labels** ("labs"): For making titles and labels.
+-   **facets**: For graphing many elements of the same data set in the same space (one dataset, multiple figures).
 
 This all may seem complicated now, but it'll make sense once we start putting together these layers together, one at a time. After all, the best way to learn any R package is to **do it**.
 
@@ -72,7 +66,7 @@ For this lesson, we will install a new R package, which will give us access to s
 
 ![Artwork by @allison_horst](https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png)
 
-The [palmerpenguins](https://allisonhorst.github.io/palmerpenguins/) package includes scientific measurements of penguins observed on islands in the Palmer Archipelago near Palmer Station, Antarctica. The package and the awesome artwork is maintained by Allison Horst. It's also a great one for data exploration & visualization so we'll use it to learn about ggplot.
+The [palmerpenguins](https://allisonhorst.github.io/palmerpenguins/) package includes scientific measurements of penguins observed on islands in the Palmer Archipelago near Palmer Station, Antarctica. The package and the awesome artwork is maintained by Allison Horst. It's a great data set for exploration & visualization so we'll use it to learn about ggplot.
 
 Let's install and load it.
 
@@ -104,7 +98,7 @@ Much of this first plot explanation comes from Hadley Wickham's [R for Data Scie
 
 Before we dive into `ggplot`, let's peek at our data.
 
-1.  Start a new section "First plot"
+1.  Start a new section "First plot".
 2.  Add some text that you are studying pretty penguins.
 3.  Add a code chunk like below and run it to see what the `penguins` dataset looks like.
 
@@ -168,7 +162,7 @@ This tells us... absolutely nothing! But that's not surprising: you haven't even
 
 We use the `aes()` (short for "aesthetic") to describe which data to plot and where. This is considered a *mapping* argument, because you use this argument to tell `ggplot` how you want to map your data.
 
-The workhors of `aes()` is to indicate the variable to plot horizontally (the `x` axis) and vertically (the `y` axis). So your `aes()` argument will look something like this: `aes(x = some_variable, y = another_variable)`.
+We use `aes()` to indicate the variable to plot horizontally (the `x` axis) and vertically (the `y` axis). So your `aes()` argument will look something like this: `aes(x = some_variable, y = another_variable)`.
 
 In our case, set our `flipper_length_mm` (the flipper length) for `x` and `body_mass_g` for `y`:
 
@@ -231,7 +225,7 @@ Let's review the different parts of this code. Note I've rewritten it a bit here
 ggplot( # <1>
   penguins, # <2>
   aes(x = flipper_length_mm, y = body_mass_g) # <3>
-  ) +
+) +
   geom_point() # <4>
 ```
 
@@ -251,7 +245,7 @@ ggplot(data = penguins,
   geom_point()
 ```
 
-The above version adds `data =` and `mapping =` to the first two arguments. It is the official descriptive way to do this, and how Hadley Wickham describes it in [R for Data Science](https://r4ds.hadley.nz/data-visualize.html). But, since the first argument can assumed to be the data we often don't include it unless it unless we are trying to differentiate with different data used later. Same goes for `mapping =` ... we don't specify it unless necessary.
+The above version adds `data =` and `mapping =` to the first two arguments. It is the official descriptive way to do this, and how Hadley Wickham describes it in [R for Data Science](https://r4ds.hadley.nz/data-visualize.html). But, since the first argument is assumed to be the data we often don't include it unless it unless we are trying to differentiate it with different data used later. Same goes for `mapping =` ... we don't specify it unless necessary.
 
 #### Piping into ggplot {.unnumbered}
 
@@ -392,22 +386,25 @@ Our example chart here is a scientific figure designed to show the relationship 
 
 We want our chart titles to be _MORE THAN A LABEL_ ... they should communicate something and further the story we are trying to tell with the plot. They should have a verb! If we were telling a story here, we might try: **Flippers longer on heavier penguins**.
 
-Our subtitles should provide the context necessary to understand what we are looking at and why. The combination of the title and subtitle should stand alone to tell enough of this story that we don't have to go elsewhere (like story) to understand it. A journalistic model might be something like this: **Dr. Kristen Gorman studied three species of penguins at the Palmer Long-Term Ecological Research station in Antarctica between 2007 and 2009, recording basic biographical measurements nearly 350 animals.**
+Our subtitles should provide the context necessary to understand what we are looking at and why. The combination of the title and subtitle should stand alone to tell enough of this story that we don't have to go elsewhere (like story) to understand it. A journalistic model might be something like this: **Dr. Kristen Gorman studied three species of penguins at the Palmer Long-Term Ecological Research station in Antarctica between 2007 and 2009, recording basic biographical measurements for nearly 350 animals.**
 
 ### Themes
 
-You can change just about *anything* on a ggplot chart if you know the function and arguments to describe it. The [cheetsheet](https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf) shows a lot of them, but it can get really dense.
+You can change just about *anything* on a ggplot chart if you know the function and arguments to describe it. 
 
-**Themes** are collections of these visual changes saved into a single function. There are several available within ggplot and [many others from the R community](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/).
+Themes control the display of all non-data elements of the plot. You can override all settings with a complete theme like [`theme_bw()`](https://ggplot2.tidyverse.org/reference/ggtheme.html), or choose to tweak individual settings by using [`theme()`](https://ggplot2.tidyverse.org/reference/theme.html), like `theme(plot.title = element_text(size = rel(2)))`, which makes a plot title bigger.
 
-Let's show that here.
+In addition to the built-in [complete themes](https://ggplot2.tidyverse.org/reference/ggtheme.html), there are [many others from the R community](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/).
 
-1.  **Edit** your code chunk to add on the last `+ theme_minimal()` function.
+Let's show some here.
+
+1.  **Edit** your code chunk to add on the last `+ theme_minimal()` function, one of my favorites themes.
 
 ```{r}
 #| label: p-theme
 #| warning: false
 #| message: false
+
 ggplot(
   penguins,
   aes(x = flipper_length_mm, y = body_mass_g)
@@ -454,7 +451,7 @@ class # <3>
 
 So, now, you should have the data in your environment.
 
-And with this data, we want to build a chart like this:
+And with this data, I want to build a chart like this:
 
 ```{r}
 #| label: princess-example
@@ -481,7 +478,7 @@ While there are ways for ggplot to calculate values from your data on the fly, I
 
 Today, our goal will be to make a bar chart, sometimes known as a column chart. This bar chart will show the number of votes for each princess from the data. So, we need to count the number of rows for each value ... our typical `group_by`/`summarize`/`arrange` (GSA) process.
 
-For this lesson, I'll use the `count()` shortcut, since we haven't used it much. Next, I'll save the summarized data into a new dataframe called `princess_data`. Follow along in your notebook:
+For this lesson, I'll use the `count()` shortcut, which I write about in [Counting Shortcuts](count.qmd). Next, I'll save the summarized data into a new dataframe called `princess_data`. Follow along in your notebook:
 
 1.  Add a section: Princess data
 2.  Add text that you are creating a data frame to plot.
@@ -697,10 +694,5 @@ There is a ton, really.
 -   ggplot2 (which is really the `ggplot()` function) is the charting library for the tidyverse. This whole lesson was about it.
 -   We also covered `reorder()`, which can reorder a variable based on the values in a different variable.
 
-Here are some more references for ggplot:
+Check out the [Resources](resources.qmd) chapter for more references, tutorials, etc.
 
--   [The ggplot2 documentation](https://ggplot2.tidyverse.org/reference/index.html) and [ggplot2 cheatsheets](https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf).
--   [R for Data Science, Chap 3.](https://r4ds.hadley.nz/data-visualize.html) Hadley Wickham dives right into plots in his book.
--   [ggplot2: Elegant graphics for Data Analysis](https://ggplot2-book.org/index.html) by Wickham.
--   [R Graphics Cookbook](https://r-graphics.org/) has lots of example plots. Good to harvest code and see how to do things.
--   [The R Graph Gallery](https://www.r-graph-gallery.com/) another place to see examples.

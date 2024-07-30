@@ -344,6 +344,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Chart production tips</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./resources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -408,14 +414,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This chapter shows an example of how to find data fro the American Community Survey using <a href="https://censusreporter.org/">Census Reporter</a> and the to get that data using the <a href="https://walker-data.com/tidycensus/index.html">tidycensus</a> package.</p>
+<p>This chapter shows an example of how to find data from the American Community Survey using <a href="https://censusreporter.org/">Census Reporter</a> and then to get that data using the <a href="https://walker-data.com/tidycensus/index.html">tidycensus</a> R package.</p>
 <p>This is NOT a full explanation of tidycensus. See <a href="https://walker-data.com/tidycensus/index.html">Kyle Walker’s site</a> for that.</p>
 <section id="other-resources" class="level2" data-number="15.1">
 <h2 data-number="15.1" class="anchored" data-anchor-id="other-resources"><span class="header-section-number">15.1</span> Other resources</h2>
 <ul>
-<li>The <a href="https://walker-data.com/tidycensus/index.html">Tidycensus</a> package</li>
-<li>The author of the package has <a href="https://walker-data.com/census-r/">a book</a></li>
-<li>This year’s <a href="https://nicar.r-journalism.com/2024/">NICAR lesson on tidycensus</a> and the <a href="https://github.com/r-journalism/nicar-2024-tidycensus?tab=readme-ov-file">Github repo</a> for it</li>
+<li>The <a href="https://walker-data.com/tidycensus/index.html">Tidycensus</a> package.</li>
+<li>The author of the package has <a href="https://walker-data.com/census-r/">a book</a>.</li>
+<li>The <a href="https://nicar.r-journalism.com/2024/">NICAR24 lesson on tidycensus</a> and the <a href="https://github.com/r-journalism/nicar-2024-tidycensus?tab=readme-ov-file">Github repo</a> for it.</li>
 </ul>
 </section>
 <section id="prereqs" class="level2" data-number="15.2">
@@ -457,11 +463,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="educational-attainment" class="level2" data-number="15.4">
 <h2 data-number="15.4" class="anchored" data-anchor-id="educational-attainment"><span class="header-section-number">15.4</span> Educational attainment</h2>
 <p>I’ll use some educational attainment data for some examples …</p>
-<p>The goal here is to find the percentage of women with degree higher than high school. To do this we have to add together all the different degree types, then divide by all women.</p>
+<p>The goal here is to find the percentage of women with a degree level higher than high school. To do this we have to add together all the different degree types, then divide by all women.</p>
 <p>We want to find this for multiple years in multiple geographies. i.e.&nbsp;to compare US rates vs various states or counties. I’m going to find only two years and get rates for the US and Texas specifically.</p>
 <section id="find-the-table" class="level3" data-number="15.4.1">
 <h3 data-number="15.4.1" class="anchored" data-anchor-id="find-the-table"><span class="header-section-number">15.4.1</span> Find the table</h3>
-<p>We are using Census Reporter to find the variables we need, looking at <a href="https://censusreporter.org/tables/B15002/">Table B15002: Sex by Educational Attainment</a>. (I’ll explain some other time why I started here.)</p>
+<p>We are using Census Reporter to find the variables we need, looking at <a href="https://censusreporter.org/tables/B15002/">Table B15002: Sex by Educational Attainment</a>. (I’m not getting into how to use Census Reporter here, but it is an awesome tool for ACS facts.)</p>
 <p>You can use a “tooltip” value from this site to to find a variable for Census Reporter. If you are familiar with a browser Inspector, you can look at the HTML and copy/paste values.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -642,7 +648,7 @@ $ yr       &lt;chr&gt; "2021", "2021", "2021", "2021", "2021", "2021", "2021", "
 </div>
 </div>
 </div>
-<p>If the moe_flag was TRUE anywhere then we might want to use that number. We are find with these numbers above so I’m going to drop the <code>moe</code> column in the next section.</p>
+<p>If the moe_flag was TRUE anywhere then we might not want to use that number. Here all our margins of error are less than 10% so I’m going to drop the <code>moe</code> column in the next section.</p>
 </section>
 <section id="select-columns-of-interest" class="level3" data-number="15.5.3">
 <h3 data-number="15.5.3" class="anchored" data-anchor-id="select-columns-of-interest"><span class="header-section-number">15.5.3</span> Select columns of interest</h3>

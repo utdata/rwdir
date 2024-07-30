@@ -47,7 +47,7 @@ leso_control <- leso_total |> # <1>
     control_type = case_when( # <2>
       str_detect(item_name, "AIRPLANE") ~ TRUE, # <3>
       (demil_code == "A" | (demil_code == "Q" & demil_ic == 6)) ~ FALSE, # <4>
-      TRUE ~ TRUE # <5>
+      .default = TRUE # <5>
     )
   )
 
@@ -58,7 +58,7 @@ leso_control |> glimpse() # <6>
 2.  We mutate the data and start with the name of new column: `control_type`. We are filling that column with the result of the `case_when()` function for each row. Within the `case_when()` we are making the determination if the item is controlled or not. The left side of the `~` is the test, and the right side of `~` is what we enter into the column if the test passes. But we have more than one test:
 3.  The first test is we use the [`str_detect()`](https://stringr.tidyverse.org/reference/str_detect.html) function to look inside the `item_name` field looking for the term "AIRPLANE". If the test finds the term, then the `control_type` field gets a value of `TRUE` and we move to the next row. If not, it moves to the next rule to see if that is a match. (We could fill this column with any text or number we want, but we are using `TRUE` and `FALSE` because that is the most basic kind of data to keep. If the item is controlled, set the value is TRUE. If not, it should be set to FALSE.)
 4.  Our second rule has two complex tests and we want to mark the row FALSE if either are true. (Remember, this is based on what the DLA told me: items with A or Q6 are non-controlled.) Our `case_when()` logic first looks for the value "A" in the `demil_code` field. If it is yes, then it marks the row FALSE. If no it goes to the next part: Is there a "Q" in the `demil_code` field AND a "6" in the `demil_ic` field? Both "Q" and "6" have to be there to get marked as FALSE. If both fail, then we move to the next test.
-5.   The last test is our catch-all. If none of the other rules apply, then mark this row as `TRUE`, which means it is controlled. So our default in the end is to mark everything TRUE if any of the other rules don't mark it first.
+5.   The last test is our catch-all. If none of the other rules apply, then we set the default value as `TRUE`, which means it is controlled. So our default in the end is to mark everything TRUE if any of the other rules don't mark it first.
 6.   Lastly we glimpse at the data just so we can see the column was created.
 
 As I said, there was a lot of trial and error to figure that out, but I'll show some tests here to show that we did what we were intending.

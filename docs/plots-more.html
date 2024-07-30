@@ -353,6 +353,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Chart production tips</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./resources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -426,42 +432,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div class="callout callout-style-simple callout-none no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>The chapter is by Prof.&nbsp;Lukito, with edits from Prof.&nbsp;McDonald.</p>
-</div>
-</div>
-</div>
 <p>In the last chapter, you were introduced to <a href="https://ggplot2.tidyverse.org/index.html">ggplot2</a>, the <code>tidyverse</code> package that helps you build graphics, charts, and figures. In this chapter, we’ll take your <code>ggplot</code> knowledge to the next level. We encourage you to treat this chapter as a reference.</p>
 <section id="learning-goals-for-this-chapter" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="learning-goals-for-this-chapter"><span class="header-section-number">8.1</span> Learning goals for this chapter</h2>
 <p>In this chapter, we will cover the following topics:</p>
 <ul>
-<li>How to prepare and build a line chart<br>
-</li>
-<li>How to use themes to change the looks of a chart<br>
-</li>
-<li>More about aesthetics in layers!<br>
-</li>
-<li>Faceting, or making multiple charts from the same data<br>
-</li>
+<li>How to prepare and build a line chart</li>
+<li>How to use themes to change the looks of a chart</li>
+<li>More about aesthetics in layers!</li>
+<li>Faceting, or making multiple charts from the same data</li>
 <li>How to make interactive plots with <code>Plotly</code></li>
 </ul>
 </section>
 <section id="references" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="references"><span class="header-section-number">8.2</span> References</h2>
-<p><code>ggplot2</code> has a LOT to it and we’ll cover only the basics. Here are some references you might use:</p>
-<ul>
-<li><a href="https://ggplot2.tidyverse.org/reference/index.html">The ggplot2 documentation</a> and <a href="https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf">ggplot2 cheatsheets</a>.</li>
-<li><a href="https://r4ds.hadley.nz/data-visualize.html">R for Data Science, Chap 3.</a> Hadley Wickham dives right into plots in his book.</li>
-<li><a href="https://ggplot2-book.org/index.html">ggplot2: Elegant graphics for Data Analysis</a> by Wickham.</li>
-<li><a href="https://r-graphics.org/">R Graphics Cookbook</a> has lots of example plots. Good to harvest code and see how to do things.</li>
-<li><a href="https://www.r-graph-gallery.com/">The R Graph Gallery</a> another place to see examples.</li>
-</ul>
+<p><code>ggplot2</code> has a LOT to it and we’ll cover only the basics. Check out the <a href="./resources.html">Resources</a> chapter for more references, tutorials, etc.</p>
 </section>
 <section id="set-up-your-notebook" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="set-up-your-notebook"><span class="header-section-number">8.3</span> Set up your notebook</h2>
@@ -472,12 +457,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Set the title as “Military Surplus figures”</li>
 <li>Remove the rest of the boilerplate template.</li>
 <li>Save the file and name it <code>03-ggplot.qmd</code>.</li>
-<li>Create a setup chunk and load the <code>tidyverse</code> library. Also load a library called <code>scales</code>, though you shouldn’t have to install it as it comes with the tidyverse package.</li>
+<li>Create a setup chunk and load the <code>tidyverse</code> and <code>janitor</code> libraries. Also load a library called <code>scales</code>, though you shouldn’t have to install it as it comes with the tidyverse package.</li>
 </ol>
-<p>You’ll also need to install the <a href="">scales</a> package and include that in your library.</p>
+<p>You’ll also need to install the <a href="https://ggplot2.tidyverse.org/reference/index.html#scales">scales</a> package and include that in your library.</p>
 <ol start="7" type="1">
 <li>In your <strong>Console</strong>, run <code>install.packages("scales")</code></li>
 <li>Then back in your notebook add <code>library(scales)</code> to your setup chunk.</li>
+</ol>
+<p>And lastly we need to create a folder that we’ll need later.</p>
+<ol start="9" type="1">
+<li>In your <strong>Files</strong> pane, use the <strong>New Folder</strong> icon to create a new folder and call it <code>figures</code>. This is where we’ll export copies of our plotted charts.</li>
 </ol>
 <section id="lets-get-the-data" class="level3" data-number="8.3.1">
 <h3 data-number="8.3.1" class="anchored" data-anchor-id="lets-get-the-data"><span class="header-section-number">8.3.1</span> Let’s get the data</h3>
@@ -495,20 +484,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(leso)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 67,852
+<pre><code>Rows: 63,429
 Columns: 13
 $ state             &lt;chr&gt; "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
 $ agency_name       &lt;chr&gt; "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
-$ nsn               &lt;chr&gt; "1005-01-587-7175", "1240-01-411-1265", "2320-01-371…
-$ item_name         &lt;chr&gt; "MOUNT,RIFLE", "SIGHT,REFLEX", "TRUCK,UTILITY", "BAL…
-$ quantity          &lt;dbl&gt; 10, 9, 1, 10, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
-$ ui                &lt;chr&gt; "Each", "Each", "Each", "Kit", "Each", "Each", "Each…
-$ acquisition_value &lt;dbl&gt; 1626.00, 371.00, 62627.00, 17264.71, 62627.00, 65800…
-$ demil_code        &lt;chr&gt; "D", "D", "C", "D", "C", "C", "Q", "D", "C", "D", "D…
-$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
-$ ship_date         &lt;dttm&gt; 2016-09-19, 2016-09-14, 2016-09-29, 2018-01-30, 201…
+$ nsn               &lt;chr&gt; "1240-01-411-1265", "1005-01-587-7175", "2320-01-371…
+$ item_name         &lt;chr&gt; "SIGHT,REFLEX", "MOUNT,RIFLE", "TRUCK,UTILITY", "MIN…
+$ quantity          &lt;dbl&gt; 9, 10, 1, 1, 1, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ ui                &lt;chr&gt; "Each", "Each", "Each", "Each", "Each", "Kit", "Each…
+$ acquisition_value &lt;dbl&gt; 365.00, 1626.00, 62627.00, 658000.00, 10000.00, 1685…
+$ demil_code        &lt;chr&gt; "D", "D", "C", "C", "Q", "D", "C", "D", "D", "D", "D…
+$ demil_ic          &lt;dbl&gt; 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ ship_date         &lt;dttm&gt; 2016-09-14, 2016-09-19, 2016-09-29, 2016-11-09, 201…
 $ station_type      &lt;chr&gt; "State", "State", "State", "State", "State", "State"…
-$ total_value       &lt;dbl&gt; 16260.00, 3339.00, 62627.00, 172647.10, 62627.00, 65…
+$ total_value       &lt;dbl&gt; 3285.00, 16260.00, 62627.00, 658000.00, 10000.00, 16…
 $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE…</code></pre>
 </div>
 </div>
@@ -518,12 +507,12 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <section id="goal-1-line-chart" class="level2" data-number="8.4">
 <h2 data-number="8.4" class="anchored" data-anchor-id="goal-1-line-chart"><span class="header-section-number">8.4</span> Goal 1: Line chart</h2>
 <p>For our first chart here we are looking to plot the total acquisitions value for each year in the state of Texas. It can sometimes help to draw on paper the chart you are hoping to make so you can see how to format the data to make it.</p>
-<p>This is the chart we hope to build:</p>
+<p>This is the data and chart we hope to build:</p>
 <div class="cell">
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["year"],"name":[1],"type":["dttm"],"align":["right"]},{"label":["yearly_value"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"2010-01-01","2":"6727288"},{"1":"2011-01-01","2":"2059543"},{"1":"2012-01-01","2":"3610790"},{"1":"2013-01-01","2":"9531431"},{"1":"2014-01-01","2":"42774914"},{"1":"2015-01-01","2":"2292580"},{"1":"2016-01-01","2":"15912672"},{"1":"2017-01-01","2":"13099487"},{"1":"2018-01-01","2":"7262359"},{"1":"2019-01-01","2":"12462964"},{"1":"2020-01-01","2":"4508671"},{"1":"2021-01-01","2":"4619450"},{"1":"2022-01-01","2":"3578707"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["year"],"name":[1],"type":["dttm"],"align":["right"]},{"label":["yearly_value"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"2010-01-01","2":"6708665"},{"1":"2011-01-01","2":"2071260"},{"1":"2012-01-01","2":"3600702"},{"1":"2013-01-01","2":"9154569"},{"1":"2014-01-01","2":"42607415"},{"1":"2015-01-01","2":"2257649"},{"1":"2016-01-01","2":"15627972"},{"1":"2017-01-01","2":"12934796"},{"1":"2018-01-01","2":"7097485"},{"1":"2019-01-01","2":"12376730"},{"1":"2020-01-01","2":"4231042"},{"1":"2021-01-01","2":"4572457"},{"1":"2022-01-01","2":"2388650"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -539,16 +528,16 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <p>But we don’t have this data in the format, so we need to make it.</p>
 <section id="working-through-logic" class="level3" data-number="8.4.1">
 <h3 data-number="8.4.1" class="anchored" data-anchor-id="working-through-logic"><span class="header-section-number">8.4.1</span> Working through logic</h3>
-<p>Data visualization is an iterative process: you may prepare the data, do the visualization, and then realize you want to prepare the data a different way. Remember that the process of coding can involve trial and error: you’re often testing different thing to see what works.</p>
-<p>There are lots of choices we could make on <em>how</em> to do this, and I explored several different paths while making this chart. While I won’t go through every possible scenario, I’ll try to explain why I made the decisions I did. If I was doing this on my own, I might record these explorations and thoughts in my notebook so I could have a record of why I did things. It’s not like other ways are wrong, they just have different pros and cons.</p>
-<p>To kinda walk through this with the chart first:</p>
+<p>Data visualization is an iterative process: you may prepare the data, do the visualization, and then realize you need to prepare the data a different way. There can be a lot of trial and error: you’re often testing different things to see what works.</p>
+<p>There are lots of choices we could make on <em>how</em> to do this, and I explored several different paths while making this chart. While I won’t go through every possible scenario, I’ll try to explain why I made the decisions I did. It’s not like other ways are wrong, they just have different pros and cons.</p>
+<p>Walking through this with the chart first:</p>
 <ul>
 <li>Along the X axis we want to plot each year. Since our data starts as individual transfers and their date, this is a clue that we need to group by the year of that shipping date.</li>
 <li>Along the Y axis we want to plot the value of all the equipment in Texas. That’s a clue that we need to summarize our data to add up the value of the equipment.</li>
 </ul>
-<p>The most exploration came around how I grouped this data by year. There are a myriad of ways to do this, like using <code>year()</code> to pluck the year from the shipping date to make a number like <code>2023</code> or to then convert that to text as “2023”. I chose to create a “floor date” so I end up with a real date because it gives me more flexibility with plotting. ggplot has some tools where I can format the date the way I want, though I admit I had to go learn about them to do this lesson!</p>
+<p>The most exploration came around how I grouped this data by year. There are a myriad of ways to do this, like using <code>year()</code> to pluck the year from the shipping date to make a number like <code>2023</code> or convert that to text as “2023”. I chose to create a “floor date” so I end up with a real date because it gives me more flexibility with plotting. ggplot has some tools where I can format the date the way I want, though I admit I had to go learn about them to do this lesson!</p>
 <p>The function <a href="https://lubridate.tidyverse.org/reference/round_date.html"><code>floor_date()</code></a> rounds a date <em>down</em> to a common value, but it remains a real date. If I convert both “2023-10-18” and “2023-10-28” to a floor_date unit of “year” then they both end up as “2023-01-01”, the first day of the year. If I choose to set floor_date as a unit of “month” then both dates end up as “2023-10-01”, the first day of the month in each year. It’s like we are rounding the date down to a specific unit. The key here is it remains a real date with properties like year, month, week and day. I’ll draw upon those properties later.</p>
-<p>We are going to “create” this date as we group our data. You can read more about this in Appendices chapter <a href="./group-dates.html">Grouping by dates</a>.</p>
+<p>We are going to “create” this date as we group our data. You can read more about this in appendix chapter <a href="./group-dates.html">Grouping by dates</a>.</p>
 </section>
 <section id="wrangling-the-data" class="level3" data-number="8.4.2">
 <h3 data-number="8.4.2" class="anchored" data-anchor-id="wrangling-the-data"><span class="header-section-number">8.4.2</span> Wrangling the data</h3>
@@ -558,36 +547,47 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <li>Add a new chunk and the code below. We’ll pick it apart after.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tx_values <span class="ot">&lt;-</span> leso <span class="sc">|&gt;</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    state <span class="sc">==</span> <span class="st">"TX"</span>,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    ship_date <span class="sc">&lt;</span> <span class="st">"2023-01-01"</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="at">year =</span> <span class="fu">floor_date</span>(ship_date, <span class="at">unit =</span> <span class="st">"year"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">yearly_value =</span> <span class="fu">sum</span>(total_value))</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>tx_values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-2-1" class="code-annotation-target"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a>tx_values <span class="ot">&lt;-</span> leso <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-2-3" class="code-annotation-target"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>    state <span class="sc">==</span> <span class="st">"TX"</span>,</span>
+<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a>    ship_date <span class="sc">&lt;</span> <span class="st">"2023-01-01"</span></span>
+<span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-2-6" class="code-annotation-target"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="at">year =</span> <span class="fu">floor_date</span>(ship_date, <span class="at">unit =</span> <span class="st">"year"</span>)) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-2-7" class="code-annotation-target"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">yearly_value =</span> <span class="fu">sum</span>(total_value))</span>
+<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-2-9" class="code-annotation-target"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a>tx_values</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="1" data-code-annotation="1">We start by creating a new object to shove all this stuff into: <code>tx_values</code>. Then we start with the data …</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="3,4" data-code-annotation="2">You should be familiar enough with the filtering by now to understand what we are doing, but might not realize <em>why</em>. Filtering for just Texas rows makes sense because that is our focus, but you might not snap that the data for the most recent year is incomplete until you see the plot. It’s important to recognize the date range of the data you are plotting so you don’t compare a partial year to a complete one.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="6" data-code-annotation="3">Inside this <code>group_by()</code> we have the code that makes our floor date. We start as we often do by naming the new column made by the group: <code>year</code>. We then use the <code>floor_date()</code> function on the <code>ship_date</code> variable, setting the unit to “year”. You can see the result of this in the return: Any row with a date within the year “2010” was given a date of “2010-01-01” and then summed together.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="7" data-code-annotation="4">The last line is the <code>summarize()</code> function where we add all the <code>total_value</code>s together. We first named the column <code>yearly_value</code> since that is what we are creating.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="9" data-code-annotation="5">At the end, we print out the contents of the <code>tx_values</code> object we created.</span>
+</dd>
+</dl>
+</div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["year"],"name":[1],"type":["dttm"],"align":["right"]},{"label":["yearly_value"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"2010-01-01","2":"6727288"},{"1":"2011-01-01","2":"2059543"},{"1":"2012-01-01","2":"3610790"},{"1":"2013-01-01","2":"9531431"},{"1":"2014-01-01","2":"42774914"},{"1":"2015-01-01","2":"2292580"},{"1":"2016-01-01","2":"15912672"},{"1":"2017-01-01","2":"13099487"},{"1":"2018-01-01","2":"7262359"},{"1":"2019-01-01","2":"12462964"},{"1":"2020-01-01","2":"4508671"},{"1":"2021-01-01","2":"4619450"},{"1":"2022-01-01","2":"3578707"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["year"],"name":[1],"type":["dttm"],"align":["right"]},{"label":["yearly_value"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"2010-01-01","2":"6708665"},{"1":"2011-01-01","2":"2071260"},{"1":"2012-01-01","2":"3600702"},{"1":"2013-01-01","2":"9154569"},{"1":"2014-01-01","2":"42607415"},{"1":"2015-01-01","2":"2257649"},{"1":"2016-01-01","2":"15627972"},{"1":"2017-01-01","2":"12934796"},{"1":"2018-01-01","2":"7097485"},{"1":"2019-01-01","2":"12376730"},{"1":"2020-01-01","2":"4231042"},{"1":"2021-01-01","2":"4572457"},{"1":"2022-01-01","2":"2388650"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
 </div>
-<p>Let’s walk through the code:</p>
-<ul>
-<li>We start by creating a new object to shove all this stuff into: <code>tx_values</code>. Then we start with the data …</li>
-<li>You should be familiar enough with the filtering by now to understand what we are doing, but might not realize <em>why</em>. Filtering for just Texas rows makes sense because that is our focus, but you might not snap that the data for the most recent year is incomplete until you see the plot. It’s important to recognize the date range of the data you are plotting so you don’t compare a partial year to a complete one.</li>
-<li>Inside this <code>group_by()</code> we have the code that makes our floor date.
-<ul>
-<li>We start as we often do by naming the new column made by the group: <code>year</code>.</li>
-<li>We then use the <code>floor_date()</code> function on the <code>ship_date</code> variable, setting the unit to “year”.</li>
-<li>You can see the result of this in the return: Any row with a date within the year “2010” was given a date of “2010-01-01” and then summed together.</li>
-</ul></li>
-<li>The last line is the <code>summarize()</code> function where we add all the <code>total_value</code>s together. We first named the column <code>yearly_value</code> since that is what we are creating.</li>
-<li>At the end, we print out the contents of the <code>tx_values</code> object we created.</li>
-</ul>
 </section>
 <section id="plot-the-chart" class="level3" data-number="8.4.3">
 <h3 data-number="8.4.3" class="anchored" data-anchor-id="plot-the-chart"><span class="header-section-number">8.4.3</span> Plot the chart</h3>
@@ -642,6 +642,8 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <section id="cleaning-up" class="level3" data-number="8.4.4">
 <h3 data-number="8.4.4" class="anchored" data-anchor-id="cleaning-up"><span class="header-section-number">8.4.4</span> Cleaning Up</h3>
 <p>Alright, so we have a working plot! But there’s a couple things that are a bit ugly about this plot. First, I’m not digging the weird numbers on the side (what the heck does <code>1e+07</code> even mean?!). If we go back up and look at the output from <code>tx_values</code> we can see the <code>yearly_value</code> numbers are pretty large. These large numbers are causing R to read our numbers as “scientific notation” (a math-y way of reading large numbers). For example, the total cost of supplies in 2014 was <code>42,949,729</code> (that’s the first spike in our figure, around the <code>4e + 07</code> mark). But what a pain to read!</p>
+<section id="using-scales" class="level4" data-number="8.4.4.1">
+<h4 data-number="8.4.4.1" class="anchored" data-anchor-id="using-scales"><span class="header-section-number">8.4.4.1</span> Using scales</h4>
 <p>There are a number of ways we could fix this. We could go back into the code block where we prepare the data and divide that value by “1000000” and call the values “per million”. Or, we can do what I did and use the <a href="https://scales.r-lib.org/">scales</a> package to “scale” the output for presentation without changing the underlying number.</p>
 <p>Using functions from the scales package can be esoteric and unintuitive, but most of the things you would regularly need are covered in the <a href="https://ggplot2-book.org/scales-position.html">Position and Scales chapter of the ggplot2 book</a>. It is from there that we learn about using a function <code>scale_y_continuous()</code>, the <code>label =</code> argument and the the <code>scale_dollar()</code> function.</p>
 <ol type="1">
@@ -711,6 +713,10 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </div>
 </div>
 </div>
+<p>Now those Y axis labels are nice and easy to read and understand.</p>
+</section>
+<section id="setting-breaks" class="level4" data-number="8.4.4.2">
+<h4 data-number="8.4.4.2" class="anchored" data-anchor-id="setting-breaks"><span class="header-section-number">8.4.4.2</span> Setting breaks</h4>
 <p>Let’s show one more change. Notice how the grid lines along the X axis don’t fall along every year? We are getting our “breaks” set every five years, but our “minor breaks” (the fainter lines between the five year increments) sit in the middle of a year. That makes it a little harder to read each year, or even to understand each of those dots fall on a year. We can use the <code>scale_x_date()</code> function to change those by adjust those minor breaks.</p>
 <ol start="3" type="1">
 <li>In the global <code>aes()</code> function, wrap the <code>date</code> value inside a function called <code>date()</code>. Currently our “date” is really a calendar date/time datatype called <code>&lt;POSIXct&gt;</code>. I’ve found our next function can be pretty picky about wanting a specific <code>&lt;date&gt;</code> datatype so we are adjusting it to avoid an error.</li>
@@ -750,6 +756,7 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </div>
 </div>
 <p>OK, now the fainter “minor breaks” lines fall on each year, making them a little easier for the eye to track. Again, I had to <a href="https://ggplot2-book.org/scales-position.html#sec-date-minor-breaks">do some digging</a> to figure that out.</p>
+</section>
 </section>
 <section id="saving-plots-as-an-objects" class="level3" data-number="8.4.5">
 <h3 data-number="8.4.5" class="anchored" data-anchor-id="saving-plots-as-an-objects"><span class="header-section-number">8.4.5</span> Saving plots as an objects</h3>
@@ -797,14 +804,14 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </section>
 <section id="themes" class="level2" data-number="8.5">
 <h2 data-number="8.5" class="anchored" data-anchor-id="themes"><span class="header-section-number">8.5</span> Themes</h2>
-<p>The <em>look</em> of the graph is controlled by the theme. There are a number of preset themes you can use. Let’s look at a couple.</p>
+<p>The <em>look</em> of the graph is controlled by the theme. There are a number of <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">preset complete themes</a> you can use. Let’s look at a couple.</p>
 <ol type="1">
 <li>Create a new section saying we’ll explore themes.</li>
 <li>Add the chunk below and run it.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">+</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">+</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -816,7 +823,7 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <p>This takes our existing <code>tx_plot</code> and then applies the <code>theme_minimal()</code> look to it. This is actually our “Goal graphic” that we were shooting for at the beginning of the lesson!</p>
 <p>There are a number of themes built into ggplot, most are pretty simplistic.</p>
 <ol type="1">
-<li>Edit your existing chunk to try different themes. Some you might try are <code>theme_classic()</code>, <code>theme_dark()</code> and <code>theme_void()</code>.</li>
+<li>Edit your existing chunk to try different themes. Some you might try are <code>theme_classic()</code>, <code>theme_dark()</code> and <code>theme_void()</code>. You can see <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">a list here</a>.</li>
 </ol>
 <section id="more-with-ggthemes" class="level3" data-number="8.5.1">
 <h3 data-number="8.5.1" class="anchored" data-anchor-id="more-with-ggthemes"><span class="header-section-number">8.5.1</span> More with ggthemes</h3>
@@ -827,9 +834,9 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <li>Update the theme line to view some of the others options noted below.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">+</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -839,8 +846,8 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">+</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_fivethirtyeight</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_fivethirtyeight</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -850,8 +857,8 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">+</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_stata</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>tx_plot <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_stata</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -860,7 +867,7 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </div>
 </div>
 </div>
-<p>There is also a <code>theme()</code> function that allows you individually <a href="https://ggplot2.tidyverse.org/reference/theme.html">adjust about every visual element</a> on your plot.</p>
+<p>There is also a <code>theme()</code> function that allows you individually <a href="https://ggplot2.tidyverse.org/reference/theme.html">adjust about every visual element</a> on your plot. It’s a quite robust function with many arguments, but the website <a href="https://ggplot2tor.com/theme">ggplot2tor has a great app to help</a>.</p>
 <p>We do a wee bit of that later.</p>
 </section>
 </section>
@@ -872,7 +879,7 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["state"],"name":[1],"type":["chr"],"align":["left"]},{"label":["year"],"name":[2],"type":["date"],"align":["right"]},{"label":["yearly_value"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"AR","2":"2010-01-01","3":"1236.0"},{"1":"AR","2":"2011-01-01","3":"542428.5"},{"1":"AR","2":"2012-01-01","3":"425291.8"},{"1":"AR","2":"2013-01-01","3":"2698799.1"},{"1":"AR","2":"2014-01-01","3":"12125078.1"},{"1":"AR","2":"2015-01-01","3":"342452.8"},{"1":"AR","2":"2016-01-01","3":"2866167.0"},{"1":"AR","2":"2017-01-01","3":"1736826.5"},{"1":"AR","2":"2018-01-01","3":"1545877.3"},{"1":"AR","2":"2019-01-01","3":"5953690.8"},{"1":"AR","2":"2020-01-01","3":"990621.0"},{"1":"AR","2":"2021-01-01","3":"621341.0"},{"1":"AR","2":"2022-01-01","3":"1280780.6"},{"1":"AR","2":"2023-01-01","3":"487659.0"},{"1":"LA","2":"2010-01-01","3":"365830.0"},{"1":"LA","2":"2011-01-01","3":"10144.0"},{"1":"LA","2":"2012-01-01","3":"685183.8"},{"1":"LA","2":"2013-01-01","3":"4000309.3"},{"1":"LA","2":"2014-01-01","3":"9519285.7"},{"1":"LA","2":"2015-01-01","3":"850594.3"},{"1":"LA","2":"2016-01-01","3":"4961477.7"},{"1":"LA","2":"2017-01-01","3":"2193851.9"},{"1":"LA","2":"2019-01-01","3":"1534720.0"},{"1":"LA","2":"2021-01-01","3":"77000.0"},{"1":"NM","2":"2011-01-01","3":"138676.6"},{"1":"NM","2":"2012-01-01","3":"406622.0"},{"1":"NM","2":"2013-01-01","3":"5482242.1"},{"1":"NM","2":"2014-01-01","3":"8237493.6"},{"1":"NM","2":"2015-01-01","3":"1191197.5"},{"1":"NM","2":"2016-01-01","3":"827991.2"},{"1":"NM","2":"2017-01-01","3":"112158.0"},{"1":"NM","2":"2018-01-01","3":"669364.0"},{"1":"OK","2":"2010-01-01","3":"237845.9"},{"1":"OK","2":"2011-01-01","3":"458059.1"},{"1":"OK","2":"2012-01-01","3":"1506514.2"},{"1":"OK","2":"2013-01-01","3":"3388377.8"},{"1":"OK","2":"2014-01-01","3":"17390250.5"},{"1":"OK","2":"2015-01-01","3":"201630.4"},{"1":"OK","2":"2016-01-01","3":"778350.2"},{"1":"OK","2":"2017-01-01","3":"1012354.7"},{"1":"OK","2":"2018-01-01","3":"190968.0"},{"1":"OK","2":"2019-01-01","3":"3162074.0"},{"1":"OK","2":"2020-01-01","3":"1179.0"},{"1":"OK","2":"2023-01-01","3":"238387.6"},{"1":"TX","2":"2010-01-01","3":"6727288.0"},{"1":"TX","2":"2011-01-01","3":"2059542.8"},{"1":"TX","2":"2012-01-01","3":"3610790.5"},{"1":"TX","2":"2013-01-01","3":"9531431.4"},{"1":"TX","2":"2014-01-01","3":"42774913.6"},{"1":"TX","2":"2015-01-01","3":"2292580.0"},{"1":"TX","2":"2016-01-01","3":"15912672.3"},{"1":"TX","2":"2017-01-01","3":"13099486.8"},{"1":"TX","2":"2018-01-01","3":"7262359.2"},{"1":"TX","2":"2019-01-01","3":"12462964.5"},{"1":"TX","2":"2020-01-01","3":"4508670.7"},{"1":"TX","2":"2021-01-01","3":"4619450.0"},{"1":"TX","2":"2022-01-01","3":"3578707.1"},{"1":"TX","2":"2023-01-01","3":"3831269.6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["state"],"name":[1],"type":["chr"],"align":["left"]},{"label":["year"],"name":[2],"type":["date"],"align":["right"]},{"label":["yearly_value"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"AR","2":"2010-01-01","3":"1236.00"},{"1":"AR","2":"2011-01-01","3":"532926.54"},{"1":"AR","2":"2012-01-01","3":"316806.13"},{"1":"AR","2":"2013-01-01","3":"2698522.15"},{"1":"AR","2":"2014-01-01","3":"11832244.43"},{"1":"AR","2":"2015-01-01","3":"248780.35"},{"1":"AR","2":"2016-01-01","3":"2842120.05"},{"1":"AR","2":"2017-01-01","3":"1684116.48"},{"1":"AR","2":"2018-01-01","3":"1175789.98"},{"1":"AR","2":"2019-01-01","3":"5980483.02"},{"1":"AR","2":"2020-01-01","3":"961621.00"},{"1":"AR","2":"2021-01-01","3":"612770.00"},{"1":"AR","2":"2022-01-01","3":"301063.00"},{"1":"AR","2":"2023-01-01","3":"676211.71"},{"1":"AR","2":"2024-01-01","3":"1088527.08"},{"1":"LA","2":"2010-01-01","3":"365830.00"},{"1":"LA","2":"2011-01-01","3":"10144.00"},{"1":"LA","2":"2012-01-01","3":"621197.85"},{"1":"LA","2":"2013-01-01","3":"3755828.96"},{"1":"LA","2":"2014-01-01","3":"9519319.19"},{"1":"LA","2":"2015-01-01","3":"850291.79"},{"1":"LA","2":"2016-01-01","3":"4953959.56"},{"1":"LA","2":"2017-01-01","3":"2188560.23"},{"1":"LA","2":"2019-01-01","3":"1534720.00"},{"1":"LA","2":"2021-01-01","3":"77000.00"},{"1":"NM","2":"2011-01-01","3":"132516.40"},{"1":"NM","2":"2012-01-01","3":"406127.00"},{"1":"NM","2":"2013-01-01","3":"5458072.16"},{"1":"NM","2":"2014-01-01","3":"7979410.16"},{"1":"NM","2":"2015-01-01","3":"911649.00"},{"1":"NM","2":"2016-01-01","3":"810153.62"},{"1":"NM","2":"2017-01-01","3":"110885.17"},{"1":"NM","2":"2018-01-01","3":"669364.00"},{"1":"NM","2":"2023-01-01","3":"7578.05"},{"1":"NM","2":"2024-01-01","3":"5866.18"},{"1":"OK","2":"2010-01-01","3":"237621.75"},{"1":"OK","2":"2011-01-01","3":"456870.12"},{"1":"OK","2":"2012-01-01","3":"1493622.93"},{"1":"OK","2":"2013-01-01","3":"3388097.80"},{"1":"OK","2":"2014-01-01","3":"18122314.48"},{"1":"OK","2":"2015-01-01","3":"200588.37"},{"1":"OK","2":"2016-01-01","3":"1436529.16"},{"1":"OK","2":"2017-01-01","3":"998270.27"},{"1":"OK","2":"2018-01-01","3":"231478.88"},{"1":"OK","2":"2019-01-01","3":"3162074.00"},{"1":"OK","2":"2020-01-01","3":"1161.00"},{"1":"TX","2":"2010-01-01","3":"6708665.20"},{"1":"TX","2":"2011-01-01","3":"2071260.16"},{"1":"TX","2":"2012-01-01","3":"3600701.65"},{"1":"TX","2":"2013-01-01","3":"9154569.09"},{"1":"TX","2":"2014-01-01","3":"42607415.23"},{"1":"TX","2":"2015-01-01","3":"2257648.96"},{"1":"TX","2":"2016-01-01","3":"15627972.29"},{"1":"TX","2":"2017-01-01","3":"12934795.68"},{"1":"TX","2":"2018-01-01","3":"7097485.34"},{"1":"TX","2":"2019-01-01","3":"12376730.36"},{"1":"TX","2":"2020-01-01","3":"4231042.17"},{"1":"TX","2":"2021-01-01","3":"4572457.38"},{"1":"TX","2":"2022-01-01","3":"2388649.75"},{"1":"TX","2":"2023-01-01","3":"2458200.19"},{"1":"TX","2":"2024-01-01","3":"4112105.12"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -886,8 +893,12 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </div>
 <section id="prepare-the-data" class="level3" data-number="8.6.1">
 <h3 data-number="8.6.1" class="anchored" data-anchor-id="prepare-the-data"><span class="header-section-number">8.6.1</span> Prepare the data</h3>
-<p>We need to go back to our original <code>leso</code> to get the additional states. But we also know now that we need to create a “floor_date” that has a <code>&lt;date&gt;</code> datatype. Let’s do that as we prepare the data instead of while we are grouping. I’ll sometimes go back into my cleaning notebook to add something like this, but we won’t go quite that far with this.</p>
-<p>In the interest of time, here is all the code we are using, with annotations to explain each line.</p>
+<p>We need to go back to our original <code>leso</code> data to get the additional states. But we also know now that we need to create a “floor_date” that has a <code>&lt;date&gt;</code> datatype. Let’s do that as we prepare the data instead of while we are grouping. I’ll sometimes go back into my cleaning notebook to add something like this, but we won’t go quite that far with this.</p>
+<p>In the interest of time, I’ll supply the code with annotations to explain each line.</p>
+<ol type="1">
+<li>Add a new headline and text to describe you are building this multi-state chart.</li>
+<li>Add the code chunk below. Make sure you understand what each line is accomplishing. (You might even build it line by line so you can see that!)</li>
+</ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-12"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-12-1" class="code-annotation-target"><a href="#annotated-cell-12-1" aria-hidden="true" tabindex="-1"></a>region_data <span class="ot">&lt;-</span> leso <span class="sc">|&gt;</span></span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-12-2" class="code-annotation-target"><a href="#annotated-cell-12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"TX"</span>, <span class="st">"OK"</span>, <span class="st">"AR"</span>, <span class="st">"NM"</span>, <span class="st">"LA"</span>)) <span class="sc">|&gt;</span></span>
@@ -929,7 +940,7 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["state"],"name":[1],"type":["chr"],"align":["left"]},{"label":["year"],"name":[2],"type":["date"],"align":["right"]},{"label":["yearly_value"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"AR","2":"2010-01-01","3":"1236.0"},{"1":"AR","2":"2011-01-01","3":"542428.5"},{"1":"AR","2":"2012-01-01","3":"425291.8"},{"1":"AR","2":"2013-01-01","3":"2698799.1"},{"1":"AR","2":"2014-01-01","3":"12125078.1"},{"1":"AR","2":"2015-01-01","3":"342452.8"},{"1":"AR","2":"2016-01-01","3":"2866167.0"},{"1":"AR","2":"2017-01-01","3":"1736826.5"},{"1":"AR","2":"2018-01-01","3":"1545877.3"},{"1":"AR","2":"2019-01-01","3":"5953690.8"},{"1":"AR","2":"2020-01-01","3":"990621.0"},{"1":"AR","2":"2021-01-01","3":"621341.0"},{"1":"AR","2":"2022-01-01","3":"1280780.6"},{"1":"AR","2":"2023-01-01","3":"487659.0"},{"1":"LA","2":"2010-01-01","3":"365830.0"},{"1":"LA","2":"2011-01-01","3":"10144.0"},{"1":"LA","2":"2012-01-01","3":"685183.8"},{"1":"LA","2":"2013-01-01","3":"4000309.3"},{"1":"LA","2":"2014-01-01","3":"9519285.7"},{"1":"LA","2":"2015-01-01","3":"850594.3"},{"1":"LA","2":"2016-01-01","3":"4961477.7"},{"1":"LA","2":"2017-01-01","3":"2193851.9"},{"1":"LA","2":"2019-01-01","3":"1534720.0"},{"1":"LA","2":"2021-01-01","3":"77000.0"},{"1":"NM","2":"2011-01-01","3":"138676.6"},{"1":"NM","2":"2012-01-01","3":"406622.0"},{"1":"NM","2":"2013-01-01","3":"5482242.1"},{"1":"NM","2":"2014-01-01","3":"8237493.6"},{"1":"NM","2":"2015-01-01","3":"1191197.5"},{"1":"NM","2":"2016-01-01","3":"827991.2"},{"1":"NM","2":"2017-01-01","3":"112158.0"},{"1":"NM","2":"2018-01-01","3":"669364.0"},{"1":"OK","2":"2010-01-01","3":"237845.9"},{"1":"OK","2":"2011-01-01","3":"458059.1"},{"1":"OK","2":"2012-01-01","3":"1506514.2"},{"1":"OK","2":"2013-01-01","3":"3388377.8"},{"1":"OK","2":"2014-01-01","3":"17390250.5"},{"1":"OK","2":"2015-01-01","3":"201630.4"},{"1":"OK","2":"2016-01-01","3":"778350.2"},{"1":"OK","2":"2017-01-01","3":"1012354.7"},{"1":"OK","2":"2018-01-01","3":"190968.0"},{"1":"OK","2":"2019-01-01","3":"3162074.0"},{"1":"OK","2":"2020-01-01","3":"1179.0"},{"1":"OK","2":"2023-01-01","3":"238387.6"},{"1":"TX","2":"2010-01-01","3":"6727288.0"},{"1":"TX","2":"2011-01-01","3":"2059542.8"},{"1":"TX","2":"2012-01-01","3":"3610790.5"},{"1":"TX","2":"2013-01-01","3":"9531431.4"},{"1":"TX","2":"2014-01-01","3":"42774913.6"},{"1":"TX","2":"2015-01-01","3":"2292580.0"},{"1":"TX","2":"2016-01-01","3":"15912672.3"},{"1":"TX","2":"2017-01-01","3":"13099486.8"},{"1":"TX","2":"2018-01-01","3":"7262359.2"},{"1":"TX","2":"2019-01-01","3":"12462964.5"},{"1":"TX","2":"2020-01-01","3":"4508670.7"},{"1":"TX","2":"2021-01-01","3":"4619450.0"},{"1":"TX","2":"2022-01-01","3":"3578707.1"},{"1":"TX","2":"2023-01-01","3":"3831269.6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["state"],"name":[1],"type":["chr"],"align":["left"]},{"label":["year"],"name":[2],"type":["date"],"align":["right"]},{"label":["yearly_value"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"AR","2":"2010-01-01","3":"1236.00"},{"1":"AR","2":"2011-01-01","3":"532926.54"},{"1":"AR","2":"2012-01-01","3":"316806.13"},{"1":"AR","2":"2013-01-01","3":"2698522.15"},{"1":"AR","2":"2014-01-01","3":"11832244.43"},{"1":"AR","2":"2015-01-01","3":"248780.35"},{"1":"AR","2":"2016-01-01","3":"2842120.05"},{"1":"AR","2":"2017-01-01","3":"1684116.48"},{"1":"AR","2":"2018-01-01","3":"1175789.98"},{"1":"AR","2":"2019-01-01","3":"5980483.02"},{"1":"AR","2":"2020-01-01","3":"961621.00"},{"1":"AR","2":"2021-01-01","3":"612770.00"},{"1":"AR","2":"2022-01-01","3":"301063.00"},{"1":"AR","2":"2023-01-01","3":"676211.71"},{"1":"AR","2":"2024-01-01","3":"1088527.08"},{"1":"LA","2":"2010-01-01","3":"365830.00"},{"1":"LA","2":"2011-01-01","3":"10144.00"},{"1":"LA","2":"2012-01-01","3":"621197.85"},{"1":"LA","2":"2013-01-01","3":"3755828.96"},{"1":"LA","2":"2014-01-01","3":"9519319.19"},{"1":"LA","2":"2015-01-01","3":"850291.79"},{"1":"LA","2":"2016-01-01","3":"4953959.56"},{"1":"LA","2":"2017-01-01","3":"2188560.23"},{"1":"LA","2":"2019-01-01","3":"1534720.00"},{"1":"LA","2":"2021-01-01","3":"77000.00"},{"1":"NM","2":"2011-01-01","3":"132516.40"},{"1":"NM","2":"2012-01-01","3":"406127.00"},{"1":"NM","2":"2013-01-01","3":"5458072.16"},{"1":"NM","2":"2014-01-01","3":"7979410.16"},{"1":"NM","2":"2015-01-01","3":"911649.00"},{"1":"NM","2":"2016-01-01","3":"810153.62"},{"1":"NM","2":"2017-01-01","3":"110885.17"},{"1":"NM","2":"2018-01-01","3":"669364.00"},{"1":"NM","2":"2023-01-01","3":"7578.05"},{"1":"NM","2":"2024-01-01","3":"5866.18"},{"1":"OK","2":"2010-01-01","3":"237621.75"},{"1":"OK","2":"2011-01-01","3":"456870.12"},{"1":"OK","2":"2012-01-01","3":"1493622.93"},{"1":"OK","2":"2013-01-01","3":"3388097.80"},{"1":"OK","2":"2014-01-01","3":"18122314.48"},{"1":"OK","2":"2015-01-01","3":"200588.37"},{"1":"OK","2":"2016-01-01","3":"1436529.16"},{"1":"OK","2":"2017-01-01","3":"998270.27"},{"1":"OK","2":"2018-01-01","3":"231478.88"},{"1":"OK","2":"2019-01-01","3":"3162074.00"},{"1":"OK","2":"2020-01-01","3":"1161.00"},{"1":"TX","2":"2010-01-01","3":"6708665.20"},{"1":"TX","2":"2011-01-01","3":"2071260.16"},{"1":"TX","2":"2012-01-01","3":"3600701.65"},{"1":"TX","2":"2013-01-01","3":"9154569.09"},{"1":"TX","2":"2014-01-01","3":"42607415.23"},{"1":"TX","2":"2015-01-01","3":"2257648.96"},{"1":"TX","2":"2016-01-01","3":"15627972.29"},{"1":"TX","2":"2017-01-01","3":"12934795.68"},{"1":"TX","2":"2018-01-01","3":"7097485.34"},{"1":"TX","2":"2019-01-01","3":"12376730.36"},{"1":"TX","2":"2020-01-01","3":"4231042.17"},{"1":"TX","2":"2021-01-01","3":"4572457.38"},{"1":"TX","2":"2022-01-01","3":"2388649.75"},{"1":"TX","2":"2023-01-01","3":"2458200.19"},{"1":"TX","2":"2024-01-01","3":"4112105.12"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -937,7 +948,7 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </section>
 <section id="plot-the-chart-1" class="level3" data-number="8.6.2">
 <h3 data-number="8.6.2" class="anchored" data-anchor-id="plot-the-chart-1"><span class="header-section-number">8.6.2</span> Plot the chart</h3>
-<p>For our next plot, we’ll add a different line for each state. To do this you would use the color aesthetic <code>aes()</code> in the <code>geom_line()</code> geom. Recall that geoms can have their own <code>aes()</code> variable information. This is especially useful for working with a third variable (like when making a stacked bar chart or line plot with multiple lines). Notice that the color aesthetic (meaning that it is in <code>aes</code>) takes a variable, not a color. You can learn how to change these colors <a href="http://www.sthda.com/english/wiki/ggplot2-colors-how-to-change-colors-automatically-and-manually">here</a>. For now, though, we’ll use the <code>ggplot</code> default colors.</p>
+<p>In our plot we need a different line for each state. To do this you would use the color aesthetic <code>aes()</code> in the <code>geom_line()</code> geom. Recall that geoms can have their own <code>aes()</code> variable information. This is especially useful for working with a third variable (like when making a stacked bar chart or line plot with multiple lines). Notice that the color aesthetic (meaning that it is in <code>aes</code>) takes a variable, not a color. You can learn how to change these colors <a href="http://www.sthda.com/english/wiki/ggplot2-colors-how-to-change-colors-automatically-and-manually">here</a>. For now, though, we’ll use the <code>ggplot</code> default colors.</p>
 <ol type="1">
 <li>Add a note that we’ll now build the chart.</li>
 <li>Add the code chunk below and run it. Look through the comments so you understand it.</li>
@@ -993,7 +1004,7 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </div>
 </div>
 </div>
-<p>Adding this aesthetic not only added color to the lines, it added a legend so we can tell which is which. If we had tried to build this plot without the added color aesthetic, it wouldn’t plot right because it wouldn’t how how to split the lines.</p>
+<p>Adding this aesthetic not only added color to the lines, it added a legend so we can tell which is which. It’s important to understand that we had to use an <code>aes()</code> function here because we were pulling from the data to decide how many colors to use. If we had tried to build this plot without the added color aesthetic, it wouldn’t plot right because it wouldn’t how how to split the lines.</p>
 <p>Notice that only the lines changed colors, and not the points? This is because we only included the aesthetic in the <code>geom_line()</code> geom and not the <code>geom_point()</code> geom.</p>
 <ol type="1">
 <li><strong>Edit</strong> your <code>geom_point()</code> to add <code>aes(color = state)</code>.</li>
@@ -1046,7 +1057,12 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </section>
 <section id="tour-of-some-other-adjustments" class="level2" data-number="8.8">
 <h2 data-number="8.8" class="anchored" data-anchor-id="tour-of-some-other-adjustments"><span class="header-section-number">8.8</span> Tour of some other adjustments</h2>
-<p>These examples show how to tweak different parts of charts. Add them to your notebook, run it, then find the value that makes the change and adjust it with new values so you can see the difference.</p>
+<p>These examples show how to tweak different parts of charts.</p>
+<ol type="1">
+<li>Add a headline/text that says you’ll tour plot variables.</li>
+<li>Add the code below and run it.</li>
+<li>As you go through the other examples in this section you can just adjust your current chunk instead of adding new ones.</li>
+</ol>
 <section id="line-width" class="level3" data-number="8.8.1">
 <h3 data-number="8.8.1" class="anchored" data-anchor-id="line-width"><span class="header-section-number">8.8.1</span> Line width</h3>
 <div class="cell">
@@ -1252,10 +1268,15 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <ul>
 <li>I use <code>str_wrap()</code> around my subtitle to keep it from running off the page.</li>
 <li>Once I get the labs and themes as close as I can, I push the chart into an R object.</li>
-<li>BEFORE printing that object, I save the plot with <code>ggsave()</code> with a path and name. Don’t print out the object first or it will save at a weird size. Following R convention, I save plots into a folder called <code>figures/</code>. (You might need to create a “figures” folder first!)</li>
-<li>I then use Markdown to print the graphic to the notebook as an image using using this syntax: <code>![Figure name](figures/image-name.png)</code>.</li>
+<li>BEFORE printing that object to my screen, I save the plot to my hard drive using the <code>ggsave()</code> function. It’s important to save it to disc before printing to your screen because that changes the sizing. Following R convention, I save plots into a folder called <code>figures/</code>. (You might need to create a “figures” folder first!)</li>
+<li>I then use <a href="https://quarto.org/docs/authoring/markdown-basics.html#links-images">Markdown to print the graphic</a> to the notebook as an image using using this syntax. It’s like making a hyperlink, but it starts with <code>!</code> before the square brackets. The text inside the square brackets end up as caption displayed below the chart: <code>![Figure name](figures/image-name.png)</code>.</li>
 </ul>
 <p>Here is how I would do this with our first line chart:</p>
+<ol type="1">
+<li>Make a new section saying you are practicing saving a plot</li>
+<li>In your Files pane, use the <strong>New folder</strong> button to create a folder called <code>figures</code>.</li>
+<li>Add the chunk below and run it.</li>
+</ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-21"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-21-1"><a href="#annotated-cell-21-1" aria-hidden="true" tabindex="-1"></a>tx_plot_2save <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(tx_values, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">date</span>(year), <span class="at">y =</span> yearly_value)) <span class="sc">+</span></span>
 <span id="annotated-cell-21-2"><a href="#annotated-cell-21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
@@ -1275,12 +1296,15 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <pre><code>Saving 7 x 5 in image</code></pre>
 </div>
 </div>
-<p>Now, to print the image in our notebook we use a syntax similar to a hyperlink, but start it with an exclamation point. <code>![Figure name](path-to-image.png)</code>. However, since our chart has a headline, we leave the name out of the square brackets.</p>
-<p>For the chart we just made, I would add this after the code chunk:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="al">![](figures/tx-plot.png)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Which renders like this:</p>
+<p>Now that the chart is saved to your computer, you can use Markdown to display the image in your notebook.</p>
+<ol type="1">
+<li>After your code chunk add the Markdown code below. This is in the text part of your notebook like a sentence or headline, but you are inserting an image. Note I’m leaving out the caption text between the square brackets because we already have a headline on the chart.</li>
+</ol>
+<div class="sourceCode" id="cb8"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="al">![](figures/tx-plot.png)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When you add this, it should renders like this in your notebook:</p>
 <p><img src="figures/tx-plot.png" class="img-fluid"></p>
-<p>It might not look very different here, but in my experience it is the most consistent method to get a nice display. I really only bother with all this if I’m having trouble getting everything to fit or I need to use the image outside of my notebook.</p>
+<p>It might not look very different here, but in my experience it is the most consistent method to get a nice plot display. I really only bother with all this if I’m having trouble getting everything to fit or I need to use the image outside of my notebook.</p>
+<p>Another key advantage to this is you can now use can reference that same plot image on your project index when you are explaining the findings of your project.</p>
 </section>
 <section id="interactive-plots" class="level2" data-number="8.11">
 <h2 data-number="8.11" class="anchored" data-anchor-id="interactive-plots"><span class="header-section-number">8.11</span> Interactive plots</h2>
@@ -1320,12 +1344,12 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </dl>
 </div>
 <div class="cell-output-display">
-<div class="plotly html-widget html-fill-item" id="htmlwidget-9e374b00af6abdcaaa0f" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-9e374b00af6abdcaaa0f">{"x":{"data":[{"x":[14610,14975,15340,15706,16071,16436,16801,17167,17532,17897,18262,18628,18993,19358],"y":[1236,542428.54000000062,425291.78000000014,2698799.1499999999,12125078.060000001,342452.81000000006,2866167,1736826.5100000005,1545877.3400000001,5953690.7700000033,990621,621341,1280780.5699999987,487658.97000000003],"text":["year: 2010-01-01<br />yearly_value:     1236.0<br />state: AR","year: 2011-01-01<br />yearly_value:   542428.5<br />state: AR","year: 2012-01-01<br />yearly_value:   425291.8<br />state: AR","year: 2013-01-01<br />yearly_value:  2698799.1<br />state: AR","year: 2014-01-01<br />yearly_value: 12125078.1<br />state: AR","year: 2015-01-01<br />yearly_value:   342452.8<br />state: AR","year: 2016-01-01<br />yearly_value:  2866167.0<br />state: AR","year: 2017-01-01<br />yearly_value:  1736826.5<br />state: AR","year: 2018-01-01<br />yearly_value:  1545877.3<br />state: AR","year: 2019-01-01<br />yearly_value:  5953690.8<br />state: AR","year: 2020-01-01<br />yearly_value:   990621.0<br />state: AR","year: 2021-01-01<br />yearly_value:   621341.0<br />state: AR","year: 2022-01-01<br />yearly_value:  1280780.6<br />state: AR","year: 2023-01-01<br />yearly_value:   487659.0<br />state: AR"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"AR","legendgroup":"AR","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)","dash":"solid"},"frame":null},{"x":[14610,14975,15340,15706,16071,16436,16801,17167,17897,18628],"y":[365830,10144,685183.84999999939,4000309.3200000003,9519285.6699999999,850594.26000000001,4961477.6899999995,2193851.8799999999,1534720,77000],"text":["year: 2010-01-01<br />yearly_value:   365830.0<br />state: LA","year: 2011-01-01<br />yearly_value:    10144.0<br />state: LA","year: 2012-01-01<br />yearly_value:   685183.8<br />state: LA","year: 2013-01-01<br />yearly_value:  4000309.3<br />state: LA","year: 2014-01-01<br />yearly_value:  9519285.7<br />state: LA","year: 2015-01-01<br />yearly_value:   850594.3<br />state: LA","year: 2016-01-01<br />yearly_value:  4961477.7<br />state: LA","year: 2017-01-01<br />yearly_value:  2193851.9<br />state: LA","year: 2019-01-01<br />yearly_value:  1534720.0<br />state: LA","year: 2021-01-01<br />yearly_value:    77000.0<br />state: LA"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(163,165,0,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(163,165,0,1)"}},"hoveron":"points","name":"LA","legendgroup":"LA","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.8897637795275593,"color":"rgba(163,165,0,1)","dash":"solid"},"frame":null},{"x":[14975,15340,15706,16071,16436,16801,17167,17532],"y":[138676.64999999997,406622,5482242.0799999991,8237493.6200000001,1191197.5099999998,827991.21999999997,112157.97,669364],"text":["year: 2011-01-01<br />yearly_value:   138676.6<br />state: NM","year: 2012-01-01<br />yearly_value:   406622.0<br />state: NM","year: 2013-01-01<br />yearly_value:  5482242.1<br />state: NM","year: 2014-01-01<br />yearly_value:  8237493.6<br />state: NM","year: 2015-01-01<br />yearly_value:  1191197.5<br />state: NM","year: 2016-01-01<br />yearly_value:   827991.2<br />state: NM","year: 2017-01-01<br />yearly_value:   112158.0<br />state: NM","year: 2018-01-01<br />yearly_value:   669364.0<br />state: NM"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(0,191,125,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,191,125,1)"}},"hoveron":"points","name":"NM","legendgroup":"NM","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.8897637795275593,"color":"rgba(0,191,125,1)","dash":"solid"},"frame":null},{"x":[14610,14975,15340,15706,16071,16436,16801,17167,17532,17897,18262,19358],"y":[237845.87999999995,458059.12000000087,1506514.1900000009,3388377.8000000003,17390250.479999997,201630.36999999997,778350.15000000002,1012354.7300000001,190968,3162074,1179,238387.64000000001],"text":["year: 2010-01-01<br />yearly_value:   237845.9<br />state: OK","year: 2011-01-01<br />yearly_value:   458059.1<br />state: OK","year: 2012-01-01<br />yearly_value:  1506514.2<br />state: OK","year: 2013-01-01<br />yearly_value:  3388377.8<br />state: OK","year: 2014-01-01<br />yearly_value: 17390250.5<br />state: OK","year: 2015-01-01<br />yearly_value:   201630.4<br />state: OK","year: 2016-01-01<br />yearly_value:   778350.2<br />state: OK","year: 2017-01-01<br />yearly_value:  1012354.7<br />state: OK","year: 2018-01-01<br />yearly_value:   190968.0<br />state: OK","year: 2019-01-01<br />yearly_value:  3162074.0<br />state: OK","year: 2020-01-01<br />yearly_value:     1179.0<br />state: OK","year: 2023-01-01<br />yearly_value:   238387.6<br />state: OK"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(0,176,246,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,176,246,1)"}},"hoveron":"points","name":"OK","legendgroup":"OK","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.8897637795275593,"color":"rgba(0,176,246,1)","dash":"solid"},"frame":null},{"x":[14610,14975,15340,15706,16071,16436,16801,17167,17532,17897,18262,18628,18993,19358],"y":[6727287.9799999995,2059542.8100000003,3610790.4899999946,9531431.3900000025,42774913.609999985,2292580.0400000005,15912672.310000001,13099486.810000001,7262359.200000003,12462964.460000003,4508670.6799999988,4619449.9699999997,3578707.1199999982,3831269.5599999945],"text":["year: 2010-01-01<br />yearly_value:  6727288.0<br />state: TX","year: 2011-01-01<br />yearly_value:  2059542.8<br />state: TX","year: 2012-01-01<br />yearly_value:  3610790.5<br />state: TX","year: 2013-01-01<br />yearly_value:  9531431.4<br />state: TX","year: 2014-01-01<br />yearly_value: 42774913.6<br />state: TX","year: 2015-01-01<br />yearly_value:  2292580.0<br />state: TX","year: 2016-01-01<br />yearly_value: 15912672.3<br />state: TX","year: 2017-01-01<br />yearly_value: 13099486.8<br />state: TX","year: 2018-01-01<br />yearly_value:  7262359.2<br />state: TX","year: 2019-01-01<br />yearly_value: 12462964.5<br />state: TX","year: 2020-01-01<br />yearly_value:  4508670.7<br />state: TX","year: 2021-01-01<br />yearly_value:  4619450.0<br />state: TX","year: 2022-01-01<br />yearly_value:  3578707.1<br />state: TX","year: 2023-01-01<br />yearly_value:  3831269.6<br />state: TX"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(231,107,243,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(231,107,243,1)"}},"hoveron":"points","name":"TX","legendgroup":"TX","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.8897637795275593,"color":"rgba(231,107,243,1)","dash":"solid"},"frame":null}],"layout":{"margin":{"t":43.762557077625573,"r":7.3059360730593621,"b":40.182648401826498,"l":48.949771689497723},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Military police","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[14372.6,19595.400000000001],"tickmode":"array","ticktext":["2010","2015","2020"],"tickvals":[14610,16436,18262],"categoryorder":"array","categoryarray":["2010","2015","2020"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Year","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-2137507.7304999991,44913600.340499982],"tickmode":"array","ticktext":["$0","$10M","$20M","$30M","$40M"],"tickvals":[0,9999999.9999999981,20000000,29999999.999999996,40000000],"categoryorder":"array","categoryarray":["$0","$10M","$20M","$30M","$40M"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Value of acquisitions","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"State","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"1840512949291":{"x":{},"y":{},"colour":{},"type":"scatter"},"184055822771e":{"x":{},"y":{},"colour":{}}},"cur_data":"1840512949291","visdat":{"1840512949291":["function (y) ","x"],"184055822771e":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-8a2c7f02f49d240ace47" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-8a2c7f02f49d240ace47">{"x":{"data":[{"x":[14610,14975,15340,15706,16071,16436,16801,17167,17532,17897,18262,18628,18993,19358,19723],"y":[1236,532926.54000000062,316806.13,2698522.1499999999,11832244.429999996,248780.34999999998,2842120.0500000003,1684116.48,1175789.98,5980483.0199999996,961621,612770,301063,676211.7100000002,1088527.0799999998],"text":["year: 2010-01-01<br />yearly_value:     1236.00<br />state: AR","year: 2011-01-01<br />yearly_value:   532926.54<br />state: AR","year: 2012-01-01<br />yearly_value:   316806.13<br />state: AR","year: 2013-01-01<br />yearly_value:  2698522.15<br />state: AR","year: 2014-01-01<br />yearly_value: 11832244.43<br />state: AR","year: 2015-01-01<br />yearly_value:   248780.35<br />state: AR","year: 2016-01-01<br />yearly_value:  2842120.05<br />state: AR","year: 2017-01-01<br />yearly_value:  1684116.48<br />state: AR","year: 2018-01-01<br />yearly_value:  1175789.98<br />state: AR","year: 2019-01-01<br />yearly_value:  5980483.02<br />state: AR","year: 2020-01-01<br />yearly_value:   961621.00<br />state: AR","year: 2021-01-01<br />yearly_value:   612770.00<br />state: AR","year: 2022-01-01<br />yearly_value:   301063.00<br />state: AR","year: 2023-01-01<br />yearly_value:   676211.71<br />state: AR","year: 2024-01-01<br />yearly_value:  1088527.08<br />state: AR"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"AR","legendgroup":"AR","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)","dash":"solid"},"frame":null},{"x":[14610,14975,15340,15706,16071,16436,16801,17167,17897,18628],"y":[365830,10144,621197.84999999939,3755828.96,9519319.1900000013,850291.78999999992,4953959.5600000005,2188560.2299999995,1534720,77000],"text":["year: 2010-01-01<br />yearly_value:   365830.00<br />state: LA","year: 2011-01-01<br />yearly_value:    10144.00<br />state: LA","year: 2012-01-01<br />yearly_value:   621197.85<br />state: LA","year: 2013-01-01<br />yearly_value:  3755828.96<br />state: LA","year: 2014-01-01<br />yearly_value:  9519319.19<br />state: LA","year: 2015-01-01<br />yearly_value:   850291.79<br />state: LA","year: 2016-01-01<br />yearly_value:  4953959.56<br />state: LA","year: 2017-01-01<br />yearly_value:  2188560.23<br />state: LA","year: 2019-01-01<br />yearly_value:  1534720.00<br />state: LA","year: 2021-01-01<br />yearly_value:    77000.00<br />state: LA"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(163,165,0,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(163,165,0,1)"}},"hoveron":"points","name":"LA","legendgroup":"LA","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.8897637795275593,"color":"rgba(163,165,0,1)","dash":"solid"},"frame":null},{"x":[14975,15340,15706,16071,16436,16801,17167,17532,19358,19723],"y":[132516.39999999999,406127,5458072.1600000001,7979410.1600000001,911649,810153.62,110885.17,669364,7578.0500000000002,5866.1800000000003],"text":["year: 2011-01-01<br />yearly_value:   132516.40<br />state: NM","year: 2012-01-01<br />yearly_value:   406127.00<br />state: NM","year: 2013-01-01<br />yearly_value:  5458072.16<br />state: NM","year: 2014-01-01<br />yearly_value:  7979410.16<br />state: NM","year: 2015-01-01<br />yearly_value:   911649.00<br />state: NM","year: 2016-01-01<br />yearly_value:   810153.62<br />state: NM","year: 2017-01-01<br />yearly_value:   110885.17<br />state: NM","year: 2018-01-01<br />yearly_value:   669364.00<br />state: NM","year: 2023-01-01<br />yearly_value:     7578.05<br />state: NM","year: 2024-01-01<br />yearly_value:     5866.18<br />state: NM"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(0,191,125,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,191,125,1)"}},"hoveron":"points","name":"NM","legendgroup":"NM","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.8897637795275593,"color":"rgba(0,191,125,1)","dash":"solid"},"frame":null},{"x":[14610,14975,15340,15706,16071,16436,16801,17167,17532,17897,18262],"y":[237621.74999999994,456870.12000000087,1493622.9300000006,3388097.8000000003,18122314.479999997,200588.37,1436529.1600000001,998270.27000000002,231478.87999999989,3162074,1161],"text":["year: 2010-01-01<br />yearly_value:   237621.75<br />state: OK","year: 2011-01-01<br />yearly_value:   456870.12<br />state: OK","year: 2012-01-01<br />yearly_value:  1493622.93<br />state: OK","year: 2013-01-01<br />yearly_value:  3388097.80<br />state: OK","year: 2014-01-01<br />yearly_value: 18122314.48<br />state: OK","year: 2015-01-01<br />yearly_value:   200588.37<br />state: OK","year: 2016-01-01<br />yearly_value:  1436529.16<br />state: OK","year: 2017-01-01<br />yearly_value:   998270.27<br />state: OK","year: 2018-01-01<br />yearly_value:   231478.88<br />state: OK","year: 2019-01-01<br />yearly_value:  3162074.00<br />state: OK","year: 2020-01-01<br />yearly_value:     1161.00<br />state: OK"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(0,176,246,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,176,246,1)"}},"hoveron":"points","name":"OK","legendgroup":"OK","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.8897637795275593,"color":"rgba(0,176,246,1)","dash":"solid"},"frame":null},{"x":[14610,14975,15340,15706,16071,16436,16801,17167,17532,17897,18262,18628,18993,19358,19723],"y":[6708665.1999999993,2071260.1599999999,3600701.649999998,9154569.0900000017,42607415.230000012,2257648.9600000009,15627972.289999992,12934795.680000013,7097485.3399999999,12376730.360000003,4231042.1700000009,4572457.3799999999,2388649.75,2458200.1899999999,4112105.120000002],"text":["year: 2010-01-01<br />yearly_value:  6708665.20<br />state: TX","year: 2011-01-01<br />yearly_value:  2071260.16<br />state: TX","year: 2012-01-01<br />yearly_value:  3600701.65<br />state: TX","year: 2013-01-01<br />yearly_value:  9154569.09<br />state: TX","year: 2014-01-01<br />yearly_value: 42607415.23<br />state: TX","year: 2015-01-01<br />yearly_value:  2257648.96<br />state: TX","year: 2016-01-01<br />yearly_value: 15627972.29<br />state: TX","year: 2017-01-01<br />yearly_value: 12934795.68<br />state: TX","year: 2018-01-01<br />yearly_value:  7097485.34<br />state: TX","year: 2019-01-01<br />yearly_value: 12376730.36<br />state: TX","year: 2020-01-01<br />yearly_value:  4231042.17<br />state: TX","year: 2021-01-01<br />yearly_value:  4572457.38<br />state: TX","year: 2022-01-01<br />yearly_value:  2388649.75<br />state: TX","year: 2023-01-01<br />yearly_value:  2458200.19<br />state: TX","year: 2024-01-01<br />yearly_value:  4112105.12<br />state: TX"],"type":"scatter","mode":"markers+lines","marker":{"autocolorscale":false,"color":"rgba(231,107,243,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(231,107,243,1)"}},"hoveron":"points","name":"TX","legendgroup":"TX","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","line":{"width":1.8897637795275593,"color":"rgba(231,107,243,1)","dash":"solid"},"frame":null}],"layout":{"margin":{"t":43.762557077625573,"r":7.3059360730593621,"b":40.182648401826498,"l":48.949771689497723},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Military police","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[14354.35,19978.650000000001],"tickmode":"array","ticktext":["2010","2015","2020"],"tickvals":[14610,16436,18262],"categoryorder":"array","categoryarray":["2010","2015","2020"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Year","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-2129151.7115000007,44737727.941500016],"tickmode":"array","ticktext":["$0","$10M","$20M","$30M","$40M"],"tickvals":[0,10000000,20000000,30000000,40000000],"categoryorder":"array","categoryarray":["$0","$10M","$20M","$30M","$40M"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Value of acquisitions","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"State","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"2d1340cc2809":{"x":{},"y":{},"colour":{},"type":"scatter"},"2d131b58881b":{"x":{},"y":{},"colour":{}}},"cur_data":"2d1340cc2809","visdat":{"2d1340cc2809":["function (y) ","x"],"2d131b58881b":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p>Now you have tool tips on your points when you hover over them.</p>
-<p>The <code>ggplotly()</code> function is not perfect. For instance, I’ve shortened the title to the point of uselessness because it ran on top of the controls. I’m sure that could be overcome with some effort. Alternatively, you can use plotly’s own syntax to build some quite interesting charts, but it’s a whole <a href="https://plotly.com/r/">new syntax to master</a>.</p>
+<p>The <code>ggplotly()</code> function is not perfect. For instance, I’ve shortened the title to the point of uselessness because it ran on top of the controls. It also doesn’t support the labs <code>subtitle =</code> argument. I’m sure these issues could be overcome with some effort. Alternatively, you can use plotly’s own syntax to build some quite interesting charts, but it’s a whole <a href="https://plotly.com/r/">new syntax to master</a>.</p>
 </section>
 <section id="what-we-learned" class="level2" data-number="8.12">
 <h2 data-number="8.12" class="anchored" data-anchor-id="what-we-learned"><span class="header-section-number">8.12</span> What we learned</h2>

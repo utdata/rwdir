@@ -2,15 +2,15 @@
 title: "tidycensus"
 ---
 
-This chapter shows an example of how to find data fro the American Community Survey using [Census Reporter](https://censusreporter.org/) and the to get that data using the [tidycensus](https://walker-data.com/tidycensus/index.html) package.
+This chapter shows an example of how to find data from the American Community Survey using [Census Reporter](https://censusreporter.org/) and then to get that data using the [tidycensus](https://walker-data.com/tidycensus/index.html) R package.
 
 This is NOT a full explanation of tidycensus. See [Kyle Walker's site](https://walker-data.com/tidycensus/index.html) for that.
 
 ## Other resources
 
-- The [Tidycensus](https://walker-data.com/tidycensus/index.html) package
-- The author of the package has [a book](https://walker-data.com/census-r/) 
-- This year's [NICAR lesson on tidycensus](https://nicar.r-journalism.com/2024/) and the [Github repo](https://github.com/r-journalism/nicar-2024-tidycensus?tab=readme-ov-file) for it
+- The [Tidycensus](https://walker-data.com/tidycensus/index.html) package.
+- The author of the package has [a book](https://walker-data.com/census-r/).
+- The [NICAR24 lesson on tidycensus](https://nicar.r-journalism.com/2024/) and the [Github repo](https://github.com/r-journalism/nicar-2024-tidycensus?tab=readme-ov-file) for it.
 
 ## Prereqs
 
@@ -57,13 +57,13 @@ mhi_trav
 
 I'll use some educational attainment data for some examples ...
 
-The goal here is to find the percentage of women with degree higher than high school. To do this we have to add together all the different degree types, then divide by all women.
+The goal here is to find the percentage of women with a degree level higher than high school. To do this we have to add together all the different degree types, then divide by all women.
 
 We want to find this for multiple years in multiple geographies. i.e. to compare US rates vs various states or counties. I'm going to find only two years and get rates for the US and Texas specifically.
 
 ### Find the table
 
-We are using Census Reporter to find the variables we need, looking at [Table B15002: Sex by Educational Attainment](https://censusreporter.org/tables/B15002/). (I'll explain some other time why I started here.)
+We are using Census Reporter to find the variables we need, looking at [Table B15002: Sex by Educational Attainment](https://censusreporter.org/tables/B15002/). (I'm not getting into how to use Census Reporter here, but it is an awesome tool for ACS facts.)
 
 You can use a "tooltip" value from this site to to find a variable for Census Reporter. If you are familiar with a browser Inspector, you can look at the HTML and copy/paste values.
 
@@ -196,7 +196,7 @@ moe_check
 moe_check |> filter(moe_flag == T)
 ```
 
-If the moe_flag was TRUE anywhere then we might want to use that number. We are find with these numbers above so I'm going to drop the `moe` column in the next section.
+If the moe_flag was TRUE anywhere then we might not want to use that number. Here all our margins of error are less than 10% so I'm going to drop the `moe` column in the next section.
 
 
 ### Select columns of interest

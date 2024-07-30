@@ -1,16 +1,11 @@
 # Tidy data {#tidy-data}
 
-::: callout
-This chapter was written by Prof. McDonald, who uses a Mac.
-:::
-
 Data "shape" can be important when you are trying to work with and visualize data. In this chapter we'll discuss "tidy data" and how it helps us with both ggplot and other charting tools like [Datawrapper](https://www.datawrapper.de/).
 
-## Goals for this section
+## Learning goals for this chapter
 
--   Explore what it means to have "tidy" data.
--   Learn about and use `pivot_longer()`, `pivot_wider()` to shape our data for different purposes.
--   Use candy data to practice shaping data.
+-   We'll explore what it means to have "tidy" data.
+-   We'll use `pivot_longer()`, `pivot_wider()` to shape our data for different purposes.
 
 ## The questions we'll answer
 
@@ -72,12 +67,10 @@ We'll build this chart in both ggplot and Datawrapper.
 
 ### Prepare our candy project
 
-We will use candy count data we've been collected in Reporting wth Data classes to explore this subject.
+We will use candy count data we've been collected in Reporting wth Data classes to explore this subject. You'll need to start a new project for this ...
 
-Start a new project.
-
-1.  Create a new project and call it: `yourname-candy`
-2.  No need to create data folders as we'll just load data directly into the notebook.
+1.  Create a new project and call it: `yourname-candy`.
+2.  Create data-raw and `data-processed` folders.
 3.  You can use your `index.qmd` file ... just change the title to "Tidy data: Candy".
 4.  Create your setup block and load the `tidyverse` and `janitor`.
 
@@ -99,7 +92,22 @@ library(janitor)
 
 ### Get the data
 
-We'll just load this data directly from Google Sheets into this notebook.
+We'll download our data from a Google Sheet and save it onto our computer.
+
+1. Add a Markdown section saying you'll download the data.
+2. Add the chunk below and run it.
+
+```{r}
+#| label: download-date
+
+download.file("https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&single=true&output=csv", "data-raw/candy.csv", mode = "wb")
+```
+
+After you've run this, you can comment out the line of code so it doesn't re-download it each time you run the notebook.
+
+### Import the data
+
+OK, now we pull the data into our notebook. Nothing new here ... we import and clean the names.
 
 1.  Add a Markdown section noting that you are importing data.
 2.  Add this import chunk and run it.
@@ -108,7 +116,7 @@ We'll just load this data directly from Google Sheets into this notebook.
 #| label: load-data
 #| message: false
 #| warning: false
-candy_raw <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&single=true&output=csv") |> clean_names()
+candy_raw <- read_csv("data-raw/candy.csv") |> clean_names()
 
 # peek at the data
 candy_raw
@@ -212,7 +220,7 @@ There are a number of ways we can describe the `cols=` argument ... anything in 
 
 What we want here is six rows for each person's entry, with a column for "color" and a column for "count_candies".
 
-We are using a range, naming the first "red" and the last column "brown" with `:` in between. This only works because those columns are all together. Otherwise we could list the all with `c(red, blue, green)` etc.
+We are using a range, naming the first "red" and the last column "brown" with `:` in between. This only works because those columns are all together. Otherwise we could list them all with `c(red, blue, green)` etc.
 
 1.  Add a note that you are pivoting the data
 2.  Add the chunk below and run it
@@ -256,7 +264,7 @@ Let's **modify this summary** to round the averages to tenths so they will plot 
 ::: callout-caution
 ### Rounding can be complicated
 
-We use janitor's [`round_half_up()`](https://sfirke.github.io/janitor/reference/round_half_up.html) function because the base R [`round()`](https://www.rdocumentation.org/packages/base/topics/Round) function rounds half values to the nearest even number, e.g. both 11.5 and 12.5 will be rounded to 12. In journalism, we would usually round up at 5 or higher, so 11.5 to 12 and 12.5 to 13.
+We use janitor's [`round_half_up()`](https://sfirke.github.io/janitor/reference/round_half_up.html) function because the base R [`round()`](https://www.rdocumentation.org/packages/base/topics/Round) function rounds half values to the nearest even number, e.g. both 11.5 and 12.5 would be rounded to 12. In journalism, we would usually round up at 5 or higher, so 11.5 to 12 and 12.5 to 13.
 :::
 
 We'll use the [`round_half_up()`](https://sfirke.github.io/janitor/reference/round_half_up.html) function, which needs the column to change, and then the number of digits past the decimal to include.
@@ -276,7 +284,7 @@ candy_avg
 
 **BONUS POINT OPPORTUNITY:** Using a similar method to rounding above, you can also capitalize the names of the colors. You don't *have* to do this, but I'll give you a bonus point if you do:
 
--   In your mutate, add a rule that updates `color` column using `str_to_title(color)`.
+-   In your mutate, add a rule that updates `color` column using `str_to_title()`.
 
 You can read more about [converting the case of a string here](https://stringr.tidyverse.org/reference/case.html). It's part of the [stringr](https://stringr.tidyverse.org/index.html) package, which is loaded with tidyverse.
 
@@ -348,8 +356,10 @@ You'll use these directions to create your charts so you might keep this open in
 2.  Create a new block and name it something about exporting
 3.  Take your data and pipe it into `write_csv()`. As an argument to write_csv(), give it a path and name of the file: We can write directly to our project folder as `candy_avg.csv`.
 
-```{r write-candy}
-candy_avg |> write_csv("candy_avg.csv")
+```{r}
+#| label: write-candy
+
+candy_avg |> write_csv("data-processed/candy_avg.csv")
 ```
 
 This will save your data file onto your computer in your project folder.
