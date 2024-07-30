@@ -6,7 +6,16 @@ Because of data updates, your answers may differ slightly from what is presented
 
 With our Billboard assignment, we went through some common data wrangling processes --- importing data, cleaning it and querying it for answers. All of our answers involved using `group_by`, `summmarize` and `arrange` (which I dub GSA) and we summarized with `n()` to count the number of rows within our groups.
 
-For this data story we need the GSA summary trio again, but we will use math operations within our summarize functions, mainly `sum()` to add values together.
+## Learning goals for this chapter
+
+The Military Surplus chapters as a whole are geared toward using math operations within group/summarize/arrange operations.
+
+This chapter specifically:
+
+- Introduces you to a new data set and how it can lead to stories.
+- We'll again practice organized project setup and management
+- We'll review data types and make corrections as necessary
+- We'll create new variables to meet later analysis needs
 
 ## About the story: Military surplus transfers
 
@@ -140,7 +149,7 @@ That's a long-winded opening to say let's add our notebook goals so you know wha
 
 ### Add a setup section
 
-This is the section in the notebook where we add our libraries and such. Again, every notebook has this section, though the packages used may vary on need. This time (and each time hense) we will add some "execution options" to our setup chunk.
+This is the section in the notebook where we add our libraries and such. Again, every notebook has this section, though the packages used may vary on need. This time (and each time hence) we will add some "execution options" to our setup chunk.
 
 1.  Add a headline called "Setup" and text about what we are doing, adding our libraries.
 2.  Add your setup code chunk with the code below.
@@ -219,7 +228,7 @@ It's time to import the data into the notebook. Like the Billboard project, we a
 I suggest you build the code chunk a bit at a time in this order:
 
 1.  Use `read_csv()` to read the file from our `data-raw` folder.
-2.  Edit that line to put the result into a tibble object using `<-`. Name your new tibble `leso`.
+2.  Edit that line to put the result into a tibble object using `<-`. Name your new tibble `leso_raw`. (I tend to name this first import as raw so I know which object is the original data.)
 3.  Print the tibble as a table to the screen again by putting the tibble object on a new line and running it. This allows you to see it in columnar form.
 
 ```{r}
@@ -229,9 +238,9 @@ I suggest you build the code chunk a bit at a time in this order:
 #| output: false
 
 # assigning the tibble
-leso <- read_csv("data-raw/leso.csv")
+leso_raw <- read_csv("data-raw/leso.csv")
 # printing the tibble
-leso
+leso_raw
 ```
 
 The output you get will be the table, which looks sort of like this, but I'm just showing the first six lines:
@@ -239,7 +248,7 @@ The output you get will be the table, which looks sort of like this, but I'm jus
 ```{r}
 #| echo: false
 
-leso |> head()
+leso_raw |> head()
 ```
 
 ### Glimpse the data
@@ -247,7 +256,7 @@ leso |> head()
 1.  In a new code block, print the tibble but pipe it into `glimpse()` so you can see all the column names.
 
 ```{r leso-glimpse}
-leso |>  glimpse()
+leso_raw |>  glimpse()
 ```
 
 ## Checking datatypes
@@ -268,7 +277,7 @@ Sometimes at this point in a project, you might not know what columns you need t
 2.  Add a code chunk and the following code. I'll explain it below.
 
 ```{r remove-cols}
-leso_tight <- leso |> # <1>
+leso_tight <- leso_raw |> # <1>
   select(!sheet) # <2>
 
 leso_tight |> glimpse() # <3>

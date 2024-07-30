@@ -362,7 +362,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#goals-for-this-section" id="toc-goals-for-this-section" class="nav-link active" data-scroll-target="#goals-for-this-section"><span class="header-section-number">9.1</span> Goals for this section</a></li>
+  <li><a href="#learning-goals-for-this-chapter" id="toc-learning-goals-for-this-chapter" class="nav-link active" data-scroll-target="#learning-goals-for-this-chapter"><span class="header-section-number">9.1</span> Learning goals for this chapter</a></li>
   <li><a href="#the-questions-well-answer" id="toc-the-questions-well-answer" class="nav-link" data-scroll-target="#the-questions-well-answer"><span class="header-section-number">9.2</span> The questions we’ll answer</a></li>
   <li><a href="#what-is-tidy-data" id="toc-what-is-tidy-data" class="nav-link" data-scroll-target="#what-is-tidy-data"><span class="header-section-number">9.3</span> What is tidy data</a>
   <ul class="collapse">
@@ -373,9 +373,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#prepare-our-candy-project" id="toc-prepare-our-candy-project" class="nav-link" data-scroll-target="#prepare-our-candy-project"><span class="header-section-number">9.4.1</span> Prepare our candy project</a></li>
   <li><a href="#get-the-data" id="toc-get-the-data" class="nav-link" data-scroll-target="#get-the-data"><span class="header-section-number">9.4.2</span> Get the data</a></li>
-  <li><a href="#drop-unneeded-columns" id="toc-drop-unneeded-columns" class="nav-link" data-scroll-target="#drop-unneeded-columns"><span class="header-section-number">9.4.3</span> Drop unneeded columns</a></li>
-  <li><a href="#peek-at-the-wide-table" id="toc-peek-at-the-wide-table" class="nav-link" data-scroll-target="#peek-at-the-wide-table"><span class="header-section-number">9.4.4</span> Peek at the wide table</a></li>
-  <li><a href="#where-are-we-going-with-this-data" id="toc-where-are-we-going-with-this-data" class="nav-link" data-scroll-target="#where-are-we-going-with-this-data"><span class="header-section-number">9.4.5</span> Where are we going with this data</a></li>
+  <li><a href="#import-the-data" id="toc-import-the-data" class="nav-link" data-scroll-target="#import-the-data"><span class="header-section-number">9.4.3</span> Import the data</a></li>
+  <li><a href="#drop-unneeded-columns" id="toc-drop-unneeded-columns" class="nav-link" data-scroll-target="#drop-unneeded-columns"><span class="header-section-number">9.4.4</span> Drop unneeded columns</a></li>
+  <li><a href="#peek-at-the-wide-table" id="toc-peek-at-the-wide-table" class="nav-link" data-scroll-target="#peek-at-the-wide-table"><span class="header-section-number">9.4.5</span> Peek at the wide table</a></li>
+  <li><a href="#where-are-we-going-with-this-data" id="toc-where-are-we-going-with-this-data" class="nav-link" data-scroll-target="#where-are-we-going-with-this-data"><span class="header-section-number">9.4.6</span> Where are we going with this data</a></li>
   </ul></li>
   <li><a href="#the-tidyr-verbs" id="toc-the-tidyr-verbs" class="nav-link" data-scroll-target="#the-tidyr-verbs"><span class="header-section-number">9.5</span> The tidyr verbs</a></li>
   <li><a href="#pivot-longer" id="toc-pivot-longer" class="nav-link" data-scroll-target="#pivot-longer"><span class="header-section-number">9.6</span> Pivot longer</a>
@@ -430,23 +431,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div class="callout callout-style-simple callout-none no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>This chapter was written by Prof.&nbsp;McDonald, who uses a Mac.</p>
-</div>
-</div>
-</div>
 <p>Data “shape” can be important when you are trying to work with and visualize data. In this chapter we’ll discuss “tidy data” and how it helps us with both ggplot and other charting tools like <a href="https://www.datawrapper.de/">Datawrapper</a>.</p>
-<section id="goals-for-this-section" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="goals-for-this-section"><span class="header-section-number">9.1</span> Goals for this section</h2>
+<section id="learning-goals-for-this-chapter" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="learning-goals-for-this-chapter"><span class="header-section-number">9.1</span> Learning goals for this chapter</h2>
 <ul>
-<li>Explore what it means to have “tidy” data.</li>
-<li>Learn about and use <code>pivot_longer()</code>, <code>pivot_wider()</code> to shape our data for different purposes.</li>
-<li>Use candy data to practice shaping data.</li>
+<li>We’ll explore what it means to have “tidy” data.</li>
+<li>We’ll use <code>pivot_longer()</code>, <code>pivot_wider()</code> to shape our data for different purposes.</li>
 </ul>
 </section>
 <section id="the-questions-well-answer" class="level2" data-number="9.2">
@@ -507,27 +497,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We’ll build this chart in both ggplot and Datawrapper.</p>
 <section id="prepare-our-candy-project" class="level3" data-number="9.4.1">
 <h3 data-number="9.4.1" class="anchored" data-anchor-id="prepare-our-candy-project"><span class="header-section-number">9.4.1</span> Prepare our candy project</h3>
-<p>We will use candy count data we’ve been collected in Reporting wth Data classes to explore this subject.</p>
-<p>Start a new project.</p>
+<p>We will use candy count data we’ve been collected in Reporting wth Data classes to explore this subject. You’ll need to start a new project for this …</p>
 <ol type="1">
-<li>Create a new project and call it: <code>yourname-candy</code></li>
-<li>No need to create data folders as we’ll just load data directly into the notebook.</li>
+<li>Create a new project and call it: <code>yourname-candy</code>.</li>
+<li>Create data-raw and <code>data-processed</code> folders.</li>
 <li>You can use your <code>index.qmd</code> file … just change the title to “Tidy data: Candy”.</li>
 <li>Create your setup block and load the <code>tidyverse</code> and <code>janitor</code>.</li>
 </ol>
 </section>
 <section id="get-the-data" class="level3" data-number="9.4.2">
 <h3 data-number="9.4.2" class="anchored" data-anchor-id="get-the-data"><span class="header-section-number">9.4.2</span> Get the data</h3>
-<p>We’ll just load this data directly from Google Sheets into this notebook.</p>
+<p>We’ll download our data from a Google Sheet and save it onto our computer.</p>
+<ol type="1">
+<li>Add a Markdown section saying you’ll download the data.</li>
+<li>Add the chunk below and run it.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&amp;single=true&amp;output=csv"</span>, <span class="st">"data-raw/candy.csv"</span>, <span class="at">mode =</span> <span class="st">"wb"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>After you’ve run this, you can comment out the line of code so it doesn’t re-download it each time you run the notebook.</p>
+</section>
+<section id="import-the-data" class="level3" data-number="9.4.3">
+<h3 data-number="9.4.3" class="anchored" data-anchor-id="import-the-data"><span class="header-section-number">9.4.3</span> Import the data</h3>
+<p>OK, now we pull the data into our notebook. Nothing new here … we import and clean the names.</p>
 <ol type="1">
 <li>Add a Markdown section noting that you are importing data.</li>
 <li>Add this import chunk and run it.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>candy_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&amp;single=true&amp;output=csv"</span>) <span class="sc">|&gt;</span> <span class="fu">clean_names</span>()</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>candy_raw</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>candy_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data-raw/candy.csv"</span>) <span class="sc">|&gt;</span> <span class="fu">clean_names</span>()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># peek at the data</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>candy_raw</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -538,8 +539,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>This data comes from a Google Sheets document fed by a form that students have filled out, counting the colors of candies in a standard size bag of plain M&amp;Ms.</p>
 </section>
-<section id="drop-unneeded-columns" class="level3" data-number="9.4.3">
-<h3 data-number="9.4.3" class="anchored" data-anchor-id="drop-unneeded-columns"><span class="header-section-number">9.4.3</span> Drop unneeded columns</h3>
+<section id="drop-unneeded-columns" class="level3" data-number="9.4.4">
+<h3 data-number="9.4.4" class="anchored" data-anchor-id="drop-unneeded-columns"><span class="header-section-number">9.4.4</span> Drop unneeded columns</h3>
 <p>For this exercise we don’t need the <code>timestamp</code>, <code>candy_type</code> or <code>box_code</code> columns. We’ll drop them so we can keep things simple.</p>
 <ol type="1">
 <li>Create new section noting you’ll drop unneeded columns.</li>
@@ -549,16 +550,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>You got this! (But, just in case …)</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>candy <span class="ot">&lt;-</span> candy_raw <span class="sc">|&gt;</span> </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(timestamp, candy_type, box_code))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>candy <span class="ot">&lt;-</span> candy_raw <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(timestamp, candy_type, box_code))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
-<section id="peek-at-the-wide-table" class="level3" data-number="9.4.4">
-<h3 data-number="9.4.4" class="anchored" data-anchor-id="peek-at-the-wide-table"><span class="header-section-number">9.4.4</span> Peek at the wide table</h3>
+<section id="peek-at-the-wide-table" class="level3" data-number="9.4.5">
+<h3 data-number="9.4.5" class="anchored" data-anchor-id="peek-at-the-wide-table"><span class="header-section-number">9.4.5</span> Peek at the wide table</h3>
 <p>Let’s take look closer at this data:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>candy <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>candy <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -569,8 +570,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>This is pretty well-formed data. This format would be useful to create a “total” column for each bag, but there are better ways to do this with <strong>long</strong> data. Same with getting our averages for each color.</p>
 </section>
-<section id="where-are-we-going-with-this-data" class="level3" data-number="9.4.5">
-<h3 data-number="9.4.5" class="anchored" data-anchor-id="where-are-we-going-with-this-data"><span class="header-section-number">9.4.5</span> Where are we going with this data</h3>
+<section id="where-are-we-going-with-this-data" class="level3" data-number="9.4.6">
+<h3 data-number="9.4.6" class="anchored" data-anchor-id="where-are-we-going-with-this-data"><span class="header-section-number">9.4.6</span> Where are we going with this data</h3>
 <p>Let’s look at our plotting goal again:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -734,33 +735,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="pivot-our-candy-data-longer" class="level3" data-number="9.6.1">
 <h3 data-number="9.6.1" class="anchored" data-anchor-id="pivot-our-candy-data-longer"><span class="header-section-number">9.6.1</span> Pivot our candy data longer</h3>
 <p>What we want here is six rows for each person’s entry, with a column for “color” and a column for “count_candies”.</p>
-<p>We are using a range, naming the first “red” and the last column “brown” with <code>:</code> in between. This only works because those columns are all together. Otherwise we could list the all with <code>c(red, blue, green)</code> etc.</p>
+<p>We are using a range, naming the first “red” and the last column “brown” with <code>:</code> in between. This only works because those columns are all together. Otherwise we could list them all with <code>c(red, blue, green)</code> etc.</p>
 <ol type="1">
 <li>Add a note that you are pivoting the data</li>
 <li>Add the chunk below and run it</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="ot">&lt;-</span> candy <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> red<span class="sc">:</span>brown,</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"color"</span>,</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-4-5" class="code-annotation-target"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"count_candies"</span></span>
-<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="annotated-cell-4-7"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">|&gt;</span> <span class="fu">head</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="ot">&lt;-</span> candy <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-5-2"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-5-3" class="code-annotation-target"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> red<span class="sc">:</span>brown,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-5-4" class="code-annotation-target"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"color"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-5-5" class="code-annotation-target"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"count_candies"</span></span>
+<span id="annotated-cell-5-6"><a href="#annotated-cell-5-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="annotated-cell-5-7"><a href="#annotated-cell-5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-5-8"><a href="#annotated-cell-5-8" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">|&gt;</span> <span class="fu">head</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="3" data-code-annotation="1">Sets which columns to pivot based on their names.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="3" data-code-annotation="1">Sets which columns to pivot based on their names.</span>
 </dd>
-<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="4" data-code-annotation="2">Sets the new column name for the former column names. This would default to “name” if we didn’t set it.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="4" data-code-annotation="2">Sets the new column name for the former column names. This would default to “name” if we didn’t set it.</span>
 </dd>
-<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="5" data-code-annotation="3">Sets the new column name for the former values. This would default to “value” if we didn’t set it.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="5" data-code-annotation="3">Sets the new column name for the former values. This would default to “value” if we didn’t set it.</span>
 </dd>
 </dl>
 </div>
@@ -779,15 +780,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This is very similar to the <code>sum()</code>s we did with military surplus, but you use <code>mean()</code> instead. One thing you have to watch for with <code>mean()</code> is you might need the argument <code>na.rm = TRUE</code> if there are missing or zero values, since you can’t divide by zero. We’ll include that here in case there are bags that don’t have any of a specific color.</p>
 <p>Save the resulting summary table into a new tibble called <code>candy_avg</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="ot">&lt;-</span> candy_long <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-5-2"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(color) <span class="sc">|&gt;</span> </span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-5-3" class="code-annotation-target"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(count_candies, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="annotated-cell-5-4"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>candy_avg</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="ot">&lt;-</span> candy_long <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(color) <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-6-3" class="code-annotation-target"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(count_candies, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="annotated-cell-6-4"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>candy_avg</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="3" data-code-annotation="1">The na.rm hedges our bets in case some bags are missing a color.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="3" data-code-annotation="1">The na.rm hedges our bets in case some bags are missing a color.</span>
 </dd>
 </dl>
 </div>
@@ -813,7 +814,7 @@ Rounding can be complicated
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>We use janitor’s <a href="https://sfirke.github.io/janitor/reference/round_half_up.html"><code>round_half_up()</code></a> function because the base R <a href="https://www.rdocumentation.org/packages/base/topics/Round"><code>round()</code></a> function rounds half values to the nearest even number, e.g.&nbsp;both 11.5 and 12.5 will be rounded to 12. In journalism, we would usually round up at 5 or higher, so 11.5 to 12 and 12.5 to 13.</p>
+<p>We use janitor’s <a href="https://sfirke.github.io/janitor/reference/round_half_up.html"><code>round_half_up()</code></a> function because the base R <a href="https://www.rdocumentation.org/packages/base/topics/Round"><code>round()</code></a> function rounds half values to the nearest even number, e.g.&nbsp;both 11.5 and 12.5 would be rounded to 12. In journalism, we would usually round up at 5 or higher, so 11.5 to 12 and 12.5 to 13.</p>
 </div>
 </div>
 <p>We’ll use the <a href="https://sfirke.github.io/janitor/reference/round_half_up.html"><code>round_half_up()</code></a> function, which needs the column to change, and then the number of digits past the decimal to include.</p>
@@ -821,14 +822,14 @@ Rounding can be complicated
 <li><strong>Edit</strong> your summarize function to add the <code>mutate()</code> function below.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="ot">&lt;-</span> candy_long <span class="sc">|&gt;</span> </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(color) <span class="sc">|&gt;</span> </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(count_candies, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_candies =</span> <span class="fu">round_half_up</span>(avg_candies, <span class="dv">1</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>candy_avg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="ot">&lt;-</span> candy_long <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(color) <span class="sc">|&gt;</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(count_candies, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_candies =</span> <span class="fu">round_half_up</span>(avg_candies, <span class="dv">1</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>candy_avg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -839,7 +840,7 @@ Rounding can be complicated
 </div>
 <p><strong>BONUS POINT OPPORTUNITY:</strong> Using a similar method to rounding above, you can also capitalize the names of the colors. You don’t <em>have</em> to do this, but I’ll give you a bonus point if you do:</p>
 <ul>
-<li>In your mutate, add a rule that updates <code>color</code> column using <code>str_to_title(color)</code>.</li>
+<li>In your mutate, add a rule that updates <code>color</code> column using <code>str_to_title()</code>.</li>
 </ul>
 <p>You can read more about <a href="https://stringr.tidyverse.org/reference/case.html">converting the case of a string here</a>. It’s part of the <a href="https://stringr.tidyverse.org/index.html">stringr</a> package, which is loaded with tidyverse.</p>
 </section>
@@ -901,7 +902,7 @@ Rounding can be complicated
 <li>Take your data and pipe it into <code>write_csv()</code>. As an argument to write_csv(), give it a path and name of the file: We can write directly to our project folder as <code>candy_avg.csv</code>.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"candy_avg.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>candy_avg <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"data-processed/candy_avg.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This will save your data file onto your computer in your project folder.</p>
 <section id="posit.cloud-export" class="level4" data-number="9.7.3.1">
@@ -943,14 +944,14 @@ Rounding can be complicated
 <li><code>values_from =</code> lets us say which column will be the values in the new arrangement. In the example above this would be “V2”.</li>
 </ul>
 <p>So the code to flip the data above would be:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> V1, <span class="at">values_from =</span> V2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> V1, <span class="at">values_from =</span> V2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="pivot-wider-example" class="level3" data-number="9.8.1">
 <h3 data-number="9.8.1" class="anchored" data-anchor-id="pivot-wider-example"><span class="header-section-number">9.8.1</span> Pivot wider example</h3>
 <p>Let’s do this with our data, taking our “long” data and making it “wide” again.</p>
 <p>Here is our “long” data:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>candy_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>candy_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -961,20 +962,20 @@ Rounding can be complicated
 </div>
 <p>… and now we flip it back to having a column for each color:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-10"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-10-1"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-10-2"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-10-3" class="code-annotation-target"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> color,</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-10-4" class="code-annotation-target"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> count_candies</span>
-<span id="annotated-cell-10-5"><a href="#annotated-cell-10-5" aria-hidden="true" tabindex="-1"></a>  )</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-11"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-11-1"><a href="#annotated-cell-11-1" aria-hidden="true" tabindex="-1"></a>candy_long <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-11-2"><a href="#annotated-cell-11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-11-3" class="code-annotation-target"><a href="#annotated-cell-11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> color,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-11-4" class="code-annotation-target"><a href="#annotated-cell-11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> count_candies</span>
+<span id="annotated-cell-11-5"><a href="#annotated-cell-11-5" aria-hidden="true" tabindex="-1"></a>  )</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-10" data-code-lines="3" data-code-annotation="1">Within <code>pivot_wider()</code> we need to tell it from which column to pull the new column headers. i.e., where do we get the “names_from”?</span>
+<span data-code-cell="annotated-cell-11" data-code-lines="3" data-code-annotation="1">Within <code>pivot_wider()</code> we need to tell it from which column to pull the new column headers. i.e., where do we get the “names_from”?</span>
 </dd>
-<dt data-target-cell="annotated-cell-10" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-10" data-code-lines="4" data-code-annotation="2">The second thing it needs to know which variable has the data to fill these new columns. i.e., where do we get the “values_from”?</span>
+<span data-code-cell="annotated-cell-11" data-code-lines="4" data-code-annotation="2">The second thing it needs to know which variable has the data to fill these new columns. i.e., where do we get the “values_from”?</span>
 </dd>
 </dl>
 </div>
@@ -998,39 +999,39 @@ Rounding can be complicated
 </ol>
 <p>See annotations below the code to explain what is going on, in case you are interested.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-11"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-11-1" class="code-annotation-target"><a href="#annotated-cell-11-1" aria-hidden="true" tabindex="-1"></a>candy_box_color <span class="ot">&lt;-</span> candy_raw <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-11-2" class="code-annotation-target"><a href="#annotated-cell-11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(box_code <span class="sc">!=</span> <span class="st">"130FXWAC0336"</span>, box_code <span class="sc">!=</span> <span class="st">"1524976SE"</span>) <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-11-3" class="code-annotation-target"><a href="#annotated-cell-11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(timestamp, candy_type)) <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-11-4" class="code-annotation-target"><a href="#annotated-cell-11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> red<span class="sc">:</span>brown, <span class="at">names_to =</span> <span class="st">"candy_color"</span>, <span class="at">values_to =</span> <span class="st">"candy_count"</span>) <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-11-5" class="code-annotation-target"><a href="#annotated-cell-11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(box_code, candy_color) <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-11-6" class="code-annotation-target"><a href="#annotated-cell-11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candy_count) <span class="sc">|&gt;</span> <span class="fu">round_half_up</span>(<span class="dv">1</span>))</span>
-<span id="annotated-cell-11-7"><a href="#annotated-cell-11-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-11-8"><a href="#annotated-cell-11-8" aria-hidden="true" tabindex="-1"></a>candy_box_color</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-12"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-12-1" class="code-annotation-target"><a href="#annotated-cell-12-1" aria-hidden="true" tabindex="-1"></a>candy_box_color <span class="ot">&lt;-</span> candy_raw <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-12-2" class="code-annotation-target"><a href="#annotated-cell-12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(box_code <span class="sc">!=</span> <span class="st">"130FXWAC0336"</span>, box_code <span class="sc">!=</span> <span class="st">"1524976SE"</span>) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-12-3" class="code-annotation-target"><a href="#annotated-cell-12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(timestamp, candy_type)) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-12-4" class="code-annotation-target"><a href="#annotated-cell-12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> red<span class="sc">:</span>brown, <span class="at">names_to =</span> <span class="st">"candy_color"</span>, <span class="at">values_to =</span> <span class="st">"candy_count"</span>) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-12-5" class="code-annotation-target"><a href="#annotated-cell-12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(box_code, candy_color) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-12-6" class="code-annotation-target"><a href="#annotated-cell-12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_candies =</span> <span class="fu">mean</span>(candy_count) <span class="sc">|&gt;</span> <span class="fu">round_half_up</span>(<span class="dv">1</span>))</span>
+<span id="annotated-cell-12-7"><a href="#annotated-cell-12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-12-8"><a href="#annotated-cell-12-8" aria-hidden="true" tabindex="-1"></a>candy_box_color</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-11" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-12" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="1" data-code-annotation="1">We create a new object to put everything in, then go back to the original data to get the box code.</span>
+<span data-code-cell="annotated-cell-12" data-code-lines="1" data-code-annotation="1">We create a new object to put everything in, then go back to the original data to get the box code.</span>
 </dd>
-<dt data-target-cell="annotated-cell-11" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-12" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="2" data-code-annotation="2">Removing some rows where there were only one or two bags. Not shown here is the research to find their values.</span>
+<span data-code-cell="annotated-cell-12" data-code-lines="2" data-code-annotation="2">Removing some rows where there were only one or two bags. Not shown here is the research to find their values.</span>
 </dd>
-<dt data-target-cell="annotated-cell-11" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-12" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="3" data-code-annotation="3">Removing the <code>timestamp</code> and <code>candy_type</code> variables.</span>
+<span data-code-cell="annotated-cell-12" data-code-lines="3" data-code-annotation="3">Removing the <code>timestamp</code> and <code>candy_type</code> variables.</span>
 </dd>
-<dt data-target-cell="annotated-cell-11" data-target-annotation="4">4</dt>
+<dt data-target-cell="annotated-cell-12" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="4" data-code-annotation="4">Pivoting the data longer so we can group and summarize.</span>
+<span data-code-cell="annotated-cell-12" data-code-lines="4" data-code-annotation="4">Pivoting the data longer so we can group and summarize.</span>
 </dd>
-<dt data-target-cell="annotated-cell-11" data-target-annotation="5">5</dt>
+<dt data-target-cell="annotated-cell-12" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="5" data-code-annotation="5">Group by the box and color before we …</span>
+<span data-code-cell="annotated-cell-12" data-code-lines="5" data-code-annotation="5">Group by the box and color before we …</span>
 </dd>
-<dt data-target-cell="annotated-cell-11" data-target-annotation="6">6</dt>
+<dt data-target-cell="annotated-cell-12" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="6" data-code-annotation="6">Summarize to get the average number of candies in each bag, within each box. We also round the result.</span>
+<span data-code-cell="annotated-cell-12" data-code-lines="6" data-code-annotation="6">Summarize to get the average number of candies in each bag, within each box. We also round the result.</span>
 </dd>
 </dl>
 </div>
@@ -1049,8 +1050,8 @@ Rounding can be complicated
 <li>Add the code below and run it</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>candy_box_color <span class="sc">|&gt;</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> box_code, <span class="at">values_from =</span> avg_candies)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>candy_box_color <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> box_code, <span class="at">values_from =</span> avg_candies)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">

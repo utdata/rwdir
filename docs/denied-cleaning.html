@@ -372,7 +372,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#how-the-files-differ" id="toc-how-the-files-differ" class="nav-link" data-scroll-target="#how-the-files-differ"><span class="header-section-number">10.4.1</span> How the files differ</a></li>
   <li><a href="#importing-multiple-files-at-once" id="toc-importing-multiple-files-at-once" class="nav-link" data-scroll-target="#importing-multiple-files-at-once"><span class="header-section-number">10.4.2</span> Importing multiple files at once</a></li>
-  <li><a href="#clean-up-dstud-file" id="toc-clean-up-dstud-file" class="nav-link" data-scroll-target="#clean-up-dstud-file"><span class="header-section-number">10.4.3</span> Clean up DSTUD file</a></li>
+  <li><a href="#clean-up-dstud-file" id="toc-clean-up-dstud-file" class="nav-link" data-scroll-target="#clean-up-dstud-file"><span class="header-section-number">10.4.4</span> Clean up DSTUD file</a></li>
   </ul></li>
   <li><a href="#the-dref-data" id="toc-the-dref-data" class="nav-link" data-scroll-target="#the-dref-data"><span class="header-section-number">10.5</span> The DREF data</a>
   <ul class="collapse">
@@ -412,16 +412,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div class="callout callout-style-simple callout-none no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>This is the first of a two-chapter project. It is by Prof.&nbsp;McDonald, using macOS.</p>
-</div>
-</div>
-</div>
 <p>So far all of our lessons have come from a single data source, but that’s not always the case in the real world. With this lesson we’ll learn how to import multiple files at once and “bind” them, and to use “join” to enhance that data from a lookup table.</p>
 <section id="goals-of-the-chapter" class="level2" data-number="10.1">
 <h2 data-number="10.1" class="anchored" data-anchor-id="goals-of-the-chapter"><span class="header-section-number">10.1</span> Goals of the chapter</h2>
@@ -435,7 +425,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="about-the-story-denied" class="level2" data-number="10.2">
 <h2 data-number="10.2" class="anchored" data-anchor-id="about-the-story-denied"><span class="header-section-number">10.2</span> About the story: Denied</h2>
-<p>In 2016, the Houston Chronicle published a multi-part series called Denied that outlined how a Texas Education Agency policy started in 2004 could force an audit of schools that have more than 8.5% of their students in special education programs. The story was a Pulitzer Prize finalist. Here’s an excerpt:</p>
+<p>In 2016, the Houston Chronicle published a multipart series called Denied that outlined how a Texas Education Agency policy started in 2004 could force an audit of schools that have more than 8.5% of their students in special education programs. The story was a Pulitzer Prize finalist. Here’s an excerpt:</p>
 <blockquote class="blockquote">
 <p>Over a decade ago, the officials arbitrarily decided what percentage of students should get special education services — 8.5% — and since then they have forced school districts to comply by strictly auditing those serving too many kids.</p>
 </blockquote>
@@ -642,7 +632,7 @@ About regular expressions
 <p>Now we have an object that is a vector of all the file names. We’ll loop through this list to import all the files.</p>
 </section>
 <section id="map-import-and-bind" class="level4" data-number="10.4.2.2">
-<h4 data-number="10.4.2.2" class="anchored" data-anchor-id="map-import-and-bind"><span class="header-section-number">10.4.2.2</span> Map, import and bind</h4>
+<h4 data-number="10.4.2.2" class="anchored"><span class="header-section-number">10.4.2.2</span> Map, import and bind</h4>
 <p>In the next section we’ll add the files names to our vector to help us later, then use <a href="https://purrr.tidyverse.org/reference/map_dfr.html"><code>map()</code></a> to walk through the list and apply <code>read_csv()</code> function to all our files. Then we’ll bind together with <code>list_rbind()</code> and finish out normalizing the names.</p>
 <p>There is a LOT going on in this bit, so note the code annotations for details.</p>
 <ol type="1">
@@ -733,12 +723,16 @@ The col_select argument vs select()
 </div>
 <div class="callout-body-container callout-body">
 <p>This <code>col_select =</code> argument we use above also works with a regular <code>read_csv()</code> function. It provides the same result as using <code>read_csv()</code> to import all the columns and then piping into a <code>select()</code> function to list the columns you want to keep or drop. It’s yet another example showing multiple ways to accomplish the same result with R. Up to now I’ve preferred to use <code>read_csv() |&gt; select()</code> because that allows you to see everything inside the data before choosing what to do with it. In our case above being able to pick just these few columns we need makes this much easier to deal with since the individual files have differences beyond some common columns.</p>
+<section id="list_rbind-is-a-merging-function" class="level3" data-number="10.4.3">
+<h3 data-number="10.4.3" class="anchored" data-anchor-id="list_rbind-is-a-merging-function"><span class="header-section-number">10.4.3</span> list_rbind is a merging function</h3>
+<p>It probably complicates matters to mention at this point, but <code>list_rbind()</code> use above is a merging function, which is one of our <a href="https://vimeo.com/showcase/7320305">Basic Data Journalism Functions</a>. Merging is basically stacking data sets on top of each other. You can <a href="https://vimeo.com/435910331?share=rwdir">learn more about merge here</a>.</p>
+</section>
 </div>
 </div>
 </section>
 </section>
-<section id="clean-up-dstud-file" class="level3" data-number="10.4.3">
-<h3 data-number="10.4.3" class="anchored" data-anchor-id="clean-up-dstud-file"><span class="header-section-number">10.4.3</span> Clean up DSTUD file</h3>
+<section id="clean-up-dstud-file" class="level3" data-number="10.4.4">
+<h3 data-number="10.4.4" class="anchored" data-anchor-id="clean-up-dstud-file"><span class="header-section-number">10.4.4</span> Clean up DSTUD file</h3>
 <p>Look closely at the <code>district</code> column and notice the difference at the top and bottom of the file. See where the DSTUD_22 files have a <code>'</code> at the beginning? We need to take those out.</p>
 <p>We also need to create a <code>year</code> variable from our <code>source</code> variable with the file name. We can pluck the numbers out of the file name and combine with text to make the year “2013”, etc.</p>
 <ol type="1">
@@ -1075,7 +1069,7 @@ $ year     &lt;chr&gt; "2013", "2014", "2015", "2016", "2017", "2018", "2019", "
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["distname"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sped_percent"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["audit_flag"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"RANKIN ISD","2":"5.0","3":"BELOW"},{"1":"ROBINSON ISD","2":"9.2","3":"ABOVE"},{"1":"LINDALE ISD","2":"9.1","3":"ABOVE"},{"1":"MULESHOE ISD","2":"9.8","3":"ABOVE"},{"1":"GREGORY-PORTLAND ISD","2":"8.8","3":"ABOVE"},{"1":"PADUCAH ISD","2":"17.5","3":"ABOVE"},{"1":"ROTAN ISD","2":"8.5","3":"BELOW"},{"1":"MEDINA ISD","2":"14.7","3":"ABOVE"},{"1":"MCGREGOR ISD","2":"12.4","3":"ABOVE"},{"1":"VERNON ISD","2":"13.6","3":"ABOVE"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["distname"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sped_percent"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["audit_flag"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"EDGEWOOD ISD","2":"10.0","3":"ABOVE"},{"1":"WALCOTT ISD","2":"14.8","3":"ABOVE"},{"1":"YANTIS ISD","2":"5.9","3":"BELOW"},{"1":"MCALLEN ISD","2":"8.0","3":"BELOW"},{"1":"MCCAMEY ISD","2":"6.7","3":"BELOW"},{"1":"HIGHLAND PARK ISD","2":"10.2","3":"ABOVE"},{"1":"CORPUS CHRISTI ISD","2":"11.1","3":"ABOVE"},{"1":"IOWA PARK CISD","2":"12.9","3":"ABOVE"},{"1":"FORNEY ISD","2":"11.9","3":"ABOVE"},{"1":"IOWA PARK CISD","2":"13.4","3":"ABOVE"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
