@@ -459,9 +459,8 @@ And with this data, I want to build a chart like this:
 
 class |> clean_names() |>
   count(princess, name = "votes", sort = TRUE) |> 
-  ggplot(aes(x = reorder(princess, votes), y = votes)) + 
+  ggplot(aes(y = reorder(princess, votes), x = votes)) + 
   geom_col() +
-  coord_flip() +
   geom_text(aes(label = votes), hjust = 2, color = "white") +
   labs(
     title = "Pick of the princesses",
@@ -509,13 +508,13 @@ Like in the previous lesson, we'll start our plot by creating the first layer: t
 ```{r princess-base}
 ggplot(
   princess_data,
-  aes(x = princess, y = votes) # <1>
+  aes(x = votes, y = princess) # <1>
 )
 ```
 
 1.  sets our x and y axes values.
 
-You'll see the grid and x/y axis of the data, but no geometries are applied yet, so you won't see any data. But remember, we're adding these all in layers.
+You'll see the grid and x/y axis labels of the data, but no geometries are applied yet, so you won't see any data. But remember, we're adding these all in layers.
 
 ### Add the geom_col layer
 
@@ -526,7 +525,7 @@ Now it is time to add our columns. To do this, we'll use `geom_col()`. Similar t
 ```{r princess-col}
 ggplot(
   princess_data,
-  aes(x = princess, y = votes)
+  aes(x = votes, y = princess)
 ) + # <1>
   geom_col() # <2>
 ```
@@ -534,32 +533,7 @@ ggplot(
 1.  Don't forget to add the `+` at the end of the previous line
 2.  The `geom_col()` function adds the bars based on the global aesthetics we've already set.
 
-Our two-layer chart is getting somewhere now. We're able to see the data in the plot, but there are a couple issues:
-
--   Depending on the width of our notebook, the princess names might collide with each other. We can fix this.
--   The order of the bars is alphabetical instead of in vote order. Again, we can fix it.
-
-### Flip the axes
-
-One way to fix the labels is to "flip" the axes, so the x axis becomes the y axis and vice versa. This is the equivalent of rotating the whole figure. When we do this, the axis will turn sideways, making it easier to read the labels. Worth noting: this can be a bit confusing later because the "x" axis is now going up/down (as opposed to left and right).
-
-Let's learn how to flip the axes now. We'll do this by adding a new layer, `coord_flip()`, which is a special layer that flips the axes. Just like we added the previous `geom_col()` layer using `+`, we'll do the same thing here. Let's do that now.
-
-1.  **Edit** your plot chunk to add the ggplot pipe `+`and `coord_flip()` on the next line.
-
-```{r princess-flipped}
-ggplot(
-  princess_data, aes(x = princess, y = votes)
-) +
-  geom_col() + 
-  coord_flip() # <1>
-```
-
-1.  Adding `coord_flip()` swaps the x and y axes.
-
-As you can see, rather than having vertical bars, we now have horizontal bars, and the names of each princess are fully displayed and read-able. Much better!
-
-But the bars are still in an alphabetical order, as opposed to a vote order, so let's fix that now.
+Our two-layer chart is getting somewhere now. We're able to see the data in the plot, the order of the bars is alphabetical instead of in vote order. We can fix it.
 
 ### Reorder the bars
 
@@ -583,15 +557,14 @@ They both work. Even though I'm a fan of the tidyverse `|>` construct, I'm going
 ```{r princess-reorder}
 ggplot(
   princess_data,
-  aes(x = reorder(princess, votes), y = votes) # <1>
+  aes(x = votes, y = reorder(princess, votes)) # <1>
 ) + 
-  geom_col() +
-  coord_flip()
+  geom_col()
 ```
 
 1.  This is the line where `reorder()` is added.
 
-So now, our princess names are read-able, and the bars are organized in vote size. But what if we wanted to be clearer in our figure, so that we knew the exact number of votes for each princess? Let's learn how to add this information.
+So now the bars are organized in vote size. But can we make it more clear about the number of votes for each princess? Let's learn how to add this information.
 
 ### Adding a geom_text layer
 
@@ -604,10 +577,9 @@ As we mentioned previously, `geom` layers can take individual aesthetics (that b
 
 ```{r princess-text-ugly}
 ggplot(princess_data,
-       aes(x = reorder(princess, votes), y = votes)
+       aes(x = votes, y = reorder(princess, votes))
 ) + 
   geom_col() +
-  coord_flip() + 
   geom_text(aes(label = votes)) # <1>
 ```
 
@@ -626,10 +598,9 @@ As a reminder, you should always separate your arguments within a function using
 ```{r princess-text-clean}
 ggplot(
   princess_data,
-  aes(x = reorder(princess, votes), y = votes)
+  aes(x = votes, y = reorder(princess, votes))
 ) + 
   geom_col() +
-  coord_flip() + 
   geom_text(aes(label = votes), hjust = 2, color = "white") # <1>
 ```
 
@@ -650,10 +621,9 @@ Now that we have a chart, with some information displayed in bars, flipped and a
 ```{r princess-labs}
 ggplot(
   princess_data,
-  aes(x = reorder(princess, votes), y = votes)
+  aes(x = votes, y = reorder(princess, votes))
 ) + 
   geom_col() +
-  coord_flip() +
   geom_text(aes(label = votes), hjust = 2, color = "white") + 
   labs(
     title = "Pick of the princesses", # <1>
@@ -682,8 +652,8 @@ Some things to consider:
 
 -   You need a new section, etc.
 -   You're starting with the same `class` data
--   You need to prepare the data based on `ice_cream` (which is the name of a variable in your `class` data frame)
--   You need to build the chart, paying attention to axis 
+-   You need to prepare the data based on `ice_cream` (which is the name of a variable in your `class` data frame). You can use group_by/summarize (with n()) and arrange to get your data, or try the `count()` shortcut I used above.
+-   Build the column chart with the ice cream values along the Y axis.
 
 It's essentially the same process we used for the princess chart, but using `ice_cream` variable. That said, I really recommend you write all the code from scratch, ONE LINE AT A TIME, so you can soak in what each line does.
 
