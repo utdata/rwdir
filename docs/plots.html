@@ -1097,8 +1097,8 @@ Note
 <p>We can reorder our categorical values in a plot by editing the <code>x</code> values in our <code>aes()</code> using <code>reorder()</code>. (There is a tidyverse function called <code>fct_reorder()</code> that works the same way for factors.)</p>
 <p><code>reorder()</code> takes two arguments: The column to reorder, and the column to base that reorder on. It can happen in two different ways, and I’ll be honest and say I don’t know which is easier to comprehend.</p>
 <ul>
-<li><code>x = reorder(princess, votes)</code> says “we shall set x as reordered values of <code>princess</code> based on the order of <code>votes</code>. OR …</li>
-<li><code>x = princess |&gt; reorder(votes)</code> says “set the x axis as <code>princess</code> <em>and then</em> reorder by <code>votes</code>.</li>
+<li><code>y = reorder(princess, votes)</code> says “we shall set y as reordered values of <code>princess</code> based on the order of <code>votes</code>. OR …</li>
+<li><code>y = princess |&gt; reorder(votes)</code> says “set the y axis as <code>princess</code> <em>and then</em> reorder by <code>votes</code>.</li>
 </ul>
 <p>They both work. Even though I’m a fan of the tidyverse <code>|&gt;</code> construct, I’m going with the first version.</p>
 <ol type="1">
@@ -1193,7 +1193,7 @@ Note
 </section>
 <section id="add-some-titles-and-more-labels" class="level3" data-number="7.5.6">
 <h3 data-number="7.5.6" class="anchored" data-anchor-id="add-some-titles-and-more-labels"><span class="header-section-number">7.5.6</span> Add some titles and more labels</h3>
-<p>Now that we have a chart, with some information displayed in bars, flipped and arranged so we can see information, let’s add to this by giving the chart some labels. We’ll do this by adding a <strong>layer</strong> of labels to our chart using the the <code>labs()</code> function. We can add and change a number of things with <code>labs()</code>, including creating a title, and changing the x and y axis titles.</p>
+<p>Now that we have a chart, with some information displayed in bars, let’s add to this by giving the chart some labels. We’ll do this by adding a <strong>layer</strong> of labels to our chart using the the <code>labs()</code> function. We can add and change a number of things with <code>labs()</code>, including creating a title, and changing the x and y axis titles.</p>
 <ol type="1">
 <li><strong>Edit</strong> the last line of your plot chunk to add the ggplot pipe <code>+</code> and <code>labs()</code> in the next line.</li>
 <li>Add a title using the <code>title =</code> argument</li>
@@ -1212,8 +1212,8 @@ Note
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-19-8" class="code-annotation-target"><a href="#annotated-cell-19-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Pick of the princesses"</span>,</span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-19-9" class="code-annotation-target"><a href="#annotated-cell-19-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">str_wrap</span>(<span class="st">"Students in Reporting with Data each voted for their favorite Disney Princess. Some complained that Princess Leia was not an option."</span>),</span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-19-10" class="code-annotation-target"><a href="#annotated-cell-19-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"By Jo Lukito"</span>,</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-19-11" class="code-annotation-target"><a href="#annotated-cell-19-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Princess choices"</span>,</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-19-12" class="code-annotation-target"><a href="#annotated-cell-19-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of votes"</span></span>
+<span id="annotated-cell-19-11"><a href="#annotated-cell-19-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Number of votes"</span>,</span>
+<span id="annotated-cell-19-12"><a href="#annotated-cell-19-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Princess choices"</span></span>
 <span id="annotated-cell-19-13"><a href="#annotated-cell-19-13" aria-hidden="true" tabindex="-1"></a>  )</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
@@ -1227,15 +1227,7 @@ Note
 </dd>
 <dt data-target-cell="annotated-cell-19" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-19" data-code-lines="10" data-code-annotation="3">A <code>caption</code> is a cood place to add your byline.</span>
-</dd>
-<dt data-target-cell="annotated-cell-19" data-target-annotation="4">4</dt>
-<dd>
-<span data-code-cell="annotated-cell-19" data-code-lines="11" data-code-annotation="4">Because we use <code>coord_flip()</code> it is actually the <code>x</code> axis that is vertical.</span>
-</dd>
-<dt data-target-cell="annotated-cell-19" data-target-annotation="5">5</dt>
-<dd>
-<span data-code-cell="annotated-cell-19" data-code-lines="12" data-code-annotation="5">Again, x and y are flipped.</span>
+<span data-code-cell="annotated-cell-19" data-code-lines="10" data-code-annotation="3">A <code>caption</code> is a good place to add your byline.</span>
 </dd>
 </dl>
 </div>

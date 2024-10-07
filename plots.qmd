@@ -547,8 +547,8 @@ We can reorder our categorical values in a plot by editing the `x` values in our
 
 `reorder()` takes two arguments: The column to reorder, and the column to base that reorder on. It can happen in two different ways, and I'll be honest and say I don't know which is easier to comprehend.
 
--   `x = reorder(princess, votes)` says "we shall set x as reordered values of `princess` based on the order of `votes`. OR ...
--   `x = princess |> reorder(votes)` says "set the x axis as `princess` *and then* reorder by `votes`.
+-   `y = reorder(princess, votes)` says "we shall set y as reordered values of `princess` based on the order of `votes`. OR ...
+-   `y = princess |> reorder(votes)` says "set the y axis as `princess` *and then* reorder by `votes`.
 
 They both work. Even though I'm a fan of the tidyverse `|>` construct, I'm going with the first version.
 
@@ -610,7 +610,7 @@ Great! But we're still not done. Even though we've added labels to each bar char
 
 ### Add some titles and more labels
 
-Now that we have a chart, with some information displayed in bars, flipped and arranged so we can see information, let's add to this by giving the chart some labels. We'll do this by adding a **layer** of labels to our chart using the the `labs()` function. We can add and change a number of things with `labs()`, including creating a title, and changing the x and y axis titles.
+Now that we have a chart, with some information displayed in bars, let's add to this by giving the chart some labels. We'll do this by adding a **layer** of labels to our chart using the the `labs()` function. We can add and change a number of things with `labs()`, including creating a title, and changing the x and y axis titles.
 
 1.  **Edit** the last line of your plot chunk to add the ggplot pipe `+` and `labs()` in the next line.
 2.  Add a title using the `title =` argument
@@ -629,16 +629,14 @@ ggplot(
     title = "Pick of the princesses", # <1>
     subtitle = str_wrap("Students in Reporting with Data each voted for their favorite Disney Princess. Some complained that Princess Leia was not an option."), # <2>
     caption = "By Jo Lukito", # <3>
-    x = "Princess choices", # <4>
-    y = "Number of votes" # <5>
+    x = "Number of votes", # <4>
+    y = "Princess choices" # <5>
   )
 ```
 
 1.  A title to draw you in or communicate your goal.
 2.  The subtitle is the place to explain what is needed to understand the chart. In this case we wrap the text in a `str_wrap()` function so the words don't run off the chart.
-3.  A `caption` is a cood place to add your byline.
-4.  Because we use `coord_flip()` it is actually the `x` axis that is vertical.
-5.  Again, x and y are flipped.
+3.  A `caption` is a good place to add your byline.
 
 There you go! You've made a chart showing how our classes rated Disney Princesses.
 
