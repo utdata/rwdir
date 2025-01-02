@@ -109,7 +109,7 @@ We named this notebook starting with `01-` because we will eventually end up wit
 
 ## Update our \_quarto.yml
 
-We've created our cleaning notebook and it will Render, but it won't show up in our website navigation yet until we specifically add it. The `_quarto.yml` config file controls various output options for the "website" that you are creating.
+We've created our cleaning notebook and it will render, but it won't show up in our website navigation yet until we specifically add it. The `_quarto.yml` config file controls various output options for the "website" that you are creating.
 
 1.  Open the `_quarto.yml` file.
 2.  On the line that now says `- about.qmd`, replace that text with `- 01-cleaning.qmd`.
@@ -162,6 +162,10 @@ df-print: paged
 
 5.  Make sure your `_quarto.yml` file is saved.
 6.  Go back to your Cleaning notebook and Render it to make there are no errors and that you can see the page in the website navigation.
+
+::: callout
+We won't get into it here, but you can change your rendered page displays in many ways using  `quarto.yml` configurations. See the [Quarto Guide](https://quarto.org/docs/websites/) for more information.
+:::
 
 ### Describe the goals of the notebook
 
@@ -261,7 +265,7 @@ Because it is on the internet and has a URL, we could import it directly into ou
 
 Since this is a new "section" of our cleaning notebook, we'll note what we are doing and why in Markdown.
 
-1.  Add a Markdown headline `## Downloading data` and some text explaining you are downloading data. **Add a note about where the data comes from and include a link to the original source.** (This way others and future self will know where the data came from.)
+1.  Add a Markdown headline `## Downloading data` and some text explaining you are downloading data. **Include a note about where the data comes from and include a link to the [original source](https://github.com/utdata/rwd-billboard-data).** (This way others and future self will know where the data came from.)
 2.  Create an R chunk and copy/paste the following inside it. (Given the long URL, go ahead and use the copy icon at the top right of the chunk):
 
 ``` {r}
@@ -591,7 +595,14 @@ The `mdy()` function is part of the lubridate package. Lubridate allows us to pa
 If your original text is in a different date order, then you look up what lubridate function you need to convert it. I typically use the **cheatsheet** in the [lubridate documentation](https://lubridate.tidyverse.org/). You'll find them in the PARSE DATE-TIMES section.
 
 ::: callout-tip
-A note about the spacing and indenting of my code above: I strategically used returns to make the code more readable. This code would work the same if it were all on the same line, but writing it this way helps me understand it. RStudio will help you indent properly as you type. (Easier to show than explain.)
+
+#### Strive to write beautiful code.
+
+> Good coding style is like correct punctuation: you can manage without it, butitsuremakesthingseasiertoread.
+
+Programming languages often have a "syntax" of conventions that people follow about how you indent code, where you put spaces and how you name things. We follow the [Tidyverse Style Guide](https://style.tidyverse.org/syntax.html) for R, and you should to.  RStudio will help you indent properly as you type. (Easier to show than explain.)
+
+I also often use strategically placed returns to make the code more readable. The code above would work the same if it were all on the same line, but writing it this way helps me understand it. When I do this, I'm usually putting each argument of a function on its own line, as noted in the [Pipes](https://style.tidyverse.org/pipes.html) chapter of the style guide.
 :::
 
 #### Check the result!
@@ -828,6 +839,8 @@ Here are the functions we used and what they do. Most are linked to documentatio
 -   `mdy()` is a [lubridate](https://lubridate.tidyverse.org/) function to convert text into a date. There are other functions depending on the way your text is ordered.
 -   [`select()`](https://dplyr.tidyverse.org/reference/select.html) selects columns from your tibble. You can list all the columns to keep, or use `!` to remove columns. There are many variations.
 -   [`write_rds()`](https://readr.tidyverse.org/reference/read_rds.html) writes data out to a file in a format that preserves data types.
+
+You can find a list of all the functions used in this book, in the [Functions chapter](functions.qmd).
 
 ## What's next
 
