@@ -34,7 +34,7 @@ You learned out to create a new Quarto website in the last chapter so you got th
 1.  Launch RStudio if you haven't already.
 2.  Make sure you don't have an existing project open. Use File \> Close project if you do.
 3.  Use the `+R` button to create a project in a **New Directory**. For project type, choose **Quarto Website**.
-4.  Name the project `yourfirstname-billboard` and put it in your `~/Documents/rwd` folder.
+4.  Name the project `yourfirstname-billboard` and put it in your `rwd/` folder.
 
 ### Update index with project description
 
@@ -64,6 +64,52 @@ You want each of your projects to have a description like this, along with detai
 
 In the next chapter you'll return to this page to update it with your findings. For now we're done with this file so you can close it.
 
+### Update our \_quarto.yml
+
+The default `_quarto.yml` configuration file is fine, but there are some adjustments we can make to make our lives easier and our rendered project more beautiful.
+
+- We'll add a "render" section that helps specify the order that files are processed. You'll soon see we will name our files with numbers like `01-` to specify this order. We sometime perform functions in certain notebooks, liked downloading data, that needs to be processed before other files.
+- For the `title:` change the value to `"Billboard Hot 100"`. This is the main website name that displays in the navigation bar.
+- We'll change the format of our website navigation to a "sidebar" instead of a "navbar" that runs across the top of the page.
+- Sidebars define the content using "content" instead of "left". We'll set ours to list every `.qmd` page we create instead of listing them individually.
+- We are adding a setting to make our rendered data frames prettier with `df-print: paged`.
+- We add one more setting `code-overflow: wrap` that improves the display of our code on rendered pages.
+
+Before you replace the contents, look at what you have in your `_quarto.yml` file compared to this below  so you can recognized the differences.
+
+1. Replace the contents of your `_quarto.yml` file with the contents shown below.
+2. Render your site again so you can see the changes.
+
+``` {.yaml filename="_quarto.yml"}
+project:
+  type: website
+  render:
+  - "01*.qmd"
+  - "*.qmd"
+
+website:
+  title: "Billboard Hot 100"
+  sidebar:
+    contents:
+      - href: index.qmd
+        text: Home
+      - auto: "*.qmd"
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    df-print: paged
+    code-overflow: wrap
+```
+
+
+
+::: callout
+There are many other ways to change your rendered page displays in many ways using  `quarto.yml` configurations, but we won't get into it here. See the [Quarto Guide](https://quarto.org/docs/websites/) for more information.
+:::
+
 ### Create directories for your data
 
 Next we are going to create some folders in our project. We'll use some standard names for consistency and we'll do this for every project we build.
@@ -86,6 +132,14 @@ Again, we'll do this with every new project we create:
 -   Update the index with information about the project
 -   Create `data-raw` and `data-processed` folders.
 
+::: callout-important
+
+### Project primer
+
+Since you'll be creating projects multiple times, I've saved the basic steps -- especially the `_quarto.yml` contents -- in an appendix chapter: [Project setup](project-setup.qmd). You can use it as a reference going forward.
+
+:::
+
 ## Create our cleaning notebook
 
 We'll typically use at least three Quarto files in our projects:
@@ -107,65 +161,6 @@ So let's create our "Cleaning" notebook.
 We named this notebook starting with `01-` because we will eventually end up with multiple notebooks that depend on each other and we will need to know the order to run them in the future.
 :::
 
-## Update our \_quarto.yml
-
-We've created our cleaning notebook and it will render, but it won't show up in our website navigation yet until we specifically add it. The `_quarto.yml` config file controls various output options for the "website" that you are creating.
-
-1.  Open the `_quarto.yml` file.
-2.  On the line that now says `- about.qmd`, replace that text with `- 01-cleaning.qmd`.
-
-Let's talk a little about the part of the `_quarto.yml` file we edited:
-
-``` yaml
-website:
-  title: "christian-billboard"
-  navbar:
-    left:
-      - href: index.qmd
-        text: Home
-      - 01-cleaning.qmd
-```
-
-Note the indents and dashes and such are important in YAML files. Under the "parent" line `website` we have two children, `title` and `navbar`. The `navbar` line has a child of `left` and that has two children `- href` and `- 01-cleaning.qmd`.
-
-When we added the `01-cleaning.qmd` file it automatically added that to the nav, and then used the title of the page as word linked in the navigation.
-
-But for the index, we don't want to use the title of the page. We have to define what we are doing with more detail, hence the `href` (meaning which page will be linked to) and the `text` to show in the navigation, *Home*.
-
-While we are here, we should adjust some other configurations:
-
-3.  For the `title:` change the value to `"Billboard Hot 100"`. This is the main website name that displays in the navigation bar.
-4.  At the bottom of the file on a new line, by itself and starting flush left, add `df-print: paged`. This makes data we output in our notebooks look more pretty.
-
-Your file should look like this now:
-
-``` {.yaml filename="_quarto.yml"}
-project:
-  type: website
-
-website:
-  title: "Billboard Hot 100"
-  navbar:
-    left:
-      - href: index.qmd
-        text: Home
-      - 01-cleaning.qmd
-
-format:
-  html:
-    theme: cosmo
-    css: styles.css
-    toc: true
-
-df-print: paged
-```
-
-5.  Make sure your `_quarto.yml` file is saved.
-6.  Go back to your Cleaning notebook and Render it to make there are no errors and that you can see the page in the website navigation.
-
-::: callout
-We won't get into it here, but you can change your rendered page displays in many ways using  `quarto.yml` configurations. See the [Quarto Guide](https://quarto.org/docs/websites/) for more information.
-:::
 
 ### Describe the goals of the notebook
 
@@ -292,10 +287,10 @@ In this case, we are supplying three arguments:
 When you run the function you get an output similar to this:
 
 ``` text
-trying URL 'https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_assignment_current.csv?raw=true'
-Content type 'text/plain; charset=utf-8' length 18663203 bytes (17.8 MB)
+trying URL 'https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_assignment.csv?raw=true'
+Content type 'text/plain; charset=utf-8' length 18790353 bytes (17.9 MB)
 ==================================================
-downloaded 17.8 MB
+downloaded 17.9 MB
 ```
 
 That's not a small file at 17 MB and 300,000 rows, but it's not a huge one, either.
@@ -837,6 +832,7 @@ Here are the functions we used and what they do. Most are linked to documentatio
 -   `summary()` gives you some quick summary statistics about your data like min, max, mean, median.
 -   [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) changes data. You can create new columns or overwrite existing ones.
 -   `mdy()` is a [lubridate](https://lubridate.tidyverse.org/) function to convert text into a date. There are other functions depending on the way your text is ordered.
+-   [`arrange()`](https://dplyr.tidyverse.org/reference/arrange.html) sorts your data based on values within the variables you specify. Add `desc()` to the variable if you want it in descending order.
 -   [`select()`](https://dplyr.tidyverse.org/reference/select.html) selects columns from your tibble. You can list all the columns to keep, or use `!` to remove columns. There are many variations.
 -   [`write_rds()`](https://readr.tidyverse.org/reference/read_rds.html) writes data out to a file in a format that preserves data types.
 

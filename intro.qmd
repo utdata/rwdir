@@ -24,12 +24,12 @@ Creating shareable work is our goal **for every project**. Let's get started.
 ## RStudio tour
 
 ::: callout-warning
-If you are using the online **posit.cloud version of RStudio**, then some steps have to be done differently, mainly in dealing with project creation and exporting. I'll try to note when I'm aware of differences, but may not go into great detail in the book. Happy to do so in class.
+If you are using the online **posit.cloud version of RStudio**, then some steps have to be done differently, mainly in dealing with project creation and exporting. I'll try to note differences, but may not go into great detail in the book. See the [Using posit.cloud](posit-cloud.qmd) for more details.
 
 In this case, you need go to your posit.cloud account and then use the blue **New Project** button to launch a new RStudio project, and then continue below.
 :::
 
-When you launch RStudio, you'll get a screen that looks like this (but without the pretty arrows):
+When you launch RStudio, you'll get a screen that looks like this (but without the pretty arrows, which we'll cover in class). 
 
 ![RStudio launch screen](images/intro-start.png)
 
@@ -92,19 +92,14 @@ install.packages(c("quarto", "rmarkdown", "tidyverse", "janitor"))
 
 You'll see a bunch of response fly by in the Console. It's probably all fine unless it ends the last response with an error.
 
-If you are using the RStudio IDE app on your computer, you only have to use  `install.packages()` on each package once. However, if you are using the online posit.cloud version of RStudio, you'll have to do this for **each new project** because each project is a new virtual computer. I've included a [posit.cloud cheetsheet here](posit-cloud.qmd)
+If you are using the RStudio IDE app on your computer, you only have to use  `install.packages()` on each package once. However, if you are using the online posit.cloud version of RStudio, you'll have to do this for **each new project** because each project is a new virtual computer. Unless you start with our template, which is explained in the [Using posit.cloud](posit-cloud.qmd) chapter.
 
-```{=html}
-<!--
-When you install the "tidyverse" package you actually get a bunch of individual packages. In the wild you'll see references to "dplyr" and even some functions referenced as `dplyr::filter()` but they are all part of the tidyverse. You can explore the list at [tidyverse.org](https://www.tidyverse.org/).
--->
-```
 OK, we're done with all the computer setup. Let's get to work.
 
 ## Starting a new Quarto Website
 
 ::: callout-important
-This is a case where posit.cloud differs greatly. See the [posit.cloud Appendix](posit-cloud.qmd) to see how to build a new Quarto Website project.
+This is a case where posit.cloud differs greatly. See [Using posit.cloud](posit-cloud.qmd) to see how to use our tempalte our build a new Quarto Website project.
 :::
 
 When we work in RStudio, we will create "Projects" to hold all the files related to one another. This sets the "working directory", which is a sort of home base for the project.
@@ -112,7 +107,7 @@ When we work in RStudio, we will create "Projects" to hold all the files related
 1.  In the icon list at the top of your program, click on the second button that is a hexagon with a green `+R` sign.
 2.  That brings up a box to create the project with several options. You want **New Directory** in this case.
 3.  For **Project Type**, choose **Quarto Website**.
-4.  Next, for the **Directory name**, choose a new name for your project folder. For this project, use "firstname-first-project" but use YOUR firstname.
+4.  Next, for the **Directory name**, choose a new name for your project folder. For this project, use "firstname-practice" but use YOUR firstname.
 5.  For the subdirectory, you want to use the **Browse** button to find your `rwd` folder we created earlier.
 
 I want you to be anal retentive about naming your folders. It's a good programming habit.
@@ -134,9 +129,9 @@ When you hit **Create Project**, your RStudio window will refresh and two things
 
 Let's walk through the files created and explain what they are in order of importance.
 
--   The `_quarto.yml` file is a YAML configuration file for your project. This allows us to set publishing rules for our Quarto project. We might not get too much into all the options, but you can read more about it in the [Quarto Guide](https://quarto.org/docs/guide/) if you like.
--   The `index.qmd` file is a Quarto document that makes the "home page" of your website. In this book you'll use the index to describe your project and record other important information related to it. Each Quarto file you create can become a new page in your website, and they all end in `.qmd`, which stands for Quarto Markdown. (We might also encounter and edit `.Rmd` files, which are very similar, but just a little less awesome.) The `about.qmd` file is another Quarto document created as a placeholder. We'll usually rename/reuse that or delete it.
--   The `christian-first-project.Rproj` file is your **Project** file. It sets the *working directory* or what is essentially "home base" for your project. When you go to open your project again, this is the file you will open.
+-   The `_quarto.yml` file is a YAML configuration file for your project. This allows us to set publishing rules for our Quarto project. In the future we'll adjust this file a bit, but not today.
+-   The `index.qmd` file is a Quarto document that makes the "home page" of your website. In this book you'll use the index to describe your project and record other important information related to it. Each Quarto file you create can become a new page in your website, and they all end in `.qmd`, which stands for Quarto Markdown. (We might also encounter and edit `.Rmd` files, which are very similar, but just less awesome.) The `about.qmd` file is another Quarto document created as a placeholder. We'll usually rename/reuse that or delete it.
+-   The `christian-practice.Rproj` file is your **Project** file. It sets the *working directory* or what is essentially "home base" for your project. When you go to open your project again, this is the file you will open.
 -   `styles.css` is file where you can assert extra control on your website. We won't use it.
 - The `about.qmd` files is another Quarto document created as an example for you. We'll rarely use those after today.
 
@@ -241,7 +236,7 @@ I'll give you an example of this, starting with what we are thinking.
 ``` txt
 ## My upper dating age
 
-The following section details the [socially-acceptable maximum age of anyone you should date](https://www.psychologytoday.com/us/blog/meet-catch-and-keep/201405/who-is-too-young-or-too-old-you-date).
+The following section details the [socially-acceptable maximum age of anyone you should date]https://en.wikipedia.org/wiki/Age_disparity_in_sexual_relationships#%22Half-your-age-plus-seven%22_rule).
 
 The math works like this:
 
@@ -272,8 +267,8 @@ Let's add a new R chunk to add the code that will calculate the maximum age of s
 ```{r}
 #| output: false
 
-# update 57 to your actual age
-age <- 57
+# update 21 to your actual age
+age <- 21
 (age - 7) * 2
 ```
 
@@ -284,10 +279,10 @@ Congratulations! The answer given at the bottom of that code chunk is the upper 
 
 Throwing aside whether the formula is sound, let's break down the code.
 
--   `# update 57 to your age` is a comment. It's a way to explain what is happening in the code without being considered part of the code. We create comments inside code chunks by starting with `#`. You can also add a comment at the end of a line. Comments will appear in grey text in your code chunks if formatted correctly.
--   `age <- 57` is assigning a number (`57`) to an R object/variable called (`age`). A variable is a placeholder. It can hold numbers, text or even groups of numbers. Variables are key to programming because they allow you to change a value as you go along.
+-   `# update 21 to your age` is a comment. It's a way to explain what is happening in the code without being considered part of the code. We create comments inside code chunks by starting with `#`. You can also add a comment at the end of a line. Comments will appear in grey text in your code chunks if formatted correctly.
+-   `age <- 21` is assigning a number (`21`) to an R object/variable called (`age`). A variable is a placeholder. It can hold numbers, text or even groups of numbers. Variables are key to programming because they allow you to change a value as you go along.
 -   The next part is simple math: `(age - 7) * 2` takes the value of `age` and subtracts `7`, then multiplies by `2`.
--   When you run it, you get below it the result of the math equation, `[1] 100` in my case. That means there was one observation \[1\], and the value was "100". For the record, my wife is *much younger* than 100. Perhaps this formula breaks down when you get older `¯\_(ツ)_/¯`.
+-   When you run it, you get below it the result of the math equation, `[1] 28` in this case. That means there was one observation \[1\], and the value was "28", meaning a 21-year-old shouldn't date anyone older than 28. 
 
 Now you can play with the number assigned to the age variable to test out different ages.
 

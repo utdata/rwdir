@@ -27,7 +27,9 @@ In each case we'll talk over the logic of finding the answer and the code to acc
 Before we can get into the analysis, we want to set up a new notebook to separate our cleaning from our analysis.
 
 ::: callout-warning
-The data outputs in this book might differ from what you get since the source data is updated every week. This is especially true in videos and gifs.
+The data outputs in this book might differ from what you get since the source data is updated every week. This is especially true in videos, gifs and takeaways.
+
+This chapter won't have data past 2024.
 :::
 
 ## Setting up an analysis notebook
@@ -40,7 +42,8 @@ At the end of the last notebook we exported our clean data as an `.rds` file. We
 4.  Set the title as "Analysis".
 5.  Save the file as `02-analysis.qmd` in your project folder.
 6.  Check your Environment tab (top right) and make sure the environment is empty. We don't want to have any leftover data. If there is, then go under the **Run** menu and choose **Restart R and Clear Output**.
-7.  Also go into your `_quarto.yml` file and add `02-analysis.qmd` on the line after `01-cleaning.qmd` so that this notebook will show up in your website navigation.
+
+Because we set our `_quarto.yml` file to update navigation with any new Quarto file, this page will automatically show up in the sidebar when we render the site.
 
 ### Add your goals, setup
 
@@ -154,6 +157,13 @@ Your code (and result) should look like this now:
 hot100 <- read_rds("data-processed/01-hot100.rds")
 
 hot100 |> glimpse()
+```
+
+```{r}
+#| label: import-date
+#| include: false
+
+hot100 <- hot100 |> filter(year(chart_date) < 2025)
 ```
 
 Again, I could've written all that code at once before running it, as I've written code like that for many years. **I still write and run code one line at a time**, and you should, too. It is the easiest way to make sure your code is correct and find problems. So, for the second of a 1,000 times:
@@ -339,8 +349,8 @@ So, **Taylor Swift** ... is that who you guessed? A little history here, when I 
 ::: callout-important
 ### Two important notes
 
-- The list we've created here is based on **unique** `performer` names, and as such considers collaborations separately. For instance, Drake is near the top of the list but those are only songs he performed alone and not the many, many collaborations he has done with other performers. Songs by "Drake" are counted separately than "Drake featuring Future" and even "Future featuring Drake". You'll need to make this clear when you write about this later. (If you include collaborations, Drake has way more appearances than Taylor.)
-- Using `head()` to "cut" this list is not the best method because there could be a tie between the 10th and 11th record. In the future we'll learn `filter()` to do this better. But `head()` is pretty useful when you just need to see the top of your data.
+- The list we've created here is based on **unique** `performer` names, and as such considers collaborations separately. For instance, Drake is second on the list but those are only songs he performed alone and not the many, many collaborations he has done with other performers. Songs by "Drake" are counted separately than "Drake featuring Future" and even "Future featuring Drake". You'll need to make this clear when you write about this later. (If you include collaborations, Drake has way more appearances than Taylor.)
+- **Using `head()` to "cut" this list is not the best method** because there could be a tie between the 10th and 11th record. In the future we'll learn `filter()` to do this better. But `head()` is pretty useful when you just need to see the top of your data.
 
 :::
 
@@ -494,9 +504,22 @@ hot100 |>
   filter(appearances >= 65) # <1>
 ```
 
+```{r}
+#| include: false
+
+rows_70 <- hot100 |>
+  group_by(performer, title) |>
+  summarize(appearances = n()) |>
+  arrange(appearances |> desc()) |> 
+  filter(appearances >= 70) |> 
+  nrow()
+
+```
+
+
 1. `filter()` is the function. The first argument in the function is the column we are looking at -- in our case the `appearances` column, which was created in the summarize line. We then provide a comparison operator `>=` to find values "greater than or equal to" `65`.
 
-The value we use to cut the list of -- `65` in this case -- is arbitrary. We just want to choose a value that makes common sense. `70` seemed too high because that would yield only five or so songs, and `60` was too low because there are lots of ties in the lower 60s.
+The value we use to cut the list of -- `65` in this case -- is arbitrary. We just want to choose a value that makes common sense. `70` seemed too high because that would yield `r rows_70` songs, and `60` was too low because there are lots of ties in the lower 60s.
 
 ### Data Takeaway: Song appearances
 
@@ -619,7 +642,7 @@ hot100 |>
   filter(appearances >= 15)
 ```
 
-Now you have the answers to the song with the most weeks at No. 1 with a logical cutoff. If you add to the data later, that logic will still hold and not cut off arbitrarily at a certain number of records. For instance, Mariah Carey's _All I Want for Christmas_ will likely reach its 15th week at the top of the charts in the 2024-25 holiday season.
+Now you have the answers to the song (or songs) with the most weeks at No. 1 with a logical cutoff. If you add to the data later, that logic will still hold and not cut off arbitrarily at a certain number of records. For instance, Mariah Carey's _All I Want for Christmas_ could eventually top this list because that song reaches No. 1 for a week or two every holiday season.
 
 ### Data Takeaway: Longest at No. 1
 
@@ -629,6 +652,10 @@ Now you have the answers to the song with the most weeks at No. 1 with a logical
 #| label: no1-takeaway
 #| echo: false
 #| output: false
+
+### This bit doesn't really work anymore because we have a tie at the top, but I'll keep it here for now.
+
+### Data Takeaway: The song "`r no1_ttl`" by `r no1_per` has spent more time at the top of the Billboard Hot 100 than any other song in history at `r no1_appr` weeks.
 
 no1_row <- hot100 |> 
   filter(current_rank == 1) |>
@@ -641,7 +668,7 @@ no1_appr <- no1_row |> pull(n)
 ```
 
 ```md
-Data Takeaway: The song "`r no1_ttl`" by `r no1_per` has spent more time at the top of the Billboard Hot 100 than any other song in history at `r no1_appr` weeks.
+Data Takeaway: Both Lil Nas X's "Old Town Road" and Shaboozey's "A Bar Song (Tipsy)" have spent the most time at the top of the Billboard Hot 100 through `r mx_d` with 19 appearances.
 ```
 
 ## Performer with most No. 1 singles
@@ -751,14 +778,14 @@ Data Takeaway: The Beatles have the most No. 1 hits on the Billboard Hot 100 cha
 
 Let's talk through the logic. This is very similar to the No. 1 hits above but with two differences:
 
--   In addition to filtering for No. 1 songs, we also want to filter for charts since 2019.
+-   In addition to filtering for No. 1 songs, we also want to filter for charts since 2020
 -   We might need to adjust our last filter for a better "break point".
 
-There are a number of ways we could write a filter for the date, but we'll do so in a way that gets all the rows *on or after* Jan. 1, 2019.
+There are a number of ways we could write a filter for the date, but we'll do so in a way that gets all the rows *on or after* Jan. 1, 2020.
 
 ```{r}
 hot100 |> 
-  filter(chart_date >= "2019-01-01") |> 
+  filter(chart_date >= "2020-01-01") |> 
   head() # added just to shorten our result
 ```
 
@@ -775,7 +802,7 @@ But since we need this filter before our group, we can do this within the same f
 hot100 |> 
   filter(
     current_rank == 1,
-    chart_date >= "2019-01-01" # <1>
+    chart_date >= "2020-01-01" # <1>
   ) |> 
   distinct(title, performer) |> 
   group_by(performer) |> 
@@ -787,7 +814,7 @@ hot100 |>
 1. This is where we add the new filter
 2. This is the new cutoff since the earlier value wouldn't work
 
-Now you know who has the most No. 1 hits since 2019 (as of this writing). [_**"Are you not entertained?"**_](https://time.com/6342806/person-of-the-year-2023-taylor-swift/#:~:text=%E2%80%9CThis%20is%20the%20proudest%20and%20happiest%20I%E2%80%99ve%20ever%20felt%2C%20and%20the%20most%20creatively%20fulfilled%20and%20free%20I%E2%80%99ve%20ever%20been%2C%E2%80%9D%20Swift%20tells%20me.%20%E2%80%9CUltimately%2C%20we%20can%20convolute%20it%20all%20we%20want%2C%20or%20try%20to%20overcomplicate%20it%2C%20but%20there%E2%80%99s%20only%20one%20question.%E2%80%9D%20Here%2C%20she%20adopts%20a%20booming%20voice.%20%E2%80%9CAre%20you%20not%20entertained%3F%E2%80%9D)
+Now you know who has the most No. 1 hits since 2020 (as of this writing). [_**"Are you not entertained?"**_](https://time.com/6342806/person-of-the-year-2023-taylor-swift/#:~:text=%E2%80%9CThis%20is%20the%20proudest%20and%20happiest%20I%E2%80%99ve%20ever%20felt%2C%20and%20the%20most%20creatively%20fulfilled%20and%20free%20I%E2%80%99ve%20ever%20been%2C%E2%80%9D%20Swift%20tells%20me.%20%E2%80%9CUltimately%2C%20we%20can%20convolute%20it%20all%20we%20want%2C%20or%20try%20to%20overcomplicate%20it%2C%20but%20there%E2%80%99s%20only%20one%20question.%E2%80%9D%20Here%2C%20she%20adopts%20a%20booming%20voice.%20%E2%80%9CAre%20you%20not%20entertained%3F%E2%80%9D)
 
 ### Data Takeaway: No. 1 in past five years
 
@@ -909,22 +936,23 @@ We have one, last major thing to do here before we finish, and that is to update
 
 1. Open your `index.qmd` file.
 2. After the text that is here, add the lede, source graf and data takeaways noted below.
+3. **Read through the text and many necesarry updates based on your newer data!**
 3. Then add your own data takeaways at the end.
 
 ``` md
 ## Summary
 
-Taylor Swift has had more solo appearances on the Billboard Hot 100 chart than any other artist, according to an analysis of chart data from Billboard Magazine.
+Taylor Swift has had more solo appearances on the Billboard Hot 100 chart than any other artist, according to an analysis of chart data from Billboard Magazine. Her 1,600 solo appearances tops Drake, though he has more when considering collaborations with other artists.
 
-The chart has been published weekly since August 1958, and this analysis includes data through December 2023*. The chart data was pulled from an [archive managed by Christian McDonald](https://github.com/utdata/rwd-billboard-data), which is updated each week.
+The chart has been published weekly since August 1958, and this analysis includes data through December 2024*. The chart data was pulled from an [archive managed by Christian McDonald](https://github.com/utdata/rwd-billboard-data), which is updated each week.
 
 > *You should update this value with that last chart date in your data.
 
 Other findings from the data analysis include:
 
 - Data Takeaway: The song "Heat Wave" by Glass Animals has appeared 91 times on the Hot 100, more than any other song through 2023. The Weeknd's "Blinding Lights" has the next most appearances with 90.
-- The song "Old Town Road" by Lil Nas X Featuring Billy Ray Cyrus has spent more time at the top of the Hot 100 than any other song in history at 19 weeks.
-- The Beatles have the most No. 1 hits with 19, but they also have a 20th top song -- "Get Back" -- that is a collaboration with Billy Preston. Most other artists with double-digit top hits aren't making new music, with the exception of Taylor Swift, who has 10.
+- The songs "Old Town Road" by Lil Nas X Featuring Billy Ray Cyrus and "A Bar Song (Tipsy)" by Shaboozey have spent more time at the top of the Hot 100 than any other songs in history at 19 weeks.
+- The Beatles have the most No. 1 hits with 19, but they also have a 20th top song -- "Get Back" -- that is a collaboration with Billy Preston. Most other artists with double-digit top hits aren't making new music, with the exception of Mariah Carey and Taylor Swift.
 - Taylor Swift not only has the most appearances of all time in the Hot 100, she also has the most No. 1 hits in the past five years with six.
 - ADD YOUR TOP 10 HITS
 - ADD YOUR OWN FINDING
@@ -947,10 +975,10 @@ To be clear, it is your zipped project I am grading. The Quarto Pub link is for 
 We introduced a number of new functions in this lesson, most of them from tidyverse's [dplyr](https://dplyr.tidyverse.org/) package. Mostly we filtered and summarized our data. Here are the functions we introduced in this chapter, many with links to documentation:
 
 -   [`filter()`](https://dplyr.tidyverse.org/reference/filter.html) returns only rows that meet logical criteria you specify.
+-   [`str_detect()`](https://stringr.tidyverse.org/reference/str_detect.html) lets you search for a pattern within a string. Often used with `filter()`.
 -   [`summarize()`](https://dplyr.tidyverse.org/reference/summarise.html) builds a summary table *about* your data. You can count rows [`n()`](https://dplyr.tidyverse.org/reference/n.html) or do math on numerical values, like `mean()`. In the next chapter we will summarize with math functions.
 -   [`group_by()`](https://dplyr.tidyverse.org/reference/group_by.html) is often used with `summarize()` to put data into groups before building a summary table based on the groups.
--   [`distinct()`](https://dplyr.tidyverse.org/reference/distinct.html) returns rows based on unique values in columns you specify. i.e., it deduplicates data.
--   [`str_detect()`](https://stringr.tidyverse.org/reference/str_detect.html) to search within strings.
+-   [`distinct()`](https://dplyr.tidyverse.org/reference/distinct.html) returns rows based on unique values in columns you specify. i.e., it can deduplicate data. It is NOT the same as `select()`.
 
 ## Soundtrack for this assignment
 
