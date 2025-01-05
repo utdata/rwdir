@@ -1,0 +1,56 @@
+---
+title: "Project setup"
+format: html
+---
+
+When you create a new "Quarto Website" it creates the shell of a website with some starter pages.
+
+For this class, you should update your project in the following ways ...
+
+## Update your quarto file
+
+Replace your `_quarto.yml` file with the contents below. Update the `title` as appropriate.
+
+
+``` {.yaml filename="_quarto.yml"}
+project:
+  type: website
+  render:
+  - "01*.qmd"
+  - "*.qmd"
+
+website:
+  title: "Short site name"
+  sidebar:
+    contents:
+      - href: index.qmd
+        text: Home
+      - auto: "*.qmd"
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    df-print: paged
+    code-overflow: wrap
+```
+
+## Data folders
+
+Create two folders to hold your data
+
+- `data-raw` is where you store original data that you don't want to edit or overwrite.
+- `data-processed` is where you save any new outputs from your notebook.
+
+## Quarto file names
+
+Most projects will have at least three files:
+
+- `index.qmd` is the home page of your site. It should have an explanation of the project and perhaps a summary of what you've learned.
+- `01-cleaning.qmd` is where you prepare data for analysis. Cleaned files should be output from this file as .rds files into `data-processed`.
+- `02-analysis.qmd` is where your analysis is done. It should run independently, meaning you should start by importing the cleaned data.
+
+You can delete the `about.qmd` page that is created with the default project.
+
+
