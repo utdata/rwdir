@@ -58,7 +58,7 @@ It is a study of [Billboard Hot 100](https://www.billboard.com/charts/hot-100/) 
 
 ::: callout-important
 
-You want each of your projects to have a description like this, along with details describing the source data, the goals of the project, the findings and perhaps links to stories and graphics published based on the data analysis. If you want to see some excellent examples of these summaries, check out the "Repo" links at [Buzzfeed News' github repo](https://github.com/BuzzFeedNews/everything?tab=readme-ov-file). (RIP Buzzfeed News.)
+You want each of your projects to have a description like this, along with details describing the source data, the goals of the project, the findings and perhaps links to stories and graphics published based on the data analysis.
 
 :::
 
@@ -114,12 +114,12 @@ There are many other ways to change your rendered page displays in many ways usi
 
 Next we are going to create some folders in our project. We'll use some standard names for consistency and we'll do this for every project we build.
 
-The first folder is called `data-raw`. We are creating this folder because we want to keep a pristine version of our original data that we never change or overwrite. This is a core data journalism commandment: *Thou shalt not change original data*.
+The first folder is called `data-original`. We are creating this folder because we want to keep a pristine version of our original data that we never change or overwrite. This is a core data journalism commandment: *Thou shalt not change original data*.
 
 In your Files pane at the bottom-right of RStudio, there is a **New Folder** icon.
 
 1.  Click on the **New Folder** icon.
-2.  Name your new folder `data-raw`. This is where we'll put raw data that we don't want to overwrite.
+2.  Name your new folder `data-original`. This is where we'll put original data from our source that we don't want to ever overwrite.
 3.  Create an additional folder called `data-processed`. This is were we will write any data we create.
 
 Once you've done that, they should show up in the file explorer in the Files pane. Click the refresh button if you don't see them. (The circlish thing at top right of the screenshot below. You might have to widen the pane to see it.)
@@ -130,7 +130,7 @@ Again, we'll do this with every new project we create:
 
 -   Create a Quarto website
 -   Update the index with information about the project
--   Create `data-raw` and `data-processed` folders.
+-   Create `data-original` and `data-processed` folders.
 
 ::: callout-important
 
@@ -150,12 +150,10 @@ We'll typically use at least three Quarto files in our projects:
 
 So let's create our "Cleaning" notebook.
 
-1.  Use the top left new document button ( a white box with a green `+` sign) and choose the **Quarto Document** to start a new notebook.
-2.  Set the title to "Cleaning".
-3.  Make sure the **Editor** choice to use the visual editor is **NOT** checked. Everything else should be fine.
-4.  Click **Create**. This creates an Untitled document that we still need to save.
-5.  Save the new file (Do *Cmd-S* or look under the File menu or use the floppy disc icon in the tool bar.)
-6.  Name the file `01-cleaning.qmd`. It should already be set to save in the project folder.
+1.  In the bottom right **Files** pane, click on the **New File** button (a white box with a green `+` sign) and choose the **Quarto Document** to start a new notebook.
+1. Set the filename to `01-cleaning.qmd`.
+1.  Set the title to "Cleaning".
+1.  Save the new file (Do *Cmd-S* or look under the File menu or use the floppy disc icon in the tool bar.)
 
 ::: callout-tip
 We named this notebook starting with `01-` because we will eventually end up with multiple notebooks that depend on each other and we will need to know the order to run them in the future.
@@ -269,7 +267,7 @@ Since this is a new "section" of our cleaning notebook, we'll note what we are d
 
 download.file(
   "https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_assignment.csv?raw=true",
-  "data-raw/hot100_assignment.csv",
+  "data-original/hot100_assignment.csv",
   mode = "wb"
 )
 ```
@@ -281,7 +279,7 @@ This `download.file()` code is a function, or a bit of code that has been writte
 In this case, we are supplying three arguments:
 
 -   The first is the URL of the file you are downloading. Note that this is in quotes.
--   The second is the location where we want to save the file, and what want to name it. We call this a "path" and you can see it looks a lot like a URL. This path is in relation to the document we are in, so we are saying we want to put this file in the `data-raw/` folder with a name of `hot100_assignment.csv`, but it is really one path: `data-raw/hot100_assignment.csv`.
+-   The second is the location where we want to save the file, and what want to name it. We call this a "path" and you can see it looks a lot like a URL. This path is in relation to the document we are in, so we are saying we want to put this file in the `data-original/` folder with a name of `hot100_assignment.csv`, but it is really one path: `data-original/hot100_assignment.csv`.
 -   The third argument `mode = "w"` gets into the weeds a little, but it helps Windows computers understand the file.
 
 When you run the function you get an output similar to this:
@@ -295,7 +293,7 @@ downloaded 17.9 MB
 
 That's not a small file at 17 MB and 300,000 rows, but it's not a huge one, either.
 
-You can check that this worked by going to your Files tab and clicking on the `data-raw` folder to go inside it and see if the file is there. To return out of the folder, click on the two dots to the right of the green up arrow.
+You can check that this worked by going to your Files tab and clicking on the `data-original` folder to go inside it and see if the file is there. To return out of the folder, click on the two dots to the right of the green up arrow.
 
 ![Check download](images/check-download.gif)
 
@@ -337,7 +335,7 @@ Inside the function we put in the path to our data, inside quotes. If you start 
 1.  Add the following code into your chunk and run it.
 
 ``` r
-read_csv("data-raw/hot100_assignment.csv")
+read_csv("data-original/hot100_assignment.csv")
 ```
 
 ::: callout-tip
@@ -392,7 +390,7 @@ Let's make a object called `hot100_raw` and fill it with our imported tibble.
 #| include: true
 #| results: false
 
-hot100_raw <- read_csv("data-raw/hot100_assignment.csv")
+hot100_raw <- read_csv("data-original/hot100_assignment.csv")
 ```
 
 Run that chunk and several things happen:
@@ -411,7 +409,7 @@ Since we can't see the data after we assign it, let's print the object to our no
 
 ``` r
 # create the object, then fill it with data from the csv
-hot100_raw <- read_csv("data-raw/hot100_assignment.csv")
+hot100_raw <- read_csv("data-original/hot100_assignment.csv")
 
 # peek at the data
 hot100_raw
@@ -495,7 +493,7 @@ So, given those notes above, we should clean up our column names. This is why we
 2. Rerun both the import chunk and the glimpse chunk!
 
 ```{r hot100-clean-names, eval = TRUE, message=F, warning=F}
-hot100_raw <- read_csv("data-raw/hot100_assignment.csv") |> clean_names()
+hot100_raw <- read_csv("data-original/hot100_assignment.csv") |> clean_names()
 
 # peek at the data
 hot100_raw
@@ -728,7 +726,7 @@ One last thought to belabor the point: Separating your cleaning can save time. I
 
 This was all a long-winded way of saying we are going to export our data now.
 
-We will use another function from the readr package called `write_rds()` to create our exported file. We'll save the data into the `data-processed` folder we created earlier. We are avoiding our data-raw folder because **"Thou shalt not change original data"** even by accident.
+We will use another function from the readr package called `write_rds()` to create our exported file. We'll save the data into the `data-processed` folder we created earlier. We are avoiding our data-original folder because **"Thou shalt not change original data"** even by accident.
 
 1.  Create a Markdown headline `## Exports` and write a description that you are exporting files to .rds.
 2.  Add a new code chunk and add the following code:
@@ -743,7 +741,7 @@ hot100_clean |> # <1>
 1. Here we start with the `hot100_clean` tibble that we created earlier, *and then* ...
 2. We then pipe `|>` the result of that into a new function `write_rds()`. In addition to the data, the function needs the path to where we want to save the file, so in quotes we give it the path to where we want to save the file: `"data-processed/01-hot100.rds"`.
 
-Remember, we are saving into the data-processed folder because we never export into data-raw. We are naming the file starting with `01-` to indicate to our future selves that this output came from our first notebook. We then name it, and use the `.rds` extension.
+Remember, we are saving into the data-processed folder because we never export into data-original. We are naming the file starting with `01-` to indicate to our future selves that this output came from our first notebook. We then name it, and use the `.rds` extension.
 
 ### About paths
 
@@ -758,7 +756,7 @@ Here is the file structure inside your project folder:
 ├── christian-billboard.Rproj
 ├── data-processed
 │   └── 01-hot100.rds
-├── data-raw
+├── data-original
 │   └── hot100_assignment.csv
 └── index.qmd
 ```

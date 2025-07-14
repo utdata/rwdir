@@ -102,7 +102,7 @@ The process goes like this:
   - Also choose **Student Enrollment by Program** ^[The name changes to "Student Enrollment by Instructional Programs" in later years.]
   - Click **Download**.
 
-This downloads a file called `DSTUD.csv` or `DSTUD.dat`. As I downloaded them, I changed the name to include the year and `.csv` extension and put them in the `data-raw/` folder.
+This downloads a file called `DSTUD.csv` or `DSTUD.dat`. As I downloaded them, I changed the name to include the year and `.csv` extension and put them in the `data-original/` folder.
 
 On the download page, there is a link to the data dictionary for the file called [Student Information Reference](https://rptsvr1.tea.texas.gov/perfreport/tapr/2013/xplore/dstud.html). As you'll see next, it proves important to understand the file as the data within reports can vary from year to year. There is a TAPR Glossary for each academic year, but in our case I'll guide you along.
 
@@ -114,7 +114,7 @@ Let's look at one of those files. This is the first six lines of the 2012-13 ver
 #| label: peek
 #| warning: false
 #| message: false
-read_csv("data-raw/DSTUD_13.csv") |> head()
+read_csv("data-original/DSTUD_13.csv") |> head()
 ```
 
 As you can see by looking at that data, the [District Student Information Reference](https://rptsvr1.tea.texas.gov/perfreport/tapr/2013/xplore/dstud.html) and [Glossary](https://rptsvr1.tea.texas.gov/perfreport/tapr/2013/glossary.pdf) are pretty important so we can understanding what these columns are.
@@ -139,7 +139,7 @@ In addition, the data structure of these files changed through the years. Let's 
 #| message: false
 #| warning: false
 
-read_csv("data-raw/DSTUD_23.csv") |> head()
+read_csv("data-original/DSTUD_23.csv") |> head()
 ```
 
 In the newer files the `DISTRICT` observations have a `'` at the beginning: `'001902`. This is added to help preserve those leading zeros, but we will need to remove the `'` so the values are the same structure as the other data files.
@@ -182,7 +182,7 @@ I explain the code below.
 
 ```{r}
 dstud_files <- list.files( # <1>
-  "data-raw", # <2>
+  "data-original", # <2>
   pattern = "DSTUD", # <3>
   full.names = TRUE # <4>
 )
@@ -191,7 +191,7 @@ dstud_files # <5>
 ```
 
 1. The first line starts with the new object we are creating to hold our vector of data. It ends with our function, `list.files()`, which lists files in a directory as a vector.
-2. The first argument of `list.files()` is the path to where you want to look. We want to look in the `data-raw` folder. Without this argument, it would look in our main project folder.
+2. The first argument of `list.files()` is the path to where you want to look. We want to look in the `data-original` folder. Without this argument, it would look in our main project folder.
 3. The second optional argument is a regular expression pattern to capture specific files based on the file name. We're looking for the text "DSTUD" in the file names so we don't capture the DREF file (which we'll deal with later).
 4. The `full.names = TRUE` argument indicates that we want to keep not just the names of the files, but he full path to where the files are, which is what we need.
 5. We're just printing out the resulting object to make sure we got what we wanted.
@@ -296,7 +296,7 @@ We've noted that the dstud files don't have a **district name** within them, so 
 #| warning: false
 #| message: false
 
-read_csv("data-raw/DREF_22.csv") |> head()
+read_csv("data-original/DREF_22.csv") |> head()
 ```
 
 You'll see this file also has `'` at the beginning of ID columns like `DISTRICT`, `COUNTY` etc. to preserve leading zeros.
@@ -325,7 +325,7 @@ We need the `DFLCHART` and `DFLALTED` fields so we can **filter out charter and 
 #| message: false
 
 dref_raw <- read_csv(
-  "data-raw/DREF_22.csv", # <1>
+  "data-original/DREF_22.csv", # <1>
   col_select = c( # <2>
     DISTRICT,
     CNTYNAME,
