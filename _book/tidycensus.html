@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>15&nbsp; tidycensus – Reporting with Data in R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./git.html" rel="next">
+<link href="./case-when.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a08d9001fe0711adfabc365c1b400f34.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./group-dates.html">Extras</a></li><li class="breadcrumb-item"><a href="./tidycensus.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">tidycensus</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Reporting with Data in R</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About this book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./install.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Install Party</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Counting</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./billboard-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Billboard Cleaning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./billboard-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Billboard Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Summing</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./leso-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Military Surplus Cleaning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./leso-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Military Surplus Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Visualization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plots.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Intro to ggplot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plots-more.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Deeper into ggplot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tidy-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tidy data</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Bind &amp; Join</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./denied-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Denied Cleaning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./denied-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Denied Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./group-dates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Grouping by dates</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./count.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Counting shortcuts</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./case-when.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Using case_when</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tidycensus.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">tidycensus</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Using git</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./project-setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Project setup</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./posit-cloud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Using posit.cloud</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">R Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Troubleshooting</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./getting-help.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Asking for help</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./explore.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Exploring a new dataset</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./charts-tips.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Chart production tips</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./resources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#other-resources" id="toc-other-resources" class="nav-link active" data-scroll-target="#other-resources"><span class="header-section-number">15.1</span> Other resources</a></li>
+  <li><a href="#prereqs" id="toc-prereqs" class="nav-link" data-scroll-target="#prereqs"><span class="header-section-number">15.2</span> Prereqs</a></li>
+  <li><a href="#testing-the-api" id="toc-testing-the-api" class="nav-link" data-scroll-target="#testing-the-api"><span class="header-section-number">15.3</span> Testing the API</a></li>
+  <li><a href="#educational-attainment" id="toc-educational-attainment" class="nav-link" data-scroll-target="#educational-attainment"><span class="header-section-number">15.4</span> Educational attainment</a>
+  <ul class="collapse">
+  <li><a href="#find-the-table" id="toc-find-the-table" class="nav-link" data-scroll-target="#find-the-table"><span class="header-section-number">15.4.1</span> Find the table</a></li>
+  <li><a href="#get-the-data-for-texas" id="toc-get-the-data-for-texas" class="nav-link" data-scroll-target="#get-the-data-for-texas"><span class="header-section-number">15.4.2</span> Get the data for Texas</a></li>
+  <li><a href="#get-the-data-for-us" id="toc-get-the-data-for-us" class="nav-link" data-scroll-target="#get-the-data-for-us"><span class="header-section-number">15.4.3</span> Get the data for US</a></li>
+  </ul></li>
+  <li><a href="#bind-and-clean" id="toc-bind-and-clean" class="nav-link" data-scroll-target="#bind-and-clean"><span class="header-section-number">15.5</span> Bind and clean</a>
+  <ul class="collapse">
+  <li><a href="#rename-the-variables" id="toc-rename-the-variables" class="nav-link" data-scroll-target="#rename-the-variables"><span class="header-section-number">15.5.1</span> Rename the variables</a></li>
+  <li><a href="#check-for-moe-problems" id="toc-check-for-moe-problems" class="nav-link" data-scroll-target="#check-for-moe-problems"><span class="header-section-number">15.5.2</span> Check for moe problems</a></li>
+  <li><a href="#select-columns-of-interest" id="toc-select-columns-of-interest" class="nav-link" data-scroll-target="#select-columns-of-interest"><span class="header-section-number">15.5.3</span> Select columns of interest</a></li>
+  </ul></li>
+  <li><a href="#i-would-export-here" id="toc-i-would-export-here" class="nav-link" data-scroll-target="#i-would-export-here"><span class="header-section-number">15.6</span> I would export here</a></li>
+  <li><a href="#calculate-percentage-degrees" id="toc-calculate-percentage-degrees" class="nav-link" data-scroll-target="#calculate-percentage-degrees"><span class="header-section-number">15.7</span> Calculate percentage degrees</a>
+  <ul class="collapse">
+  <li><a href="#pivot-the-data" id="toc-pivot-the-data" class="nav-link" data-scroll-target="#pivot-the-data"><span class="header-section-number">15.7.1</span> Pivot the data</a></li>
+  <li><a href="#make-the-math-and-percentages" id="toc-make-the-math-and-percentages" class="nav-link" data-scroll-target="#make-the-math-and-percentages"><span class="header-section-number">15.7.2</span> Make the math and percentages</a></li>
+  </ul></li>
+  <li><a href="#select-your-percentages" id="toc-select-your-percentages" class="nav-link" data-scroll-target="#select-your-percentages"><span class="header-section-number">15.8</span> Select your percentages</a></li>
+  <li><a href="#different-shapes" id="toc-different-shapes" class="nav-link" data-scroll-target="#different-shapes"><span class="header-section-number">15.9</span> Different shapes</a>
+  <ul class="collapse">
+  <li><a href="#make-longer" id="toc-make-longer" class="nav-link" data-scroll-target="#make-longer"><span class="header-section-number">15.9.1</span> Make longer</a></li>
+  <li><a href="#make-wider" id="toc-make-wider" class="nav-link" data-scroll-target="#make-wider"><span class="header-section-number">15.9.2</span> Make wider</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./group-dates.html">Extras</a></li><li class="breadcrumb-item"><a href="./tidycensus.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">tidycensus</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">tidycensus</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This chapter shows an example of how to find data from the American Community Survey using <a href="https://censusreporter.org/">Census Reporter</a> and then to get that data using the <a href="https://walker-data.com/tidycensus/index.html">tidycensus</a> R package.</p>
+<p>This is NOT a full explanation of tidycensus. See <a href="https://walker-data.com/tidycensus/index.html">Kyle Walker’s site</a> for that.</p>
+<p>Additionally, in 2025 Kyle did a three-part series of videos about using Tidycensus:</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=9a8_p_q4Z34">Analysing American Community Survey data</a></li>
+<li><a href="https://www.youtube.com/watch?v=8NKj8yF2gfo">Working with Decennial Census data</a></li>
+<li><a href="https://www.youtube.com/watch?v=4WZfw0K7Vx8">Mapping and Spatial Analysis</a></li>
+</ul>
+<section id="other-resources" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="other-resources"><span class="header-section-number">15.1</span> Other resources</h2>
+<ul>
+<li>The <a href="https://walker-data.com/tidycensus/index.html">Tidycensus</a> package.</li>
+<li>The author of the package has <a href="https://walker-data.com/census-r/">a book</a>.</li>
+<li>The <a href="https://nicar.r-journalism.com/2024/">NICAR24 lesson on tidycensus</a> and the <a href="https://github.com/r-journalism/nicar-2024-tidycensus?tab=readme-ov-file">Github repo</a> for it.</li>
+<li>A tutorial: <a href="https://waterdata.usgs.gov/blog/tidycensus-viz/">Charting ‘tidycensus’ data with R</a>.</li>
+</ul>
+</section>
+<section id="prereqs" class="level2" data-number="15.2">
+<h2 data-number="15.2" class="anchored" data-anchor-id="prereqs"><span class="header-section-number">15.2</span> Prereqs</h2>
+<p>You need to install the tidycensus package and have a Census API key before using this. A key can be obtained <a href="http://api.census.gov/data/key_signup.html">here</a>. Once you get the email with the key, it still might take a while to activate correctly … like maybe an hour?</p>
+<p>It’s not a good idea to publish your API key since it is like a password, so I’ve commented that out in the code below. There is a way to <a href="https://walker-data.com/tidycensus/reference/census_api_key.html">store this value on your computer</a> so you don’t have to reveal it in code, but I don’t want to get into that here.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidycensus)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># census_api_key("YOUR API KEY GOES HERE")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="testing-the-api" class="level2" data-number="15.3">
+<h2 data-number="15.3" class="anchored" data-anchor-id="testing-the-api"><span class="header-section-number">15.3</span> Testing the API</h2>
+<p>Just to make sure all is working, lets gets the median household income for counties in Texas.</p>
+<p>This doesn’t bring back all 256 counties because I’m specifying the “acs1” 1-year survey, so it only get’s counties big enough to have a good yearly value. I’ve commented out an argument I could use to get just Travis County to show how it is possible. Again, see the docs for more info.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mhi_trav <span class="ot">&lt;-</span> <span class="fu">get_acs</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">geography =</span> <span class="st">"county"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">variables =</span> <span class="st">"B19013_001"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">state =</span> <span class="st">"TX"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># county = "Travis",</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">survey =</span> <span class="st">"acs1"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="dv">2022</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>mhi_trav</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["GEOID"],"name":[1],"type":["chr"],"align":["left"]},{"label":["NAME"],"name":[2],"type":["chr"],"align":["left"]},{"label":["variable"],"name":[3],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["moe"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"48005","2":"Angelina County, Texas","3":"B19013_001","4":"58180","5":"6410"},{"1":"48021","2":"Bastrop County, Texas","3":"B19013_001","4":"72663","5":"6534"},{"1":"48027","2":"Bell County, Texas","3":"B19013_001","4":"62137","5":"3286"},{"1":"48029","2":"Bexar County, Texas","3":"B19013_001","4":"65854","5":"1954"},{"1":"48037","2":"Bowie County, Texas","3":"B19013_001","4":"49771","5":"6280"},{"1":"48039","2":"Brazoria County, Texas","3":"B19013_001","4":"86083","5":"3881"},{"1":"48041","2":"Brazos County, Texas","3":"B19013_001","4":"60393","5":"4045"},{"1":"48061","2":"Cameron County, Texas","3":"B19013_001","4":"50649","5":"3925"},{"1":"48085","2":"Collin County, Texas","3":"B19013_001","4":"113305","5":"3253"},{"1":"48091","2":"Comal County, Texas","3":"B19013_001","4":"91171","5":"7592"},{"1":"48099","2":"Coryell County, Texas","3":"B19013_001","4":"65846","5":"5189"},{"1":"48113","2":"Dallas County, Texas","3":"B19013_001","4":"70852","5":"2077"},{"1":"48121","2":"Denton County, Texas","3":"B19013_001","4":"102428","5":"2415"},{"1":"48135","2":"Ector County, Texas","3":"B19013_001","4":"68071","5":"13479"},{"1":"48139","2":"Ellis County, Texas","3":"B19013_001","4":"89856","5":"8315"},{"1":"48141","2":"El Paso County, Texas","3":"B19013_001","4":"53424","5":"1700"},{"1":"48157","2":"Fort Bend County, Texas","3":"B19013_001","4":"105205","5":"3212"},{"1":"48167","2":"Galveston County, Texas","3":"B19013_001","4":"75565","5":"5068"},{"1":"48181","2":"Grayson County, Texas","3":"B19013_001","4":"66106","5":"3482"},{"1":"48183","2":"Gregg County, Texas","3":"B19013_001","4":"61496","5":"3115"},{"1":"48187","2":"Guadalupe County, Texas","3":"B19013_001","4":"87030","5":"7148"},{"1":"48201","2":"Harris County, Texas","3":"B19013_001","4":"68706","5":"1435"},{"1":"48203","2":"Harrison County, Texas","3":"B19013_001","4":"69212","5":"7034"},{"1":"48209","2":"Hays County, Texas","3":"B19013_001","4":"88617","5":"4433"},{"1":"48213","2":"Henderson County, Texas","3":"B19013_001","4":"65283","5":"4572"},{"1":"48215","2":"Hidalgo County, Texas","3":"B19013_001","4":"49142","5":"2108"},{"1":"48221","2":"Hood County, Texas","3":"B19013_001","4":"69462","5":"9378"},{"1":"48231","2":"Hunt County, Texas","3":"B19013_001","4":"69253","5":"5524"},{"1":"48245","2":"Jefferson County, Texas","3":"B19013_001","4":"54797","5":"4561"},{"1":"48251","2":"Johnson County, Texas","3":"B19013_001","4":"76320","5":"5201"},{"1":"48257","2":"Kaufman County, Texas","3":"B19013_001","4":"94868","5":"5659"},{"1":"48291","2":"Liberty County, Texas","3":"B19013_001","4":"61525","5":"8645"},{"1":"48303","2":"Lubbock County, Texas","3":"B19013_001","4":"59161","5":"3860"},{"1":"48309","2":"McLennan County, Texas","3":"B19013_001","4":"64320","5":"4657"},{"1":"48329","2":"Midland County, Texas","3":"B19013_001","4":"76332","5":"6747"},{"1":"48339","2":"Montgomery County, Texas","3":"B19013_001","4":"94972","5":"3802"},{"1":"48355","2":"Nueces County, Texas","3":"B19013_001","4":"60361","5":"2731"},{"1":"48361","2":"Orange County, Texas","3":"B19013_001","4":"64601","5":"8989"},{"1":"48367","2":"Parker County, Texas","3":"B19013_001","4":"96017","5":"7192"},{"1":"48375","2":"Potter County, Texas","3":"B19013_001","4":"50661","5":"3246"},{"1":"48381","2":"Randall County, Texas","3":"B19013_001","4":"76744","5":"3305"},{"1":"48397","2":"Rockwall County, Texas","3":"B19013_001","4":"123767","5":"8345"},{"1":"48409","2":"San Patricio County, Texas","3":"B19013_001","4":"64741","5":"8881"},{"1":"48423","2":"Smith County, Texas","3":"B19013_001","4":"68192","5":"3022"},{"1":"48427","2":"Starr County, Texas","3":"B19013_001","4":"33871","5":"5987"},{"1":"48439","2":"Tarrant County, Texas","3":"B19013_001","4":"76210","5":"2149"},{"1":"48441","2":"Taylor County, Texas","3":"B19013_001","4":"62107","5":"4784"},{"1":"48451","2":"Tom Green County, Texas","3":"B19013_001","4":"59853","5":"5634"},{"1":"48453","2":"Travis County, Texas","3":"B19013_001","4":"95259","5":"2807"},{"1":"48469","2":"Victoria County, Texas","3":"B19013_001","4":"71192","5":"7766"},{"1":"48471","2":"Walker County, Texas","3":"B19013_001","4":"51528","5":"12621"},{"1":"48479","2":"Webb County, Texas","3":"B19013_001","4":"59603","5":"5120"},{"1":"48485","2":"Wichita County, Texas","3":"B19013_001","4":"56944","5":"5549"},{"1":"48491","2":"Williamson County, Texas","3":"B19013_001","4":"101323","5":"2672"},{"1":"48497","2":"Wise County, Texas","3":"B19013_001","4":"80305","5":"6342"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+<section id="educational-attainment" class="level2" data-number="15.4">
+<h2 data-number="15.4" class="anchored" data-anchor-id="educational-attainment"><span class="header-section-number">15.4</span> Educational attainment</h2>
+<p>I’ll use some educational attainment data for some examples …</p>
+<p>The goal here is to find the percentage of women with a degree level higher than high school. To do this we have to add together all the different degree types, then divide by all women.</p>
+<p>We want to find this for multiple years in multiple geographies. i.e.&nbsp;to compare US rates vs various states or counties. I’m going to find only two years and get rates for the US and Texas specifically.</p>
+<section id="find-the-table" class="level3" data-number="15.4.1">
+<h3 data-number="15.4.1" class="anchored" data-anchor-id="find-the-table"><span class="header-section-number">15.4.1</span> Find the table</h3>
+<p>We are using Census Reporter to find the variables we need, looking at <a href="https://censusreporter.org/tables/B15002/">Table B15002: Sex by Educational Attainment</a>. (I’m not getting into how to use Census Reporter here, but it is an awesome tool for ACS facts.)</p>
+<p>You can use a “tooltip” value from this site to to find a variable for Census Reporter. If you are familiar with a browser Inspector, you can look at the HTML and copy/paste values.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/censusreporter_variable.png" class="img-fluid figure-img"></p>
+<figcaption>Census Reporter variables</figcaption>
+</figure>
+</div>
+<p>I used that method further down that page in the Female segment to collect the following variables. You have to insert an underscore between the table name and variable.</p>
+<p>I put them in a vector like this so I can reuse the list many times. If I want to adjust it, I’ll do that here.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fem_edu_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"B15002_019"</span>, <span class="co"># All female</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"B15002_028"</span>, <span class="co"># Female High school graduate (includes equivalency)</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"B15002_031"</span>, <span class="co"># Female Associate's degree</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"B15002_032"</span>, <span class="co"># Female Bachelor's degree</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"B15002_033"</span>, <span class="co"># Female Master's degree</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"B15002_034"</span>, <span class="co"># Female Professional school degree</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"B15002_035"</span>  <span class="co"># Female Doctorate degree</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If you want different variables, find them and make your own list.</p>
+</section>
+<section id="get-the-data-for-texas" class="level3" data-number="15.4.2">
+<h3 data-number="15.4.2" class="anchored" data-anchor-id="get-the-data-for-texas"><span class="header-section-number">15.4.2</span> Get the data for Texas</h3>
+<p>Here I’m getting state numbers for these variables with <code>geography = "state"</code> but then filtering to get only Texas with <code>state = "TX"</code>. I’m adding a column to indicate which year the data is from because I will need multiple years.</p>
+<p>Once I have all the years I want I’ll bind them together.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>college_tx_21 <span class="ot">&lt;-</span> <span class="fu">get_acs</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">variables =</span> fem_edu_vars,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">geography =</span> <span class="st">"state"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">state =</span> <span class="st">"TX"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">survey =</span> <span class="st">"acs1"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="dv">2021</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">add_column</span>(<span class="at">yr =</span> <span class="st">"2021"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Getting data from the 2021 1-year ACS</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The 1-year ACS provides data for geographies with populations of 65,000 and greater.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>college_tx_22 <span class="ot">&lt;-</span> <span class="fu">get_acs</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">variables =</span> fem_edu_vars,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">geography =</span> <span class="st">"state"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">state =</span> <span class="st">"TX"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">survey =</span> <span class="st">"acs1"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="dv">2022</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">add_column</span>(<span class="at">yr =</span> <span class="st">"2022"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Getting data from the 2022 1-year ACS
+The 1-year ACS provides data for geographies with populations of 65,000 and greater.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Once I have each year I'll bind them together</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>college_tx <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(college_tx_21, college_tx_22)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>college_tx</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["GEOID"],"name":[1],"type":["chr"],"align":["left"]},{"label":["NAME"],"name":[2],"type":["chr"],"align":["left"]},{"label":["variable"],"name":[3],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["moe"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["yr"],"name":[6],"type":["chr"],"align":["left"]}],"data":[{"1":"48","2":"Texas","3":"B15002_019","4":"9763451","5":"9478","6":"2021"},{"1":"48","2":"Texas","3":"B15002_028","4":"2321205","5":"27228","6":"2021"},{"1":"48","2":"Texas","3":"B15002_031","4":"787873","5":"20962","6":"2021"},{"1":"48","2":"Texas","3":"B15002_032","4":"2141544","5":"28440","6":"2021"},{"1":"48","2":"Texas","3":"B15002_033","4":"906361","5":"19354","6":"2021"},{"1":"48","2":"Texas","3":"B15002_034","4":"153481","5":"8400","6":"2021"},{"1":"48","2":"Texas","3":"B15002_035","4":"110895","5":"6797","6":"2021"},{"1":"48","2":"Texas","3":"B15002_019","4":"9921838","5":"8666","6":"2022"},{"1":"48","2":"Texas","3":"B15002_028","4":"2303061","5":"32864","6":"2022"},{"1":"48","2":"Texas","3":"B15002_031","4":"811856","5":"18254","6":"2022"},{"1":"48","2":"Texas","3":"B15002_032","4":"2221861","5":"27814","6":"2022"},{"1":"48","2":"Texas","3":"B15002_033","4":"954545","5":"22090","6":"2022"},{"1":"48","2":"Texas","3":"B15002_034","4":"160354","5":"7793","6":"2022"},{"1":"48","2":"Texas","3":"B15002_035","4":"118184","5":"6148","6":"2022"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Your probably want more than two years of data.</p>
+</section>
+<section id="get-the-data-for-us" class="level3" data-number="15.4.3">
+<h3 data-number="15.4.3" class="anchored" data-anchor-id="get-the-data-for-us"><span class="header-section-number">15.4.3</span> Get the data for US</h3>
+<p>I’m doing the same thing here, but for US values.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>college_us_21 <span class="ot">&lt;-</span> <span class="fu">get_acs</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">variables =</span> fem_edu_vars,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">geography =</span> <span class="st">"US"</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">survey =</span> <span class="st">"acs1"</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="dv">2021</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">add_column</span>(<span class="at">yr =</span> <span class="st">"2021"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Getting data from the 2021 1-year ACS</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The 1-year ACS provides data for geographies with populations of 65,000 and greater.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>college_us_22 <span class="ot">&lt;-</span> <span class="fu">get_acs</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">variables =</span> fem_edu_vars,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">geography =</span> <span class="st">"US"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">survey =</span> <span class="st">"acs1"</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="dv">2022</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">add_column</span>(<span class="at">yr =</span> <span class="st">"2022"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Getting data from the 2022 1-year ACS
+The 1-year ACS provides data for geographies with populations of 65,000 and greater.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>college_us <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(college_us_21, college_us_22)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>college_us</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["GEOID"],"name":[1],"type":["chr"],"align":["left"]},{"label":["NAME"],"name":[2],"type":["chr"],"align":["left"]},{"label":["variable"],"name":[3],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["moe"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["yr"],"name":[6],"type":["chr"],"align":["left"]}],"data":[{"1":"1","2":"United States","3":"B15002_019","4":"116931431","5":"36489","6":"2021"},{"1":"1","2":"United States","3":"B15002_028","4":"29264358","5":"91560","6":"2021"},{"1":"1","2":"United States","3":"B15002_031","4":"11253909","5":"61578","6":"2021"},{"1":"1","2":"United States","3":"B15002_032","4":"25413339","5":"98483","6":"2021"},{"1":"1","2":"United States","3":"B15002_033","4":"12759142","5":"67801","6":"2021"},{"1":"1","2":"United States","3":"B15002_034","4":"2371356","5":"26163","6":"2021"},{"1":"1","2":"United States","3":"B15002_035","4":"1631207","5":"22568","6":"2021"},{"1":"1","2":"United States","3":"B15002_019","4":"117533244","5":"39685","6":"2022"},{"1":"1","2":"United States","3":"B15002_028","4":"29072320","5":"108131","6":"2022"},{"1":"1","2":"United States","3":"B15002_031","4":"11339494","5":"65672","6":"2022"},{"1":"1","2":"United States","3":"B15002_032","4":"25991259","5":"99135","6":"2022"},{"1":"1","2":"United States","3":"B15002_033","4":"13101215","5":"75755","6":"2022"},{"1":"1","2":"United States","3":"B15002_034","4":"2408413","5":"30513","6":"2022"},{"1":"1","2":"United States","3":"B15002_035","4":"1727920","5":"22139","6":"2022"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Again you probably want more than two years of data.</p>
+</section>
+</section>
+<section id="bind-and-clean" class="level2" data-number="15.5">
+<h2 data-number="15.5" class="anchored" data-anchor-id="bind-and-clean"><span class="header-section-number">15.5</span> Bind and clean</h2>
+<p>I’m putting the state and national data together so I can make nice variable names once instead of many times.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>college <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(college_tx, college_us)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>college <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 28
+Columns: 6
+$ GEOID    &lt;chr&gt; "48", "48", "48", "48", "48", "48", "48", "48", "48", "48", "…
+$ NAME     &lt;chr&gt; "Texas", "Texas", "Texas", "Texas", "Texas", "Texas", "Texas"…
+$ variable &lt;chr&gt; "B15002_019", "B15002_028", "B15002_031", "B15002_032", "B150…
+$ estimate &lt;dbl&gt; 9763451, 2321205, 787873, 2141544, 906361, 153481, 110895, 99…
+$ moe      &lt;dbl&gt; 9478, 27228, 20962, 28440, 19354, 8400, 6797, 8666, 32864, 18…
+$ yr       &lt;chr&gt; "2021", "2021", "2021", "2021", "2021", "2021", "2021", "2022…</code></pre>
+</div>
+</div>
+<section id="rename-the-variables" class="level3" data-number="15.5.1">
+<h3 data-number="15.5.1" class="anchored" data-anchor-id="rename-the-variables"><span class="header-section-number">15.5.1</span> Rename the variables</h3>
+<p>Here we add new column with friendlier variable names. They are still a little esoteric, but you can at least tell them apart.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>college_vars <span class="ot">&lt;-</span> college <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">var_desc =</span> <span class="fu">case_match</span>(</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>      variable,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">"B15002_019"</span> <span class="sc">~</span> <span class="st">"fem"</span>, <span class="co"># All female</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">"B15002_028"</span> <span class="sc">~</span> <span class="st">"fem_hs"</span>, <span class="co"># High school graduate (includes equivalency)</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"B15002_031"</span> <span class="sc">~</span> <span class="st">"fem_as_d"</span>, <span class="co"># Associate's degree</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"B15002_032"</span> <span class="sc">~</span> <span class="st">"fem_ba_d"</span>, <span class="co"># Bachelor's degree</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">"B15002_033"</span> <span class="sc">~</span> <span class="st">"fem_ma_d"</span>, <span class="co"># Master's degree</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"B15002_034"</span> <span class="sc">~</span> <span class="st">"fem_ps_d"</span>, <span class="co"># Professional school degree</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"B15002_035"</span> <span class="sc">~</span> <span class="st">"fem_ph_d"</span>  <span class="co"># Doctorate degree</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>college_vars</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["GEOID"],"name":[1],"type":["chr"],"align":["left"]},{"label":["NAME"],"name":[2],"type":["chr"],"align":["left"]},{"label":["variable"],"name":[3],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["moe"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["yr"],"name":[6],"type":["chr"],"align":["left"]},{"label":["var_desc"],"name":[7],"type":["chr"],"align":["left"]}],"data":[{"1":"48","2":"Texas","3":"B15002_019","4":"9763451","5":"9478","6":"2021","7":"fem"},{"1":"48","2":"Texas","3":"B15002_028","4":"2321205","5":"27228","6":"2021","7":"fem_hs"},{"1":"48","2":"Texas","3":"B15002_031","4":"787873","5":"20962","6":"2021","7":"fem_as_d"},{"1":"48","2":"Texas","3":"B15002_032","4":"2141544","5":"28440","6":"2021","7":"fem_ba_d"},{"1":"48","2":"Texas","3":"B15002_033","4":"906361","5":"19354","6":"2021","7":"fem_ma_d"},{"1":"48","2":"Texas","3":"B15002_034","4":"153481","5":"8400","6":"2021","7":"fem_ps_d"},{"1":"48","2":"Texas","3":"B15002_035","4":"110895","5":"6797","6":"2021","7":"fem_ph_d"},{"1":"48","2":"Texas","3":"B15002_019","4":"9921838","5":"8666","6":"2022","7":"fem"},{"1":"48","2":"Texas","3":"B15002_028","4":"2303061","5":"32864","6":"2022","7":"fem_hs"},{"1":"48","2":"Texas","3":"B15002_031","4":"811856","5":"18254","6":"2022","7":"fem_as_d"},{"1":"48","2":"Texas","3":"B15002_032","4":"2221861","5":"27814","6":"2022","7":"fem_ba_d"},{"1":"48","2":"Texas","3":"B15002_033","4":"954545","5":"22090","6":"2022","7":"fem_ma_d"},{"1":"48","2":"Texas","3":"B15002_034","4":"160354","5":"7793","6":"2022","7":"fem_ps_d"},{"1":"48","2":"Texas","3":"B15002_035","4":"118184","5":"6148","6":"2022","7":"fem_ph_d"},{"1":"1","2":"United States","3":"B15002_019","4":"116931431","5":"36489","6":"2021","7":"fem"},{"1":"1","2":"United States","3":"B15002_028","4":"29264358","5":"91560","6":"2021","7":"fem_hs"},{"1":"1","2":"United States","3":"B15002_031","4":"11253909","5":"61578","6":"2021","7":"fem_as_d"},{"1":"1","2":"United States","3":"B15002_032","4":"25413339","5":"98483","6":"2021","7":"fem_ba_d"},{"1":"1","2":"United States","3":"B15002_033","4":"12759142","5":"67801","6":"2021","7":"fem_ma_d"},{"1":"1","2":"United States","3":"B15002_034","4":"2371356","5":"26163","6":"2021","7":"fem_ps_d"},{"1":"1","2":"United States","3":"B15002_035","4":"1631207","5":"22568","6":"2021","7":"fem_ph_d"},{"1":"1","2":"United States","3":"B15002_019","4":"117533244","5":"39685","6":"2022","7":"fem"},{"1":"1","2":"United States","3":"B15002_028","4":"29072320","5":"108131","6":"2022","7":"fem_hs"},{"1":"1","2":"United States","3":"B15002_031","4":"11339494","5":"65672","6":"2022","7":"fem_as_d"},{"1":"1","2":"United States","3":"B15002_032","4":"25991259","5":"99135","6":"2022","7":"fem_ba_d"},{"1":"1","2":"United States","3":"B15002_033","4":"13101215","5":"75755","6":"2022","7":"fem_ma_d"},{"1":"1","2":"United States","3":"B15002_034","4":"2408413","5":"30513","6":"2022","7":"fem_ps_d"},{"1":"1","2":"United States","3":"B15002_035","4":"1727920","5":"22139","6":"2022","7":"fem_ph_d"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+<section id="check-for-moe-problems" class="level3" data-number="15.5.2">
+<h3 data-number="15.5.2" class="anchored" data-anchor-id="check-for-moe-problems"><span class="header-section-number">15.5.2</span> Check for moe problems</h3>
+<p>If the margin of error is more than 10% of an estimate, then that number is squishy and shouldn’t be relied upon to be the main point of a story. We are sticking with large geographies here to try to avoid those problems, but here I check to see if any values have a high margin of error.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>moe_check <span class="ot">&lt;-</span> college_vars <span class="sc">|&gt;</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">moe_share =</span> ((moe <span class="sc">/</span> estimate) <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">|&gt;</span> <span class="fu">round_half_up</span>(<span class="dv">1</span>), <span class="co"># calc moe share</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">moe_flag =</span> <span class="fu">if_else</span>(moe_share <span class="sc">&gt;=</span> <span class="dv">10</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>) <span class="co"># make a flag if high</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>moe_check</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["GEOID"],"name":[1],"type":["chr"],"align":["left"]},{"label":["NAME"],"name":[2],"type":["chr"],"align":["left"]},{"label":["variable"],"name":[3],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["moe"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["yr"],"name":[6],"type":["chr"],"align":["left"]},{"label":["var_desc"],"name":[7],"type":["chr"],"align":["left"]},{"label":["moe_share"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["moe_flag"],"name":[9],"type":["lgl"],"align":["right"]}],"data":[{"1":"48","2":"Texas","3":"B15002_019","4":"9763451","5":"9478","6":"2021","7":"fem","8":"0.1","9":"FALSE"},{"1":"48","2":"Texas","3":"B15002_028","4":"2321205","5":"27228","6":"2021","7":"fem_hs","8":"1.2","9":"FALSE"},{"1":"48","2":"Texas","3":"B15002_031","4":"787873","5":"20962","6":"2021","7":"fem_as_d","8":"2.7","9":"FALSE"},{"1":"48","2":"Texas","3":"B15002_032","4":"2141544","5":"28440","6":"2021","7":"fem_ba_d","8":"1.3","9":"FALSE"},{"1":"48","2":"Texas","3":"B15002_033","4":"906361","5":"19354","6":"2021","7":"fem_ma_d","8":"2.1","9":"FALSE"},{"1":"48","2":"Texas","3":"B15002_034","4":"153481","5":"8400","6":"2021","7":"fem_ps_d","8":"5.5","9":"FALSE"},{"1":"48","2":"Texas","3":"B15002_035","4":"110895","5":"6797","6":"2021","7":"fem_ph_d","8":"6.1","9":"FALSE"},{"1":"48","2":"Texas","3":"B15002_019","4":"9921838","5":"8666","6":"2022","7":"fem","8":"0.1","9":"FALSE"},{"1":"48","2":"Texas","3":"B15002_028","4":"2303061","5":"32864","6":"2022","7":"fem_hs","8":"1.4","9":"FALSE"},{"1":"48","2":"Texas","3":"B15002_031","4":"811856","5":"18254","6":"2022","7":"fem_as_d","8":"2.2","9":"FALSE"},{"1":"48","2":"Texas","3":"B15002_032","4":"2221861","5":"27814","6":"2022","7":"fem_ba_d","8":"1.3","9":"FALSE"},{"1":"48","2":"Texas","3":"B15002_033","4":"954545","5":"22090","6":"2022","7":"fem_ma_d","8":"2.3","9":"FALSE"},{"1":"48","2":"Texas","3":"B15002_034","4":"160354","5":"7793","6":"2022","7":"fem_ps_d","8":"4.9","9":"FALSE"},{"1":"48","2":"Texas","3":"B15002_035","4":"118184","5":"6148","6":"2022","7":"fem_ph_d","8":"5.2","9":"FALSE"},{"1":"1","2":"United States","3":"B15002_019","4":"116931431","5":"36489","6":"2021","7":"fem","8":"0.0","9":"FALSE"},{"1":"1","2":"United States","3":"B15002_028","4":"29264358","5":"91560","6":"2021","7":"fem_hs","8":"0.3","9":"FALSE"},{"1":"1","2":"United States","3":"B15002_031","4":"11253909","5":"61578","6":"2021","7":"fem_as_d","8":"0.5","9":"FALSE"},{"1":"1","2":"United States","3":"B15002_032","4":"25413339","5":"98483","6":"2021","7":"fem_ba_d","8":"0.4","9":"FALSE"},{"1":"1","2":"United States","3":"B15002_033","4":"12759142","5":"67801","6":"2021","7":"fem_ma_d","8":"0.5","9":"FALSE"},{"1":"1","2":"United States","3":"B15002_034","4":"2371356","5":"26163","6":"2021","7":"fem_ps_d","8":"1.1","9":"FALSE"},{"1":"1","2":"United States","3":"B15002_035","4":"1631207","5":"22568","6":"2021","7":"fem_ph_d","8":"1.4","9":"FALSE"},{"1":"1","2":"United States","3":"B15002_019","4":"117533244","5":"39685","6":"2022","7":"fem","8":"0.0","9":"FALSE"},{"1":"1","2":"United States","3":"B15002_028","4":"29072320","5":"108131","6":"2022","7":"fem_hs","8":"0.4","9":"FALSE"},{"1":"1","2":"United States","3":"B15002_031","4":"11339494","5":"65672","6":"2022","7":"fem_as_d","8":"0.6","9":"FALSE"},{"1":"1","2":"United States","3":"B15002_032","4":"25991259","5":"99135","6":"2022","7":"fem_ba_d","8":"0.4","9":"FALSE"},{"1":"1","2":"United States","3":"B15002_033","4":"13101215","5":"75755","6":"2022","7":"fem_ma_d","8":"0.6","9":"FALSE"},{"1":"1","2":"United States","3":"B15002_034","4":"2408413","5":"30513","6":"2022","7":"fem_ps_d","8":"1.3","9":"FALSE"},{"1":"1","2":"United States","3":"B15002_035","4":"1727920","5":"22139","6":"2022","7":"fem_ph_d","8":"1.3","9":"FALSE"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>moe_check <span class="sc">|&gt;</span> <span class="fu">filter</span>(moe_flag <span class="sc">==</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["GEOID"],"name":[1],"type":["chr"],"align":["left"]},{"label":["NAME"],"name":[2],"type":["chr"],"align":["left"]},{"label":["variable"],"name":[3],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["moe"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["yr"],"name":[6],"type":["chr"],"align":["left"]},{"label":["var_desc"],"name":[7],"type":["chr"],"align":["left"]},{"label":["moe_share"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["moe_flag"],"name":[9],"type":["lgl"],"align":["right"]}],"data":[],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>If the moe_flag was TRUE anywhere then we might not want to use that number. Here all our margins of error are less than 10% so I’m going to drop the <code>moe</code> column in the next section.</p>
+</section>
+<section id="select-columns-of-interest" class="level3" data-number="15.5.3">
+<h3 data-number="15.5.3" class="anchored" data-anchor-id="select-columns-of-interest"><span class="header-section-number">15.5.3</span> Select columns of interest</h3>
+<p>Here I’m rearranging the columns and dropping the old <code>variable</code> and <code>moe</code> columns.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>college_clean <span class="ot">&lt;-</span> college_vars <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">geoid =</span> GEOID,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> NAME,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    yr,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    var_desc,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    estimate</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>college_clean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["geoid"],"name":[1],"type":["chr"],"align":["left"]},{"label":["name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["yr"],"name":[3],"type":["chr"],"align":["left"]},{"label":["var_desc"],"name":[4],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"48","2":"Texas","3":"2021","4":"fem","5":"9763451"},{"1":"48","2":"Texas","3":"2021","4":"fem_hs","5":"2321205"},{"1":"48","2":"Texas","3":"2021","4":"fem_as_d","5":"787873"},{"1":"48","2":"Texas","3":"2021","4":"fem_ba_d","5":"2141544"},{"1":"48","2":"Texas","3":"2021","4":"fem_ma_d","5":"906361"},{"1":"48","2":"Texas","3":"2021","4":"fem_ps_d","5":"153481"},{"1":"48","2":"Texas","3":"2021","4":"fem_ph_d","5":"110895"},{"1":"48","2":"Texas","3":"2022","4":"fem","5":"9921838"},{"1":"48","2":"Texas","3":"2022","4":"fem_hs","5":"2303061"},{"1":"48","2":"Texas","3":"2022","4":"fem_as_d","5":"811856"},{"1":"48","2":"Texas","3":"2022","4":"fem_ba_d","5":"2221861"},{"1":"48","2":"Texas","3":"2022","4":"fem_ma_d","5":"954545"},{"1":"48","2":"Texas","3":"2022","4":"fem_ps_d","5":"160354"},{"1":"48","2":"Texas","3":"2022","4":"fem_ph_d","5":"118184"},{"1":"1","2":"United States","3":"2021","4":"fem","5":"116931431"},{"1":"1","2":"United States","3":"2021","4":"fem_hs","5":"29264358"},{"1":"1","2":"United States","3":"2021","4":"fem_as_d","5":"11253909"},{"1":"1","2":"United States","3":"2021","4":"fem_ba_d","5":"25413339"},{"1":"1","2":"United States","3":"2021","4":"fem_ma_d","5":"12759142"},{"1":"1","2":"United States","3":"2021","4":"fem_ps_d","5":"2371356"},{"1":"1","2":"United States","3":"2021","4":"fem_ph_d","5":"1631207"},{"1":"1","2":"United States","3":"2022","4":"fem","5":"117533244"},{"1":"1","2":"United States","3":"2022","4":"fem_hs","5":"29072320"},{"1":"1","2":"United States","3":"2022","4":"fem_as_d","5":"11339494"},{"1":"1","2":"United States","3":"2022","4":"fem_ba_d","5":"25991259"},{"1":"1","2":"United States","3":"2022","4":"fem_ma_d","5":"13101215"},{"1":"1","2":"United States","3":"2022","4":"fem_ps_d","5":"2408413"},{"1":"1","2":"United States","3":"2022","4":"fem_ph_d","5":"1727920"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="i-would-export-here" class="level2" data-number="15.6">
+<h2 data-number="15.6" class="anchored" data-anchor-id="i-would-export-here"><span class="header-section-number">15.6</span> I would export here</h2>
+<p>I would export the cleaned data <code>college_clean</code> here but I want to stay in the same notebook.</p>
+</section>
+<section id="calculate-percentage-degrees" class="level2" data-number="15.7">
+<h2 data-number="15.7" class="anchored" data-anchor-id="calculate-percentage-degrees"><span class="header-section-number">15.7</span> Calculate percentage degrees</h2>
+<p>To get the share of people with degrees vs all people, we have to do some math. It is easier in this case to pivot the data to calculate those percentages.</p>
+<section id="pivot-the-data" class="level3" data-number="15.7.1">
+<h3 data-number="15.7.1" class="anchored" data-anchor-id="pivot-the-data"><span class="header-section-number">15.7.1</span> Pivot the data</h3>
+<p>First we have to pivot this to do some math. I remove the moe field to avoid complication.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>college_wide <span class="ot">&lt;-</span> college_clean <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> var_desc, <span class="at">values_from =</span> estimate)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>college_wide</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["geoid"],"name":[1],"type":["chr"],"align":["left"]},{"label":["name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["yr"],"name":[3],"type":["chr"],"align":["left"]},{"label":["fem"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["fem_hs"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["fem_as_d"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["fem_ba_d"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["fem_ma_d"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["fem_ps_d"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["fem_ph_d"],"name":[10],"type":["dbl"],"align":["right"]}],"data":[{"1":"48","2":"Texas","3":"2021","4":"9763451","5":"2321205","6":"787873","7":"2141544","8":"906361","9":"153481","10":"110895"},{"1":"48","2":"Texas","3":"2022","4":"9921838","5":"2303061","6":"811856","7":"2221861","8":"954545","9":"160354","10":"118184"},{"1":"1","2":"United States","3":"2021","4":"116931431","5":"29264358","6":"11253909","7":"25413339","8":"12759142","9":"2371356","10":"1631207"},{"1":"1","2":"United States","3":"2022","4":"117533244","5":"29072320","6":"11339494","7":"25991259","8":"13101215","9":"2408413","10":"1727920"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+<section id="make-the-math-and-percentages" class="level3" data-number="15.7.2">
+<h3 data-number="15.7.2" class="anchored" data-anchor-id="make-the-math-and-percentages"><span class="header-section-number">15.7.2</span> Make the math and percentages</h3>
+<ul>
+<li>Percent with high school degree is that number (fm_hs) divided by all female (fem).</li>
+<li>To get percent with post high school degree we have to add together all those with the different types of degrees first, then divide by all fem to get the percentage.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>college_calcs <span class="ot">&lt;-</span> college_wide <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">prc_hs =</span> ((fem_hs <span class="sc">/</span> fem) <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">|&gt;</span> <span class="fu">round_half_up</span>(<span class="dv">1</span>),</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_deg =</span> fem_as_d <span class="sc">+</span> fem_ba_d <span class="sc">+</span> fem_ma_d <span class="sc">+</span> fem_ps_d <span class="sc">+</span> fem_ph_d,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">prc_deg =</span> ((sum_deg <span class="sc">/</span> fem) <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">|&gt;</span> <span class="fu">round_half_up</span>(<span class="dv">1</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>college_calcs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["geoid"],"name":[1],"type":["chr"],"align":["left"]},{"label":["name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["yr"],"name":[3],"type":["chr"],"align":["left"]},{"label":["fem"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["fem_hs"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["fem_as_d"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["fem_ba_d"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["fem_ma_d"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["fem_ps_d"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["fem_ph_d"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["prc_hs"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["sum_deg"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["prc_deg"],"name":[13],"type":["dbl"],"align":["right"]}],"data":[{"1":"48","2":"Texas","3":"2021","4":"9763451","5":"2321205","6":"787873","7":"2141544","8":"906361","9":"153481","10":"110895","11":"23.8","12":"4100154","13":"42.0"},{"1":"48","2":"Texas","3":"2022","4":"9921838","5":"2303061","6":"811856","7":"2221861","8":"954545","9":"160354","10":"118184","11":"23.2","12":"4266800","13":"43.0"},{"1":"1","2":"United States","3":"2021","4":"116931431","5":"29264358","6":"11253909","7":"25413339","8":"12759142","9":"2371356","10":"1631207","11":"25.0","12":"53428953","13":"45.7"},{"1":"1","2":"United States","3":"2022","4":"117533244","5":"29072320","6":"11339494","7":"25991259","8":"13101215","9":"2408413","10":"1727920","11":"24.7","12":"54568301","13":"46.4"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="select-your-percentages" class="level2" data-number="15.8">
+<h2 data-number="15.8" class="anchored" data-anchor-id="select-your-percentages"><span class="header-section-number">15.8</span> Select your percentages</h2>
+<p>Now that you have the percentages, you might want to focus on those to view or chart.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>prc_cols <span class="ot">&lt;-</span> college_calcs <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, yr, prc_hs, prc_deg)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>prc_cols</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["yr"],"name":[2],"type":["chr"],"align":["left"]},{"label":["prc_hs"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["prc_deg"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Texas","2":"2021","3":"23.8","4":"42.0"},{"1":"Texas","2":"2022","3":"23.2","4":"43.0"},{"1":"United States","2":"2021","3":"25.0","4":"45.7"},{"1":"United States","2":"2022","3":"24.7","4":"46.4"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+<section id="different-shapes" class="level2" data-number="15.9">
+<h2 data-number="15.9" class="anchored" data-anchor-id="different-shapes"><span class="header-section-number">15.9</span> Different shapes</h2>
+<p>This might not be necessary, but you might want to rearrange the data to see of chart.</p>
+<section id="make-longer" class="level3" data-number="15.9.1">
+<h3 data-number="15.9.1" class="anchored" data-anchor-id="make-longer"><span class="header-section-number">15.9.1</span> Make longer</h3>
+<p>What you want to move it to might depend on your needs, but making long sometimes helps with ggplot charting.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>prc_long <span class="ot">&lt;-</span> prc_cols <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cols =</span> prc_hs<span class="sc">:</span>prc_deg,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">names_to =</span> <span class="st">"prc_type"</span>,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">values_to =</span> <span class="st">"prc_value"</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>prc_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["yr"],"name":[2],"type":["chr"],"align":["left"]},{"label":["prc_type"],"name":[3],"type":["chr"],"align":["left"]},{"label":["prc_value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Texas","2":"2021","3":"prc_hs","4":"23.8"},{"1":"Texas","2":"2021","3":"prc_deg","4":"42.0"},{"1":"Texas","2":"2022","3":"prc_hs","4":"23.2"},{"1":"Texas","2":"2022","3":"prc_deg","4":"43.0"},{"1":"United States","2":"2021","3":"prc_hs","4":"25.0"},{"1":"United States","2":"2021","3":"prc_deg","4":"45.7"},{"1":"United States","2":"2022","3":"prc_hs","4":"24.7"},{"1":"United States","2":"2022","3":"prc_deg","4":"46.4"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+<section id="make-wider" class="level3" data-number="15.9.2">
+<h3 data-number="15.9.2" class="anchored" data-anchor-id="make-wider"><span class="header-section-number">15.9.2</span> Make wider</h3>
+<p>Maybe you want to see how each value has changed by having a column for each year.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>prc_type_yr <span class="ot">&lt;-</span> prc_long <span class="sc">|&gt;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> yr, <span class="at">values_from =</span> prc_value)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>prc_type_yr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["prc_type"],"name":[2],"type":["chr"],"align":["left"]},{"label":["2021"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["2022"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Texas","2":"prc_hs","3":"23.8","4":"23.2"},{"1":"Texas","2":"prc_deg","3":"42.0","4":"43.0"},{"1":"United States","2":"prc_hs","3":"25.0","4":"24.7"},{"1":"United States","2":"prc_deg","3":"45.7","4":"46.4"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./case-when.html" class="pagination-link" aria-label="Using case_when">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Using case_when</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./git.html" class="pagination-link" aria-label="Using git">
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Using git</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

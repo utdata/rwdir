@@ -8,7 +8,7 @@ The best way to explain this is to show you an example.
 
 1.  Go to this link in a new browser window: [Major League Soccer salaries](https://christianmcdonald.quarto.pub/mls-salaries/).
 
-This is a website with all the code from a data journalism project. If you click on the navigation link for [Cleaning](https://christianmcdonald.quarto.pub/mls-salaries/01-cleaning.html) you can read where the data come from and see all the steps I went through -- with code and explanation -- to process the data so I could work with it. And in the [Analysis 2024](https://christianmcdonald.quarto.pub/mls-salaries/02-analysis.html) notebook you'll see I set out with some questions for the data, and then I wrote the code to find my answers. Along with the way I wrote explanations of how and why I did what I did.
+This is a website with all the code from a data journalism project. The home page has an overview of the findings from the analysis. If you click on the navigation link for [Cleaning](https://christianmcdonald.quarto.pub/mls-salaries/01-cleaning.html) you can read where the data come from and see all the steps I went through -- with code and explanation -- to process the data so I could work with it. And in the [Analysis](https://christianmcdonald.quarto.pub/mls-salaries/02-analysis.html) notebook you'll see I set out with some questions for the data, and then I wrote the code to find my answers. Along with the way I wrote explanations of how and why I did what I did.
 
 ![Quarto Pub page](images/mls-analysis.png)
 
@@ -35,7 +35,11 @@ When you launch RStudio, you'll get a screen that looks like this (but without t
 
 ## Updating preferences
 
-There are some preferences in RStudio that I would like you to change. By default, the program wants to save the state of your work (all the variables and such) when you close a project, [but that is typically not good practice](https://www.r-bloggers.com/2017/04/using-r-dont-save-your-workspace/). We'll change that.
+There are some preferences in RStudio that I would like you to change.
+
+### Saving workspace
+
+By default, the program wants to save the state of your work (all the variables and such) when you close a project, [but that is typically not good practice](https://www.r-bloggers.com/2017/04/using-r-dont-save-your-workspace/). We'll change that.
 
 1.  Go to the **Tools** menu and choose **Global Options**.
 2.  Under the **General** tab, uncheck the first four boxes.
@@ -43,6 +47,8 @@ There are some preferences in RStudio that I would like you to change. By defaul
 4.  Click *Apply* to save the change (but don't close the box yet).
 
 ![RStudio preferences](images/rstudio-prefs.png)
+
+### Setting native pipe
 
 Next we will set some values in the **Code** pane.
 
@@ -53,6 +59,18 @@ Next we will set some values in the **Code** pane.
 ![Native pipe preference](images/native_pipe_pref.png)
 
 We'll get into why we did this part later.
+
+### Setting list style
+
+Lastly, we'll set my preferred list style.
+
+1. Click on the **R Markdown** option
+1. Click on the **Visual** tab.
+1. For **Default spacing between list items**, choose _tight_.
+
+![](images/tight-lists.png)
+
+Explaining this change in full gets far into the weeds, but basically we are setting the space between list items when we write Markdown.
 
 ## The R Package environment
 
@@ -99,7 +117,7 @@ OK, we're done with all the computer setup. Let's get to work.
 ## Starting a new Quarto Website
 
 ::: callout-important
-This is a case where posit.cloud differs greatly. See [Using posit.cloud](posit-cloud.qmd) to see how to use our tempalte our build a new Quarto Website project.
+This is a case where posit.cloud differs greatly. See [Using posit.cloud](posit-cloud.qmd) to see how to use our template our build a new Quarto Website project.
 :::
 
 When we work in RStudio, we will create "Projects" to hold all the files related to one another. This sets the "working directory", which is a sort of home base for the project.
@@ -108,7 +126,7 @@ When we work in RStudio, we will create "Projects" to hold all the files related
 2.  That brings up a box to create the project with several options. You want **New Directory** in this case.
 3.  For **Project Type**, choose **Quarto Website**.
 4.  Next, for the **Directory name**, choose a new name for your project folder. For this project, use "firstname-practice" but use YOUR firstname.
-5.  For the subdirectory, you want to use the **Browse** button to find your `rwd` folder we created earlier.
+5.  For the sub directory, you want to use the **Browse** button to find your `rwd` folder we created earlier.
 
 I want you to be anal retentive about naming your folders. It's a good programming habit.
 
@@ -157,9 +175,9 @@ Let's see what this basic document looks like when when we Render it.
 1.  In the toolbar of the document you'll see a blue arrow with **Render** after it.
 2.  Click on that button or word.
 
-What this should do is open up the Console below the document and you'll see a bunch of feedback, but on the right side of RStudio. You should end up with the **Viewer** pane that shows your document. Here is a tour of sorts:
-
-![Render Quarto](images/quarto-render.png)
+    What this should do is open up the Console below the document and you'll see a bunch of feedback, but on the right side of RStudio. You should end up with the **Viewer** pane that shows your document. Here is a tour of sorts:
+    
+    ![Render Quarto](images/quarto-render.png)
 
 For the posit.cloud users, this will launch in a new web browser window. The gear next to the Render button has the option to view previews in a new browser Window or the RStudio Viewer pane.
 
@@ -244,7 +262,7 @@ The math works like this:
 - subtract 7
 - Double the result
 ```
-
+    
 Let's walk through this Markdown code. You might bookmark this [Markdown basics](https://quarto.org/docs/authoring/markdown-basics.html) page so you can refer back to it as you learn.
 
 -   The `##` line is a "Header 2" headline, meaning it is the second biggest. (The title is an H1/biggest.) The more hashmarks `###` you add the smaller headline you get.
@@ -264,13 +282,13 @@ Let's add a new R chunk to add the code that will calculate the maximum age of s
 2.  Use the keyboard command *Cmd+Option+i* to add an R chunk.
 3.  Your cursor will be inserted into the middle of the chunk. Type or copy this code in the space provided:
 
-```{r}
-#| output: false
-
-# update 21 to your actual age
-age <- 21
-(age - 7) * 2
-```
+    ```{r}
+    #| output: false
+    
+    # update 21 to your actual age
+    age <- 21
+    (age - 7) * 2
+    ```
 
 4.  Change the number to your real age.
 5.  With your cursor somewhere in the code block, use the key command *Cmd+Shift+Return*, which is the key command to RUN ALL LINES of code chunk.
@@ -377,7 +395,7 @@ Well done!
 
 ### Exporting for posit.cloud
 
-Exporting is a little different for posit.cloud users. You can export your project pretty easily by following the directions in this screenshot:
+Exporting is a little different for **posit.cloud users**. You can export your project pretty easily by following the directions in this screenshot:
 
 ![Export posit](images/export-posit.png)
 

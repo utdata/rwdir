@@ -60,7 +60,7 @@ There is no data dictionary or record layout included with the data but I have c
 
 ```{r leso-setup, echo=F, message=F, warning=F}
 library(tidyverse)
-leso_sample <- read_rds("data-raw/leso-sample.rds")
+leso_sample <- read_rds("data-original/leso-sample.rds")
 ```
 
 Here is a glimpse of a sample of the data:
@@ -109,7 +109,7 @@ We will build the same project structure that we did with the Billboard project.
 3.  For the project type, choose **Quarto Website**
 4.  Name the directory "yourname-military-surplus", but with your name.
 1. Replace the contents of your `_quarto.yml` file with the file you can find in the [Project setup](project-setup.qmd) chapter. Update the title.
-7.  Create two folders: `data-raw` and `data-processed`.
+7.  Create two folders: `data-original` and `data-processed`.
 5.  In the `index.qmd` file, replace the title value with "Military Surplus", as that is our project title.
 6.  Remove the boilerplate stuff after the YAML title and this bit about the project:
 
@@ -181,7 +181,7 @@ While the data we will use here if from Prof. McDonald, it is from the [Law Enfo
 Note the text above might scroll off the screen. Use the copy icon to select all the text.
 :::
 
-1.  Use the `download.file()` function to download the date into your `data-raw` folder. Remember you need three arguments:
+1.  Use the `download.file()` function to download the date into your `data-original` folder. Remember you need three arguments:
 
 ``` r
 download.file(
@@ -194,7 +194,7 @@ download.file(
 What you need:
 
 -   The data can be found at this url below
--   It should be saved into your `data-raw` folder with a name for the file.
+-   It should be saved into your `data-original` folder with a name for the file.
 
 ``` txt
 https://github.com/utdata/rwd-r-leso/blob/main/data-processed/leso.csv?raw=true
@@ -208,15 +208,15 @@ https://github.com/utdata/rwd-r-leso/blob/main/data-processed/leso.csv?raw=true
 # You can comment the lines below once you have the data
 download.file(
   "https://github.com/utdata/rwd-r-leso/blob/main/data-processed/leso.csv?raw=true",
-  "data-raw/leso.csv",
+  "data-original/leso.csv",
   mode = "wb"
 )
 ```
 
-Once you've built your code chunk and run it, you should make sure the file downloaded into the correct place: in your `data-raw` folder.
+Once you've built your code chunk and run it, you should make sure the file downloaded into the correct place: in your `data-original` folder.
 
 ::: callout-tip
-If you get an error about the path, you might make sure you created the `data-raw` folder first.
+If you get an error about the path, you might make sure you created the `data-original` folder first.
 :::
 
 ## Import the data
@@ -227,7 +227,7 @@ It's time to import the data into the notebook. Like the Billboard project, we a
 
 I suggest you build the code chunk a bit at a time in this order:
 
-1.  Use `read_csv()` to read the file from our `data-raw` folder.
+1.  Use `read_csv()` to read the file from our `data-original` folder.
 2.  Edit that line to put the result into a tibble object using `<-`. Name your new tibble `leso_raw`. (I tend to name this first import as raw so I know which object is the original data.)
 3.  Print the tibble as a table to the screen again by putting the tibble object on a new line and running it. This allows you to see it in columnar form.
 
@@ -238,7 +238,7 @@ I suggest you build the code chunk a bit at a time in this order:
 #| output: false
 
 # assigning the tibble
-leso_raw <- read_csv("data-raw/leso.csv")
+leso_raw <- read_csv("data-original/leso.csv")
 # printing the tibble
 leso_raw
 ```

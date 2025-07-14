@@ -71,7 +71,7 @@ We will use candy count data we've been collected in Reporting wth Data classes 
 
 1.  Create a new project and call it: `yourname-candy`.
 1. Update your `_quarto.yml` based on [Project setup](project-setup.qmd).
-2.  Create `data-raw` and `data-processed` folders as we normally do.
+2.  Create `data-original` and `data-processed` folders as we normally do.
 3.  You can use your `index.qmd` file for this lesson ... just change the title to "Tidy data: Candy".
 4.  Create your setup block and load the `tidyverse` and `janitor`.
 
@@ -101,7 +101,7 @@ We'll download our data from a Google Sheet and save it onto our computer.
 ```{r}
 #| label: download-date
 
-download.file("https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&single=true&output=csv", "data-raw/candy.csv", mode = "wb")
+download.file("https://docs.google.com/spreadsheets/d/e/2PACX-1vRCGayKLOy-52gKmEoPOj3ZKnOQVtCiooSloiCr-i_ci27e4n1CMPL0Z9s6MeFX9oQuN9E-HCFJnWjD/pub?gid=1456715839&single=true&output=csv", "data-original/candy.csv", mode = "wb")
 ```
 
 After you've run this, you can comment out the line of code so it doesn't re-download it each time you run the notebook.
@@ -117,7 +117,7 @@ OK, now we pull the data into our notebook. Nothing new here ... we import and c
 #| label: load-data
 #| message: false
 #| warning: false
-candy_raw <- read_csv("data-raw/candy.csv") |> clean_names()
+candy_raw <- read_csv("data-original/candy.csv") |> clean_names()
 
 # peek at the data
 candy_raw
