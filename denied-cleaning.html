@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>10&nbsp; Denied Cleaning – Reporting with Data in R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./denied-analysis.html" rel="next">
+<link href="./tidy-data.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a08d9001fe0711adfabc365c1b400f34.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./denied-cleaning.html">Bind &amp; Join</a></li><li class="breadcrumb-item"><a href="./denied-cleaning.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Denied Cleaning</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Reporting with Data in R</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About this book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./install.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Install Party</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Counting</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./billboard-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Billboard Cleaning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./billboard-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Billboard Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Summing</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./leso-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Military Surplus Cleaning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./leso-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Military Surplus Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Visualization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plots.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Intro to ggplot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plots-more.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Deeper into ggplot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tidy-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tidy data</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Bind &amp; Join</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./denied-cleaning.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Denied Cleaning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./denied-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Denied Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./group-dates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Grouping by dates</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./count.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Counting shortcuts</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./case-when.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Using case_when</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tidycensus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">tidycensus</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Using git</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./project-setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Project setup</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./posit-cloud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Using posit.cloud</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">R Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Troubleshooting</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./getting-help.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Asking for help</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./explore.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Exploring a new dataset</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./charts-tips.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Chart production tips</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./resources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#goals-of-the-chapter" id="toc-goals-of-the-chapter" class="nav-link active" data-scroll-target="#goals-of-the-chapter"><span class="header-section-number">10.1</span> Goals of the chapter</a></li>
+  <li><a href="#about-the-story-denied" id="toc-about-the-story-denied" class="nav-link" data-scroll-target="#about-the-story-denied"><span class="header-section-number">10.2</span> About the story: Denied</a></li>
+  <li><a href="#about-the-data" id="toc-about-the-data" class="nav-link" data-scroll-target="#about-the-data"><span class="header-section-number">10.3</span> About the data</a>
+  <ul class="collapse">
+  <li><a href="#set-up-your-project" id="toc-set-up-your-project" class="nav-link" data-scroll-target="#set-up-your-project"><span class="header-section-number">10.3.1</span> Set up your project</a></li>
+  </ul></li>
+  <li><a href="#the-dstud-data" id="toc-the-dstud-data" class="nav-link" data-scroll-target="#the-dstud-data"><span class="header-section-number">10.4</span> The DSTUD data</a>
+  <ul class="collapse">
+  <li><a href="#how-the-files-differ" id="toc-how-the-files-differ" class="nav-link" data-scroll-target="#how-the-files-differ"><span class="header-section-number">10.4.1</span> How the files differ</a></li>
+  <li><a href="#importing-multiple-files-at-once" id="toc-importing-multiple-files-at-once" class="nav-link" data-scroll-target="#importing-multiple-files-at-once"><span class="header-section-number">10.4.2</span> Importing multiple files at once</a></li>
+  <li><a href="#clean-up-dstud-file" id="toc-clean-up-dstud-file" class="nav-link" data-scroll-target="#clean-up-dstud-file"><span class="header-section-number">10.4.4</span> Clean up DSTUD file</a></li>
+  </ul></li>
+  <li><a href="#the-dref-data" id="toc-the-dref-data" class="nav-link" data-scroll-target="#the-dref-data"><span class="header-section-number">10.5</span> The DREF data</a>
+  <ul class="collapse">
+  <li><a href="#import-reference-data" id="toc-import-reference-data" class="nav-link" data-scroll-target="#import-reference-data"><span class="header-section-number">10.5.1</span> Import reference data</a></li>
+  <li><a href="#clean-up-dref-file" id="toc-clean-up-dref-file" class="nav-link" data-scroll-target="#clean-up-dref-file"><span class="header-section-number">10.5.2</span> Clean up DREF file</a></li>
+  </ul></li>
+  <li><a href="#about-joins" id="toc-about-joins" class="nav-link" data-scroll-target="#about-joins"><span class="header-section-number">10.6</span> About joins</a>
+  <ul class="collapse">
+  <li><a href="#joining-our-reference-table" id="toc-joining-our-reference-table" class="nav-link" data-scroll-target="#joining-our-reference-table"><span class="header-section-number">10.6.1</span> Joining our reference table</a></li>
+  </ul></li>
+  <li><a href="#some-cleanup-filter-and-select" id="toc-some-cleanup-filter-and-select" class="nav-link" data-scroll-target="#some-cleanup-filter-and-select"><span class="header-section-number">10.7</span> Some cleanup: filter and select</a></li>
+  <li><a href="#create-an-audit-benchmark-column" id="toc-create-an-audit-benchmark-column" class="nav-link" data-scroll-target="#create-an-audit-benchmark-column"><span class="header-section-number">10.8</span> Create an audit benchmark column</a></li>
+  <li><a href="#export-the-data" id="toc-export-the-data" class="nav-link" data-scroll-target="#export-the-data"><span class="header-section-number">10.9</span> Export the data</a></li>
+  <li><a href="#new-functions-we-used" id="toc-new-functions-we-used" class="nav-link" data-scroll-target="#new-functions-we-used"><span class="header-section-number">10.10</span> New functions we used</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./denied-cleaning.html">Bind &amp; Join</a></li><li class="breadcrumb-item"><a href="./denied-cleaning.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Denied Cleaning</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Denied Cleaning</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>So far all of our lessons have come from a single data source, but that’s not always the case in the real world. With this lesson we’ll learn how to import multiple files at once and “bind” them, and to use “join” to enhance that data from a lookup table.</p>
+<section id="goals-of-the-chapter" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="goals-of-the-chapter"><span class="header-section-number">10.1</span> Goals of the chapter</h2>
+<ul>
+<li>Import multiple files at once and bind them with <code>map()</code></li>
+<li>Join data frames with <code>inner_join()</code></li>
+<li>Use <code>str_remove()</code> to clean data</li>
+<li>Introduce <code>if_else()</code> for categorization</li>
+</ul>
+<p>We’ll use the results of this chapter in our next one.</p>
+</section>
+<section id="about-the-story-denied" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="about-the-story-denied"><span class="header-section-number">10.2</span> About the story: Denied</h2>
+<p>In 2016, the Houston Chronicle published a multipart series called Denied that outlined how a Texas Education Agency policy started in 2004 could force an audit of schools that have more than 8.5% of their students in special education programs. The story was a Pulitzer Prize finalist. Here’s an excerpt:</p>
+<blockquote class="blockquote">
+<p>Over a decade ago, the officials arbitrarily decided what percentage of students should get special education services — 8.5% — and since then they have forced school districts to comply by strictly auditing those serving too many kids.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Their efforts, which started in 2004 but have never been publicly announced or explained, have saved the Texas Education Agency billions of dollars but denied vital supports to children with autism, attention deficit hyperactivity disorder, dyslexia, epilepsy, mental illnesses, speech impediments, traumatic brain injuries, even blindness and deafness, a Houston Chronicle investigation has found.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>More than a dozen teachers and administrators from across the state told the Chronicle they have delayed or denied special education to disabled students in order to stay below the 8.5 percent benchmark. They revealed a variety of methods, from putting kids into a cheaper alternative program known as “Section 504” to persuading parents to pull their children out of public school altogether.</p>
+</blockquote>
+<p>Following the Chronicle’s reporting (along with other news orgs), the Texas Legislature in 2017 <a href="https://www.chron.com/news/houston-texas/houston/article/Legislature-unanimously-approves-bill-designed-to-11134046.php">unanimously banned</a> using a target or benchmark on how many students a district or charter school enrolls in special education.</p>
+<p>We want to look into the result of this reporting based on three things:</p>
+<ul>
+<li>Has the percentage of special education students in Texas changed since the benchmarking policy was dropped?</li>
+<li>How many districts were above that arbitrary 8.5% benchmark before and after the changes?</li>
+<li>How have local districts changed?</li>
+</ul>
+<p>To prepare for this:</p>
+<ol type="1">
+<li>Read <a href="_resources/denied-main.pdf">Part 1</a> of the original Denied series, at least to the heading “A special child.” Pay attention to parts about the “Performance-Based Monitoring Analysis System.”</li>
+<li>Read <a href="_resources/denied-about.pdf">About this series</a></li>
+<li>Read <a href="_resources/denied-follow.pdf">this followup</a> about the legislative changes.</li>
+</ol>
+</section>
+<section id="about-the-data" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="about-the-data"><span class="header-section-number">10.3</span> About the data</h2>
+<p>Each year, the Texas Education Agency publishes the percentage of students in special education as part of their <a href="https://tea.texas.gov/texas-schools/accountability/academic-accountability/performance-reporting/texas-academic-performance-reports">Texas Academic Performance Reports</a>. We can download a file that has the percentages for each district in the state.</p>
+<p>There are some challenges, though:</p>
+<ul>
+<li>We have to download each year individually. There are nine years of data.</li>
+<li>The are no district names in the files, only a district ID. We can get a reference file, though.</li>
+<li>There are some differences in formatting for some files.</li>
+</ul>
+<p>I will save you the hassle of going through the TAPR database to find and download the individual files by providing a starter project.</p>
+<section id="set-up-your-project" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="set-up-your-project"><span class="header-section-number">10.3.1</span> Set up your project</h3>
+<p>With this project you’ll start with a copy I have prepared for you. How you do that differs a little depending on the RStudio platform you are using.</p>
+<section id="if-you-are-using-rstudio-desktop" class="level4" data-number="10.3.1.1">
+<h4 data-number="10.3.1.1" class="anchored" data-anchor-id="if-you-are-using-rstudio-desktop"><span class="header-section-number">10.3.1.1</span> If you are using RStudio Desktop</h4>
+<p>You will download a project that is already set up for you and then open it.</p>
+<p><strong>Use the link below to download the project</strong>.</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><i class="bi bi-download"></i> <a href="_resources/rwdir-sped-template-main.zip" download="rwdir-sped-template-main.zip">Download rwdir-sped-template-main.zip</a></p>
+</div>
+</div>
+</div>
+<ol type="1">
+<li>Find that file on your computer and uncompress it.</li>
+<li>Rename the project folder to <code>yourname-sped</code> <strong>but use your name</strong>.</li>
+<li>Move the project folder to your <code>rwd</code> folder or wherever you’ve been saving your class projects.</li>
+<li>In RStudio, choose File &gt; New Project. Choose <strong>EXISTING Directory</strong> at the next step and then find the folder you saved. Use that to create your project.</li>
+</ol>
+</section>
+<section id="if-you-are-a-posit.cloud-user" class="level4" data-number="10.3.1.2">
+<h4 data-number="10.3.1.2" class="anchored" data-anchor-id="if-you-are-a-posit.cloud-user"><span class="header-section-number">10.3.1.2</span> If you are a posit.cloud user</h4>
+<ol type="1">
+<li>From your posit.cloud account, go to <a href="https://posit.cloud/content/3753507">this shared project</a></li>
+<li>Click <strong>Save a permanent copy</strong> so you have your own version.</li>
+<li>Rename the project <code>yourname-sped</code> <strong>but use your name</strong>.</li>
+</ol>
+</section>
+</section>
+</section>
+<section id="the-dstud-data" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="the-dstud-data"><span class="header-section-number">10.4</span> The DSTUD data</h2>
+<p>To track how percentages of special education students have changed over time, we will use data observations from the Texas Education Agency’s Texas Academic Performance Reports. The TEA has a portal where you can downloaded bulk data by district or campus for each academic year.</p>
+<p>While <strong>our downloaded starter project has all the data we need</strong>, you should go through this process for one of the years just so you see how it works.</p>
+<p>The process goes like this:</p>
+<ul>
+<li>Start at the <a href="https://tea.texas.gov/texas-schools/accountability/academic-accountability/performance-reporting/texas-academic-performance-reports">Texas Academic Performance Reports</a> page</li>
+<li>Choose the school year of interest (choose 2012-13 to just look at the process)</li>
+<li>Find the <strong>Data Download</strong> page</li>
+<li>Choose the <strong>TAPR Data in Excel (Rates Only)</strong> option</li>
+<li>Click on <strong>District Download</strong>. Click <strong>Continue</strong> to move on.</li>
+<li>Choose the <strong>Student Information</strong> data set and choose <strong>Continue</strong>.
+<ul>
+<li>Choose the <strong>Comma-Delimited (csv)</strong> format</li>
+<li>Choose <strong>Student: Counts/Percents</strong> <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></li>
+<li>Also choose <strong>Student Enrollment by Program</strong> <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></li>
+<li>Click <strong>Download</strong>.</li>
+</ul></li>
+</ul>
+<p>This downloads a file called <code>DSTUD.csv</code> or <code>DSTUD.dat</code>. As I downloaded them, I changed the name to include the year and <code>.csv</code> extension and put them in the <code>data-original/</code> folder.</p>
+<p>On the download page, there is a link to the data dictionary for the file called <a href="https://rptsvr1.tea.texas.gov/perfreport/tapr/2013/xplore/dstud.html">Student Information Reference</a>. As you’ll see next, it proves important to understand the file as the data within reports can vary from year to year. There is a TAPR Glossary for each academic year, but in our case I’ll guide you along.</p>
+<section id="how-the-files-differ" class="level3" data-number="10.4.1">
+<h3 data-number="10.4.1" class="anchored" data-anchor-id="how-the-files-differ"><span class="header-section-number">10.4.1</span> How the files differ</h3>
+<p>Let’s look at one of those files. This is the first six lines of the 2012-13 version:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"data-original/DSTUD_13.csv"</span>) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["DISTRICT"],"name":[1],"type":["chr"],"align":["left"]},{"label":["DPETALLC"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["DPETASIC"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["DPETASIP"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["DPETBILC"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["DPETBILP"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["DPETBLAC"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["DPETBLAP"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["DPETDISC"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["DPETDISP"],"name":[10],"type":["chr"],"align":["left"]},{"label":["DPETECOC"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["DPETECOP"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["DPETGIFC"],"name":[13],"type":["dbl"],"align":["right"]},{"label":["DPETGIFP"],"name":[14],"type":["dbl"],"align":["right"]},{"label":["DPETHISC"],"name":[15],"type":["dbl"],"align":["right"]},{"label":["DPETHISP"],"name":[16],"type":["dbl"],"align":["right"]},{"label":["DPETINDC"],"name":[17],"type":["dbl"],"align":["right"]},{"label":["DPETINDP"],"name":[18],"type":["dbl"],"align":["right"]},{"label":["DPETLEPC"],"name":[19],"type":["dbl"],"align":["right"]},{"label":["DPETLEPP"],"name":[20],"type":["dbl"],"align":["right"]},{"label":["DPETNEDC"],"name":[21],"type":["dbl"],"align":["right"]},{"label":["DPETNEDP"],"name":[22],"type":["dbl"],"align":["right"]},{"label":["DPETPCIC"],"name":[23],"type":["dbl"],"align":["right"]},{"label":["DPETPCIP"],"name":[24],"type":["dbl"],"align":["right"]},{"label":["DPETRSKC"],"name":[25],"type":["dbl"],"align":["right"]},{"label":["DPETRSKP"],"name":[26],"type":["dbl"],"align":["right"]},{"label":["DPETSPEC"],"name":[27],"type":["dbl"],"align":["right"]},{"label":["DPETSPEP"],"name":[28],"type":["dbl"],"align":["right"]},{"label":["DPETTWOC"],"name":[29],"type":["dbl"],"align":["right"]},{"label":["DPETTWOP"],"name":[30],"type":["dbl"],"align":["right"]},{"label":["DPETVOCC"],"name":[31],"type":["dbl"],"align":["right"]},{"label":["DPETVOCP"],"name":[32],"type":["dbl"],"align":["right"]},{"label":["DPETWHIC"],"name":[33],"type":["dbl"],"align":["right"]},{"label":["DPETWHIP"],"name":[34],"type":["dbl"],"align":["right"]}],"data":[{"1":"001902","2":"595","3":"4","4":"0.7","5":"5","6":"0.8","7":"34","8":"5.7","9":"5","10":"0.8","11":"227","12":"38.2","13":"53","14":"8.9","15":"45","16":"7.6","17":"0","18":"0.0","19":"5","20":"0.8","21":"368","22":"61.8","23":"0","24":"0.0","25":"162","26":"27.2","27":"73","28":"12.3","29":"30","30":"5.0","31":"180","32":"30.3","33":"482","34":"81.0"},{"1":"001903","2":"1236","3":"10","4":"0.8","5":"16","6":"1.3","7":"54","8":"4.4","9":"5","10":"0.4","11":"636","12":"51.5","13":"52","14":"4.2","15":"112","16":"9.1","17":"2","18":"0.2","19":"16","20":"1.3","21":"600","22":"48.5","23":"2","24":"0.2","25":"344","26":"27.8","27":"113","28":"9.1","29":"47","30":"3.8","31":"315","32":"25.5","33":"1009","34":"81.6"},{"1":"001904","2":"751","3":"2","4":"0.3","5":"14","6":"1.9","7":"79","8":"10.5","9":"1","10":"0.1","11":"443","12":"59.0","13":"26","14":"3.5","15":"79","16":"10.5","17":"2","18":"0.3","19":"14","20":"1.9","21":"308","22":"41.0","23":"0","24":"0.0","25":"238","26":"31.7","27":"81","28":"10.8","29":"32","30":"4.3","31":"264","32":"35.2","33":"557","34":"74.2"},{"1":"001906","2":"406","3":"2","4":"0.5","5":"4","6":"1.0","7":"24","8":"5.9","9":"0","10":"0","11":"170","12":"41.9","13":"27","14":"6.7","15":"39","16":"9.6","17":"0","18":"0.0","19":"4","20":"1.0","21":"236","22":"58.1","23":"0","24":"0.0","25":"168","26":"41.4","27":"45","28":"11.1","29":"6","30":"1.5","31":"155","32":"38.2","33":"335","34":"82.5"},{"1":"001907","2":"3288","3":"33","4":"1.0","5":"400","6":"12.2","7":"924","8":"28.1","9":"135","10":"3.7","11":"2502","12":"76.1","13":"109","14":"3.3","15":"1272","16":"38.7","17":"15","18":"0.5","19":"434","20":"13.2","21":"786","22":"23.9","23":"2","24":"0.1","25":"1938","26":"58.9","27":"252","28":"7.7","29":"64","30":"1.9","31":"1086","32":"33.0","33":"978","34":"29.7"},{"1":"001908","2":"1619","3":"10","4":"0.6","5":"73","6":"4.5","7":"268","8":"16.6","9":"39","10":"2","11":"1002","12":"61.9","13":"44","14":"2.7","15":"341","16":"21.1","17":"6","18":"0.4","19":"80","20":"4.9","21":"617","22":"38.1","23":"2","24":"0.1","25":"718","26":"44.3","27":"151","28":"9.3","29":"74","30":"4.6","31":"302","32":"18.7","33":"918","34":"56.7"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>As you can see by looking at that data, the <a href="https://rptsvr1.tea.texas.gov/perfreport/tapr/2013/xplore/dstud.html">District Student Information Reference</a> and <a href="https://rptsvr1.tea.texas.gov/perfreport/tapr/2013/glossary.pdf">Glossary</a> are pretty important so we can understanding what these columns are.</p>
+<p>The columns we want are:</p>
+<ul>
+<li>DISTRICT – District Number</li>
+<li>DPETALLC – District 2013 Student: All Students Count</li>
+<li>DPETSPEC – District 2013 Student: Special Ed Count</li>
+<li>DPETSPEP – District 2013 Student: Special Ed Percent</li>
+</ul>
+<p>Luckily for us, those specific column names are the same in each of the nine data files.</p>
+<p>Note how the <code>DISTRICT</code> values that start with zeros like this: <code>001902</code>. We have to pay attention to not drop those leading zeros, and they are important later. Using <code>read_csv()</code> (instead of <code>read.csv()</code>) helps us preserve the zeros.</p>
+<p>What is missing from this data? Well, the <strong>name</strong> of the district is missing, which is important. We’ll solve in a bit.</p>
+<p>In addition, the data structure of these files changed through the years. Let’s compare to the 2022-23 academic year.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"data-original/DSTUD_23.csv"</span>) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["DISTRICT"],"name":[1],"type":["chr"],"align":["left"]},{"label":["DPEMSPEC"],"name":[2],"type":["chr"],"align":["left"]},{"label":["DPEMSPEP"],"name":[3],"type":["chr"],"align":["left"]},{"label":["DPEMSPET"],"name":[4],"type":["chr"],"align":["left"]},{"label":["DPET504C"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["DPET504P"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["DPETALLC"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["DPETASIC"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["DPETASIP"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["DPETATTC"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["DPETATTD"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["DPETATTP"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["DPETBILC"],"name":[13],"type":["dbl"],"align":["right"]},{"label":["DPETBILP"],"name":[14],"type":["dbl"],"align":["right"]},{"label":["DPETBLAC"],"name":[15],"type":["dbl"],"align":["right"]},{"label":["DPETBLAP"],"name":[16],"type":["dbl"],"align":["right"]},{"label":["DPETDISC"],"name":[17],"type":["dbl"],"align":["right"]},{"label":["DPETDISP"],"name":[18],"type":["dbl"],"align":["right"]},{"label":["DPETDSLC"],"name":[19],"type":["dbl"],"align":["right"]},{"label":["DPETDSLP"],"name":[20],"type":["dbl"],"align":["right"]},{"label":["DPETECOC"],"name":[21],"type":["dbl"],"align":["right"]},{"label":["DPETECOP"],"name":[22],"type":["dbl"],"align":["right"]},{"label":["DPETFEMC"],"name":[23],"type":["dbl"],"align":["right"]},{"label":["DPETFEMP"],"name":[24],"type":["dbl"],"align":["right"]},{"label":["DPETFOSC"],"name":[25],"type":["dbl"],"align":["right"]},{"label":["DPETFOSP"],"name":[26],"type":["dbl"],"align":["right"]},{"label":["DPETGIFC"],"name":[27],"type":["dbl"],"align":["right"]},{"label":["DPETGIFP"],"name":[28],"type":["dbl"],"align":["right"]},{"label":["DPETHISC"],"name":[29],"type":["dbl"],"align":["right"]},{"label":["DPETHISP"],"name":[30],"type":["dbl"],"align":["right"]},{"label":["DPETHOMC"],"name":[31],"type":["dbl"],"align":["right"]},{"label":["DPETHOMP"],"name":[32],"type":["dbl"],"align":["right"]},{"label":["DPETIMMC"],"name":[33],"type":["dbl"],"align":["right"]},{"label":["DPETIMMP"],"name":[34],"type":["dbl"],"align":["right"]},{"label":["DPETINDC"],"name":[35],"type":["dbl"],"align":["right"]},{"label":["DPETINDP"],"name":[36],"type":["dbl"],"align":["right"]},{"label":["DPETLEPC"],"name":[37],"type":["dbl"],"align":["right"]},{"label":["DPETLEPP"],"name":[38],"type":["dbl"],"align":["right"]},{"label":["DPETMALC"],"name":[39],"type":["dbl"],"align":["right"]},{"label":["DPETMALP"],"name":[40],"type":["dbl"],"align":["right"]},{"label":["DPETMIGC"],"name":[41],"type":["dbl"],"align":["right"]},{"label":["DPETMIGP"],"name":[42],"type":["dbl"],"align":["right"]},{"label":["DPETMLCC"],"name":[43],"type":["dbl"],"align":["right"]},{"label":["DPETMLCP"],"name":[44],"type":["dbl"],"align":["right"]},{"label":["DPETNEDC"],"name":[45],"type":["dbl"],"align":["right"]},{"label":["DPETNEDP"],"name":[46],"type":["dbl"],"align":["right"]},{"label":["DPETPCIC"],"name":[47],"type":["dbl"],"align":["right"]},{"label":["DPETPCIP"],"name":[48],"type":["dbl"],"align":["right"]},{"label":["DPETRSKC"],"name":[49],"type":["dbl"],"align":["right"]},{"label":["DPETRSKP"],"name":[50],"type":["dbl"],"align":["right"]},{"label":["DPETSPEC"],"name":[51],"type":["dbl"],"align":["right"]},{"label":["DPETSPEP"],"name":[52],"type":["dbl"],"align":["right"]},{"label":["DPETTT1C"],"name":[53],"type":["dbl"],"align":["right"]},{"label":["DPETTT1P"],"name":[54],"type":["dbl"],"align":["right"]},{"label":["DPETTWOC"],"name":[55],"type":["dbl"],"align":["right"]},{"label":["DPETTWOP"],"name":[56],"type":["dbl"],"align":["right"]},{"label":["DPETWHIC"],"name":[57],"type":["dbl"],"align":["right"]},{"label":["DPETWHIP"],"name":[58],"type":["dbl"],"align":["right"]},{"label":["DPNTBILC"],"name":[59],"type":["dbl"],"align":["right"]},{"label":["DPNTBILP"],"name":[60],"type":["dbl"],"align":["right"]},{"label":["DPNTGIFC"],"name":[61],"type":["dbl"],"align":["right"]},{"label":["DPNTGIFP"],"name":[62],"type":["dbl"],"align":["right"]},{"label":["DPNTSPEC"],"name":[63],"type":["dbl"],"align":["right"]},{"label":["DPNTSPEP"],"name":[64],"type":["dbl"],"align":["right"]}],"data":[{"1":"'001902","2":"13","3":"13","4":"100","5":"62","6":"10.5","7":"593","8":"3","9":"0.5","10":"55","11":"424","12":"13.0","13":"8","14":"1.3","15":"28","16":"4.7","17":"4","18":"0.7","19":"45","20":"7.6","21":"295","22":"49.7","23":"283","24":"47.7","25":"4","26":"0.7","27":"30","28":"5.1","29":"56","30":"9.4","31":"0","32":"0.0","33":"0","34":"0.0","35":"0","36":"0.0","37":"8","38":"1.3","39":"310","40":"52.3","41":"0","42":"0.0","43":"12","44":"2.0","45":"298","46":"50.3","47":"0","48":"0.0","49":"237","50":"40.0","51":"83","52":"14.0","53":"593","54":"100.0","55":"27","56":"4.6","57":"479","58":"80.8","59":"8","60":"1.3","61":"30","62":"5.1","63":"84","64":"14.1"},{"1":"'001903","2":"30","3":"18.9","4":"159","5":"67","6":"5.6","7":"1194","8":"6","9":"0.5","10":"104","11":"836","12":"12.4","13":"35","14":"2.9","15":"48","16":"4.0","17":"8","18":"0.6","19":"70","20":"5.9","21":"704","22":"59.0","23":"578","24":"48.4","25":"6","26":"0.5","27":"56","28":"4.7","29":"135","30":"11.3","31":"24","32":"2.0","33":"0","34":"0.0","35":"3","36":"0.3","37":"35","38":"2.9","39":"616","40":"51.6","41":"0","42":"0.0","43":"36","44":"3.0","45":"490","46":"41.0","47":"1","48":"0.1","49":"352","50":"29.5","51":"163","52":"13.7","53":"1191","54":"99.7","55":"54","56":"4.5","57":"947","58":"79.3","59":"35","60":"2.9","61":"56","62":"4.7","63":"163","64":"13.7"},{"1":"'001904","2":"15","3":"11.5","4":"130","5":"75","6":"9.4","7":"801","8":"7","9":"0.9","10":"83","11":"640","12":"13.0","13":"35","14":"4.4","15":"64","16":"8.0","17":"8","18":"0.9","19":"59","20":"7.4","21":"471","22":"58.8","23":"376","24":"46.9","25":"6","26":"0.7","27":"52","28":"6.5","29":"91","30":"11.4","31":"11","32":"1.4","33":"0","34":"0.0","35":"5","36":"0.6","37":"35","38":"4.4","39":"425","40":"53.1","41":"0","42":"0.0","43":"31","44":"3.9","45":"330","46":"41.2","47":"0","48":"0.0","49":"290","50":"36.2","51":"116","52":"14.5","53":"801","54":"100.0","55":"33","56":"4.1","57":"601","58":"75.0","59":"35","60":"4.4","61":"52","62":"6.5","63":"117","64":"14.6"},{"1":"'001906","2":"11","3":"24.4","4":"45","5":"30","6":"9.7","7":"309","8":"1","9":"0.3","10":"47","11":"251","12":"18.7","13":"6","14":"1.9","15":"23","16":"7.4","17":"2","18":"0.5","19":"10","20":"3.2","21":"174","22":"56.3","23":"154","24":"49.8","25":"3","26":"1.0","27":"22","28":"7.1","29":"39","30":"12.6","31":"1","32":"0.3","33":"0","34":"0.0","35":"1","36":"0.3","37":"7","38":"2.3","39":"155","40":"50.2","41":"0","42":"0.0","43":"50","44":"16.2","45":"135","46":"43.7","47":"0","48":"0.0","49":"104","50":"33.7","51":"37","52":"12.0","53":"308","54":"99.7","55":"7","56":"2.3","57":"238","58":"77.0","59":"6","60":"1.9","61":"22","62":"7.1","63":"38","64":"12.3"},{"1":"'001907","2":"76","3":"15.6","4":"487","5":"226","6":"6.9","7":"3296","8":"22","9":"0.7","10":"257","11":"2033","12":"12.6","13":"524","14":"15.9","15":"808","16":"24.5","17":"142","18":"3.9","19":"119","20":"3.6","21":"2649","22":"80.4","23":"1545","24":"46.9","25":"13","26":"0.4","27":"63","28":"1.9","29":"1423","30":"43.2","31":"6","32":"0.2","33":"40","34":"1.2","35":"6","36":"0.2","37":"576","38":"17.5","39":"1751","40":"53.1","41":"0","42":"0.0","43":"65","44":"2.0","45":"647","46":"19.6","47":"3","48":"0.1","49":"1809","50":"54.9","51":"490","52":"14.9","53":"3296","54":"100.0","55":"128","56":"3.9","57":"906","58":"27.5","59":"524","60":"15.9","61":"63","62":"1.9","63":"491","64":"14.9"},{"1":"'001908","2":"49","3":"20.9","4":"235","5":"113","6":"8.0","7":"1414","8":"5","9":"0.4","10":"128","11":"937","12":"13.7","13":"101","14":"7.1","15":"298","16":"21.1","17":"29","18":"1.9","19":"77","20":"5.4","21":"1053","22":"74.5","23":"686","24":"48.5","25":"8","26":"0.6","27":"54","28":"3.8","29":"381","30":"26.9","31":"11","32":"0.8","33":"11","34":"0.8","35":"10","36":"0.7","37":"106","38":"7.5","39":"728","40":"51.5","41":"3","42":"0.2","43":"6","44":"0.4","45":"361","46":"25.5","47":"1","48":"0.1","49":"727","50":"51.4","51":"223","52":"15.8","53":"774","54":"54.7","55":"72","56":"5.1","57":"647","58":"45.8","59":"101","60":"7.1","61":"54","62":"3.8","63":"223","64":"15.8"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>In the newer files the <code>DISTRICT</code> observations have a <code>'</code> at the beginning: <code>'001902</code>. This is added to help preserve those leading zeros, but we will need to remove the <code>'</code> so the values are the same structure as the other data files.</p>
+<p>Also note there are 64 columns in this data vs the 34 in the 2013 file. The TEA has added different measurements through the years. That’s OK, because we still only need the three columns of <code>DISTRICT</code>, <code>DPETALLC</code>, <code>DPETSPEC</code> and <code>DPETSPEP</code> for this analysis, so we’ll specify only those columns as we import the data.</p>
+</section>
+<section id="importing-multiple-files-at-once" class="level3" data-number="10.4.2">
+<h3 data-number="10.4.2" class="anchored" data-anchor-id="importing-multiple-files-at-once"><span class="header-section-number">10.4.2</span> Importing multiple files at once</h3>
+<p>In our <code>raw-data/</code> folder we have 11 years of data from the 2012-2013 school year to the 2022-2023 school year. If all of our files were the some configuration (the same variables and data types) then we could just use <code>read_csv()</code> and feed it a list of files. Our files aren’t the same, though, as some have additional columns.</p>
+<p>The “long” way to do this would be importing each file individually, selecting the columns we need and then saving them as objects. We could then stack them on top of each other with the <a href="https://dplyr.tidyverse.org/reference/bind_rows.html"><code>bind_rows()</code></a> function.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>combined <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(data_01, data_02, data_03)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>That would bind three tibbles of data if they were all the same.</p>
+<p>But we can use some libraries available in tidyverse – <a href="https://purrr.tidyverse.org/index.html">purrr</a> and <a href="https://readr.tidyverse.org/index.html">readr</a> – to import and bind together all the DSTUD files at one time after selecting just the variables we need from each file so they are the same.</p>
+<p>We do this in three steps:</p>
+<ul>
+<li>We’ll use <code>list.files()</code> to create a vector of the files we want</li>
+<li>We’ll use <code>map()</code> to apply the read_csv function to each file and create a list tibbles</li>
+<li>We’ll use <code>list_rbind()</code> to combine those tibbles into a single tibble</li>
+</ul>
+<p>There are a couple of other functions we’ll tuck in there along the way to help us.</p>
+<section id="building-our-files-list" class="level4" data-number="10.4.2.1">
+<h4 data-number="10.4.2.1" class="anchored" data-anchor-id="building-our-files-list"><span class="header-section-number">10.4.2.1</span> Building our files list</h4>
+<p>We’ll use a function called <code>list.files()</code> to create a vector of the files we want.</p>
+<ol type="1">
+<li>If you haven’t already, open the cleaning notebook in the project.</li>
+<li>Run all the setup code.</li>
+<li>Add a Markdown headline noting we are working on DSTUD data</li>
+<li>Add text noting we are building our vector of files to import.</li>
+<li>Run the code.</li>
+</ol>
+<p>I explain the code below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>dstud_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data-original"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pattern =</span> <span class="st">"DSTUD"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">full.names =</span> <span class="cn">TRUE</span></span>
+<span id="annotated-cell-4-5"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-4-7" class="code-annotation-target"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>dstud_files</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="1" data-code-annotation="1">The first line starts with the new object we are creating to hold our vector of data. It ends with our function, <code>list.files()</code>, which lists files in a directory as a vector.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="2" data-code-annotation="2">The first argument of <code>list.files()</code> is the path to where you want to look. We want to look in the <code>data-original</code> folder. Without this argument, it would look in our main project folder.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="3" data-code-annotation="3">The second optional argument is a regular expression pattern to capture specific files based on the file name. We’re looking for the text “DSTUD” in the file names so we don’t capture the DREF file (which we’ll deal with later).</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="4" data-code-annotation="4">The <code>full.names = TRUE</code> argument indicates that we want to keep not just the names of the files, but he full path to where the files are, which is what we need.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="7" data-code-annotation="5">We’re just printing out the resulting object to make sure we got what we wanted.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "data-original/DSTUD_13.csv" "data-original/DSTUD_14.csv"
+ [3] "data-original/DSTUD_15.csv" "data-original/DSTUD_16.csv"
+ [5] "data-original/DSTUD_17.csv" "data-original/DSTUD_18.csv"
+ [7] "data-original/DSTUD_19.csv" "data-original/DSTUD_20.csv"
+ [9] "data-original/DSTUD_21.csv" "data-original/DSTUD_22.csv"
+[11] "data-original/DSTUD_23.csv"</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+About regular expressions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Regular expressions are a pattern-matching syntax used in many programming languages. Above we searched for a simple word, but regex is much more powerful than that. You can learn more about regular expressions in this <a href="https://docs.google.com/document/d/1DvAM4lnGJLefo9skD8GgM-_9S1BEhpjJfV86yhJavI0/edit?usp=sharing">NICAR lesson</a> and how to use them in R in the <a href="https://r4ds.hadley.nz/regexps">Regular expressions</a> chapter in R for Data Science.</p>
+</div>
+</div>
+<p>Now we have an object that is a vector of all the file names. We’ll loop through this list to import all the files.</p>
+</section>
+<section id="map-import-and-bind" class="level4" data-number="10.4.2.2">
+<h4 data-number="10.4.2.2" class="anchored"><span class="header-section-number">10.4.2.2</span> Map, import and bind</h4>
+<p>In the next section we’ll add the files names to our vector to help us later, then use <a href="https://purrr.tidyverse.org/reference/map_dfr.html"><code>map()</code></a> to walk through the list and apply <code>read_csv()</code> function to all our files. Then we’ll bind together with <code>list_rbind()</code> and finish out normalizing the names.</p>
+<p>There is a LOT going on in this bit, so note the code annotations for details.</p>
+<ol type="1">
+<li>Add some text noting that you are importing the DSTUD files</li>
+<li>Add the code block below and run it.</li>
+<li>Be sure to read through the explanations</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-5-1" class="code-annotation-target"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a>dstud_raw <span class="ot">&lt;-</span> dstud_files <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-5-2" class="code-annotation-target"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_names</span>(basename) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-5-3" class="code-annotation-target"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-5-4" class="code-annotation-target"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>    read_csv,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-5-5" class="code-annotation-target"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_select =</span> <span class="fu">c</span>(DISTRICT, DPETALLC, DPETSPEC, DPETSPEP)</span>
+<span id="annotated-cell-5-6"><a href="#annotated-cell-5-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-5-7" class="code-annotation-target"><a href="#annotated-cell-5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list_rbind</span>(<span class="at">names_to =</span> <span class="st">"source"</span>) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="7" onclick="event.preventDefault();">7</a><span id="annotated-cell-5-8" class="code-annotation-target"><a href="#annotated-cell-5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span>
+<span id="annotated-cell-5-9"><a href="#annotated-cell-5-9" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="8" onclick="event.preventDefault();">8</a><span id="annotated-cell-5-10" class="code-annotation-target"><a href="#annotated-cell-5-10" aria-hidden="true" tabindex="-1"></a>dstud_raw <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="9" onclick="event.preventDefault();">9</a><span id="annotated-cell-5-11" class="code-annotation-target"><a href="#annotated-cell-5-11" aria-hidden="true" tabindex="-1"></a>dstud_raw <span class="sc">|&gt;</span> <span class="fu">head</span>()</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="10" onclick="event.preventDefault();">10</a><span id="annotated-cell-5-12" class="code-annotation-target"><a href="#annotated-cell-5-12" aria-hidden="true" tabindex="-1"></a>dstud_raw <span class="sc">|&gt;</span> <span class="fu">tail</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="1" data-code-annotation="1">We create a new object to fill, then start with our list of file names.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="2" data-code-annotation="2">This line adds a name to each item in the <code>dstud_files</code> vector with the name of the file it came from. We’ll use this later when we combine the files to know where the data came from.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="3" data-code-annotation="3">We pipe into <code>map</code>, which will work on each file in turn, applying the functions and arguments inside this function.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="4" data-code-annotation="4">The first argument is the function we are applying. We are using <code>read_csv()</code> since we are importing csv files.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="5" data-code-annotation="5">This <code>col_select =</code> is an optional argument for <code>read_csv</code> that allows us to choose which columns we want as we read them in. After this argument we close the <code>map()</code> function, which results in a “list” of data frames, which we then pipe into …</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="7" data-code-annotation="6"><code>list_rbind()</code> is a function that combines data frames from a list. We give this function the argument <code>names_to = "source"</code> to add a variable called <code>source</code> to each row of data with the name of the file it came from. This is why we added <code>set_names()</code> earlier because without it we wouldn’t know which row came from which file. With this name, we can create a year column later.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="7">7</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="8" data-code-annotation="7">We clean the names after importing them.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="8">8</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="10" data-code-annotation="8">Here I’m just printing the number of rows in our data as a check that everything worked.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="9">9</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="11" data-code-annotation="9">Here we are peeking at the top of the resulting object.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="10">10</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="12" data-code-annotation="10">And then we peek at the bottom of the object.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 13307</code></pre>
+</div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["source"],"name":[1],"type":["chr"],"align":["left"]},{"label":["district"],"name":[2],"type":["chr"],"align":["left"]},{"label":["dpetallc"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["dpetspec"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["dpetspep"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"DSTUD_13.csv","2":"001902","3":"595","4":"73","5":"12.3"},{"1":"DSTUD_13.csv","2":"001903","3":"1236","4":"113","5":"9.1"},{"1":"DSTUD_13.csv","2":"001904","3":"751","4":"81","5":"10.8"},{"1":"DSTUD_13.csv","2":"001906","3":"406","4":"45","5":"11.1"},{"1":"DSTUD_13.csv","2":"001907","3":"3288","4":"252","5":"7.7"},{"1":"DSTUD_13.csv","2":"001908","3":"1619","4":"151","5":"9.3"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div><div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["source"],"name":[1],"type":["chr"],"align":["left"]},{"label":["district"],"name":[2],"type":["chr"],"align":["left"]},{"label":["dpetallc"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["dpetspec"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["dpetspep"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"DSTUD_23.csv","2":"'252901","3":"2258","4":"380","5":"16.8"},{"1":"DSTUD_23.csv","2":"'252902","3":"219","4":"38","5":"17.4"},{"1":"DSTUD_23.csv","2":"'252903","3":"726","4":"108","5":"14.9"},{"1":"DSTUD_23.csv","2":"'253901","3":"3373","4":"481","5":"14.3"},{"1":"DSTUD_23.csv","2":"'254901","3":"1794","4":"253","5":"14.1"},{"1":"DSTUD_23.csv","2":"'254902","3":"490","4":"62","5":"12.7"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+The col_select argument vs select()
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This <code>col_select =</code> argument we use above also works with a regular <code>read_csv()</code> function. It provides the same result as using <code>read_csv()</code> to import all the columns and then piping into a <code>select()</code> function to list the columns you want to keep or drop. It’s yet another example showing multiple ways to accomplish the same result with R. Up to now I’ve preferred to use <code>read_csv() |&gt; select()</code> because that allows you to see everything inside the data before choosing what to do with it. In our case above being able to pick just these few columns we need makes this much easier to deal with since the individual files have differences beyond some common columns.</p>
+<section id="list_rbind-is-a-merging-function" class="level3" data-number="10.4.3">
+<h3 data-number="10.4.3" class="anchored" data-anchor-id="list_rbind-is-a-merging-function"><span class="header-section-number">10.4.3</span> list_rbind is a merging function</h3>
+<p>It probably complicates matters to mention at this point, but <code>list_rbind()</code> use above is a merging function, which is one of our <a href="https://vimeo.com/showcase/7320305">Basic Data Journalism Functions</a>. Merging is basically stacking data sets on top of each other. You can <a href="https://vimeo.com/435910331?share=rwdir">learn more about merge here</a>.</p>
+</section>
+</div>
+</div>
+</section>
+</section>
+<section id="clean-up-dstud-file" class="level3" data-number="10.4.4">
+<h3 data-number="10.4.4" class="anchored" data-anchor-id="clean-up-dstud-file"><span class="header-section-number">10.4.4</span> Clean up DSTUD file</h3>
+<p>Look closely at the <code>district</code> column and notice the difference at the top and bottom of the file. See where the DSTUD_22 files have a <code>'</code> at the beginning? We need to take those out.</p>
+<p>We also need to create a <code>year</code> variable from our <code>source</code> variable with the file name. We can pluck the numbers out of the file name and combine with text to make the year “2013”, etc.</p>
+<ol type="1">
+<li>Add some text that you are cleaning the file to remove the apostrophe from <code>district</code> and to build a year variable out of <code>source</code>.</li>
+<li>Copy the code below and run it.</li>
+<li>Make sure you read the explanations so understand what is happening.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a>dstud <span class="ot">&lt;-</span> dstud_raw <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-6-3" class="code-annotation-target"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">district =</span> <span class="fu">str_remove</span>(district, <span class="st">"'"</span>),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-6-4" class="code-annotation-target"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> <span class="fu">str_c</span>(<span class="st">"20"</span>, <span class="fu">str_sub</span>(source, <span class="dv">7</span>, <span class="dv">8</span>))</span>
+<span id="annotated-cell-6-5"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-6-6" class="code-annotation-target"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span>source)</span>
+<span id="annotated-cell-6-7"><a href="#annotated-cell-6-7" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-6-8" class="code-annotation-target"><a href="#annotated-cell-6-8" aria-hidden="true" tabindex="-1"></a>dstud <span class="sc">|&gt;</span> <span class="fu">head</span>()</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-6-9" class="code-annotation-target"><a href="#annotated-cell-6-9" aria-hidden="true" tabindex="-1"></a>dstud <span class="sc">|&gt;</span> <span class="fu">tail</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="1" data-code-annotation="1">We create our new object and fill with starting with the <code>dstud_raw</code> data we imported above.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="3" data-code-annotation="2">Within a mutate function, our first line uses <code>str_remove()</code> to pull out the apostrophe from the <code>district</code> variable. We are just reassigning it back to itself.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="4" data-code-annotation="3">The second mutate operation is more complicated. We are setting <code>year</code> to equal a “string combination” (the <code>str_c()</code> function) that pieces together the text “20” with characters from the <code>source</code> variable based on their position, which happen to be the numbers of the year. To do that we use <code>str_sub()</code> where the first argument is variable to look at (source), the starting position (the 7th character) and the ending position (the 8th one). This only works because all the file names are structured the same way.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="6" data-code-annotation="4">Here we remove the <code>source</code> column since we no longer need it.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="8" data-code-annotation="5">We peek at the top of the file …</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="9" data-code-annotation="6">… and the bottom of the file to check our results.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["district"],"name":[1],"type":["chr"],"align":["left"]},{"label":["dpetallc"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["dpetspec"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["dpetspep"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["year"],"name":[5],"type":["chr"],"align":["left"]}],"data":[{"1":"001902","2":"595","3":"73","4":"12.3","5":"2013"},{"1":"001903","2":"1236","3":"113","4":"9.1","5":"2013"},{"1":"001904","2":"751","3":"81","4":"10.8","5":"2013"},{"1":"001906","2":"406","3":"45","4":"11.1","5":"2013"},{"1":"001907","2":"3288","3":"252","4":"7.7","5":"2013"},{"1":"001908","2":"1619","3":"151","4":"9.3","5":"2013"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div><div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["district"],"name":[1],"type":["chr"],"align":["left"]},{"label":["dpetallc"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["dpetspec"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["dpetspep"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["year"],"name":[5],"type":["chr"],"align":["left"]}],"data":[{"1":"252901","2":"2258","3":"380","4":"16.8","5":"2023"},{"1":"252902","2":"219","3":"38","4":"17.4","5":"2023"},{"1":"252903","2":"726","3":"108","4":"14.9","5":"2023"},{"1":"253901","2":"3373","3":"481","4":"14.3","5":"2023"},{"1":"254901","2":"1794","3":"253","4":"14.1","5":"2023"},{"1":"254902","2":"490","3":"62","4":"12.7","5":"2023"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>OK, that seems like a lot, but there was a lot to learn there. This new data frame <code>dstud</code> is ready for us to use a little later.</p>
+</section>
+</section>
+<section id="the-dref-data" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="the-dref-data"><span class="header-section-number">10.5</span> The DREF data</h2>
+<p>We’ve noted that the dstud files don’t have a <strong>district name</strong> within them, so we don’t know what this district id means. Within the TAPR data download tool, there is another file called <strong>District Reference</strong> that has the district ID, names and other information we need. I downloaded the 2022 version <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> as <code>DREF_22.csv</code>. Let’s look at it:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"data-original/DREF_22.csv"</span>) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["DISTRICT"],"name":[1],"type":["chr"],"align":["left"]},{"label":["CNTYNAME"],"name":[2],"type":["chr"],"align":["left"]},{"label":["COUNTY"],"name":[3],"type":["chr"],"align":["left"]},{"label":["DAD_POST"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["DFLALTED"],"name":[5],"type":["chr"],"align":["left"]},{"label":["DFLCHART"],"name":[6],"type":["chr"],"align":["left"]},{"label":["DISTNAME"],"name":[7],"type":["chr"],"align":["left"]},{"label":["D_RATING"],"name":[8],"type":["chr"],"align":["left"]},{"label":["OUTCOME"],"name":[9],"type":["chr"],"align":["left"]},{"label":["REGION"],"name":[10],"type":["chr"],"align":["left"]},{"label":["asvab_status"],"name":[11],"type":["chr"],"align":["left"]}],"data":[{"1":"'001902","2":"ANDERSON","3":"'001","4":"1","5":"N","6":"N","7":"CAYUGA ISD","8":"A","9":"Meets Requirements","10":"'07","11":"NA"},{"1":"'001903","2":"ANDERSON","3":"'001","4":"0","5":"N","6":"N","7":"ELKHART ISD","8":"A","9":"Meets Requirements","10":"'07","11":"NA"},{"1":"'001904","2":"ANDERSON","3":"'001","4":"0","5":"N","6":"N","7":"FRANKSTON ISD","8":"A","9":"Meets Requirements","10":"'07","11":"ASVAB Alternative Test Offered"},{"1":"'001906","2":"ANDERSON","3":"'001","4":"1","5":"N","6":"N","7":"NECHES ISD","8":"A","9":"Meets Requirements","10":"'07","11":"NA"},{"1":"'001907","2":"ANDERSON","3":"'001","4":"0","5":"N","6":"N","7":"PALESTINE ISD","8":"B","9":"Needs Assistance","10":"'07","11":"NA"},{"1":"'001908","2":"ANDERSON","3":"'001","4":"0","5":"N","6":"N","7":"WESTWOOD ISD","8":"B","9":"Needs Assistance","10":"'07","11":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>You’ll see this file also has <code>'</code> at the beginning of ID columns like <code>DISTRICT</code>, <code>COUNTY</code> etc. to preserve leading zeros.</p>
+<p>Look at the <a href="https://rptsvr1.tea.texas.gov/perfreport/tapr/2022/xplore/dref.html">District Reference</a> documentation to understand the variables.</p>
+<p>We want several columns out of this file:</p>
+<ul>
+<li>DISTRICT – We’ll have to remove the <code>'</code> that preserves the leading zeros.</li>
+<li>CNTYNAME – So we can focus on schools in different areas of the sate</li>
+<li>DISTNAME – Which has our district name.</li>
+<li>DFLCHART – District 2022 Flag - Charter Operator (Y/N)</li>
+<li>DFLALTED – District 2022 Flag - Rated under AEA Procedures (Y/N)</li>
+</ul>
+<p>We can use the <code>DISTRICT</code> variable to “join” the district name to all the other data.</p>
+<p>We need the <code>DFLCHART</code> and <code>DFLALTED</code> fields so we can <strong>filter out charter and alternative education schools</strong>. For this analysis, we only want “traditional” public schools.</p>
+<section id="import-reference-data" class="level3" data-number="10.5.1">
+<h3 data-number="10.5.1" class="anchored" data-anchor-id="import-reference-data"><span class="header-section-number">10.5.1</span> Import reference data</h3>
+<ol type="1">
+<li>Add a new Markdown headline that you are working on the reference data.</li>
+<li>Add text that you’ll use read_csv to pull in the variables you need.</li>
+<li>Add the code below, run it and read over the explanations.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-8"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-8-1"><a href="#annotated-cell-8-1" aria-hidden="true" tabindex="-1"></a>dref_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-8-2" class="code-annotation-target"><a href="#annotated-cell-8-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data-original/DREF_22.csv"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-8-3" class="code-annotation-target"><a href="#annotated-cell-8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_select =</span> <span class="fu">c</span>(</span>
+<span id="annotated-cell-8-4"><a href="#annotated-cell-8-4" aria-hidden="true" tabindex="-1"></a>    DISTRICT,</span>
+<span id="annotated-cell-8-5"><a href="#annotated-cell-8-5" aria-hidden="true" tabindex="-1"></a>    CNTYNAME,</span>
+<span id="annotated-cell-8-6"><a href="#annotated-cell-8-6" aria-hidden="true" tabindex="-1"></a>    DISTNAME,</span>
+<span id="annotated-cell-8-7"><a href="#annotated-cell-8-7" aria-hidden="true" tabindex="-1"></a>    DFLCHART,</span>
+<span id="annotated-cell-8-8"><a href="#annotated-cell-8-8" aria-hidden="true" tabindex="-1"></a>    DFLALTED</span>
+<span id="annotated-cell-8-9"><a href="#annotated-cell-8-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="annotated-cell-8-10"><a href="#annotated-cell-8-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-8-11"><a href="#annotated-cell-8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span>
+<span id="annotated-cell-8-12"><a href="#annotated-cell-8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-8-13"><a href="#annotated-cell-8-13" aria-hidden="true" tabindex="-1"></a>dref_raw <span class="sc">|&gt;</span> <span class="fu">head</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="2" data-code-annotation="1">The path to the files.</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="3" data-code-annotation="2">We use the <code>col_select =</code> argument to keep just the columns we want.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["district"],"name":[1],"type":["chr"],"align":["left"]},{"label":["cntyname"],"name":[2],"type":["chr"],"align":["left"]},{"label":["distname"],"name":[3],"type":["chr"],"align":["left"]},{"label":["dflchart"],"name":[4],"type":["chr"],"align":["left"]},{"label":["dflalted"],"name":[5],"type":["chr"],"align":["left"]}],"data":[{"1":"'001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N"},{"1":"'001903","2":"ANDERSON","3":"ELKHART ISD","4":"N","5":"N"},{"1":"'001904","2":"ANDERSON","3":"FRANKSTON ISD","4":"N","5":"N"},{"1":"'001906","2":"ANDERSON","3":"NECHES ISD","4":"N","5":"N"},{"1":"'001907","2":"ANDERSON","3":"PALESTINE ISD","4":"N","5":"N"},{"1":"'001908","2":"ANDERSON","3":"WESTWOOD ISD","4":"N","5":"N"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+<section id="clean-up-dref-file" class="level3" data-number="10.5.2">
+<h3 data-number="10.5.2" class="anchored" data-anchor-id="clean-up-dref-file"><span class="header-section-number">10.5.2</span> Clean up DREF file</h3>
+<p>Now that we have our reference file, we need to clean up the apostrophes so we can join this data to our student data.</p>
+<ol type="1">
+<li>Add some text that you will clean up the apostrophes.</li>
+<li>Add the code below, run it. Note the cleaning is similar to what we did with DSTUD.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dref <span class="ot">&lt;-</span> dref_raw <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">district =</span> <span class="fu">str_remove</span>(district, <span class="st">"'"</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>dref <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["district"],"name":[1],"type":["chr"],"align":["left"]},{"label":["cntyname"],"name":[2],"type":["chr"],"align":["left"]},{"label":["distname"],"name":[3],"type":["chr"],"align":["left"]},{"label":["dflchart"],"name":[4],"type":["chr"],"align":["left"]},{"label":["dflalted"],"name":[5],"type":["chr"],"align":["left"]}],"data":[{"1":"001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N"},{"1":"001903","2":"ANDERSON","3":"ELKHART ISD","4":"N","5":"N"},{"1":"001904","2":"ANDERSON","3":"FRANKSTON ISD","4":"N","5":"N"},{"1":"001906","2":"ANDERSON","3":"NECHES ISD","4":"N","5":"N"},{"1":"001907","2":"ANDERSON","3":"PALESTINE ISD","4":"N","5":"N"},{"1":"001908","2":"ANDERSON","3":"WESTWOOD ISD","4":"N","5":"N"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Now we add this data to our <code>dstud</code> object.</p>
+</section>
+</section>
+<section id="about-joins" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="about-joins"><span class="header-section-number">10.6</span> About joins</h2>
+<p>OK, before we go further we need to talk about joining data. It’s one of those <a href="https://vimeo.com/showcase/7320305">Basic Data Journalism Functions</a> …</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://player.vimeo.com/video/435910338?share=copy" frameborder="0" title="" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>What joins do is match rows from two data sets that have a column of common values, like an ID or county name. (The <code>district</code> ID column in our case). Columns from the second data set will be added based on where the ID’s match.</p>
+<p>There are several types of <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">joins</a>. We describe these as left vs right based on which table we reference first (which is the left one). How much data you end up with depends on the “direction” of the join.</p>
+<ul>
+<li>An <strong>inner_join</strong> puts together columns from both tables where there are matching rows. If there are records in either table where the IDs don’t match, they are dropped.</li>
+<li>A <strong>left_join</strong> will keep ALL the rows of your first table, then bring over columns from the second table where the IDs match. If there isn’t a match in the second table, then new values will be blank in the new columns.</li>
+<li>A <strong>right_join</strong> is the opposite of that: You keep ALL the rows of the second table, but bring over only matching rows from the first.</li>
+<li>A <strong>full_join</strong> keeps all rows and columns from both tables, joining rows when they match.</li>
+</ul>
+<p>Here are two common ways to think of this visually.</p>
+<p>In the image below, The orange represents the data that remains after the join.</p>
+<p><img src="images/joins-description.png" class="img-fluid"></p>
+<p>This next visual shows this as tables where only two rows “match” so you can see how non-matches are handled (the lighter color represents blank values). The functions listed there are the tidyverse versions of each join type.</p>
+<p><img src="images/join_types.png" class="img-fluid"></p>
+<section id="joining-our-reference-table" class="level3" data-number="10.6.1">
+<h3 data-number="10.6.1" class="anchored" data-anchor-id="joining-our-reference-table"><span class="header-section-number">10.6.1</span> Joining our reference table</h3>
+<p>In our case we will start with the <code>dref</code> data and then use an <strong>inner_join</strong> to add all the yearly data values. We’re doing it in this order so the <code>dref</code> values are listed first in our resulting table.</p>
+<ol type="1">
+<li>Start a new Markdown section and note we are joining the reference data</li>
+<li>Add the chunk below and run it</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-10"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-10-1" class="code-annotation-target"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a>sped_joined <span class="ot">&lt;-</span> dref <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-10-2" class="code-annotation-target"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(dstud, <span class="at">by =</span> <span class="st">"district"</span>)</span>
+<span id="annotated-cell-10-3"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-10-4"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a>sped_joined <span class="sc">|&gt;</span> <span class="fu">head</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="1" data-code-annotation="1">We are creating a new bucket <code>sped_joined</code> to save our data. We start with <code>dref</code> so those fields will be listed first in our result.</span>
+</dd>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="2" data-code-annotation="2">We then pipe into <code>inner_join()</code> listing the <code>dstud</code> object, which will attach our <code>dref</code> data to our merged data when the ID matches in the <code>district</code> variable. The <code>by = "district"</code> argument ensures that we are matching based on the <code>district</code> column in both data sets.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["district"],"name":[1],"type":["chr"],"align":["left"]},{"label":["cntyname"],"name":[2],"type":["chr"],"align":["left"]},{"label":["distname"],"name":[3],"type":["chr"],"align":["left"]},{"label":["dflchart"],"name":[4],"type":["chr"],"align":["left"]},{"label":["dflalted"],"name":[5],"type":["chr"],"align":["left"]},{"label":["dpetallc"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["dpetspec"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["dpetspep"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["year"],"name":[9],"type":["chr"],"align":["left"]}],"data":[{"1":"001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N","6":"595","7":"73","8":"12.3","9":"2013"},{"1":"001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N","6":"553","7":"76","8":"13.7","9":"2014"},{"1":"001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N","6":"577","7":"76","8":"13.2","9":"2015"},{"1":"001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N","6":"568","7":"78","8":"13.7","9":"2016"},{"1":"001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N","6":"576","7":"82","8":"14.2","9":"2017"},{"1":"001902","2":"ANDERSON","3":"CAYUGA ISD","4":"N","5":"N","6":"575","7":"83","8":"14.4","9":"2018"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>We could’ve left out the <code>by =</code> argument and R would match columns of the same name, but it is best practice to specify your joining columns so it is clear what is happening. You wouldn’t want to be surprised to join by other columns of the same name. If you wanted to specify join columns of different names it would look like this:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># don't use this ... it is just an example </span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df1 <span class="sc">|&gt;</span> <span class="fu">inner_join</span>(df2, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"df1_id"</span> <span class="ot">=</span> <span class="st">"df2_id"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You should also <code>glimpse()</code> your new data so you can see all the columns have been added.</p>
+<ol type="1">
+<li>Add text that you are peeking at all the columns.</li>
+<li>Add the code below and run it</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sped_joined <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 13,087
+Columns: 9
+$ district &lt;chr&gt; "001902", "001902", "001902", "001902", "001902", "001902", "…
+$ cntyname &lt;chr&gt; "ANDERSON", "ANDERSON", "ANDERSON", "ANDERSON", "ANDERSON", "…
+$ distname &lt;chr&gt; "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "CAYUGA ISD", "CAYU…
+$ dflchart &lt;chr&gt; "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "…
+$ dflalted &lt;chr&gt; "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "…
+$ dpetallc &lt;dbl&gt; 595, 553, 577, 568, 576, 575, 564, 557, 535, 574, 593, 1236, …
+$ dpetspec &lt;dbl&gt; 73, 76, 76, 78, 82, 83, 84, 82, 78, 84, 83, 113, 107, 126, 14…
+$ dpetspep &lt;dbl&gt; 12.3, 13.7, 13.2, 13.7, 14.2, 14.4, 14.9, 14.7, 14.6, 14.6, 1…
+$ year     &lt;chr&gt; "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020…</code></pre>
+</div>
+</div>
+<p>There are now <strong>13087</strong> rows in our joined data, fewer than what was in the original merged file because some districts (mostly charters) have closed and were not in our reference file. We are comparing only districts that have been open during this time period. For that matter, we don’t want charter or alternative education districts at all, so we’ll drop those next.</p>
+</section>
+</section>
+<section id="some-cleanup-filter-and-select" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="some-cleanup-filter-and-select"><span class="header-section-number">10.7</span> Some cleanup: filter and select</h2>
+<p>Filtering and selecting data is something we’ve done time and again, so you should be able to do this on your own.</p>
+<p>You will next remove the charter and alternative education districts. This is a judgement call on our part to focus on just traditional public schools. We can always come back later and change if needed.</p>
+<p>You’ll also remove and rename columns to make the more descriptive.</p>
+<ol type="1">
+<li>Start a new markdown section and note you are cleaning up your data.</li>
+<li>Create an R chunk and start with the <code>sped_joined</code> and then do all these things …</li>
+<li>Use <code>filter()</code> to keep rows where:
+<ul>
+<li>the <code>dflalted</code> field is “N”</li>
+<li>AND the <code>dflchart</code> field is “N”</li>
+</ul></li>
+<li>Use <code>select()</code> to:
+<ul>
+<li>remove (or not include) the <code>dflalted</code> and <code>dflchart</code> columns. (You can only do this AFTER you filter with them!)</li>
+</ul></li>
+<li>Use <code>select()</code> or <code>rename()</code> to rename the following columns:
+<ul>
+<li>change <code>dpetallc</code> to <code>all_count</code></li>
+<li>change <code>dpetspec</code> to <code>sped_count</code></li>
+<li>change <code>dpetspep</code> to <code>sped_percent</code></li>
+</ul></li>
+<li>Make sure all your changes are saved into a new data frame called <code>sped_cleaned</code>.</li>
+</ol>
+<p>I really, really suggest you don’t try to write that all at once. Build it one line at a time so you can see the result as you build your code.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Seriously, try on your own first</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sped_cleaned <span class="ot">&lt;-</span> sped_joined <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dflalted <span class="sc">==</span> <span class="st">"N"</span> <span class="sc">&amp;</span> dflchart <span class="sc">==</span> <span class="st">"N"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    district,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    distname,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    cntyname,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    year,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">all_count =</span> dpetallc,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_count =</span> dpetspec,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">sped_percent =</span> dpetspep</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>You should end up with <strong>11225</strong> rows and <strong>7</strong> variables.</p>
+</section>
+<section id="create-an-audit-benchmark-column" class="level2" data-number="10.8">
+<h2 data-number="10.8" class="anchored" data-anchor-id="create-an-audit-benchmark-column"><span class="header-section-number">10.8</span> Create an audit benchmark column</h2>
+<p>Part of this story is to note when a district is above the “8.5%” benchmark the TEA penalized them in their audit calculations. It would be useful to have a column that noted if a district was above or below that threshold so we could plot districts based on that flag. We’ll create this new column and introduce the logic of <a href="https://dplyr.tidyverse.org/reference/if_else.html"><code>if_else()</code></a>.</p>
+<p>OK, our data looks like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sped_cleaned <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["district"],"name":[1],"type":["chr"],"align":["left"]},{"label":["distname"],"name":[2],"type":["chr"],"align":["left"]},{"label":["cntyname"],"name":[3],"type":["chr"],"align":["left"]},{"label":["year"],"name":[4],"type":["chr"],"align":["left"]},{"label":["all_count"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["sped_count"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["sped_percent"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"001902","2":"CAYUGA ISD","3":"ANDERSON","4":"2013","5":"595","6":"73","7":"12.3"},{"1":"001902","2":"CAYUGA ISD","3":"ANDERSON","4":"2014","5":"553","6":"76","7":"13.7"},{"1":"001902","2":"CAYUGA ISD","3":"ANDERSON","4":"2015","5":"577","6":"76","7":"13.2"},{"1":"001902","2":"CAYUGA ISD","3":"ANDERSON","4":"2016","5":"568","6":"78","7":"13.7"},{"1":"001902","2":"CAYUGA ISD","3":"ANDERSON","4":"2017","5":"576","6":"82","7":"14.2"},{"1":"001902","2":"CAYUGA ISD","3":"ANDERSON","4":"2018","5":"575","6":"83","7":"14.4"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>We want to add a column called <code>audit_flag</code> that says <strong>ABOVE</strong> if the <code>sped_percent</code> is above “8.5”, and says <strong>BELOW</strong> if it isn’t. This is a simple true/false condition that is perfect for the <code>if_else()</code> function.</p>
+<ol type="1">
+<li>Add a new Markdown section and note that you are adding an audit flag column</li>
+<li>Create an r chunk that and run it and I’ll explain after.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-15"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-15-1" class="code-annotation-target"><a href="#annotated-cell-15-1" aria-hidden="true" tabindex="-1"></a>sped_flag <span class="ot">&lt;-</span> sped_cleaned <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-15-2" class="code-annotation-target"><a href="#annotated-cell-15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">audit_flag =</span> <span class="fu">if_else</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-15-3" class="code-annotation-target"><a href="#annotated-cell-15-3" aria-hidden="true" tabindex="-1"></a>    sped_percent <span class="sc">&gt;</span> <span class="fl">8.5</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-15-4" class="code-annotation-target"><a href="#annotated-cell-15-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ABOVE"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-15-5" class="code-annotation-target"><a href="#annotated-cell-15-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BELOW"</span></span>
+<span id="annotated-cell-15-6"><a href="#annotated-cell-15-6" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="annotated-cell-15-7"><a href="#annotated-cell-15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-15-8"><a href="#annotated-cell-15-8" aria-hidden="true" tabindex="-1"></a><span class="co"># this pulls 10 random rows so I can check results</span></span>
+<span id="annotated-cell-15-9"><a href="#annotated-cell-15-9" aria-hidden="true" tabindex="-1"></a>sped_flag <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-15-10" class="code-annotation-target"><a href="#annotated-cell-15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="7" onclick="event.preventDefault();">7</a><span id="annotated-cell-15-11" class="code-annotation-target"><a href="#annotated-cell-15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(distname, sped_percent, audit_flag)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-15" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-15" data-code-lines="1" data-code-annotation="1">We’re making a new data frame called <code>sped_flag</code> and then starting with <code>sped_cleaned</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-15" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-15" data-code-lines="2" data-code-annotation="2">We use <code>mutate()</code> to create a new column and we name it <code>audit_flag</code>. We set the value of <code>audit_flag</code> to be the result of an <code>if_else()</code> function.</span>
+</dd>
+<dt data-target-cell="annotated-cell-15" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-15" data-code-lines="3" data-code-annotation="3">The if_else function takes three arguments and the first is a condition test (<code>sped_percent &gt; 8.5</code> in our case). We are looking inside the <code>sped_percent</code> column to see if it is greater than “8.5”.</span>
+</dd>
+<dt data-target-cell="annotated-cell-15" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-15" data-code-lines="4" data-code-annotation="4">The second argument is what we want the result to be if the condition is true (the text “ABOVE” in our case.)</span>
+</dd>
+<dt data-target-cell="annotated-cell-15" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-15" data-code-lines="5" data-code-annotation="5">And the third argument is the result if the condition is NOT true (the text “BELOW” in our case).</span>
+</dd>
+<dt data-target-cell="annotated-cell-15" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-15" data-code-lines="10" data-code-annotation="6">Lastly we print out the new data <code>sped_cleaned</code> and pipe it into <code>sample_n()</code> which gives us a number of random rows from the data. I do this because the top of the data was all TRUE so I couldn’t see if the mutate worked properly or not. (Always check your calculations!!)</span>
+</dd>
+<dt data-target-cell="annotated-cell-15" data-target-annotation="7">7</dt>
+<dd>
+<span data-code-cell="annotated-cell-15" data-code-lines="11" data-code-annotation="7">I’m using <code>select()</code> here to grab just the columns of interest for the check.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["distname"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sped_percent"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["audit_flag"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"PLANO ISD","2":"10.4","3":"ABOVE"},{"1":"ABBOTT ISD","2":"11.1","3":"ABOVE"},{"1":"PROSPER ISD","2":"7.8","3":"BELOW"},{"1":"JUDSON ISD","2":"9.7","3":"ABOVE"},{"1":"COLUMBIA-BRAZORIA ISD","2":"16.2","3":"ABOVE"},{"1":"CARRIZO SPRINGS CISD","2":"8.7","3":"ABOVE"},{"1":"CLARENDON ISD","2":"15.1","3":"ABOVE"},{"1":"MUMFORD ISD","2":"7.6","3":"BELOW"},{"1":"HART ISD","2":"12.6","3":"ABOVE"},{"1":"LA JOYA ISD","2":"11.1","3":"ABOVE"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Be sure to look through the result to check the new <code>audit_flag</code> has values as you expect.</p>
+</section>
+<section id="export-the-data" class="level2" data-number="10.9">
+<h2 data-number="10.9" class="anchored" data-anchor-id="export-the-data"><span class="header-section-number">10.9</span> Export the data</h2>
+<p>This is something you’ve done a number of times as well, so I leave you to you:</p>
+<ol type="1">
+<li>Make a new section and note you are exporting the data</li>
+<li>Export your <code>sped_flag</code> data using <code>write_rds()</code> and save it in your <code>data-processed</code> folder.</li>
+</ol>
+<p>In the next chapter we’ll build an analysis notebook to find our answers!</p>
+</section>
+<section id="new-functions-we-used" class="level2" data-number="10.10">
+<h2 data-number="10.10" class="anchored" data-anchor-id="new-functions-we-used"><span class="header-section-number">10.10</span> New functions we used</h2>
+<ul>
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/list.files"><code>list.files()</code></a> makes a list of file names in a folder. You can use the <code>pattern =</code> argument to search for specific files to include based on a regular expression.</li>
+<li><a href="https://purrr.tidyverse.org/reference/map.html"><code>map()</code></a> Loops through a vector or list and applies a function to each item. We used it with <code>read_csv()</code> to import multiple files and put them into a list.</li>
+<li><a href="https://purrr.tidyverse.org/reference/list_c.html"><code>list_rbind()</code></a> is a function to combine elements into a data frame by row-binding them. In other words, it stacks them on top of each other into one thing.</li>
+<li><a href="https://rlang.r-lib.org/reference/set_names.html"><code>set_names()</code></a> provides a name to each element in a vector. We used it to add the “basename” of each file.</li>
+<li><a href="https://stringr.tidyverse.org/reference/str_c.html"><code>str_c()</code></a> is used to combine text.</li>
+<li><a href="https://stringr.tidyverse.org/reference/str_sub.html"><code>str_sub()</code></a> allows us to extract part of a string based on it’s position.</li>
+<li>We used <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html"><code>inner_join()</code></a> to add columns from one data frame to another one based on a common key in both objects.</li>
+<li><a href="https://dplyr.tidyverse.org/reference/if_else.html"><code>if_else()</code></a> provides specified results based on a true/false condition.</li>
+</ul>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>In later years we use Student Membership: Counts/Percents, a nuance added by the TEA in 2019-20 and outlined in the TAPR Glossary.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>The name changes to “Student Enrollment by Instructional Programs” in later years.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>The 2023 District Reference file from the TEA was missing some variables.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./tidy-data.html" class="pagination-link" aria-label="Tidy data">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tidy data</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./denied-analysis.html" class="pagination-link" aria-label="Denied Analysis">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Denied Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
