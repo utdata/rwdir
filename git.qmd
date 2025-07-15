@@ -1,73 +1,126 @@
 # Using git
 
-This chapter assumes you have some familiarity with Terminal, Git and Github. Those skills are really independent of R and RStudio, but are being applied here in an R context. 
+This chapter assumes you have some familiarity with Terminal, Git and Github. Those skills are really independent of R and RStudio, but are being applied here in an R context.
 
-Here are some existing resources that cover those skills, though they are not built to work together ... they are written for different contexts and can be redundant.
+If you want to gain that basic understanding of git with an R perspective, then I recommend you start with [Git for R](https://utdata.github.io/git-for-r/). This guide was written by Anastasia Goodwin for R users who want to add Terminal and git skills to their workflow. Ana is UT School of Journalism & Media graduate and she wrote the book with our students in mind.
 
-- [Happy Git and Github for the useR](https://happygitwithr.com/) is a good resource on how to install and work with Git/Github with RStudio in mind.
-- Another option might be to do the first four chapters of [Intro to Coding for Journalists](https://utdata.github.io/icj-class/). Those lessons were not written with RStudio in mind, but it is a beginner look at Terminal, Git and Github. Once understood, moving that knowledge into RStudio isn't too much of a stretch. 
-- Another way to go about it is to start with [Github's Docs](https://docs.github.com/en/get-started/start-your-journey/about-github-and-git). It's comprehensive, but it's a lot. There is way more than the basic minimum knowledge there.
-
-But do know that Git needs to already be installed and configured before anyting below works. Once you have that, you can use the Terminal within RStudio to do any Git things you need. There is also a ["Git" tab within RStudio](https://docs.posit.co/ide/user/ide/guide/tools/version-control.html) where you can interact, though I'm personally less familiar with it.
+If you already know git and are just here to learn how to publish quarto websites, then here we go.
 
 ## Publish to Github Pages
 
-This assumes you already have your repo created and pushed to Github.
+This assumes you already have your repo created and your main code pushed to Github.
 
-### Set up the output directory
+### Ignoring Output
 
-When you build a Quarto website like we do with our projects, it saves the HTML files into a folder called `_site`. We're going to change the `_quarto.yml` configuration file to instead save those files into a `docs/` folder that can then be published (for free) through Github Pages.
+With this method of publishing you don't need to check your `_site` or `_book` directory into version control. Before proceeding you should add the output directory of your project to `.gitignore`.
 
-1. Open your `_quarto.yml` file
-2. Under the project line (probably at the top) add the output-dir line as described below and save it:
+1.  In your RStudio project, open your `.gitignore` file and add the following:
 
-  ``` {.yaml filename="_quarto.yml"}
-  project:
-    type: website
-    output-dir: docs
-  ```
+``` {.bash filename=".gitignore"}
+/.quarto/
+/_site/
+```
 
-3. Render all your pages. The best way is to use the **Build** tab (usually top right) and then click on the **Render Website** button.
-4. Add, commit and push all your changes to git and Github.
+If you don't yet have a `.gitignore` file, see the section below about creating a good one.
 
-This will rework all the files to go into a `docs` folder. You can remove the `_site` folder if it had already been created.
+If you've already checked your `_site` files into source control you may need to remove them explicitly:
 
-::: callout-warning
-In some instances when making a major change to the `_quarto.yml` file like this, you might have to restart R and then **Render Website** to make sure all the changes are understood.
-:::
+``` {.bash filename="Terminal"}
+git rm -r _site
+```
+
+The next time you push your code, that `_site` directory will get deleted.
+
+### Create gh-pages branch
+
+There are a number of ways to use Github to publish your Quarto site, but the method we'll use here is a gh-pages branch. These steps are drawn from the [Quarto docs site](https://quarto.org/docs/publishing/github-pages.html#publish-command).
+
+1.  Go to your repo in Github.
+2.  Click on the **Branches** tab.
+
+    ![](images/click-branches.png)
+
+    This will list all your current branches. If you already have a `gh-pages` branch for some reason, you can cancel this and skip to the next section, otherwise ...
+
+3.  Click on the green **New branch** button at the top right.
+    - Name the new branch exactly **`gh-pages`**. The name matters.
+    - Leave the **Source** as *main*.
+    - Click the **Create new branch** button.
+
+    ![](images/create-gh-pages.png)
 
 ### Set up Github Pages
 
-1. Go to your repo in Github.
-2. Click on the **Settings** Tab
-3. Click on **Pages** in the left navigation. 
-4. Under **Build and deployment**:
-    - Make sure Source is "Deploy from a branch"
-    - Set the branch to `main` and the folder to `/docs` and click **Save.**
+Now that we have a `gh-pages` branch, we'll set up Github Pages.
 
-![Github Pages Setup](images/git-set-pages-docs.png)
+1.  While still in your Github repo, click on the **Settings** tab.
+2.  Click on **Pages** in the left navigation.
+3.  Under **Build and deployment**:
+    -   Make sure Source is "Deploy from a branch"
+    -   Set the branch to `gh-pages` and the folder to `/ (root)` and click **Save.**
 
-This will set up a publishing Action and once it has published your files it will add the link to the top of this Pages page. The URL is predictable based on your username and repo name.
+![](images/git-set-pages-docs.png)
+
+### Publishing
+
+We'll use the `quarto publish` Terminal command to render and send files to our gh-pages branch in Github. This works just like when we have published to Quarto Pub in other parts of this book, but we'll specify the destination as Github instead of Quarto Pub.
+
+1.  While inside your project in Rstudio, click on the Terminal.
+
+2.  Enter the following command ...
+
+    ``` {.bash filename="Terminal"}
+    quarto publish gh-pages
+    ```
+
+3.  You'll be asked to confirm the Github Page url where your project will publish. Just hit **Return** on your keyboard to execute.
+
+::: callout-tip
+We are adding the `gh-page` part to `quarto publish gh-pages` to pre-pick where we want to send the published files. You can also just `quarto publish` and then pick either Github Pages, Quarto Pub or other destinations as you see fit.
+:::
+
+#### Private Sites
+
+If your repo is not public then the logic within `quarto publish` that waits for your site to be available before opening a browser won't work correctly. In this case you should pass the `--no-browser` option to bypass this:
+
+``` {.bash filename="Terminal"}
+quarto publish gh-pages --no-browser
+```
+
+### Finding the url
+
+Now that you've published pages, you can go back to your repo in Settings > Pages to get the URL, which is predictable based on your username and repo name.
 
 ![Github Pages url](images/git-pages-url.png)
 
-To make updates, make your changes locally, render all the pages, then commit and push them to Github. It takes a couple of minutes for the action to republish pages depending on the size of the site.
+## Push vs publish vs render
 
-### Troublshooting Github Pages
+Now that you've added Git Pages publishing to your workflow, it's worth noting some differences in the push, publish and render commands.
 
-The main issue I've seen is having a `.gitignore` file that lists the `docs/` folder so that it never gets pushed to Github. That folder has to be in the remote repo for Pages to work with this configuration. Comment or remove that line (or use my `.gitignore` file listed below)
+-   When you **Render** your site or a page, Quarto creates an HTML version on you local machine so you can preview it. The way we've set things up here, those preview files are not saved to Github at all.
+-   When you use `git push` you are pushing your Quarto _source_ files to Github. It DOES NOT republish your rendered files.
+-   When you use `quarto publish gh-pages` to publish to Github Pages, you are **Rendering** all your files again AND pushing those HTML files to the `gh-pages` branch. A Github Action then fires to publish them to the internet through Github Pages.
 
-If you've published before already and are pushing corrections, you have to wait on the publishing Action, which can take time (like 5 minutes at most?). Sometimes a browser will hang onto the cache of the earlier page, so try holding down **Shift** as you refresh the page to make it check the server again.
+This is all to say `git push` and `quarto publish` are separate things. To save your source code, use `git push`. To publish your pages, use `quarto publish`.
 
-Beyond that you just have to check the Actions tab in your repo and poke through the logs.
+## Creating a good .gitignore file
 
-## A good .gitignore file
-
-It's good practice to have a `.gitignore` file that excludes things like system files and the like from version control. I usually build them using [gitignore.io](https://gitignore.io) but there is a setting they use for R that breaks the workflow described above.
+It's good practice to have a `.gitignore` file that excludes things like system files and the like from version control. I usually build them using [gitignore.io](https://gitignore.io) but it doesn't handle from Quarto specifics.
 
 I recommend just using a copy of my [.gitignore file from this book](.gitignore). It is best to create this file BEFORE YOU START COMMITTING FILES into your repo.
 
-1. Create a new text file called `.gitignore`. The name of the file is important ... it MUST start with a period and MUST NOT have an extension like .txt. It should just be `.gitignore`.
-2. Go the [.gitignore file from this book](.gitignore) and then copy/paste the contents into your newly-created file. Save and close.
+1.  Create a new text file called `.gitignore`. The name of the file is important ... it MUST start with a period and MUST NOT have an extension like .txt. It should just be `.gitignore`.
+2.  Go the [.gitignore file from this book](.gitignore) and then copy/paste the contents into your newly-created file. Save and close.
 
-You'll know the file is named correctly if in your Files pane there is a little red git logo in the file icon.
+You'll know the file is named correctly if you see a little red git logo in the file icon in the Files pane.
+
+## Publishing to `docs`
+
+There is an alternative way to publish to Github pages using a `docs/` directory. I used that method for many years, but the rendered directory has to committed to the repo, which can cause hassles. If you insist, [you can find directions here](https://quarto.org/docs/publishing/github-pages.html#render-to-docs).
+
+## Other resources
+
+Here are some existing resources that cover those skills, though they are not built to work together ... they are written for different contexts and can be redundant.
+
+-   [Happy Git and Github for the useR](https://happygitwithr.com/) is a good resource on how to install and work with Git/Github with RStudio in mind.
+-   [Github's Docs](https://docs.github.com/en/get-started/start-your-journey/about-github-and-git) are comprehensive, but it's a lot and not written with R in mind. There is way more than the basic minimum knowledge there.
