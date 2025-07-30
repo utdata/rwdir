@@ -99,7 +99,7 @@ The process goes like this:
 - Choose the **Student Information** data set and choose **Continue**.
   - Choose the **Comma-Delimited (csv)** format
   - Choose **Student: Counts/Percents** ^[In later years we use Student Membership: Counts/Percents, a nuance added by the TEA in 2019-20 and outlined in the TAPR Glossary.]
-  - Also choose **Student Enrollment by Program** ^[The name changes to "Student Enrollment by Instructional Programs" in later years.]
+  - Also choose **Student Enrollment by Program** ^[The name changes to "Students by Instructional Programs" in later years.]
   - Click **Download**.
 
 This downloads a file called `DSTUD.csv` or `DSTUD.dat`. As I downloaded them, I changed the name to include the year and `.csv` extension and put them in the `data-original/` folder.
@@ -142,13 +142,13 @@ In addition, the data structure of these files changed through the years. Let's 
 read_csv("data-original/DSTUD_23.csv") |> head()
 ```
 
-In the newer files the `DISTRICT` observations have a `'` at the beginning: `'001902`. This is added to help preserve those leading zeros, but we will need to remove the `'` so the values are the same structure as the other data files.
+In the 2023 files the `DISTRICT` observations have a `'` at the beginning: `'001902`. This is added to help preserve those leading zeros, but we will need to remove the `'` so the values are the same structure as the other data files.
 
 Also note there are 64 columns in this data vs the 34 in the 2013 file. The TEA has added different measurements through the years. That's OK, because we still only need the three columns of `DISTRICT`, `DPETALLC`, `DPETSPEC` and `DPETSPEP` for this analysis, so we'll specify only those columns as we import the data.
 
 ### Importing multiple files at once
 
-In our `raw-data/` folder we have 11 years of data from the 2012-2013 school year to the 2022-2023 school year. If all of our files were the some configuration (the same variables and data types) then we could just use `read_csv()` and feed it a list of files. Our files aren't the same, though, as some have additional columns.
+In our `data-original/` folder we have 12 years of data from the 2012-2013 school year to the 2022-2024 school year. If all of our files were the some configuration (the same variables and data types) then we could just use `read_csv()` and feed it a list of files. Our files aren't the same, though, as some have additional columns.
 
 The "long" way to do this would be importing each file individually, selecting the columns we need and then saving them as objects. We could then stack them on top of each other with the [`bind_rows()`](https://dplyr.tidyverse.org/reference/bind_rows.html) function.
 
@@ -289,7 +289,7 @@ OK, that seems like a lot, but there was a lot to learn there. This new data fra
 
 ## The DREF data
 
-We've noted that the dstud files don't have a **district name** within them, so we don't know what this district id means. Within the TAPR data download tool, there is another file called **District Reference** that has the district ID, names and other information we need. I downloaded the 2022 version ^[The 2023 District Reference file from the TEA was missing some variables.] as `DREF_22.csv`. Let's look at it:
+We've noted that the dstud files don't have a **district name** within them, so we don't know what this district id means. Within the TAPR data download tool, there is another file called **District Reference** that has the district ID, names and other information we need. I downloaded the 2022 version ^[Later District Reference files from the TEA are missing some variables.] as `DREF_22.csv`. Let's look at it:
 
 ```{r peek_dref}
 #| label: peed-dref

@@ -106,13 +106,17 @@ format:
 
 
 
-::: callout
-There are many other ways to change your rendered page displays in many ways using  `quarto.yml` configurations, but we won't get into it here. See the [Quarto Guide](https://quarto.org/docs/websites/) for more information.
+::: callout-tip
+
+### Other quarto changes
+
+There are many other changes you can make using `_quarto.yml` configurations, but we won't get into them here. See the [Quarto Guide](https://quarto.org/docs/websites/) for more information.
+
 :::
 
 ### Create directories for your data
 
-Next we are going to create some folders in our project. We'll use some standard names for consistency and we'll do this for every project we build.
+Next we will create some data folders in our project. We'll use standard names for consistency and we'll do this for every project we build.
 
 The first folder is called `data-original`. We are creating this folder because we want to keep a pristine version of our original data that we never change or overwrite. This is a core data journalism commandment: *Thou shalt not change original data*.
 
@@ -164,18 +168,18 @@ We named this notebook starting with `01-` because we will eventually end up wit
 
 At the top of the cleaning file after the YAML metadata we'll want to explain the goals of the notebook and what we are doing.
 
-1.  Add this text to your notebook AFTER the metadata:
+1.  Add this text to your notebook **AFTER** the metadata:
 
-``` md
-## Goals of this notebook
-
-The steps we'll take to prepare our data:
-
-- Download the data
-- Import it into our notebook
-- Clean up data types and columns
-- Export the data for next notebook
-```
+    ``` md
+    ## Goals of this notebook
+    
+    The steps we'll take to prepare our data:
+    
+    - Download the data
+    - Import it into our notebook
+    - Clean up data types and columns
+    - Export the data for next notebook
+    ```
 
 We want to start each notebook with a list like this so our future selves and others know what we are trying to accomplish. It's not unusual to update this list as we work through the notebook.
 
@@ -286,22 +290,18 @@ When you run the function you get an output similar to this:
 
 ``` text
 trying URL 'https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot100_assignment.csv?raw=true'
-Content type 'text/plain; charset=utf-8' length 18790353 bytes (17.9 MB)
+Content type 'text/plain; charset=utf-8' length 18924862 bytes (18.0 MB)
 ==================================================
-downloaded 17.9 MB
+downloaded 18.0 MB
 ```
 
-That's not a small file at 17 MB and 300,000 rows, but it's not a huge one, either.
+That's not a small file at about 18 MB and 300,000+ rows, but it's not a huge one, either.
 
 You can check that this worked by going to your Files tab and clicking on the `data-original` folder to go inside it and see if the file is there. To return out of the folder, click on the two dots to the right of the green up arrow.
 
 ![Check download](images/check-download.gif)
 
 ### Comment the download code
-
-::: callout-important
-The Hot 100 data updates each week. We'll not download it again so our results don't change mid-analysis!
-:::
 
 Now that we've downloaded the data to our computer, we don't need to run this line of code again unless we want to update our data from the source. We can "comment" the code to preserve it but keep it from running again if we re-run our notebook (and we will).
 
@@ -314,11 +314,15 @@ We write most of our "explaining" text *outside* of code chunks using a syntax c
 
 But, sometimes it makes more sense to explain something right where the code is being executed. If you are *inside a code chunk*, you start the comment with one or more hashes `#`. Any text on that line that follows won't be executed as code.
 
-::: callout-warning
+::: callout-tip
 Yes, it is confusing that in Markdown you use hashes `#` to make headlines, but in code chunks you use `#` to make comments. We're essentially writing in two languages in the same document.
 :::
 
 ## Import the data
+
+::: callout-important
+Screenshots, gifs and code results in this book may differ slightly from your project since you are using newer data!
+:::
 
 Now that we have the data on our computer, let's import it into our notebook so we can see it.
 
@@ -405,7 +409,7 @@ Run that chunk and several things happen:
 
 Since we can't see the data after we assign it, let's print the object to our notebook so we can refer to it.
 
-1.  Edit your import chunk to add the last two lines of this, including `#`:
+1.  **Edit your import chunk** to add the last two lines of this, including `#`:
 
 ``` r
 # create the object, then fill it with data from the csv
@@ -415,7 +419,11 @@ hot100_raw <- read_csv("data-original/hot100_assignment.csv")
 hot100_raw
 ```
 
-> You can use the green play button at the right of the chunk, or preferrably have your cursor inside the chunk and do *Cmd+Shift+Return* to run all lines. (*Cmd+Return* runs only the current line.)
+::: callout-tip
+
+You can use the green play button at the right of the chunk, or preferrably have your cursor inside the chunk and do *Cmd+Shift+Return* to run all lines. (*Cmd+Return* runs only the current line.)
+
+:::
 
 ### Glimpse the data
 
@@ -524,7 +532,7 @@ We will be **changing or creating** our data, so we will create a **new object**
 ::: callout-tip
 Below is our first use of annotated code with the circled numbers shown on the right edge of the code block. Those numbers correspond with the explanation under the code chunk. The best way to use code in chunks like these is to a) type it yourself (preferred!) or b) to hover you cursor over the code chunk to expose the "Copy to clipboard" icon that you can use to copy the code and then paste it into your notebook.
 
-What you can't do is highlight all the text in the code chunk and then paste it. That will include the numbers and the code will all break.
+What you can't do is highlight all the text in the code chunk and then paste it. That will include the numbers and the code will break.
 :::
 
 ```{r date-base}

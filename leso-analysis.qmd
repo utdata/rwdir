@@ -54,6 +54,10 @@ library(tidyverse)
 library(janitor)
 ```
 
+```{r}
+#| include: false
+options(scipen = 999)
+```
 
 ### Load the data into a tibble
 
@@ -301,6 +305,21 @@ leso_c_tx |>
 
 1. Here we add the summed_total_value.
 
+```{r}
+#| include: false
+
+aber_tots <- leso_c_tx |> 
+  group_by(agency_name) |> 
+  summarize(
+    summed_quantity = sum(quantity),
+    summed_total_value = sum(total_value) # <1>
+  ) |> 
+  filter(agency_name == "ABERNATHY POLICE DEPT")
+
+aber_sum_quan <- aber_tots |> pull(summed_quantity)
+aber_sum_tots <- aber_tots |> pull(summed_total_value)
+```
+
 
 ### Check the math
 
@@ -312,9 +331,9 @@ leso_c_tx |>
   select(agency_name, quantity, total_value)
 ```
 
-If we look at the `quantity` column there we can eyeball all the rows and add them on a calculator. Our answer should match our `summed_quantity` in the summary table.
+If we look at the `quantity` column there we can eyeball all the rows and/or add them on a calculator . Our answer should match our `summed_quantity` in the summary table: `r aber_sum_quan`.
 
-If we add up the `total_value` rows then we should end up with the same number as `summed_total_value` above.
+If we add up the `total_value` rows then we should end up with the same number as `summed_total_value` above: `r aber_sum_tots`.
 
 ### Arrange the results
 
