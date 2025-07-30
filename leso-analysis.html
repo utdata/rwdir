@@ -467,12 +467,12 @@ Warning
 <h2 data-number="6.2" class="anchored" data-anchor-id="questions-to-answer"><span class="header-section-number">6.2</span> Questions to answer</h2>
 <p>All answers should be based on <strong>controlled</strong> items given to <strong>Texas agencies</strong> from <strong>Jan.&nbsp;1, 2010 to present</strong>.</p>
 <ul>
-<li><em>How many total “controlled” items were transferred to Texas agencies, and what are they all worth?</em> We’ll summarize all the controlled items only to get the total quantity and total value of everything.</li>
-<li><em>How many total “controlled” items did each agency get and how much was it all worth?</em> Which agency got the most stuff?
+<li><em>How many total “controlled” items are in the hands of Texas agencies, and what are they all worth?</em> We’ll summarize all the controlled items only to get the total quantity and total value of everything.</li>
+<li><em>How many total “controlled” items does each agency have and how much is it all worth?</em> Which agency got the most stuff?
 <ul>
-<li><em>How about local police agencies? What was the total quantity and value</em> I’ll give you a list.</li>
+<li><em>How about local police agencies? What is the total quantity and value</em> I’ll give you a list.</li>
 </ul></li>
-<li><em>What specific “controlled” items did each agency get and how much were they worth?</em> Now we’re looking at the kinds of items.
+<li><em>What specific “controlled” items does each agency have and how much are they worth?</em> Now we’re looking at the kinds of items.
 <ul>
 <li><em>What did local agencies get?</em></li>
 </ul></li>
@@ -488,6 +488,8 @@ Warning
 <li>Save the notebook at <code>02-analysis.qmd</code>.</li>
 <li>Update your <code>_quarto.yml</code> file to add the <code>02-analysis.qmd</code> to your navigation.</li>
 <li>Remove the boilerplate text.</li>
+<li>After your metadata, add a markdown section that notes the goals of the notebook.</li>
+<li>Copy ‘n’ paste the Questions to answer listed above, and formulate them as a list so you can refer back to them.</li>
 <li>Create a setup section (headline, text and code chunk) that loads the tidyverse library. Include the same execution options we had in the cleaning notebook.</li>
 </ol>
 <p>We’ve started each notebook like this, so you should be able to do this on your own now. That said, here is the setup chunk with options:</p>
@@ -624,7 +626,7 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <section id="building-summaries-with-math" class="level2" data-number="6.5">
 <h2 data-number="6.5" class="anchored" data-anchor-id="building-summaries-with-math"><span class="header-section-number">6.5</span> Building summaries with math</h2>
 <p>As we get into the first quest, let’s talk about “how” we go about these summaries.</p>
-<p>When I am querying my data, I start by envisioning what the result should look like. Let’s take the first question: <strong>How many total “controlled” items were transferred to Texas agencies, and what are they all worth?</strong></p>
+<p>When I am querying my data, I start by envisioning what the result should look like. Let’s take the first question: <strong>How many total “controlled” items are in the hands of Texas agencies, and what are they all worth?</strong></p>
 <p>Let’s glimpse the data …</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>leso_c_tx <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -719,7 +721,7 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <section id="data-takeaway-totals-since-2010" class="level3" data-number="6.5.2">
 <h3 data-number="6.5.2" class="anchored" data-anchor-id="data-takeaway-totals-since-2010"><span class="header-section-number">6.5.2</span> Data Takeaway: Totals since 2010</h3>
 <ol type="1">
-<li>Write a Data Takeaway sentence in your notebook summing up the totals in a way that you could drop into a story.</li>
+<li>Write a Data Takeaway sentence in your notebook summing up the totals in a way that you could drop into a story. Do note that since this is a point in time report, these are only items given since 2010 that are still with the agency. It’s possible they received other items and have returned them to the Department of Defense for disposal.</li>
 </ol>
 </section>
 <section id="na-values-in-a-sum-mean-and-median" class="level3" data-number="6.5.3">
@@ -751,7 +753,7 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </section>
 <section id="totals-by-agency" class="level2" data-number="6.6">
 <h2 data-number="6.6" class="anchored" data-anchor-id="totals-by-agency"><span class="header-section-number">6.6</span> Totals by agency</h2>
-<p>OK, your next question is this: <strong>For each agency, how many things did they get and how much was it all worth?</strong></p>
+<p>OK, your next question is this: <strong>For each agency, how many things do they have and how much is it all worth?</strong></p>
 <p>The key part of thinking about this logically is <strong>For each agency</strong>. That “for each” is a clue that we need <code>group_by()</code> for something. We basically need what we did above, but we first need to group_by the <code>agency_name</code>.</p>
 <p>Let’s break this question down:</p>
 <ul>
@@ -937,7 +939,7 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 </section>
 <section id="looking-a-local-agencies" class="level2 local-agencies" data-number="6.7">
 <h2 class="local-agencies anchored" data-number="6.7" data-anchor-id="looking-a-local-agencies"><span class="header-section-number">6.7</span> Looking a local agencies</h2>
-<p>Our second quest had a second part: <strong>How about local police agencies? What was the total quantity and value?</strong></p>
+<p>Our second quest had a second part: <strong>How about local police agencies? What is the total quantity and value?</strong></p>
 <p>We’ll take the summary above, but then filter it to show only local agencies of interest.</p>
 <section id="save-our-by-agency-list" class="level3" data-number="6.7.1">
 <h3 data-number="6.7.1" class="anchored" data-anchor-id="save-our-by-agency-list"><span class="header-section-number">6.7.1</span> Save our “by agency” list</h3>
@@ -1093,7 +1095,7 @@ $ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 <section id="types-of-items-shipped-to-each-agency" class="level2" data-number="6.8">
 <h2 data-number="6.8" class="anchored" data-anchor-id="types-of-items-shipped-to-each-agency"><span class="header-section-number">6.8</span> Types of items shipped to each agency</h2>
 <p>Now that we have an overall idea of what local agencies are doing, let’s dive a little deeper. It’s time to figure out the specific items that they received.</p>
-<p>Our question is this: <strong>What specific “controlled” items did each agency get and how much were they worth?</strong></p>
+<p>Our question is this: <strong>What specific “controlled” items does each agency hanve and how much are they worth?</strong></p>
 <p>In some cases an agency might get the same item shipped to them at different times. For instance, “AUSTIN POLICE DEPT” has multiple rows where they get a single “ILLUMINATOR,INTEGRATED,SMALL ARM” shipped to them on the same date, but then on other dates they have the same item but the quantity is 30. We want all of these “ILLUMINATOR,INTEGRATED,SMALL ARM” for the Austin police added together into a single record.</p>
 <p>The logic works like this:</p>
 <ul>
