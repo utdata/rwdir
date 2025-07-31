@@ -23,10 +23,10 @@ Specifically, we'll will:
 
 All answers should be based on **controlled** items given to **Texas agencies** from **Jan. 1, 2010 to present**.
 
--   *How many total "controlled" items were transferred to Texas agencies, and what are they all worth?* We'll summarize all the controlled items only to get the total quantity and total value of everything.
--   *How many total "controlled" items did each agency get and how much was it all worth?* Which agency got the most stuff?
-    -   *How about local police agencies? What was the total quantity and value* I'll give you a list.
--   *What specific "controlled" items did each agency get and how much were they worth?* Now we're looking at the kinds of items.
+-   *How many total "controlled" items are in the hands of Texas agencies, and what are they all worth?* We'll summarize all the controlled items only to get the total quantity and total value of everything.
+-   *How many total "controlled" items does each agency have and how much is it all worth?* Which agency got the most stuff?
+    -   *How about local police agencies? What is the total quantity and value* I'll give you a list.
+-   *What specific "controlled" items does each agency have and how much are they worth?* Now we're looking at the kinds of items.
     -   *What did local agencies get?*
 
 You'll research some of the more interesting items the agencies received so you can include them in your data drop.
@@ -36,11 +36,13 @@ You'll research some of the more interesting items the agencies received so you 
 Before we get into how to do this, let's set up our analysis notebook.
 
 1.  Make sure you have your military surplus project open in RStudio. If you have your import notebook open, close it and use Run \> Restart R and Clear Output.
-2.  Create a new **Quarto Document** with the title "Texas Analysis".
-5.  Save the notebook at `02-analysis.qmd`.
+2. Create a new **Quarto Document** with the title "Texas Analysis".
+5. Save the notebook at `02-analysis.qmd`.
 6. Update your `_quarto.yml` file to add the `02-analysis.qmd` to your navigation.
-3.  Remove the boilerplate text.
-4.  Create a setup section (headline, text and code chunk) that loads the tidyverse library. Include the same execution options we had in the cleaning notebook.
+3. Remove the boilerplate text.
+1. After your metadata, add a markdown section that notes the goals of the notebook.
+2. Copy 'n' paste the Questions to answer listed above, and formulate them as a list so you can refer back to them.
+4. Create a setup section (headline, text and code chunk) that loads the tidyverse library. Include the same execution options we had in the cleaning notebook.
 
 We've started each notebook like this, so you should be able to do this on your own now. That said, here is the setup chunk with options:
 
@@ -162,7 +164,7 @@ How do you know if it worked? Well the first column in the data is the `state` c
 
 As we get into the first quest, let's talk about "how" we go about these summaries.
 
-When I am querying my data, I start by envisioning what the result should look like. Let's take the first question: **How many total "controlled" items were transferred to Texas agencies, and what are they all worth?**
+When I am querying my data, I start by envisioning what the result should look like. Let's take the first question: **How many total "controlled" items are in the hands of Texas agencies, and what are they all worth?**
 
 Let's glimpse the data ...
 
@@ -212,7 +214,7 @@ OK, from this we have learned something: The `summed_quantity` value there is th
 
 ### Data Takeaway: Totals since 2010
 
-1. Write a Data Takeaway sentence in your notebook summing up the totals in a way that you could drop into a story.
+1. Write a Data Takeaway sentence in your notebook summing up the totals in a way that you could drop into a story. Do note that since this is a point in time report, these are only items given since 2010 that are still with the agency. It's possible they received other items and have returned them to the Department of Defense for disposal.
 
 
 ### NA values in a sum, mean and median
@@ -242,7 +244,7 @@ So there you have examples of using `sum()` and `mean()` with and without `na.rm
 
 ## Totals by agency
 
-OK, your next question is this: **For each agency, how many things did they get and how much was it all worth?**
+OK, your next question is this: **For each agency, how many things do they have and how much is it all worth?**
 
 The key part of thinking about this logically is **For each agency**. That "for each" is a clue that we need `group_by()` for something. We basically need what we did above, but we first need to group_by the `agency_name`.
 
@@ -377,7 +379,7 @@ Perhaps we should look at some of the police agencies closest to us.
 
 ## Looking a local agencies {.local-agencies}
 
-Our second quest had a second part: **How about local police agencies? What was the total quantity and value?**
+Our second quest had a second part: **How about local police agencies? What is the total quantity and value?**
 
 We'll take the summary above, but then filter it to show only local agencies of interest.
 
@@ -511,7 +513,7 @@ This filters our list of agencies to just those in Central Texas. Do you see any
 
 Now that we have an overall idea of what local agencies are doing, let's dive a little deeper. It's time to figure out the specific items that they received.
 
-Our question is this: **What specific "controlled" items did each agency get and how much were they worth?**
+Our question is this: **What specific "controlled" items does each agency hanve and how much are they worth?**
 
 In some cases an agency might get the same item shipped to them at different times. For instance, "AUSTIN POLICE DEPT" has multiple rows where they get a single "ILLUMINATOR,INTEGRATED,SMALL ARM" shipped to them on the same date, but then on other dates they have the same item but the quantity is 30. We want all of these "ILLUMINATOR,INTEGRATED,SMALL ARM" for the Austin police added together into a single record.
 
