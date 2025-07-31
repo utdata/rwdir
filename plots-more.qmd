@@ -6,7 +6,7 @@ In the last chapter, you were introduced to [ggplot2](https://ggplot2.tidyverse.
 
 In this chapter, we will cover the following topics:
 
--   How to prepare and build a line chart
+-   How to prepare and build column and line charts
 -   How to use themes to change the looks of a chart
 -   More about aesthetics in layers!
 -   Faceting, or making multiple charts from the same data
@@ -26,7 +26,7 @@ This week, we'll return to our Military Surplus project, but add a new Quarto Do
 3.  Set the title as "Military Surplus figures"
 4.  Remove the rest of the boilerplate template.
 5.  Save the file and name it `03-ggplot.qmd`.
-6.  Create a setup chunk and load the `tidyverse` and `janitor` libraries. Also load a library called `scales`, though you shouldn't have to install it as it comes with the tidyverse package.
+6.  Create a setup chunk and load the following libraries: `tidyverse`, `janitor`, `palmerpenguins` and `scales`. Even though this is the first time we've used the [scales](https://ggplot2.tidyverse.org/reference/index.html#scales) package you shouldn't have to install it as it comes with the tidyverse package.
 
 ```{r}
 #| label: setup
@@ -35,17 +35,13 @@ This week, we'll return to our Military Surplus project, but add a new Quarto Do
 #| warning: false
 library(tidyverse)
 library(janitor)
+library(palmerpenguins)
 library(scales)
 ```
-
-You'll also need to install the [scales](https://ggplot2.tidyverse.org/reference/index.html#scales) package and include that in your library.
-
-7.  In your **Console**, run `install.packages("scales")`
-8.  Then back in your notebook add `library(scales)` to your setup chunk.
-
+    
 And lastly we need to create a folder that we'll need later.
 
-9. In your **Files** pane, use the **New Folder** icon to create a new folder and call it `figures`. This is where we'll export copies of our plotted charts.
+7. In your **Files** pane, use the **New Folder** icon to create a new folder and call it `figures`. This is where we'll export copies of our plotted charts.
 
 ### Let's get the data
 
@@ -53,6 +49,7 @@ We'll be importing the cleaned data that has all the states.
 
 1.  Create a new section that notes you are importing
 2.  Use `read_rds()` to import the file and save it into an object called `leso`. The file should be at `data-processed/01-leso-all.rds` if you named it correctly in our [analysis](leso-cleaning.qmd#leso-export) .
+4. Filter the data so it only has `control_type` of **TRUE**.
 3.  Glimpse the data so we can see the column names
 
 ```{r}
@@ -61,14 +58,18 @@ We'll be importing the cleaned data that has all the states.
 #| code-summary: "You should be able to do this by now!"
 #| message: false
 #| warning: false
-leso <- read_rds("data-processed/01-leso-all.rds")
+
+leso <-
+  read_rds("data-processed/01-leso-all.rds") |> 
+  filter(control_type == TRUE)
+  
 
 glimpse(leso)
 ```
 
 Above we can see the columns were working with.
 
-## Goal 1: Line chart
+## Goal 1: Vertical column chart
 
 For our first chart here we are looking to plot the total acquisitions value for each year in the state of Texas. It can sometimes help to draw on paper the chart you are hoping to make so you can see how to format the data to make it.
 
@@ -81,23 +82,19 @@ This is the data and chart we hope to build:
 tx_values_exmpl <- leso |> 
     filter(
     state == "TX",
-    ship_date < "2023-01-01"
+    ship_date < "2025-01-01"
   ) |> 
   group_by(year = floor_date(ship_date, unit = "year")) |> 
   summarize(yearly_value = sum(total_value)) |> 
-  filter(year < "2022-12-31") # not full year
+  filter(year < "2025-12-31") # not full year
 
 tx_values_exmpl
 
 tx_values_exmpl |> 
   ggplot(aes(x = year, y = yearly_value)) + 
-  geom_point() + 
-  geom_line() + 
+  geom_col() + 
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
-  scale_x_datetime(
-    minor_breaks = breaks_width("1 year"),
-    # breaks = breaks_width("1 year"),
-    # labels = label_date("%Y")
+  scale_x_datetime(minor_breaks = breaks_width("1 year"),
   ) +
   labs(title = "Military surplus acquisitions in decline", 
        subtitle = str_wrap("After a spike in 2014, the value of controlled military surplus equipment transfered from the U.S. military to local law enforcement agencies has dropped in recent years. Controlled equipment includes items like weapons that must be returned to the military for disposal."),
@@ -106,7 +103,7 @@ tx_values_exmpl |>
   theme_minimal()
 ```
 
-On order to make that, we'll need to summarize our data by the year of the shipping date, then sum together all the value of the equipment.
+In order to make that, we'll need to summarize our data by the year of the shipping date, then sum together all the value of the equipment.
 
 But we don't have this data in the format, so we need to make it.
 
@@ -129,7 +126,7 @@ We are going to "create" this date as we group our data. You can read more about
 
 ### Wrangling the data
 
-Let's filter to the data we want (Texas data before 2023) and group it by the year of the `ship_date` and summarize to sum the `total_value`.
+Let's filter to the data we want (Texas data before 2025, since it is not a full year in this data) and group it by the year of the `ship_date` and summarize to sum the `total_value`.
 
 1.  Add a new section: Prepare Texas total values data
 2.  Add a new chunk and the code below. We'll pick it apart after.
@@ -140,7 +137,7 @@ Let's filter to the data we want (Texas data before 2023) and group it by the ye
 tx_values <- leso |> # <1>
   filter(
     state == "TX", # <2>
-    ship_date < "2023-01-01" # <2>
+    ship_date < "2025-01-01" # <2>
   ) |> 
   group_by(year = floor_date(ship_date, unit = "year")) |> # <3>
   summarize(yearly_value = sum(total_value)) # <4>
@@ -161,20 +158,17 @@ tx_values # <5>
 
 Alright, so now let's get ready to use the `ggplot()` function. I want you to create the plot here one step at a time so you can review how the layers are added.
 
-In this new plot, we'll learn about a new `geom` layer: `geom_line()` (recall that in [the last chapter](plots.qmd), we learned about `geom_point()` and `geom_col()`).
 
 1.  Start a new section. Note we are plotting Texas values.
 2.  Add and run the ggplot() line first (but without the `+`)
-3.  Then add the `+` and the `geom_point()` and run it.
-4.  Then add the `+` and `geom_line()` and run it.
+3.  Then add the `+` and the `geom_col()` and run it.
 5.  Then add the `+` and `labs()`, and run everything.
 
 ```{r}
 #| label: t-plot
 ggplot(tx_values, aes(x = year, y = yearly_value)) + # <1>
-  geom_point() + # <2>
-  geom_line() + # <3>
-  labs( # <4>
+  geom_col() + # <2>
+  labs( # <3>
     title = "Military surplus acquisitions in decline", 
     subtitle = str_wrap("After a spike in 2014, the value of controlled military surplus equipment transfered from the U.S. military to local law enforcement agencies has dropped in recent years. Controlled equipment includes items like weapons that must be returned to the military for disposal."),
     x = "Year", y = "Value of acquisitions",
@@ -183,9 +177,8 @@ ggplot(tx_values, aes(x = year, y = yearly_value)) + # <1>
 ```
 
 1.  we create the graph
-2.  adding the points
-3.  adding the lines between the points
-4. we add the labels. Note the `str_wrap()` function we've used with `subtitle =` which keeps the text from running outside the chart.
+2.  adding the columns
+3. we add the labels. Note the `str_wrap()` function we've used with `subtitle =` which keeps the text from running outside the chart.
 
 ### Cleaning Up
 
@@ -202,8 +195,7 @@ Using functions from the scales package can be esoteric and unintuitive, but mos
 ```{r}
 #| label: t-label-collar
 ggplot(tx_values, aes(x = year, y = yearly_value)) +
-  geom_point() +
-  geom_line() +
+  geom_col() +
   scale_y_continuous(labels = label_dollar()) + # <1> 
   labs(
     title = "Military surplus acquisitions in decline", 
@@ -213,7 +205,7 @@ ggplot(tx_values, aes(x = year, y = yearly_value)) +
   )
 ```
 
-1.  This is the added line for the scale
+1.  This is a layer to adjust the y axis scale.
 
 I added this in the middle of the code because I like to keep the `labs()` at the bottom of the chart. It doesn't really matter. What it did was change the labels on the Y axis to use a currency format. Let's walk through it:
 
@@ -229,8 +221,7 @@ To show just how much granularity you have with ggplot, let's make one more chan
 ```{r}
 #| label: t-scale-cut
 ggplot(tx_values, aes(x = year, y = yearly_value)) +
-  geom_point() +
-  geom_line() +
+  geom_col() +
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) + # <1>
   labs(
     title = "Military surplus acquisitions in decline", 
@@ -255,8 +246,7 @@ Let's show one more change. Notice how the grid lines along the X axis don't fal
 #| label: t-minor-breaks
 tx_values |> 
   ggplot(aes(x = date(year), y = yearly_value)) + # <1>
-  geom_point() +
-  geom_line() +
+  geom_col() +
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
   scale_x_date(minor_breaks = breaks_width("1 year")) + # <2>
   labs(
@@ -281,12 +271,11 @@ Sometimes it is helpful to push the results of a plot into an R object to "save"
 1.  **Edit** your Texas plot chunk to save it into an R object called `tx_plot`.
 2.  Then call it after the code so you can see it.
 
-```{r tx-plot-create}
+```{r}
 #| label: t-object
 
 tx_plot <- ggplot(tx_values, aes(x = date(year), y = yearly_value)) + # <1> 
-  geom_point() +
-  geom_line() +
+  geom_col() +
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
   scale_x_date(minor_breaks = breaks_width("1 year")) +
   labs(
@@ -332,6 +321,7 @@ There are a number of other packages that build upon `ggplot2`, including [`ggth
 
 ```{r theme-economist}
 library(ggthemes)
+
 tx_plot +
   theme_economist()
 ```
@@ -352,9 +342,11 @@ We do a wee bit of that later.
 
 ## Goal 2: Multiple line chart
 
-OK, our Texas military surplus information is fine ... but how does that compare to neighboring states? Let's work through building a new chart that shows all those steps. It's essentially the same chart as we did above, but adding the bordering states along with Texas.
+In this new plot, we'll learn about a new `geom` layer: `geom_line()` (recall that in [the last chapter](plots.qmd), we learned about `geom_point()` and `geom_col()`).
 
-Here is the data and image we are trying to make:
+OK, our Texas military surplus information is fine ... but how does that compare to neighboring states? Let's work through building a new chart that shows all those steps. We can't use a column chart like we did above, because we need to display more than one state at a time to compare them.
+
+Here is the data and chart we are trying to make:
 
 ```{r}
 #| label: region-example
@@ -555,7 +547,7 @@ We'll start with the chart we have already, and then split it into facets by sta
 1.  Start a new section about facets
 2.  Add the code below to create your chart and view it. This is the same plot we've already created
 
-```{r facet-data}
+```{r}
 #| label: facet-wrap
 
 ggplot(region_data,
@@ -599,14 +591,14 @@ ggplot(region_data,
 
 ### Facet grids
 
-A `facet_grid()` allows you to plot on a combination of variables. We don't really have enough variables to compare with our military surplus data but we can show this with the `penguins` data we used in the last chapter.
+A `facet_grid()` allows you to plot on a combination of variables. We don't really have enough variables to compare with our military surplus data but we can show this with the `penguins` data we used in the last chapter. You should've added the library in your setup section.
 
 This chart compares the flipper length and body mass, but it does so for each species of bird by their gender.
 
 ```{r}
 #| label: facet-grid
-
-library(palmerpenguins)
+#| message: false
+#| warning: false
 
 penguins |> 
   drop_na() |> #<1>
@@ -615,7 +607,7 @@ penguins |>
   facet_grid(sex ~ species) # <4>
 ```
 
-1.  This drops any rows that are missing values, as some don't have sex marked.
+1.  This drops any rows that have missing values for the variables we use, as some don't have sex marked.
 2.  Our ggplot chart, much like we did in the last chapter, comparing flippers to weight.
 3.  We add the points and color them to distinquish the sex of the birds.
 4.  We add the `facet_grid` that splits the chart by both sex and species.
@@ -639,8 +631,7 @@ Here is how I would do this with our first line chart:
 #| label: chart-to-save
 
 tx_plot_2save <- ggplot(tx_values, aes(x = date(year), y = yearly_value)) + # <1> 
-  geom_point() +
-  geom_line() +
+  geom_col() +
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
   scale_x_date(minor_breaks = breaks_width("1 year")) +
   labs(
@@ -666,7 +657,7 @@ When you add this, it should renders like this in your notebook:
 
 ![](figures/tx-plot.png)
 
-It might not look very different here, but in my experience it is the most consistent method to get a nice plot display. I really only bother with all this if I'm having trouble getting everything to fit or I need to use the image outside of my notebook.
+It might not look very different here, but in my experience it is the most consistent method to get a nice plot display.
 
 Another key advantage to this is you can now use can reference that same plot image on your project index when you are explaining the findings of your project.
 
