@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>15&nbsp; Categorization – Reporting with Data in R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./tidycensus.html" rel="next">
+<link href="./case-when.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-d3c9390091c69a50683db05bc45f20d8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./group-dates.html">Extras</a></li><li class="breadcrumb-item"><a href="./categorization.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Categorization</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Reporting with Data in R</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About this book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./install.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Install Party</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Counting</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./billboard-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Billboard Cleaning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./billboard-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Billboard Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Summing</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./leso-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Military Surplus Cleaning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./leso-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Military Surplus Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Visualization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plots.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Intro to ggplot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plots-more.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Deeper into ggplot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tidy-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tidy data</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Bind &amp; Join</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./denied-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Denied Cleaning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./denied-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Denied Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./group-dates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Grouping by dates</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./count.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Counting shortcuts</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./case-when.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Using case_when</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./categorization.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Categorization</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tidycensus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">tidycensus</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Using git</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./project-setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Project setup</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./posit-cloud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Using posit.cloud</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">R Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Troubleshooting</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./getting-help.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Asking for help</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./explore.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Exploring a new dataset</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./charts-tips.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Chart production tips</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./resources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">15.1</span> Overview</a>
+  <ul class="collapse">
+  <li><a href="#the-problem" id="toc-the-problem" class="nav-link" data-scroll-target="#the-problem"><span class="header-section-number">15.1.1</span> The problem</a></li>
+  <li><a href="#the-solutions" id="toc-the-solutions" class="nav-link" data-scroll-target="#the-solutions"><span class="header-section-number">15.1.2</span> The solutions</a></li>
+  </ul></li>
+  <li><a href="#creating-a-flag-variable-with-if_else" id="toc-creating-a-flag-variable-with-if_else" class="nav-link" data-scroll-target="#creating-a-flag-variable-with-if_else"><span class="header-section-number">15.2</span> Creating a flag variable with if_else</a></li>
+  <li><a href="#recategorize-with-case_match" id="toc-recategorize-with-case_match" class="nav-link" data-scroll-target="#recategorize-with-case_match"><span class="header-section-number">15.3</span> Recategorize with case_match</a></li>
+  <li><a href="#more-power-with-case_when" id="toc-more-power-with-case_when" class="nav-link" data-scroll-target="#more-power-with-case_when"><span class="header-section-number">15.4</span> More power with case_when()</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./group-dates.html">Extras</a></li><li class="breadcrumb-item"><a href="./categorization.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Categorization</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Categorization</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="overview" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">15.1</span> Overview</h2>
+<p>This is a quick addendum to the Fa25 version of this book in order to help some students with a particular issues. It will need fleshing out at a later date.</p>
+<section id="the-problem" class="level3" data-number="15.1.1">
+<h3 data-number="15.1.1" class="anchored" data-anchor-id="the-problem"><span class="header-section-number">15.1.1</span> The problem</h3>
+<p>Sometimes we have data where a variable has too many options. It could be because it is more specific than we need, or because it is “dirty” with misspellings and differences which mean the same thing.</p>
+<p>I want to outline several ways to deal with this, with growing complexity (and flexibility).</p>
+</section>
+<section id="the-solutions" class="level3" data-number="15.1.2">
+<h3 data-number="15.1.2" class="anchored" data-anchor-id="the-solutions"><span class="header-section-number">15.1.2</span> The solutions</h3>
+<p>These all will use <code>mutate()</code> because you are changing or creating data. But the methods I’m considering are:</p>
+<ul>
+<li><code>if_else()</code> to make a binomial flag variable. We’ll make it <code>TRUE</code> based on a certain circumstance, and <code>FALSE</code> if not. I’ll also show how you could use values other than T/F.</li>
+<li><code>case_match()</code> is where we want one value to equal another, but we can do this with any number of values. They just all have to be 1-to-1. If this, then that.</li>
+<li><code>case_when()</code> allows you to perform a series of tests, changing values based on the results. While I cover this in <a href="./case-when.html">Using case_when</a>, it is an overcomplicated example.</li>
+</ul>
+<p>My aim at first is to use the <a href="https://dplyr.tidyverse.org/reference/starwars.html">Starwars characters</a> dataset for my examples. We’ll see how that goes.</p>
+<p>We need our basic libraries:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The starwars character data is included with Tidyverse, but I’m going to use a simplified version without the series data about movies, etc.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>starwars <span class="ot">&lt;-</span> starwars <span class="sc">|&gt;</span> <span class="fu">select</span>(name<span class="sc">:</span>species)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>starwars</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["height"],"name":[2],"type":["int"],"align":["right"]},{"label":["mass"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["hair_color"],"name":[4],"type":["chr"],"align":["left"]},{"label":["skin_color"],"name":[5],"type":["chr"],"align":["left"]},{"label":["eye_color"],"name":[6],"type":["chr"],"align":["left"]},{"label":["birth_year"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["sex"],"name":[8],"type":["chr"],"align":["left"]},{"label":["gender"],"name":[9],"type":["chr"],"align":["left"]},{"label":["homeworld"],"name":[10],"type":["chr"],"align":["left"]},{"label":["species"],"name":[11],"type":["chr"],"align":["left"]}],"data":[{"1":"Luke Skywalker","2":"172","3":"77.0","4":"blond","5":"fair","6":"blue","7":"19.0","8":"male","9":"masculine","10":"Tatooine","11":"Human"},{"1":"C-3PO","2":"167","3":"75.0","4":"NA","5":"gold","6":"yellow","7":"112.0","8":"none","9":"masculine","10":"Tatooine","11":"Droid"},{"1":"R2-D2","2":"96","3":"32.0","4":"NA","5":"white, blue","6":"red","7":"33.0","8":"none","9":"masculine","10":"Naboo","11":"Droid"},{"1":"Darth Vader","2":"202","3":"136.0","4":"none","5":"white","6":"yellow","7":"41.9","8":"male","9":"masculine","10":"Tatooine","11":"Human"},{"1":"Leia Organa","2":"150","3":"49.0","4":"brown","5":"light","6":"brown","7":"19.0","8":"female","9":"feminine","10":"Alderaan","11":"Human"},{"1":"Owen Lars","2":"178","3":"120.0","4":"brown, grey","5":"light","6":"blue","7":"52.0","8":"male","9":"masculine","10":"Tatooine","11":"Human"},{"1":"Beru Whitesun Lars","2":"165","3":"75.0","4":"brown","5":"light","6":"blue","7":"47.0","8":"female","9":"feminine","10":"Tatooine","11":"Human"},{"1":"R5-D4","2":"97","3":"32.0","4":"NA","5":"white, red","6":"red","7":"NA","8":"none","9":"masculine","10":"Tatooine","11":"Droid"},{"1":"Biggs Darklighter","2":"183","3":"84.0","4":"black","5":"light","6":"brown","7":"24.0","8":"male","9":"masculine","10":"Tatooine","11":"Human"},{"1":"Obi-Wan Kenobi","2":"182","3":"77.0","4":"auburn, white","5":"fair","6":"blue-gray","7":"57.0","8":"male","9":"masculine","10":"Stewjon","11":"Human"},{"1":"Anakin Skywalker","2":"188","3":"84.0","4":"blond","5":"fair","6":"blue","7":"41.9","8":"male","9":"masculine","10":"Tatooine","11":"Human"},{"1":"Wilhuff Tarkin","2":"180","3":"NA","4":"auburn, grey","5":"fair","6":"blue","7":"64.0","8":"male","9":"masculine","10":"Eriadu","11":"Human"},{"1":"Chewbacca","2":"228","3":"112.0","4":"brown","5":"unknown","6":"blue","7":"200.0","8":"male","9":"masculine","10":"Kashyyyk","11":"Wookiee"},{"1":"Han Solo","2":"180","3":"80.0","4":"brown","5":"fair","6":"brown","7":"29.0","8":"male","9":"masculine","10":"Corellia","11":"Human"},{"1":"Greedo","2":"173","3":"74.0","4":"NA","5":"green","6":"black","7":"44.0","8":"male","9":"masculine","10":"Rodia","11":"Rodian"},{"1":"Jabba Desilijic Tiure","2":"175","3":"1358.0","4":"NA","5":"green-tan, brown","6":"orange","7":"600.0","8":"hermaphroditic","9":"masculine","10":"Nal Hutta","11":"Hutt"},{"1":"Wedge Antilles","2":"170","3":"77.0","4":"brown","5":"fair","6":"hazel","7":"21.0","8":"male","9":"masculine","10":"Corellia","11":"Human"},{"1":"Jek Tono Porkins","2":"180","3":"110.0","4":"brown","5":"fair","6":"blue","7":"NA","8":"NA","9":"NA","10":"Bestine IV","11":"NA"},{"1":"Yoda","2":"66","3":"17.0","4":"white","5":"green","6":"brown","7":"896.0","8":"male","9":"masculine","10":"NA","11":"Yoda's species"},{"1":"Palpatine","2":"170","3":"75.0","4":"grey","5":"pale","6":"yellow","7":"82.0","8":"male","9":"masculine","10":"Naboo","11":"Human"},{"1":"Boba Fett","2":"183","3":"78.2","4":"black","5":"fair","6":"brown","7":"31.5","8":"male","9":"masculine","10":"Kamino","11":"Human"},{"1":"IG-88","2":"200","3":"140.0","4":"none","5":"metal","6":"red","7":"15.0","8":"none","9":"masculine","10":"NA","11":"Droid"},{"1":"Bossk","2":"190","3":"113.0","4":"none","5":"green","6":"red","7":"53.0","8":"male","9":"masculine","10":"Trandosha","11":"Trandoshan"},{"1":"Lando Calrissian","2":"177","3":"79.0","4":"black","5":"dark","6":"brown","7":"31.0","8":"male","9":"masculine","10":"Socorro","11":"Human"},{"1":"Lobot","2":"175","3":"79.0","4":"none","5":"light","6":"blue","7":"37.0","8":"male","9":"masculine","10":"Bespin","11":"Human"},{"1":"Ackbar","2":"180","3":"83.0","4":"none","5":"brown mottle","6":"orange","7":"41.0","8":"male","9":"masculine","10":"Mon Cala","11":"Mon Calamari"},{"1":"Mon Mothma","2":"150","3":"NA","4":"auburn","5":"fair","6":"blue","7":"48.0","8":"female","9":"feminine","10":"Chandrila","11":"Human"},{"1":"Arvel Crynyd","2":"NA","3":"NA","4":"brown","5":"fair","6":"brown","7":"NA","8":"male","9":"masculine","10":"NA","11":"Human"},{"1":"Wicket Systri Warrick","2":"88","3":"20.0","4":"brown","5":"brown","6":"brown","7":"8.0","8":"male","9":"masculine","10":"Endor","11":"Ewok"},{"1":"Nien Nunb","2":"160","3":"68.0","4":"none","5":"grey","6":"black","7":"NA","8":"male","9":"masculine","10":"Sullust","11":"Sullustan"},{"1":"Qui-Gon Jinn","2":"193","3":"89.0","4":"brown","5":"fair","6":"blue","7":"92.0","8":"male","9":"masculine","10":"NA","11":"Human"},{"1":"Nute Gunray","2":"191","3":"90.0","4":"none","5":"mottled green","6":"red","7":"NA","8":"male","9":"masculine","10":"Cato Neimoidia","11":"Neimodian"},{"1":"Finis Valorum","2":"170","3":"NA","4":"blond","5":"fair","6":"blue","7":"91.0","8":"male","9":"masculine","10":"Coruscant","11":"Human"},{"1":"Padmé Amidala","2":"185","3":"45.0","4":"brown","5":"light","6":"brown","7":"46.0","8":"female","9":"feminine","10":"Naboo","11":"Human"},{"1":"Jar Jar Binks","2":"196","3":"66.0","4":"none","5":"orange","6":"orange","7":"52.0","8":"male","9":"masculine","10":"Naboo","11":"Gungan"},{"1":"Roos Tarpals","2":"224","3":"82.0","4":"none","5":"grey","6":"orange","7":"NA","8":"male","9":"masculine","10":"Naboo","11":"Gungan"},{"1":"Rugor Nass","2":"206","3":"NA","4":"none","5":"green","6":"orange","7":"NA","8":"male","9":"masculine","10":"Naboo","11":"Gungan"},{"1":"Ric Olié","2":"183","3":"NA","4":"brown","5":"fair","6":"blue","7":"NA","8":"male","9":"masculine","10":"Naboo","11":"Human"},{"1":"Watto","2":"137","3":"NA","4":"black","5":"blue, grey","6":"yellow","7":"NA","8":"male","9":"masculine","10":"Toydaria","11":"Toydarian"},{"1":"Sebulba","2":"112","3":"40.0","4":"none","5":"grey, red","6":"orange","7":"NA","8":"male","9":"masculine","10":"Malastare","11":"Dug"},{"1":"Quarsh Panaka","2":"183","3":"NA","4":"black","5":"dark","6":"brown","7":"62.0","8":"male","9":"masculine","10":"Naboo","11":"Human"},{"1":"Shmi Skywalker","2":"163","3":"NA","4":"black","5":"fair","6":"brown","7":"72.0","8":"female","9":"feminine","10":"Tatooine","11":"Human"},{"1":"Darth Maul","2":"175","3":"80.0","4":"none","5":"red","6":"yellow","7":"54.0","8":"male","9":"masculine","10":"Dathomir","11":"Zabrak"},{"1":"Bib Fortuna","2":"180","3":"NA","4":"none","5":"pale","6":"pink","7":"NA","8":"male","9":"masculine","10":"Ryloth","11":"Twi'lek"},{"1":"Ayla Secura","2":"178","3":"55.0","4":"none","5":"blue","6":"hazel","7":"48.0","8":"female","9":"feminine","10":"Ryloth","11":"Twi'lek"},{"1":"Ratts Tyerel","2":"79","3":"15.0","4":"none","5":"grey, blue","6":"unknown","7":"NA","8":"male","9":"masculine","10":"Aleen Minor","11":"Aleena"},{"1":"Dud Bolt","2":"94","3":"45.0","4":"none","5":"blue, grey","6":"yellow","7":"NA","8":"male","9":"masculine","10":"Vulpter","11":"Vulptereen"},{"1":"Gasgano","2":"122","3":"NA","4":"none","5":"white, blue","6":"black","7":"NA","8":"male","9":"masculine","10":"Troiken","11":"Xexto"},{"1":"Ben Quadinaros","2":"163","3":"65.0","4":"none","5":"grey, green, yellow","6":"orange","7":"NA","8":"male","9":"masculine","10":"Tund","11":"Toong"},{"1":"Mace Windu","2":"188","3":"84.0","4":"none","5":"dark","6":"brown","7":"72.0","8":"male","9":"masculine","10":"Haruun Kal","11":"Human"},{"1":"Ki-Adi-Mundi","2":"198","3":"82.0","4":"white","5":"pale","6":"yellow","7":"92.0","8":"male","9":"masculine","10":"Cerea","11":"Cerean"},{"1":"Kit Fisto","2":"196","3":"87.0","4":"none","5":"green","6":"black","7":"NA","8":"male","9":"masculine","10":"Glee Anselm","11":"Nautolan"},{"1":"Eeth Koth","2":"171","3":"NA","4":"black","5":"brown","6":"brown","7":"NA","8":"male","9":"masculine","10":"Iridonia","11":"Zabrak"},{"1":"Adi Gallia","2":"184","3":"50.0","4":"none","5":"dark","6":"blue","7":"NA","8":"female","9":"feminine","10":"Coruscant","11":"Tholothian"},{"1":"Saesee Tiin","2":"188","3":"NA","4":"none","5":"pale","6":"orange","7":"NA","8":"male","9":"masculine","10":"Iktotch","11":"Iktotchi"},{"1":"Yarael Poof","2":"264","3":"NA","4":"none","5":"white","6":"yellow","7":"NA","8":"male","9":"masculine","10":"Quermia","11":"Quermian"},{"1":"Plo Koon","2":"188","3":"80.0","4":"none","5":"orange","6":"black","7":"22.0","8":"male","9":"masculine","10":"Dorin","11":"Kel Dor"},{"1":"Mas Amedda","2":"196","3":"NA","4":"none","5":"blue","6":"blue","7":"NA","8":"male","9":"masculine","10":"Champala","11":"Chagrian"},{"1":"Gregar Typho","2":"185","3":"85.0","4":"black","5":"dark","6":"brown","7":"NA","8":"NA","9":"NA","10":"Naboo","11":"NA"},{"1":"Cordé","2":"157","3":"NA","4":"brown","5":"light","6":"brown","7":"NA","8":"NA","9":"NA","10":"Naboo","11":"NA"},{"1":"Cliegg Lars","2":"183","3":"NA","4":"brown","5":"fair","6":"blue","7":"82.0","8":"male","9":"masculine","10":"Tatooine","11":"Human"},{"1":"Poggle the Lesser","2":"183","3":"80.0","4":"none","5":"green","6":"yellow","7":"NA","8":"male","9":"masculine","10":"Geonosis","11":"Geonosian"},{"1":"Luminara Unduli","2":"170","3":"56.2","4":"black","5":"yellow","6":"blue","7":"58.0","8":"female","9":"feminine","10":"Mirial","11":"Mirialan"},{"1":"Barriss Offee","2":"166","3":"50.0","4":"black","5":"yellow","6":"blue","7":"40.0","8":"female","9":"feminine","10":"Mirial","11":"Mirialan"},{"1":"Dormé","2":"165","3":"NA","4":"brown","5":"light","6":"brown","7":"NA","8":"female","9":"feminine","10":"Naboo","11":"Human"},{"1":"Dooku","2":"193","3":"80.0","4":"white","5":"fair","6":"brown","7":"102.0","8":"male","9":"masculine","10":"Serenno","11":"Human"},{"1":"Bail Prestor Organa","2":"191","3":"NA","4":"black","5":"tan","6":"brown","7":"67.0","8":"male","9":"masculine","10":"Alderaan","11":"Human"},{"1":"Jango Fett","2":"183","3":"79.0","4":"black","5":"tan","6":"brown","7":"66.0","8":"male","9":"masculine","10":"Concord Dawn","11":"Human"},{"1":"Zam Wesell","2":"168","3":"55.0","4":"blonde","5":"fair, green, yellow","6":"yellow","7":"NA","8":"female","9":"feminine","10":"Zolan","11":"Clawdite"},{"1":"Dexter Jettster","2":"198","3":"102.0","4":"none","5":"brown","6":"yellow","7":"NA","8":"male","9":"masculine","10":"Ojom","11":"Besalisk"},{"1":"Lama Su","2":"229","3":"88.0","4":"none","5":"grey","6":"black","7":"NA","8":"male","9":"masculine","10":"Kamino","11":"Kaminoan"},{"1":"Taun We","2":"213","3":"NA","4":"none","5":"grey","6":"black","7":"NA","8":"female","9":"feminine","10":"Kamino","11":"Kaminoan"},{"1":"Jocasta Nu","2":"167","3":"NA","4":"white","5":"fair","6":"blue","7":"NA","8":"female","9":"feminine","10":"Coruscant","11":"Human"},{"1":"R4-P17","2":"96","3":"NA","4":"none","5":"silver, red","6":"red, blue","7":"NA","8":"none","9":"feminine","10":"NA","11":"Droid"},{"1":"Wat Tambor","2":"193","3":"48.0","4":"none","5":"green, grey","6":"unknown","7":"NA","8":"male","9":"masculine","10":"Skako","11":"Skakoan"},{"1":"San Hill","2":"191","3":"NA","4":"none","5":"grey","6":"gold","7":"NA","8":"male","9":"masculine","10":"Muunilinst","11":"Muun"},{"1":"Shaak Ti","2":"178","3":"57.0","4":"none","5":"red, blue, white","6":"black","7":"NA","8":"female","9":"feminine","10":"Shili","11":"Togruta"},{"1":"Grievous","2":"216","3":"159.0","4":"none","5":"brown, white","6":"green, yellow","7":"NA","8":"male","9":"masculine","10":"Kalee","11":"Kaleesh"},{"1":"Tarfful","2":"234","3":"136.0","4":"brown","5":"brown","6":"blue","7":"NA","8":"male","9":"masculine","10":"Kashyyyk","11":"Wookiee"},{"1":"Raymus Antilles","2":"188","3":"79.0","4":"brown","5":"light","6":"brown","7":"NA","8":"male","9":"masculine","10":"Alderaan","11":"Human"},{"1":"Sly Moore","2":"178","3":"48.0","4":"none","5":"pale","6":"white","7":"NA","8":"NA","9":"NA","10":"Umbara","11":"NA"},{"1":"Tion Medon","2":"206","3":"80.0","4":"none","5":"grey","6":"black","7":"NA","8":"male","9":"masculine","10":"Utapau","11":"Pau'an"},{"1":"Finn","2":"NA","3":"NA","4":"black","5":"dark","6":"dark","7":"NA","8":"male","9":"masculine","10":"NA","11":"Human"},{"1":"Rey","2":"NA","3":"NA","4":"brown","5":"light","6":"hazel","7":"NA","8":"female","9":"feminine","10":"NA","11":"Human"},{"1":"Poe Dameron","2":"NA","3":"NA","4":"brown","5":"light","6":"brown","7":"NA","8":"male","9":"masculine","10":"NA","11":"Human"},{"1":"BB8","2":"NA","3":"NA","4":"none","5":"none","6":"black","7":"NA","8":"none","9":"masculine","10":"NA","11":"Droid"},{"1":"Captain Phasma","2":"NA","3":"NA","4":"none","5":"none","6":"unknown","7":"NA","8":"female","9":"feminine","10":"NA","11":"Human"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="creating-a-flag-variable-with-if_else" class="level2" data-number="15.2">
+<h2 data-number="15.2" class="anchored" data-anchor-id="creating-a-flag-variable-with-if_else"><span class="header-section-number">15.2</span> Creating a flag variable with if_else</h2>
+<p>I actually have a good example of this in the <a href="./denied-cleaning.html#create-an-audit-benchmark-column">Denied Cleaning</a> chapter when we make the audit benchmark column, but I’ll include a JedR version here.</p>
+<p>Within our starwars data, we have a variable called <code>species</code> that has a number of values.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>starwars <span class="sc">|&gt;</span> <span class="fu">count</span>(species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["species"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"Aleena","2":"1"},{"1":"Besalisk","2":"1"},{"1":"Cerean","2":"1"},{"1":"Chagrian","2":"1"},{"1":"Clawdite","2":"1"},{"1":"Droid","2":"6"},{"1":"Dug","2":"1"},{"1":"Ewok","2":"1"},{"1":"Geonosian","2":"1"},{"1":"Gungan","2":"3"},{"1":"Human","2":"35"},{"1":"Hutt","2":"1"},{"1":"Iktotchi","2":"1"},{"1":"Kaleesh","2":"1"},{"1":"Kaminoan","2":"2"},{"1":"Kel Dor","2":"1"},{"1":"Mirialan","2":"2"},{"1":"Mon Calamari","2":"1"},{"1":"Muun","2":"1"},{"1":"Nautolan","2":"1"},{"1":"Neimodian","2":"1"},{"1":"Pau'an","2":"1"},{"1":"Quermian","2":"1"},{"1":"Rodian","2":"1"},{"1":"Skakoan","2":"1"},{"1":"Sullustan","2":"1"},{"1":"Tholothian","2":"1"},{"1":"Togruta","2":"1"},{"1":"Toong","2":"1"},{"1":"Toydarian","2":"1"},{"1":"Trandoshan","2":"1"},{"1":"Twi'lek","2":"2"},{"1":"Vulptereen","2":"1"},{"1":"Wookiee","2":"2"},{"1":"Xexto","2":"1"},{"1":"Yoda's species","2":"1"},{"1":"Zabrak","2":"2"},{"1":"NA","2":"4"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Most of the characters are “Human”, but let’s say I want to do a series of analysis based on whether a species is “Human” vs all the other options. I can create a <em>flag</em> variable (True/False) based on whether that. So, I want <code>TRUE</code> if “Human” and <code>FALSE</code> if not.</p>
+<p>The <a href="https://dplyr.tidyverse.org/reference/if_else.html"><code>if_else()</code></a> function is perfect for this.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>sw_human <span class="ot">&lt;-</span> starwars <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">human =</span> <span class="fu">if_else</span>(species <span class="sc">==</span> <span class="st">"Human"</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>),</span>
+<span id="annotated-cell-4-4"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.after =</span> species</span>
+<span id="annotated-cell-4-5"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-7"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># selecting specific variables so we can see them easily</span></span>
+<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>sw_human <span class="sc">|&gt;</span> <span class="fu">select</span>(name, species, human)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="2" data-code-annotation="1">I’m using <code>mutate()</code> to creat the new variable.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="3" data-code-annotation="2"><code>if_else()</code> takes three arguments. The first is the test, the second is the value to insert if it is true (and i’m using an actual <code>TRUE</code> value here) and the third is to insert if it is false (and I’m using <code>FALSE</code>)</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["species"],"name":[2],"type":["chr"],"align":["left"]},{"label":["human"],"name":[3],"type":["lgl"],"align":["right"]}],"data":[{"1":"Luke Skywalker","2":"Human","3":"TRUE"},{"1":"C-3PO","2":"Droid","3":"FALSE"},{"1":"R2-D2","2":"Droid","3":"FALSE"},{"1":"Darth Vader","2":"Human","3":"TRUE"},{"1":"Leia Organa","2":"Human","3":"TRUE"},{"1":"Owen Lars","2":"Human","3":"TRUE"},{"1":"Beru Whitesun Lars","2":"Human","3":"TRUE"},{"1":"R5-D4","2":"Droid","3":"FALSE"},{"1":"Biggs Darklighter","2":"Human","3":"TRUE"},{"1":"Obi-Wan Kenobi","2":"Human","3":"TRUE"},{"1":"Anakin Skywalker","2":"Human","3":"TRUE"},{"1":"Wilhuff Tarkin","2":"Human","3":"TRUE"},{"1":"Chewbacca","2":"Wookiee","3":"FALSE"},{"1":"Han Solo","2":"Human","3":"TRUE"},{"1":"Greedo","2":"Rodian","3":"FALSE"},{"1":"Jabba Desilijic Tiure","2":"Hutt","3":"FALSE"},{"1":"Wedge Antilles","2":"Human","3":"TRUE"},{"1":"Jek Tono Porkins","2":"NA","3":"NA"},{"1":"Yoda","2":"Yoda's species","3":"FALSE"},{"1":"Palpatine","2":"Human","3":"TRUE"},{"1":"Boba Fett","2":"Human","3":"TRUE"},{"1":"IG-88","2":"Droid","3":"FALSE"},{"1":"Bossk","2":"Trandoshan","3":"FALSE"},{"1":"Lando Calrissian","2":"Human","3":"TRUE"},{"1":"Lobot","2":"Human","3":"TRUE"},{"1":"Ackbar","2":"Mon Calamari","3":"FALSE"},{"1":"Mon Mothma","2":"Human","3":"TRUE"},{"1":"Arvel Crynyd","2":"Human","3":"TRUE"},{"1":"Wicket Systri Warrick","2":"Ewok","3":"FALSE"},{"1":"Nien Nunb","2":"Sullustan","3":"FALSE"},{"1":"Qui-Gon Jinn","2":"Human","3":"TRUE"},{"1":"Nute Gunray","2":"Neimodian","3":"FALSE"},{"1":"Finis Valorum","2":"Human","3":"TRUE"},{"1":"Padmé Amidala","2":"Human","3":"TRUE"},{"1":"Jar Jar Binks","2":"Gungan","3":"FALSE"},{"1":"Roos Tarpals","2":"Gungan","3":"FALSE"},{"1":"Rugor Nass","2":"Gungan","3":"FALSE"},{"1":"Ric Olié","2":"Human","3":"TRUE"},{"1":"Watto","2":"Toydarian","3":"FALSE"},{"1":"Sebulba","2":"Dug","3":"FALSE"},{"1":"Quarsh Panaka","2":"Human","3":"TRUE"},{"1":"Shmi Skywalker","2":"Human","3":"TRUE"},{"1":"Darth Maul","2":"Zabrak","3":"FALSE"},{"1":"Bib Fortuna","2":"Twi'lek","3":"FALSE"},{"1":"Ayla Secura","2":"Twi'lek","3":"FALSE"},{"1":"Ratts Tyerel","2":"Aleena","3":"FALSE"},{"1":"Dud Bolt","2":"Vulptereen","3":"FALSE"},{"1":"Gasgano","2":"Xexto","3":"FALSE"},{"1":"Ben Quadinaros","2":"Toong","3":"FALSE"},{"1":"Mace Windu","2":"Human","3":"TRUE"},{"1":"Ki-Adi-Mundi","2":"Cerean","3":"FALSE"},{"1":"Kit Fisto","2":"Nautolan","3":"FALSE"},{"1":"Eeth Koth","2":"Zabrak","3":"FALSE"},{"1":"Adi Gallia","2":"Tholothian","3":"FALSE"},{"1":"Saesee Tiin","2":"Iktotchi","3":"FALSE"},{"1":"Yarael Poof","2":"Quermian","3":"FALSE"},{"1":"Plo Koon","2":"Kel Dor","3":"FALSE"},{"1":"Mas Amedda","2":"Chagrian","3":"FALSE"},{"1":"Gregar Typho","2":"NA","3":"NA"},{"1":"Cordé","2":"NA","3":"NA"},{"1":"Cliegg Lars","2":"Human","3":"TRUE"},{"1":"Poggle the Lesser","2":"Geonosian","3":"FALSE"},{"1":"Luminara Unduli","2":"Mirialan","3":"FALSE"},{"1":"Barriss Offee","2":"Mirialan","3":"FALSE"},{"1":"Dormé","2":"Human","3":"TRUE"},{"1":"Dooku","2":"Human","3":"TRUE"},{"1":"Bail Prestor Organa","2":"Human","3":"TRUE"},{"1":"Jango Fett","2":"Human","3":"TRUE"},{"1":"Zam Wesell","2":"Clawdite","3":"FALSE"},{"1":"Dexter Jettster","2":"Besalisk","3":"FALSE"},{"1":"Lama Su","2":"Kaminoan","3":"FALSE"},{"1":"Taun We","2":"Kaminoan","3":"FALSE"},{"1":"Jocasta Nu","2":"Human","3":"TRUE"},{"1":"R4-P17","2":"Droid","3":"FALSE"},{"1":"Wat Tambor","2":"Skakoan","3":"FALSE"},{"1":"San Hill","2":"Muun","3":"FALSE"},{"1":"Shaak Ti","2":"Togruta","3":"FALSE"},{"1":"Grievous","2":"Kaleesh","3":"FALSE"},{"1":"Tarfful","2":"Wookiee","3":"FALSE"},{"1":"Raymus Antilles","2":"Human","3":"TRUE"},{"1":"Sly Moore","2":"NA","3":"NA"},{"1":"Tion Medon","2":"Pau'an","3":"FALSE"},{"1":"Finn","2":"Human","3":"TRUE"},{"1":"Rey","2":"Human","3":"TRUE"},{"1":"Poe Dameron","2":"Human","3":"TRUE"},{"1":"BB8","2":"Droid","3":"FALSE"},{"1":"Captain Phasma","2":"Human","3":"TRUE"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>So now I can easily count how many characters are Human vs Not Human.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sw_human <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(human, <span class="at">name =</span> <span class="st">"cnt_human"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["human"],"name":[1],"type":["lgl"],"align":["right"]},{"label":["cnt_human"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"FALSE","2":"48"},{"1":"TRUE","2":"35"},{"1":"NA","2":"4"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>I don’t have to use real <code>TRUE</code> and <code>FALSE</code> values here. I can insert anything.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>starwars <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">human_text =</span> <span class="fu">if_else</span>(species <span class="sc">==</span> <span class="st">"Human"</span>, <span class="st">"Human"</span>, <span class="st">"Not Human"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, species, human_text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["species"],"name":[2],"type":["chr"],"align":["left"]},{"label":["human_text"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"Luke Skywalker","2":"Human","3":"Human"},{"1":"C-3PO","2":"Droid","3":"Not Human"},{"1":"R2-D2","2":"Droid","3":"Not Human"},{"1":"Darth Vader","2":"Human","3":"Human"},{"1":"Leia Organa","2":"Human","3":"Human"},{"1":"Owen Lars","2":"Human","3":"Human"},{"1":"Beru Whitesun Lars","2":"Human","3":"Human"},{"1":"R5-D4","2":"Droid","3":"Not Human"},{"1":"Biggs Darklighter","2":"Human","3":"Human"},{"1":"Obi-Wan Kenobi","2":"Human","3":"Human"},{"1":"Anakin Skywalker","2":"Human","3":"Human"},{"1":"Wilhuff Tarkin","2":"Human","3":"Human"},{"1":"Chewbacca","2":"Wookiee","3":"Not Human"},{"1":"Han Solo","2":"Human","3":"Human"},{"1":"Greedo","2":"Rodian","3":"Not Human"},{"1":"Jabba Desilijic Tiure","2":"Hutt","3":"Not Human"},{"1":"Wedge Antilles","2":"Human","3":"Human"},{"1":"Jek Tono Porkins","2":"NA","3":"NA"},{"1":"Yoda","2":"Yoda's species","3":"Not Human"},{"1":"Palpatine","2":"Human","3":"Human"},{"1":"Boba Fett","2":"Human","3":"Human"},{"1":"IG-88","2":"Droid","3":"Not Human"},{"1":"Bossk","2":"Trandoshan","3":"Not Human"},{"1":"Lando Calrissian","2":"Human","3":"Human"},{"1":"Lobot","2":"Human","3":"Human"},{"1":"Ackbar","2":"Mon Calamari","3":"Not Human"},{"1":"Mon Mothma","2":"Human","3":"Human"},{"1":"Arvel Crynyd","2":"Human","3":"Human"},{"1":"Wicket Systri Warrick","2":"Ewok","3":"Not Human"},{"1":"Nien Nunb","2":"Sullustan","3":"Not Human"},{"1":"Qui-Gon Jinn","2":"Human","3":"Human"},{"1":"Nute Gunray","2":"Neimodian","3":"Not Human"},{"1":"Finis Valorum","2":"Human","3":"Human"},{"1":"Padmé Amidala","2":"Human","3":"Human"},{"1":"Jar Jar Binks","2":"Gungan","3":"Not Human"},{"1":"Roos Tarpals","2":"Gungan","3":"Not Human"},{"1":"Rugor Nass","2":"Gungan","3":"Not Human"},{"1":"Ric Olié","2":"Human","3":"Human"},{"1":"Watto","2":"Toydarian","3":"Not Human"},{"1":"Sebulba","2":"Dug","3":"Not Human"},{"1":"Quarsh Panaka","2":"Human","3":"Human"},{"1":"Shmi Skywalker","2":"Human","3":"Human"},{"1":"Darth Maul","2":"Zabrak","3":"Not Human"},{"1":"Bib Fortuna","2":"Twi'lek","3":"Not Human"},{"1":"Ayla Secura","2":"Twi'lek","3":"Not Human"},{"1":"Ratts Tyerel","2":"Aleena","3":"Not Human"},{"1":"Dud Bolt","2":"Vulptereen","3":"Not Human"},{"1":"Gasgano","2":"Xexto","3":"Not Human"},{"1":"Ben Quadinaros","2":"Toong","3":"Not Human"},{"1":"Mace Windu","2":"Human","3":"Human"},{"1":"Ki-Adi-Mundi","2":"Cerean","3":"Not Human"},{"1":"Kit Fisto","2":"Nautolan","3":"Not Human"},{"1":"Eeth Koth","2":"Zabrak","3":"Not Human"},{"1":"Adi Gallia","2":"Tholothian","3":"Not Human"},{"1":"Saesee Tiin","2":"Iktotchi","3":"Not Human"},{"1":"Yarael Poof","2":"Quermian","3":"Not Human"},{"1":"Plo Koon","2":"Kel Dor","3":"Not Human"},{"1":"Mas Amedda","2":"Chagrian","3":"Not Human"},{"1":"Gregar Typho","2":"NA","3":"NA"},{"1":"Cordé","2":"NA","3":"NA"},{"1":"Cliegg Lars","2":"Human","3":"Human"},{"1":"Poggle the Lesser","2":"Geonosian","3":"Not Human"},{"1":"Luminara Unduli","2":"Mirialan","3":"Not Human"},{"1":"Barriss Offee","2":"Mirialan","3":"Not Human"},{"1":"Dormé","2":"Human","3":"Human"},{"1":"Dooku","2":"Human","3":"Human"},{"1":"Bail Prestor Organa","2":"Human","3":"Human"},{"1":"Jango Fett","2":"Human","3":"Human"},{"1":"Zam Wesell","2":"Clawdite","3":"Not Human"},{"1":"Dexter Jettster","2":"Besalisk","3":"Not Human"},{"1":"Lama Su","2":"Kaminoan","3":"Not Human"},{"1":"Taun We","2":"Kaminoan","3":"Not Human"},{"1":"Jocasta Nu","2":"Human","3":"Human"},{"1":"R4-P17","2":"Droid","3":"Not Human"},{"1":"Wat Tambor","2":"Skakoan","3":"Not Human"},{"1":"San Hill","2":"Muun","3":"Not Human"},{"1":"Shaak Ti","2":"Togruta","3":"Not Human"},{"1":"Grievous","2":"Kaleesh","3":"Not Human"},{"1":"Tarfful","2":"Wookiee","3":"Not Human"},{"1":"Raymus Antilles","2":"Human","3":"Human"},{"1":"Sly Moore","2":"NA","3":"NA"},{"1":"Tion Medon","2":"Pau'an","3":"Not Human"},{"1":"Finn","2":"Human","3":"Human"},{"1":"Rey","2":"Human","3":"Human"},{"1":"Poe Dameron","2":"Human","3":"Human"},{"1":"BB8","2":"Droid","3":"Not Human"},{"1":"Captain Phasma","2":"Human","3":"Human"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+<section id="recategorize-with-case_match" class="level2" data-number="15.3">
+<h2 data-number="15.3" class="anchored" data-anchor-id="recategorize-with-case_match"><span class="header-section-number">15.3</span> Recategorize with case_match</h2>
+<p>But what if the test isn’t so simple … that it isn’t either one or the other.</p>
+<p>Using <a href="https://dplyr.tidyverse.org/reference/case_match.html">case_match()</a> we can make 1v1 switches for some values within a variable, and then choose what to do with the rest of them en masse.</p>
+<p>One thing about <code>case_match()</code> … we are only affecting values in a single variable. It’s good for cleaning those, but not very flexible beyond that because we can’t consider other variable in our tests. It’s just “change this into that.”</p>
+<p>Let’s say I want to update “Yoda’s species” to “Yoda”, keep “Human” as such and then make everything else “Other”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-7-1"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a>sw_species_simple <span class="ot">&lt;-</span> starwars <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-7-2"><a href="#annotated-cell-7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-7-3" class="code-annotation-target"><a href="#annotated-cell-7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_species =</span> <span class="fu">case_match</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-7-4" class="code-annotation-target"><a href="#annotated-cell-7-4" aria-hidden="true" tabindex="-1"></a>      species,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-7-5" class="code-annotation-target"><a href="#annotated-cell-7-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Yoda's species"</span> <span class="sc">~</span> <span class="st">"Yoda"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-7-6" class="code-annotation-target"><a href="#annotated-cell-7-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Human"</span> <span class="sc">~</span> <span class="st">"Human"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-7-7" class="code-annotation-target"><a href="#annotated-cell-7-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">.default =</span> <span class="st">"Other"</span></span>
+<span id="annotated-cell-7-8"><a href="#annotated-cell-7-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="annotated-cell-7-9"><a href="#annotated-cell-7-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="annotated-cell-7-10"><a href="#annotated-cell-7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-7-11"><a href="#annotated-cell-7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># selecting specific variables to see the results</span></span>
+<span id="annotated-cell-7-12"><a href="#annotated-cell-7-12" aria-hidden="true" tabindex="-1"></a>sw_species_simple <span class="sc">|&gt;</span> <span class="fu">select</span>(name, species, new_species)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="3" data-code-annotation="1">We set the name of the new variable first, then set the value to the result of the <code>case_match()</code> function. I could replace the same variable, but then I wouldn’t be able to inspect the changes.</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="4" data-code-annotation="2"><code>case_match()</code>works on the values from single variable, so you have to define which column you are working with. We are using the <code>species</code> variable here.</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="5" data-code-annotation="3">Here we change the “Yoda’s species” value to just “Yoda”.</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="6" data-code-annotation="4">Here we set “Human” as itself so we can preserve it. Otherwise it would also be changed to “Other”</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="7" data-code-annotation="5">Here we set what all the other values we have not specified should be changed to. We set them to “Other.”</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["species"],"name":[2],"type":["chr"],"align":["left"]},{"label":["new_species"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"Luke Skywalker","2":"Human","3":"Human"},{"1":"C-3PO","2":"Droid","3":"Other"},{"1":"R2-D2","2":"Droid","3":"Other"},{"1":"Darth Vader","2":"Human","3":"Human"},{"1":"Leia Organa","2":"Human","3":"Human"},{"1":"Owen Lars","2":"Human","3":"Human"},{"1":"Beru Whitesun Lars","2":"Human","3":"Human"},{"1":"R5-D4","2":"Droid","3":"Other"},{"1":"Biggs Darklighter","2":"Human","3":"Human"},{"1":"Obi-Wan Kenobi","2":"Human","3":"Human"},{"1":"Anakin Skywalker","2":"Human","3":"Human"},{"1":"Wilhuff Tarkin","2":"Human","3":"Human"},{"1":"Chewbacca","2":"Wookiee","3":"Other"},{"1":"Han Solo","2":"Human","3":"Human"},{"1":"Greedo","2":"Rodian","3":"Other"},{"1":"Jabba Desilijic Tiure","2":"Hutt","3":"Other"},{"1":"Wedge Antilles","2":"Human","3":"Human"},{"1":"Jek Tono Porkins","2":"NA","3":"Other"},{"1":"Yoda","2":"Yoda's species","3":"Yoda"},{"1":"Palpatine","2":"Human","3":"Human"},{"1":"Boba Fett","2":"Human","3":"Human"},{"1":"IG-88","2":"Droid","3":"Other"},{"1":"Bossk","2":"Trandoshan","3":"Other"},{"1":"Lando Calrissian","2":"Human","3":"Human"},{"1":"Lobot","2":"Human","3":"Human"},{"1":"Ackbar","2":"Mon Calamari","3":"Other"},{"1":"Mon Mothma","2":"Human","3":"Human"},{"1":"Arvel Crynyd","2":"Human","3":"Human"},{"1":"Wicket Systri Warrick","2":"Ewok","3":"Other"},{"1":"Nien Nunb","2":"Sullustan","3":"Other"},{"1":"Qui-Gon Jinn","2":"Human","3":"Human"},{"1":"Nute Gunray","2":"Neimodian","3":"Other"},{"1":"Finis Valorum","2":"Human","3":"Human"},{"1":"Padmé Amidala","2":"Human","3":"Human"},{"1":"Jar Jar Binks","2":"Gungan","3":"Other"},{"1":"Roos Tarpals","2":"Gungan","3":"Other"},{"1":"Rugor Nass","2":"Gungan","3":"Other"},{"1":"Ric Olié","2":"Human","3":"Human"},{"1":"Watto","2":"Toydarian","3":"Other"},{"1":"Sebulba","2":"Dug","3":"Other"},{"1":"Quarsh Panaka","2":"Human","3":"Human"},{"1":"Shmi Skywalker","2":"Human","3":"Human"},{"1":"Darth Maul","2":"Zabrak","3":"Other"},{"1":"Bib Fortuna","2":"Twi'lek","3":"Other"},{"1":"Ayla Secura","2":"Twi'lek","3":"Other"},{"1":"Ratts Tyerel","2":"Aleena","3":"Other"},{"1":"Dud Bolt","2":"Vulptereen","3":"Other"},{"1":"Gasgano","2":"Xexto","3":"Other"},{"1":"Ben Quadinaros","2":"Toong","3":"Other"},{"1":"Mace Windu","2":"Human","3":"Human"},{"1":"Ki-Adi-Mundi","2":"Cerean","3":"Other"},{"1":"Kit Fisto","2":"Nautolan","3":"Other"},{"1":"Eeth Koth","2":"Zabrak","3":"Other"},{"1":"Adi Gallia","2":"Tholothian","3":"Other"},{"1":"Saesee Tiin","2":"Iktotchi","3":"Other"},{"1":"Yarael Poof","2":"Quermian","3":"Other"},{"1":"Plo Koon","2":"Kel Dor","3":"Other"},{"1":"Mas Amedda","2":"Chagrian","3":"Other"},{"1":"Gregar Typho","2":"NA","3":"Other"},{"1":"Cordé","2":"NA","3":"Other"},{"1":"Cliegg Lars","2":"Human","3":"Human"},{"1":"Poggle the Lesser","2":"Geonosian","3":"Other"},{"1":"Luminara Unduli","2":"Mirialan","3":"Other"},{"1":"Barriss Offee","2":"Mirialan","3":"Other"},{"1":"Dormé","2":"Human","3":"Human"},{"1":"Dooku","2":"Human","3":"Human"},{"1":"Bail Prestor Organa","2":"Human","3":"Human"},{"1":"Jango Fett","2":"Human","3":"Human"},{"1":"Zam Wesell","2":"Clawdite","3":"Other"},{"1":"Dexter Jettster","2":"Besalisk","3":"Other"},{"1":"Lama Su","2":"Kaminoan","3":"Other"},{"1":"Taun We","2":"Kaminoan","3":"Other"},{"1":"Jocasta Nu","2":"Human","3":"Human"},{"1":"R4-P17","2":"Droid","3":"Other"},{"1":"Wat Tambor","2":"Skakoan","3":"Other"},{"1":"San Hill","2":"Muun","3":"Other"},{"1":"Shaak Ti","2":"Togruta","3":"Other"},{"1":"Grievous","2":"Kaleesh","3":"Other"},{"1":"Tarfful","2":"Wookiee","3":"Other"},{"1":"Raymus Antilles","2":"Human","3":"Human"},{"1":"Sly Moore","2":"NA","3":"Other"},{"1":"Tion Medon","2":"Pau'an","3":"Other"},{"1":"Finn","2":"Human","3":"Human"},{"1":"Rey","2":"Human","3":"Human"},{"1":"Poe Dameron","2":"Human","3":"Human"},{"1":"BB8","2":"Droid","3":"Other"},{"1":"Captain Phasma","2":"Human","3":"Human"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Using this method, those <code>species</code> values that were <code>NA</code> are also changed to “Other” since they didn’t fit the other two roles.</p>
+<p>If we count on the new variable, this is what we get.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sw_species_simple <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(new_species, <span class="at">name =</span> <span class="st">"cnt_species_simple"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["new_species"],"name":[1],"type":["chr"],"align":["left"]},{"label":["cnt_species_simple"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"Human","2":"35"},{"1":"Other","2":"51"},{"1":"Yoda","2":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>An option that can make this real useful is I can choose to only a couple of values in the variable and then leave the others as-is. I’m going to do this all at once to save time and just show the result.</p>
+<p>Here I change “Yoda’s species” to just “Yoda” and all the <code>NA</code>s to “Other”, but leave the rest as it was, using the existing <code>species</code> values.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-9"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-9-1"><a href="#annotated-cell-9-1" aria-hidden="true" tabindex="-1"></a>starwars <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-9-2"><a href="#annotated-cell-9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="annotated-cell-9-3"><a href="#annotated-cell-9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">newer_species =</span> <span class="fu">case_match</span>(</span>
+<span id="annotated-cell-9-4"><a href="#annotated-cell-9-4" aria-hidden="true" tabindex="-1"></a>      species,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-9-5" class="code-annotation-target"><a href="#annotated-cell-9-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Yoda's species"</span> <span class="sc">~</span> <span class="st">"Yoda"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-9-6" class="code-annotation-target"><a href="#annotated-cell-9-6" aria-hidden="true" tabindex="-1"></a>      <span class="cn">NA</span> <span class="sc">~</span> <span class="st">"Other"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-9-7" class="code-annotation-target"><a href="#annotated-cell-9-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">.default =</span> species</span>
+<span id="annotated-cell-9-8"><a href="#annotated-cell-9-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="annotated-cell-9-9"><a href="#annotated-cell-9-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-9-10" class="code-annotation-target"><a href="#annotated-cell-9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">10</span><span class="sc">:</span><span class="dv">20</span>) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-9-11" class="code-annotation-target"><a href="#annotated-cell-9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, species, newer_species)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="5" data-code-annotation="1">We are changing “Yoda’s species” to “Yoda”.</span>
+</dd>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="6" data-code-annotation="2">We set all the NA values to “Other”.</span>
+</dd>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="7" data-code-annotation="3">We set the remain rows to be their original <code>species</code> values.</span>
+</dd>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="10" data-code-annotation="4">I’m using <code>slice()</code> here just to show you the row that includes “Yoda” so you can see it. It’s just a display thing.</span>
+</dd>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="11" data-code-annotation="5">Also a display thing: I’m selecting the relevant variables so we can see them.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["species"],"name":[2],"type":["chr"],"align":["left"]},{"label":["newer_species"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"Obi-Wan Kenobi","2":"Human","3":"Human"},{"1":"Anakin Skywalker","2":"Human","3":"Human"},{"1":"Wilhuff Tarkin","2":"Human","3":"Human"},{"1":"Chewbacca","2":"Wookiee","3":"Wookiee"},{"1":"Han Solo","2":"Human","3":"Human"},{"1":"Greedo","2":"Rodian","3":"Rodian"},{"1":"Jabba Desilijic Tiure","2":"Hutt","3":"Hutt"},{"1":"Wedge Antilles","2":"Human","3":"Human"},{"1":"Jek Tono Porkins","2":"NA","3":"Other"},{"1":"Yoda","2":"Yoda's species","3":"Yoda"},{"1":"Palpatine","2":"Human","3":"Human"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+<section id="more-power-with-case_when" class="level2" data-number="15.4">
+<h2 data-number="15.4" class="anchored" data-anchor-id="more-power-with-case_when"><span class="header-section-number">15.4</span> More power with case_when()</h2>
+<p>If we need more logic, we can use <a href="https://dplyr.tidyverse.org/reference/case_when.html"><code>case_when()</code></a> to consider tests in any column to affect values in a single one.</p>
+<p>I use <code>case_when()</code> in the Military Surplus Cleaning chapter and then explain it in the <a href="./case-when.html">Using case_when</a> Extras chapter. It’s a complicated example, but I’ll try to simplify it here.</p>
+<p>This example is a bit contrived, but hopefully you can follow. We want Luke Skywalker and the Lars family to be classified as “Lars Farmers”, along with the famous droids who worked there.</p>
+<p>We’ll start with this: Let’s create a new variable call <code>lars_farm</code> that defines the following:</p>
+<ul>
+<li>Anyone Lars family and Luke Skywalker will be “Lars Farmers”.</li>
+<li>We’ll also add R2D2 and C-3PO to the same “Lars Farmers” group.</li>
+<li>Everyone else will get their original homeworld.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-10"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-10-1"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a>sw_lars <span class="ot">&lt;-</span> starwars <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-10-2"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-10-3" class="code-annotation-target"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">lars_farm =</span> <span class="fu">case_when</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-10-4" class="code-annotation-target"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_detect</span>(name, <span class="st">"Lars|Luke Skywalker"</span>) <span class="sc">~</span> <span class="st">"Lars Farmers"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-10-5" class="code-annotation-target"><a href="#annotated-cell-10-5" aria-hidden="true" tabindex="-1"></a>      name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"R2-D2"</span>, <span class="st">"C-3PO"</span>) <span class="sc">~</span> <span class="st">"Lars Farmers"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-10-6" class="code-annotation-target"><a href="#annotated-cell-10-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.default =</span> homeworld</span>
+<span id="annotated-cell-10-7"><a href="#annotated-cell-10-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="annotated-cell-10-8"><a href="#annotated-cell-10-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="annotated-cell-10-9"><a href="#annotated-cell-10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-10-10"><a href="#annotated-cell-10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># select relevant variables</span></span>
+<span id="annotated-cell-10-11"><a href="#annotated-cell-10-11" aria-hidden="true" tabindex="-1"></a>sw_lars <span class="sc">|&gt;</span> <span class="fu">select</span>(name, homeworld, lars_farm)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="3" data-code-annotation="1">One difference between <code>case_match()</code> and <code>case_when()</code> is we can consider any test from any column. Here we create the new variable <code>lars_farm</code> to and set it to use the results from the <code>case_when()</code> function.</span>
+</dd>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="4" data-code-annotation="2">Here we use use <code>str_detect()</code> to look for “Luke Skywalker” and any name that includes “Lars”. We set those to “Lars Farmers”.</span>
+</dd>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="5" data-code-annotation="3">Here we add the two droids by specifically looking for those names and also set it to “Lars Farmers”.</span>
+</dd>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="6" data-code-annotation="4">We set everyone else to use their <code>homeworld</code> value.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["homeworld"],"name":[2],"type":["chr"],"align":["left"]},{"label":["lars_farm"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"Luke Skywalker","2":"Tatooine","3":"Lars Farmers"},{"1":"C-3PO","2":"Tatooine","3":"Lars Farmers"},{"1":"R2-D2","2":"Naboo","3":"Lars Farmers"},{"1":"Darth Vader","2":"Tatooine","3":"Tatooine"},{"1":"Leia Organa","2":"Alderaan","3":"Alderaan"},{"1":"Owen Lars","2":"Tatooine","3":"Lars Farmers"},{"1":"Beru Whitesun Lars","2":"Tatooine","3":"Lars Farmers"},{"1":"R5-D4","2":"Tatooine","3":"Tatooine"},{"1":"Biggs Darklighter","2":"Tatooine","3":"Tatooine"},{"1":"Obi-Wan Kenobi","2":"Stewjon","3":"Stewjon"},{"1":"Anakin Skywalker","2":"Tatooine","3":"Tatooine"},{"1":"Wilhuff Tarkin","2":"Eriadu","3":"Eriadu"},{"1":"Chewbacca","2":"Kashyyyk","3":"Kashyyyk"},{"1":"Han Solo","2":"Corellia","3":"Corellia"},{"1":"Greedo","2":"Rodia","3":"Rodia"},{"1":"Jabba Desilijic Tiure","2":"Nal Hutta","3":"Nal Hutta"},{"1":"Wedge Antilles","2":"Corellia","3":"Corellia"},{"1":"Jek Tono Porkins","2":"Bestine IV","3":"Bestine IV"},{"1":"Yoda","2":"NA","3":"NA"},{"1":"Palpatine","2":"Naboo","3":"Naboo"},{"1":"Boba Fett","2":"Kamino","3":"Kamino"},{"1":"IG-88","2":"NA","3":"NA"},{"1":"Bossk","2":"Trandosha","3":"Trandosha"},{"1":"Lando Calrissian","2":"Socorro","3":"Socorro"},{"1":"Lobot","2":"Bespin","3":"Bespin"},{"1":"Ackbar","2":"Mon Cala","3":"Mon Cala"},{"1":"Mon Mothma","2":"Chandrila","3":"Chandrila"},{"1":"Arvel Crynyd","2":"NA","3":"NA"},{"1":"Wicket Systri Warrick","2":"Endor","3":"Endor"},{"1":"Nien Nunb","2":"Sullust","3":"Sullust"},{"1":"Qui-Gon Jinn","2":"NA","3":"NA"},{"1":"Nute Gunray","2":"Cato Neimoidia","3":"Cato Neimoidia"},{"1":"Finis Valorum","2":"Coruscant","3":"Coruscant"},{"1":"Padmé Amidala","2":"Naboo","3":"Naboo"},{"1":"Jar Jar Binks","2":"Naboo","3":"Naboo"},{"1":"Roos Tarpals","2":"Naboo","3":"Naboo"},{"1":"Rugor Nass","2":"Naboo","3":"Naboo"},{"1":"Ric Olié","2":"Naboo","3":"Naboo"},{"1":"Watto","2":"Toydaria","3":"Toydaria"},{"1":"Sebulba","2":"Malastare","3":"Malastare"},{"1":"Quarsh Panaka","2":"Naboo","3":"Naboo"},{"1":"Shmi Skywalker","2":"Tatooine","3":"Tatooine"},{"1":"Darth Maul","2":"Dathomir","3":"Dathomir"},{"1":"Bib Fortuna","2":"Ryloth","3":"Ryloth"},{"1":"Ayla Secura","2":"Ryloth","3":"Ryloth"},{"1":"Ratts Tyerel","2":"Aleen Minor","3":"Aleen Minor"},{"1":"Dud Bolt","2":"Vulpter","3":"Vulpter"},{"1":"Gasgano","2":"Troiken","3":"Troiken"},{"1":"Ben Quadinaros","2":"Tund","3":"Tund"},{"1":"Mace Windu","2":"Haruun Kal","3":"Haruun Kal"},{"1":"Ki-Adi-Mundi","2":"Cerea","3":"Cerea"},{"1":"Kit Fisto","2":"Glee Anselm","3":"Glee Anselm"},{"1":"Eeth Koth","2":"Iridonia","3":"Iridonia"},{"1":"Adi Gallia","2":"Coruscant","3":"Coruscant"},{"1":"Saesee Tiin","2":"Iktotch","3":"Iktotch"},{"1":"Yarael Poof","2":"Quermia","3":"Quermia"},{"1":"Plo Koon","2":"Dorin","3":"Dorin"},{"1":"Mas Amedda","2":"Champala","3":"Champala"},{"1":"Gregar Typho","2":"Naboo","3":"Naboo"},{"1":"Cordé","2":"Naboo","3":"Naboo"},{"1":"Cliegg Lars","2":"Tatooine","3":"Lars Farmers"},{"1":"Poggle the Lesser","2":"Geonosis","3":"Geonosis"},{"1":"Luminara Unduli","2":"Mirial","3":"Mirial"},{"1":"Barriss Offee","2":"Mirial","3":"Mirial"},{"1":"Dormé","2":"Naboo","3":"Naboo"},{"1":"Dooku","2":"Serenno","3":"Serenno"},{"1":"Bail Prestor Organa","2":"Alderaan","3":"Alderaan"},{"1":"Jango Fett","2":"Concord Dawn","3":"Concord Dawn"},{"1":"Zam Wesell","2":"Zolan","3":"Zolan"},{"1":"Dexter Jettster","2":"Ojom","3":"Ojom"},{"1":"Lama Su","2":"Kamino","3":"Kamino"},{"1":"Taun We","2":"Kamino","3":"Kamino"},{"1":"Jocasta Nu","2":"Coruscant","3":"Coruscant"},{"1":"R4-P17","2":"NA","3":"NA"},{"1":"Wat Tambor","2":"Skako","3":"Skako"},{"1":"San Hill","2":"Muunilinst","3":"Muunilinst"},{"1":"Shaak Ti","2":"Shili","3":"Shili"},{"1":"Grievous","2":"Kalee","3":"Kalee"},{"1":"Tarfful","2":"Kashyyyk","3":"Kashyyyk"},{"1":"Raymus Antilles","2":"Alderaan","3":"Alderaan"},{"1":"Sly Moore","2":"Umbara","3":"Umbara"},{"1":"Tion Medon","2":"Utapau","3":"Utapau"},{"1":"Finn","2":"NA","3":"NA"},{"1":"Rey","2":"NA","3":"NA"},{"1":"Poe Dameron","2":"NA","3":"NA"},{"1":"BB8","2":"NA","3":"NA"},{"1":"Captain Phasma","2":"NA","3":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./case-when.html" class="pagination-link" aria-label="Using case_when">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Using case_when</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./tidycensus.html" class="pagination-link" aria-label="tidycensus">
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">tidycensus</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

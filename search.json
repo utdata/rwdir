@@ -1647,179 +1647,234 @@
     ]
   },
   {
-    "objectID": "tidycensus.html",
-    "href": "tidycensus.html",
-    "title": "15  tidycensus",
+    "objectID": "categorization.html",
+    "href": "categorization.html",
+    "title": "15  Categorization",
     "section": "",
-    "text": "15.1 Other resources\nThis chapter shows an example of how to find data from the American Community Survey using Census Reporter and then to get that data using the tidycensus R package.\nThis is NOT a full explanation of tidycensus. See Kyle Walker’s site for that.\nAdditionally, in 2025 Kyle did a three-part series of videos about using Tidycensus:",
+    "text": "15.1 Overview\nThis is a quick addendum to the Fa25 version of this book in order to help some students with a particular issues. It will need fleshing out at a later date.",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Categorization</span>"
+    ]
+  },
+  {
+    "objectID": "categorization.html#overview",
+    "href": "categorization.html#overview",
+    "title": "15  Categorization",
+    "section": "",
+    "text": "15.1.1 The problem\nSometimes we have data where a variable has too many options. It could be because it is more specific than we need, or because it is “dirty” with misspellings and differences which mean the same thing.\nI want to outline several ways to deal with this, with growing complexity (and flexibility).\n\n\n15.1.2 The solutions\nThese all will use mutate() because you are changing or creating data. But the methods I’m considering are:\n\nif_else() to make a binomial flag variable. We’ll make it TRUE based on a certain circumstance, and FALSE if not. I’ll also show how you could use values other than T/F.\ncase_match() is where we want one value to equal another, but we can do this with any number of values. They just all have to be 1-to-1. If this, then that.\ncase_when() allows you to perform a series of tests, changing values based on the results. While I cover this in Using case_when, it is an overcomplicated example.\n\nMy aim at first is to use the Starwars characters dataset for my examples. We’ll see how that goes.\nWe need our basic libraries:\n\nlibrary(tidyverse)\nlibrary(janitor)\n\nThe starwars character data is included with Tidyverse, but I’m going to use a simplified version without the series data about movies, etc.\n\nstarwars &lt;- starwars |&gt; select(name:species)\n\nstarwars",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Categorization</span>"
+    ]
+  },
+  {
+    "objectID": "categorization.html#creating-a-flag-variable-with-if_else",
+    "href": "categorization.html#creating-a-flag-variable-with-if_else",
+    "title": "15  Categorization",
+    "section": "15.2 Creating a flag variable with if_else",
+    "text": "15.2 Creating a flag variable with if_else\nI actually have a good example of this in the Denied Cleaning chapter when we make the audit benchmark column, but I’ll include a JedR version here.\nWithin our starwars data, we have a variable called species that has a number of values.\n\nstarwars |&gt; count(species)\n\n\n  \n\n\n\nMost of the characters are “Human”, but let’s say I want to do a series of analysis based on whether a species is “Human” vs all the other options. I can create a flag variable (True/False) based on whether that. So, I want TRUE if “Human” and FALSE if not.\nThe if_else() function is perfect for this.\n\nsw_human &lt;- starwars |&gt; \n1  mutate(\n2    human = if_else(species == \"Human\", TRUE, FALSE),\n    .after = species\n  )\n\n# selecting specific variables so we can see them easily\nsw_human |&gt; select(name, species, human)\n\n\n1\n\nI’m using mutate() to creat the new variable.\n\n2\n\nif_else() takes three arguments. The first is the test, the second is the value to insert if it is true (and i’m using an actual TRUE value here) and the third is to insert if it is false (and I’m using FALSE)\n\n\n\n\n\n  \n\n\n\nSo now I can easily count how many characters are Human vs Not Human.\n\nsw_human |&gt; \n  count(human, name = \"cnt_human\")\n\n\n  \n\n\n\nI don’t have to use real TRUE and FALSE values here. I can insert anything.\n\nstarwars |&gt; \n  mutate(\n    human_text = if_else(species == \"Human\", \"Human\", \"Not Human\")\n  ) |&gt; \n  select(name, species, human_text)",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Categorization</span>"
+    ]
+  },
+  {
+    "objectID": "categorization.html#recategorize-with-case_match",
+    "href": "categorization.html#recategorize-with-case_match",
+    "title": "15  Categorization",
+    "section": "15.3 Recategorize with case_match",
+    "text": "15.3 Recategorize with case_match\nBut what if the test isn’t so simple … that it isn’t either one or the other.\nUsing case_match() we can make 1v1 switches for some values within a variable, and then choose what to do with the rest of them en masse.\nOne thing about case_match() … we are only affecting values in a single variable. It’s good for cleaning those, but not very flexible beyond that because we can’t consider other variable in our tests. It’s just “change this into that.”\nLet’s say I want to update “Yoda’s species” to “Yoda”, keep “Human” as such and then make everything else “Other”.\n\nsw_species_simple &lt;- starwars |&gt; \n  mutate(\n1    new_species = case_match(\n2      species,\n3      \"Yoda's species\" ~ \"Yoda\",\n4      \"Human\" ~ \"Human\",\n5      .default = \"Other\"\n    )\n  )\n\n# selecting specific variables to see the results\nsw_species_simple |&gt; select(name, species, new_species)\n\n\n1\n\nWe set the name of the new variable first, then set the value to the result of the case_match() function. I could replace the same variable, but then I wouldn’t be able to inspect the changes.\n\n2\n\ncase_match()works on the values from single variable, so you have to define which column you are working with. We are using the species variable here.\n\n3\n\nHere we change the “Yoda’s species” value to just “Yoda”.\n\n4\n\nHere we set “Human” as itself so we can preserve it. Otherwise it would also be changed to “Other”\n\n5\n\nHere we set what all the other values we have not specified should be changed to. We set them to “Other.”\n\n\n\n\n\n  \n\n\n\nUsing this method, those species values that were NA are also changed to “Other” since they didn’t fit the other two roles.\nIf we count on the new variable, this is what we get.\n\nsw_species_simple |&gt; \n  count(new_species, name = \"cnt_species_simple\")\n\n\n  \n\n\n\nAn option that can make this real useful is I can choose to only a couple of values in the variable and then leave the others as-is. I’m going to do this all at once to save time and just show the result.\nHere I change “Yoda’s species” to just “Yoda” and all the NAs to “Other”, but leave the rest as it was, using the existing species values.\n\nstarwars |&gt; \n  mutate(\n    newer_species = case_match(\n      species,\n1      \"Yoda's species\" ~ \"Yoda\",\n2      NA ~ \"Other\",\n3      .default = species\n    )\n  ) |&gt; \n4  slice(10:20) |&gt;\n5  select(name, species, newer_species)\n\n\n1\n\nWe are changing “Yoda’s species” to “Yoda”.\n\n2\n\nWe set all the NA values to “Other”.\n\n3\n\nWe set the remain rows to be their original species values.\n\n4\n\nI’m using slice() here just to show you the row that includes “Yoda” so you can see it. It’s just a display thing.\n\n5\n\nAlso a display thing: I’m selecting the relevant variables so we can see them.",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Categorization</span>"
+    ]
+  },
+  {
+    "objectID": "categorization.html#more-power-with-case_when",
+    "href": "categorization.html#more-power-with-case_when",
+    "title": "15  Categorization",
+    "section": "15.4 More power with case_when()",
+    "text": "15.4 More power with case_when()\nIf we need more logic, we can use case_when() to consider tests in any column to affect values in a single one.\nI use case_when() in the Military Surplus Cleaning chapter and then explain it in the Using case_when Extras chapter. It’s a complicated example, but I’ll try to simplify it here.\nThis example is a bit contrived, but hopefully you can follow. We want Luke Skywalker and the Lars family to be classified as “Lars Farmers”, along with the famous droids who worked there.\nWe’ll start with this: Let’s create a new variable call lars_farm that defines the following:\n\nAnyone Lars family and Luke Skywalker will be “Lars Farmers”.\nWe’ll also add R2D2 and C-3PO to the same “Lars Farmers” group.\nEveryone else will get their original homeworld.\n\n\nsw_lars &lt;- starwars |&gt; \n  mutate(\n1    lars_farm = case_when(\n2      str_detect(name, \"Lars|Luke Skywalker\") ~ \"Lars Farmers\",\n3      name %in% c(\"R2-D2\", \"C-3PO\") ~ \"Lars Farmers\",\n4      .default = homeworld\n    )\n  )\n\n# select relevant variables\nsw_lars |&gt; select(name, homeworld, lars_farm)\n\n\n1\n\nOne difference between case_match() and case_when() is we can consider any test from any column. Here we create the new variable lars_farm to and set it to use the results from the case_when() function.\n\n2\n\nHere we use use str_detect() to look for “Luke Skywalker” and any name that includes “Lars”. We set those to “Lars Farmers”.\n\n3\n\nHere we add the two droids by specifically looking for those names and also set it to “Lars Farmers”.\n\n4\n\nWe set everyone else to use their homeworld value.",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Categorization</span>"
+    ]
+  },
+  {
+    "objectID": "tidycensus.html",
+    "href": "tidycensus.html",
+    "title": "16  tidycensus",
+    "section": "",
+    "text": "16.1 Other resources\nThis chapter shows an example of how to find data from the American Community Survey using Census Reporter and then to get that data using the tidycensus R package.\nThis is NOT a full explanation of tidycensus. See Kyle Walker’s site for that.\nAdditionally, in 2025 Kyle did a three-part series of videos about using Tidycensus:",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "tidycensus.html#other-resources",
     "href": "tidycensus.html#other-resources",
-    "title": "15  tidycensus",
+    "title": "16  tidycensus",
     "section": "",
     "text": "The Tidycensus package.\nThe author of the package has a book.\nThe NICAR24 lesson on tidycensus and the Github repo for it.\nA tutorial: Charting ‘tidycensus’ data with R.",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "tidycensus.html#prereqs",
     "href": "tidycensus.html#prereqs",
-    "title": "15  tidycensus",
-    "section": "15.2 Prereqs",
-    "text": "15.2 Prereqs\nYou need to install the tidycensus package and have a Census API key before using this. A key can be obtained here. Once you get the email with the key, it still might take a while to activate correctly … like maybe an hour?\nIt’s not a good idea to publish your API key since it is like a password, so I’ve commented that out in the code below. There is a way to store this value on your computer so you don’t have to reveal it in code, but I don’t want to get into that here.\n\nlibrary(tidyverse)\nlibrary(tidycensus)\nlibrary(janitor)\n\n# census_api_key(\"YOUR API KEY GOES HERE\")",
+    "title": "16  tidycensus",
+    "section": "16.2 Prereqs",
+    "text": "16.2 Prereqs\nYou need to install the tidycensus package and have a Census API key before using this. A key can be obtained here. Once you get the email with the key, it still might take a while to activate correctly … like maybe an hour?\nIt’s not a good idea to publish your API key since it is like a password, so I’ve commented that out in the code below. There is a way to store this value on your computer so you don’t have to reveal it in code, but I don’t want to get into that here.\n\nlibrary(tidyverse)\nlibrary(tidycensus)\nlibrary(janitor)\n\n# census_api_key(\"YOUR API KEY GOES HERE\")",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "tidycensus.html#testing-the-api",
     "href": "tidycensus.html#testing-the-api",
-    "title": "15  tidycensus",
-    "section": "15.3 Testing the API",
-    "text": "15.3 Testing the API\nJust to make sure all is working, lets gets the median household income for counties in Texas.\nThis doesn’t bring back all 256 counties because I’m specifying the “acs1” 1-year survey, so it only get’s counties big enough to have a good yearly value. I’ve commented out an argument I could use to get just Travis County to show how it is possible. Again, see the docs for more info.\n\nmhi_trav &lt;- get_acs(\n  geography = \"county\",\n  variables = \"B19013_001\",\n  state = \"TX\",\n  # county = \"Travis\",\n  survey = \"acs1\",\n  year = 2022,\n)\n\nmhi_trav",
+    "title": "16  tidycensus",
+    "section": "16.3 Testing the API",
+    "text": "16.3 Testing the API\nJust to make sure all is working, lets gets the median household income for counties in Texas.\nThis doesn’t bring back all 256 counties because I’m specifying the “acs1” 1-year survey, so it only get’s counties big enough to have a good yearly value. I’ve commented out an argument I could use to get just Travis County to show how it is possible. Again, see the docs for more info.\n\nmhi_trav &lt;- get_acs(\n  geography = \"county\",\n  variables = \"B19013_001\",\n  state = \"TX\",\n  # county = \"Travis\",\n  survey = \"acs1\",\n  year = 2022,\n)\n\nmhi_trav",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "tidycensus.html#educational-attainment",
     "href": "tidycensus.html#educational-attainment",
-    "title": "15  tidycensus",
-    "section": "15.4 Educational attainment",
-    "text": "15.4 Educational attainment\nI’ll use some educational attainment data for some examples …\nThe goal here is to find the percentage of women with a degree level higher than high school. To do this we have to add together all the different degree types, then divide by all women.\nWe want to find this for multiple years in multiple geographies. i.e. to compare US rates vs various states or counties. I’m going to find only two years and get rates for the US and Texas specifically.\n\n15.4.1 Find the table\nWe are using Census Reporter to find the variables we need, looking at Table B15002: Sex by Educational Attainment. (I’m not getting into how to use Census Reporter here, but it is an awesome tool for ACS facts.)\nYou can use a “tooltip” value from this site to to find a variable for Census Reporter. If you are familiar with a browser Inspector, you can look at the HTML and copy/paste values.\n\n\n\nCensus Reporter variables\n\n\nI used that method further down that page in the Female segment to collect the following variables. You have to insert an underscore between the table name and variable.\nI put them in a vector like this so I can reuse the list many times. If I want to adjust it, I’ll do that here.\n\nfem_edu_vars &lt;- c(\n  \"B15002_019\", # All female\n  \"B15002_028\", # Female High school graduate (includes equivalency)\n  \"B15002_031\", # Female Associate's degree\n  \"B15002_032\", # Female Bachelor's degree\n  \"B15002_033\", # Female Master's degree\n  \"B15002_034\", # Female Professional school degree\n  \"B15002_035\"  # Female Doctorate degree\n)\n\nIf you want different variables, find them and make your own list.\n\n\n15.4.2 Get the data for Texas\nHere I’m getting state numbers for these variables with geography = \"state\" but then filtering to get only Texas with state = \"TX\". I’m adding a column to indicate which year the data is from because I will need multiple years.\nOnce I have all the years I want I’ll bind them together.\n\ncollege_tx_21 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"state\",\n  state = \"TX\",\n  survey = \"acs1\",\n  year = 2021\n) |&gt; add_column(yr = \"2021\")\n\nGetting data from the 2021 1-year ACS\n\n\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\ncollege_tx_22 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"state\",\n  state = \"TX\",\n  survey = \"acs1\",\n  year = 2022\n) |&gt; add_column(yr = \"2022\")\n\nGetting data from the 2022 1-year ACS\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\n# Once I have each year I'll bind them together\ncollege_tx &lt;- bind_rows(college_tx_21, college_tx_22)\n\n\ncollege_tx\n\n\n  \n\n\n\nYour probably want more than two years of data.\n\n\n15.4.3 Get the data for US\nI’m doing the same thing here, but for US values.\n\ncollege_us_21 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"US\",\n  survey = \"acs1\",\n  year = 2021\n) |&gt; add_column(yr = \"2021\")\n\nGetting data from the 2021 1-year ACS\n\n\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\ncollege_us_22 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"US\",\n  survey = \"acs1\",\n  year = 2022\n) |&gt; add_column(yr = \"2022\")\n\nGetting data from the 2022 1-year ACS\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\ncollege_us &lt;- bind_rows(college_us_21, college_us_22)\n\n\ncollege_us\n\n\n  \n\n\n\nAgain you probably want more than two years of data.",
+    "title": "16  tidycensus",
+    "section": "16.4 Educational attainment",
+    "text": "16.4 Educational attainment\nI’ll use some educational attainment data for some examples …\nThe goal here is to find the percentage of women with a degree level higher than high school. To do this we have to add together all the different degree types, then divide by all women.\nWe want to find this for multiple years in multiple geographies. i.e. to compare US rates vs various states or counties. I’m going to find only two years and get rates for the US and Texas specifically.\n\n16.4.1 Find the table\nWe are using Census Reporter to find the variables we need, looking at Table B15002: Sex by Educational Attainment. (I’m not getting into how to use Census Reporter here, but it is an awesome tool for ACS facts.)\nYou can use a “tooltip” value from this site to to find a variable for Census Reporter. If you are familiar with a browser Inspector, you can look at the HTML and copy/paste values.\n\n\n\nCensus Reporter variables\n\n\nI used that method further down that page in the Female segment to collect the following variables. You have to insert an underscore between the table name and variable.\nI put them in a vector like this so I can reuse the list many times. If I want to adjust it, I’ll do that here.\n\nfem_edu_vars &lt;- c(\n  \"B15002_019\", # All female\n  \"B15002_028\", # Female High school graduate (includes equivalency)\n  \"B15002_031\", # Female Associate's degree\n  \"B15002_032\", # Female Bachelor's degree\n  \"B15002_033\", # Female Master's degree\n  \"B15002_034\", # Female Professional school degree\n  \"B15002_035\"  # Female Doctorate degree\n)\n\nIf you want different variables, find them and make your own list.\n\n\n16.4.2 Get the data for Texas\nHere I’m getting state numbers for these variables with geography = \"state\" but then filtering to get only Texas with state = \"TX\". I’m adding a column to indicate which year the data is from because I will need multiple years.\nOnce I have all the years I want I’ll bind them together.\n\ncollege_tx_21 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"state\",\n  state = \"TX\",\n  survey = \"acs1\",\n  year = 2021\n) |&gt; add_column(yr = \"2021\")\n\nGetting data from the 2021 1-year ACS\n\n\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\ncollege_tx_22 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"state\",\n  state = \"TX\",\n  survey = \"acs1\",\n  year = 2022\n) |&gt; add_column(yr = \"2022\")\n\nGetting data from the 2022 1-year ACS\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\n# Once I have each year I'll bind them together\ncollege_tx &lt;- bind_rows(college_tx_21, college_tx_22)\n\n\ncollege_tx\n\n\n  \n\n\n\nYour probably want more than two years of data.\n\n\n16.4.3 Get the data for US\nI’m doing the same thing here, but for US values.\n\ncollege_us_21 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"US\",\n  survey = \"acs1\",\n  year = 2021\n) |&gt; add_column(yr = \"2021\")\n\nGetting data from the 2021 1-year ACS\n\n\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\ncollege_us_22 &lt;- get_acs(\n  variables = fem_edu_vars,\n  geography = \"US\",\n  survey = \"acs1\",\n  year = 2022\n) |&gt; add_column(yr = \"2022\")\n\nGetting data from the 2022 1-year ACS\nThe 1-year ACS provides data for geographies with populations of 65,000 and greater.\n\ncollege_us &lt;- bind_rows(college_us_21, college_us_22)\n\n\ncollege_us\n\n\n  \n\n\n\nAgain you probably want more than two years of data.",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "tidycensus.html#bind-and-clean",
     "href": "tidycensus.html#bind-and-clean",
-    "title": "15  tidycensus",
-    "section": "15.5 Bind and clean",
-    "text": "15.5 Bind and clean\nI’m putting the state and national data together so I can make nice variable names once instead of many times.\n\ncollege &lt;- bind_rows(college_tx, college_us)\n\ncollege |&gt; glimpse()\n\nRows: 28\nColumns: 6\n$ GEOID    &lt;chr&gt; \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"…\n$ NAME     &lt;chr&gt; \"Texas\", \"Texas\", \"Texas\", \"Texas\", \"Texas\", \"Texas\", \"Texas\"…\n$ variable &lt;chr&gt; \"B15002_019\", \"B15002_028\", \"B15002_031\", \"B15002_032\", \"B150…\n$ estimate &lt;dbl&gt; 9763451, 2321205, 787873, 2141544, 906361, 153481, 110895, 99…\n$ moe      &lt;dbl&gt; 9478, 27228, 20962, 28440, 19354, 8400, 6797, 8666, 32864, 18…\n$ yr       &lt;chr&gt; \"2021\", \"2021\", \"2021\", \"2021\", \"2021\", \"2021\", \"2021\", \"2022…\n\n\n\n15.5.1 Rename the variables\nHere we add new column with friendlier variable names. They are still a little esoteric, but you can at least tell them apart.\n\ncollege_vars &lt;- college |&gt; \n  mutate(\n    var_desc = case_match(\n      variable,\n      \"B15002_019\" ~ \"fem\", # All female\n      \"B15002_028\" ~ \"fem_hs\", # High school graduate (includes equivalency)\n      \"B15002_031\" ~ \"fem_as_d\", # Associate's degree\n      \"B15002_032\" ~ \"fem_ba_d\", # Bachelor's degree\n      \"B15002_033\" ~ \"fem_ma_d\", # Master's degree\n      \"B15002_034\" ~ \"fem_ps_d\", # Professional school degree\n      \"B15002_035\" ~ \"fem_ph_d\"  # Doctorate degree\n    )\n  )\n\ncollege_vars\n\n\n  \n\n\n\n\n\n15.5.2 Check for moe problems\nIf the margin of error is more than 10% of an estimate, then that number is squishy and shouldn’t be relied upon to be the main point of a story. We are sticking with large geographies here to try to avoid those problems, but here I check to see if any values have a high margin of error.\n\nmoe_check &lt;- college_vars |&gt; \n  mutate(\n    moe_share = ((moe / estimate) * 100) |&gt; round_half_up(1), # calc moe share\n    moe_flag = if_else(moe_share &gt;= 10, TRUE, FALSE) # make a flag if high\n  )\n\nmoe_check\n\n\n  \n\n\nmoe_check |&gt; filter(moe_flag == T)\n\n\n  \n\n\n\nIf the moe_flag was TRUE anywhere then we might not want to use that number. Here all our margins of error are less than 10% so I’m going to drop the moe column in the next section.\n\n\n15.5.3 Select columns of interest\nHere I’m rearranging the columns and dropping the old variable and moe columns.\n\ncollege_clean &lt;- college_vars |&gt; \n  select(\n    geoid = GEOID,\n    name = NAME,\n    yr,\n    var_desc,\n    estimate\n  )\n\ncollege_clean",
+    "title": "16  tidycensus",
+    "section": "16.5 Bind and clean",
+    "text": "16.5 Bind and clean\nI’m putting the state and national data together so I can make nice variable names once instead of many times.\n\ncollege &lt;- bind_rows(college_tx, college_us)\n\ncollege |&gt; glimpse()\n\nRows: 28\nColumns: 6\n$ GEOID    &lt;chr&gt; \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"48\", \"…\n$ NAME     &lt;chr&gt; \"Texas\", \"Texas\", \"Texas\", \"Texas\", \"Texas\", \"Texas\", \"Texas\"…\n$ variable &lt;chr&gt; \"B15002_019\", \"B15002_028\", \"B15002_031\", \"B15002_032\", \"B150…\n$ estimate &lt;dbl&gt; 9763451, 2321205, 787873, 2141544, 906361, 153481, 110895, 99…\n$ moe      &lt;dbl&gt; 9478, 27228, 20962, 28440, 19354, 8400, 6797, 8666, 32864, 18…\n$ yr       &lt;chr&gt; \"2021\", \"2021\", \"2021\", \"2021\", \"2021\", \"2021\", \"2021\", \"2022…\n\n\n\n16.5.1 Rename the variables\nHere we add new column with friendlier variable names. They are still a little esoteric, but you can at least tell them apart.\n\ncollege_vars &lt;- college |&gt; \n  mutate(\n    var_desc = case_match(\n      variable,\n      \"B15002_019\" ~ \"fem\", # All female\n      \"B15002_028\" ~ \"fem_hs\", # High school graduate (includes equivalency)\n      \"B15002_031\" ~ \"fem_as_d\", # Associate's degree\n      \"B15002_032\" ~ \"fem_ba_d\", # Bachelor's degree\n      \"B15002_033\" ~ \"fem_ma_d\", # Master's degree\n      \"B15002_034\" ~ \"fem_ps_d\", # Professional school degree\n      \"B15002_035\" ~ \"fem_ph_d\"  # Doctorate degree\n    )\n  )\n\ncollege_vars\n\n\n  \n\n\n\n\n\n16.5.2 Check for moe problems\nIf the margin of error is more than 10% of an estimate, then that number is squishy and shouldn’t be relied upon to be the main point of a story. We are sticking with large geographies here to try to avoid those problems, but here I check to see if any values have a high margin of error.\n\nmoe_check &lt;- college_vars |&gt; \n  mutate(\n    moe_share = ((moe / estimate) * 100) |&gt; round_half_up(1), # calc moe share\n    moe_flag = if_else(moe_share &gt;= 10, TRUE, FALSE) # make a flag if high\n  )\n\nmoe_check\n\n\n  \n\n\nmoe_check |&gt; filter(moe_flag == T)\n\n\n  \n\n\n\nIf the moe_flag was TRUE anywhere then we might not want to use that number. Here all our margins of error are less than 10% so I’m going to drop the moe column in the next section.\n\n\n16.5.3 Select columns of interest\nHere I’m rearranging the columns and dropping the old variable and moe columns.\n\ncollege_clean &lt;- college_vars |&gt; \n  select(\n    geoid = GEOID,\n    name = NAME,\n    yr,\n    var_desc,\n    estimate\n  )\n\ncollege_clean",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "tidycensus.html#i-would-export-here",
     "href": "tidycensus.html#i-would-export-here",
-    "title": "15  tidycensus",
-    "section": "15.6 I would export here",
-    "text": "15.6 I would export here\nI would export the cleaned data college_clean here but I want to stay in the same notebook.",
+    "title": "16  tidycensus",
+    "section": "16.6 I would export here",
+    "text": "16.6 I would export here\nI would export the cleaned data college_clean here but I want to stay in the same notebook.",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "tidycensus.html#calculate-percentage-degrees",
     "href": "tidycensus.html#calculate-percentage-degrees",
-    "title": "15  tidycensus",
-    "section": "15.7 Calculate percentage degrees",
-    "text": "15.7 Calculate percentage degrees\nTo get the share of people with degrees vs all people, we have to do some math. It is easier in this case to pivot the data to calculate those percentages.\n\n15.7.1 Pivot the data\nFirst we have to pivot this to do some math. I remove the moe field to avoid complication.\n\ncollege_wide &lt;- college_clean |&gt; \n  pivot_wider(names_from = var_desc, values_from = estimate)\n\ncollege_wide\n\n\n  \n\n\n\n\n\n15.7.2 Make the math and percentages\n\nPercent with high school degree is that number (fm_hs) divided by all female (fem).\nTo get percent with post high school degree we have to add together all those with the different types of degrees first, then divide by all fem to get the percentage.\n\n\ncollege_calcs &lt;- college_wide |&gt; \n  mutate(\n    prc_hs = ((fem_hs / fem) * 100) |&gt; round_half_up(1),\n    sum_deg = fem_as_d + fem_ba_d + fem_ma_d + fem_ps_d + fem_ph_d,\n    prc_deg = ((sum_deg / fem) * 100) |&gt; round_half_up(1)\n  )\n\ncollege_calcs",
+    "title": "16  tidycensus",
+    "section": "16.7 Calculate percentage degrees",
+    "text": "16.7 Calculate percentage degrees\nTo get the share of people with degrees vs all people, we have to do some math. It is easier in this case to pivot the data to calculate those percentages.\n\n16.7.1 Pivot the data\nFirst we have to pivot this to do some math. I remove the moe field to avoid complication.\n\ncollege_wide &lt;- college_clean |&gt; \n  pivot_wider(names_from = var_desc, values_from = estimate)\n\ncollege_wide\n\n\n  \n\n\n\n\n\n16.7.2 Make the math and percentages\n\nPercent with high school degree is that number (fm_hs) divided by all female (fem).\nTo get percent with post high school degree we have to add together all those with the different types of degrees first, then divide by all fem to get the percentage.\n\n\ncollege_calcs &lt;- college_wide |&gt; \n  mutate(\n    prc_hs = ((fem_hs / fem) * 100) |&gt; round_half_up(1),\n    sum_deg = fem_as_d + fem_ba_d + fem_ma_d + fem_ps_d + fem_ph_d,\n    prc_deg = ((sum_deg / fem) * 100) |&gt; round_half_up(1)\n  )\n\ncollege_calcs",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "tidycensus.html#select-your-percentages",
     "href": "tidycensus.html#select-your-percentages",
-    "title": "15  tidycensus",
-    "section": "15.8 Select your percentages",
-    "text": "15.8 Select your percentages\nNow that you have the percentages, you might want to focus on those to view or chart.\n\nprc_cols &lt;- college_calcs |&gt; \n  select(name, yr, prc_hs, prc_deg)\n\nprc_cols",
+    "title": "16  tidycensus",
+    "section": "16.8 Select your percentages",
+    "text": "16.8 Select your percentages\nNow that you have the percentages, you might want to focus on those to view or chart.\n\nprc_cols &lt;- college_calcs |&gt; \n  select(name, yr, prc_hs, prc_deg)\n\nprc_cols",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "tidycensus.html#different-shapes",
     "href": "tidycensus.html#different-shapes",
-    "title": "15  tidycensus",
-    "section": "15.9 Different shapes",
-    "text": "15.9 Different shapes\nThis might not be necessary, but you might want to rearrange the data to see of chart.\n\n15.9.1 Make longer\nWhat you want to move it to might depend on your needs, but making long sometimes helps with ggplot charting.\n\nprc_long &lt;- prc_cols |&gt; pivot_longer(\n  cols = prc_hs:prc_deg,\n  names_to = \"prc_type\",\n  values_to = \"prc_value\"\n)\n\nprc_long\n\n\n  \n\n\n\n\n\n15.9.2 Make wider\nMaybe you want to see how each value has changed by having a column for each year.\n\nprc_type_yr &lt;- prc_long |&gt;\n  pivot_wider(names_from = yr, values_from = prc_value)\n\nprc_type_yr",
+    "title": "16  tidycensus",
+    "section": "16.9 Different shapes",
+    "text": "16.9 Different shapes\nThis might not be necessary, but you might want to rearrange the data to see of chart.\n\n16.9.1 Make longer\nWhat you want to move it to might depend on your needs, but making long sometimes helps with ggplot charting.\n\nprc_long &lt;- prc_cols |&gt; pivot_longer(\n  cols = prc_hs:prc_deg,\n  names_to = \"prc_type\",\n  values_to = \"prc_value\"\n)\n\nprc_long\n\n\n  \n\n\n\n\n\n16.9.2 Make wider\nMaybe you want to see how each value has changed by having a column for each year.\n\nprc_type_yr &lt;- prc_long |&gt;\n  pivot_wider(names_from = yr, values_from = prc_value)\n\nprc_type_yr",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>tidycensus</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>tidycensus</span>"
     ]
   },
   {
     "objectID": "git.html",
     "href": "git.html",
-    "title": "16  Using git",
+    "title": "17  Using git",
     "section": "",
-    "text": "16.1 Publish to Github Pages\nThis chapter assumes you have some familiarity with Terminal, Git and Github. Those skills are really independent of R and RStudio, but are being applied here in an R context.\nIf you want to gain that basic understanding of git with an R perspective, then I recommend you start with Git for R. This guide was written by Anastasia Goodwin for R users who want to add Terminal and git skills to their workflow. Ana is UT School of Journalism & Media graduate and she wrote the book with our students in mind.\nIf you already know git and are just here to learn how to publish quarto websites, then here we go.\nThis assumes you already have your repo created and your main code pushed to Github.",
+    "text": "17.1 Publish to Github Pages\nThis chapter assumes you have some familiarity with Terminal, Git and Github. Those skills are really independent of R and RStudio, but are being applied here in an R context.\nIf you want to gain that basic understanding of git with an R perspective, then I recommend you start with Git for R. This guide was written by Anastasia Goodwin for R users who want to add Terminal and git skills to their workflow. Ana is UT School of Journalism & Media graduate and she wrote the book with our students in mind.\nIf you already know git and are just here to learn how to publish quarto websites, then here we go.\nThis assumes you already have your repo created and your main code pushed to Github.",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Using git</span>"
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Using git</span>"
     ]
   },
   {
     "objectID": "git.html#publish-to-github-pages",
     "href": "git.html#publish-to-github-pages",
-    "title": "16  Using git",
+    "title": "17  Using git",
     "section": "",
-    "text": "16.1.1 Ignoring Output\nWith this method of publishing you don’t need to check your _site or _book directory into version control. Before proceeding you should add the output directory of your project to .gitignore.\n\nIn your RStudio project, open your .gitignore file and add the following:\n\n\n\n.gitignore\n\n/.quarto/\n/_site/\n\nIf you don’t yet have a .gitignore file, see the section below about creating a good one.\nIf you’ve already checked your _site files into source control you may need to remove them explicitly:\n\n\nTerminal\n\ngit rm -r _site\n\nThe next time you push your code, that _site directory will get deleted.\n\n\n16.1.2 Create gh-pages branch\nThere are a number of ways to use Github to publish your Quarto site, but the method we’ll use here is a gh-pages branch. These steps are drawn from the Quarto docs site.\n\nGo to your repo in Github.\nClick on the Branches tab.\n\nThis will list all your current branches. If you already have a gh-pages branch for some reason, you can cancel this and skip to the next section, otherwise …\nClick on the green New branch button at the top right.\n\nName the new branch exactly gh-pages. The name matters.\nLeave the Source as main.\nClick the Create new branch button.\n\n\n\n\n\n16.1.3 Set up Github Pages\nNow that we have a gh-pages branch, we’ll set up Github Pages.\n\nWhile still in your Github repo, click on the Settings tab.\nClick on Pages in the left navigation.\nUnder Build and deployment:\n\nMake sure Source is “Deploy from a branch”\nSet the branch to gh-pages and the folder to / (root) and click Save.\n\n\n\n\n\n16.1.4 Publishing\nWe’ll use the quarto publish Terminal command to render and send files to our gh-pages branch in Github. This works just like when we have published to Quarto Pub in other parts of this book, but we’ll specify the destination as Github instead of Quarto Pub.\n\nWhile inside your project in Rstudio, click on the Terminal.\nEnter the following command …\n\n\nTerminal\n\nquarto publish gh-pages\n\nYou’ll be asked to confirm the Github Page url where your project will publish. Just hit Return on your keyboard to execute.\n\n\n\n\n\n\n\nTip\n\n\n\nWe are adding the gh-pages part to quarto publish gh-pages to pre-pick where we want to send the published files. You can also just quarto publish and then pick either Github Pages, Quarto Pub or other destinations as you see fit.\n\n\n\n16.1.4.1 Private Sites\nIf your repo is not public then the logic within quarto publish that waits for your site to be available before opening a browser won’t work correctly. In this case you should pass the --no-browser option to bypass this:\n\n\nTerminal\n\nquarto publish gh-pages --no-browser\n\n\n\n\n16.1.5 Finding the url\nNow that you’ve published pages, you can go back to your repo in Settings &gt; Pages to get the URL, which is predictable based on your username and repo name.\n\n\n\nGithub Pages url",
+    "text": "17.1.1 Ignoring Output\nWith this method of publishing you don’t need to check your _site or _book directory into version control. Before proceeding you should add the output directory of your project to .gitignore.\n\nIn your RStudio project, open your .gitignore file and add the following:\n\n\n\n.gitignore\n\n/.quarto/\n/_site/\n\nIf you don’t yet have a .gitignore file, see the section below about creating a good one.\nIf you’ve already checked your _site files into source control you may need to remove them explicitly:\n\n\nTerminal\n\ngit rm -r _site\n\nThe next time you push your code, that _site directory will get deleted.\n\n\n17.1.2 Create gh-pages branch\nThere are a number of ways to use Github to publish your Quarto site, but the method we’ll use here is a gh-pages branch. These steps are drawn from the Quarto docs site.\n\nGo to your repo in Github.\nClick on the Branches tab.\n\nThis will list all your current branches. If you already have a gh-pages branch for some reason, you can cancel this and skip to the next section, otherwise …\nClick on the green New branch button at the top right.\n\nName the new branch exactly gh-pages. The name matters.\nLeave the Source as main.\nClick the Create new branch button.\n\n\n\n\n\n17.1.3 Set up Github Pages\nNow that we have a gh-pages branch, we’ll set up Github Pages.\n\nWhile still in your Github repo, click on the Settings tab.\nClick on Pages in the left navigation.\nUnder Build and deployment:\n\nMake sure Source is “Deploy from a branch”\nSet the branch to gh-pages and the folder to / (root) and click Save.\n\n\n\n\n\n17.1.4 Publishing\nWe’ll use the quarto publish Terminal command to render and send files to our gh-pages branch in Github. This works just like when we have published to Quarto Pub in other parts of this book, but we’ll specify the destination as Github instead of Quarto Pub.\n\nWhile inside your project in Rstudio, click on the Terminal.\nEnter the following command …\n\n\nTerminal\n\nquarto publish gh-pages\n\nYou’ll be asked to confirm the Github Page url where your project will publish. Just hit Return on your keyboard to execute.\n\n\n\n\n\n\n\nTip\n\n\n\nWe are adding the gh-pages part to quarto publish gh-pages to pre-pick where we want to send the published files. You can also just quarto publish and then pick either Github Pages, Quarto Pub or other destinations as you see fit.\n\n\n\n17.1.4.1 Private Sites\nIf your repo is not public then the logic within quarto publish that waits for your site to be available before opening a browser won’t work correctly. In this case you should pass the --no-browser option to bypass this:\n\n\nTerminal\n\nquarto publish gh-pages --no-browser\n\n\n\n\n17.1.5 Finding the url\nNow that you’ve published pages, you can go back to your repo in Settings &gt; Pages to get the URL, which is predictable based on your username and repo name.\n\n\n\nGithub Pages url",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Using git</span>"
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Using git</span>"
     ]
   },
   {
     "objectID": "git.html#push-vs-publish-vs-render",
     "href": "git.html#push-vs-publish-vs-render",
-    "title": "16  Using git",
-    "section": "16.2 Push vs publish vs render",
-    "text": "16.2 Push vs publish vs render\nNow that you’ve added Git Pages publishing to your workflow, it’s worth noting some differences in the push, publish and render commands.\n\nWhen you Render your site or a page, Quarto creates an HTML version on you local machine so you can preview it. The way we’ve set things up here, those preview files are not saved to Github at all.\nWhen you use git push you are pushing your Quarto source files to Github. It DOES NOT republish your rendered files.\nWhen you use quarto publish gh-pages to publish to Github Pages, you are Rendering all your files again AND pushing those HTML files to the gh-pages branch. A Github Action then fires to publish them to the internet through Github Pages.\n\nThis is all to say git push and quarto publish are separate things. To save your source code, use git push. To publish your pages, use quarto publish.",
+    "title": "17  Using git",
+    "section": "17.2 Push vs publish vs render",
+    "text": "17.2 Push vs publish vs render\nNow that you’ve added Git Pages publishing to your workflow, it’s worth noting some differences in the push, publish and render commands.\n\nWhen you Render your site or a page, Quarto creates an HTML version on you local machine so you can preview it. The way we’ve set things up here, those preview files are not saved to Github at all.\nWhen you use git push you are pushing your Quarto source files to Github. It DOES NOT republish your rendered files.\nWhen you use quarto publish gh-pages to publish to Github Pages, you are Rendering all your files again AND pushing those HTML files to the gh-pages branch. A Github Action then fires to publish them to the internet through Github Pages.\n\nThis is all to say git push and quarto publish are separate things. To save your source code, use git push. To publish your pages, use quarto publish.",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Using git</span>"
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Using git</span>"
     ]
   },
   {
     "objectID": "git.html#creating-a-good-.gitignore-file",
     "href": "git.html#creating-a-good-.gitignore-file",
-    "title": "16  Using git",
-    "section": "16.3 Creating a good .gitignore file",
-    "text": "16.3 Creating a good .gitignore file\nIt’s good practice to have a .gitignore file that excludes things like system files and the like from version control. I usually build them using gitignore.io but it doesn’t handle from Quarto specifics.\nI recommend just using a copy of my .gitignore file from this book. It is best to create this file BEFORE YOU START COMMITTING FILES into your repo.\n\nCreate a new text file called .gitignore. The name of the file is important … it MUST start with a period and MUST NOT have an extension like .txt. It should just be .gitignore.\nGo the .gitignore file from this book and then copy/paste the contents into your newly-created file. Save and close.\n\nYou’ll know the file is named correctly if you see a little red git logo in the file icon in the Files pane.",
+    "title": "17  Using git",
+    "section": "17.3 Creating a good .gitignore file",
+    "text": "17.3 Creating a good .gitignore file\nIt’s good practice to have a .gitignore file that excludes things like system files and the like from version control. I usually build them using gitignore.io but it doesn’t handle from Quarto specifics.\nI recommend just using a copy of my .gitignore file from this book. It is best to create this file BEFORE YOU START COMMITTING FILES into your repo.\n\nCreate a new text file called .gitignore. The name of the file is important … it MUST start with a period and MUST NOT have an extension like .txt. It should just be .gitignore.\nGo the .gitignore file from this book and then copy/paste the contents into your newly-created file. Save and close.\n\nYou’ll know the file is named correctly if you see a little red git logo in the file icon in the Files pane.",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Using git</span>"
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Using git</span>"
     ]
   },
   {
     "objectID": "git.html#publishing-to-docs",
     "href": "git.html#publishing-to-docs",
-    "title": "16  Using git",
-    "section": "16.4 Publishing to docs",
-    "text": "16.4 Publishing to docs\nThere is an alternative way to publish to Github pages using a docs/ directory. I used that method for many years, but the rendered directory has to committed to the repo, which can cause hassles. If you insist, you can find directions here.",
+    "title": "17  Using git",
+    "section": "17.4 Publishing to docs",
+    "text": "17.4 Publishing to docs\nThere is an alternative way to publish to Github pages using a docs/ directory. I used that method for many years, but the rendered directory has to committed to the repo, which can cause hassles. If you insist, you can find directions here.",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Using git</span>"
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Using git</span>"
     ]
   },
   {
     "objectID": "git.html#other-resources",
     "href": "git.html#other-resources",
-    "title": "16  Using git",
-    "section": "16.5 Other resources",
-    "text": "16.5 Other resources\nHere are some existing resources that cover those skills, though they are not built to work together … they are written for different contexts and can be redundant.\n\nHappy Git and Github for the useR is a good resource on how to install and work with Git/Github with RStudio in mind.\nGithub’s Docs are comprehensive, but it’s a lot and not written with R in mind. There is way more than the basic minimum knowledge there.",
+    "title": "17  Using git",
+    "section": "17.5 Other resources",
+    "text": "17.5 Other resources\nHere are some existing resources that cover those skills, though they are not built to work together … they are written for different contexts and can be redundant.\n\nHappy Git and Github for the useR is a good resource on how to install and work with Git/Github with RStudio in mind.\nGithub’s Docs are comprehensive, but it’s a lot and not written with R in mind. There is way more than the basic minimum knowledge there.",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Using git</span>"
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Using git</span>"
     ]
   },
   {
