@@ -1,0 +1,192 @@
+---
+title: "Categorization"
+---
+
+## Overview
+
+This is a quick addendum to the Fa25 version of this book in order to help some students with a particular issues. It will need fleshing out at a later date.
+
+### The problem
+
+Sometimes we have data where a variable has too many options. It could be because it is more specific than we need, or because it is "dirty" with misspellings and differences which mean the same thing.
+
+I want to outline several ways to deal with this, with growing complexity (and flexibility).
+
+### The solutions
+
+These all will use `mutate()` because you are changing or creating data. But the methods I'm considering are:
+
+- `if_else()` to make a binomial flag variable. We'll make it `TRUE` based on a certain circumstance, and `FALSE` if not. I'll also show how you could use values other than T/F.
+- `case_match()` is where we want one value to equal another, but we can do this with any number of values. They just all have to be 1-to-1. If this, then that.
+- `case_when()` allows you to perform a series of tests, changing values based on the results. While I cover this in [Using case_when](case-when.qmd), it is an overcomplicated example.
+
+My aim at first is to use the [Starwars characters](https://dplyr.tidyverse.org/reference/starwars.html) dataset for my examples. We'll see how that goes.
+
+We need our basic libraries:
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(janitor)
+```
+
+The starwars character data is included with Tidyverse, but I'm going to use a simplified version without the series data about movies, etc. 
+
+```{r}
+starwars <- starwars |> select(name:species)
+
+starwars
+```
+
+## Creating a flag variable with if_else
+
+I actually have a good example of this in the [Denied Cleaning](denied-cleaning.qmd#create-an-audit-benchmark-column) chapter when we make the audit benchmark column, but I'll include a JedR version here.
+
+Within our starwars data, we have a variable called `species` that has a number of values.
+
+```{r}
+starwars |> count(species)
+```
+
+Most of the characters are "Human", but let's say I want to do a series of analysis based on whether a species is "Human" vs all the other options. I can create a _flag_ variable (True/False) based on whether that. So, I want `TRUE` if "Human" and `FALSE` if not.
+
+The [`if_else()`](https://dplyr.tidyverse.org/reference/if_else.html) function is perfect for this.
+
+```{r}
+sw_human <- starwars |> 
+  mutate( #<1>
+    human = if_else(species == "Human", TRUE, FALSE), # <2>
+    .after = species # <3>
+  )
+
+# selecting specific variables so we can see them easily
+sw_human |> select(name, species, human)
+```
+
+1. I'm using `mutate()` to creat the new variable.
+2. `if_else()` takes three arguments. The first is the test, the second is the value to insert if it is true (and i'm using an actual `TRUE` value here) and the third is to insert if it is false (and I'm using `FALSE`)
+
+So now I can easily count how many characters are Human vs Not Human.
+
+```{r}
+sw_human |> 
+  count(human, name = "cnt_human")
+```
+
+I don't have to use real `TRUE` and `FALSE` values here. I can insert anything.
+
+```{r}
+starwars |> 
+  mutate(
+    human_text = if_else(species == "Human", "Human", "Not Human")
+  ) |> 
+  select(name, species, human_text)
+```
+
+## Recategorize with case_match
+
+But what if the test isn't so simple ... that it isn't either one or the other.
+
+Using [case_match()](https://dplyr.tidyverse.org/reference/case_match.html) we can make 1v1 switches for some values within a variable, and then choose what to do with the rest of them en masse.
+
+One thing about `case_match()` ... we are only affecting values in a single variable. It's good for cleaning those, but not very flexible beyond that because we can't consider other variable in our tests. It's just "change this into that."
+
+Let's say I want to update "Yoda's species" to "Yoda", keep "Human" as such and then make everything else "Other".
+
+```{r}
+sw_species_simple <- starwars |> 
+  mutate(
+    new_species = case_match( # <1>
+      species, # <2>
+      "Yoda's species" ~ "Yoda", # <3>
+      "Human" ~ "Human", # <4>
+      .default = "Other" # <5>
+    )
+  )
+
+# selecting specific variables to see the results
+sw_species_simple |> select(name, species, new_species)
+```
+
+1. We set the name of the new variable first, then set the value to the result of the `case_match()` function. I could replace the same variable, but then I wouldn't be able to inspect the changes.
+2. `case_match()`works on the values from single variable, so you have to define which column you are working with. We are using the `species` variable here.
+3. Here we change the "Yoda's species" value to just "Yoda".
+4. Here we set "Human" as itself so we can preserve it. Otherwise it would also be changed to "Other"
+5. Here we set what all the other values we have not specified should be changed to. We set them to "Other."
+
+Using this method, those `species` values that were `NA` are also changed to "Other" since they didn't fit the other two roles.
+
+If we count on the new variable, this is what we get.
+
+```{r}
+sw_species_simple |> 
+  count(new_species, name = "cnt_species_simple")
+```
+
+An option that can make this real useful is I can choose to only a couple of values in the variable and then leave the others as-is. I'm going to do this all at once to save time and just show the result.
+
+Here I change "Yoda's species" to just "Yoda" and all the `NA`s to "Other", but leave the rest as it was, using the existing `species` values.
+
+```{r}
+starwars |> 
+  mutate(
+    newer_species = case_match(
+      species,
+      "Yoda's species" ~ "Yoda", # <1>
+      NA ~ "Other", # <2>
+      .default = species # <3>
+    )
+  ) |> 
+  slice(10:20) |> # <4>
+  select(name, species, newer_species) # <5>
+```
+
+1. We are changing "Yoda's species" to "Yoda".
+2. We set all the NA values to "Other".
+3. We set the remain rows to be their original `species` values.
+4. I'm using `slice()` here just to show you the row that includes "Yoda" so you can see it. It's just a display thing.
+5. Also a display thing: I'm selecting the relevant variables so we can see them.
+
+## More power with case_when()
+
+If we need more logic, we can use [`case_when()`](https://dplyr.tidyverse.org/reference/case_when.html) to consider tests in any column to affect values in a single one.
+
+I use `case_when()` in the Military Surplus Cleaning chapter and then explain it in the [Using case_when](case-when.qmd) Extras chapter. It's a complicated example, but I'll try to simplify it here.
+
+This example is a bit contrived, but hopefully you can follow. We want Luke Skywalker and the Lars family to be classified as "Lars Farmers", along with the famous droids who worked there.
+
+We'll start with this: Let's create a new variable call `lars_farm` that defines the following:
+
+- Anyone Lars family and Luke Skywalker will be "Lars Farmers".
+- We'll also add R2D2 and C-3PO to the same "Lars Farmers" group.
+- Everyone else will get their original homeworld.
+
+
+```{r}
+sw_lars <- starwars |> 
+  mutate(
+    lars_farm = case_when( # <1>
+      str_detect(name, "Lars|Luke Skywalker") ~ "Lars Farmers", # <2>
+      name %in% c("R2-D2", "C-3PO") ~ "Lars Farmers", # <3>
+      .default = homeworld # <4>
+    )
+  )
+
+# select relevant variables
+sw_lars |> select(name, homeworld, lars_farm)
+```
+
+1. One difference between `case_match()` and `case_when()` is we can consider any test from any column. Here we create the new variable `lars_farm` to and set it to use the results from the `case_when()` function.
+2. Here we use use `str_detect()` to look for "Luke Skywalker" and any name that includes "Lars". We set those to "Lars Farmers".
+3. Here we add the two droids by specifically looking for those names and also set it to "Lars Farmers".
+4. We set everyone else to use their `homeworld` value.
+
+
+
+
+
+
+
