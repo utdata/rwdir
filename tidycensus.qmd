@@ -22,9 +22,47 @@ Additionally, in 2025 Kyle did a three-part series of videos about using Tidycen
 
 ## Prereqs
 
-You need to install the tidycensus package and have a Census API key before using this. A key can be obtained [here](http://api.census.gov/data/key_signup.html). Once you get the email with the key, it still might take a while to activate correctly ... like maybe an hour?
+### Tidycensus package
 
-It's not a good idea to publish your API key since it is like a password, so I've commented that out in the code below. There is a way to [store this value on your computer](https://walker-data.com/tidycensus/reference/census_api_key.html) so you don't have to reveal it in code, but I don't want to get into that here.
+If you haven't done it already, you'll need to install the [tidycensus]() package.
+
+**In your Console**, run:
+
+```r
+install.packages("tidycensus")
+```
+
+### Census API keys
+
+To use the tidycensus package you must have a Census API key to access Census Bureau data. A key can be obtained [here](http://api.census.gov/data/key_signup.html). Once you get the email with the key, it still might take a while to activate correctly ... like maybe an hour?
+
+You don't want to save your API key in your code because it is like a password. We will instead save your key on your computer in a way that it will be available for you in the future, in the `.Renviron` file.
+
+**YOU ONLY HAVE TO DO THIS ONCE ON YOUR COMPUTER.**
+
+Run the following code **in your Console**, not in code in your notebook. **UPDATE** the "111111abc" with the API key you get from the Census Bureau.
+
+```r
+census_api_key("111111abc", overwrite = FALSE, install = FALSE)
+```
+
+That writes your key to your hidden `.Renviron` file on your computer. Now, so we don't have to restart R, you can run this command **in your Console** to reload your `.Renviron` file.
+
+```r
+readRenviron("~/.Renviron")
+```
+
+You are now set up to use tidycensus or other census-related packages. When you want to pull in your API key, you can use the following code, which I suggest you put in your setup chunk like I have below.
+
+```r
+Sys.getenv("CENSUS_API_KEY")
+
+```
+
+
+## Setup
+
+In your setup chunk you'll need a couple of other things beyond tidyverse
 
 ```{r}
 #| label: setup
@@ -35,7 +73,7 @@ library(tidyverse)
 library(tidycensus)
 library(janitor)
 
-# census_api_key("YOUR API KEY GOES HERE")
+Sys.getenv("CENSUS_API_KEY")
 ```
 
 
