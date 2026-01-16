@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>15&nbsp; Categorization – Reporting with Data in R</title>
+<title>14&nbsp; Categorization – Reporting with Data in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -66,7 +66,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./tidycensus.html" rel="next">
-<link href="./case-when.html" rel="prev">
+<link href="./count.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -119,7 +119,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./group-dates.html">Extras</a></li><li class="breadcrumb-item"><a href="./categorization.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Categorization</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./group-dates.html">Extras</a></li><li class="breadcrumb-item"><a href="./categorization.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Categorization</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -135,6 +135,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Reporting with Data in R</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/utdata/rwdir" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -283,26 +286,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./case-when.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Using case_when</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./categorization.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Categorization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Categorization</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tidycensus.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">tidycensus</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">tidycensus</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./git.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Using git</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Using git</span></span></a>
   </div>
 </li>
       </ul>
@@ -376,23 +373,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">15.1</span> Overview</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">14.1</span> Overview</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup"><span class="header-section-number">14.2</span> Setup</a></li>
+  <li><a href="#if_else-creating-a-flag-variable" id="toc-if_else-creating-a-flag-variable" class="nav-link" data-scroll-target="#if_else-creating-a-flag-variable"><span class="header-section-number">14.3</span> if_else(): Creating a flag variable</a></li>
+  <li><a href="#case_match-recategorize-values" id="toc-case_match-recategorize-values" class="nav-link" data-scroll-target="#case_match-recategorize-values"><span class="header-section-number">14.4</span> case_match(): Recategorize values</a></li>
+  <li><a href="#case_when-more-power" id="toc-case_when-more-power" class="nav-link" data-scroll-target="#case_when-more-power"><span class="header-section-number">14.5</span> case_when(): More power</a></li>
+  <li><a href="#military-surplus-control_type" id="toc-military-surplus-control_type" class="nav-link" data-scroll-target="#military-surplus-control_type"><span class="header-section-number">14.6</span> Military surplus: control_type</a>
   <ul class="collapse">
-  <li><a href="#the-problem" id="toc-the-problem" class="nav-link" data-scroll-target="#the-problem"><span class="header-section-number">15.1.1</span> The problem</a></li>
-  <li><a href="#the-solutions" id="toc-the-solutions" class="nav-link" data-scroll-target="#the-solutions"><span class="header-section-number">15.1.2</span> The solutions</a></li>
+  <li><a href="#catching-up-with-the-data" id="toc-catching-up-with-the-data" class="nav-link" data-scroll-target="#catching-up-with-the-data"><span class="header-section-number">14.6.1</span> Catching up with the data</a></li>
+  <li><a href="#categorization-logic-with-case_when" id="toc-categorization-logic-with-case_when" class="nav-link" data-scroll-target="#categorization-logic-with-case_when"><span class="header-section-number">14.6.2</span> Categorization logic with case_when()</a></li>
   </ul></li>
-  <li><a href="#creating-a-flag-variable-with-if_else" id="toc-creating-a-flag-variable-with-if_else" class="nav-link" data-scroll-target="#creating-a-flag-variable-with-if_else"><span class="header-section-number">15.2</span> Creating a flag variable with if_else</a></li>
-  <li><a href="#recategorize-with-case_match" id="toc-recategorize-with-case_match" class="nav-link" data-scroll-target="#recategorize-with-case_match"><span class="header-section-number">15.3</span> Recategorize with case_match</a></li>
-  <li><a href="#more-power-with-case_when" id="toc-more-power-with-case_when" class="nav-link" data-scroll-target="#more-power-with-case_when"><span class="header-section-number">15.4</span> More power with case_when()</a></li>
   </ul>
-</nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/utdata/rwdir/blob/main/categorization.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/utdata/rwdir/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./group-dates.html">Extras</a></li><li class="breadcrumb-item"><a href="./categorization.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Categorization</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./group-dates.html">Extras</a></li><li class="breadcrumb-item"><a href="./categorization.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Categorization</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Categorization</span></h1>
+<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Categorization</span></h1>
 </div>
 
 
@@ -409,23 +408,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="overview" class="level2" data-number="15.1">
-<h2 data-number="15.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">15.1</span> Overview</h2>
-<p>This is a quick addendum to the Fa25 version of this book in order to help some students with a particular issues. It will need fleshing out at a later date.</p>
-<section id="the-problem" class="level3" data-number="15.1.1">
-<h3 data-number="15.1.1" class="anchored" data-anchor-id="the-problem"><span class="header-section-number">15.1.1</span> The problem</h3>
-<p>Sometimes we have data where a variable has too many options. It could be because it is more specific than we need, or because it is “dirty” with misspellings and differences which mean the same thing.</p>
-<p>I want to outline several ways to deal with this, with growing complexity (and flexibility).</p>
-</section>
-<section id="the-solutions" class="level3" data-number="15.1.2">
-<h3 data-number="15.1.2" class="anchored" data-anchor-id="the-solutions"><span class="header-section-number">15.1.2</span> The solutions</h3>
-<p>These all will use <code>mutate()</code> because you are changing or creating data. But the methods I’m considering are:</p>
+<section id="overview" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">14.1</span> Overview</h2>
+<p>Sometimes we have data where a variable has too many unique values to group/sum properly. It could be because we have a more specific need, or because the data is “dirty” with misspellings and minor differences which mean the same thing.</p>
+<p>I want to outline several ways to deal with this, with growing complexity (and flexibility). We’ll end with an example from the military surplus data.</p>
+<p>All of these solutions will use <code>mutate()</code> because you are changing or creating data. But the methods I’m considering are:</p>
 <ul>
-<li><code>if_else()</code> to make a binomial flag variable. We’ll make it <code>TRUE</code> based on a certain circumstance, and <code>FALSE</code> if not. I’ll also show how you could use values other than T/F.</li>
-<li><code>case_match()</code> is where we want one value to equal another, but we can do this with any number of values. They just all have to be 1-to-1. If this, then that.</li>
-<li><code>case_when()</code> allows you to perform a series of tests, changing values based on the results. While I cover this in <a href="./case-when.html">Using case_when</a>, it is an overcomplicated example.</li>
+<li><code>if_else()</code> that requires only one test. We’ll make it <code>TRUE</code> based on a certain circumstance, and <code>FALSE</code> if not. I’ll also show how you could use values other than T/F.</li>
+<li><code>case_match()</code> is where you are looking inside a single column and changing one value to another, but we can do this with any number of values. They just all have to be 1-to-1. If this, then that.</li>
+<li><code>case_when()</code> allows you to perform a series of tests on multiple variables, setting new values based on the results.</li>
 </ul>
-<p>My aim at first is to use the <a href="https://dplyr.tidyverse.org/reference/starwars.html">Starwars characters</a> dataset for my examples. We’ll see how that goes.</p>
+<p>I’ll use the <a href="https://dplyr.tidyverse.org/reference/starwars.html">Starwars characters</a> dataset for my examples.</p>
+</section>
+<section id="setup" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="setup"><span class="header-section-number">14.2</span> Setup</h2>
 <p>We need our basic libraries:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -445,9 +441,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-</section>
-<section id="creating-a-flag-variable-with-if_else" class="level2" data-number="15.2">
-<h2 data-number="15.2" class="anchored" data-anchor-id="creating-a-flag-variable-with-if_else"><span class="header-section-number">15.2</span> Creating a flag variable with if_else</h2>
+<section id="if_else-creating-a-flag-variable" class="level2" data-number="14.3">
+<h2 data-number="14.3" class="anchored" data-anchor-id="if_else-creating-a-flag-variable"><span class="header-section-number">14.3</span> if_else(): Creating a flag variable</h2>
 <p>I actually have a good example of this in the <a href="./denied-cleaning.html#create-an-audit-benchmark-column">Denied Cleaning</a> chapter when we make the audit benchmark column, but I’ll include a JedR version here.</p>
 <p>Within our starwars data, we have a variable called <code>species</code> that has a number of values.</p>
 <div class="cell">
@@ -519,8 +514,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="recategorize-with-case_match" class="level2" data-number="15.3">
-<h2 data-number="15.3" class="anchored" data-anchor-id="recategorize-with-case_match"><span class="header-section-number">15.3</span> Recategorize with case_match</h2>
+<section id="case_match-recategorize-values" class="level2" data-number="14.4">
+<h2 data-number="14.4" class="anchored" data-anchor-id="case_match-recategorize-values"><span class="header-section-number">14.4</span> case_match(): Recategorize values</h2>
 <p>But what if the test isn’t so simple … that it isn’t either one or the other.</p>
 <p>Using <a href="https://dplyr.tidyverse.org/reference/case_match.html">case_match()</a> we can make 1v1 switches for some values within a variable, and then choose what to do with the rest of them en masse.</p>
 <p>One thing about <code>case_match()</code> … we are only affecting values in a single variable. It’s good for cleaning those, but not very flexible beyond that because we can’t consider other variable in our tests. It’s just “change this into that.”</p>
@@ -630,10 +625,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="more-power-with-case_when" class="level2" data-number="15.4">
-<h2 data-number="15.4" class="anchored" data-anchor-id="more-power-with-case_when"><span class="header-section-number">15.4</span> More power with case_when()</h2>
+<section id="case_when-more-power" class="level2" data-number="14.5">
+<h2 data-number="14.5" class="anchored" data-anchor-id="case_when-more-power"><span class="header-section-number">14.5</span> case_when(): More power</h2>
 <p>If we need more logic, we can use <a href="https://dplyr.tidyverse.org/reference/case_when.html"><code>case_when()</code></a> to consider tests in any column to affect values in a single one.</p>
-<p>I use <code>case_when()</code> in the Military Surplus Cleaning chapter and then explain it in the <a href="./case-when.html">Using case_when</a> Extras chapter. It’s a complicated example, but I’ll try to simplify it here.</p>
 <p>This example is a bit contrived, but hopefully you can follow. We want Luke Skywalker and the Lars family to be classified as “Lars Farmers”, along with the famous droids who worked there.</p>
 <p>We’ll start with this: Let’s create a new variable call <code>lars_farm</code> that defines the following:</p>
 <ul>
@@ -681,8 +675,158 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+</section>
+<section id="military-surplus-control_type" class="level2" data-number="14.6">
+<h2 data-number="14.6" class="anchored" data-anchor-id="military-surplus-control_type"><span class="header-section-number">14.6</span> Military surplus: control_type</h2>
+<p>In the <a href="./leso-cleaning.html#controlled">Military Surplus Cleaning chapter</a> we created a <code>control_type</code> variable, creating a category to designate if our items have to be returned to the Department of Defense for disposal. Refer back to that chapter about why were need to do this.</p>
+<p>I skipped the detailed explanation of the code there because it is a more advanced tactic and would mire the flow of the lesson. In this appendix, I go into the details for those who might be interested.</p>
+<section id="catching-up-with-the-data" class="level3" data-number="14.6.1">
+<h3 data-number="14.6.1" class="anchored" data-anchor-id="catching-up-with-the-data"><span class="header-section-number">14.6.1</span> Catching up with the data</h3>
+<p>I’ll start here with the Military Surplus data after the shipment totals have been calculated.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>leso_total <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"data-processed/rwdir-leso-total.rds"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>leso_total <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["state"],"name":[1],"type":["chr"],"align":["left"]},{"label":["agency_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["nsn"],"name":[3],"type":["chr"],"align":["left"]},{"label":["item_name"],"name":[4],"type":["chr"],"align":["left"]},{"label":["quantity"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["ui"],"name":[6],"type":["chr"],"align":["left"]},{"label":["acquisition_value"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["demil_code"],"name":[8],"type":["chr"],"align":["left"]},{"label":["demil_ic"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["ship_date"],"name":[10],"type":["dttm"],"align":["right"]},{"label":["station_type"],"name":[11],"type":["chr"],"align":["left"]},{"label":["total_value"],"name":[12],"type":["dbl"],"align":["right"]}],"data":[{"1":"AL","2":"ABBEVILLE POLICE DEPT","3":"1005-01-587-7175","4":"MOUNT,RIFLE","5":"10","6":"Each","7":"1626.0","8":"D","9":"1","10":"2016-09-19","11":"State","12":"16260"},{"1":"AL","2":"ABBEVILLE POLICE DEPT","3":"1240-01-411-1265","4":"SIGHT,REFLEX","5":"9","6":"Each","7":"342.0","8":"D","9":"0","10":"2016-09-14","11":"State","12":"3078"},{"1":"AL","2":"ABBEVILLE POLICE DEPT","3":"2540-01-565-4700","4":"BALLISTIC BLANKET KIT","5":"10","6":"Kit","7":"18906.6","8":"D","9":"1","10":"2018-01-30","11":"State","12":"189066"},{"1":"AL","2":"ABBEVILLE POLICE DEPT","3":"2355-01-553-4634","4":"MINE RESISTANT VEHICLE","5":"1","6":"Each","7":"658000.0","8":"C","9":"1","10":"2016-11-09","11":"State","12":"658000"},{"1":"AL","2":"ABBEVILLE POLICE DEPT","3":"1385-01-574-4707","4":"UNMANNED VEHICLE,GROUND","5":"1","6":"Each","7":"10000.0","8":"Q","9":"3","10":"2017-03-28","11":"State","12":"10000"},{"1":"AL","2":"ABBEVILLE POLICE DEPT","3":"2320-01-371-9584","4":"TRUCK,UTILITY","5":"1","6":"Each","7":"62627.0","8":"C","9":"1","10":"2016-09-29","11":"State","12":"62627"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>leso_total <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 85,337
+Columns: 12
+$ state             &lt;chr&gt; "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
+$ agency_name       &lt;chr&gt; "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
+$ nsn               &lt;chr&gt; "1005-01-587-7175", "1240-01-411-1265", "2540-01-565…
+$ item_name         &lt;chr&gt; "MOUNT,RIFLE", "SIGHT,REFLEX", "BALLISTIC BLANKET KI…
+$ quantity          &lt;dbl&gt; 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ ui                &lt;chr&gt; "Each", "Each", "Kit", "Each", "Each", "Each", "Each…
+$ acquisition_value &lt;dbl&gt; 1626.00, 342.00, 18906.60, 658000.00, 10000.00, 6262…
+$ demil_code        &lt;chr&gt; "D", "D", "D", "C", "Q", "C", "C", "D", "D", "D", "D…
+$ demil_ic          &lt;dbl&gt; 1, 0, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3…
+$ ship_date         &lt;dttm&gt; 2016-09-19, 2016-09-14, 2018-01-30, 2016-11-09, 201…
+$ station_type      &lt;chr&gt; "State", "State", "State", "State", "State", "State"…
+$ total_value       &lt;dbl&gt; 16260.00, 3078.00, 189066.00, 658000.00, 10000.00, 6…</code></pre>
+</div>
+</div>
+</section>
+<section id="categorization-logic-with-case_when" class="level3" data-number="14.6.2">
+<h3 data-number="14.6.2" class="anchored" data-anchor-id="categorization-logic-with-case_when"><span class="header-section-number">14.6.2</span> Categorization logic with case_when()</h3>
+<p>We will use the <code>mutate()</code> function to create a new column called <code>control_type</code>. We’ve used mutate before, but this time we will fill in values in the new column based on other data inside each row. <code>case_when()</code> allows us to create a test (or a number of tests) and then mark the new value based on the answer. Once new data has been written the function evaluates the next row, so we write the most specific rules first.</p>
+<p>I usually approach this by thinking of the logic first, then writing some code, then testing it. Sometimes my logic is faulty and I have to try again, which is why we test the results. Know this could go on for many cycles.</p>
+<p>Here is the basic logic:</p>
+<ul>
+<li>We want to create a new column to denote if the item is controlled. In that column we want it to be TRUE when an item is controlled, and FALSE when it is not.</li>
+<li>We know that items with “AIRPLANE” are always controlled, no matter their demil designations.</li>
+<li>Otherwise we know that items that have a <code>demil_code</code> of “A”, OR a <code>demil_code</code> of “Q” AND a <code>demil_id</code> of “6”, are non-controlled.</li>
+<li>Everything else is controlled.</li>
+</ul>
+<p>I’ve noted this logic in a specific order for a reason: It’s the order that we write the logic in the code based on how the function <code>case_when()</code> works. This process is powerful and can get complicated depending on the logic needed. This example is perhaps more complicated than I like to use when explaining this concept, but this is real data and we <em>need</em> this, so here we go.</p>
+<p>Here is the code and annotations.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-13"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-13-1" class="code-annotation-target"><a href="#annotated-cell-13-1" aria-hidden="true" tabindex="-1"></a>leso_control <span class="ot">&lt;-</span> leso_total <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-13-2" class="code-annotation-target"><a href="#annotated-cell-13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="annotated-cell-13-3"><a href="#annotated-cell-13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_type =</span> <span class="fu">case_when</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-13-4" class="code-annotation-target"><a href="#annotated-cell-13-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_detect</span>(item_name, <span class="st">"AIRPLANE"</span>) <span class="sc">~</span> <span class="cn">TRUE</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-13-5" class="code-annotation-target"><a href="#annotated-cell-13-5" aria-hidden="true" tabindex="-1"></a>      (demil_code <span class="sc">==</span> <span class="st">"A"</span> <span class="sc">|</span> (demil_code <span class="sc">==</span> <span class="st">"Q"</span> <span class="sc">&amp;</span> demil_ic <span class="sc">==</span> <span class="dv">6</span>)) <span class="sc">~</span> <span class="cn">FALSE</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-13-6" class="code-annotation-target"><a href="#annotated-cell-13-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.default =</span> <span class="cn">TRUE</span></span>
+<span id="annotated-cell-13-7"><a href="#annotated-cell-13-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="annotated-cell-13-8"><a href="#annotated-cell-13-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="annotated-cell-13-9"><a href="#annotated-cell-13-9" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-13-10" class="code-annotation-target"><a href="#annotated-cell-13-10" aria-hidden="true" tabindex="-1"></a>leso_control <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-13" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-13" data-code-lines="1" data-code-annotation="1">Our first line creates a new tibble <code>leso_control</code> and fills it with the result of the rest of our expression. We start with the <code>leso_total</code> tibble.</span>
+</dd>
+<dt data-target-cell="annotated-cell-13" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-13" data-code-lines="2,3" data-code-annotation="2">We mutate the data and start with the name of new column: <code>control_type</code>. We are filling that column with the result of the <code>case_when()</code> function for each row. Within the <code>case_when()</code> we are making the determination if the item is controlled or not. The left side of the <code>~</code> is the test, and the right side of <code>~</code> is what we enter into the column if the test passes. But we have more than one test:</span>
+</dd>
+<dt data-target-cell="annotated-cell-13" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-13" data-code-lines="4" data-code-annotation="3">The first test is we use the <a href="https://stringr.tidyverse.org/reference/str_detect.html"><code>str_detect()</code></a> function to look inside the <code>item_name</code> field looking for the term “AIRPLANE”. If the test finds the term, then the <code>control_type</code> field gets a value of <code>TRUE</code> and we move to the next row. If not, it moves to the next rule to see if that is a match. (We could fill this column with any text or number we want, but we are using <code>TRUE</code> and <code>FALSE</code> because that is the most basic kind of data to keep. If the item is controlled, set the value is TRUE. If not, it should be set to FALSE.)</span>
+</dd>
+<dt data-target-cell="annotated-cell-13" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-13" data-code-lines="5" data-code-annotation="4">Our second rule has two complex tests and we want to mark the row FALSE if either are true. (Remember, this is based on what the DLA told me: items with A or Q6 are non-controlled.) Our <code>case_when()</code> logic first looks for the value “A” in the <code>demil_code</code> field. If it is yes, then it marks the row FALSE. If no it goes to the next part: Is there a “Q” in the <code>demil_code</code> field AND a “6” in the <code>demil_ic</code> field? Both “Q” and “6” have to be there to get marked as FALSE. If both fail, then we move to the next test.</span>
+</dd>
+<dt data-target-cell="annotated-cell-13" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-13" data-code-lines="6" data-code-annotation="5">The last test is our catch-all. If none of the other rules apply, then we set the default value as <code>TRUE</code>, which means it is controlled. So our default in the end is to mark everything TRUE if any of the other rules don’t mark it first.</span>
+</dd>
+<dt data-target-cell="annotated-cell-13" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-13" data-code-lines="10" data-code-annotation="6">Lastly we glimpse at the data just so we can see the column was created.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 85,337
+Columns: 13
+$ state             &lt;chr&gt; "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL", "AL"…
+$ agency_name       &lt;chr&gt; "ABBEVILLE POLICE DEPT", "ABBEVILLE POLICE DEPT", "A…
+$ nsn               &lt;chr&gt; "1005-01-587-7175", "1240-01-411-1265", "2540-01-565…
+$ item_name         &lt;chr&gt; "MOUNT,RIFLE", "SIGHT,REFLEX", "BALLISTIC BLANKET KI…
+$ quantity          &lt;dbl&gt; 10, 9, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ ui                &lt;chr&gt; "Each", "Each", "Kit", "Each", "Each", "Each", "Each…
+$ acquisition_value &lt;dbl&gt; 1626.00, 342.00, 18906.60, 658000.00, 10000.00, 6262…
+$ demil_code        &lt;chr&gt; "D", "D", "D", "C", "Q", "C", "C", "D", "D", "D", "D…
+$ demil_ic          &lt;dbl&gt; 1, 0, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3…
+$ ship_date         &lt;dttm&gt; 2016-09-19, 2016-09-14, 2018-01-30, 2016-11-09, 201…
+$ station_type      &lt;chr&gt; "State", "State", "State", "State", "State", "State"…
+$ total_value       &lt;dbl&gt; 16260.00, 3078.00, 189066.00, 658000.00, 10000.00, 6…
+$ control_type      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE…</code></pre>
+</div>
+</div>
+<p>As I said, there was a lot of trial and error to figure that out, but I’ll show some tests here to show that we did what we were intending.</p>
+<p>This shows airplanes are marked as controlled with <code>TRUE</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># showing the results and some columns that determined them</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>leso_control <span class="sc">|&gt;</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(item_name, demil_code, demil_ic, control_type) <span class="sc">|&gt;</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(item_name, <span class="st">"AIRPLANE"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["item_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["demil_code"],"name":[2],"type":["chr"],"align":["left"]},{"label":["demil_ic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["control_type"],"name":[4],"type":["lgl"],"align":["right"]}],"data":[{"1":"AIRPLANE,CARGO-TRANSPORT","2":"Q","3":"6","4":"TRUE"},{"1":"AIRPLANE,CARGO-TRANSPORT","2":"Q","3":"6","4":"TRUE"},{"1":"AIRPLANE,CARGO-TRANSPORT","2":"Q","3":"6","4":"TRUE"},{"1":"AIRPLANE,CARGO-TRANSPORT","2":"Q","3":"6","4":"TRUE"},{"1":"AIRPLANE,CARGO-TRANSPORT","2":"Q","3":"6","4":"TRUE"},{"1":"AIRPLANE,CARGO-TRANSPORT","2":"A","3":"1","4":"TRUE"},{"1":"AIRPLANE,FLIGHT T42A","2":"Q","3":"3","4":"TRUE"},{"1":"AIRPLANE,CARGO-TRANSPORT","2":"Q","3":"6","4":"TRUE"},{"1":"AIRPLANE,CARGO-TRANSPORT","2":"Q","3":"6","4":"TRUE"},{"1":"AIRPLANE,CARGO-TRANSPORT","2":"Q","3":"6","4":"TRUE"},{"1":"AIRPLANE,CARGO-TRANSPORT","2":"Q","3":"6","4":"TRUE"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>This shows how many items are marked TRUE vs FALSE for each <code>demil_code</code> and <code>demil_ic</code> combination. I used it to check that most A records were FALSE, along with Q6.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-15"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-15-1"><a href="#annotated-cell-15-1" aria-hidden="true" tabindex="-1"></a>leso_control <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-15-2" class="code-annotation-target"><a href="#annotated-cell-15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(demil_code, demil_ic, control_type, <span class="at">name =</span> <span class="st">"cnt"</span>) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-15-3" class="code-annotation-target"><a href="#annotated-cell-15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> control_type, <span class="at">values_from =</span> cnt)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-15" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-15" data-code-lines="2" data-code-annotation="1">This is the count shortcut using three variables. I name counted column <code>cnt</code>. It’s hard to visualize that result here but it counts how many times each unique combination of <code>demil_code</code>, <code>demil_ic</code> and <code>control_type</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-15" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-15" data-code-lines="3" data-code-annotation="2">Here I use pivot_wider() to show the TRUE and FALSE counts on the same row. Just makes it easier to see.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["demil_code"],"name":[1],"type":["chr"],"align":["left"]},{"label":["demil_ic"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["FALSE"],"name":[3],"type":["int"],"align":["right"]},{"label":["TRUE"],"name":[4],"type":["int"],"align":["right"]}],"data":[{"1":"A","2":"1","3":"3228","4":"1"},{"1":"A","2":"4","3":"1","4":"NA"},{"1":"A","2":"7","3":"102","4":"NA"},{"1":"A","2":"NA","3":"2202","4":"NA"},{"1":"B","2":"3","3":"NA","4":"12"},{"1":"B","2":"NA","3":"NA","4":"73"},{"1":"C","2":"0","3":"NA","4":"4"},{"1":"C","2":"1","3":"NA","4":"5079"},{"1":"C","2":"4","3":"NA","4":"1"},{"1":"C","2":"7","3":"NA","4":"258"},{"1":"C","2":"NA","3":"NA","4":"1485"},{"1":"D","2":"0","3":"NA","4":"7112"},{"1":"D","2":"1","3":"NA","4":"53061"},{"1":"D","2":"3","3":"NA","4":"1"},{"1":"D","2":"4","3":"NA","4":"9"},{"1":"D","2":"7","3":"NA","4":"953"},{"1":"D","2":"NA","3":"NA","4":"2063"},{"1":"E","2":"0","3":"NA","4":"14"},{"1":"E","2":"1","3":"NA","4":"16"},{"1":"E","2":"7","3":"NA","4":"4"},{"1":"E","2":"NA","3":"NA","4":"3"},{"1":"F","2":"1","3":"NA","4":"2918"},{"1":"F","2":"7","3":"NA","4":"340"},{"1":"F","2":"NA","3":"NA","4":"9"},{"1":"Q","2":"0","3":"NA","4":"4"},{"1":"Q","2":"1","3":"NA","4":"3"},{"1":"Q","2":"3","3":"NA","4":"5799"},{"1":"Q","2":"4","3":"NA","4":"1"},{"1":"Q","2":"6","3":"544","4":"9"},{"1":"Q","2":"NA","3":"NA","4":"28"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>We’re done with this extended explanation.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -1087,13 +1231,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./case-when.html" class="pagination-link" aria-label="Using case_when">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Using case_when</span></span>
+      <a href="./count.html" class="pagination-link" aria-label="Counting shortcuts">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Counting shortcuts</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./tidycensus.html" class="pagination-link" aria-label="tidycensus">
-        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">tidycensus</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">tidycensus</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1102,4 +1246,4 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/utdata/rwdir/blob/main/categorization.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/utdata/rwdir/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
