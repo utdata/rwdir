@@ -10,11 +10,14 @@ We'll run through some of those scenarios here using the Billboard Hot 100 data 
 
 ## Setting up
 
-We need to set up our notebook with libraries and data before we can talk specifics. We need to load both the **tidyverse** and **lubridate** libraries. Lubridate is installed with the tidyverse package, but you have to load it separately.
+We need to set up our notebook with libraries and data before we can talk specifics. While we are using the **lubridate**, it is included as part of **tidyverse** so we do not need to load it separately.
 
-```{r setup, echo=T, message=F, warning=F}
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
 library(tidyverse)
-library(lubridate)
 ```
 
 ```{r}
@@ -24,7 +27,7 @@ library(lubridate)
 options(dplyr.summarise.inform = FALSE)
 ```
 
-And we need our cleaned Billboard Hot 100 data. We'll glimpse the rows and check out date range so we can remember what we have.
+And we need our cleaned Billboard Hot 100 data. We'll glimpse the rows and check out the date range so we can remember what we have.
 
 ```{r import}
 hot100 <- read_rds("data-processed/01-hot100.rds")
@@ -36,7 +39,7 @@ hot100$chart_date |> summary()
 
 ## Plucking date parts
 
-If you look at the [lubridate cheetsheet](https://rawgit.com/rstudio/cheatsheets/main/lubridate.pdf) under "GET AND SET DATE COMPONENTS" you'll see functions to pluck out parts of a date, like `year()`.
+If you look at the [lubridate cheatsheet](https://rstudio.github.io/cheatsheets/lubridate.pdf) under "GET AND SET DATE COMPONENTS" you'll see functions to pluck out parts of a date, like `year()`. (There is a [web version of that cheatsheet](https://rstudio.github.io/cheatsheets/html/lubridate.html), though I like the PDF better.)
 
 If we have a date, like perhaps Taylor Swift's birthday, we can pluck the year from it.
 
@@ -87,11 +90,7 @@ It is a good practice to rename any grouping variable made from a function like 
 
 ## Making reusable date parts
 
-If you think you'll use a date parts more than once, then it makes sense to create a new columns and save them. You might make several date parts, but we'll start with only one.
-
-::: callout-tip
-I usually go back to my cleaning notebook to add these once I recognize I need them, and then rerun everything.
-:::
+If you think you'll use a date parts more than once, then it makes sense to create new variables and save them. You might make several date parts, but we'll start with only one.
 
 I've created a random sample of data with only the `chart_date` and `title` columns just so it is easier to see what we are doing. You would normally work with the whole data frame! Here is our sample:
 
@@ -150,27 +149,50 @@ Sometimes you want to count the number of records within a month and year, like 
 ```{r date-floor}
 hot100_sample |> 
   mutate(
-    fl_month = floor_date(chart_date, unit = "month"),
-    fl_year = floor_date(chart_date, unit = "year")
+    mo_floor = floor_date(chart_date, unit = "month"),
+    yr_floor = floor_date(chart_date, unit = "year")
   )
 ```
 
-You can see the resulting new columns are real dates, but they are normalized:
+You can see the resulting new columns are real dates, but they have the "lowered" to the first day of the month or year:
 
-- The `fl_month` gives you the first day of the month for that `chart_date`.
-- The `fl_year` gives you the first day of the year for that `chart_date`.
+- The `mo_floor` gives you the first day of the month for that `chart_date`.
+- The `yr_floor` gives you the first day of the year for that `chart_date`.
 
-Let's put this to use with an example. I'll create a `fl_month` on the fly to find **Recent appearances by Taylor Swift**. I'll also do the `year()` on the fly in my filter.
+## Saving date parts
+
+Once we know we need these date parts, we can save them into a new data object and use that.
+
+::: callout-tip
+I usually go back to my cleaning notebook to add these once I recognize I need them, and then rerun everything.
+:::
+
+Let's create our data with dates and save it. I'm making a "mutate machine" with a glimpse at the end so I can see all the new variables.
+
+```{r}
+hot100_dateparts <- hot100 |> 
+  mutate(
+    yr = year(chart_date),
+    mo_label = month(chart_date, label = TRUE),
+    mo_floor = floor_date(chart_date, unit = "month")
+  )
+
+hot100_dateparts |> glimpse()
+```
+
+Now I can use that new `hot100_dateparts` object with the rest of my analysis.
+
+### Use the parts!
+
+Let's put this to use with an example. I'll use that `mo_floor` find **Recent appearances by Taylor Swift by month**.
 
 ```{r swift-month}
-swift_month <- hot100 |> 
+swift_month <- hot100_dateparts |> 
   filter(
     performer == "Taylor Swift",
     chart_date >= "2020-07-01"
   ) |> 
-  group_by(
-    fl_month = floor_date(chart_date, unit = "month")
-  ) |> 
+  group_by(mo_floor) |> 
   summarize(appearances = n())
 
 swift_month
@@ -180,10 +202,10 @@ And chart it:
 
 ```{r}
 swift_month_plot <- swift_month |> 
-  ggplot(aes(x = fl_month, y = appearances)) +
+  ggplot(aes(x = mo_floor, y = appearances)) +
   geom_col() +
   geom_text(aes(label = appearances), vjust = -.3) +
-  scale_x_date(date_labels="%b %Y",date_breaks  ="1 month") +
+  scale_x_date(date_labels="%b %Y", date_breaks  ="1 year", minor_breaks = "1 month") +
   guides(x =  guide_axis(angle = 45)) +
   labs(
     x = "Month and Year",
