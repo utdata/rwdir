@@ -90,9 +90,9 @@ It is a good practice to rename any grouping variable made from a function like 
 
 ## Making reusable date parts
 
-If you think you'll use a date parts more than once, then it makes sense to create new variables and save them. You might make several date parts, but we'll start with only one.
+If you think you'll use a date parts more than once, then it makes sense to create new variables and save them. You might make only one or two, but I'll build on an example to show you several variations.
 
-I've created a random sample of data with only the `chart_date` and `title` columns just so it is easier to see what we are doing. You would normally work with the whole data frame! Here is our sample:
+Here I'm creating a random sample of data with only the `chart_date` and `title` columns just so it is easier to see what we are doing. You would normally work with the whole data frame! Here is our sample:
 
 ```{r make-sample}
 hot100_sample <- hot100 |>
@@ -102,15 +102,18 @@ hot100_sample <- hot100 |>
 hot100_sample
 ```
 
-### Let's make a year
-
 ::: callout-important
 
-#### If you are following along
+### Building up this code chunk
 
-If you are following along in your own notebook, please know I'm _BUILDING_ on the code block below, where each new piece should be _edited_ into your existing chunk.
+If you are following along in your own notebook, please know I'm _BUILDING_ on the code block below, where each new bit below should be _edited_ into your existing chunk.
+
+As we add on more and more variables you might have to scroll the dataframe to see them.
 
 :::
+
+
+### Let's make a year
 
 Here's how we do it:
 
@@ -123,7 +126,6 @@ hot100_sample |>
 
 1. We use mutate to "create or change data". This is where it starts.
 2. And then we name the new column `yr`, and then set the value to the `year()` of `chart_date`.
-
 
 ### The magical month
 
@@ -182,13 +184,15 @@ hot100_sample |>
 
 Once we know we need these date parts, we can save them into a new data object and use that.
 
-::: callout-tip
-I usually go back to my cleaning notebook to add these once I recognize I need them, and then rerun everything.
+::: callout-tips
+
+Some things to note with what I'm doing with this code chunk:
+
+- I changed the originating data from our hot100_sample to our actual hot100 data frame.
+- I'm also making a "mutate machine" with a glimpse at the end so I can see all the new variables.
+- I typically go back to my cleaning notebook to add these once I recognize I need them, and then rerun everything.
+
 :::
-
-Let's create our data with dates and save it. I'm making a "mutate machine" with a glimpse at the end so I can see all the new variables.
-
-**NOTE** I changed the data from hot100_sample to our actual hot100 dataframe.
 
 ```{r}
 hot100_dateparts <- hot100 |> 
