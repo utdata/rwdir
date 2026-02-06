@@ -104,8 +104,15 @@ hot100_sample
 
 ### Let's make a year
 
-Here's how we do it:
+::: callout-important
 
+#### If you are following along
+
+If you are following along in your own notebook, please know I'm _BUILDING_ on the code block below, where each new piece should be _edited_ into your existing chunk.
+
+:::
+
+Here's how we do it:
 
 ```{r make-year}
 hot100_sample |> 
@@ -114,8 +121,8 @@ hot100_sample |>
   )
 ```
 
-1. We use mutate to create a new column. This is where it starts.
-- We name the new column `yr`, and then set the value to the `year()` of `chart_date`.
+1. We use mutate to "create or change data". This is where it starts.
+2. And then we name the new column `yr`, and then set the value to the `year()` of `chart_date`.
 
 
 ### The magical month
@@ -125,39 +132,51 @@ We can also pluck out the month of the date, which is pretty useful if you want 
 ```{r}
 hot100_sample |> 
   mutate(
-    mo = month(chart_date)
+    yr = year(chart_date),
+    mo = month(chart_date) #<1>
   )
 ```
+
+1. Here we have added a month column, which gives us the _number_ of the month.
 
 But there are some options within `month()` to give us month NAMES that are ordered as factors instead of alphabetical.
 
 ```{r}
 hot100_sample |> 
   mutate(
-    mo_label = month(chart_date, label = TRUE),
-    mo_long = month(chart_date, label = TRUE, abbr = FALSE)
+    yr = year(chart_date),
+    mo = month(chart_date),
+    mo_label = month(chart_date, label = TRUE), # <1>
+    mo_long = month(chart_date, label = TRUE, abbr = FALSE) #<2>
   ) |> 
   arrange(mo_label)
 ```
+
+1. Here we've added a variable using the same `month()` function, but it adds an argument `label = TRUE` to make the value a label for the month name instead of the number.
+2. And here, again we use `month()` with the label argument, but we also add the `abbr = FALSE` so it gives us the long name instead of the abbreviation.
 
 Note the datatype `<ord>` under the column `mo_label` and `mo_long`. That means this is an "ordered factor" and that when sorted by those labels it will list in MONTH order instead of alphabetical order, which is quite useful.
 
 ### Floor dates
 
-Sometimes you want to count the number of records within a month and year, like all the songs in January 2000, then February 2000, etc. One way to do that is to create a floor_date, which gives you the "lowest" date within a certain unit like year or month. It's easiest to show with our sample data:
+Sometimes you want to count the number of records within a month and year, like all the songs in January 2000, then February 2000, etc. One way to do that is to create a floor_date, which gives you the "lowest" date within a certain unit like year or month.
+
+Note that the resulting new variables below are real dates, but they have the "lowered" to the first day of the month or year.
 
 ```{r date-floor}
 hot100_sample |> 
   mutate(
-    mo_floor = floor_date(chart_date, unit = "month"),
-    yr_floor = floor_date(chart_date, unit = "year")
+    yr = year(chart_date),
+    mo = month(chart_date),
+    mo_label = month(chart_date, label = TRUE),
+    mo_long = month(chart_date, label = TRUE, abbr = FALSE),
+    mo_floor = floor_date(chart_date, unit = "month"), # <1>
+    yr_floor = floor_date(chart_date, unit = "year") # <2>
   )
 ```
 
-You can see the resulting new columns are real dates, but they have the "lowered" to the first day of the month or year:
-
-- The `mo_floor` gives you the first day of the month for that `chart_date`.
-- The `yr_floor` gives you the first day of the year for that `chart_date`.
+1. The `mo_floor` gives you the first day of the month for that `chart_date`.
+2. The `yr_floor` gives you the first day of the year for that `chart_date`.
 
 ## Saving date parts
 
@@ -169,12 +188,17 @@ I usually go back to my cleaning notebook to add these once I recognize I need t
 
 Let's create our data with dates and save it. I'm making a "mutate machine" with a glimpse at the end so I can see all the new variables.
 
+**NOTE** I changed the data from hot100_sample to our actual hot100 dataframe.
+
 ```{r}
 hot100_dateparts <- hot100 |> 
   mutate(
     yr = year(chart_date),
+    mo = month(chart_date),
     mo_label = month(chart_date, label = TRUE),
-    mo_floor = floor_date(chart_date, unit = "month")
+    mo_long = month(chart_date, label = TRUE, abbr = FALSE),
+    mo_floor = floor_date(chart_date, unit = "month"),
+    yr_floor = floor_date(chart_date, unit = "year")
   )
 
 hot100_dateparts |> glimpse()
