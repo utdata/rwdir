@@ -529,8 +529,8 @@ $ wks_on_chart  &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 </section>
 <section id="making-reusable-date-parts" class="level2" data-number="12.4">
 <h2 data-number="12.4" class="anchored" data-anchor-id="making-reusable-date-parts"><span class="header-section-number">12.4</span> Making reusable date parts</h2>
-<p>If you think you’ll use a date parts more than once, then it makes sense to create new variables and save them. You might make several date parts, but we’ll start with only one.</p>
-<p>I’ve created a random sample of data with only the <code>chart_date</code> and <code>title</code> columns just so it is easier to see what we are doing. You would normally work with the whole data frame! Here is our sample:</p>
+<p>If you think you’ll use a date parts more than once, then it makes sense to create new variables and save them. You might make only one or two, but I’ll build on an example to show you several variations.</p>
+<p>Here I’m creating a random sample of data with only the <code>chart_date</code> and <code>title</code> columns just so it is easier to see what we are doing. You would normally work with the whole data frame! Here is our sample:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>hot100_sample <span class="ot">&lt;-</span> hot100 <span class="sc">|&gt;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">6</span>) <span class="sc">|&gt;</span></span>
@@ -540,9 +540,23 @@ $ wks_on_chart  &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["chart_date"],"name":[1],"type":["date"],"align":["right"]},{"label":["title"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"1963-06-22","2":"Surf City"},{"1":"2019-12-07","2":"Memories"},{"1":"2011-10-08","2":"The Adventures Of Rain Dance Maggie"},{"1":"1981-03-28","2":"Bette Davis Eyes"},{"1":"1976-11-20","2":"(one More Year Of) Daddy's Little Girl"},{"1":"2012-12-29","2":"Diamonds"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["chart_date"],"name":[1],"type":["date"],"align":["right"]},{"label":["title"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"1974-08-24","2":"You And Me Against The World"},{"1":"1975-08-16","2":"Katmandu"},{"1":"2008-08-30","2":"Bartender Song"},{"1":"1994-07-02","2":"Backwater"},{"1":"1984-10-13","2":"Penny Lover"},{"1":"1987-10-31","2":"So The Story Goes"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Building up this code chunk
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you are following along in your own notebook, please know I’m <em>BUILDING</em> on the code block below, where each new bit below should be <em>edited</em> into your existing chunk.</p>
+<p>As we add on more and more variables you might have to scroll the dataframe to see them.</p>
 </div>
 </div>
 <section id="lets-make-a-year" class="level3" data-number="12.4.1">
@@ -551,56 +565,80 @@ $ wks_on_chart  &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-8"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-8-1"><a href="#annotated-cell-8-1" aria-hidden="true" tabindex="-1"></a>hot100_sample <span class="sc">|&gt;</span> </span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-8-2" class="code-annotation-target"><a href="#annotated-cell-8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="annotated-cell-8-3"><a href="#annotated-cell-8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">yr =</span> <span class="fu">year</span>(chart_date)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-8-3" class="code-annotation-target"><a href="#annotated-cell-8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">yr =</span> <span class="fu">year</span>(chart_date)</span>
 <span id="annotated-cell-8-4"><a href="#annotated-cell-8-4" aria-hidden="true" tabindex="-1"></a>  )</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="2" data-code-annotation="1">We use mutate to create a new column. This is where it starts.</span>
+<span data-code-cell="annotated-cell-8" data-code-lines="2" data-code-annotation="1">We use mutate to “create or change data”. This is where it starts.</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="3" data-code-annotation="2">And then we name the new column <code>yr</code>, and then set the value to the <code>year()</code> of <code>chart_date</code>.</span>
 </dd>
 </dl>
 </div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["chart_date"],"name":[1],"type":["date"],"align":["right"]},{"label":["title"],"name":[2],"type":["chr"],"align":["left"]},{"label":["yr"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"1963-06-22","2":"Surf City","3":"1963"},{"1":"2019-12-07","2":"Memories","3":"2019"},{"1":"2011-10-08","2":"The Adventures Of Rain Dance Maggie","3":"2011"},{"1":"1981-03-28","2":"Bette Davis Eyes","3":"1981"},{"1":"1976-11-20","2":"(one More Year Of) Daddy's Little Girl","3":"1976"},{"1":"2012-12-29","2":"Diamonds","3":"2012"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["chart_date"],"name":[1],"type":["date"],"align":["right"]},{"label":["title"],"name":[2],"type":["chr"],"align":["left"]},{"label":["yr"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"1974-08-24","2":"You And Me Against The World","3":"1974"},{"1":"1975-08-16","2":"Katmandu","3":"1975"},{"1":"2008-08-30","2":"Bartender Song","3":"2008"},{"1":"1994-07-02","2":"Backwater","3":"1994"},{"1":"1984-10-13","2":"Penny Lover","3":"1984"},{"1":"1987-10-31","2":"So The Story Goes","3":"1987"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
 </div>
-<ul>
-<li>We name the new column <code>yr</code>, and then set the value to the <code>year()</code> of <code>chart_date</code>.</li>
-</ul>
 </section>
 <section id="the-magical-month" class="level3" data-number="12.4.2">
 <h3 data-number="12.4.2" class="anchored" data-anchor-id="the-magical-month"><span class="header-section-number">12.4.2</span> The magical month</h3>
 <p>We can also pluck out the month of the date, which is pretty useful if you want to measure seasonality within a year, like hot days of summer, etc. The default <code>month()</code> function pulls the month as a number.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>hot100_sample <span class="sc">|&gt;</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo =</span> <span class="fu">month</span>(chart_date)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-9"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-9-1"><a href="#annotated-cell-9-1" aria-hidden="true" tabindex="-1"></a>hot100_sample <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-9-2"><a href="#annotated-cell-9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="annotated-cell-9-3"><a href="#annotated-cell-9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">yr =</span> <span class="fu">year</span>(chart_date),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-9-4" class="code-annotation-target"><a href="#annotated-cell-9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo =</span> <span class="fu">month</span>(chart_date)</span>
+<span id="annotated-cell-9-5"><a href="#annotated-cell-9-5" aria-hidden="true" tabindex="-1"></a>  )</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="4" data-code-annotation="1">Here we have added a month column, which gives us the <em>number</em> of the month.</span>
+</dd>
+</dl>
+</div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["chart_date"],"name":[1],"type":["date"],"align":["right"]},{"label":["title"],"name":[2],"type":["chr"],"align":["left"]},{"label":["mo"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"1963-06-22","2":"Surf City","3":"6"},{"1":"2019-12-07","2":"Memories","3":"12"},{"1":"2011-10-08","2":"The Adventures Of Rain Dance Maggie","3":"10"},{"1":"1981-03-28","2":"Bette Davis Eyes","3":"3"},{"1":"1976-11-20","2":"(one More Year Of) Daddy's Little Girl","3":"11"},{"1":"2012-12-29","2":"Diamonds","3":"12"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["chart_date"],"name":[1],"type":["date"],"align":["right"]},{"label":["title"],"name":[2],"type":["chr"],"align":["left"]},{"label":["yr"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["mo"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1974-08-24","2":"You And Me Against The World","3":"1974","4":"8"},{"1":"1975-08-16","2":"Katmandu","3":"1975","4":"8"},{"1":"2008-08-30","2":"Bartender Song","3":"2008","4":"8"},{"1":"1994-07-02","2":"Backwater","3":"1994","4":"7"},{"1":"1984-10-13","2":"Penny Lover","3":"1984","4":"10"},{"1":"1987-10-31","2":"So The Story Goes","3":"1987","4":"10"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
 </div>
 <p>But there are some options within <code>month()</code> to give us month NAMES that are ordered as factors instead of alphabetical.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>hot100_sample <span class="sc">|&gt;</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo_label =</span> <span class="fu">month</span>(chart_date, <span class="at">label =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo_long =</span> <span class="fu">month</span>(chart_date, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">abbr =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(mo_label)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-10"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-10-1"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a>hot100_sample <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-10-2"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="annotated-cell-10-3"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">yr =</span> <span class="fu">year</span>(chart_date),</span>
+<span id="annotated-cell-10-4"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo =</span> <span class="fu">month</span>(chart_date),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-10-5" class="code-annotation-target"><a href="#annotated-cell-10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo_label =</span> <span class="fu">month</span>(chart_date, <span class="at">label =</span> <span class="cn">TRUE</span>),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-10-6" class="code-annotation-target"><a href="#annotated-cell-10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo_long =</span> <span class="fu">month</span>(chart_date, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">abbr =</span> <span class="cn">FALSE</span>)</span>
+<span id="annotated-cell-10-7"><a href="#annotated-cell-10-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-10-8"><a href="#annotated-cell-10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(mo_label)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="5" data-code-annotation="1">Here we’ve added a variable using the same <code>month()</code> function, but it adds an argument <code>label = TRUE</code> to make the value a label for the month name instead of the number.</span>
+</dd>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="6" data-code-annotation="2">And here, again we use <code>month()</code> with the label argument, but we also add the <code>abbr = FALSE</code> so it gives us the long name instead of the abbreviation.</span>
+</dd>
+</dl>
+</div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["chart_date"],"name":[1],"type":["date"],"align":["right"]},{"label":["title"],"name":[2],"type":["chr"],"align":["left"]},{"label":["mo_label"],"name":[3],"type":["ord"],"align":["right"]},{"label":["mo_long"],"name":[4],"type":["ord"],"align":["right"]}],"data":[{"1":"1981-03-28","2":"Bette Davis Eyes","3":"Mar","4":"March"},{"1":"1963-06-22","2":"Surf City","3":"Jun","4":"June"},{"1":"2011-10-08","2":"The Adventures Of Rain Dance Maggie","3":"Oct","4":"October"},{"1":"1976-11-20","2":"(one More Year Of) Daddy's Little Girl","3":"Nov","4":"November"},{"1":"2019-12-07","2":"Memories","3":"Dec","4":"December"},{"1":"2012-12-29","2":"Diamonds","3":"Dec","4":"December"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["chart_date"],"name":[1],"type":["date"],"align":["right"]},{"label":["title"],"name":[2],"type":["chr"],"align":["left"]},{"label":["yr"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["mo"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["mo_label"],"name":[5],"type":["ord"],"align":["right"]},{"label":["mo_long"],"name":[6],"type":["ord"],"align":["right"]}],"data":[{"1":"1994-07-02","2":"Backwater","3":"1994","4":"7","5":"Jul","6":"July"},{"1":"1974-08-24","2":"You And Me Against The World","3":"1974","4":"8","5":"Aug","6":"August"},{"1":"1975-08-16","2":"Katmandu","3":"1975","4":"8","5":"Aug","6":"August"},{"1":"2008-08-30","2":"Bartender Song","3":"2008","4":"8","5":"Aug","6":"August"},{"1":"1984-10-13","2":"Penny Lover","3":"1984","4":"10","5":"Oct","6":"October"},{"1":"1987-10-31","2":"So The Story Goes","3":"1987","4":"10","5":"Oct","6":"October"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -609,57 +647,66 @@ $ wks_on_chart  &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 </section>
 <section id="floor-dates" class="level3" data-number="12.4.3">
 <h3 data-number="12.4.3" class="anchored" data-anchor-id="floor-dates"><span class="header-section-number">12.4.3</span> Floor dates</h3>
-<p>Sometimes you want to count the number of records within a month and year, like all the songs in January 2000, then February 2000, etc. One way to do that is to create a floor_date, which gives you the “lowest” date within a certain unit like year or month. It’s easiest to show with our sample data:</p>
+<p>Sometimes you want to count the number of records within a month and year, like all the songs in January 2000, then February 2000, etc. One way to do that is to create a floor_date, which gives you the “lowest” date within a certain unit like year or month.</p>
+<p>Note that the resulting new variables below are real dates, but they have the “lowered” to the first day of the month or year.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>hot100_sample <span class="sc">|&gt;</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo_floor =</span> <span class="fu">floor_date</span>(chart_date, <span class="at">unit =</span> <span class="st">"month"</span>),</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">yr_floor =</span> <span class="fu">floor_date</span>(chart_date, <span class="at">unit =</span> <span class="st">"year"</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-11"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-11-1"><a href="#annotated-cell-11-1" aria-hidden="true" tabindex="-1"></a>hot100_sample <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-11-2"><a href="#annotated-cell-11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="annotated-cell-11-3"><a href="#annotated-cell-11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">yr =</span> <span class="fu">year</span>(chart_date),</span>
+<span id="annotated-cell-11-4"><a href="#annotated-cell-11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo =</span> <span class="fu">month</span>(chart_date),</span>
+<span id="annotated-cell-11-5"><a href="#annotated-cell-11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo_label =</span> <span class="fu">month</span>(chart_date, <span class="at">label =</span> <span class="cn">TRUE</span>),</span>
+<span id="annotated-cell-11-6"><a href="#annotated-cell-11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo_long =</span> <span class="fu">month</span>(chart_date, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">abbr =</span> <span class="cn">FALSE</span>),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-11-7" class="code-annotation-target"><a href="#annotated-cell-11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo_floor =</span> <span class="fu">floor_date</span>(chart_date, <span class="at">unit =</span> <span class="st">"month"</span>),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-11-8" class="code-annotation-target"><a href="#annotated-cell-11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">yr_floor =</span> <span class="fu">floor_date</span>(chart_date, <span class="at">unit =</span> <span class="st">"year"</span>)</span>
+<span id="annotated-cell-11-9"><a href="#annotated-cell-11-9" aria-hidden="true" tabindex="-1"></a>  )</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-11" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="7" data-code-annotation="1">The <code>mo_floor</code> gives you the first day of the month for that <code>chart_date</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="8" data-code-annotation="2">The <code>yr_floor</code> gives you the first day of the year for that <code>chart_date</code>.</span>
+</dd>
+</dl>
+</div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["chart_date"],"name":[1],"type":["date"],"align":["right"]},{"label":["title"],"name":[2],"type":["chr"],"align":["left"]},{"label":["mo_floor"],"name":[3],"type":["date"],"align":["right"]},{"label":["yr_floor"],"name":[4],"type":["date"],"align":["right"]}],"data":[{"1":"1963-06-22","2":"Surf City","3":"1963-06-01","4":"1963-01-01"},{"1":"2019-12-07","2":"Memories","3":"2019-12-01","4":"2019-01-01"},{"1":"2011-10-08","2":"The Adventures Of Rain Dance Maggie","3":"2011-10-01","4":"2011-01-01"},{"1":"1981-03-28","2":"Bette Davis Eyes","3":"1981-03-01","4":"1981-01-01"},{"1":"1976-11-20","2":"(one More Year Of) Daddy's Little Girl","3":"1976-11-01","4":"1976-01-01"},{"1":"2012-12-29","2":"Diamonds","3":"2012-12-01","4":"2012-01-01"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["chart_date"],"name":[1],"type":["date"],"align":["right"]},{"label":["title"],"name":[2],"type":["chr"],"align":["left"]},{"label":["yr"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["mo"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["mo_label"],"name":[5],"type":["ord"],"align":["right"]},{"label":["mo_long"],"name":[6],"type":["ord"],"align":["right"]},{"label":["mo_floor"],"name":[7],"type":["date"],"align":["right"]},{"label":["yr_floor"],"name":[8],"type":["date"],"align":["right"]}],"data":[{"1":"1974-08-24","2":"You And Me Against The World","3":"1974","4":"8","5":"Aug","6":"August","7":"1974-08-01","8":"1974-01-01"},{"1":"1975-08-16","2":"Katmandu","3":"1975","4":"8","5":"Aug","6":"August","7":"1975-08-01","8":"1975-01-01"},{"1":"2008-08-30","2":"Bartender Song","3":"2008","4":"8","5":"Aug","6":"August","7":"2008-08-01","8":"2008-01-01"},{"1":"1994-07-02","2":"Backwater","3":"1994","4":"7","5":"Jul","6":"July","7":"1994-07-01","8":"1994-01-01"},{"1":"1984-10-13","2":"Penny Lover","3":"1984","4":"10","5":"Oct","6":"October","7":"1984-10-01","8":"1984-01-01"},{"1":"1987-10-31","2":"So The Story Goes","3":"1987","4":"10","5":"Oct","6":"October","7":"1987-10-01","8":"1987-01-01"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
 </div>
-<p>You can see the resulting new columns are real dates, but they have the “lowered” to the first day of the month or year:</p>
-<ul>
-<li>The <code>mo_floor</code> gives you the first day of the month for that <code>chart_date</code>.</li>
-<li>The <code>yr_floor</code> gives you the first day of the year for that <code>chart_date</code>.</li>
-</ul>
 </section>
 </section>
 <section id="saving-date-parts" class="level2" data-number="12.5">
 <h2 data-number="12.5" class="anchored" data-anchor-id="saving-date-parts"><span class="header-section-number">12.5</span> Saving date parts</h2>
 <p>Once we know we need these date parts, we can save them into a new data object and use that.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<div class="callout-tips">
+<p>Some things to note with what I’m doing with this code chunk:</p>
+<ul>
+<li>I changed the originating data from our hot100_sample to our actual hot100 data frame.</li>
+<li>I’m also making a “mutate machine” with a glimpse at the end so I can see all the new variables.</li>
+<li>I typically go back to my cleaning notebook to add these once I recognize I need them, and then rerun everything.</li>
+</ul>
 </div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>I usually go back to my cleaning notebook to add these once I recognize I need them, and then rerun everything.</p>
-</div>
-</div>
-<p>Let’s create our data with dates and save it. I’m making a “mutate machine” with a glimpse at the end so I can see all the new variables.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>hot100_dateparts <span class="ot">&lt;-</span> hot100 <span class="sc">|&gt;</span> </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">yr =</span> <span class="fu">year</span>(chart_date),</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo_label =</span> <span class="fu">month</span>(chart_date, <span class="at">label =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo_floor =</span> <span class="fu">floor_date</span>(chart_date, <span class="at">unit =</span> <span class="st">"month"</span>)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>hot100_dateparts <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>hot100_dateparts <span class="ot">&lt;-</span> hot100 <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">yr =</span> <span class="fu">year</span>(chart_date),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo =</span> <span class="fu">month</span>(chart_date),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo_label =</span> <span class="fu">month</span>(chart_date, <span class="at">label =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo_long =</span> <span class="fu">month</span>(chart_date, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">abbr =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo_floor =</span> <span class="fu">floor_date</span>(chart_date, <span class="at">unit =</span> <span class="st">"month"</span>),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">yr_floor =</span> <span class="fu">floor_date</span>(chart_date, <span class="at">unit =</span> <span class="st">"year"</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>hot100_dateparts <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 352,300
-Columns: 10
+Columns: 13
 $ chart_date    &lt;date&gt; 1958-08-04, 1958-08-04, 1958-08-04, 1958-08-04, 1958-08…
 $ current_rank  &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
 $ title         &lt;chr&gt; "Poor Little Fool", "Patricia", "Splish Splash", "Hard H…
@@ -668,8 +715,11 @@ $ previous_rank &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
 $ peak_rank     &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
 $ wks_on_chart  &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 $ yr            &lt;dbl&gt; 1958, 1958, 1958, 1958, 1958, 1958, 1958, 1958, 1958, 19…
+$ mo            &lt;dbl&gt; 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,…
 $ mo_label      &lt;ord&gt; Aug, Aug, Aug, Aug, Aug, Aug, Aug, Aug, Aug, Aug, Aug, A…
-$ mo_floor      &lt;date&gt; 1958-08-01, 1958-08-01, 1958-08-01, 1958-08-01, 1958-08…</code></pre>
+$ mo_long       &lt;ord&gt; August, August, August, August, August, August, August, …
+$ mo_floor      &lt;date&gt; 1958-08-01, 1958-08-01, 1958-08-01, 1958-08-01, 1958-08…
+$ yr_floor      &lt;date&gt; 1958-01-01, 1958-01-01, 1958-01-01, 1958-01-01, 1958-01…</code></pre>
 </div>
 </div>
 <p>Now I can use that new <code>hot100_dateparts</code> object with the rest of my analysis.</p>
@@ -677,15 +727,15 @@ $ mo_floor      &lt;date&gt; 1958-08-01, 1958-08-01, 1958-08-01, 1958-08-01, 195
 <h3 data-number="12.5.1" class="anchored" data-anchor-id="use-the-parts"><span class="header-section-number">12.5.1</span> Use the parts!</h3>
 <p>Let’s put this to use with an example. I’ll use that <code>mo_floor</code> find <strong>Recent appearances by Taylor Swift by month</strong>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>swift_month <span class="ot">&lt;-</span> hot100_dateparts <span class="sc">|&gt;</span> </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    performer <span class="sc">==</span> <span class="st">"Taylor Swift"</span>,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    chart_date <span class="sc">&gt;=</span> <span class="st">"2020-07-01"</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(mo_floor) <span class="sc">|&gt;</span> </span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">appearances =</span> <span class="fu">n</span>())</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>swift_month</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>swift_month <span class="ot">&lt;-</span> hot100_dateparts <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    performer <span class="sc">==</span> <span class="st">"Taylor Swift"</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    chart_date <span class="sc">&gt;=</span> <span class="st">"2020-07-01"</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(mo_floor) <span class="sc">|&gt;</span> </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">appearances =</span> <span class="fu">n</span>())</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>swift_month</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -696,20 +746,20 @@ $ mo_floor      &lt;date&gt; 1958-08-01, 1958-08-01, 1958-08-01, 1958-08-01, 195
 </div>
 <p>And chart it:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>swift_month_plot <span class="ot">&lt;-</span> swift_month <span class="sc">|&gt;</span> </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mo_floor, <span class="at">y =</span> appearances)) <span class="sc">+</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> appearances), <span class="at">vjust =</span> <span class="sc">-</span>.<span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_labels=</span><span class="st">"%b %Y"</span>, <span class="at">date_breaks  =</span><span class="st">"1 year"</span>, <span class="at">minor_breaks =</span> <span class="st">"1 month"</span>) <span class="sc">+</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">x =</span>  <span class="fu">guide_axis</span>(<span class="at">angle =</span> <span class="dv">45</span>)) <span class="sc">+</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Month and Year"</span>,</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of appearances"</span>,</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Swifts</span><span class="sc">\'</span><span class="st"> </span><span class="sc">\"</span><span class="st">Midnights</span><span class="sc">\"</span><span class="st"> drives most hits"</span>,</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">str_wrap</span>(<span class="st">"While her most recent new album drove the most appearances on the Billboard Hot 100 within a month, each </span><span class="sc">\"</span><span class="st">Taylor</span><span class="sc">\'</span><span class="st">s version</span><span class="sc">\"</span><span class="st">  album since 'Folklore' has also generated hits."</span>)</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/swift_month_plot.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>swift_month_plot <span class="ot">&lt;-</span> swift_month <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mo_floor, <span class="at">y =</span> appearances)) <span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> appearances), <span class="at">vjust =</span> <span class="sc">-</span>.<span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_labels=</span><span class="st">"%b %Y"</span>, <span class="at">date_breaks  =</span><span class="st">"1 year"</span>, <span class="at">minor_breaks =</span> <span class="st">"1 month"</span>) <span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">x =</span>  <span class="fu">guide_axis</span>(<span class="at">angle =</span> <span class="dv">45</span>)) <span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Month and Year"</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of appearances"</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Swifts</span><span class="sc">\'</span><span class="st"> </span><span class="sc">\"</span><span class="st">Midnights</span><span class="sc">\"</span><span class="st"> drives most hits"</span>,</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">str_wrap</span>(<span class="st">"While her most recent new album drove the most appearances on the Billboard Hot 100 within a month, each </span><span class="sc">\"</span><span class="st">Taylor</span><span class="sc">\'</span><span class="st">s version</span><span class="sc">\"</span><span class="st">  album since 'Folklore' has also generated hits."</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/swift_month_plot.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Saving 7 x 5 in image</code></pre>
 </div>
