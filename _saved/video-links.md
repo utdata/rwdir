@@ -13,10 +13,11 @@
 {{< video https://vimeo.com/435910324?share=rwdir >}}
 {{< video https://youtu.be/g3EajKyz7cE?feature=rwdir >}}
 
-### Publish to Quarto Pub
+### Publish to Connect Cloud
 
-{{< video https://vimeo.com/833716452?share=rwdir >}}
-{{< video https://youtu.be/R7OcPHK0xAA?feature=rwdir >}}
+
+{{< video https://www.youtube.com/watch?v=ArWYlOJhGSI >}}
+{{< video https://vimeo.com/1203604092 >}}
 
 ## Billboard Analysis
 
