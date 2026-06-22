@@ -233,6 +233,7 @@ Before we can build the chart, we need to summarize our data. The logic is this:
 #| label: count-districts-code
 #| code-fold: true
 #| code-summary: "Use GSA or the `count()` shortcut"
+
 flag_count_districts <- sped |> 
   count(year, audit_flag, name = "count_districts")
 
@@ -245,7 +246,21 @@ The data should look like this:
 flag_count_districts
 ```
 
+::: callout-tip
 
+### Using count()
+
+You'll notice in the code block above I used a new function [`count()`](https://dplyr.tidyverse.org/reference/count.html). This is a shortcut function that is the same as this:
+
+```r
+sped |> 
+  group_by(year) |> 
+  summarize(count_districts = n())
+```
+
+We count rows in groups like this all the time, so this convenience function is super helpful. I've written an "Extras" chapter [Counting shortcuts](count.qmd) that covers how to use this function in more detail.
+
+:::
 
 ### Build the audit flag chart
 
