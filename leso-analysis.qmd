@@ -408,12 +408,14 @@ tx_agency_totals # <2>
 
 **Let's talk through the filter concepts before you try it with this data.**
 
-When we talked about filtering with the Billboard project, we discussed using the `|` operator as an "OR" function. If we were to apply that logic here, it would look like this:
+When we talked about filtering with the Billboard project, we discussed using `when_any()` as an "OR" function within filter. If we were to apply that logic here, it would look like this:
 
 ``` r
 # Just for explanation. Don't add to notebook.
 data |> 
-  filter(column_name == "Text to find" | column_name == "More text to find")
+  filter(when_any(column_name == "Text to find",
+                  column_name == "More text to find")
+  )
 ```
 
 That can get pretty unwieldy if you have more than a couple of things to look for.
