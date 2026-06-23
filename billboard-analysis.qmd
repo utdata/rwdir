@@ -28,7 +28,7 @@ Before we can get into the analysis, we want to set up a new notebook to separat
 ::: callout-warning
 The data outputs in this book might differ from what you get since the source data is updated every week. This is especially true in videos, gifs and takeaways.
 
-This chapter won't have data past 2024.
+This chapter won't have data past 2025.
 :::
 
 ## Setting up an analysis notebook
@@ -162,7 +162,7 @@ hot100 |> glimpse()
 #| label: import-date
 #| include: false
 
-hot100 <- hot100 |> filter(year(chart_date) < 2025)
+hot100 <- hot100 |> filter(year(chart_date) < 2026)
 ```
 
 Again, I could've written all that code at once before running it, as I've written code like that for many years. **I still write and run code one line at a time**, and you should, too. It is the easiest way to make sure your code is correct and find problems. So, for the second of a 1,000 times:
@@ -299,7 +299,7 @@ hot100 |>
 
 1. Add the group_by() line before the summarize.
 
-What we get in return is a **summarize**d table that shows all 10,000+ different performers that have been on the charts, and the **n**umber of rows in which they appear in the data.
+What we get in return is a **summarize**d table that shows all 11,000+ different performers that have been on the charts, and the **n**umber of rows in which they appear in the data.
 
 That's great, but who had the most?
 
@@ -324,7 +324,7 @@ You'll sometimes see me write this differently, piping the column into the `desc
 
 ### Get the top of the list
 
-We've printed 10,000+ rows of data into our notebook when we really only wanted the Top 10 or so. You might think it doesn't matter, but your knitted HTML file will store all that data and can make it a big file (as in hard drive space), so I try to avoid that when I can.
+We've printed 11,000+ rows of data into our notebook when we really only wanted the Top 10 or so. You might think it doesn't matter, but your knitted HTML file will store all that data and can make it a big file (as in hard drive space), so I try to avoid that when I can.
 
 We can use the `head()` command again to get the first 10 result. It will give us six rows unless we specify a different number. There is a corresponding `tail()` function to get the last rows.
 
@@ -347,7 +347,7 @@ hot100 |> # <1>
 
 Since we have our answer here and we're not using the result later, we don't need to create a new object or anything. Printing it to our notebook is sufficient.
 
-So, **Taylor Swift** ... is that who you guessed? A little history here, when I started using this data back in 2018, Elton John topped the list. Elton John has been around a long time, but Swift's popularity plus changes in how Billboard counts plays in the modern era (like streaming) has rocketed her to the top. (Sorry, Rocket Man). And it doesn't hurt that she is re-releasing her entire catalog (Taylor's version)!
+So, **Taylor Swift** ... is that who you guessed? A little history here, when I started using this data back in 2018, Elton John topped the list. Elton John has been around a long time, but Swift's popularity plus changes in how Billboard counts plays in the modern era (like streaming) has rocketed her to the top. (Sorry, Rocket Man). And it doesn't hurt that she is re-releasing a good portion of her catalog (Taylor's version)! As for Morgan Wallen, I have no clue. `¯\_(ツ)_/¯`.
 
 ::: callout-important
 ### Two important notes
@@ -371,29 +371,42 @@ We've learned something here from the data and we should note it for our future 
 #| output: false
 
 ## This powers the takeaway with current values.
-
-top_performer <- hot100 |> 
-  count(performer, sort = T) |> 
-  slice_head()
-
-tp_n <- top_performer |> pull(n) |> scales::comma()
-
-tp_p <- top_performer |> pull(performer)
-
 mx_d <- hot100 |> 
   summarise(mx_date = max(chart_date)) |>
   pull(mx_date) |> 
   format(format="%B %d, %Y")
 
+## get top of list
+tp <- hot100 |> 
+  count(performer, sort = T)
 
-top_performer
-tp_p
-tp_n
+## Get top row
+tp_p1 <- tp |> slice_head()
+
+## get top row name
+tp_p1_p <- tp_p1 |> pull(performer)
+
+## get top row value
+tp_p1_n <- tp_p1 |> pull(n) |> scales::comma()
+
+## same values for 2nd place
+tp_p2 <- tp |> slice(2)
+tp_p2_p <- tp_p2 |> pull(performer)
+tp_p2_n <- tp_p2 |> pull(n) |> scales::comma()
+
 mx_d
+tp
+tp_p1
+tp_p1_p
+tp_p1_n
+tp_p2
+tp_p2_p
+tp_p2_n
+tp_d_diff <- tp_p1_n |> parse_number() - tp_p2_n |> parse_number()
 ```
 
 ```md
-Data Takeaway: `r tp_p` has more solo appearances on the Billboard Hot 100 than any other artist in history with `r tp_n` appearances through `r mx_d`. This does not include collaborations with other artists.
+Data Takeaway: `r tp_p1_p` has more solo appearances on the Billboard Hot 100 than any other artist in history with `r tp_p1_n` appearances through `r mx_d`. That's `r tp_d_diff` more than `r tp_p2_p`, who has `r tp_p2_n`. This does not include collaborations with other artists.
 ```
 
 Writing these sentences help you understand what you've found in your data. When you get toward the end of your project, you'll collect these takeaways in your `index.qmd` file.
@@ -403,7 +416,7 @@ Writing these sentences help you understand what you've found in your data. When
 Now that you have your first quest answer, let's celebrate by rendering your notebook so you can see all your pretty work.
 
 1.  In the toolbar of your notebook, click the **Render** button or use the *Cmd-Shift-k* keyboard command.
-
+ 
 This will give you the website view of your page, and you _should_ have the page listed in your site navigation if you did the setup properly at the beginning of this chapter.
 
 ## Song with most appearances
@@ -441,11 +454,14 @@ hot100 |> # <1>
 
 We will *often* use `group_by()`, `summarize()` and `arrange()` together, which is why I'll refer to this as the **GSA trio**. They are like three close friends that always want to hang out together.
 
-So, what was your guess or this question? A little bit of history for that answer ... Glass Animals' *Heat Waves* in 2022 overcame The Weeknd's *Blinding Lights*, which had overcome Imagine Dragon's *Radioactive* some time in 2021.
-
 ::: callout-note
-When you run the code above you might see a warning **"`summarise()` has grouped output by 'performer'. You can override using the`.groups` argument."** THIS IS NOT A PROBLEM. It is just R letting you know that the output of this remains grouped by the first item. Explaining it would break your brain right now. Don't worry about it. This is not the droid you are looking for.
+
+### Groups argument
+
+When you run the code above you might see a warning **"`summarise()` has grouped output by 'performer'. You can override using the`.groups` argument."** THIS IS NOT A PROBLEM. It is just R letting you know that the output of this remains grouped by the first item. Explaining it would break your brain right now. Don't worry about it.
+
 :::
+
 ### Introducing filter()
 
 I showed you `head()` in the previous quest and that was useful to show just a few records at the top of a list, but it does so indiscriminately. Note there are some songs here with the same number of weeks on the charts. If we used `head()` we might split that tie, leaving us with an incomplete answer. A better strategy is to cut off the list at a logical place using `filter()`. Let's dive into this new function:
@@ -480,17 +496,17 @@ Note the two equals signs `==` in our Taylor Swift example above. It is importan
 
 There are a number of these logical tests for the comparison:
 
-| Operator          | Definition               |
-|:------------------|:-------------------------|
-| x **\<** y        | Less than                |
-| x **\>** y        | Greater than             |
-| x **==** y        | Equal to                 |
-| x **\<=** y       | Less than or equal to    |
-| x **\>=** y       | Greater than or equal to |
-| x **!=** y        | Not equal to             |
-| x **%in%** c(y,z) | In a group               |
-| **is.na(**x**)**  | Is NA (missing values)   |
-| **!is.na(**x**)** | Is not NA                |
+| Operator                                     | Definition               |
+|:---------------------------------------------|:-------------------------|
+| x [**\<**]{.code_em} y                       | Less than                |
+| x [**\>**]{.code_em} y                       | Greater than             |
+| x [**==**]{.code_em} y                       | Equal to                 |
+| x [**\<=**]{.code_em} y                      | Less than or equal to    |
+| x [**\>=**]{.code_em} y                      | Greater than or equal to |
+| x [**!=**]{.code_em} y                       | Not equal to             |
+| x [**%in%**]{.code_em} c(y,z)                | In a group               |
+| [**is.na(**]{.code_em}x[**)**]{.code_em}     | Is NA (missing values)   |
+| [**!is.na(**]{.code_em}x[**)**]{.code_em}    | Is not NA                |
 
 Where you apply a filter matters. If we want to consider only certain data when we are grouping/summarizing then we filter BEFORE the GSA. If we filter after the GSA, we affect only the *results* of the summarize function, which is what we want to do here.
 
@@ -525,12 +541,13 @@ rows_70 <- hot100 |>
 
 The value we use to cut the list of -- `65` in this case -- is arbitrary. We just want to choose a value that makes common sense. `70` seemed too high because that would yield `r rows_70` songs, and `60` was too low because there are lots of ties in the lower 60s.
 
+
 ### Data Takeaway: Song appearances
 
 OK, time to write about what you've found.
 
 1. Add this data takeaway after the code chunk above.
-2. **CHECK AND EDIT** the takeaway if your findings are different.
+2. **CHECK AND EDIT the takeaway** as your answers might be different since you have newer data.
 
 ```{r}
 #| label: song-takeaways
@@ -647,7 +664,7 @@ hot100 |>
   filter(appearances >= 15)
 ```
 
-Now you have the answers to the song (or songs) with the most weeks at No. 1 with a logical cutoff. If you add to the data later, that logic will still hold and not cut off arbitrarily at a certain number of records. For instance, Mariah Carey's _All I Want for Christmas_ could eventually top this list because that song reaches No. 1 for a week or two every holiday season.
+Now you have the answers to the song (or songs) with the most weeks at No. 1 with a logical cutoff. If you add to the data later, that logic will still hold and not cut off arbitrarily at a certain number of records.
 
 ### Data Takeaway: Longest at No. 1
 
@@ -658,10 +675,6 @@ Now you have the answers to the song (or songs) with the most weeks at No. 1 wit
 #| label: no1-takeaway
 #| echo: false
 #| output: false
-
-### This bit doesn't really work anymore because we have a tie at the top, but I'll keep it here for now.
-
-### Data Takeaway: The song "`r no1_ttl`" by `r no1_per` has spent more time at the top of the Billboard Hot 100 than any other song in history at `r no1_appr` weeks.
 
 no1_row <- hot100 |> 
   filter(current_rank == 1) |>
@@ -674,7 +687,7 @@ no1_appr <- no1_row |> pull(n)
 ```
 
 ```md
-Data Takeaway: Both Lil Nas X's "Old Town Road" and Shaboozey's "A Bar Song (Tipsy)" have spent the most time at the top of the Billboard Hot 100 through `r mx_d` with 19 appearances.
+Data Takeaway: The song "`r no1_ttl`" by `r no1_per` has spent the most time at the top of the Billboard Hot 100 through `r mx_d` with `r no1_appr` appearances.
 ```
 
 ## Performer with most No. 1 singles
@@ -837,11 +850,26 @@ OK, here is the takeaway to add ...
 Data Takeaway: Taylor Swift not only has the most appearances of all time in the Hot 100, she also has the most No. 1 hits in the past five years with six.
 ```
 
+## filter() vs filter_out()
+
+Not to add confusion, but the Tidyverse folks [recently introduced](https://tidyverse.org/blog/2026/02/dplyr-1-2-0/) a variation of filter() called [`filter_out()`](https://dplyr.tidyverse.org/reference/filter.html). Think of it like this:
+
+- If you are looking to define things to keep, use `filter()`.
+- If you are looking for things to remove, use `filter_out()`.
+
+The difference between the who is how it handles `NA` values. If you `filter()` for specific values, it will not include NA values. If `filter_out()` for specific values, it will keep NAs.
+
+Think of it like this:
+
+- You have a sea full of fish, but some of them you don't know the color.
+- If you filter _for_ orange fish `filter(fish, color == "orange")`, you'll only keep the orange fish. All the other fish are gone, including those where you didn't know the color.
+- If you filter _out_ the orange fish `filter_out(fish, color == "orange")`, all the orange fish are gone, and you keep all the other fish, even those where you don't know the color.
+
 ## Complex filters
 
 You can combine filters in different ways to really target which rows to keep. For these I want you to play around a bit.
 
-1.  Copy each of the examples below into your notebook, **but change the title and/or performer** to someone you like.
+1.  Copy each of the examples below into your notebook, **but change the title and/or performer** to songs or artists you like.
 2. As you do so, make headlines and notes in Markdown that describe what the different filters do.
 
 ### Multiple truths
@@ -860,36 +888,32 @@ That `select()` line is capturing just the first four columns for us.
 
 ### Either is true
 
-If you want an **or** filter, then you write two equations with a `|` between them.
+If you want an **or** filter, then you wrap your conditions inside a `when_any()` function.
 
 This shows songs by Adam Sandler OR Alabama Shakes.
 
 ```{r filter-or}
 hot100 |> 
-  filter(performer == "Adam Sandler" | performer == "Alabama Shakes") |> 
+  filter(when_any(performer == "Adam Sandler", performer == "Alabama Shakes")) |> 
   select(chart_date:performer)
 ```
 
-::: callout-tip
-The `|` is found as the *Shift* of the `\` key above Return on your keyboard. That `|` character is also sometimes called a "pipe", which gets confusing in R with `|>`.)
-:::
-
 ### Mixing criteria
 
-If you have **multiple criteria**, you separate them with a comma `,`. Note I've also added returns to make the code more readable and added distinct to songs only once. Sometimes you might need parenthesis to control the order of operations, like with math.
+If you have **multiple criteria**, you separate them with a comma `,`. Note I've also added returns to make the code more readable and added distinct to songs only once.
 
 This gives us rows with either Taylor Swift or Drake, but only those that reached No. 1 (and no collaborations.)
 
 ```{r filter-complex}
 hot100 |> 
   filter(
-    (performer == "Taylor Swift" | performer == "Drake"), # <1>
+    when_any(performer == "Taylor Swift", performer == "Drake"), # <1>
     current_rank == 1
 ) |> 
   distinct(current_rank, title, performer)
 ```
 
-1. In this case the filter for performer of Taylor or Drake will be done together because of the parenthesis, then the current rank filter is added.
+1. In this case we are first finding rows "when any" of the performer conditions is true ... for Taylor or Drake. Then the current rank rule is added.
 
 ### Search within a string
 
@@ -904,6 +928,19 @@ hot100 |>
 ```
 
 You might be tempted to try "Drake" above, but there are so many other names that include Drake (like "Charlie Drake" and "Pete Drake") that it's too messy.
+
+### Dropping rows
+
+Let's take that last one and then "filter out" the songs that include Drake.
+
+```{r}
+hot100 |> 
+  filter(str_detect(performer, "2 Chainz")) |> 
+  distinct(performer, title) |> 
+  filter_out(str_detect(performer, "Drake"))
+```
+
+We've gone from 40 songs with "2 Chainz" down to 34 songs with "2 Chainz" but without "Drake".
 
 There are other variations and functions to help with filtering, but this is enough for now.
 
@@ -953,18 +990,17 @@ We have one, last major thing to do here before we finish, and that is to update
 ``` md
 ## Summary
 
-Taylor Swift has had more solo appearances on the Billboard Hot 100 chart than any other artist, according to an analysis of chart data from Billboard Magazine. Her 1,600 solo appearances tops Drake, though he has more when considering collaborations with other artists.
+`r tp_p1_p` has had more solo appearances on the Billboard Hot 100 chart than any other artist, according to an analysis of chart data from Billboard Magazine through `r mx_d`. Her `r tp_p1_n` solo appearances tops `r tp_p2_p` with `r tp_p2_n`.
 
-The chart has been published weekly since August 1958, and this analysis includes data through December 2024*. The chart data was pulled from an [archive managed by Christian McDonald](https://github.com/utdata/rwd-billboard-data), which is updated each week.
+> *You should update the date above and any other findings based on your newer data.
 
-> *You should update this value with that last chart date in your data.
+The chart has been published weekly since August 1958 and this analysis works from an [archive of those charts](https://github.com/utdata/rwd-billboard-data) managed by Christian McDonald, which is updated weekly.
 
 Other findings from the data analysis include:
 
-- Data Takeaway: The song "Heat Wave" by Glass Animals has appeared 91 times on the Hot 100, more than any other song through 2023. The Weeknd's "Blinding Lights" has the next most appearances with 90.
-- The songs "Old Town Road" by Lil Nas X Featuring Billy Ray Cyrus and "A Bar Song (Tipsy)" by Shaboozey have spent more time at the top of the Hot 100 than any other songs in history at 19 weeks.
-- The Beatles have the most No. 1 hits with 19, but they also have a 20th top song -- "Get Back" -- that is a collaboration with Billy Preston. Most other artists with double-digit top hits aren't making new music, with the exception of Mariah Carey and Taylor Swift.
-- Taylor Swift not only has the most appearances of all time in the Hot 100, she also has the most No. 1 hits in the past five years with six.
+- The song "`r frst_ttl`" by `r frst_per` has appeared `r frst_appr` times on the Hot 100, more than any other song through `r year(mx_d |> mdy())`.
+- "`r no1_ttl`" by `r no1_per` has spent more time at the top of the Hot 100 than any other songs in history at `r frst_appr` weeks.
+- The Beatles have the most No. 1 hits with 19, but they also have a 20th top song -- "Get Back" -- that is a collaboration with Billy Preston. Most other artists with double-digit top hits aren't making new music, though Taylor Swift is climbing fast.
 - ADD YOUR TOP 10 HITS
 - ADD YOUR OWN FINDING
 

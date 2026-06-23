@@ -453,7 +453,7 @@ See annotations below the code to explain what is going on, in case you are inte
 ```{r}
 #| label: candy-box-color-prep
 candy_box_color <- candy_raw |> # <1> 
-  filter(box_code != "130FXWAC0336", box_code != "1524976SE") |> # <2>
+  filter_out(when_any(box_code == "130FXWAC0336", box_code == "1524976SE")) |> # <2>
   select(!c(timestamp, candy_type)) |> # <3> 
   pivot_longer(cols = red:brown, names_to = "candy_color", values_to = "candy_count") |> # <4>
   group_by(box_code, candy_color) |> # <5>
@@ -463,7 +463,7 @@ candy_box_color
 ```
 
 1.  We create a new object to put everything in, then go back to the original data to get the box code.
-2.  Removing some rows where there were only one or two bags. Not shown here is the research to find their values.
+2.  Filtering out some rows where there were only one or two bags. Not shown here is the research to find their values.
 3.  Removing the `timestamp` and `candy_type` variables.
 4.  Pivoting the data longer so we can group and summarize.
 5.  Group by the box and color before we ...
