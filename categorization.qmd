@@ -6,15 +6,17 @@ title: "Categorization"
 
 Sometimes we have data where a variable has too many unique values to group/sum properly. It could be because we have a more specific need, or because the data is "dirty" with misspellings and minor differences which mean the same thing.
 
-I want to outline several ways to deal with this, with growing complexity (and flexibility). We'll end with an example from the military surplus data.
+I want to outline several ways to deal with this, with growing complexity (and flexibility). I'll use the [Starwars characters](https://dplyr.tidyverse.org/reference/starwars.html) dataset for my examples. We'll end with an example from the military surplus data.
+
+Some of these functions are new as of 2026 as Posit constantly enhances their tools for data science.
 
 All of these solutions will use `mutate()` because you are changing or creating data. But the methods I'm considering are:
 
-- `if_else()` that requires only one test. We'll make it `TRUE` based on a certain circumstance, and `FALSE` if not. I'll also show how you could use values other than T/F.
-- `case_match()` is where you are looking inside a single column and changing one value to another, but we can do this with any number of values. They just all have to be 1-to-1. If this, then that.
-- `case_when()` allows you to perform a series of tests on multiple variables, setting new values based on the results.
+- The `if_else()` function **sets a value based on a test**. We'll make it `TRUE` based on a certain circumstance, and `FALSE` if not. I'll also show how you could use values other than T/F.
+- Two methods to change or create a column **based on matching values from within a specific column**. We'll use `replace_values()` when we are partially updating an existing column. We'll use `recode_values()` when we need defaults other than the original value.
+- When we need more complex rules that **match based on conditions**, we'll tap into `replace_when()` and `case_when()`.
 
-I'll use the [Starwars characters](https://dplyr.tidyverse.org/reference/starwars.html) dataset for my examples.
+Some of these solutions are covered in a Tidyverse vignette [Recoding columns and replacing values](https://dplyr.tidyverse.org/articles/recoding-replacing.html).
 
 ## Setup
 
@@ -39,12 +41,14 @@ starwars
 
 ## if_else(): Creating a flag variable
 
+We use `if_else()` when we want a set value for when a condition is true or false. You supply a test (like does x == 3) and then supply a value to use when that condition is TRUE, and then when it is FALSE.
+
 I actually have a good example of this in the [Denied Cleaning](denied-cleaning.qmd#create-an-audit-benchmark-column) chapter when we make the audit benchmark column, but I'll include a JedR version here.
 
 Within our starwars data, we have a variable called `species` that has a number of values.
 
 ```{r}
-starwars |> count(species)
+starwars |> count(species, sort = TRUE)
 ```
 
 Most of the characters are "Human", but let's say I want to do a series of analysis based on whether a species is "Human" vs all the other options. I can create a _flag_ variable (True/False) based on whether that. So, I want `TRUE` if "Human" and `FALSE` if not.
@@ -52,18 +56,18 @@ Most of the characters are "Human", but let's say I want to do a series of analy
 The [`if_else()`](https://dplyr.tidyverse.org/reference/if_else.html) function is perfect for this.
 
 ```{r}
-sw_human <- starwars |> 
-  mutate( #<1>
-    human = if_else(species == "Human", TRUE, FALSE), # <2>
-    .after = species # <3>
+sw_human <- 
+  starwars |> 
+  mutate( # <1>
+    human = if_else(species == "Human", TRUE, FALSE) # <2>
   )
 
 # selecting specific variables so we can see them easily
 sw_human |> select(name, species, human)
 ```
 
-1. I'm using `mutate()` to creat the new variable.
-2. `if_else()` takes three arguments. The first is the test, the second is the value to insert if it is true (and i'm using an actual `TRUE` value here) and the third is to insert if it is false (and I'm using `FALSE`)
+1. I'm using `mutate()` to create the new variable.
+2. `if_else()` takes three arguments. The first is the test, the second is the value to insert if it is true (and I'm using an actual `TRUE` value here) and the third is to insert if it is false (and I'm using `FALSE`).
 
 So now I can easily count how many characters are Human vs Not Human.
 
@@ -82,88 +86,105 @@ starwars |>
   select(name, species, human_text)
 ```
 
-## case_match(): Recategorize values
+## Changes based on matching values
 
-But what if the test isn't so simple ... that it isn't either one or the other.
+These are solutions for when we want to look at values within a single column, and then make decisions based on those values. (While you might create a _new_ column so you can compare the replacement values, both the "old" and "new" columns will have the same datatypes.)
 
-Using [case_match()](https://dplyr.tidyverse.org/reference/case_match.html) we can make 1v1 switches for some values within a variable, and then choose what to do with the rest of them en masse.
+### replace_values(): Change just some values
 
-One thing about `case_match()` ... we are only affecting values in a single variable. It's good for cleaning those, but not very flexible beyond that because we can't consider other variable in our tests. It's just "change this into that."
+Use this when you just want to change a few values in an existing column, while leaving the rest alone.
 
-Let's say I want to update "Yoda's species" to "Yoda", keep "Human" as such and then make everything else "Other".
+In our example we want to change values in `species` in just two cases, but retain the rest.
+
+- We want to rename "Yoda's species" to just "Yoda".
+- If the species is `NA` we want to change it to "Unknown".
+- The rest should just keep their original value
+
+This example below will only change data when specified conditions are met based on one specific target variable (`species` in this case). Otherwise it will use the value already in `species`.
 
 ```{r}
-sw_species_simple <- starwars |> 
+sw_species_replaceval <-
+  starwars |> 
   mutate(
-    new_species = case_match( # <1>
+    species_new = replace_values( # <1>
       species, # <2>
       "Yoda's species" ~ "Yoda", # <3>
-      "Human" ~ "Human", # <4>
-      .default = "Other" # <5>
+      NA ~ "Unknown" # <4>
     )
   )
 
 # selecting specific variables to see the results
-sw_species_simple |> select(name, species, new_species)
+sw_species_replaceval |> select(name, species, species_new)
 ```
 
-1. We set the name of the new variable first, then set the value to the result of the `case_match()` function. I could replace the same variable, but then I wouldn't be able to inspect the changes.
-2. `case_match()`works on the values from single variable, so you have to define which column you are working with. We are using the `species` variable here.
-3. Here we change the "Yoda's species" value to just "Yoda".
-4. Here we set "Human" as itself so we can preserve it. Otherwise it would also be changed to "Other"
-5. Here we set what all the other values we have not specified should be changed to. We set them to "Other."
+1. Here we are creating the new column `species_new` so we can compare it to the original. We will push into that variable the result of the `replace_values()` function.
+2. Here we specify which variable we are peeking into for our matches, i.e., our target column.
+3. We look for "Yoda's species" on the left side of the `~`. (This is sometimes referred to as LHS for left-hand-side). To the right of the `~` we set our new values. (Sometimes called RHS.)
+4. Here we are setting our `NA` values (on the left) to "Unknown" (on the right).
 
-Using this method, those `species` values that were `NA` are also changed to "Other" since they didn't fit the other two roles.
+No other values are changes so all the other rows are filled in with their original `species` values. If you wanted those to be something else you would use `recode_values()`.
 
-If we count on the new variable, this is what we get.
 
-```{r}
-sw_species_simple |> 
-  count(new_species, name = "cnt_species_simple")
-```
+### recode_values(): When you need a default
 
-An option that can make this real useful is I can choose to only a couple of values in the variable and then leave the others as-is. I'm going to do this all at once to save time and just show the result.
+When we need just a little more flexibility, we can use [`recode_values()`]() which allows us to define a default. Our goal here is a little different.
 
-Here I change "Yoda's species" to just "Yoda" and all the `NA`s to "Other", but leave the rest as it was, using the existing `species` values.
+- We want to rename "Yoda's species" to just "Yoda".
+- We want to keep "Human" as such, but ...
+- We want all other species to be "Other".
 
 ```{r}
-starwars |> 
+sw_species_recodeval <- 
+  starwars |> 
   mutate(
-    newer_species = case_match(
-      species,
-      "Yoda's species" ~ "Yoda", # <1>
-      NA ~ "Other", # <2>
-      .default = species # <3>
+    species_new = recode_values( # <1>
+      species, # <2>
+      "Yoda's species" ~ "Yoda", # <3>
+      "Human" ~ "Human", # <4>
+      default = "Other" # <5>
     )
-  ) |> 
-  slice(10:20) |> # <4>
-  select(name, species, newer_species) # <5>
+  )
+
+sw_species_recodeval |> 
+  select(name, species, species_new)
 ```
 
-1. We are changing "Yoda's species" to "Yoda".
-2. We set all the NA values to "Other".
-3. We set the remain rows to be their original `species` values.
-4. I'm using `slice()` here just to show you the row that includes "Yoda" so you can see it. It's just a display thing.
-5. Also a display thing: I'm selecting the relevant variables so we can see them.
+1. Here we set the new variable and set it to the result of `recode_values()`.
+2. The target column we are looking into for our values to match on.
+3. Again we set "Yoda's species" to just "Yoda".
+4. We set "Human" to still be "Human" because otherwise it would get caught up in the default.
+5. Here we set **everything else** to be "Other".
 
-## case_when(): More power
+### More on recode ...
 
-If we need more logic, we can use [`case_when()`](https://dplyr.tidyverse.org/reference/case_when.html) to consider tests in any column to affect values in a single one.
+There are some more complex uses for `recode_values()` that we won't detail, but you can read more in the [Recoding columns and replacing values](https://dplyr.tidyverse.org/articles/recoding-replacing.html) vignette.
 
-This example is a bit contrived, but hopefully you can follow. We want Luke Skywalker and the Lars family to be classified as "Lars Farmers", along with the famous droids who worked there.
+  - You can recode values to a different datatype, like starting with ranking values like `1` to `5` and turning them into a text ranking of "Strongly Disagree" to "Strongly Agree" with appropriate terms between them.
+  - You can create or use lookups table with the "from" and "to" values.
 
-We'll start with this: Let's create a new variable call `lars_farm` that defines the following:
+## Changes based on conditions
 
-- Anyone Lars family and Luke Skywalker will be "Lars Farmers".
+When you want change or create a column based on conditions, we have some more powerful and complex functions available.
+
+### case_when(): More power
+
+If we need more logic when creating or changing data, we can use [`case_when()`](https://dplyr.tidyverse.org/reference/case-and-replace-when.html) to consider tests in any column to affect values in a single one.
+
+This example is a bit contrived, but hopefully you can follow. We want Skywalker and the Lars family members to be classified as "Lars Farmers", along with the famous droids who worked there.
+
+Let's create a new variable call `lars_farm` that defines the following:
+
+- Anyone with the name Lars or Skywalker will be "Lars Farmers".
 - We'll also add R2D2 and C-3PO to the same "Lars Farmers" group.
 - Everyone else will get their original homeworld.
 
 
 ```{r}
-sw_lars <- starwars |> 
+sw_lars <-
+  starwars |> 
   mutate(
     lars_farm = case_when( # <1>
-      str_detect(name, "Lars|Luke Skywalker") ~ "Lars Farmers", # <2>
+      str_detect(name, "Lars|Skywalker") ~ "Lars Farmers", # <2>
       name %in% c("R2-D2", "C-3PO") ~ "Lars Farmers", # <3>
       .default = homeworld # <4>
     )
@@ -173,16 +194,38 @@ sw_lars <- starwars |>
 sw_lars |> select(name, homeworld, lars_farm)
 ```
 
-1. One difference between `case_match()` and `case_when()` is we can consider any test from any column. Here we create the new variable `lars_farm` to and set it to use the results from the `case_when()` function.
-2. Here we use use `str_detect()` to look for "Luke Skywalker" and any name that includes "Lars". We set those to "Lars Farmers".
-3. Here we add the two droids by specifically looking for those names and also set it to "Lars Farmers".
-4. We set everyone else to use their `homeworld` value.
+1. Here we create the new variable `lars_farm` to and set it to use the results from the `case_when()` function.
+2. Here we use use `str_detect()` to look for "Skywalker" (to catch Luke, Anakin and Shmi) and any name that includes "Lars". We set those to "Lars Farmers".
+3. Here we add the two "droids we are looking for" by building a vector of their names and looking for names there. We also set those to "Lars Farmers".
+4. We use ".default = " set everyone else to use their `homeworld` value.
+
+You might notice that we used ".default" with a period here and only "default" without the period when we used `replace_values()` above. Yep, they are inconsistent and it sucks. From what I can tell, the not-dot is the newer standard but the authors didn't want to change the existing usage in `case_when()`, which predates that decision. 
+
+### replace_when(): Complex changes to existing data
+
+This is one of the newer functions. It seems to be a more strict version of `case_when()` and I don't see myself using it often, if at all.
+
+If you are updating values within the same column, but need more complexity than `replace_values()` then you can use `replace_when()` with broader rules to follow. This allows you to create rules beyond matching values, but forces the result to be the same datatype as the original column, which `case_when()` does not. In other words, the right-hand values cannot change to a number since `species` started as text. There is no "default" argument as data keeps its original value if not specified to change.
+
+```{r}
+sw_replwhen <- 
+  starwars |> 
+  mutate(species_new = replace_when( # <1>
+    species, # <2>
+    species == "Human" & hair_color == "blond" ~ "Blond Human" # <3>
+  ))
+
+sw_replwhen |> 
+  select(name, hair_color, species, species_new)
+```
+
+1. We set species to be overwritten by the result of the `replace_when()` function.
+2. We specify which 
+
 
 ## Military surplus: control_type
 
-In the [Military Surplus Cleaning chapter](leso-cleaning.qmd#controlled) we created a `control_type` variable, creating a category to designate if our items have to be returned to the Department of Defense for disposal. Refer back to that chapter about why were need to do this.
-
-I skipped the detailed explanation of the code there because it is a more advanced tactic and would mire the flow of the lesson. In this appendix, I go into the details for those who might be interested.
+Here we return to `case_when()` to describe in detail how we created the `control_type` variable in the [Military Surplus Cleaning chapter](leso-cleaning.qmd#controlled). I skipped the detailed explanation of the code there because it would mire the flow of the lesson. Here we go into the details for those who might be interested.
 
 ### Catching up with the data
 
@@ -200,7 +243,7 @@ leso_total |> glimpse()
 
 We will use the `mutate()` function to create a new column called `control_type`. We've used mutate before, but this time we will fill in values in the new column based on other data inside each row. `case_when()` allows us to create a test (or a number of tests) and then mark the new value based on the answer. Once new data has been written the function evaluates the next row, so we write the most specific rules first.
 
-I usually approach this by thinking of the logic first, then writing some code, then testing it. Sometimes my logic is faulty and I have to try again, which is why we test the results. Know this could go on for many cycles.
+I usually approach this by thinking of the logic first, then writing some code, then testing it. Sometimes my logic is faulty and I have to try again, which is why I always test the results. Know this could go on for many cycles.
 
 Here is the basic logic:
 
@@ -209,12 +252,13 @@ Here is the basic logic:
 -   Otherwise we know that items that have a `demil_code` of "A", OR a `demil_code` of "Q" AND a `demil_id` of "6", are non-controlled.
 -   Everything else is controlled.
 
-I've noted this logic in a specific order for a reason: It's the order that we write the logic in the code based on how the function `case_when()` works. This process is powerful and can get complicated depending on the logic needed. This example is perhaps more complicated than I like to use when explaining this concept, but this is real data and we *need* this, so here we go.
+I've noted this logic in a specific order for a reason: It's the order that we write the logic in the code based on how the function `case_when()` works. This process is powerful and can get complicated depending on the logic needed.
 
 Here is the code and annotations.
 
 ```{r control-engine}
-leso_control <- leso_total |> # <1>
+leso_control <-
+  leso_total |> # <1>
   mutate( # <2>
     control_type = case_when( # <2>
       str_detect(item_name, "AIRPLANE") ~ TRUE, # <3>
@@ -257,9 +301,6 @@ leso_control |>
 2. Here I use pivot_wider() to show the TRUE and FALSE counts on the same row. Just makes it easier to see.
 
 We're done with this extended explanation.
-
-
-
 
 
 
