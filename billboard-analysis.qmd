@@ -371,13 +371,15 @@ We've learned something here from the data and we should note it for our future 
 #| output: false
 
 ## This powers the takeaway with current values.
-mx_d <- hot100 |> 
+mx_d <-
+  hot100 |>
   summarise(mx_date = max(chart_date)) |>
-  pull(mx_date) |> 
-  format(format="%B %d, %Y")
+  pull(mx_date) |>
+  format(format = "%B %d, %Y")
 
 ## get top of list
-tp <- hot100 |> 
+tp <- 
+  hot100 |> 
   count(performer, sort = T)
 
 ## Get top row
@@ -527,7 +529,8 @@ hot100 |>
 ```{r}
 #| include: false
 
-rows_70 <- hot100 |>
+rows_70 <-
+  hot100 |>
   group_by(performer, title) |>
   summarize(appearances = n()) |>
   arrange(appearances |> desc()) |> 
@@ -556,7 +559,8 @@ OK, time to write about what you've found.
 
 ## This powers the takeaway below with current values.
 
-top_songs <- hot100 |>
+top_songs <-
+  hot100 |>
   group_by(performer, title) |>
   summarize(appearances = n()) |>
   arrange(appearances |> desc()) |> 
@@ -676,7 +680,8 @@ Now you have the answers to the song (or songs) with the most weeks at No. 1 wit
 #| echo: false
 #| output: false
 
-no1_row <- hot100 |> 
+no1_row <- 
+  hot100 |> 
   filter(current_rank == 1) |>
   count(performer, title, sort = T) |> 
   slice(1)
@@ -742,6 +747,7 @@ We'll again use the group_by/summarize/arrange combination for this, but we are 
 ```{r no1_group}
 #| code-fold: true
 #| code-summary: "You've done this before! Give it a go before checking the code here."
+
 hot100 |> 
   filter(current_rank == 1) |>
   distinct(title, performer) |>
@@ -909,7 +915,7 @@ hot100 |>
   filter(
     when_any(performer == "Taylor Swift", performer == "Drake"), # <1>
     current_rank == 1
-) |> 
+  ) |> 
   distinct(current_rank, title, performer)
 ```
 

@@ -272,10 +272,11 @@ Let's color our points based on the species to see.
 
 ggplot(
   penguins,
-  aes(x = flipper_length_mm,
-      y = body_mass_g,
-      color = species) # <1>
-) +
+  aes(
+    x = flipper_length_mm,
+    y = body_mass_g,
+    color = species) # <1>
+  ) +
   geom_point()
 ```
 
@@ -296,7 +297,7 @@ ggplot(
     x = flipper_length_mm,
     y = body_mass_g,
     color = species)
-) +
+  ) +
   geom_point() +
   geom_smooth(method = "lm")
 ```
@@ -317,7 +318,7 @@ ggplot(
   penguins,
   aes(x = flipper_length_mm,
       y = body_mass_g) # <1>
-) +
+  ) +
   geom_point(aes(color = species)) + # <2>
   geom_smooth(method = "lm")
 ```
@@ -457,7 +458,8 @@ And with this data, I want to build a chart like this:
 #| label: princess-example
 #| echo: false
 
-class |> clean_names() |>
+class |> 
+  clean_names() |>
   count(princess, name = "votes", sort = TRUE) |> 
   ggplot(aes(y = reorder(princess, votes), x = votes)) + 
   geom_col() +
@@ -484,7 +486,8 @@ For this lesson, I'll use the `count()` shortcut, which I write about in [Counti
 3.  Add the code below to create that data.
 
 ```{r princess-summarize}
-princess_data <- class |> # <1>
+princess_data <-
+  class |> # <1>
   count(princess, name = "votes", sort = TRUE) # <2>
   
 princess_data # <3>

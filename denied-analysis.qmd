@@ -91,7 +91,8 @@ You used [`pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.htm
 #| code-fold: true
 #| code-summary: "I'm sure you won't need this because I believe in you"
 
-district_percents_data <- sped |> 
+district_percents_data <-
+  sped |> 
   select(distname, cntyname, year, sped_percent) |> 
   pivot_wider(names_from = year, values_from = sped_percent)
 ```
@@ -163,7 +164,8 @@ So, let's summarize our data. This is a "simple" `group_by()` and `summarize()` 
 #| code-fold: true
 #| code-summary: "My version"
 
-yearly_percent <- sped |> 
+yearly_percent <-
+  sped |> 
   group_by(year) |> 
   summarise(
     total_students = sum(all_count),
@@ -234,7 +236,8 @@ Before we can build the chart, we need to summarize our data. The logic is this:
 #| code-fold: true
 #| code-summary: "Use GSA or the `count()` shortcut"
 
-flag_count_districts <- sped |> 
+flag_count_districts <-
+  sped |> 
   count(year, audit_flag, name = "count_districts")
 
 # I used count()

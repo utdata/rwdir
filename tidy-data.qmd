@@ -141,7 +141,8 @@ You've done this in the past, so you should be able to do it on your own.
 #| code-fold: true
 #| code-summary: "You got this! (But, just in case …)"
 
-candy <- candy_raw |> 
+candy <-
+  candy_raw |> 
   select(!c(timestamp, candy_type, box_code))
 ```
 
@@ -229,7 +230,8 @@ We are using a range, naming the first "red" and the last column "brown" with `:
 2.  Add the chunk below and run it
 
 ```{r candy-pivot-long}
-candy_long <- candy |> 
+candy_long <-
+  candy |> 
   pivot_longer(
     cols = red:brown, # <1> 
     names_to = "color", # <2>
@@ -252,7 +254,8 @@ This is very similar to the `sum()`s we did with military surplus, but you use `
 Save the resulting summary table into a new tibble called `candy_avg`.
 
 ```{r avg-bag}
-candy_avg <- candy_long |> 
+candy_avg <-
+  candy_long |> 
   group_by(color) |> 
   summarize(avg_candies = mean(count_candies, na.rm = TRUE)) # <1>
 candy_avg
@@ -275,7 +278,8 @@ We'll use the [`round_half_up()`](https://sfirke.github.io/janitor/reference/rou
 1.  **Edit** your summarize function to add the `mutate()` function below.
 
 ```{r summary-mutate}
-candy_avg <- candy_long |> 
+candy_avg <- 
+  candy_long |> 
   group_by(color) |> 
   summarize(avg_candies = mean(count_candies, na.rm = TRUE)) |> 
   mutate(
@@ -311,6 +315,7 @@ Here is what it should more or less look like, but with good text, etc:
 #| echo: false
 #| message: false
 #| warning: false
+
 candy_avg |> mutate(color = str_to_title(color)) |> 
   ggplot(aes(x = reorder(color, avg_candies), y = avg_candies)) +
   geom_col() +
@@ -452,7 +457,8 @@ See annotations below the code to explain what is going on, in case you are inte
 
 ```{r}
 #| label: candy-box-color-prep
-candy_box_color <- candy_raw |> # <1> 
+candy_box_color <-
+  candy_raw |> # <1> 
   filter_out(when_any(box_code == "130FXWAC0336", box_code == "1524976SE")) |> # <2>
   select(!c(timestamp, candy_type)) |> # <3> 
   pivot_longer(cols = red:brown, names_to = "candy_color", values_to = "candy_count") |> # <4>
@@ -548,7 +554,8 @@ Hint: You need a total number of candies per person before you can get an averag
 #| echo: false
 #| output: false
 
-total_candies <- candy_long |> 
+total_candies <-
+  candy_long |> 
   group_by(first_name, last_name) |> 
   summarise(total_candy = sum(count_candies))
 

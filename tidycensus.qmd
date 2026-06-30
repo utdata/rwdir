@@ -1,5 +1,5 @@
 ---
-title: "tidycensus"
+title: "Census data"
 ---
 
 This chapter shows an example of how to find data from the American Community Survey using [Census Reporter](https://censusreporter.org/) and then to get that data using the [tidycensus](https://walker-data.com/tidycensus/index.html) R package.
@@ -87,14 +87,15 @@ This doesn't bring back all 256 counties because I'm specifying the "acs1" 1-yea
 #| message: false
 #| warning: false
 
-mhi_trav <- get_acs(
-  geography = "county",
-  variables = "B19013_001",
-  state = "TX",
-  # county = "Travis",
-  survey = "acs1",
-  year = 2022,
-)
+mhi_trav <-
+  get_acs(
+    geography = "county",
+    variables = "B19013_001",
+    state = "TX",
+    # county = "Travis",
+    survey = "acs1",
+    year = 2022,
+  )
 
 mhi_trav
 ```
@@ -141,21 +142,25 @@ Here I'm getting state numbers for these variables with `geography = "state"` bu
 Once I have all the years I want I'll bind them together.
 
 ```{r}
-college_tx_21 <- get_acs(
-  variables = fem_edu_vars,
-  geography = "state",
-  state = "TX",
-  survey = "acs1",
-  year = 2021
-) |> add_column(yr = "2021")
+college_tx_21 <-
+  get_acs(
+    variables = fem_edu_vars,
+    geography = "state",
+    state = "TX",
+    survey = "acs1",
+    year = 2021
+  ) |>
+  add_column(yr = "2021")
 
-college_tx_22 <- get_acs(
-  variables = fem_edu_vars,
-  geography = "state",
-  state = "TX",
-  survey = "acs1",
-  year = 2022
-) |> add_column(yr = "2022")
+college_tx_22 <-
+  get_acs(
+    variables = fem_edu_vars,
+    geography = "state",
+    state = "TX",
+    survey = "acs1",
+    year = 2022
+  ) |>
+  add_column(yr = "2022")
 
 # Once I have each year I'll bind them together
 college_tx <- bind_rows(college_tx_21, college_tx_22)
@@ -171,19 +176,23 @@ Your probably want more than two years of data.
 I'm doing the same thing here, but for US values.
 
 ```{r}
-college_us_21 <- get_acs(
-  variables = fem_edu_vars,
-  geography = "US",
-  survey = "acs1",
-  year = 2021
-) |> add_column(yr = "2021")
+college_us_21 <-
+  get_acs(
+    variables = fem_edu_vars,
+    geography = "US",
+    survey = "acs1",
+    year = 2021
+  ) |>
+  add_column(yr = "2021")
 
-college_us_22 <- get_acs(
-  variables = fem_edu_vars,
-  geography = "US",
-  survey = "acs1",
-  year = 2022
-) |> add_column(yr = "2022")
+college_us_22 <-
+  get_acs(
+    variables = fem_edu_vars,
+    geography = "US",
+    survey = "acs1",
+    year = 2022
+  ) |>
+  add_column(yr = "2022")
 
 college_us <- bind_rows(college_us_21, college_us_22)
 
@@ -209,7 +218,8 @@ college |> glimpse()
 Here we add new column with friendlier variable names. They are still a little esoteric, but you can at least tell them apart.
 
 ```{r}
-college_vars <- college |> 
+college_vars <-
+  college |> 
   mutate(
     var_desc = case_match(
       variable,
@@ -231,7 +241,8 @@ college_vars
 If the margin of error is more than 10% of an estimate, then that number is squishy and shouldn't be relied upon to be the main point of a story. We are sticking with large geographies here to try to avoid those problems, but here I check to see if any values have a high margin of error.
 
 ```{r}
-moe_check <- college_vars |> 
+moe_check <-
+  college_vars |> 
   mutate(
     moe_share = ((moe / estimate) * 100) |> round_half_up(1), # calc moe share
     moe_flag = if_else(moe_share >= 10, TRUE, FALSE) # make a flag if high
@@ -250,7 +261,8 @@ If the moe_flag was TRUE anywhere then we might not want to use that number. Her
 Here I'm rearranging the columns and dropping the old `variable` and `moe` columns.
 
 ```{r}
-college_clean <- college_vars |> 
+college_clean <-
+  college_vars |> 
   select(
     geoid = GEOID,
     name = NAME,
@@ -276,7 +288,8 @@ To get the share of people with degrees vs all people, we have to do some math. 
 First we have to pivot this to do some math. I remove the moe field to avoid complication.
 
 ```{r}
-college_wide <- college_clean |> 
+college_wide <-
+  college_clean |> 
   pivot_wider(names_from = var_desc, values_from = estimate)
 
 college_wide
@@ -288,7 +301,8 @@ college_wide
 - To get percent with post high school degree we have to add together all those with the different types of degrees first, then divide by all fem to get the percentage.
 
 ```{r}
-college_calcs <- college_wide |> 
+college_calcs <-
+  college_wide |> 
   mutate(
     prc_hs = ((fem_hs / fem) * 100) |> round_half_up(1),
     sum_deg = fem_as_d + fem_ba_d + fem_ma_d + fem_ps_d + fem_ph_d,
@@ -303,7 +317,8 @@ college_calcs
 Now that you have the percentages, you might want to focus on those to view or chart.
 
 ```{r}
-prc_cols <- college_calcs |> 
+prc_cols <-
+  college_calcs |> 
   select(name, yr, prc_hs, prc_deg)
 
 prc_cols
@@ -318,7 +333,8 @@ This might not be necessary, but you might want to rearrange the data to see of 
 What you want to move it to might depend on your needs, but making long sometimes helps with ggplot charting.
 
 ```{r}
-prc_long <- prc_cols |> pivot_longer(
+prc_long <-
+  prc_cols |> pivot_longer(
   cols = prc_hs:prc_deg,
   names_to = "prc_type",
   values_to = "prc_value"
@@ -333,7 +349,8 @@ prc_long
 Maybe you want to see how each value has changed by having a column for each year.
 
 ```{r}
-prc_type_yr <- prc_long |>
+prc_type_yr <-
+  prc_long |>
   pivot_wider(names_from = yr, values_from = prc_value)
 
 prc_type_yr

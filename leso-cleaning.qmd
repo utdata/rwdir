@@ -277,7 +277,8 @@ Sometimes at this point in a project, you might not know what columns you need t
 2.  Add a code chunk and the following code. I'll explain it below.
 
 ```{r remove-cols}
-leso_tight <- leso_raw |> # <1>
+leso_tight <-
+  leso_raw |> # <1>
   select(!sheet) # <2>
 
 leso_tight |> glimpse() # <3>
@@ -338,7 +339,8 @@ So, now that we've talked about how it is done, I want you to:
 #| code-fold: true
 #| code-summary: "Try it on your own. You can figure it out!"
 
-leso_total <- leso_tight |> 
+leso_total <-
+  leso_tight |> 
   mutate(
     total_value = quantity * acquisition_value
   )
@@ -407,7 +409,8 @@ In the interest of time and getting this done, I will just provide the code.
 2. Add a code chunk with the code below, and run it.
 
 ```{r control-engine}
-leso_control <- leso_total |> 
+leso_control <-
+  leso_total |> 
   mutate(
     control_type = case_when(
       str_detect(item_name, "AIRPLANE") ~ TRUE,
@@ -435,7 +438,8 @@ In the Billboard lesson you used `filter()` to get No. 1 songs and to get a date
 #| code-summary: "Write it yourself, but here is the code"
 #| output: false
 
-leso_dated <- leso_control |> 
+leso_dated <-
+  leso_control |> 
   filter(
     ship_date >= "2010-01-01"
   )
