@@ -181,11 +181,12 @@ We'll use a function called `list.files()` to create a vector of the files we wa
 I explain the code below.
 
 ```{r}
-dstud_files <- list.files( # <1>
-  "data-original", # <2>
-  pattern = "DSTUD", # <3>
-  full.names = TRUE # <4>
-)
+dstud_files <-
+  list.files( # <1>
+    "data-original", # <2>
+    pattern = "DSTUD", # <3>
+    full.names = TRUE # <4>
+  )
 
 dstud_files # <5>
 ```
@@ -217,7 +218,8 @@ There is a LOT going on in this bit, so note the code annotations for details.
 ```{r}
 #| message: false
 
-dstud_raw <- dstud_files |> # <1>
+dstud_raw <-
+  dstud_files |> # <1>
   set_names(basename) |> # <2>
   map( # <3>
     read_csv, # <4>
@@ -267,7 +269,8 @@ We also need to create a `year` variable from our `source` variable with the fil
 
 
 ```{r}
-dstud <- dstud_raw |> # <1>
+dstud <-
+  dstud_raw |> # <1>
   mutate(
     district = str_remove(district, "'"), # <2>
     year = str_c("20", str_sub(source, 7, 8)) # <3>
@@ -324,15 +327,16 @@ We need the `DFLCHART` and `DFLALTED` fields so we can **filter out charter and 
 ```{r}
 #| message: false
 
-dref_raw <- read_csv(
-  "data-original/DREF_22.csv", # <1>
-  col_select = c( # <2>
-    DISTRICT,
-    CNTYNAME,
-    DISTNAME,
-    DFLCHART,
-    DFLALTED
-    )
+dref_raw <-
+  read_csv(
+    "data-original/DREF_22.csv", # <1>
+    col_select = c( # <2>
+      DISTRICT,
+      CNTYNAME,
+      DISTNAME,
+      DFLCHART,
+      DFLALTED
+      )
   ) |> 
   clean_names()
 
@@ -350,7 +354,8 @@ Now that we have our reference file, we need to clean up the apostrophes so we c
 2. Add the code below, run it. Note the cleaning is similar to what we did with DSTUD.
 
 ```{r}
-dref <- dref_raw |> 
+dref <-
+  dref_raw |> 
   mutate(district = str_remove(district, "'"))
 
 dref |> head()
@@ -391,7 +396,8 @@ In our case we will start with the `dref` data and then use an **inner_join** to
 2. Add the chunk below and run it
 
 ```{r join}
-sped_joined <- dref |> # <1>
+sped_joined <-
+  dref |> # <1>
   inner_join(dstud, by = "district") # <2>
 
 sped_joined |> head()
@@ -449,7 +455,9 @@ I really, really suggest you don't try to write that all at once. Build it one l
 #| label: cleaned-data
 #| code-fold: true
 #| code-summary: "Seriously, try on your own first"
-sped_cleaned <- sped_joined |> 
+
+sped_cleaned <-
+  sped_joined |> 
   filter(dflalted == "N" & dflchart == "N") |> 
   select(
     district,
@@ -486,7 +494,8 @@ We want to add a column called `audit_flag` that says **ABOVE** if the `sped_per
 2. Create an r chunk that and run it and I'll explain after.
 
 ```{r add-flag}
-sped_flag <- sped_cleaned |> # <1>
+sped_flag <-
+  sped_cleaned |> # <1>
   mutate(audit_flag = if_else( # <2>
     sped_percent > 8.5, # <3>
     "ABOVE", # <4>

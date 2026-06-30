@@ -503,7 +503,9 @@ So, given those notes above, we should clean up our column names. This is why we
 2. Rerun both the import chunk and the glimpse chunk!
 
 ```{r hot100-clean-names, eval = TRUE, message=F, warning=F}
-hot100_raw <- read_csv("data-original/hot100_assignment.csv") |> clean_names()
+hot100_raw <- 
+  read_csv("data-original/hot100_assignment.csv") |>
+  clean_names()
 
 # peek at the data
 hot100_raw
@@ -512,7 +514,33 @@ hot100_raw
 ```{r}
 hot100_raw |> glimpse()
 ```
+
+
 The `clean_names()` function has adjusted all the variable names, making them all lowercase and using `_` instead of periods between words. Believe me when I say this is helpful when you are writing code. It makes type-assist work better and you can now double-click on a column name to select all of it and copy and paste somewhere else. When you have spaces, dots or dashes in an object you can't double-click on it to select all of it.
+
+::: callout-tip
+
+### Syntax style and readability
+
+You might notice when I rewrote the import line above to add `clean_names()` that I also restructured the code, adding in some returns and tabs.
+
+There is a "style" to writing tidyverse code, and there is even a [style book](style.tidyverse.org). The reason we have styles is to keep our code readable and consistent, so that when others read our code they know what to expect. These are **not rigid** rules because the code will run anyway as long as it is in the right order, but following them can help you read and troubleshoot your code more easily.
+
+When I have a short line of code, I'll write it on one line.
+
+But when I have more than one function or multiple arguments within a function, I start breaking my code into multiple lines. Some guidelines I follow:
+
+- If there is more than one function in a line of code, I'll add a return after the `|>` pipe to put the new function on a new line. **Pipes must be at the end of a line** for this to work.
+- If a function has more than one argument, I'll break the function in between the `()` and put the arguments on separate lines. It makes them easier to see and edit.
+
+Both of those are consistent with [Tidyverse style](style.tidyverse.org), but I started doing something else that isn't:
+
+- When I assign the result of multiple lines of code to an R object, I start with the object on it's own line with the `<-` at the end.
+
+This gives a clear visual signal to what is happening, that we are creating something (a bucket!) and then filling it with the code that follows (the water).
+
+:::
+
 
 ### Fixing the date
 
@@ -565,7 +593,7 @@ Let's explain how `mutate()` works first: The function `mutate()` changes data w
 
 Within the `mutate()` function, we name the changed thing first (the bucket!) and then fill it with the new mutated value.
 
-``` r
+```r
 # This is just explanatory psuedo code
 # You don't need this in your notebook
 data |> 
@@ -580,7 +608,8 @@ That new value could be arrived at through math or any combination of other func
 
 ```{r date-mutate}
 # part we will build upon
-hot100_date <- hot100_raw |>     # <1>
+hot100_date <- 
+  hot100_raw |>     # <1>
   mutate(                        # <2>
     chart_date = mdy(chart_week) # <3>
   )
@@ -632,7 +661,8 @@ We'll build upon our existing code and use the pipe `|>` to push it into an `arr
 
 ```{r clean-date}
 # part we will build upon
-hot100_date <- hot100_raw |> 
+hot100_date <-
+  hot100_raw |> 
   mutate(
     chart_date = mdy(chart_week)
   ) |>                           # <1>
@@ -698,7 +728,8 @@ We'll add one bit of complexity: We'll also **rename some columns** as we list t
 3.  Add the code below and then I'll explain it. We again are setting this up to create a new object and view the changes.
 
 ```{r select}
-hot100_clean <- hot100_date |> # <1>
+hot100_clean <- 
+  hot100_date |> # <1>
   select( # <2>
     chart_date, # <3>
     current_rank = this_week, # <4>

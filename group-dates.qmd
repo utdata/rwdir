@@ -95,7 +95,8 @@ If you think you'll use a date parts more than once, then it makes sense to crea
 Here I'm creating a random sample of data with only the `chart_date` and `title` columns just so it is easier to see what we are doing. You would normally work with the whole data frame! Here is our sample:
 
 ```{r make-sample}
-hot100_sample <- hot100 |>
+hot100_sample <-
+  hot100 |>
   slice_sample(n = 6) |>
   select(chart_date, title)
 
@@ -195,7 +196,8 @@ Some things to note with what I'm doing with this code chunk:
 :::
 
 ```{r}
-hot100_dateparts <- hot100 |> 
+hot100_dateparts <-
+  hot100 |> 
   mutate(
     yr = year(chart_date),
     mo = month(chart_date),
@@ -215,7 +217,8 @@ Now I can use that new `hot100_dateparts` object with the rest of my analysis.
 Let's put this to use with an example. I'll use that `mo_floor` find **Recent appearances by Taylor Swift by month**.
 
 ```{r swift-month}
-swift_month <- hot100_dateparts |> 
+swift_month <-
+  hot100_dateparts |> 
   filter(
     performer == "Taylor Swift",
     chart_date >= "2020-07-01"
@@ -229,7 +232,8 @@ swift_month
 And chart it:
 
 ```{r}
-swift_month_plot <- swift_month |> 
+swift_month_plot <-
+  swift_month |> 
   ggplot(aes(x = mo_floor, y = appearances)) +
   geom_col() +
   geom_text(aes(label = appearances), vjust = -.3) +

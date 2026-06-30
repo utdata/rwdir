@@ -104,7 +104,8 @@ The [`tabyl()`](https://sfirke.github.io/janitor/articles/tabyls.html) function 
 We need some data to work on here. These are wells drilled in Hays, Travis and Williamson counties, which I then filter to recent records between 2020 and 2023. I also add a `yr` value based on the drilling date.
 
 ```{r}
-wells <- read_rds("data-processed/wells.rds") |>
+wells <-
+  read_rds("data-processed/wells.rds") |>
   filter(drilling_end_date >= "2020-01-01", drilling_end_date < "2024-01-01", ) |> 
   mutate(yr = year(drilling_end_date))
 
@@ -258,7 +259,8 @@ I'll string this together and the annotate it.
 First, we get our basic table of percentages like we did above.
 
 ```{r}
-wells_by_yr_type <- wells |> 
+wells_by_yr_type <-
+  wells |> 
   tabyl(proposed_use_clean, yr) |> # <1> 
   adorn_percentages("col") |> # <2> 
   adorn_pct_formatting() # <3>
@@ -273,7 +275,8 @@ wells_by_yr_type
 Now we reconfigure the data to "long" format for ggplot.
 
 ```{r}
-wells_by_yr_type_long <- wells_by_yr_type |> 
+wells_by_yr_type_long <-
+  wells_by_yr_type |> 
   pivot_longer(-proposed_use_clean, names_to = "yr", values_to = "percentage") |> # <1>
   mutate(percentage = parse_number(percentage)) # <2>
 

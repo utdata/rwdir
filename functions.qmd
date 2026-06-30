@@ -23,7 +23,7 @@ Another good place to figure out which functions to use and how to use them, is 
 - [`arrange()`](https://dplyr.tidyverse.org/reference/arrange.html) sorts data based on values in a column. Use `desc()` to reverse the order. **Example:** `arrange(col_name %>% desc())`
 - [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) changes and existing column or creates a new one. **Example:** `mutate(new_col = (col01 / col02))`.
 - We'll typically use [round_half_up()](https://sfirke.github.io/janitor/reference/round_half_up.html) in journalism. This is often used within a `mutate()` function. (The base R [`round()`](https://www.rdocumentation.org/packages/base/topics/Round) function rounds to even numbers where 12.5 and 11.5 are both rounded to 12.)
-- [`if_else()`](https://dplyr.tidyverse.org/reference/if_else.html), [`case_match()`](https://dplyr.tidyverse.org/reference/case_match.html) and [`case_when()`](https://dplyr.tidyverse.org/reference/case_when.html) are all functions that can be used with `mutate()` to create new categorizations with your data.
+- [`if_else()`](https://dplyr.tidyverse.org/reference/if_else.html), [`replace_values()`](https://dplyr.tidyverse.org/reference/recode-and-replace-values.html), [`recode_values()`](https://dplyr.tidyverse.org/reference/recode-and-replace-values.html) and [`case_when()`](https://dplyr.tidyverse.org/reference/case_when.html) are all functions that can be used with `mutate()` to create new categorizations with your data.
 - [`pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html) "lengthens" data, increasing the number of rows and decreasing the number of columns. **Example:** `pivot_longer(cols = 3:5, names_to = "new_key_col_name", values_to = "new_val_col_name")` will take the third through the fifth columns and turn each value into a new row of data. It will put them into two columns: The first column will have the name you give it in `names_to` and contain the old column name that corresponds to each value pivoted. The second column will have the name of whatever you set in `values_to` and will contain all the values from each of the columns.
 - [`pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.html) is the opposite of `pivot_longer()`.  **Example:** `pivot_wider(names_from = col_of_key_values, values_from = col_with_values)`. See the link. 
 
@@ -31,8 +31,8 @@ Another good place to figure out which functions to use and how to use them, is 
 ## Aggregation
 
 - [`group_by()`](https://dplyr.tidyverse.org/reference/group_by.html) and [`summarize()`](https://dplyr.tidyverse.org/reference/summarise.html) often come together. When you use `group_by()`, every function after it is broken down by that grouping. We often add [`arrange()`](https://dplyr.tidyverse.org/reference/arrange.html) to these, calling this our GSA functions. **Example:** `group_by(song, artist) %>% summarize(weeks = n(), top_chart_position = min(peak_position))`. To break or remove groupings, use `ungroup()`.
-- [`count()`](https://dplyr.tidyverse.org/reference/count.html) is a shortcut for GSA that counts the number rows based on variable groups you feed it.
-- [`tabyl()`](https://sfirke.github.io/janitor/articles/janitor.html#exploring) is another shortcut for GSA but it also calculates percentages.
+- [`count()`](https://dplyr.tidyverse.org/reference/count.html) is a shortcut for GSA that counts the number rows based on variable groups you feed it. I have some examples in a chapter called [Counting shortcuts](count.qmd).
+- [`tabyl()`](https://sfirke.github.io/janitor/articles/janitor.html#exploring) is another shortcut for GSA but it also calculates percentages. It is also covered in the [Counting shortcuts](count.qmd#tabyl) chapter.
 
 ## Math
 

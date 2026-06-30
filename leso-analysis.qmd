@@ -121,7 +121,8 @@ We can see from this result that there are `r leso |> filter(control_type == F) 
 ```{r}
 #| code-fold: true
 #| code-summary: "Filtering control type"
-leso_c <- leso |> 
+leso_c <-
+  leso |> 
   filter(control_type == TRUE)
 ```
 
@@ -149,7 +150,8 @@ In this analysis we only want to look at Texas data so we'll make a new object w
 ```{r filter-tx}
 #| code-fold: true
 #| code-summary: "You know the drill by now"
-leso_c_tx <- leso_c |> 
+leso_c_tx <-
+  leso_c |> 
   filter(
     state == "TX"
   )
@@ -309,7 +311,8 @@ leso_c_tx |>
 ```{r}
 #| include: false
 
-aber_tots <- leso_c_tx |> 
+aber_tots <-
+  leso_c_tx |> 
   group_by(agency_name) |> 
   summarize(
     summed_quantity = sum(quantity),
@@ -390,7 +393,8 @@ Since we want to take an existing summary and add more filtering to it, it makes
 2.  Add a new line that prints the result to the screen so you can still see it.
 
 ```{r tx-totals-tibble}
-tx_agency_totals <- leso_c_tx |> # <1>
+tx_agency_totals <-
+  leso_c_tx |> # <1>
   group_by(agency_name) |> 
   summarize(
     summed_quantity = sum(quantity),
@@ -451,48 +455,49 @@ In the interest of time, I'm going to give you the list of local police agencies
 2.  Add the code below into that chunk.
 
 ```{r local-list}
-local_agencies <- c( # <1>
-  "AUSTIN PARKS POLICE DEPT", #NI # <2>
-  "AUSTIN POLICE DEPT",
-  "BASTROP COUNTY SHERIFF'S OFFICE",
-  "BASTROP POLICE DEPT",
-  "BEE CAVE POLICE DEPT",
-  "BUDA POLICE DEPT",
-  "CALDWELL COUNTY SHERIFFS OFFICE",
-  "CEDAR PARK POLICE DEPT",
-  "ELGIN POLICE DEPARTMENT",
-  "FLORENCE POLICE DEPT", #NI
-  "GEORGETOWN POLICE DEPT",
-  "GRANGER POLICE DEPT", #NI
-  "HAYS CO CONSTABLE PRECINCT 4",
-  "HAYS COUNTY SHERIFFS OFFICE",
-  "HUTTO POLICE DEPT",
-  "JARRELL POLICE DEPT", #NI
-  "JONESTOWN POLICE DEPT", #NI
-  "KYLE POLICE DEPT",
-  "LAGO VISTA POLICE DEPT",
-  "LAKEWAY POLICE DEPT",
-  "LEANDER POLICE DEPT",
-  "LIBERTY HILL POLICE DEPT", #NI
-  "LOCKHART POLICE DEPT",
-  "LULING POLICE DEPT",
-  "MANOR POLICE DEPT",
-  "MARTINDALE POLICE DEPT", #NI
-  "PFLUGERVILLE POLICE DEPT",
-  "ROLLINGWOOD POLICE DEPT", #NI
-  "SAN MARCOS POLICE DEPT",
-  "SMITHVILLE POLICE DEPT",
-  "SUNSET VALLEY POLICE DEPT", #NI
-  "TAYLOR POLICE DEPT", #NI
-  "THRALL POLICE DEPT", #NI
-  # TEXAS STATE UNIVERSITY HI_ED
-  "TRAVIS COUNTY SHERIFFS OFFICE",
-  # TRAVIS CONSTABLE OFFICE,
-  # SOUTHWESTERN UNIVERSITY HI_ID
-  "WESTLAKE HILLS POLICE DEPT", #NI
-  "UNIV OF TEXAS SYSTEM POLICE HI_ED",
-  "WILLIAMSON COUNTY SHERIFF'S OFFICE"
-)
+local_agencies <-
+  c( # <1>
+    "AUSTIN PARKS POLICE DEPT", #NI # <2>
+    "AUSTIN POLICE DEPT",
+    "BASTROP COUNTY SHERIFF'S OFFICE",
+    "BASTROP POLICE DEPT",
+    "BEE CAVE POLICE DEPT",
+    "BUDA POLICE DEPT",
+    "CALDWELL COUNTY SHERIFFS OFFICE",
+    "CEDAR PARK POLICE DEPT",
+    "ELGIN POLICE DEPARTMENT",
+    "FLORENCE POLICE DEPT", #NI
+    "GEORGETOWN POLICE DEPT",
+    "GRANGER POLICE DEPT", #NI
+    "HAYS CO CONSTABLE PRECINCT 4",
+    "HAYS COUNTY SHERIFFS OFFICE",
+    "HUTTO POLICE DEPT",
+    "JARRELL POLICE DEPT", #NI
+    "JONESTOWN POLICE DEPT", #NI
+    "KYLE POLICE DEPT",
+    "LAGO VISTA POLICE DEPT",
+    "LAKEWAY POLICE DEPT",
+    "LEANDER POLICE DEPT",
+    "LIBERTY HILL POLICE DEPT", #NI
+    "LOCKHART POLICE DEPT",
+    "LULING POLICE DEPT",
+    "MANOR POLICE DEPT",
+    "MARTINDALE POLICE DEPT", #NI
+    "PFLUGERVILLE POLICE DEPT",
+    "ROLLINGWOOD POLICE DEPT", #NI
+    "SAN MARCOS POLICE DEPT",
+    "SMITHVILLE POLICE DEPT",
+    "SUNSET VALLEY POLICE DEPT", #NI
+    "TAYLOR POLICE DEPT", #NI
+    "THRALL POLICE DEPT", #NI
+    # TEXAS STATE UNIVERSITY HI_ED
+    "TRAVIS COUNTY SHERIFFS OFFICE",
+    # TRAVIS CONSTABLE OFFICE,
+    # SOUTHWESTERN UNIVERSITY HI_ID
+    "WESTLAKE HILLS POLICE DEPT", #NI
+    "UNIV OF TEXAS SYSTEM POLICE HI_ED",
+    "WILLIAMSON COUNTY SHERIFF'S OFFICE"
+  )
 
 tx_agency_totals |> # <3>
   filter(agency_name %in% local_agencies) # <4>
@@ -541,7 +546,8 @@ options(dplyr.summarise.inform = FALSE)
 #| code-fold: true
 #| code-summary: "Give it a go. Below is the result."
 
-tx_agency_item_totals <- leso_c_tx |> # <1>
+tx_agency_item_totals <-
+  leso_c_tx |> # <1>
   group_by(agency_name, item_name) |> # <2>
   summarize(
     summed_quantity = sum(quantity),

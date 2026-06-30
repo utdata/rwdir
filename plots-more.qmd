@@ -33,6 +33,7 @@ This week, we'll return to our Military Surplus project, but add a new Quarto Do
 #| echo: false
 #| message: false
 #| warning: false
+
 library(tidyverse)
 library(janitor)
 library(palmerpenguins)
@@ -79,7 +80,8 @@ This is the data and chart we hope to build:
 #| label: t-example
 #| echo: false
 
-tx_values_exmpl <- leso |> 
+tx_values_exmpl <-
+  leso |> 
     filter(
     state == "TX",
     ship_date < "2025-01-01"
@@ -134,7 +136,8 @@ Let's filter to the data we want (Texas data before 2025, since it is not a full
 ```{r}
 #| label: tx-data-prep
 
-tx_values <- leso |> # <1>
+tx_values <-
+  leso |> # <1>
   filter(
     state == "TX", # <2>
     ship_date < "2025-01-01" # <2>
@@ -284,7 +287,8 @@ Sometimes it is helpful to push the results of a plot into an R object to "save"
 ```{r}
 #| label: t-object
 
-tx_plot <- ggplot(tx_values, aes(x = date(year), y = yearly_value)) + # <1> 
+tx_plot <-
+  ggplot(tx_values, aes(x = date(year), y = yearly_value)) + # <1> 
   geom_col() +
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
   scale_x_date(minor_breaks = breaks_width("1 year")) +
@@ -365,7 +369,8 @@ Here is the data and chart we are trying to make:
 
 options(dplyr.summarise.inform = FALSE)
 
-region_data_exp <- leso |> 
+region_data_exp <-
+  leso |> 
   filter(
     state %in% c("TX", "OK", "AR", "NM", "LA")
   ) |> 
@@ -403,7 +408,9 @@ In the interest of time, I'll supply the code with annotations to explain each l
 #| label: region-data
 #| code-fold: false
 #| code-summary: "Give it a go, but the code is here if you need it."
-region_data <- leso |> #<1>
+
+region_data <-
+  leso |> #<1>
   filter(state %in% c("TX", "OK", "AR", "NM", "LA")) |> #<2>
   mutate(
     year = floor_date(ship_date, unit = "year") |> date() #<3>
@@ -430,6 +437,7 @@ In our plot we need a different line for each state. To do this you would use th
 
 ```{r}
 #| label: region-lcolor
+
 ggplot(region_data, # <1>
        aes(x = year, y = yearly_value)) + # <2>
   geom_point() + # <3>
@@ -640,7 +648,8 @@ Here is how I would do this with our first line chart:
 ```{r}
 #| label: chart-to-save
 
-tx_plot_2save <- ggplot(tx_values, aes(x = date(year), y = yearly_value)) + # <1> 
+tx_plot_2save <-
+  ggplot(tx_values, aes(x = date(year), y = yearly_value)) + # <1> 
   geom_col() +
   scale_y_continuous(labels = label_dollar(scale_cut = cut_long_scale())) +
   scale_x_date(minor_breaks = breaks_width("1 year")) +
@@ -685,9 +694,11 @@ To use plotly, you'll want to install the plotly package, add the library, and t
 #| label: plotly
 #| message: false
 #| warning: false
+
 library(plotly)
 
-region_plot <- ggplot(region_data, #<1>
+region_plot <-
+  ggplot(region_data, #<1>
        aes(x = year, y = yearly_value)) + 
   geom_point(aes(color = state)) +#<1>
   geom_line(aes(color = state)) +
