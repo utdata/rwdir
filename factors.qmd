@@ -4,13 +4,13 @@ title: "Factors"
 
 This extra chapter outlines what factors are and why we might use them.
 
-We'll start by using an example we've covered elsewhere in this book, the months of a year. Then we'll build our own factor using age ranges in the [Texas Immunization Registry (ImmTrac2)](https://www.dshs.texas.gov/immunizations/data/program-data) data, which tracks how often kids get immunized each year in a given county..
+We'll be using data from the [Texas Immunization Registry (ImmTrac2)](https://www.dshs.texas.gov/immunizations/data/program-data), which tracks how often kids get immunized each year in a given county.
 
 ## What is a factor
 
 A factor is a categorical variable (words) where the values have a set order. The classic example we'll use here is months of the year: January, February, March, etc. Months are words for sure, but they have an order. We want to see them listed starting with January and ending in December, instead of alphabetically starting with April, then August, etc. Days of the week are similar.
 
-Survey results are another common use for factors, especially when considering ranges of categories. The example we'll get into here is age groups, where we want these categories like "2-8 years" and "18+ years" to be listed in age order instead of alphabetically, which would put the `1` in "18" first. But you could see the same with salary ranges and other categories you want listed in a specific order that isn't alphabetical.
+Survey results are another common use for factors, especially when considering ranges of categories. The example we'll get into here is age groups, where we want these categories like "2-8 years" and "18+ years" to be listed in age order instead of alphabetically, which would put the `1` in "18" before it. But you could see the same with salary ranges and other categories you want listed in a specific order that isn't alphabetical.
 
 <img src="https://forcats.tidyverse.org/logo.png" height="120px" style="margin-left: 10px; float:right;"/>
 
@@ -51,114 +51,58 @@ tir_raw <- read_excel(
   clean_names()
 
 tir <- tir_raw |> 
-  mutate(number_of_vaccination = parse_number(number_of_vaccination))
+  mutate(number_of_vaccination = parse_number(number_of_vaccination),
+         county = replace_values(county,"Null" ~ "Unknown"))
 ```
 
-## Months as a factor
+### Peek at the data
 
-### Let's show the problem
-
-In our data we have a column for `year` and `month`, but they are just text. If we try to summarize the total number of vaccinations by month, the order doesn't make sense because the months are alphabetical.
+We don't need to get too much into the data, but you can poke around and see the columns. The data shows the number of immunizations by county, year, month, age and vaccine type from January 2020 through May 2026. We'll mostly just be totaling the `number_of_vaccination` as an example.
 
 ```{r}
-tir |> 
-  group_by(month, year) |> 
-  summarize(total_vacc = sum(number_of_vaccination, na.rm = T),
-            .groups = "drop") |> 
-  arrange(year, month) |> 
-  filter(year == "2020")
+tir |> head()
 ```
-
-Our brain wants to see this starting with January, not April. If we tried to chart this it would also put the months in alphabetical order.
-
-### Create a "real" date and month
-
-In other chapters of this book, including in [Grouping by dates](group-dates.qmd), we used functions from the [lubridate package](lubridate.tidyverse.org) to create a smart "month" variable that ordered them in the correct way, starting with January and ending in December.
-
-We'll do that again here, but we don't really have a full date to pluck from here, so we'll have to manufacture it from the month and year, also using lubridate functions.
-
-```{r}
-tir_mo <- tir |> 
-  mutate(
-    mo_yr = my(paste(month, year)), # <1>
-    mo = month(mo_yr, label = T, abbr = F), # <2>
-    .after = month # <3>
-  )
-
-# just showing the top of the tibble
-tir_mo |> head()
-```
-
-1. In this line, I'm creating a "real" date by using the `paste()` function to put together the "month" and "year" and feeding it to lubridate's `my()` function. I need this "real" date so I can use lubridate's `month()` function to get the "ordered" month.
-2. Here we use `month()` to pluck our our ordered month into a new variable.
-3. This `.after =` argument just specifies where in the tibble add these new columns. I put them near the original one so we could see them.
-
-Note the data type "<ord>" for `mo` compared to "<chr>" we had for `month`. That data type indicates this is a special "ordered factor". When we create our own, this data type will be "<fct>".
-
-I'll just do a little cleanup to drop and rename some things. I'm keeping out `mo_yr` as sometimes a full date is flexible with charting. You can probably figure out the specifics through the function names.
-
-```{r}
-tir_dates <- tir_mo |> 
-  select(-month) |> 
-  rename(month = mo) |> 
-  relocate(mo_yr, .before = year)
-
-tir_dates |> glimpse()
-```
-### Show the result
-
-Now let's go back to that original summary we were doing.
-
-```{r}
-tir_dates |> 
-  group_by(month, year) |> 
-  summarize(total_vacc = sum(number_of_vaccination, na.rm = T),
-            .groups = "drop") |> 
-  arrange(year, month) |> 
-  filter(year == "2020")
-```
-
-Now these are ordered the way we want them.
 
 ## Creating a new factor
 
-Now we have a similar problem with with our age categories, but our solution will be a little different. We have a variable called `age_at_vaccination` that are really categories of ages.
+### The problem: Ages out of order
 
-### Ages out of order
-
-Let's look at this if we summarize the number of vaccinations based on this age category.
+Let's start by summarizing how many total vaccinations have been given based on our age variable `age_at_vaccination`.
 
 ```{r}
-tir_dates |> 
+tir |> 
   group_by(age_at_vaccination) |> 
   summarize(total_vacc = sum(number_of_vaccination, na.rm = T))
 ```
 
-The result is ordered by `age_at_vacciation` alphabetically, but that isn't a logical way to order this. Starting at "0 to 24 months" is fine, but we want that to be followed by "2-8 years", not "18+ years". The solution is to create a version of this as a factor.
+The result is ordered by `age_at_vacciation` alphabetically, but that isn't a logical way to view this. Starting at "0 to 24 months" is fine, but we want that to be followed by "2-8 years", not "18+ years". If we charted this result, we would have the same problem.
+
+The solution is to create a version of this as a factor.
 
 ### Using fct()
 
 There are a number of ways that you can create a factor from an existing variable, including a series of Base R functions built around [`factor()`](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/factor) that include `as.factor()`.
 
-However, like many other times in this book, we will favor using tidyverse functions designed to work together, like `fct()`, `as_factor()` and other functions from the [forcats package](https://forcats.tidyverse.org/reference/index.html).
+However, like many other times in this book, **we will favor using tidyverse functions** designed to work together, like `fct()`, `as_factor()` and other functions from the [forcats package](https://forcats.tidyverse.org/reference/index.html), which is included in the tidyverse library.
 
-Since we are changing or creating data, we'll need to use our functions with a `mutate()` function. The `fct()` function turns a variable into a factor based on the unique values in the data. In this case, it does exactly what we want.
+Since we are changing or creating data, we'll need to use our functions with a `mutate()` function. The `fct()` function turns a variable into a factor based on the unique values in the data. The order of the factors is called "levels", and the default for this function is to create the levels based on how it initially finds them in the data. In our case here, they appear in the data in the order we want them, so this procedure is pretty simple.
 
 ```{r}
-tir_fct <- tir_dates |> 
+tir_fct <- tir |> 
   mutate(
     age_fct = fct(age_at_vaccination), # <1>
-    .after = age_at_vaccination
+    .after = age_at_vaccination # <2>
   )
 
-tir_fct |> head()
+tir_fct |> head(9)
 ```
 
 1. This is where we create our new variable. By default the `fct()` function creates the order (or "levels") of the factor in the order it finds them in the data. (In the next example we'll set our own order.)
+2. This is a `mutate()` argument that places the new variable where I want it in the tibble, and I wanted it right after the source variable so we could compare them.
 
-You can see the data type for our new variable`age_fct` is called `<fct>` instead of `<chr>` in the original.
+You can see the data type for our new variable `age_fct` is called `<fct>` instead of `<chr>` in the original.
 
-### Resulting factor
+### Showing the resulting factor
 
 So let's look at that summary again, using the new `age_fct` variable.
 
@@ -172,12 +116,12 @@ tir_fct_sums
 
 ## Set factor order manually
 
-Sometimes our data is not provided to us in the proper order, so we set the order ourselves using the `level =` argument. It's pretty strict that you list all the options carefully or it will error.
+Sometimes our data is not provided to us in the proper order, so we set the order ourselves using the `level =` argument. It's pretty strict that you list all the possible level values carefully or it will error.
 
 In this case we will create the levels in reverse order of our age groups, just to show this concept.
 
 ```{r}
-tir_rev <- tir_dates |> 
+tir_rev <- tir |> 
   mutate(
     age_fct_man = fct(age_at_vaccination,
                       levels = c("18+ years",
@@ -198,7 +142,95 @@ tir_rev_sums <- tir_rev |>
 tir_rev_sums
 ```
 
+### What the error looks like
+
+Here I show you what the error looks like if you don't list all the possible level values properly. The error I made below was not including "years" in "2-8 years". I've put this in a `try()` function so it will run and you can see the error, but you wouldn't use that in an analysis.
+
+```{r}
+try(
+  tir_rev <- tir |> 
+  mutate(
+    age_fct_man = fct(age_at_vaccination,
+                      levels = c("18+ years",
+                                 "9-17 years",
+                                 "2-8", # this is where my error is
+                                 "0 to 24 months"))
+  )
+)
+```
+
+
+## More on factors
+
 There are lots of other ways to use factors and change their levels, but ordering categories like this has been the most prevalent use for me within journalism.
 
 If you need to learn more, check out the [forcats package](https://forcats.tidyverse.org/articles/forcats.html) and the [Factors chapter](https://r4ds.hadley.nz/factors.html) in the R for Data Science book.
 
+## Bonus: Months as a factor
+
+In the [Grouping by dates](group-dates.qmd) chapter of this book we used functions from the [lubridate package](lubridate.tidyverse.org) to create a smart "month" variable that ordered them in the correct way, starting with January and ending in December.
+
+Those special months are essentially a factor, so we'll do that again here. Our challenge here is we don't have a full date to pluck from here, so we'll have to manufacture it from the month and year, also using lubridate functions.
+
+### The problem: Months as characters
+
+In our data we have a column for `year` and `month`, but they are just text. If we try to summarize the total number of vaccinations by month, the order doesn't make sense because the months are alphabetical.
+
+```{r}
+tir |> 
+  group_by(month, year) |> 
+  summarize(total_vacc = sum(number_of_vaccination, na.rm = T),
+            .groups = "drop") |> 
+  arrange(year, month) |> 
+  filter(year == "2020")
+```
+
+Our brain wants to see this starting with January, not April. If we tried to chart this it would also put the months in alphabetical order.
+
+### Create a "real" date and month
+
+Here we have to manufacture a way to create a date variable so we can pull the month from it. We do that by 
+
+
+```{r}
+tir_mo <- tir |> 
+  mutate(
+    yr_mo = ym(paste(year, month)), # <1>
+    mo = month(yr_mo, label = T, abbr = F), # <2>
+    .after = month # <3>
+  )
+
+# just showing the top of the tibble
+tir_mo |> head()
+```
+
+1. In this line, I'm creating a "real" date by using the `paste()` function to put together the "year" and "month" to feed into lubridate's `ym()` function. If you viewed a value `paste(year, month)` it would look like this: "2020 January", which the `ym()` function can use to make the first date in that month: "2020-01-01".  I need this "real" date so I can use lubridate's `month()` function to get the "ordered" month.
+2. Here we use `month()` to pluck our our ordered month into a new variable.
+3. This `.after =` argument just specifies where in the tibble to add these new columns. I put them near the original one so we could see them.
+
+Note the data type **\<ord\>** (for ordered) for `mo` compared to **\<chr\>** (for character) we had for `month`. That data type indicates this is a special "ordered factor".
+
+I'll just do a little cleanup to drop and rename some things. I'm keeping out `yr_mo` as sometimes a full date is flexible with charting. You can probably figure out the specifics through the function names.
+
+```{r}
+tir_dates <- tir_mo |> 
+  select(-month) |> 
+  rename(month = mo) |> 
+  relocate(yr_mo, .before = year)
+
+tir_dates |> glimpse()
+```
+### Show the result
+
+Now let's go back to that original summary we were doing.
+
+```{r}
+tir_dates |> 
+  group_by(month, year) |> 
+  summarize(total_vacc = sum(number_of_vaccination, na.rm = T),
+            .groups = "drop") |> 
+  arrange(year, month) |> 
+  filter(year == "2020")
+```
+
+Now these are ordered the way we want them.
