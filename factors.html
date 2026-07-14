@@ -388,20 +388,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup"><span class="header-section-number">16.2.1</span> Setup</a></li>
   <li><a href="#import-fix-number-of-vaccinations" id="toc-import-fix-number-of-vaccinations" class="nav-link" data-scroll-target="#import-fix-number-of-vaccinations"><span class="header-section-number">16.2.2</span> Import &amp; fix number of vaccinations</a></li>
+  <li><a href="#peek-at-the-data" id="toc-peek-at-the-data" class="nav-link" data-scroll-target="#peek-at-the-data"><span class="header-section-number">16.2.3</span> Peek at the data</a></li>
   </ul></li>
-  <li><a href="#months-as-a-factor" id="toc-months-as-a-factor" class="nav-link" data-scroll-target="#months-as-a-factor"><span class="header-section-number">16.3</span> Months as a factor</a>
+  <li><a href="#creating-a-new-factor" id="toc-creating-a-new-factor" class="nav-link" data-scroll-target="#creating-a-new-factor"><span class="header-section-number">16.3</span> Creating a new factor</a>
   <ul class="collapse">
-  <li><a href="#lets-show-the-problem" id="toc-lets-show-the-problem" class="nav-link" data-scroll-target="#lets-show-the-problem"><span class="header-section-number">16.3.1</span> Let’s show the problem</a></li>
-  <li><a href="#create-a-real-date-and-month" id="toc-create-a-real-date-and-month" class="nav-link" data-scroll-target="#create-a-real-date-and-month"><span class="header-section-number">16.3.2</span> Create a “real” date and month</a></li>
-  <li><a href="#show-the-result" id="toc-show-the-result" class="nav-link" data-scroll-target="#show-the-result"><span class="header-section-number">16.3.3</span> Show the result</a></li>
+  <li><a href="#the-problem-ages-out-of-order" id="toc-the-problem-ages-out-of-order" class="nav-link" data-scroll-target="#the-problem-ages-out-of-order"><span class="header-section-number">16.3.1</span> The problem: Ages out of order</a></li>
+  <li><a href="#using-fct" id="toc-using-fct" class="nav-link" data-scroll-target="#using-fct"><span class="header-section-number">16.3.2</span> Using fct()</a></li>
+  <li><a href="#showing-the-resulting-factor" id="toc-showing-the-resulting-factor" class="nav-link" data-scroll-target="#showing-the-resulting-factor"><span class="header-section-number">16.3.3</span> Showing the resulting factor</a></li>
   </ul></li>
-  <li><a href="#creating-a-new-factor" id="toc-creating-a-new-factor" class="nav-link" data-scroll-target="#creating-a-new-factor"><span class="header-section-number">16.4</span> Creating a new factor</a>
+  <li><a href="#set-factor-order-manually" id="toc-set-factor-order-manually" class="nav-link" data-scroll-target="#set-factor-order-manually"><span class="header-section-number">16.4</span> Set factor order manually</a>
   <ul class="collapse">
-  <li><a href="#ages-out-of-order" id="toc-ages-out-of-order" class="nav-link" data-scroll-target="#ages-out-of-order"><span class="header-section-number">16.4.1</span> Ages out of order</a></li>
-  <li><a href="#using-fct" id="toc-using-fct" class="nav-link" data-scroll-target="#using-fct"><span class="header-section-number">16.4.2</span> Using fct()</a></li>
-  <li><a href="#resulting-factor" id="toc-resulting-factor" class="nav-link" data-scroll-target="#resulting-factor"><span class="header-section-number">16.4.3</span> Resulting factor</a></li>
+  <li><a href="#what-the-error-looks-like" id="toc-what-the-error-looks-like" class="nav-link" data-scroll-target="#what-the-error-looks-like"><span class="header-section-number">16.4.1</span> What the error looks like</a></li>
   </ul></li>
-  <li><a href="#set-factor-order-manually" id="toc-set-factor-order-manually" class="nav-link" data-scroll-target="#set-factor-order-manually"><span class="header-section-number">16.5</span> Set factor order manually</a></li>
+  <li><a href="#more-on-factors" id="toc-more-on-factors" class="nav-link" data-scroll-target="#more-on-factors"><span class="header-section-number">16.5</span> More on factors</a></li>
+  <li><a href="#bonus-months-as-a-factor" id="toc-bonus-months-as-a-factor" class="nav-link" data-scroll-target="#bonus-months-as-a-factor"><span class="header-section-number">16.6</span> Bonus: Months as a factor</a>
+  <ul class="collapse">
+  <li><a href="#the-problem-months-as-characters" id="toc-the-problem-months-as-characters" class="nav-link" data-scroll-target="#the-problem-months-as-characters"><span class="header-section-number">16.6.1</span> The problem: Months as characters</a></li>
+  <li><a href="#create-a-real-date-and-month" id="toc-create-a-real-date-and-month" class="nav-link" data-scroll-target="#create-a-real-date-and-month"><span class="header-section-number">16.6.2</span> Create a “real” date and month</a></li>
+  <li><a href="#show-the-result" id="toc-show-the-result" class="nav-link" data-scroll-target="#show-the-result"><span class="header-section-number">16.6.3</span> Show the result</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/utdata/rwdir/blob/main/factors.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/utdata/rwdir/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -428,11 +433,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>This extra chapter outlines what factors are and why we might use them.</p>
-<p>We’ll start by using an example we’ve covered elsewhere in this book, the months of a year. Then we’ll build our own factor using age ranges in the <a href="https://www.dshs.texas.gov/immunizations/data/program-data">Texas Immunization Registry (ImmTrac2)</a> data, which tracks how often kids get immunized each year in a given county..</p>
+<p>We’ll be using data from the <a href="https://www.dshs.texas.gov/immunizations/data/program-data">Texas Immunization Registry (ImmTrac2)</a>, which tracks how often kids get immunized each year in a given county.</p>
 <section id="what-is-a-factor" class="level2" data-number="16.1">
 <h2 data-number="16.1" class="anchored" data-anchor-id="what-is-a-factor"><span class="header-section-number">16.1</span> What is a factor</h2>
 <p>A factor is a categorical variable (words) where the values have a set order. The classic example we’ll use here is months of the year: January, February, March, etc. Months are words for sure, but they have an order. We want to see them listed starting with January and ending in December, instead of alphabetically starting with April, then August, etc. Days of the week are similar.</p>
-<p>Survey results are another common use for factors, especially when considering ranges of categories. The example we’ll get into here is age groups, where we want these categories like “2-8 years” and “18+ years” to be listed in age order instead of alphabetically, which would put the <code>1</code> in “18” first. But you could see the same with salary ranges and other categories you want listed in a specific order that isn’t alphabetical.</p>
+<p>Survey results are another common use for factors, especially when considering ranges of categories. The example we’ll get into here is age groups, where we want these categories like “2-8 years” and “18+ years” to be listed in age order instead of alphabetically, which would put the <code>1</code> in “18” before it. But you could see the same with salary ranges and other categories you want listed in a specific order that isn’t alphabetical.</p>
 <p><img src="https://forcats.tidyverse.org/logo.png" height="120px" style="margin-left: 10px; float:right;"></p>
 <p>There is a tidyverse package called <a href="https://forcats.tidyverse.org/">forcats</a> that provides functions to work with factors. The use cases for these can get esoteric, so we’ll concentrate on a couple that are common in our work as journalists.</p>
 <blockquote class="blockquote">
@@ -462,123 +467,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>tir <span class="ot">&lt;-</span> tir_raw <span class="sc">|&gt;</span> </span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">number_of_vaccination =</span> <span class="fu">parse_number</span>(number_of_vaccination))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">number_of_vaccination =</span> <span class="fu">parse_number</span>(number_of_vaccination),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">county =</span> <span class="fu">replace_values</span>(county,<span class="st">"Null"</span> <span class="sc">~</span> <span class="st">"Unknown"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-</section>
-<section id="months-as-a-factor" class="level2" data-number="16.3">
-<h2 data-number="16.3" class="anchored" data-anchor-id="months-as-a-factor"><span class="header-section-number">16.3</span> Months as a factor</h2>
-<section id="lets-show-the-problem" class="level3" data-number="16.3.1">
-<h3 data-number="16.3.1" class="anchored" data-anchor-id="lets-show-the-problem"><span class="header-section-number">16.3.1</span> Let’s show the problem</h3>
-<p>In our data we have a column for <code>year</code> and <code>month</code>, but they are just text. If we try to summarize the total number of vaccinations by month, the order doesn’t make sense because the months are alphabetical.</p>
+<section id="peek-at-the-data" class="level3" data-number="16.2.3">
+<h3 data-number="16.2.3" class="anchored" data-anchor-id="peek-at-the-data"><span class="header-section-number">16.2.3</span> Peek at the data</h3>
+<p>We don’t need to get too much into the data, but you can poke around and see the columns. The data shows the number of immunizations by county, year, month, age and vaccine type from January 2020 through May 2026. We’ll mostly just be totaling the <code>number_of_vaccination</code> as an example.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tir <span class="sc">|&gt;</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month, year) <span class="sc">|&gt;</span> </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_vacc =</span> <span class="fu">sum</span>(number_of_vaccination, <span class="at">na.rm =</span> T),</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year, month) <span class="sc">|&gt;</span> </span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="st">"2020"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tir <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["month"],"name":[1],"type":["chr"],"align":["left"]},{"label":["year"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["total_vacc"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"April","2":"2020","3":"460554"},{"1":"August","2":"2020","3":"687296"},{"1":"December","2":"2020","3":"562371"},{"1":"February","2":"2020","3":"605090"},{"1":"January","2":"2020","3":"718016"},{"1":"July","2":"2020","3":"629849"},{"1":"June","2":"2020","3":"631933"},{"1":"March","2":"2020","3":"579968"},{"1":"May","2":"2020","3":"564664"},{"1":"November","2":"2020","3":"477656"},{"1":"October","2":"2020","3":"548277"},{"1":"September","2":"2020","3":"608764"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["county"],"name":[1],"type":["chr"],"align":["left"]},{"label":["year"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["month"],"name":[3],"type":["chr"],"align":["left"]},{"label":["age_at_vaccination"],"name":[4],"type":["chr"],"align":["left"]},{"label":["vaccine_of_interest"],"name":[5],"type":["chr"],"align":["left"]},{"label":["number_of_vaccination"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"Anderson","2":"2020","3":"January","4":"0 to 24 months","5":"Pediatric MMR","6":"32"},{"1":"Anderson","2":"2020","3":"January","4":"0 to 24 months","5":"All Other","6":"670"},{"1":"Anderson","2":"2020","3":"January","4":"2-8 years","5":"Pediatric MMR","6":"28"},{"1":"Anderson","2":"2020","3":"January","4":"2-8 years","5":"All Other","6":"69"},{"1":"Anderson","2":"2020","3":"January","4":"9-17 years","5":"Adolescent HPV","6":"14"},{"1":"Anderson","2":"2020","3":"January","4":"9-17 years","5":"Adolescent MCV4","6":"22"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
 </div>
-<p>Our brain wants to see this starting with January, not April. If we tried to chart this it would also put the months in alphabetical order.</p>
-</section>
-<section id="create-a-real-date-and-month" class="level3" data-number="16.3.2">
-<h3 data-number="16.3.2" class="anchored" data-anchor-id="create-a-real-date-and-month"><span class="header-section-number">16.3.2</span> Create a “real” date and month</h3>
-<p>In other chapters of this book, including in <a href="./group-dates.html">Grouping by dates</a>, we used functions from the <a href="lubridate.tidyverse.org">lubridate package</a> to create a smart “month” variable that ordered them in the correct way, starting with January and ending in December.</p>
-<p>We’ll do that again here, but we don’t really have a full date to pluck from here, so we’ll have to manufacture it from the month and year, also using lubridate functions.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>tir_mo <span class="ot">&lt;-</span> tir <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo_yr =</span> <span class="fu">my</span>(<span class="fu">paste</span>(month, year)),</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo =</span> <span class="fu">month</span>(mo_yr, <span class="at">label =</span> T, <span class="at">abbr =</span> F),</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-4-5" class="code-annotation-target"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.after =</span> month</span>
-<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="annotated-cell-4-7"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># just showing the top of the tibble</span></span>
-<span id="annotated-cell-4-9"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a>tir_mo <span class="sc">|&gt;</span> <span class="fu">head</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-annotation">
-<dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="3" data-code-annotation="1">In this line, I’m creating a “real” date by using the <code>paste()</code> function to put together the “month” and “year” and feeding it to lubridate’s <code>my()</code> function. I need this “real” date so I can use lubridate’s <code>month()</code> function to get the “ordered” month.</span>
-</dd>
-<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
-<dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="4" data-code-annotation="2">Here we use <code>month()</code> to pluck our our ordered month into a new variable.</span>
-</dd>
-<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
-<dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="5" data-code-annotation="3">This <code>.after =</code> argument just specifies where in the tibble add these new columns. I put them near the original one so we could see them.</span>
-</dd>
-</dl>
-</div>
-<div class="cell-output-display">
-<div data-pagedtable="false">
-  <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["county"],"name":[1],"type":["chr"],"align":["left"]},{"label":["year"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["month"],"name":[3],"type":["chr"],"align":["left"]},{"label":["mo_yr"],"name":[4],"type":["date"],"align":["right"]},{"label":["mo"],"name":[5],"type":["ord"],"align":["right"]},{"label":["age_at_vaccination"],"name":[6],"type":["chr"],"align":["left"]},{"label":["vaccine_of_interest"],"name":[7],"type":["chr"],"align":["left"]},{"label":["number_of_vaccination"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"Anderson","2":"2020","3":"January","4":"2020-01-01","5":"January","6":"0 to 24 months","7":"Pediatric MMR","8":"32"},{"1":"Anderson","2":"2020","3":"January","4":"2020-01-01","5":"January","6":"0 to 24 months","7":"All Other","8":"670"},{"1":"Anderson","2":"2020","3":"January","4":"2020-01-01","5":"January","6":"2-8 years","7":"Pediatric MMR","8":"28"},{"1":"Anderson","2":"2020","3":"January","4":"2020-01-01","5":"January","6":"2-8 years","7":"All Other","8":"69"},{"1":"Anderson","2":"2020","3":"January","4":"2020-01-01","5":"January","6":"9-17 years","7":"Adolescent HPV","8":"14"},{"1":"Anderson","2":"2020","3":"January","4":"2020-01-01","5":"January","6":"9-17 years","7":"Adolescent MCV4","8":"22"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-</div>
-</div>
-<p>Note the data type “<ord>” for <code>mo</code> compared to “<chr>” we had for <code>month</code>. That data type indicates this is a special “ordered factor”. When we create our own, this data type will be “<fct>”.</fct></chr></ord></p>
-<p>I’ll just do a little cleanup to drop and rename some things. I’m keeping out <code>mo_yr</code> as sometimes a full date is flexible with charting. You can probably figure out the specifics through the function names.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tir_dates <span class="ot">&lt;-</span> tir_mo <span class="sc">|&gt;</span> </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>month) <span class="sc">|&gt;</span> </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">month =</span> mo) <span class="sc">|&gt;</span> </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(mo_yr, <span class="at">.before =</span> year)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>tir_dates <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 170,999
-Columns: 7
-$ county                &lt;chr&gt; "Anderson", "Anderson", "Anderson", "Anderson", …
-$ mo_yr                 &lt;date&gt; 2020-01-01, 2020-01-01, 2020-01-01, 2020-01-01,…
-$ year                  &lt;dbl&gt; 2020, 2020, 2020, 2020, 2020, 2020, 2020, 2020, …
-$ month                 &lt;ord&gt; January, January, January, January, January, Jan…
-$ age_at_vaccination    &lt;chr&gt; "0 to 24 months", "0 to 24 months", "2-8 years",…
-$ vaccine_of_interest   &lt;chr&gt; "Pediatric MMR", "All Other", "Pediatric MMR", "…
-$ number_of_vaccination &lt;dbl&gt; 32, 670, 28, 69, 14, 22, 18, NA, 48, 31, 566, 27…</code></pre>
-</div>
-</div>
-</section>
-<section id="show-the-result" class="level3" data-number="16.3.3">
-<h3 data-number="16.3.3" class="anchored" data-anchor-id="show-the-result"><span class="header-section-number">16.3.3</span> Show the result</h3>
-<p>Now let’s go back to that original summary we were doing.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>tir_dates <span class="sc">|&gt;</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month, year) <span class="sc">|&gt;</span> </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_vacc =</span> <span class="fu">sum</span>(number_of_vaccination, <span class="at">na.rm =</span> T),</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year, month) <span class="sc">|&gt;</span> </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="st">"2020"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div data-pagedtable="false">
-  <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["month"],"name":[1],"type":["ord"],"align":["right"]},{"label":["year"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["total_vacc"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"January","2":"2020","3":"718016"},{"1":"February","2":"2020","3":"605090"},{"1":"March","2":"2020","3":"579968"},{"1":"April","2":"2020","3":"460554"},{"1":"May","2":"2020","3":"564664"},{"1":"June","2":"2020","3":"631933"},{"1":"July","2":"2020","3":"629849"},{"1":"August","2":"2020","3":"687296"},{"1":"September","2":"2020","3":"608764"},{"1":"October","2":"2020","3":"548277"},{"1":"November","2":"2020","3":"477656"},{"1":"December","2":"2020","3":"562371"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-</div>
-</div>
-<p>Now these are ordered the way we want them.</p>
 </section>
 </section>
-<section id="creating-a-new-factor" class="level2" data-number="16.4">
-<h2 data-number="16.4" class="anchored" data-anchor-id="creating-a-new-factor"><span class="header-section-number">16.4</span> Creating a new factor</h2>
-<p>Now we have a similar problem with with our age categories, but our solution will be a little different. We have a variable called <code>age_at_vaccination</code> that are really categories of ages.</p>
-<section id="ages-out-of-order" class="level3" data-number="16.4.1">
-<h3 data-number="16.4.1" class="anchored" data-anchor-id="ages-out-of-order"><span class="header-section-number">16.4.1</span> Ages out of order</h3>
-<p>Let’s look at this if we summarize the number of vaccinations based on this age category.</p>
+<section id="creating-a-new-factor" class="level2" data-number="16.3">
+<h2 data-number="16.3" class="anchored" data-anchor-id="creating-a-new-factor"><span class="header-section-number">16.3</span> Creating a new factor</h2>
+<section id="the-problem-ages-out-of-order" class="level3" data-number="16.3.1">
+<h3 data-number="16.3.1" class="anchored" data-anchor-id="the-problem-ages-out-of-order"><span class="header-section-number">16.3.1</span> The problem: Ages out of order</h3>
+<p>Let’s start by summarizing how many total vaccinations have been given based on our age variable <code>age_at_vaccination</code>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tir_dates <span class="sc">|&gt;</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age_at_vaccination) <span class="sc">|&gt;</span> </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_vacc =</span> <span class="fu">sum</span>(number_of_vaccination, <span class="at">na.rm =</span> T))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tir <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age_at_vaccination) <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_vacc =</span> <span class="fu">sum</span>(number_of_vaccination, <span class="at">na.rm =</span> T))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -587,48 +503,53 @@ $ number_of_vaccination &lt;dbl&gt; 32, 670, 28, 69, 14, 22, 18, NA, 48, 31, 566
 </div>
 </div>
 </div>
-<p>The result is ordered by <code>age_at_vacciation</code> alphabetically, but that isn’t a logical way to order this. Starting at “0 to 24 months” is fine, but we want that to be followed by “2-8 years”, not “18+ years”. The solution is to create a version of this as a factor.</p>
+<p>The result is ordered by <code>age_at_vacciation</code> alphabetically, but that isn’t a logical way to view this. Starting at “0 to 24 months” is fine, but we want that to be followed by “2-8 years”, not “18+ years”. If we charted this result, we would have the same problem.</p>
+<p>The solution is to create a version of this as a factor.</p>
 </section>
-<section id="using-fct" class="level3" data-number="16.4.2">
-<h3 data-number="16.4.2" class="anchored" data-anchor-id="using-fct"><span class="header-section-number">16.4.2</span> Using fct()</h3>
+<section id="using-fct" class="level3" data-number="16.3.2">
+<h3 data-number="16.3.2" class="anchored" data-anchor-id="using-fct"><span class="header-section-number">16.3.2</span> Using fct()</h3>
 <p>There are a number of ways that you can create a factor from an existing variable, including a series of Base R functions built around <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/factor"><code>factor()</code></a> that include <code>as.factor()</code>.</p>
-<p>However, like many other times in this book, we will favor using tidyverse functions designed to work together, like <code>fct()</code>, <code>as_factor()</code> and other functions from the <a href="https://forcats.tidyverse.org/reference/index.html">forcats package</a>.</p>
-<p>Since we are changing or creating data, we’ll need to use our functions with a <code>mutate()</code> function. The <code>fct()</code> function turns a variable into a factor based on the unique values in the data. In this case, it does exactly what we want.</p>
+<p>However, like many other times in this book, <strong>we will favor using tidyverse functions</strong> designed to work together, like <code>fct()</code>, <code>as_factor()</code> and other functions from the <a href="https://forcats.tidyverse.org/reference/index.html">forcats package</a>, which is included in the tidyverse library.</p>
+<p>Since we are changing or creating data, we’ll need to use our functions with a <code>mutate()</code> function. The <code>fct()</code> function turns a variable into a factor based on the unique values in the data. The order of the factors is called “levels”, and the default for this function is to create the levels based on how it initially finds them in the data. In our case here, they appear in the data in the order we want them, so this procedure is pretty simple.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-8"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-8-1"><a href="#annotated-cell-8-1" aria-hidden="true" tabindex="-1"></a>tir_fct <span class="ot">&lt;-</span> tir_dates <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-8-2"><a href="#annotated-cell-8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-8-3" class="code-annotation-target"><a href="#annotated-cell-8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">age_fct =</span> <span class="fu">fct</span>(age_at_vaccination),</span>
-<span id="annotated-cell-8-4"><a href="#annotated-cell-8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.after =</span> age_at_vaccination</span>
-<span id="annotated-cell-8-5"><a href="#annotated-cell-8-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="annotated-cell-8-6"><a href="#annotated-cell-8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-8-7"><a href="#annotated-cell-8-7" aria-hidden="true" tabindex="-1"></a>tir_fct <span class="sc">|&gt;</span> <span class="fu">head</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a>tir_fct <span class="ot">&lt;-</span> tir <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-5-2"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-5-3" class="code-annotation-target"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">age_fct =</span> <span class="fu">fct</span>(age_at_vaccination),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-5-4" class="code-annotation-target"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.after =</span> age_at_vaccination</span>
+<span id="annotated-cell-5-5"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="annotated-cell-5-6"><a href="#annotated-cell-5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-5-7"><a href="#annotated-cell-5-7" aria-hidden="true" tabindex="-1"></a>tir_fct <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">9</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="3" data-code-annotation="1">This is where we create our new variable. By default the <code>fct()</code> function creates the order (or “levels”) of the factor in the order it finds them in the data. (In the next example we’ll set our own order.)</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="3" data-code-annotation="1">This is where we create our new variable. By default the <code>fct()</code> function creates the order (or “levels”) of the factor in the order it finds them in the data. (In the next example we’ll set our own order.)</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="4" data-code-annotation="2">This is a <code>mutate()</code> argument that places the new variable where I want it in the tibble, and I wanted it right after the source variable so we could compare them.</span>
 </dd>
 </dl>
 </div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["county"],"name":[1],"type":["chr"],"align":["left"]},{"label":["mo_yr"],"name":[2],"type":["date"],"align":["right"]},{"label":["year"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["month"],"name":[4],"type":["ord"],"align":["right"]},{"label":["age_at_vaccination"],"name":[5],"type":["chr"],"align":["left"]},{"label":["age_fct"],"name":[6],"type":["fct"],"align":["left"]},{"label":["vaccine_of_interest"],"name":[7],"type":["chr"],"align":["left"]},{"label":["number_of_vaccination"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"Anderson","2":"2020-01-01","3":"2020","4":"January","5":"0 to 24 months","6":"0 to 24 months","7":"Pediatric MMR","8":"32"},{"1":"Anderson","2":"2020-01-01","3":"2020","4":"January","5":"0 to 24 months","6":"0 to 24 months","7":"All Other","8":"670"},{"1":"Anderson","2":"2020-01-01","3":"2020","4":"January","5":"2-8 years","6":"2-8 years","7":"Pediatric MMR","8":"28"},{"1":"Anderson","2":"2020-01-01","3":"2020","4":"January","5":"2-8 years","6":"2-8 years","7":"All Other","8":"69"},{"1":"Anderson","2":"2020-01-01","3":"2020","4":"January","5":"9-17 years","6":"9-17 years","7":"Adolescent HPV","8":"14"},{"1":"Anderson","2":"2020-01-01","3":"2020","4":"January","5":"9-17 years","6":"9-17 years","7":"Adolescent MCV4","8":"22"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["county"],"name":[1],"type":["chr"],"align":["left"]},{"label":["year"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["month"],"name":[3],"type":["chr"],"align":["left"]},{"label":["age_at_vaccination"],"name":[4],"type":["chr"],"align":["left"]},{"label":["age_fct"],"name":[5],"type":["fct"],"align":["left"]},{"label":["vaccine_of_interest"],"name":[6],"type":["chr"],"align":["left"]},{"label":["number_of_vaccination"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"Anderson","2":"2020","3":"January","4":"0 to 24 months","5":"0 to 24 months","6":"Pediatric MMR","7":"32"},{"1":"Anderson","2":"2020","3":"January","4":"0 to 24 months","5":"0 to 24 months","6":"All Other","7":"670"},{"1":"Anderson","2":"2020","3":"January","4":"2-8 years","5":"2-8 years","6":"Pediatric MMR","7":"28"},{"1":"Anderson","2":"2020","3":"January","4":"2-8 years","5":"2-8 years","6":"All Other","7":"69"},{"1":"Anderson","2":"2020","3":"January","4":"9-17 years","5":"9-17 years","6":"Adolescent HPV","7":"14"},{"1":"Anderson","2":"2020","3":"January","4":"9-17 years","5":"9-17 years","6":"Adolescent MCV4","7":"22"},{"1":"Anderson","2":"2020","3":"January","4":"9-17 years","5":"9-17 years","6":"Adolescent Td/Tdap","7":"18"},{"1":"Anderson","2":"2020","3":"January","4":"9-17 years","5":"9-17 years","6":"All Other","7":"NA"},{"1":"Anderson","2":"2020","3":"January","4":"18+ years","5":"18+ years","6":"All Other","7":"48"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
 </div>
-<p>You can see the data type for our new variable<code>age_fct</code> is called <code>&lt;fct&gt;</code> instead of <code>&lt;chr&gt;</code> in the original.</p>
+<p>You can see the data type for our new variable <code>age_fct</code> is called <code>&lt;fct&gt;</code> instead of <code>&lt;chr&gt;</code> in the original.</p>
 </section>
-<section id="resulting-factor" class="level3" data-number="16.4.3">
-<h3 data-number="16.4.3" class="anchored" data-anchor-id="resulting-factor"><span class="header-section-number">16.4.3</span> Resulting factor</h3>
+<section id="showing-the-resulting-factor" class="level3" data-number="16.3.3">
+<h3 data-number="16.3.3" class="anchored" data-anchor-id="showing-the-resulting-factor"><span class="header-section-number">16.3.3</span> Showing the resulting factor</h3>
 <p>So let’s look at that summary again, using the new <code>age_fct</code> variable.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>tir_fct_sums <span class="ot">&lt;-</span> tir_fct <span class="sc">|&gt;</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age_fct) <span class="sc">|&gt;</span> </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_vacc =</span> <span class="fu">sum</span>(number_of_vaccination, <span class="at">na.rm =</span> T))</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>tir_fct_sums</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tir_fct_sums <span class="ot">&lt;-</span> tir_fct <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age_fct) <span class="sc">|&gt;</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_vacc =</span> <span class="fu">sum</span>(number_of_vaccination, <span class="at">na.rm =</span> T))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>tir_fct_sums</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -639,27 +560,27 @@ $ number_of_vaccination &lt;dbl&gt; 32, 670, 28, 69, 14, 22, 18, NA, 48, 31, 566
 </div>
 </section>
 </section>
-<section id="set-factor-order-manually" class="level2" data-number="16.5">
-<h2 data-number="16.5" class="anchored" data-anchor-id="set-factor-order-manually"><span class="header-section-number">16.5</span> Set factor order manually</h2>
-<p>Sometimes our data is not provided to us in the proper order, so we set the order ourselves using the <code>level =</code> argument. It’s pretty strict that you list all the options carefully or it will error.</p>
+<section id="set-factor-order-manually" class="level2" data-number="16.4">
+<h2 data-number="16.4" class="anchored" data-anchor-id="set-factor-order-manually"><span class="header-section-number">16.4</span> Set factor order manually</h2>
+<p>Sometimes our data is not provided to us in the proper order, so we set the order ourselves using the <code>level =</code> argument. It’s pretty strict that you list all the possible level values carefully or it will error.</p>
 <p>In this case we will create the levels in reverse order of our age groups, just to show this concept.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>tir_rev <span class="ot">&lt;-</span> tir_dates <span class="sc">|&gt;</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">age_fct_man =</span> <span class="fu">fct</span>(age_at_vaccination,</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"18+ years"</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"9-17 years"</span>,</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"2-8 years"</span>,</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"0 to 24 months"</span>))</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>tir_rev <span class="ot">&lt;-</span> tir <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">age_fct_man =</span> <span class="fu">fct</span>(age_at_vaccination,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"18+ years"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"9-17 years"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"2-8 years"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"0 to 24 months"</span>))</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Our summary is ordered like this now, from oldest to youngest:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>tir_rev_sums <span class="ot">&lt;-</span> tir_rev <span class="sc">|&gt;</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age_fct_man) <span class="sc">|&gt;</span> </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_vacc =</span> <span class="fu">sum</span>(number_of_vaccination, <span class="at">na.rm =</span> T))</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>tir_rev_sums</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tir_rev_sums <span class="ot">&lt;-</span> tir_rev <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age_fct_man) <span class="sc">|&gt;</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_vacc =</span> <span class="fu">sum</span>(number_of_vaccination, <span class="at">na.rm =</span> T))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>tir_rev_sums</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -668,10 +589,140 @@ $ number_of_vaccination &lt;dbl&gt; 32, 670, 28, 69, 14, 22, 18, NA, 48, 31, 566
 </div>
 </div>
 </div>
+<section id="what-the-error-looks-like" class="level3" data-number="16.4.1">
+<h3 data-number="16.4.1" class="anchored" data-anchor-id="what-the-error-looks-like"><span class="header-section-number">16.4.1</span> What the error looks like</h3>
+<p>Here I show you what the error looks like if you don’t list all the possible level values properly. The error I made below was not including “years” in “2-8 years”. I’ve put this in a <code>try()</code> function so it will run and you can see the error, but you wouldn’t use that in an analysis.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  tir_rev <span class="ot">&lt;-</span> tir <span class="sc">|&gt;</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">age_fct_man =</span> <span class="fu">fct</span>(age_at_vaccination,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"18+ years"</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"9-17 years"</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"2-8"</span>, <span class="co"># this is where my error is</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"0 to 24 months"</span>))</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Error in mutate(tir, age_fct_man = fct(age_at_vaccination, levels = c("18+ years",  : 
+  ℹ In argument: `age_fct_man = fct(...)`.
+Caused by error in `fct()`:
+! All values of `x` must appear in `levels` or `na`
+ℹ Missing level: "2-8 years"</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="more-on-factors" class="level2" data-number="16.5">
+<h2 data-number="16.5" class="anchored" data-anchor-id="more-on-factors"><span class="header-section-number">16.5</span> More on factors</h2>
 <p>There are lots of other ways to use factors and change their levels, but ordering categories like this has been the most prevalent use for me within journalism.</p>
 <p>If you need to learn more, check out the <a href="https://forcats.tidyverse.org/articles/forcats.html">forcats package</a> and the <a href="https://r4ds.hadley.nz/factors.html">Factors chapter</a> in the R for Data Science book.</p>
+</section>
+<section id="bonus-months-as-a-factor" class="level2" data-number="16.6">
+<h2 data-number="16.6" class="anchored" data-anchor-id="bonus-months-as-a-factor"><span class="header-section-number">16.6</span> Bonus: Months as a factor</h2>
+<p>In the <a href="./group-dates.html">Grouping by dates</a> chapter of this book we used functions from the <a href="lubridate.tidyverse.org">lubridate package</a> to create a smart “month” variable that ordered them in the correct way, starting with January and ending in December.</p>
+<p>Those special months are essentially a factor, so we’ll do that again here. Our challenge here is we don’t have a full date to pluck from here, so we’ll have to manufacture it from the month and year, also using lubridate functions.</p>
+<section id="the-problem-months-as-characters" class="level3" data-number="16.6.1">
+<h3 data-number="16.6.1" class="anchored" data-anchor-id="the-problem-months-as-characters"><span class="header-section-number">16.6.1</span> The problem: Months as characters</h3>
+<p>In our data we have a column for <code>year</code> and <code>month</code>, but they are just text. If we try to summarize the total number of vaccinations by month, the order doesn’t make sense because the months are alphabetical.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>tir <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month, year) <span class="sc">|&gt;</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_vacc =</span> <span class="fu">sum</span>(number_of_vaccination, <span class="at">na.rm =</span> T),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year, month) <span class="sc">|&gt;</span> </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="st">"2020"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["month"],"name":[1],"type":["chr"],"align":["left"]},{"label":["year"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["total_vacc"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"April","2":"2020","3":"460554"},{"1":"August","2":"2020","3":"687296"},{"1":"December","2":"2020","3":"562371"},{"1":"February","2":"2020","3":"605090"},{"1":"January","2":"2020","3":"718016"},{"1":"July","2":"2020","3":"629849"},{"1":"June","2":"2020","3":"631933"},{"1":"March","2":"2020","3":"579968"},{"1":"May","2":"2020","3":"564664"},{"1":"November","2":"2020","3":"477656"},{"1":"October","2":"2020","3":"548277"},{"1":"September","2":"2020","3":"608764"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Our brain wants to see this starting with January, not April. If we tried to chart this it would also put the months in alphabetical order.</p>
+</section>
+<section id="create-a-real-date-and-month" class="level3" data-number="16.6.2">
+<h3 data-number="16.6.2" class="anchored" data-anchor-id="create-a-real-date-and-month"><span class="header-section-number">16.6.2</span> Create a “real” date and month</h3>
+<p>Here we have to manufacture a way to create a date variable so we can pull the month from it. We do that by</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-11"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-11-1"><a href="#annotated-cell-11-1" aria-hidden="true" tabindex="-1"></a>tir_mo <span class="ot">&lt;-</span> tir <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-11-2"><a href="#annotated-cell-11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-11-3" class="code-annotation-target"><a href="#annotated-cell-11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">yr_mo =</span> <span class="fu">ym</span>(<span class="fu">paste</span>(year, month)),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-11-4" class="code-annotation-target"><a href="#annotated-cell-11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mo =</span> <span class="fu">month</span>(yr_mo, <span class="at">label =</span> T, <span class="at">abbr =</span> F),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-11-5" class="code-annotation-target"><a href="#annotated-cell-11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.after =</span> month</span>
+<span id="annotated-cell-11-6"><a href="#annotated-cell-11-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="annotated-cell-11-7"><a href="#annotated-cell-11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-11-8"><a href="#annotated-cell-11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># just showing the top of the tibble</span></span>
+<span id="annotated-cell-11-9"><a href="#annotated-cell-11-9" aria-hidden="true" tabindex="-1"></a>tir_mo <span class="sc">|&gt;</span> <span class="fu">head</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-11" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="3" data-code-annotation="1">In this line, I’m creating a “real” date by using the <code>paste()</code> function to put together the “year” and “month” to feed into lubridate’s <code>ym()</code> function. If you viewed a value <code>paste(year, month)</code> it would look like this: “2020 January”, which the <code>ym()</code> function can use to make the first date in that month: “2020-01-01”. I need this “real” date so I can use lubridate’s <code>month()</code> function to get the “ordered” month.</span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="4" data-code-annotation="2">Here we use <code>month()</code> to pluck our our ordered month into a new variable.</span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="5" data-code-annotation="3">This <code>.after =</code> argument just specifies where in the tibble to add these new columns. I put them near the original one so we could see them.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["county"],"name":[1],"type":["chr"],"align":["left"]},{"label":["year"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["month"],"name":[3],"type":["chr"],"align":["left"]},{"label":["yr_mo"],"name":[4],"type":["date"],"align":["right"]},{"label":["mo"],"name":[5],"type":["ord"],"align":["right"]},{"label":["age_at_vaccination"],"name":[6],"type":["chr"],"align":["left"]},{"label":["vaccine_of_interest"],"name":[7],"type":["chr"],"align":["left"]},{"label":["number_of_vaccination"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"Anderson","2":"2020","3":"January","4":"2020-01-01","5":"January","6":"0 to 24 months","7":"Pediatric MMR","8":"32"},{"1":"Anderson","2":"2020","3":"January","4":"2020-01-01","5":"January","6":"0 to 24 months","7":"All Other","8":"670"},{"1":"Anderson","2":"2020","3":"January","4":"2020-01-01","5":"January","6":"2-8 years","7":"Pediatric MMR","8":"28"},{"1":"Anderson","2":"2020","3":"January","4":"2020-01-01","5":"January","6":"2-8 years","7":"All Other","8":"69"},{"1":"Anderson","2":"2020","3":"January","4":"2020-01-01","5":"January","6":"9-17 years","7":"Adolescent HPV","8":"14"},{"1":"Anderson","2":"2020","3":"January","4":"2020-01-01","5":"January","6":"9-17 years","7":"Adolescent MCV4","8":"22"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Note the data type <strong>&lt;ord&gt;</strong> (for ordered) for <code>mo</code> compared to <strong>&lt;chr&gt;</strong> (for character) we had for <code>month</code>. That data type indicates this is a special “ordered factor”.</p>
+<p>I’ll just do a little cleanup to drop and rename some things. I’m keeping out <code>yr_mo</code> as sometimes a full date is flexible with charting. You can probably figure out the specifics through the function names.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>tir_dates <span class="ot">&lt;-</span> tir_mo <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>month) <span class="sc">|&gt;</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">month =</span> mo) <span class="sc">|&gt;</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(yr_mo, <span class="at">.before =</span> year)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>tir_dates <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 170,999
+Columns: 7
+$ county                &lt;chr&gt; "Anderson", "Anderson", "Anderson", "Anderson", …
+$ yr_mo                 &lt;date&gt; 2020-01-01, 2020-01-01, 2020-01-01, 2020-01-01,…
+$ year                  &lt;dbl&gt; 2020, 2020, 2020, 2020, 2020, 2020, 2020, 2020, …
+$ month                 &lt;ord&gt; January, January, January, January, January, Jan…
+$ age_at_vaccination    &lt;chr&gt; "0 to 24 months", "0 to 24 months", "2-8 years",…
+$ vaccine_of_interest   &lt;chr&gt; "Pediatric MMR", "All Other", "Pediatric MMR", "…
+$ number_of_vaccination &lt;dbl&gt; 32, 670, 28, 69, 14, 22, 18, NA, 48, 31, 566, 27…</code></pre>
+</div>
+</div>
+</section>
+<section id="show-the-result" class="level3" data-number="16.6.3">
+<h3 data-number="16.6.3" class="anchored" data-anchor-id="show-the-result"><span class="header-section-number">16.6.3</span> Show the result</h3>
+<p>Now let’s go back to that original summary we were doing.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>tir_dates <span class="sc">|&gt;</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month, year) <span class="sc">|&gt;</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_vacc =</span> <span class="fu">sum</span>(number_of_vaccination, <span class="at">na.rm =</span> T),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year, month) <span class="sc">|&gt;</span> </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="st">"2020"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["month"],"name":[1],"type":["ord"],"align":["right"]},{"label":["year"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["total_vacc"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"January","2":"2020","3":"718016"},{"1":"February","2":"2020","3":"605090"},{"1":"March","2":"2020","3":"579968"},{"1":"April","2":"2020","3":"460554"},{"1":"May","2":"2020","3":"564664"},{"1":"June","2":"2020","3":"631933"},{"1":"July","2":"2020","3":"629849"},{"1":"August","2":"2020","3":"687296"},{"1":"September","2":"2020","3":"608764"},{"1":"October","2":"2020","3":"548277"},{"1":"November","2":"2020","3":"477656"},{"1":"December","2":"2020","3":"562371"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Now these are ordered the way we want them.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
